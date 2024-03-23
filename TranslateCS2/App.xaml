@@ -1,0 +1,13 @@
+﻿<prism:PrismApplication
+    x:Class="TranslateCS2.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="http://prismlibrary.com/">
+    <prism:PrismApplication.Resources>
+        <Style x:Key="ZZZZZZZZZZ">
+            <!--
+                see: https://github.com/PrismLibrary/Prism/issues/1575
+            -->
+        </Style>
+    </prism:PrismApplication.Resources>
+</prism:PrismApplication>

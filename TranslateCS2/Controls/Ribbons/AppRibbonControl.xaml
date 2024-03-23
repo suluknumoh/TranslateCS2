@@ -1,0 +1,30 @@
+﻿<Ribbon x:Class="TranslateCS2.Controls.Ribbons.AppRibbonControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    SelectedIndex="0"
+    WindowIconVisibility="Visible"
+    Title="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppTitle}, Mode=OneWay}"
+    ShowQuickAccessToolBarOnTop="False"
+    ContextMenuService.IsEnabled="False">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <!--
+                initializes
+                    RibbonTab's
+                    RibbonGroup's
+                    RibbonToggleButton's
+                dynamically
+            -->
+            <bhv:InvokeCommandAction
+                Command="{Binding LoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
+    <Ribbon.ApplicationMenu>
+        <RibbonApplicationMenu Visibility="Collapsed" />
+    </Ribbon.ApplicationMenu>
+</Ribbon>

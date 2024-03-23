@@ -1,0 +1,48 @@
+﻿<RibbonWindow
+    x:Class="TranslateCS2.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="CanResize"
+    Icon="/TranslateCS2;component/Assets/Icons/appicon.png"
+    Title="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppTitle}, Mode=OneWay}"
+    MinHeight="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMinHeight}, Mode=OneWay}"
+    Height="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMinHeight}, Mode=OneWay}"
+    MinWidth="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMinWidth}, Mode=OneWay}"
+    Width="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMinWidth}, Mode=OneWay}"
+    AllowDrop="False">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <bhv:InvokeCommandAction
+                Command="{Binding WindowLoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+        <bhv:EventTrigger EventName="Closing">
+            <bhv:InvokeCommandAction
+                Command="{Binding WindowClosingCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
+    <DockPanel
+        LastChildFill="True">
+        <!-- unused -->
+        <!--
+        <ContentControl
+            DockPanel.Dock="Top"
+            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMenuRegion}, Mode=OneWay}"/>
+        -->
+        <ContentControl
+            DockPanel.Dock="Top"
+            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppRibbonBarRegion}, Mode=OneWay}"/>
+        <ContentControl
+            DockPanel.Dock="Top"
+            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMainRegion}, Mode=OneWay}"/>
+    </DockPanel>
+</RibbonWindow>
