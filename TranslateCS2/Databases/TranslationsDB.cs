@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -70,12 +70,22 @@ internal static class TranslationsDB {
     }
 
     public static void AddTranslationSession(TranslationSession translationSession) {
+        translationSession.Started = DateTime.UtcNow;
+        translationSession.LastEdited = translationSession.Started;
         using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
         connection.Open();
         using SqliteCommand command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO t_translation_session (id, started, last_edited, name, merge_loc_file, overwrite_loc_file, localizationnameen, localizationnamelocalized, autosave) VALUES (null, current_timestamp, current_timestamp, @name, @merge_loc_file, @overwrite_loc_file, @localizationnameen, @localizationnamelocalized, @autosave);";
+        command.CommandText = "INSERT INTO t_translation_session (id, started, last_edited, name, merge_loc_file, overwrite_loc_file, localizationnameen, localizationnamelocalized, autosave) VALUES (null, @started, @last_edited, @name, @merge_loc_file, @overwrite_loc_file, @localizationnameen, @localizationnamelocalized, @autosave);";
         command.CommandType = System.Data.CommandType.Text;
         SqliteParameter nameParameter = command.Parameters.Add("@name", SqliteType.Text);
+        SqliteParameter startedParameter = new SqliteParameter {
+            ParameterName = "@started"
+        };
+        startedParameter = command.Parameters.Add(startedParameter);
+        SqliteParameter lastEditedParameter = new SqliteParameter {
+            ParameterName = "@last_edited"
+        };
+        lastEditedParameter = command.Parameters.Add(lastEditedParameter);
         SqliteParameter mergeLocFileParameter = command.Parameters.Add("@merge_loc_file", SqliteType.Text);
         SqliteParameter overwriteFileParameter = command.Parameters.Add("@overwrite_loc_file", SqliteType.Text);
         SqliteParameter localizationNameEnParameter = command.Parameters.Add("@localizationnameen", SqliteType.Text);
@@ -83,6 +93,8 @@ internal static class TranslationsDB {
         SqliteParameter autosaveParameter = command.Parameters.Add("@autosave", SqliteType.Integer);
         command.Prepare();
         nameParameter.Value = translationSession.Name?.Trim();
+        startedParameter.Value = translationSession.Started;
+        lastEditedParameter.Value = translationSession.LastEdited;
         if (String.IsNullOrEmpty(translationSession.MergeLocalizationFileName) || String.IsNullOrWhiteSpace(translationSession.MergeLocalizationFileName)) {
             mergeLocFileParameter.Value = DBNull.Value;
         } else {
@@ -95,32 +107,6 @@ internal static class TranslationsDB {
         command.ExecuteNonQuery();
         command.CommandText = "SELECT last_insert_rowid();";
         translationSession.ID = (long) command.ExecuteScalar();
-        EnrichStartedLastUpdated(translationSession);
-    }
-
-    private static void EnrichStartedLastUpdated(TranslationSession translationSession) {
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
-        connection.Open();
-        using SqliteCommand command = connection.CreateCommand();
-        command.CommandText = $"SELECT started, last_edited FROM t_translation_session WHERE id = {translationSession.ID};";
-        using SqliteDataReader reader = command.ExecuteReader();
-        while (reader.Read()) {
-            ReadOnlyCollection<DbColumn> columnSchema = reader.GetColumnSchema();
-            foreach (DbColumn column in columnSchema) {
-                if (column.ColumnOrdinal is null) {
-                    continue;
-                }
-                int ordinal = (int) column.ColumnOrdinal;
-                switch (column.ColumnName) {
-                    case "started":
-                        translationSession.Started = reader.GetDateTime(ordinal);
-                        break;
-                    case "last_edited":
-                        translationSession.LastEdited = reader.GetDateTime(ordinal);
-                        break;
-                }
-            }
-        }
     }
 
     public static void UpdateTranslationSession(TranslationSession translationSession) {
