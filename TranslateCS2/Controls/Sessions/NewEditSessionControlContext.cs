@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,8 +16,9 @@ using TranslateCS2.Models.Sessions;
 namespace TranslateCS2.Controls.Sessions;
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private readonly IRegionManager _regionManager;
-    private bool isLoaded = false;
-    private bool isEdit = false;
+    private bool _isLoaded = false;
+    private bool _isEdit = false;
+    private Action? _callbackEnd;
 
     public ObservableCollection<string> Merges { get; } = [];
 
@@ -47,6 +49,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     private void CancelAction() {
+        this._callbackEnd?.Invoke();
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
         this._regionManager.Regions[regionName].RemoveAll();
     }
@@ -65,12 +68,12 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         if (e.Source is Grid grid) {
             this._newSessionBindingGroup = grid.BindingGroup;
             this.InitNewSession();
-            this.isLoaded = true;
+            this._isLoaded = true;
         }
     }
     private void SaveAction() {
         if (this._newSessionBindingGroup.CommitEdit()) {
-            if (this.isEdit) {
+            if (this._isEdit) {
                 this.SessionManager.Update(this.NewSession);
             } else {
                 this.SessionManager.Insert(this.NewSession);
@@ -87,8 +90,9 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
-        this.isEdit = navigationContext.Parameters.GetValue<bool>("edit");
-        if (!this.isLoaded) {
+        this._isEdit = navigationContext.Parameters.GetValue<bool>("edit");
+        this._callbackEnd = navigationContext.Parameters.GetValue<Action>("callbackEnd");
+        if (!this._isLoaded) {
             return;
         }
         this.InitNewSession();
@@ -96,10 +100,9 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void InitNewSession() {
         this._newSessionBindingGroup.CancelEdit();
-        if (this.isEdit) {
+        if (this._isEdit) {
             this.NewSession = this.SessionManager.CurrentTranslationSession;
         } else {
-            this.isEdit = false;
             this.NewSession = new TranslationSession();
         }
         this._newSessionBindingGroup.BeginEdit();

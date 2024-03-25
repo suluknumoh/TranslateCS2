@@ -1,4 +1,4 @@
-<ContentControl
+﻿<ContentControl
     x:Class="TranslateCS2.Views.Works.SessionManagement"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -130,6 +130,7 @@
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
+                    IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                     ItemsSource="{Binding SessionManager.TranslationSessions, Mode=OneWay}"
                     SelectedItem="{Binding SessionManager.CurrentTranslationSession, Mode=TwoWay}"
                     DisplayMemberPath="DisplayName"
@@ -150,7 +151,7 @@
                     <Button
                         Command="{Binding CreateEditSessionCommand}"
                         CommandParameter="create"
-                        IsEnabled="True"
+                        IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
@@ -181,7 +182,7 @@
                     <Button
                         Command="{Binding CreateEditSessionCommand}"
                         CommandParameter="edit"
-                        IsEnabled="{Binding SessionManager.HasTranslationSessions, Mode=OneWay}"
+                        IsEnabled="{Binding IsEditEnabled, Mode=OneWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"

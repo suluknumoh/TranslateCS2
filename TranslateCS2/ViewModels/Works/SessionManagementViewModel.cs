@@ -14,6 +14,20 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
 
     public DelegateCommand<string> CreateEditSessionCommand { get; }
 
+
+    private bool _IsEnabled = true;
+    public bool IsEnabled {
+        get => this._IsEnabled;
+        set => this.SetProperty(ref this._IsEnabled, value);
+    }
+
+    private bool _IsEditEnabled;
+    public bool IsEditEnabled {
+        get => this._IsEditEnabled;
+        set => this.SetProperty(ref this._IsEditEnabled, value);
+    }
+
+
     private string? _InstallPath;
     public string? InstallPath {
         get => this._InstallPath;
@@ -26,18 +40,28 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
     public SessionManagementViewModel(IRegionManager regionManager, TranslationSessionManager translationSessionManager) {
         this._regionManager = regionManager;
         this.SessionManager = translationSessionManager;
+        this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
         this.InstallPath = this.SessionManager.InstallPath;
         this.CreateEditSessionCommand = new DelegateCommand<string>(this.CreateEditSessionCommandAction);
     }
 
     private void CreateEditSessionCommandAction(string action) {
         NavigationParameters parameters = [];
+        // dont translate/localize parameter key's
+        parameters.Add("callbackEnd", this.CallbackEnd);
         // dont translate/localize CommandParameter
         if (action == "edit") {
             parameters.Add("edit", true);
         }
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
+        this.IsEnabled = false;
+        this.IsEditEnabled = false;
         this._regionManager.RequestNavigate(regionName, nameof(NewEditSessionControl), parameters);
+    }
+
+    private void CallbackEnd() {
+        this.IsEnabled = true;
+        this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext) {
