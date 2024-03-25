@@ -87,6 +87,16 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 # Recommendations/Suggestions
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
 
+# Changelog
+## Version 0.1.1
+- Translation-Cell accepts return for multi-line-editing
+- save-performance improved
+- minor other changes
+- Credits updated
+
+## Version 0.1
+- initial release
+
 # Credits
 
 ## Colossal Order
@@ -101,13 +111,14 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - https://forum.paradoxplaza.com/forum/threads/cities-skylines-ii-en-us-loc-help-me-open-the-translation-tools-to-play-in-turkish.1603585/#post-29214003
 ---
 ## ElroyNL
+- https://github.com/ElroyNL
 - https://forum.paradoxplaza.com/forum/members/elroynl.1385312/
 ---
 ## Microsoft
 - https://microsoft.com/
 
 ### IDE - Visual Studio Community:
-- https://visualstudio.microsoft.com/de/vs/community/
+- https://visualstudio.microsoft.com/vs/community/
 
 ### Icons:
 - https://github.com/microsoft/fluentui-system-icons
@@ -126,12 +137,17 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - https://www.sqlite.org/
 - [License](https://www.sqlite.org/copyright.html)
 ---
+## wikipedia
+- https://www.wikipedia.org
+- https://en.wikipedia.org/wiki/LEB128
+---
 ## Alexandre Mutel
 - https://github.com/xoofx
 - https://github.com/xoofx/markdig
 - [BSD-2-Clause-License](https://github.com/xoofx/markdig?tab=BSD-2-Clause-1-ov-file#readme)
 ---
 ## Nicolas Musset
+- https://github.com/Kryptos-FR
 - https://github.com/Kryptos-FR/markdig.wpf
 - [MIT-License](https://github.com/Kryptos-FR/markdig.wpf?tab=MIT-1-ov-file#readme)
 ---
