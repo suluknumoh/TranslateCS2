@@ -15,4 +15,5 @@ internal static class AppConfigurationManager {
     /// </summary>
     public static string AssetPath { get; } = ConfigurationManager.AppSettings[nameof(AssetPath)] ?? String.Empty;
     public static string LeadingLocFileName { get; } = ConfigurationManager.AppSettings[nameof(LeadingLocFileName)] ?? String.Empty;
+    public static string CheckLatestURL { get; } = ConfigurationManager.AppSettings[nameof(CheckLatestURL)] ?? String.Empty;
 }
