@@ -14,7 +14,11 @@ namespace TranslateCS2.Models.Sessions;
 // https://learn.microsoft.com/en-us/archive/msdn-magazine/2010/june/msdn-magazine-input-validation-enforcing-complex-business-data-rules-with-wpf
 // https://blog.magnusmontin.net/2013/08/26/data-validation-in-wpf/
 internal class TranslationSession : BindableBase, IEquatable<TranslationSession?>, IDataErrorInfo {
-    public long ID { get; set; }
+    private long _ID;
+    public long ID {
+        get => this._ID;
+        set => this.SetProperty(ref this._ID, value, this.ChangeRefresh);
+    }
     private string? _Name;
     public string? Name {
         get => this._Name;
