@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -197,11 +197,11 @@ internal static class TranslationsDB {
     }
 
     public static void SaveTranslations(TranslationSession translationSession) {
-        UpdateLastUpdated(translationSession);
+        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
+        connection.Open();
+        UpdateLastUpdated(connection, translationSession);
         IEnumerable<LocalizationDictionaryEditEntry> deletes = translationSession.LocalizationDictionary.Where(item => String.IsNullOrEmpty(item.Translation) || String.IsNullOrWhiteSpace(item.Translation));
         if (deletes.Any()) {
-            using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
-            connection.Open();
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText = "DELETE FROM t_translation WHERE id_translation_session = @id AND key = @key;";
             command.CommandType = System.Data.CommandType.Text;
@@ -216,8 +216,6 @@ internal static class TranslationsDB {
         }
         IEnumerable<LocalizationDictionaryEditEntry> upserts = translationSession.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.Translation) && !String.IsNullOrWhiteSpace(item.Translation));
         if (upserts.Any()) {
-            using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
-            connection.Open();
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText = "INSERT INTO t_translation (id_translation_session, key, translation) VALUES (@id, @key, @translation) ON CONFLICT (id_translation_session, key) DO UPDATE SET translation = excluded.translation;";
             command.CommandType = System.Data.CommandType.Text;
@@ -234,10 +232,8 @@ internal static class TranslationsDB {
         }
     }
 
-    private static void UpdateLastUpdated(TranslationSession translationSession) {
+    private static void UpdateLastUpdated(SqliteConnection connection, TranslationSession translationSession) {
         translationSession.LastEdited = DateTime.UtcNow;
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
-        connection.Open();
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = "UPDATE t_translation_session SET last_edited = @last_edited WHERE id = @id;";
         command.CommandType = System.Data.CommandType.Text;
