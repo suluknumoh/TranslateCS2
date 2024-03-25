@@ -1,14 +1,18 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace TranslateCS2.Configurations;
 internal static class AppConfigurationManager {
-    public static string? AppTitle => ConfigurationManager.AppSettings[nameof(AppTitle)];
-    public static string? AppMinHeight => ConfigurationManager.AppSettings[nameof(AppMinHeight)];
-    public static string? AppMinWidth => ConfigurationManager.AppSettings[nameof(AppMinWidth)];
-    public static string? AppMenuRegion => ConfigurationManager.AppSettings[nameof(AppMenuRegion)];
-    public static string? AppRibbonBarRegion => ConfigurationManager.AppSettings[nameof(AppRibbonBarRegion)];
-    public static string? AppMainRegion => ConfigurationManager.AppSettings[nameof(AppMainRegion)];
-    public static string? AppNewEditSessionRegion => ConfigurationManager.AppSettings[nameof(AppNewEditSessionRegion)];
-    public static string? AssetPath => ConfigurationManager.AppSettings[nameof(AssetPath)];
-    public static string? LeadingLocFileName => ConfigurationManager.AppSettings[nameof(LeadingLocFileName)];
+    public static string AppTitle { get; } = ConfigurationManager.AppSettings[nameof(AppTitle)] ?? String.Empty;
+    public static string AppMinHeight { get; } = ConfigurationManager.AppSettings[nameof(AppMinHeight)] ?? String.Empty;
+    public static string AppMinWidth { get; } = ConfigurationManager.AppSettings[nameof(AppMinWidth)] ?? String.Empty;
+    public static string AppMenuRegion { get; } = ConfigurationManager.AppSettings[nameof(AppMenuRegion)] ?? String.Empty;
+    public static string AppRibbonBarRegion { get; } = ConfigurationManager.AppSettings[nameof(AppRibbonBarRegion)] ?? String.Empty;
+    public static string AppMainRegion { get; } = ConfigurationManager.AppSettings[nameof(AppMainRegion)] ?? String.Empty;
+    public static string AppNewEditSessionRegion { get; } = ConfigurationManager.AppSettings[nameof(AppNewEditSessionRegion)] ?? String.Empty;
+    /// <summary>
+    ///     ends with a dot!
+    /// </summary>
+    public static string AssetPath { get; } = ConfigurationManager.AppSettings[nameof(AssetPath)] ?? String.Empty;
+    public static string LeadingLocFileName { get; } = ConfigurationManager.AppSettings[nameof(LeadingLocFileName)] ?? String.Empty;
 }

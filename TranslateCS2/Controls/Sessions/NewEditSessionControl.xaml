@@ -69,7 +69,7 @@
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringName}, StringFormat={}{0}*:}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringName}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
@@ -94,7 +94,7 @@
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionName}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionName}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
@@ -103,7 +103,7 @@
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionMergeFile}, StringFormat={}{0}*:}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionMergeFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <ComboBox
             Grid.Row="1"
             Grid.Column="1"
@@ -128,7 +128,7 @@
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionMergeFile}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionMergeFile}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
@@ -137,7 +137,7 @@
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionOverwriteFile}, StringFormat={}{0}*:}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionOverwriteFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <ComboBox
             Grid.Row="2"
             Grid.Column="1"
@@ -162,7 +162,7 @@
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionOverwriteFile}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionOverwriteFile}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="3"
             Grid.Column="0"
@@ -171,7 +171,7 @@
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionLocaleEnglish}, StringFormat={}{0}*:}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionLocaleEnglish}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
             Grid.Row="3"
             Grid.Column="1"
@@ -196,7 +196,7 @@
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionLocaleEnglish}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionLocaleEnglish}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="4"
             Grid.Column="0"
@@ -205,7 +205,7 @@
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionLocaleLocalized}, StringFormat={}{0}*:}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionLocaleLocalized}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
             Grid.Row="4"
             Grid.Column="1"
@@ -230,7 +230,7 @@
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionLocaleLocalized}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionLocaleLocalized}, Mode=OneWay}"/>
         <StackPanel
             Grid.Row="6"
             Grid.Column="0"

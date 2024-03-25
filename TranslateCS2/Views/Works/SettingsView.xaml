@@ -15,6 +15,6 @@
             FontSize="64"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageUnderConstruction}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageUnderConstruction}, Mode=OneWay}"/>
     </Grid>
 </ContentControl>

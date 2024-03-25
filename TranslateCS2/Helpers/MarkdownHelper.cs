@@ -2,9 +2,11 @@
 using System.Reflection;
 using System.Text;
 
+using TranslateCS2.Configurations;
+
 namespace TranslateCS2.Helpers;
 internal class MarkdownHelper {
-    private static readonly string _readmePath = "TranslateCS2.Assets.README.md";
+    private static readonly string _readmePath = $"{AppConfigurationManager.AssetPath}README.md";
     public static string GetReadmeTillCaption(string caption) {
         Assembly assembly = Assembly.GetExecutingAssembly();
         StringBuilder builder = new StringBuilder();

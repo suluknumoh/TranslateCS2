@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Resources;
 
 namespace TranslateCS2.Configurations;
@@ -6,65 +7,65 @@ internal static class I18N {
     // assetpath includes a dot at the end!
     private static readonly ResourceManager RM = new ResourceManager($"{AppConfigurationManager.AssetPath}i18n.i18n", Assembly.GetExecutingAssembly());
 
-    public static string MessageAppUnusableWarning = RM.GetString(nameof(MessageAppUnusableWarning));
-    public static string MessageConsistOfCharacters = RM.GetString(nameof(MessageConsistOfCharacters));
-    public static string MessageLocalizationFileOverwriteDifferentMerge = RM.GetString(nameof(MessageLocalizationFileOverwriteDifferentMerge));
-    public static string MessageLocalizationFileOverwriteOthersThan = RM.GetString(nameof(MessageLocalizationFileOverwriteOthersThan));
-    public static string MessageUnderConstruction = RM.GetString(nameof(MessageUnderConstruction));
-    public static string MessageNotEmptyOrWhitespace = RM.GetString(nameof(MessageNotEmptyOrWhitespace));
-    public static string MessagePreparingTranslationExport = RM.GetString(nameof(MessagePreparingTranslationExport));
-    public static string MessageSelectLocalizationFileOverwrite = RM.GetString(nameof(MessageSelectLocalizationFileOverwrite));
-    public static string MessageTranslationReadyExport = RM.GetString(nameof(MessageTranslationReadyExport));
-    public static string MessageTranslationSessionMergeFile = RM.GetString(nameof(MessageTranslationSessionMergeFile));
-    public static string MessageTranslationSessionName = RM.GetString(nameof(MessageTranslationSessionName));
-    public static string MessageTranslationSessionOverwriteFile = RM.GetString(nameof(MessageTranslationSessionOverwriteFile));
-    public static string MessageTranslationSessionLocaleEnglish = RM.GetString(nameof(MessageTranslationSessionLocaleEnglish));
-    public static string MessageTranslationSessionLocaleLocalized = RM.GetString(nameof(MessageTranslationSessionLocaleLocalized));
+    public static string MessageAppUnusableWarning { get; } = RM.GetString(nameof(MessageAppUnusableWarning)) ?? String.Empty;
+    public static string MessageConsistOfCharacters { get; } = RM.GetString(nameof(MessageConsistOfCharacters)) ?? String.Empty;
+    public static string MessageLocalizationFileOverwriteDifferentMerge { get; } = RM.GetString(nameof(MessageLocalizationFileOverwriteDifferentMerge)) ?? String.Empty;
+    public static string MessageLocalizationFileOverwriteOthersThan { get; } = RM.GetString(nameof(MessageLocalizationFileOverwriteOthersThan)) ?? String.Empty;
+    public static string MessageUnderConstruction { get; } = RM.GetString(nameof(MessageUnderConstruction)) ?? String.Empty;
+    public static string MessageNotEmptyOrWhitespace { get; } = RM.GetString(nameof(MessageNotEmptyOrWhitespace)) ?? String.Empty;
+    public static string MessagePreparingTranslationExport { get; } = RM.GetString(nameof(MessagePreparingTranslationExport)) ?? String.Empty;
+    public static string MessageSelectLocalizationFileOverwrite { get; } = RM.GetString(nameof(MessageSelectLocalizationFileOverwrite)) ?? String.Empty;
+    public static string MessageTranslationReadyExport { get; } = RM.GetString(nameof(MessageTranslationReadyExport)) ?? String.Empty;
+    public static string MessageTranslationSessionMergeFile { get; } = RM.GetString(nameof(MessageTranslationSessionMergeFile)) ?? String.Empty;
+    public static string MessageTranslationSessionName { get; } = RM.GetString(nameof(MessageTranslationSessionName)) ?? String.Empty;
+    public static string MessageTranslationSessionOverwriteFile { get; } = RM.GetString(nameof(MessageTranslationSessionOverwriteFile)) ?? String.Empty;
+    public static string MessageTranslationSessionLocaleEnglish { get; } = RM.GetString(nameof(MessageTranslationSessionLocaleEnglish)) ?? String.Empty;
+    public static string MessageTranslationSessionLocaleLocalized { get; } = RM.GetString(nameof(MessageTranslationSessionLocaleLocalized)) ?? String.Empty;
 
 
-    public static string QuestionAreYouSure = RM.GetString(nameof(QuestionAreYouSure));
+    public static string QuestionAreYouSure { get; } = RM.GetString(nameof(QuestionAreYouSure)) ?? String.Empty;
 
 
-    public static string StringAutoDetectedInstallationDirectory = RM.GetString(nameof(StringAutoDetectedInstallationDirectory));
-    public static string StringAutoDetectedLocFiles = RM.GetString(nameof(StringAutoDetectedLocFiles));
-    public static string StringCreate = RM.GetString(nameof(StringCreate));
-    public static string StringEdit = RM.GetString(nameof(StringEdit));
-    public static string StringExport = RM.GetString(nameof(StringExport));
-    public static string StringExported = RM.GetString(nameof(StringExported));
-    public static string StringExporting = RM.GetString(nameof(StringExporting));
-    public static string StringExportTranslation = RM.GetString(nameof(StringExportTranslation));
-    public static string StringFilterKeys = RM.GetString(nameof(StringFilterKeys));
-    public static string StringHideTranslated = RM.GetString(nameof(StringHideTranslated));
-    public static string StringIn = RM.GetString(nameof(StringIn));
-    public static string StringName = RM.GetString(nameof(StringName));
-    public static string StringNew = RM.GetString(nameof(StringNew));
-    public static string StringSearch = RM.GetString(nameof(StringSearch));
-    public static string StringSearchFor = RM.GetString(nameof(StringSearchFor));
-    public static string StringSelected = RM.GetString(nameof(StringSelected));
-    public static string StringSession = RM.GetString(nameof(StringSession));
-    public static string StringShowOnlyTranslated = RM.GetString(nameof(StringShowOnlyTranslated));
-    public static string StringTranslationSessions = RM.GetString(nameof(StringTranslationSessions));
-    public static string StringTranslationSessionMergeFile = RM.GetString(nameof(StringTranslationSessionMergeFile));
-    public static string StringTranslationSessionOverwriteFile = RM.GetString(nameof(StringTranslationSessionOverwriteFile));
-    public static string StringTranslationSessionLocaleEnglish = RM.GetString(nameof(StringTranslationSessionLocaleEnglish));
-    public static string StringTranslationSessionLocaleLocalized = RM.GetString(nameof(StringTranslationSessionLocaleLocalized));
+    public static string StringAutoDetectedInstallationDirectory { get; } = RM.GetString(nameof(StringAutoDetectedInstallationDirectory)) ?? String.Empty;
+    public static string StringAutoDetectedLocFiles { get; } = RM.GetString(nameof(StringAutoDetectedLocFiles)) ?? String.Empty;
+    public static string StringCreate { get; } = RM.GetString(nameof(StringCreate)) ?? String.Empty;
+    public static string StringEdit { get; } = RM.GetString(nameof(StringEdit)) ?? String.Empty;
+    public static string StringExport { get; } = RM.GetString(nameof(StringExport)) ?? String.Empty;
+    public static string StringExported { get; } = RM.GetString(nameof(StringExported)) ?? String.Empty;
+    public static string StringExporting { get; } = RM.GetString(nameof(StringExporting)) ?? String.Empty;
+    public static string StringExportTranslation { get; } = RM.GetString(nameof(StringExportTranslation)) ?? String.Empty;
+    public static string StringFilterKeys { get; } = RM.GetString(nameof(StringFilterKeys)) ?? String.Empty;
+    public static string StringHideTranslated { get; } = RM.GetString(nameof(StringHideTranslated)) ?? String.Empty;
+    public static string StringIn { get; } = RM.GetString(nameof(StringIn)) ?? String.Empty;
+    public static string StringName { get; } = RM.GetString(nameof(StringName)) ?? String.Empty;
+    public static string StringNew { get; } = RM.GetString(nameof(StringNew)) ?? String.Empty;
+    public static string StringSearch { get; } = RM.GetString(nameof(StringSearch)) ?? String.Empty;
+    public static string StringSearchFor { get; } = RM.GetString(nameof(StringSearchFor)) ?? String.Empty;
+    public static string StringSelected { get; } = RM.GetString(nameof(StringSelected)) ?? String.Empty;
+    public static string StringSession { get; } = RM.GetString(nameof(StringSession)) ?? String.Empty;
+    public static string StringShowOnlyTranslated { get; } = RM.GetString(nameof(StringShowOnlyTranslated)) ?? String.Empty;
+    public static string StringTranslationSessions { get; } = RM.GetString(nameof(StringTranslationSessions)) ?? String.Empty;
+    public static string StringTranslationSessionMergeFile { get; } = RM.GetString(nameof(StringTranslationSessionMergeFile)) ?? String.Empty;
+    public static string StringTranslationSessionOverwriteFile { get; } = RM.GetString(nameof(StringTranslationSessionOverwriteFile)) ?? String.Empty;
+    public static string StringTranslationSessionLocaleEnglish { get; } = RM.GetString(nameof(StringTranslationSessionLocaleEnglish)) ?? String.Empty;
+    public static string StringTranslationSessionLocaleLocalized { get; } = RM.GetString(nameof(StringTranslationSessionLocaleLocalized)) ?? String.Empty;
 
 
-    public static string StringCountCap = RM.GetString(nameof(StringCountCap));
-    public static string StringEditByOccurancesCap = RM.GetString(nameof(StringEditByOccurancesCap));
-    public static string StringEditCap = RM.GetString(nameof(StringEditCap));
-    public static string StringEnglishValueCap = RM.GetString(nameof(StringEnglishValueCap));
-    public static string StringExportCap = RM.GetString(nameof(StringExportCap));
-    public static string StringKeyCap = RM.GetString(nameof(StringKeyCap));
-    public static string StringMergeValueCap = RM.GetString(nameof(StringMergeValueCap));
-    public static string StringNavigationCap = RM.GetString(nameof(StringNavigationCap));
-    public static string StringSessionManagementCap = RM.GetString(nameof(StringSessionManagementCap));
-    public static string StringSessionsCap = RM.GetString(nameof(StringSessionsCap));
-    public static string StringSettingsCap = RM.GetString(nameof(StringSettingsCap));
-    public static string StringStartCap = RM.GetString(nameof(StringStartCap));
-    public static string StringToolsCap = RM.GetString(nameof(StringToolsCap));
-    public static string StringTranslationCap = RM.GetString(nameof(StringTranslationCap));
-    public static string StringCreditsCaps = RM.GetString(nameof(StringCreditsCaps));
+    public static string StringCountCap { get; } = RM.GetString(nameof(StringCountCap)) ?? String.Empty;
+    public static string StringEditByOccurancesCap { get; } = RM.GetString(nameof(StringEditByOccurancesCap)) ?? String.Empty;
+    public static string StringEditCap { get; } = RM.GetString(nameof(StringEditCap)) ?? String.Empty;
+    public static string StringEnglishValueCap { get; } = RM.GetString(nameof(StringEnglishValueCap)) ?? String.Empty;
+    public static string StringExportCap { get; } = RM.GetString(nameof(StringExportCap)) ?? String.Empty;
+    public static string StringKeyCap { get; } = RM.GetString(nameof(StringKeyCap)) ?? String.Empty;
+    public static string StringMergeValueCap { get; } = RM.GetString(nameof(StringMergeValueCap)) ?? String.Empty;
+    public static string StringNavigationCap { get; } = RM.GetString(nameof(StringNavigationCap)) ?? String.Empty;
+    public static string StringSessionManagementCap { get; } = RM.GetString(nameof(StringSessionManagementCap)) ?? String.Empty;
+    public static string StringSessionsCap { get; } = RM.GetString(nameof(StringSessionsCap)) ?? String.Empty;
+    public static string StringSettingsCap { get; } = RM.GetString(nameof(StringSettingsCap)) ?? String.Empty;
+    public static string StringStartCap { get; } = RM.GetString(nameof(StringStartCap)) ?? String.Empty;
+    public static string StringToolsCap { get; } = RM.GetString(nameof(StringToolsCap)) ?? String.Empty;
+    public static string StringTranslationCap { get; } = RM.GetString(nameof(StringTranslationCap)) ?? String.Empty;
+    public static string StringCreditsCaps { get; } = RM.GetString(nameof(StringCreditsCaps)) ?? String.Empty;
 
 
 }

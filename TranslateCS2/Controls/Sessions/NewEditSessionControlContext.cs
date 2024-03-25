@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -55,7 +55,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         IEnumerable<FileInfo> localizationFiles = this.SessionManager.LocalizationFiles;
         foreach (FileInfo file in localizationFiles) {
             this.Merges.Add(file.Name);
-            if (file.Name != "en-US.loc") {
+            if (file.Name != AppConfigurationManager.LeadingLocFileName) {
                 this.Overwrites.Add(file.Name);
             }
         }

@@ -69,7 +69,7 @@
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="{Binding Source={x:Static app_configurationmanager:I18N.StringExport}}"/>
+                    Text="{Binding Source={x:Static app_configurationmanager:I18N.StringExport}, Mode=OneWay}"/>
             </StackPanel>
         </Button>
     </Grid>

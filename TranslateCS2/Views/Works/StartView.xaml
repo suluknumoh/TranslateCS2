@@ -28,7 +28,7 @@
             VerticalAlignment="Center"
             TextAlignment="Center"
             TextWrapping="Wrap"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageAppUnusableWarning}}">
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageAppUnusableWarning}, Mode=OneWay}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter

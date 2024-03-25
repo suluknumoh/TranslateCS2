@@ -14,7 +14,7 @@
         <TextBlock
             Margin="10 0 10 0"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringSearchFor}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringSearchFor}, Mode=OneWay}"/>
         <TextBox
             Margin="10 0 10 0"
             VerticalAlignment="Center"
@@ -31,7 +31,7 @@
         <TextBlock
             Margin="10 0 10 0"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringIn}}"/>
+            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringIn}, Mode=OneWay}"/>
         <CheckBox
             Margin="10 0 10 0"
             VerticalAlignment="Center"
@@ -54,7 +54,7 @@
                 </Style>
             </CheckBox.Style>
             <TextBlock
-                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringKeyCap}}"/>
+                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringKeyCap}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -62,7 +62,7 @@
             Cursor="Hand"
             IsChecked="{Binding IsEnglishValue}">
             <TextBlock
-                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringEnglishValueCap}}"/>
+                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringEnglishValueCap}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -70,7 +70,7 @@
             Cursor="Hand"
             IsChecked="{Binding IsMergeValue}">
             <TextBlock
-                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringMergeValueCap}}"/>
+                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringMergeValueCap}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -78,14 +78,14 @@
             Cursor="Hand"
             IsChecked="{Binding IsTranslation}">
             <TextBlock
-                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationCap}}"/>
+                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationCap}, Mode=OneWay}"/>
         </CheckBox>
         <Button
             VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
             Margin="10 0 10 0"
-            ToolTip="{Binding Source={x:Static app_configurationmanager:I18N.StringSearch}}"
+            ToolTip="{Binding Source={x:Static app_configurationmanager:I18N.StringSearch}, Mode=OneWay}"
             Cursor="Hand"
             Command="{Binding SearchCommand}">
             <StackPanel>

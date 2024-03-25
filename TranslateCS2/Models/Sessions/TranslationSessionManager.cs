@@ -5,6 +5,7 @@ using System.Linq;
 
 using Prism.Mvvm;
 
+using TranslateCS2.Configurations;
 using TranslateCS2.Databases;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Services;
@@ -35,7 +36,7 @@ internal class TranslationSessionManager : BindableBase {
         this.InstallPathDetector = installPathDetector;
         this.LocalizationFilesService = localizationFilesService;
         this.LocalizationFiles = this.LocalizationFilesService.GetLocalizationFiles();
-        this.BaseLocalizationFile = this.GetLocalizationFile("en-US.loc");
+        this.BaseLocalizationFile = this.GetLocalizationFile(AppConfigurationManager.LeadingLocFileName);
         TranslationsDB.EnrichTranslationSessions(this);
     }
 

@@ -46,7 +46,7 @@
             </bhv:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringEnglishValueCap}}"
+                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringEnglishValueCap}, Mode=OneWay}"
                     Binding="{Binding Value, Mode=OneWay}"
                     MinWidth="200"
                     Width="200"
@@ -61,7 +61,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringMergeValueCap}}"
+                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringMergeValueCap}, Mode=OneWay}"
                     Binding="{Binding ValueMerge, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"
@@ -76,7 +76,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringCountCap}}"
+                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringCountCap}, Mode=OneWay}"
                     Binding="{Binding Count, Mode=OneWay}"
                     MinWidth="75"
                     Width="75"
@@ -101,7 +101,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationCap}}"
+                    Header="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationCap}, Mode=OneWay}"
                     Binding="{Binding Translation, Mode=TwoWay}"
                     MinWidth="100"
                     Width="400"
