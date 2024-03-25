@@ -128,7 +128,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    HorizontalContentAlignment="Center"
+                    HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center"
                     IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                     ItemsSource="{Binding SessionManager.TranslationSessions, Mode=OneWay}"
