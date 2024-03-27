@@ -7,7 +7,9 @@
     xmlns:local="clr-namespace:TranslateCS2.Controls.Sessions"
     mc:Ignorable="d"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations">
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    >
     <ContentControl.Resources>
         <Style
             x:Key="StyleHeading"
@@ -52,6 +54,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -64,14 +67,26 @@
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            TextAlignment="Center"
+            TextWrapping="Wrap"
+            FontSize="16"
+            FontWeight="Bold"
+            Margin="10 10 10 10"
+            Text="{Binding ActionString, Mode=OneWay}"/>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringName}, StringFormat={}{0}*:, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.StringName}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -87,25 +102,25 @@
             </TextBox.Text>
         </TextBox>
         <TextBlock
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionName}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.MessageTranslationSessionName}, Mode=OneWay}"/>
         <TextBlock
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionMergeFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.StringTranslationSessionMergeFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <ComboBox
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -121,25 +136,25 @@
             </ComboBox.SelectedItem>
         </ComboBox>
         <TextBlock
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionMergeFile}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.MessageTranslationSessionMergeFile}, Mode=OneWay}"/>
         <TextBlock
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionOverwriteFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.StringTranslationSessionOverwriteFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <ComboBox
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -155,25 +170,25 @@
             </ComboBox.SelectedItem>
         </ComboBox>
         <TextBlock
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionOverwriteFile}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.MessageTranslationSessionOverwriteFile}, Mode=OneWay}"/>
         <TextBlock
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionLocaleEnglish}, StringFormat={}{0}*:, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.StringTranslationSessionLocaleEnglish}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -189,25 +204,25 @@
             </TextBox.Text>
         </TextBox>
         <TextBlock
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionLocaleEnglish}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.MessageTranslationSessionLocaleEnglish}, Mode=OneWay}"/>
         <TextBlock
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Right"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessionLocaleLocalized}, StringFormat={}{0}*:, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.StringTranslationSessionLocaleLocalized}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -223,14 +238,14 @@
             </TextBox.Text>
         </TextBox>
         <TextBlock
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             TextAlignment="Left"
             TextWrapping="Wrap"
             Margin="10 10 10 10"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageTranslationSessionLocaleLocalized}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.MessageTranslationSessionLocaleLocalized}, Mode=OneWay}"/>
         <StackPanel
             Grid.Row="6"
             Grid.Column="0"

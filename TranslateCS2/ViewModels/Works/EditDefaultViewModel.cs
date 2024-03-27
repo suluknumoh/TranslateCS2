@@ -4,18 +4,18 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-using TranslateCS2.Configurations;
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Controls.Edits;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Filters;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
+using TranslateCS2.Properties;
 using TranslateCS2.Services;
 
 namespace TranslateCS2.ViewModels.Works;
 
-internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel, LocalizationDictionaryEditEntry> {
+internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     private readonly FiltersService _filtersService;
     private LocalizationKeyFilter _selectedFilter;
 
@@ -32,13 +32,13 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel, Local
         if (this.CurrentSession is null) {
             return;
         }
-        if (args.Row.Item is not LocalizationDictionaryEditEntry edited) {
+        if (args.Row.Item is not LocalizationDictionaryEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
             return;
         }
-        this.SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
+        SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         this.RefreshViewList();
     }
@@ -48,7 +48,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel, Local
         if (this.CurrentSession == null || this.CurrentSession.LocalizationDictionary == null) {
             return;
         }
-        foreach (LocalizationDictionaryEditEntry entry in this.CurrentSession.LocalizationDictionary) {
+        foreach (LocalizationDictionaryEntry entry in this.CurrentSession.LocalizationDictionary) {
             if (this._selectedFilter.Matches(entry)) {
                 bool add = false;
                 if (this.OnlyTranslated
@@ -77,14 +77,6 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel, Local
     protected override IEnumerable<object> CreateToolsGroupItems() {
         // dont translate displayMemberPath
         return [RibbonHelper.CreateComboBox(I18N.StringFilterKeys, this.Filters, this.FilterChanged, this._selectedFilter, "Name")];
-    }
-
-    private void SetNewValue(ObservableCollection<LocalizationDictionaryEditEntry> list, TextBox textBox, LocalizationDictionaryEditEntry edited) {
-        foreach (LocalizationDictionaryEditEntry entry in list) {
-            if (entry.Value == edited.Value) {
-                entry.Translation = textBox.Text.Trim();
-            }
-        }
     }
 
 

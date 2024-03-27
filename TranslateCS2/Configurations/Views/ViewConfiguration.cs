@@ -9,6 +9,7 @@ using Prism.Ioc;
 
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Sessions;
+using TranslateCS2.Properties;
 
 namespace TranslateCS2.Configurations.Views;
 internal class ViewConfiguration<V, M> : IViewConfiguration {

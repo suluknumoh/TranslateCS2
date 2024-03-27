@@ -8,21 +8,11 @@
     xmlns:sessioncontrols="clr-namespace:TranslateCS2.Controls.Sessions"
     mc:Ignorable="d"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    xmlns:sessionmodels="clr-namespace:TranslateCS2.Models.Sessions"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
-    <ContentControl.Resources>
-        <Style
-            x:Key="StyleHeading"
-            TargetType="TextBlock">
-            <Setter
-                Property="FontSize"
-                Value="18"/>
-            <Setter
-                Property="FontWeight"
-                Value="Bold"/>
-        </Style>
-    </ContentControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -32,11 +22,7 @@
         </Grid.RowDefinitions>
         <TextBlock
             Style="{StaticResource StyleHeading}"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Center"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.StringSessionManagementCap}, Mode=OneWay}"
-            Padding="0 20 0 20"/>
+            Text="{Binding Source={x:Static app_properties:I18N.StringSessionManagementCap}, Mode=OneWay}"/>
         <ScrollViewer
             Grid.Row="1">
             <Grid>
@@ -72,7 +58,7 @@
                     TextAlignment="Right"
                     Margin="0 0 5 0"
                     TextWrapping="Wrap"
-                    Text="{Binding Source={x:Static app_configurationmanager:I18N.StringAutoDetectedInstallationDirectory}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    Text="{Binding Source={x:Static app_properties:I18N.StringAutoDetectedInstallationDirectory}, StringFormat={}{0}:, Mode=OneWay}"/>
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
@@ -93,7 +79,7 @@
                     VerticalAlignment="Top"
                     TextAlignment="Right"
                     Margin="0 0 5 0"
-                    Text="{Binding Source={x:Static app_configurationmanager:I18N.StringAutoDetectedLocFiles}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    Text="{Binding Source={x:Static app_properties:I18N.StringAutoDetectedLocFiles}, StringFormat={}{0}:, Mode=OneWay}"/>
                 <ItemsControl
                     Grid.Row="2"
                     Grid.Column="1"
@@ -122,7 +108,7 @@
                     VerticalAlignment="Top"
                     TextAlignment="Right"
                     Margin="0 0 5 0"
-                    Text="{Binding Source={x:Static app_configurationmanager:I18N.StringTranslationSessions}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    Text="{Binding Source={x:Static app_properties:I18N.StringTranslationSessions}, StringFormat={}{0}:, Mode=OneWay}"/>
                 <ComboBox
                     Grid.Row="4"
                     Grid.Column="1"
@@ -148,9 +134,12 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                     <!-- dont translate/localize CommandParameter -->
-                    <Button
+                    <ToggleButton
                         Command="{Binding CreateEditSessionCommand}"
-                        CommandParameter="create"
+                        CommandParameter="{x:Static sessionmodels:SessionActions.Create}"
+                        IsChecked="{Binding SessionAction,
+                                            Converter={StaticResource EnumBooleanConverter},
+                                            ConverterParameter={x:Static sessionmodels:SessionActions.Create}}"
                         IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -167,21 +156,17 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringCreate}, Mode=OneWay}"/>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringNew}, Mode=OneWay}"/>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringSession}, Mode=OneWay}"/>
+                                TextAlignment="Center"
+                                Text="{Binding Source={x:Static app_properties:I18N.StringCreateNewSession}, Mode=OneWay}"/>
                         </StackPanel>
-                    </Button>
+                    </ToggleButton>
                     <!-- dont translate/localize CommandParameter -->
-                    <Button
+                    <ToggleButton
                         Command="{Binding CreateEditSessionCommand}"
-                        CommandParameter="edit"
+                        CommandParameter="{x:Static sessionmodels:SessionActions.Edit}"
+                        IsChecked="{Binding SessionAction,
+                                            Converter={StaticResource EnumBooleanConverter},
+                                            ConverterParameter={x:Static sessionmodels:SessionActions.Edit}}"
                         IsEnabled="{Binding IsEditEnabled, Mode=OneWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -198,17 +183,10 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringEdit}, Mode=OneWay}"/>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringSelected}, Mode=OneWay}"/>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="{Binding Source={x:Static app_configurationmanager:I18N.StringSession}, Mode=OneWay}"/>
+                                TextAlignment="Center"
+                                Text="{Binding Source={x:Static app_properties:I18N.StringEditSelectedSession}, Mode=OneWay}"/>
                         </StackPanel>
-                    </Button>
+                    </ToggleButton>
                 </StackPanel>
                 <ContentControl
                     prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppNewEditSessionRegion}, Mode=OneWay}"

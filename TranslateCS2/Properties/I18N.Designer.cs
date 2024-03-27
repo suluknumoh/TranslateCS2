@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TranslateCS2.Assets.i18n {
+namespace TranslateCS2.Properties {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace TranslateCS2.Assets.i18n {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class i18n {
+    public class I18N {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal i18n() {
+        internal I18N() {
         }
         
         /// <summary>
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranslateCS2.Assets.i18n.i18n", typeof(i18n).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranslateCS2.Properties.I18N", typeof(I18N).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace TranslateCS2.Assets.i18n {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die This is a Test ähnelt.
         /// </summary>
-        internal static string MessageAppUnusableWarning {
+        public static string MessageAppUnusableWarning {
             get {
                 return ResourceManager.GetString("MessageAppUnusableWarning", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Should only consist of characters, lower or uppercase, from a - z! ähnelt.
         /// </summary>
-        internal static string MessageConsistOfCharacters {
+        public static string MessageConsistOfCharacters {
             get {
                 return ResourceManager.GetString("MessageConsistOfCharacters", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Localization file to overwrite must be a different ones than the ones you want to merge with! ähnelt.
         /// </summary>
-        internal static string MessageLocalizationFileOverwriteDifferentMerge {
+        public static string MessageLocalizationFileOverwriteDifferentMerge {
             get {
                 return ResourceManager.GetString("MessageLocalizationFileOverwriteDifferentMerge", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Localization file to overwrite must be a different ones than ähnelt.
         /// </summary>
-        internal static string MessageLocalizationFileOverwriteOthersThan {
+        public static string MessageLocalizationFileOverwriteOthersThan {
             get {
                 return ResourceManager.GetString("MessageLocalizationFileOverwriteOthersThan", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die May not be emty or whitespaces! ähnelt.
         /// </summary>
-        internal static string MessageNotEmptyOrWhitespace {
+        public static string MessageNotEmptyOrWhitespace {
             get {
                 return ResourceManager.GetString("MessageNotEmptyOrWhitespace", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die preparing translation for export ähnelt.
         /// </summary>
-        internal static string MessagePreparingTranslationExport {
+        public static string MessagePreparingTranslationExport {
             get {
                 return ResourceManager.GetString("MessagePreparingTranslationExport", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select a localization file to overwrite! ähnelt.
         /// </summary>
-        internal static string MessageSelectLocalizationFileOverwrite {
+        public static string MessageSelectLocalizationFileOverwrite {
             get {
                 return ResourceManager.GetString("MessageSelectLocalizationFileOverwrite", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die translation is ready to export ähnelt.
         /// </summary>
-        internal static string MessageTranslationReadyExport {
+        public static string MessageTranslationReadyExport {
             get {
                 return ResourceManager.GetString("MessageTranslationReadyExport", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die localename in english ähnelt.
         /// </summary>
-        internal static string MessageTranslationSessionLocaleEnglish {
+        public static string MessageTranslationSessionLocaleEnglish {
             get {
                 return ResourceManager.GetString("MessageTranslationSessionLocaleEnglish", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die localename in your language ähnelt.
         /// </summary>
-        internal static string MessageTranslationSessionLocaleLocalized {
+        public static string MessageTranslationSessionLocaleLocalized {
             get {
                 return ResourceManager.GetString("MessageTranslationSessionLocaleLocalized", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die if you only want to change some translations, tanslations within this file and yours are going to be merged; or if you want to create a new translation e.g. based on english, you&apos;ll get a mixed translation file ähnelt.
         /// </summary>
-        internal static string MessageTranslationSessionMergeFile {
+        public static string MessageTranslationSessionMergeFile {
             get {
                 return ResourceManager.GetString("MessageTranslationSessionMergeFile", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die a name for your translation session ähnelt.
         /// </summary>
-        internal static string MessageTranslationSessionName {
+        public static string MessageTranslationSessionName {
             get {
                 return ResourceManager.GetString("MessageTranslationSessionName", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die the localization file you want to sacrifice/overwrite. should be another language than english and the ones you want to merge; a language that you are unable to read/speak ähnelt.
         /// </summary>
-        internal static string MessageTranslationSessionOverwriteFile {
+        public static string MessageTranslationSessionOverwriteFile {
             get {
                 return ResourceManager.GetString("MessageTranslationSessionOverwriteFile", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die under construction ähnelt.
         /// </summary>
-        internal static string MessageUnderConstruction {
+        public static string MessageUnderConstruction {
             get {
                 return ResourceManager.GetString("MessageUnderConstruction", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure? ähnelt.
         /// </summary>
-        internal static string QuestionAreYouSure {
+        public static string QuestionAreYouSure {
             get {
                 return ResourceManager.GetString("QuestionAreYouSure", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die autodetected Cities: Skylines 2 - Installation Directory ähnelt.
         /// </summary>
-        internal static string StringAutoDetectedInstallationDirectory {
+        public static string StringAutoDetectedInstallationDirectory {
             get {
                 return ResourceManager.GetString("StringAutoDetectedInstallationDirectory", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die autodetected .loc-files ähnelt.
         /// </summary>
-        internal static string StringAutoDetectedLocFiles {
+        public static string StringAutoDetectedLocFiles {
             get {
                 return ResourceManager.GetString("StringAutoDetectedLocFiles", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Count ähnelt.
         /// </summary>
-        internal static string StringCountCap {
+        public static string StringCountCap {
             get {
                 return ResourceManager.GetString("StringCountCap", resourceCulture);
             }
@@ -225,16 +225,27 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die create ähnelt.
         /// </summary>
-        internal static string StringCreate {
+        public static string StringCreate {
             get {
                 return ResourceManager.GetString("StringCreate", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die create
+        ///new
+        ///session ähnelt.
+        /// </summary>
+        public static string StringCreateNewSession {
+            get {
+                return ResourceManager.GetString("StringCreateNewSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Credits ähnelt.
         /// </summary>
-        internal static string StringCreditsCaps {
+        public static string StringCreditsCaps {
             get {
                 return ResourceManager.GetString("StringCreditsCaps", resourceCulture);
             }
@@ -243,7 +254,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die edit ähnelt.
         /// </summary>
-        internal static string StringEdit {
+        public static string StringEdit {
             get {
                 return ResourceManager.GetString("StringEdit", resourceCulture);
             }
@@ -252,7 +263,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Edit by occurances ähnelt.
         /// </summary>
-        internal static string StringEditByOccurancesCap {
+        public static string StringEditByOccurancesCap {
             get {
                 return ResourceManager.GetString("StringEditByOccurancesCap", resourceCulture);
             }
@@ -261,43 +272,63 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
         /// </summary>
-        internal static string StringEditCap {
+        public static string StringEditCap {
             get {
                 return ResourceManager.GetString("StringEditCap", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die edit
+        ///selected
+        ///session ähnelt.
+        /// </summary>
+        public static string StringEditSelectedSession {
+            get {
+                return ResourceManager.GetString("StringEditSelectedSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die EnglishValue ähnelt.
         /// </summary>
-        internal static string StringEnglishValueCap {
+        public static string StringEnglishValueCap {
             get {
                 return ResourceManager.GetString("StringEnglishValueCap", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ex-/Import ähnelt.
+        /// </summary>
+        public static string StringExImportCap {
+            get {
+                return ResourceManager.GetString("StringExImportCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die export ähnelt.
         /// </summary>
-        internal static string StringExport {
+        public static string StringExport {
             get {
                 return ResourceManager.GetString("StringExport", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Export ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die export translations to JSON ähnelt.
         /// </summary>
-        internal static string StringExportCap {
+        public static string StringExportDialogTitle {
             get {
-                return ResourceManager.GetString("StringExportCap", resourceCulture);
+                return ResourceManager.GetString("StringExportDialogTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die exported ähnelt.
         /// </summary>
-        internal static string StringExported {
+        public static string StringExported {
             get {
                 return ResourceManager.GetString("StringExported", resourceCulture);
             }
@@ -306,7 +337,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die exporting ähnelt.
         /// </summary>
-        internal static string StringExporting {
+        public static string StringExporting {
             get {
                 return ResourceManager.GetString("StringExporting", resourceCulture);
             }
@@ -315,7 +346,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die export translation ähnelt.
         /// </summary>
-        internal static string StringExportTranslation {
+        public static string StringExportTranslation {
             get {
                 return ResourceManager.GetString("StringExportTranslation", resourceCulture);
             }
@@ -324,7 +355,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die filter keys ähnelt.
         /// </summary>
-        internal static string StringFilterKeys {
+        public static string StringFilterKeys {
             get {
                 return ResourceManager.GetString("StringFilterKeys", resourceCulture);
             }
@@ -333,16 +364,34 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die hide translated ähnelt.
         /// </summary>
-        internal static string StringHideTranslated {
+        public static string StringHideTranslated {
             get {
                 return ResourceManager.GetString("StringHideTranslated", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die import ähnelt.
+        /// </summary>
+        public static string StringImport {
+            get {
+                return ResourceManager.GetString("StringImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die import translations from JSON ähnelt.
+        /// </summary>
+        public static string StringImportDialogTitle {
+            get {
+                return ResourceManager.GetString("StringImportDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die in ähnelt.
         /// </summary>
-        internal static string StringIn {
+        public static string StringIn {
             get {
                 return ResourceManager.GetString("StringIn", resourceCulture);
             }
@@ -351,7 +400,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
         /// </summary>
-        internal static string StringKeyCap {
+        public static string StringKeyCap {
             get {
                 return ResourceManager.GetString("StringKeyCap", resourceCulture);
             }
@@ -360,7 +409,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die MergeValue ähnelt.
         /// </summary>
-        internal static string StringMergeValueCap {
+        public static string StringMergeValueCap {
             get {
                 return ResourceManager.GetString("StringMergeValueCap", resourceCulture);
             }
@@ -369,7 +418,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die name ähnelt.
         /// </summary>
-        internal static string StringName {
+        public static string StringName {
             get {
                 return ResourceManager.GetString("StringName", resourceCulture);
             }
@@ -378,7 +427,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Navigation ähnelt.
         /// </summary>
-        internal static string StringNavigationCap {
+        public static string StringNavigationCap {
             get {
                 return ResourceManager.GetString("StringNavigationCap", resourceCulture);
             }
@@ -387,7 +436,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die new ähnelt.
         /// </summary>
-        internal static string StringNew {
+        public static string StringNew {
             get {
                 return ResourceManager.GetString("StringNew", resourceCulture);
             }
@@ -396,7 +445,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die search ähnelt.
         /// </summary>
-        internal static string StringSearch {
+        public static string StringSearch {
             get {
                 return ResourceManager.GetString("StringSearch", resourceCulture);
             }
@@ -405,7 +454,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die search for ähnelt.
         /// </summary>
-        internal static string StringSearchFor {
+        public static string StringSearchFor {
             get {
                 return ResourceManager.GetString("StringSearchFor", resourceCulture);
             }
@@ -414,16 +463,26 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die selected ähnelt.
         /// </summary>
-        internal static string StringSelected {
+        public static string StringSelected {
             get {
                 return ResourceManager.GetString("StringSelected", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die select
+        ///file ähnelt.
+        /// </summary>
+        public static string StringSelectFile {
+            get {
+                return ResourceManager.GetString("StringSelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die session ähnelt.
         /// </summary>
-        internal static string StringSession {
+        public static string StringSession {
             get {
                 return ResourceManager.GetString("StringSession", resourceCulture);
             }
@@ -432,7 +491,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Session Management ähnelt.
         /// </summary>
-        internal static string StringSessionManagementCap {
+        public static string StringSessionManagementCap {
             get {
                 return ResourceManager.GetString("StringSessionManagementCap", resourceCulture);
             }
@@ -441,7 +500,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Session(s) ähnelt.
         /// </summary>
-        internal static string StringSessionsCap {
+        public static string StringSessionsCap {
             get {
                 return ResourceManager.GetString("StringSessionsCap", resourceCulture);
             }
@@ -450,7 +509,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
         /// </summary>
-        internal static string StringSettingsCap {
+        public static string StringSettingsCap {
             get {
                 return ResourceManager.GetString("StringSettingsCap", resourceCulture);
             }
@@ -459,7 +518,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die only show translated ähnelt.
         /// </summary>
-        internal static string StringShowOnlyTranslated {
+        public static string StringShowOnlyTranslated {
             get {
                 return ResourceManager.GetString("StringShowOnlyTranslated", resourceCulture);
             }
@@ -468,7 +527,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start ähnelt.
         /// </summary>
-        internal static string StringStartCap {
+        public static string StringStartCap {
             get {
                 return ResourceManager.GetString("StringStartCap", resourceCulture);
             }
@@ -477,7 +536,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Tools ähnelt.
         /// </summary>
-        internal static string StringToolsCap {
+        public static string StringToolsCap {
             get {
                 return ResourceManager.GetString("StringToolsCap", resourceCulture);
             }
@@ -486,7 +545,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Translation ähnelt.
         /// </summary>
-        internal static string StringTranslationCap {
+        public static string StringTranslationCap {
             get {
                 return ResourceManager.GetString("StringTranslationCap", resourceCulture);
             }
@@ -495,7 +554,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die localename in english ähnelt.
         /// </summary>
-        internal static string StringTranslationSessionLocaleEnglish {
+        public static string StringTranslationSessionLocaleEnglish {
             get {
                 return ResourceManager.GetString("StringTranslationSessionLocaleEnglish", resourceCulture);
             }
@@ -504,7 +563,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die localename localized ähnelt.
         /// </summary>
-        internal static string StringTranslationSessionLocaleLocalized {
+        public static string StringTranslationSessionLocaleLocalized {
             get {
                 return ResourceManager.GetString("StringTranslationSessionLocaleLocalized", resourceCulture);
             }
@@ -513,7 +572,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die localization file to merge with ähnelt.
         /// </summary>
-        internal static string StringTranslationSessionMergeFile {
+        public static string StringTranslationSessionMergeFile {
             get {
                 return ResourceManager.GetString("StringTranslationSessionMergeFile", resourceCulture);
             }
@@ -522,7 +581,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die localization file to overwrite ähnelt.
         /// </summary>
-        internal static string StringTranslationSessionOverwriteFile {
+        public static string StringTranslationSessionOverwriteFile {
             get {
                 return ResourceManager.GetString("StringTranslationSessionOverwriteFile", resourceCulture);
             }
@@ -531,7 +590,7 @@ namespace TranslateCS2.Assets.i18n {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die translation sessions (selected ones is current) ähnelt.
         /// </summary>
-        internal static string StringTranslationSessions {
+        public static string StringTranslationSessions {
             get {
                 return ResourceManager.GetString("StringTranslationSessions", resourceCulture);
             }

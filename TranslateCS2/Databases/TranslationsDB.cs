@@ -13,9 +13,11 @@ using TranslateCS2.Models.Sessions;
 namespace TranslateCS2.Databases;
 internal static class TranslationsDB {
     private static readonly string _databaseName = ConfigurationManager.AppSettings["DatabaseNameTranslations"];
+    private static readonly string _conectionString = ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString;
+
 
     public static void EnrichTranslationSessions(TranslationSessionManager translationSessionManager) {
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
+        using SqliteConnection connection = new SqliteConnection(_conectionString);
         connection.Open();
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = "SELECT id, started, last_edited, name, merge_loc_file, overwrite_loc_file, localizationnameen, localizationnamelocalized, autosave FROM t_translation_session ORDER BY id ASC;";
@@ -72,7 +74,7 @@ internal static class TranslationsDB {
     public static void AddTranslationSession(TranslationSession translationSession) {
         translationSession.Started = DateTime.UtcNow;
         translationSession.LastEdited = translationSession.Started;
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
+        using SqliteConnection connection = new SqliteConnection(_conectionString);
         connection.Open();
         using SqliteTransaction transaction = connection.BeginTransaction();
         try {
@@ -119,7 +121,7 @@ internal static class TranslationsDB {
 
     public static void UpdateTranslationSession(TranslationSession translationSession) {
         translationSession.LastEdited = DateTime.UtcNow;
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
+        using SqliteConnection connection = new SqliteConnection(_conectionString);
         connection.Open();
         using SqliteTransaction transaction = connection.BeginTransaction();
         try {
@@ -160,7 +162,7 @@ internal static class TranslationsDB {
     }
 
     public static void EnrichSavedTranslations(TranslationSession session) {
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
+        using SqliteConnection connection = new SqliteConnection(_conectionString);
         connection.Open();
         using SqliteCommand command = connection.CreateCommand();
         command.CommandText = $"SELECT key, translation FROM t_translation WHERE id_translation_session = {session.ID};";
@@ -190,9 +192,9 @@ internal static class TranslationsDB {
     ///     <see cref="Dictionary{string, string}"/> where TKey is the english value and TValue is the current translation
     /// </param>
     private static void EnrichNewWithTranslatedValue(TranslationSession session, Dictionary<string, string> valueTranslationMapping) {
-        IEnumerable<LocalizationDictionaryEditEntry> newEntries = session.LocalizationDictionary.Where(entry => valueTranslationMapping.ContainsKey(entry.Value) && (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)));
+        IEnumerable<LocalizationDictionaryEntry> newEntries = session.LocalizationDictionary.Where(entry => valueTranslationMapping.ContainsKey(entry.Value) && (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)));
         if (newEntries.Any()) {
-            foreach (LocalizationDictionaryEditEntry entry in newEntries) {
+            foreach (LocalizationDictionaryEntry entry in newEntries) {
                 bool got = valueTranslationMapping.TryGetValue(entry.Value, out string? translation);
                 if (got && !String.IsNullOrEmpty(translation) && !String.IsNullOrWhiteSpace(translation)) {
                     entry.Translation = translation;
@@ -202,8 +204,8 @@ internal static class TranslationsDB {
         }
     }
 
-    private static void EnrichSavedTranslation(ObservableCollection<LocalizationDictionaryEditEntry> localizationDictionary, string key, string translation, Dictionary<string, string> valueTranslationMapping) {
-        foreach (LocalizationDictionaryEditEntry entry in localizationDictionary) {
+    private static void EnrichSavedTranslation(ObservableCollection<LocalizationDictionaryEntry> localizationDictionary, string key, string translation, Dictionary<string, string> valueTranslationMapping) {
+        foreach (LocalizationDictionaryEntry entry in localizationDictionary) {
             if (entry.Key == key) {
                 entry.Translation = translation;
                 valueTranslationMapping.TryAdd(entry.Value, entry.Translation);
@@ -213,12 +215,12 @@ internal static class TranslationsDB {
     }
 
     public static void SaveTranslations(TranslationSession translationSession) {
-        using SqliteConnection connection = new SqliteConnection(ConfigurationManager.ConnectionStrings[_databaseName].ConnectionString);
+        using SqliteConnection connection = new SqliteConnection(_conectionString);
         connection.Open();
         using SqliteTransaction transaction = connection.BeginTransaction();
         try {
             UpdateLastUpdated(connection, transaction, translationSession);
-            IEnumerable<LocalizationDictionaryEditEntry> deletes = translationSession.LocalizationDictionary.Where(item => String.IsNullOrEmpty(item.Translation) || String.IsNullOrWhiteSpace(item.Translation));
+            IEnumerable<LocalizationDictionaryEntry> deletes = translationSession.LocalizationDictionary.Where(item => String.IsNullOrEmpty(item.Translation) || String.IsNullOrWhiteSpace(item.Translation));
             if (deletes.Any()) {
                 using SqliteCommand command = connection.CreateCommand();
                 command.Transaction = transaction;
@@ -227,13 +229,13 @@ internal static class TranslationsDB {
                 SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
                 SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                 command.Prepare();
-                foreach (LocalizationDictionaryEditEntry delete in deletes) {
+                foreach (LocalizationDictionaryEntry delete in deletes) {
                     idParameter.Value = translationSession.ID;
                     keyParameter.Value = delete.Key;
                     command.ExecuteNonQuery();
                 }
             }
-            IEnumerable<LocalizationDictionaryEditEntry> upserts = translationSession.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.Translation) && !String.IsNullOrWhiteSpace(item.Translation));
+            IEnumerable<LocalizationDictionaryEntry> upserts = translationSession.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.Translation) && !String.IsNullOrWhiteSpace(item.Translation));
             if (upserts.Any()) {
                 using SqliteCommand command = connection.CreateCommand();
                 command.Transaction = transaction;
@@ -243,7 +245,7 @@ internal static class TranslationsDB {
                 SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                 SqliteParameter translationParameter = command.Parameters.Add("@translation", SqliteType.Text);
                 command.Prepare();
-                foreach (LocalizationDictionaryEditEntry upsert in upserts) {
+                foreach (LocalizationDictionaryEntry upsert in upserts) {
                     idParameter.Value = translationSession.ID;
                     keyParameter.Value = upsert.Key;
                     translationParameter.Value = upsert.Translation;

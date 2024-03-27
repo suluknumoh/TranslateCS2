@@ -12,6 +12,7 @@ using Prism.Regions;
 
 using TranslateCS2.Configurations;
 using TranslateCS2.Models.Sessions;
+using TranslateCS2.Properties;
 
 namespace TranslateCS2.Controls.Sessions;
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
@@ -19,6 +20,14 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private bool _isLoaded = false;
     private bool _isEdit = false;
     private Action? _callbackEnd;
+
+
+    private string? _ActionString;
+    public string? ActionString {
+        get => this._ActionString;
+        set => this.SetProperty(ref this._ActionString, value);
+    }
+
 
     public ObservableCollection<string> Merges { get; } = [];
 
@@ -90,8 +99,9 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
-        this._isEdit = navigationContext.Parameters.GetValue<bool>("edit");
-        this._callbackEnd = navigationContext.Parameters.GetValue<Action>("callbackEnd");
+        SessionActions? action = navigationContext.Parameters.GetValue<SessionActions?>(nameof(SessionActions));
+        this._isEdit = SessionActions.Edit == action;
+        this._callbackEnd = navigationContext.Parameters.GetValue<Action>(nameof(CallBacks.CallBackAfter));
         if (!this._isLoaded) {
             return;
         }
@@ -102,8 +112,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         this._newSessionBindingGroup.CancelEdit();
         if (this._isEdit) {
             this.NewSession = this.SessionManager.CurrentTranslationSession;
+            this.ActionString = I18N.StringEditSelectedSession.Replace("\r\n", " ");
         } else {
             this.NewSession = new TranslationSession();
+            this.ActionString = I18N.StringCreateNewSession.Replace("\r\n", " ");
         }
         this._newSessionBindingGroup.BeginEdit();
     }

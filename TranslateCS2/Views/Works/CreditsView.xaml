@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
     xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">

@@ -14,6 +14,8 @@ using Prism.Unity;
 using TranslateCS2.Brokers;
 using TranslateCS2.Configurations;
 using TranslateCS2.Configurations.Views;
+using TranslateCS2.Controls.Exports;
+using TranslateCS2.Controls.Imports;
 using TranslateCS2.Controls.Ribbons;
 using TranslateCS2.Controls.Sessions;
 using TranslateCS2.Helpers;
@@ -106,6 +108,8 @@ public partial class App : PrismApplication {
         {
             // configure controls
             containerRegistry.RegisterForNavigation<NewEditSessionControl, NewEditSessionControlContext>(nameof(NewEditSessionControl));
+            containerRegistry.RegisterForNavigation<ExportControl, ExportControlContext>(nameof(ExportControl));
+            containerRegistry.RegisterForNavigation<ImportControl, ImportControlContext>(nameof(ImportControl));
         }
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
     }
@@ -153,7 +157,7 @@ public partial class App : PrismApplication {
         viewConfigurations.Add(new ViewConfiguration<SessionManagement, SessionManagementViewModel>(I18N.StringSessionsCap, ImageResources.clock_toolbox, translationSessionManager.IsAppUseAble));
         viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18N.StringEditCap, ImageResources.translate, translationSessionManager.IsAppUseAble, translationSessionManager));
         viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18N.StringEditByOccurancesCap, ImageResources.translate, translationSessionManager.IsAppUseAble, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<ExportView, ExportViewModel>(I18N.StringExportCap, ImageResources.database_multiple, translationSessionManager.IsAppUseAble, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18N.StringExImportCap, ImageResources.database_multiple, translationSessionManager.IsAppUseAble, translationSessionManager));
         if (false) {
             // disabled - under construction
             // settings view is always useable!!!

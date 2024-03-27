@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     prism:ViewModelLocator.AutoWireViewModel="True">
@@ -29,7 +30,7 @@
             VerticalAlignment="Center"
             TextAlignment="Center"
             TextWrapping="Wrap"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageAppUnusableWarning}, Mode=OneWay}">
+            Text="{Binding Source={x:Static app_properties:I18N.MessageAppUnusableWarning}, Mode=OneWay}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter

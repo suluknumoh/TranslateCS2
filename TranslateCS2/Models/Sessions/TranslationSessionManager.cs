@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ using TranslateCS2.Services;
 
 namespace TranslateCS2.Models.Sessions;
 internal class TranslationSessionManager : BindableBase {
-    public LocalizationFile<LocalizationDictionaryEntry> BaseLocalizationFile { get; }
+    public LocalizationFile BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
     public LocalizationFilesService LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
@@ -40,7 +41,7 @@ internal class TranslationSessionManager : BindableBase {
         TranslationsDB.EnrichTranslationSessions(this);
     }
 
-    private LocalizationFile<LocalizationDictionaryEntry> GetLocalizationFile(string fileName) {
+    private LocalizationFile GetLocalizationFile(string fileName) {
         FileInfo baseLocalizationFileInfo = this.LocalizationFiles.Where(item => item.Name == fileName).First();
         return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo);
     }
@@ -57,36 +58,31 @@ internal class TranslationSessionManager : BindableBase {
         if (this.CurrentTranslationSession == null) {
             return;
         }
-        foreach (LocalizationDictionaryEditEntry item in this.BaseLocalizationFile.LocalizationDictionary) {
+        foreach (LocalizationDictionaryEntry item in this.BaseLocalizationFile.LocalizationDictionary) {
             // copy item, otherwise changes are reflected into BaseLocalizationFile.LocalizationDictionary
-            this.CurrentTranslationSession.LocalizationDictionary.Add(new LocalizationDictionaryEditEntry(item));
+            this.CurrentTranslationSession.LocalizationDictionary.Add(new LocalizationDictionaryEntry(item));
         }
         TranslationsDB.EnrichSavedTranslations(this.CurrentTranslationSession);
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
-        LocalizationFile<LocalizationDictionaryEntry> mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
-        foreach (LocalizationDictionaryEditEntry mergeEntry in mergeFile.LocalizationDictionary) {
-            LocalizationDictionaryEditEntry item = this.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == mergeEntry.Key).First();
+        LocalizationFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
+        foreach (LocalizationDictionaryEntry mergeEntry in mergeFile.LocalizationDictionary) {
+            LocalizationDictionaryEntry item = this.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == mergeEntry.Key).First();
             item.ValueMerge = mergeEntry.Value;
         }
     }
 
-    public LocalizationFile<LocalizationDictionaryExportEntry> GetMerged() {
-        LocalizationFile<LocalizationDictionaryEntry> mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
-        LocalizationFile<LocalizationDictionaryExportEntry> merged = new LocalizationFile<LocalizationDictionaryExportEntry>(this.CurrentTranslationSession.OverwriteLocalizationFileName,
-                                                                                                                             mergeLocalizationFile.FileHeader,
-                                                                                                                             this.CurrentTranslationSession.OverwriteLocalizationNameEN,
-                                                                                                                             this.CurrentTranslationSession.OverwriteLocalizationLocaleID,
-                                                                                                                             this.CurrentTranslationSession.OverwriteLocalizationNameLocalized);
+    public LocalizationFile GetForExport() {
+        LocalizationFile mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
+        LocalizationFile merged = new LocalizationFile(this.CurrentTranslationSession.OverwriteLocalizationFileName,
+                                                       mergeLocalizationFile.FileHeader,
+                                                       this.CurrentTranslationSession.OverwriteLocalizationNameEN,
+                                                       this.CurrentTranslationSession.OverwriteLocalizationLocaleID,
+                                                       this.CurrentTranslationSession.OverwriteLocalizationNameLocalized);
         merged.Indizes.Clear();
         merged.Indizes.AddRange(mergeLocalizationFile.Indizes);
-        foreach (LocalizationDictionaryEntry origin in mergeLocalizationFile.LocalizationDictionary) {
-            if (this.CurrentTranslationSession.HasTranslationForKey(origin.Key)) {
-                LocalizationDictionaryEditEntry merge = this.CurrentTranslationSession.GetEntryByKey(origin.Key);
-                merged.LocalizationDictionary.Add(new LocalizationDictionaryExportEntry(origin.Key, merge.Translation));
-            } else {
-                merged.LocalizationDictionary.Add(new LocalizationDictionaryExportEntry(origin));
-            }
-        }
+        merged.LocalizationDictionary.Clear();
+        List<LocalizationDictionaryEntry> dic = this.CurrentTranslationSession.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.ValueMerge) && !String.IsNullOrWhiteSpace(item.ValueMerge)).ToList();
+        merged.LocalizationDictionary.AddRange(dic);
         return merged;
     }
 

@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
@@ -15,6 +16,6 @@
             FontSize="64"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static app_configurationmanager:I18N.MessageUnderConstruction}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static app_properties:I18N.MessageUnderConstruction}, Mode=OneWay}"/>
     </Grid>
 </ContentControl>

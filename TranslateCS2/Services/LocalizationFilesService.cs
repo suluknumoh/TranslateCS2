@@ -1,8 +1,10 @@
-﻿using System.Buffers.Binary;
+﻿using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 
 using TranslateCS2.Helpers;
 using TranslateCS2.Models;
@@ -22,19 +24,19 @@ internal class LocalizationFilesService {
         return loc.EnumerateFiles("*.loc");
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
-    public LocalizationFile<LocalizationDictionaryEntry> GetLocalizationFile(FileInfo fileInfo) {
+    public LocalizationFile GetLocalizationFile(FileInfo fileInfo) {
         using Stream stream = File.OpenRead(fileInfo.FullName);
         short fileHeader = ReadInt16(stream);
         string localeNameEN = ReadString(stream);
         string localeNameID = ReadString(stream);
         string localeNameLocalized = ReadString(stream);
-        LocalizationFile<LocalizationDictionaryEntry> localizationFile = new LocalizationFile<LocalizationDictionaryEntry>(fileInfo.Name, fileHeader, localeNameEN, localeNameID, localeNameLocalized);
+        LocalizationFile localizationFile = new LocalizationFile(fileInfo.Name, fileHeader, localeNameEN, localeNameID, localeNameLocalized);
 
         int localizationCount = ReadInt32(stream);
         for (int i = 0; i < localizationCount; i++) {
             string key = ReadString(stream);
             string value = ReadString(stream);
-            LocalizationDictionaryEditEntry originLocalizationKey = new LocalizationDictionaryEditEntry(key, value);
+            LocalizationDictionaryEntry originLocalizationKey = new LocalizationDictionaryEntry(key, value, null);
             localizationFile.LocalizationDictionary.Add(originLocalizationKey);
         }
 
@@ -46,8 +48,20 @@ internal class LocalizationFilesService {
         }
         return localizationFile;
     }
-    public void WriteLocalizationFile<T>(LocalizationFile<T> localizationFile) where T : LocalizationDictionaryEntry {
-        FileInfo fileInfo = this.GetLocalizationFileInfo(localizationFile.FileName);
+    public void WriteLocalizationFileDirect(LocalizationFile localizationFile) {
+        this.WriteLocalizationFileDirect(localizationFile, null);
+    }
+    /// <summary>
+    ///     writes the given <see cref="LocalizationFile{T}"/>
+    /// </summary>
+    /// <param name="localizationFile">
+    ///     the <see cref="LocalizationFile{T}"/> to write
+    /// </param>
+    /// <param name="fileInfo">
+    ///     currently for testing-purposes only
+    /// </param>
+    public void WriteLocalizationFileDirect(LocalizationFile localizationFile, FileInfo? fileInfo) {
+        fileInfo ??= this.GetLocalizationFileInfo(localizationFile.FileName);
         fileInfo.Delete();
         using Stream stream = File.OpenWrite(fileInfo.FullName);
         WriteInt16(stream, localizationFile.FileHeader);
@@ -55,9 +69,13 @@ internal class LocalizationFilesService {
         WriteString(stream, localizationFile.LocaleNameID);
         WriteString(stream, localizationFile.LocaleNameLocalized);
         WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
-        foreach (T entry in localizationFile.LocalizationDictionary) {
+        foreach (LocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
             WriteString(stream, entry.Key);
-            WriteString(stream, entry.Value);
+            if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
+                WriteString(stream, entry.ValueMerge);
+            } else {
+                WriteString(stream, entry.Translation);
+            }
         }
         WriteInt32(stream, localizationFile.Indizes.Count);
         foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
@@ -101,5 +119,34 @@ internal class LocalizationFilesService {
 
     private FileInfo GetLocalizationFileInfo(string? fileName) {
         return this.GetLocalizationFiles().Where(item => item.Name == fileName).First();
+    }
+
+    public void WriteLocalizationFileJson(LocalizationFile localizationFile, string file) {
+        JsonSerializerOptions options = new JsonSerializerOptions {
+            WriteIndented = true,
+            IgnoreReadOnlyProperties = false,
+            IgnoreReadOnlyFields = false,
+            AllowTrailingCommas = true
+        };
+        List<LocalizationDictionaryEntry> exp = localizationFile.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.Translation) && !String.IsNullOrWhiteSpace(item.Translation)).ToList();
+        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, options);
+        File.WriteAllBytes(file, bytes);
+    }
+
+    public void ReadLocalizationFileJson(LocalizationFile localizationFile, string file) {
+        JsonSerializerOptions options = new JsonSerializerOptions {
+            WriteIndented = true,
+            IgnoreReadOnlyProperties = false,
+            IgnoreReadOnlyFields = false,
+            AllowTrailingCommas = true
+        };
+        using Stream stream = File.OpenRead(file);
+        List<LocalizationDictionaryEntry>? entries = JsonSerializer.Deserialize<List<LocalizationDictionaryEntry>?>(stream, options);
+        if (entries != null) {
+            foreach (LocalizationDictionaryEntry entry in entries) {
+                LocalizationDictionaryEntry merge = localizationFile.LocalizationDictionary.Where(item => item.Key == entry.Key).First();
+                merge.Translation = entry.Translation;
+            }
+        }
     }
 }

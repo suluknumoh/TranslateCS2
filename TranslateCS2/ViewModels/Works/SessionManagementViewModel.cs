@@ -12,7 +12,7 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
 
     private readonly IRegionManager _regionManager;
 
-    public DelegateCommand<string> CreateEditSessionCommand { get; }
+    public DelegateCommand<SessionActions?> CreateEditSessionCommand { get; }
 
 
     private bool _IsEnabled = true;
@@ -35,6 +35,13 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
     }
 
 
+    private SessionActions? _SessionAction;
+    public SessionActions? SessionAction {
+        get => this._SessionAction;
+        set => this.SetProperty(ref this._SessionAction, value);
+    }
+
+
     public TranslationSessionManager SessionManager { get; }
 
     public SessionManagementViewModel(IRegionManager regionManager, TranslationSessionManager translationSessionManager) {
@@ -42,26 +49,25 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
         this.SessionManager = translationSessionManager;
         this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
         this.InstallPath = this.SessionManager.InstallPath;
-        this.CreateEditSessionCommand = new DelegateCommand<string>(this.CreateEditSessionCommandAction);
+        this.CreateEditSessionCommand = new DelegateCommand<SessionActions?>(this.CreateEditSessionCommandAction);
     }
 
-    private void CreateEditSessionCommandAction(string action) {
+    private void CreateEditSessionCommandAction(SessionActions? action) {
+        this.SessionAction = action;
         NavigationParameters parameters = [];
         // dont translate/localize parameter key's
-        parameters.Add("callbackEnd", this.CallbackEnd);
-        // dont translate/localize CommandParameter
-        if (action == "edit") {
-            parameters.Add("edit", true);
-        }
+        parameters.Add(nameof(CallBacks.CallBackAfter), this.CallbackAfter);
+        parameters.Add(nameof(SessionActions), this.SessionAction);
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
         this.IsEnabled = false;
         this.IsEditEnabled = false;
         this._regionManager.RequestNavigate(regionName, nameof(NewEditSessionControl), parameters);
     }
 
-    private void CallbackEnd() {
+    private void CallbackAfter() {
         this.IsEnabled = true;
         this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
+        this.SessionAction = null;
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext) {

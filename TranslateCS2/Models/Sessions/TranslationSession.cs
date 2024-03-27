@@ -9,6 +9,7 @@ using Prism.Mvvm;
 
 using TranslateCS2.Configurations;
 using TranslateCS2.Models.LocDictionary;
+using TranslateCS2.Properties;
 
 namespace TranslateCS2.Models.Sessions;
 // https://learn.microsoft.com/en-us/archive/msdn-magazine/2010/june/msdn-magazine-input-validation-enforcing-complex-business-data-rules-with-wpf
@@ -74,7 +75,7 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
 
 
     public bool AreBaseAndMergeLocalizationFilesDifferent => this.OverwriteLocalizationFileName != this.MergeLocalizationFileName;
-    public ObservableCollection<LocalizationDictionaryEditEntry> LocalizationDictionary { get; } = [];
+    public ObservableCollection<LocalizationDictionaryEntry> LocalizationDictionary { get; } = [];
 
 
     private string _DisplayName;
@@ -121,7 +122,7 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
                     } else if (this.OverwriteLocalizationFileName == this.MergeLocalizationFileName) {
                         return I18N.MessageLocalizationFileOverwriteDifferentMerge;
                     } else if (this.OverwriteLocalizationFileName == AppConfigurationManager.LeadingLocFileName) {
-                        return I18N.MessageLocalizationFileOverwriteOthersThan + $" '{AppConfigurationManager.LeadingLocFileName}'!";
+                        return $"{I18N.MessageLocalizationFileOverwriteOthersThan} '{AppConfigurationManager.LeadingLocFileName}'!";
                     }
                     break;
             }
@@ -144,10 +145,6 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
 
     internal bool HasTranslationForKey(string key) {
         return this.LocalizationDictionary.Where(item => item.Key == key && item.IsTranslated).Any();
-    }
-
-    internal LocalizationDictionaryEditEntry GetEntryByKey(string key) {
-        return this.LocalizationDictionary.Where(item => item.Key == key && item.IsTranslated).First();
     }
 
     public static bool operator ==(TranslationSession? left, TranslationSession? right) {

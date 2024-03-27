@@ -10,14 +10,14 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-using TranslateCS2.Configurations;
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Controls.Edits;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
+using TranslateCS2.Properties;
 
 namespace TranslateCS2.ViewModels.Works;
-internal abstract class AEditViewModel<T, M> : BindableBase, INavigationAware {
+internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
 
     protected TranslationSessionManager SessionManager { get; }
@@ -40,7 +40,7 @@ internal abstract class AEditViewModel<T, M> : BindableBase, INavigationAware {
     public TextSearchControlContext TextSearchContext { get; protected set; }
 
     public TranslationSession? CurrentSession => this.SessionManager.CurrentTranslationSession;
-    public ObservableCollection<M> Mapping { get; } = [];
+    public ObservableCollection<LocalizationDictionaryEntry> Mapping { get; } = [];
     public DelegateCommand<DataGridCellEditEndingEventArgs> CellEditEndingCommand { get; }
     protected AEditViewModel(ViewConfigurations viewConfigurations, TranslationSessionManager translationSessionManager) {
         this._viewConfigurations = viewConfigurations;
@@ -82,7 +82,7 @@ internal abstract class AEditViewModel<T, M> : BindableBase, INavigationAware {
         }
     }
 
-    protected bool IsTextSearchMatch(LocalizationDictionaryEditEntry entry) {
+    protected bool IsTextSearchMatch(LocalizationDictionaryEntry entry) {
         if (this.TextSearchContext == null) {
             return true;
         }
@@ -130,4 +130,12 @@ internal abstract class AEditViewModel<T, M> : BindableBase, INavigationAware {
     protected abstract void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args);
 
     protected abstract IEnumerable<object> CreateToolsGroupItems();
+
+    protected static void SetNewValue(ObservableCollection<LocalizationDictionaryEntry> list, TextBox textBox, LocalizationDictionaryEntry edited) {
+        foreach (LocalizationDictionaryEntry entry in list) {
+            if (entry.Value == edited.Value) {
+                entry.Translation = textBox.Text.Trim();
+            }
+        }
+    }
 }

@@ -16,14 +16,14 @@ internal class FiltersService {
     public ObservableCollection<LocalizationKeyFilter> GetFilters() {
         ObservableCollection<LocalizationKeyFilter> filters = [];
         // kinda 'defaults'
-        filters.Add(new LocalizationKeyFilter("none", null, FilterType.StartsWith));
-        filters.Add(new LocalizationKeyFilter("descriptions", [".description", "_description"], FilterType.Contains));
+        filters.Add(new LocalizationKeyFilter("none", null, FilterTypes.StartsWith));
+        filters.Add(new LocalizationKeyFilter("descriptions", [".description", "_description"], FilterTypes.Contains));
         if (!this._translationSessionManager.IsAppUseAble) {
             // always return defaults!
             return filters;
         }
         List<string> filterValues = [];
-        foreach (LocalizationDictionaryEditEntry entry in this._translationSessionManager.BaseLocalizationFile.LocalizationDictionary) {
+        foreach (LocalizationDictionaryEntry entry in this._translationSessionManager.BaseLocalizationFile.LocalizationDictionary) {
             if (entry.Key.Contains(".")) {
                 string val = entry.Key.Split(".")[0];
                 if (filterValues.Contains(val)) {
@@ -34,7 +34,7 @@ internal class FiltersService {
         }
         IOrderedEnumerable<string> orderedFitlerValues = filterValues.Order();
         foreach (string? filterValue in orderedFitlerValues) {
-            filters.Add(new LocalizationKeyFilter(filterValue, [filterValue], FilterType.StartsWith));
+            filters.Add(new LocalizationKeyFilter(filterValue, [filterValue], FilterTypes.StartsWith));
         }
         return filters;
     }

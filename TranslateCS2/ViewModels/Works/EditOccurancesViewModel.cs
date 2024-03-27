@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -10,8 +9,8 @@ using TranslateCS2.Models.Sessions;
 
 namespace TranslateCS2.ViewModels.Works;
 
-internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel, LocalizationDictionaryOccuranceEntry> {
-    private readonly List<LocalizationDictionaryOccuranceEntry> _entries = [];
+internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
+    private readonly List<LocalizationDictionaryEntry> _entries = [];
     public EditOccurancesViewModel(ViewConfigurations viewConfigurations, TranslationSessionManager translationSessionManager) : base(viewConfigurations, translationSessionManager) {
         this.AddToolsGroup();
         this.TextSearchContext = new TextSearchControlContext(this.RefreshViewList, false);
@@ -21,13 +20,13 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel,
         if (this.CurrentSession is null) {
             return;
         }
-        if (args.Row.Item is not LocalizationDictionaryOccuranceEntry edited) {
+        if (args.Row.Item is not LocalizationDictionaryEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
             return;
         }
-        this.SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
+        SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
         this.SetNewValue(textBox, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         this.RefreshViewList();
@@ -43,18 +42,18 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel,
         if (this.CurrentSession == null || this.CurrentSession.LocalizationDictionary == null) {
             return;
         }
-        IEnumerable<IGrouping<string, LocalizationDictionaryEditEntry>> groups = this.CurrentSession.LocalizationDictionary.GroupBy(entry => entry.Value);
-        foreach (IGrouping<string, LocalizationDictionaryEditEntry> group in groups) {
-            LocalizationDictionaryOccuranceEntry entry = new LocalizationDictionaryOccuranceEntry(group.Key);
+        IEnumerable<IGrouping<string, LocalizationDictionaryEntry>> groups = this.CurrentSession.LocalizationDictionary.GroupBy(entry => entry.Value);
+        foreach (IGrouping<string, LocalizationDictionaryEntry> group in groups) {
+            LocalizationDictionaryEntry entry = new LocalizationDictionaryEntry(null, group.First().Value, null);
             this._entries.Add(entry);
-            foreach (LocalizationDictionaryEditEntry groupItem in group) {
-                entry.Keys.Add(groupItem.Key);
+            foreach (LocalizationDictionaryEntry groupItem in group) {
+                entry.AddKey(groupItem.Key);
                 entry.ValueMerge = groupItem.ValueMerge;
                 entry.Translation = groupItem.Translation;
             }
         }
 
-        foreach (LocalizationDictionaryOccuranceEntry entry in this._entries) {
+        foreach (LocalizationDictionaryEntry entry in this._entries) {
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
@@ -77,16 +76,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel,
             this.Mapping.Add(entry);
         }
     }
-
-    private void SetNewValue(ObservableCollection<LocalizationDictionaryEditEntry> list, TextBox textBox, LocalizationDictionaryOccuranceEntry edited) {
-        foreach (LocalizationDictionaryEditEntry entry in list) {
-            if (entry.Value == edited.Value) {
-                entry.Translation = textBox.Text.Trim();
-            }
-        }
-    }
-    private void SetNewValue(TextBox textBox, LocalizationDictionaryOccuranceEntry edited) {
-        foreach (LocalizationDictionaryOccuranceEntry entry in this._entries) {
+    private void SetNewValue(TextBox textBox, LocalizationDictionaryEntry edited) {
+        foreach (LocalizationDictionaryEntry entry in this._entries) {
             if (entry.Value == edited.Value) {
                 entry.Translation = textBox.Text.Trim();
             }

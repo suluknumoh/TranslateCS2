@@ -13,12 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TranslateCS2.Views.Works;
-/// <summary>
-/// Interaktionslogik für ExportView.xaml
-/// </summary>
-public partial class ExportView : UserControl {
-    public ExportView() {
-        InitializeComponent();
+namespace TranslateCS2.Controls.Imports
+{
+    /// <summary>
+    /// Interaktionslogik für ImportControl.xaml
+    /// </summary>
+    public partial class ImportControl : UserControl
+    {
+        public ImportControl()
+        {
+            InitializeComponent();
+        }
     }
 }

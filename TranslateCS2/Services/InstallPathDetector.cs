@@ -25,7 +25,7 @@ internal class InstallPathDetector {
         string[] lines = File.ReadAllLines(acf);
         foreach (string line in lines) {
             if (line.Contains("\"installdir\"", StringComparison.OrdinalIgnoreCase)) {
-                return EaseLine(line.Replace("\"installdir\"", "", StringComparison.OrdinalIgnoreCase));
+                return EaseLine(line.Replace("\"installdir\"", String.Empty, StringComparison.OrdinalIgnoreCase));
             }
         }
         throw new ArgumentNullException();
@@ -39,15 +39,15 @@ internal class InstallPathDetector {
                 start = true;
             }
             if (start && line.Contains("\"Path\"", StringComparison.OrdinalIgnoreCase)) {
-                return EaseLine(line.Replace("\"Path\"", "", StringComparison.OrdinalIgnoreCase));
+                return EaseLine(line.Replace("\"Path\"", String.Empty, StringComparison.OrdinalIgnoreCase));
             }
         }
         throw new ArgumentNullException();
     }
 
     private static string EaseLine(string v) {
-        return v.Replace("\t", "")
-                .Replace("\"", "")
+        return v.Replace("\t", String.Empty)
+                .Replace("\"", String.Empty)
                 .Replace(@"\\", @"\")
                 .Trim();
     }

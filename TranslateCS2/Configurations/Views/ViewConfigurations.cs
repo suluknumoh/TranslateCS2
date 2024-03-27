@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Prism.Ioc;
+using Prism.Regions;
 
 namespace TranslateCS2.Configurations.Views;
 internal class ViewConfigurations {
@@ -15,7 +16,7 @@ internal class ViewConfigurations {
     public void Add(IViewConfiguration configuration) {
         this.viewConfigurations.Add(configuration);
     }
-    public void Register(Prism.Regions.IRegionManager regionManager) {
+    public void Register(IRegionManager regionManager) {
         foreach (IViewConfiguration viewConfiguration in this.ViewConfigurationList.Reverse()) {
             // preregister reverse, so startview is visible first
             regionManager.RegisterViewWithRegion(AppConfigurationManager.AppMainRegion, viewConfiguration.View);

@@ -10,7 +10,7 @@
     <Configurations>Debug;Release</Configurations>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <ApplicationIcon>Assets\Icons\appicon.ico</ApplicationIcon>
-    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,6 +37,9 @@
     <None Remove="Assets\Icons\developer_board.png" />
     <None Remove="Assets\Icons\dismiss_circle.png" />
     <None Remove="Assets\Icons\edit.png" />
+    <None Remove="Assets\Icons\folder.png" />
+    <None Remove="Assets\Icons\folder_open.png" />
+    <None Remove="Assets\Icons\folder_open_vertical.png" />
     <None Remove="Assets\Icons\home.png" />
     <None Remove="Assets\Icons\person_circle.png" />
     <None Remove="Assets\Icons\save.png" />
@@ -75,6 +78,9 @@
     <Resource Include="Assets\Icons\developer_board.png" />
     <Resource Include="Assets\Icons\dismiss_circle.png" />
     <Resource Include="Assets\Icons\edit.png" />
+    <Resource Include="Assets\Icons\folder.png" />
+    <Resource Include="Assets\Icons\folder_open.png" />
+    <Resource Include="Assets\Icons\folder_open_vertical.png" />
     <Resource Include="Assets\Icons\home.png" />
     <Resource Include="Assets\Icons\save.png" />
     <Resource Include="Assets\Icons\search.png" />
@@ -99,10 +105,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Assets\i18n\i18n.Designer.cs">
+    <Compile Update="Properties\I18N.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>i18n.resx</DependentUpon>
+      <DependentUpon>I18N.resx</DependentUpon>
     </Compile>
     <Compile Update="Properties\ImageResources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -112,9 +118,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Assets\i18n\i18n.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>i18n.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Properties\I18N.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18N.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\ImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

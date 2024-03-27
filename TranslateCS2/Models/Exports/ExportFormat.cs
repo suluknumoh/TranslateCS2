@@ -3,14 +3,18 @@ using System.Collections.Generic;
 
 namespace TranslateCS2.Models.Exports;
 internal class ExportFormat : IEquatable<ExportFormat?> {
+    public ExportFormats Format { get; }
     public string Name { get; }
     public bool RequiresDestinationSelection { get; }
     public string ToolTip { get; }
-    public ExportFormat(string name, bool requiresDestinationSelection, string toolTip) {
+    public ExportFormat(string name,
+                        ExportFormats format,
+                        bool requiresDestinationSelection,
+                        string toolTip) {
         this.Name = name;
+        this.Format = format;
         this.RequiresDestinationSelection = requiresDestinationSelection;
         this.ToolTip = toolTip;
-
     }
 
     public override bool Equals(object? obj) {
