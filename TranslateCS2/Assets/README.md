@@ -133,6 +133,10 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - https://github.com/PrismLibrary/Prism
 - [MIT-License](https://www.nuget.org/packages/Prism.Unity/8.1.97/license)
 ---
+## Brian Lagunas
+- https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/
+- https://github.com/brianlagunas/BindingEnumsInWpf
+---
 ## SQLite
 - https://www.sqlite.org/
 - [License](https://www.sqlite.org/copyright.html)

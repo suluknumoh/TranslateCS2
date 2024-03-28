@@ -130,6 +130,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\SplashScreen\" />
+    <Folder Include="BindingEnums\" />
   </ItemGroup>
 
   <ItemGroup>

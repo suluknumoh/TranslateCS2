@@ -48,7 +48,8 @@ internal class TextSearchControlContext : BindableBase {
 
     public DelegateCommand<RoutedEventArgs> SearchCommand { get; }
 
-    public TextSearchControlContext(Action SearchCommandAction, bool isKeyVisible) {
+    public TextSearchControlContext(Action SearchCommandAction,
+                                    bool isKeyVisible) {
         this._SearchCommandAction = SearchCommandAction;
         this.IsKeyVisible = isKeyVisible;
         this._IsKey = this.IsKeyVisible;

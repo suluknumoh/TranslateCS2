@@ -7,7 +7,9 @@ internal class LocalizationKeyFilter {
     public string Name { get; }
     public string[]? Values { get; }
     public FilterTypes FilterType { get; }
-    public LocalizationKeyFilter(string name, string[]? values, FilterTypes filterType) {
+    public LocalizationKeyFilter(string name,
+                                 string[]? values,
+                                 FilterTypes filterType) {
         this.Name = name;
         this.Values = values;
         this.FilterType = filterType;

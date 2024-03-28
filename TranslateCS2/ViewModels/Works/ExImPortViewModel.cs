@@ -21,7 +21,8 @@ internal class ExImPortViewModel : BindableBase, INavigationAware {
     private RibbonToggleButton _subNavImport;
     private Type _current = typeof(ExportControl);
 
-    public ExImPortViewModel(IRegionManager regionManager, ViewConfigurations viewConfigurations) {
+    public ExImPortViewModel(IRegionManager regionManager,
+                             ViewConfigurations viewConfigurations) {
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
         this._subNavigation = new RibbonGroup() {

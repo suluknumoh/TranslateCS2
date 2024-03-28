@@ -11,7 +11,11 @@ internal class LocalizationFile {
     public string LocaleNameLocalized { get; }
     public List<LocalizationDictionaryEntry> LocalizationDictionary { get; } = [];
     public List<KeyValuePair<string, int>> Indizes { get; } = [];
-    public LocalizationFile(string fileName, short fileHeader, string localeNameEN, string localeNameID, string localeNameLocalized) {
+    public LocalizationFile(string fileName,
+                            short fileHeader,
+                            string localeNameEN,
+                            string localeNameID,
+                            string localeNameLocalized) {
         this.FileName = fileName;
         this.FileHeader = fileHeader;
         this.LocaleNameEN = localeNameEN;

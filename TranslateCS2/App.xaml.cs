@@ -100,10 +100,11 @@ public partial class App : PrismApplication {
         containerRegistry.RegisterSingleton<LatestVersionCheckService>();
         containerRegistry.RegisterSingleton<InstallPathDetector>();
         containerRegistry.RegisterSingleton<LocalizationFilesService>();
-        containerRegistry.RegisterSingleton<TranslationSessionManager>();
         containerRegistry.RegisterSingleton<IAppCloseBrokers>(AppCloseBrokers.GetInstance);
         containerRegistry.RegisterSingleton<ViewConfigurations>(this.GetViewConfigurations);
-        containerRegistry.Register<ExportService>();
+        containerRegistry.RegisterSingleton<TranslationSessionManager>();
+        containerRegistry.Register<JSONService>();
+        containerRegistry.Register<ExImportService>();
         containerRegistry.Register<FiltersService>();
         {
             // configure controls
@@ -151,20 +152,21 @@ public partial class App : PrismApplication {
         // startview is always useable!!!
         ViewConfiguration<StartView, StartViewModel> startView = new ViewConfiguration<StartView, StartViewModel>(I18N.StringStartCap,
                                                                                                                   ImageResources.home,
+                                                                                                                  true,
                                                                                                                   true);
         startView.NavToggleButton.IsChecked = true;
         viewConfigurations.Add(startView);
-        viewConfigurations.Add(new ViewConfiguration<SessionManagement, SessionManagementViewModel>(I18N.StringSessionsCap, ImageResources.clock_toolbox, translationSessionManager.IsAppUseAble));
-        viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18N.StringEditCap, ImageResources.translate, translationSessionManager.IsAppUseAble, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18N.StringEditByOccurancesCap, ImageResources.translate, translationSessionManager.IsAppUseAble, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18N.StringExImportCap, ImageResources.database_multiple, translationSessionManager.IsAppUseAble, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<SessionManagement, SessionManagementViewModel>(I18N.StringSessionsCap, ImageResources.clock_toolbox, true, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18N.StringEditCap, ImageResources.translate, false, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18N.StringEditByOccurancesCap, ImageResources.translate, false, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18N.StringExImportCap, ImageResources.database_multiple, false, false, translationSessionManager));
         if (false) {
             // disabled - under construction
             // settings view is always useable!!!
-            viewConfigurations.Add(new ViewConfiguration<SettingsView, SettingsViewModel>(I18N.StringSettingsCap, ImageResources.settings, true));
+            viewConfigurations.Add(new ViewConfiguration<SettingsView, SettingsViewModel>(I18N.StringSettingsCap, ImageResources.settings, true, false, translationSessionManager));
         }
         // credits view is always useable!!!
-        viewConfigurations.Add(new ViewConfiguration<CreditsView, CreditsViewModel>(I18N.StringCreditsCaps, ImageResources.person_circle, true));
+        viewConfigurations.Add(new ViewConfiguration<CreditsView, CreditsViewModel>(I18N.StringCreditsCaps, ImageResources.person_circle, true, true));
         viewConfigurations.Register(regionManager);
         return startView;
     }

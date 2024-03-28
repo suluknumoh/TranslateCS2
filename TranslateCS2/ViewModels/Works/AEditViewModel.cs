@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
@@ -20,7 +21,7 @@ namespace TranslateCS2.ViewModels.Works;
 internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
 
-    protected TranslationSessionManager SessionManager { get; }
+    public TranslationSessionManager SessionManager { get; }
 
 
     private bool _HideTranslated;
@@ -37,12 +38,20 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
     }
 
 
+    private int _ElementCount;
+    public int ElementCount {
+        get => this._ElementCount;
+        set => this.SetProperty(ref this._ElementCount, value);
+    }
+
+
     public TextSearchControlContext TextSearchContext { get; protected set; }
 
     public TranslationSession? CurrentSession => this.SessionManager.CurrentTranslationSession;
     public ObservableCollection<LocalizationDictionaryEntry> Mapping { get; } = [];
     public DelegateCommand<DataGridCellEditEndingEventArgs> CellEditEndingCommand { get; }
-    protected AEditViewModel(ViewConfigurations viewConfigurations, TranslationSessionManager translationSessionManager) {
+    protected AEditViewModel(ViewConfigurations viewConfigurations,
+                             TranslationSessionManager translationSessionManager) {
         this._viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
         this.CellEditEndingCommand = new DelegateCommand<DataGridCellEditEndingEventArgs>(this.CellEditEndingCommandAction);
@@ -76,6 +85,33 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
                 };
                 ribbonCheckBox.SetBinding(RibbonCheckBox.IsCheckedProperty, new Binding(nameof(this.OnlyTranslated)) { Source = this });
                 ribbonGroup.Items.Add(ribbonCheckBox);
+            }
+
+            viewConfiguration.Tab.Items.Add(ribbonGroup);
+        }
+    }
+
+    protected void AddCountGroup() {
+        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
+        if (viewConfiguration != null) {
+            RibbonGroup ribbonGroup = new RibbonGroup {
+                Header = I18N.StringElementCountCap,
+                IsEnabled = false,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+            };
+            {
+                RibbonTextBox ribbonTextBox = new RibbonTextBox {
+                    IsEnabled = false,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                };
+                ribbonTextBox.SetBinding(RibbonTextBox.TextProperty, new Binding(nameof(this.ElementCount)) { Source = this, Mode = BindingMode.OneWay, StringFormat = "{0:N0}" });
+                ribbonGroup.Items.Add(ribbonTextBox);
             }
 
             viewConfiguration.Tab.Items.Add(ribbonGroup);
@@ -125,7 +161,9 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
         this.RefreshViewList();
     }
 
-    protected abstract void RefreshViewList();
+    protected virtual void RefreshViewList() {
+        this.ElementCount = this.Mapping.Count;
+    }
 
     protected abstract void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args);
 

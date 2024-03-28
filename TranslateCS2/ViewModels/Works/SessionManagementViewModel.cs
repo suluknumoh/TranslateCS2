@@ -6,6 +6,8 @@ using TranslateCS2.Configurations;
 using TranslateCS2.Controls.Sessions;
 using TranslateCS2.Models.Sessions;
 
+using static TranslateCS2.Controls.Sessions.NewEditSessionControlContext;
+
 namespace TranslateCS2.ViewModels.Works;
 
 internal class SessionManagementViewModel : BindableBase, INavigationAware {
@@ -44,7 +46,8 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
 
     public TranslationSessionManager SessionManager { get; }
 
-    public SessionManagementViewModel(IRegionManager regionManager, TranslationSessionManager translationSessionManager) {
+    public SessionManagementViewModel(IRegionManager regionManager,
+                                      TranslationSessionManager translationSessionManager) {
         this._regionManager = regionManager;
         this.SessionManager = translationSessionManager;
         this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
@@ -56,7 +59,8 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
         this.SessionAction = action;
         NavigationParameters parameters = [];
         // dont translate/localize parameter key's
-        parameters.Add(nameof(CallBacks.CallBackAfter), this.CallbackAfter);
+        CallBackAfter @delegate = this.CallbackAfter;
+        parameters.Add(nameof(NewEditSessionControlContext.CallBackAfter), @delegate);
         parameters.Add(nameof(SessionActions), this.SessionAction);
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
         this.IsEnabled = false;

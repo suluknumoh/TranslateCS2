@@ -18,6 +18,8 @@ internal class FiltersService {
         // kinda 'defaults'
         filters.Add(new LocalizationKeyFilter("none", null, FilterTypes.StartsWith));
         filters.Add(new LocalizationKeyFilter("descriptions", [".description", "_description"], FilterTypes.Contains));
+        filters.Add(new LocalizationKeyFilter("names", [".name", "_name"], FilterTypes.Contains));
+        filters.Add(new LocalizationKeyFilter("titles", [".title", "_title"], FilterTypes.Contains));
         if (!this._translationSessionManager.IsAppUseAble) {
             // always return defaults!
             return filters;

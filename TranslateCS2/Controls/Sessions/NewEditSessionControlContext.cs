@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -19,7 +18,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private readonly IRegionManager _regionManager;
     private bool _isLoaded = false;
     private bool _isEdit = false;
-    private Action? _callbackEnd;
+
+    public delegate void CallBackAfter();
+
+    private CallBackAfter _callbackEnd;
 
 
     private string? _ActionString;
@@ -48,7 +50,8 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     public DelegateCommand Cancel { get; }
     public TranslationSessionManager SessionManager { get; }
 
-    public NewEditSessionControlContext(IRegionManager regionManager, TranslationSessionManager translationSessionManager) {
+    public NewEditSessionControlContext(IRegionManager regionManager,
+                                        TranslationSessionManager translationSessionManager) {
         this._regionManager = regionManager;
         this.CreateNewTranslationSessionGridLoaded = new DelegateCommand<RoutedEventArgs>(this.CreateNewTranslationSessionGridLoadedAction);
         this.Save = new DelegateCommand(this.SaveAction);
@@ -87,7 +90,11 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
             } else {
                 this.SessionManager.Insert(this.NewSession);
             }
-            this.CancelAction();
+            if (!this.SessionManager.HasDatabaseError) {
+                this.CancelAction();
+            } else {
+                // see xaml-code
+            }
         }
     }
     public bool IsNavigationTarget(NavigationContext navigationContext) {
@@ -101,7 +108,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     public void OnNavigatedTo(NavigationContext navigationContext) {
         SessionActions? action = navigationContext.Parameters.GetValue<SessionActions?>(nameof(SessionActions));
         this._isEdit = SessionActions.Edit == action;
-        this._callbackEnd = navigationContext.Parameters.GetValue<Action>(nameof(CallBacks.CallBackAfter));
+        this._callbackEnd = navigationContext.Parameters.GetValue<CallBackAfter>(nameof(CallBackAfter));
         if (!this._isLoaded) {
             return;
         }

@@ -15,7 +15,8 @@ internal class AppRibbonControlContext : BindableBase {
     private readonly ViewConfigurations _viewConfigurations;
 
     public DelegateCommand<RoutedEventArgs> LoadedCommand { get; }
-    public AppRibbonControlContext(IRegionManager regionManager, ViewConfigurations viewConfigurations) {
+    public AppRibbonControlContext(IRegionManager regionManager,
+                                   ViewConfigurations viewConfigurations) {
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
         this.LoadedCommand = new DelegateCommand<RoutedEventArgs>(this.LoadedCommandAction);
@@ -30,7 +31,8 @@ internal class AppRibbonControlContext : BindableBase {
         }
     }
 
-    public void RibbonNavToggleButtonClicked(object sender, RoutedEventArgs routedEventArgs) {
+    public void RibbonNavToggleButtonClicked(object sender,
+                                             RoutedEventArgs routedEventArgs) {
         if (routedEventArgs.Source is RibbonToggleButton clickedButton) {
             string? target = null;
             foreach (IViewConfiguration viewConfiguration in this._viewConfigurations.ViewConfigurationList) {
@@ -50,7 +52,8 @@ internal class AppRibbonControlContext : BindableBase {
         }
     }
 
-    private static void DeActivateRibbonGroups(IViewConfiguration viewConfiguration, bool enable) {
+    private static void DeActivateRibbonGroups(IViewConfiguration viewConfiguration,
+                                               bool enable) {
         bool first = true;
         foreach (RibbonGroup item in viewConfiguration.Tab.Items) {
             if (first) {

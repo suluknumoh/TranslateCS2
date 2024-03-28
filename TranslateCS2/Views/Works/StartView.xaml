@@ -16,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -49,7 +50,39 @@
             </TextBlock.Style>
         </TextBlock>
         <TextBlock
-            Grid.Row="0"
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            TextAlignment="Center"
+            FontSize="20"
+            Foreground="DarkRed"
+            TextWrapping="Wrap"
+            Margin="10 10 10 10"
+            Text="{Binding SessionManager.DatabaseError,
+                           Mode=OneWay,
+                           NotifyOnSourceUpdated=True}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter
+                        Property="Visibility"
+                        Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SessionManager.HasDatabaseError,
+                                              Mode=OneWay,
+                                              NotifyOnSourceUpdated=True}"
+                            Value="True">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock
+            Grid.Row="2"
             FontSize="20"
             FontWeight="Bold"
             Foreground="DarkGreen"
@@ -76,7 +109,7 @@
             </TextBlock.Style>
         </TextBlock>
         <markdig:MarkdownViewer
-            Grid.Row="2"
+            Grid.Row="3"
             Markdown="{Binding Doc}"
             Pipeline="{Binding Pipeline}">
             <markdig:MarkdownViewer.Resources>

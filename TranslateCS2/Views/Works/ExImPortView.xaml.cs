@@ -4,7 +4,7 @@ namespace TranslateCS2.Views.Works;
 /// <summary>
 /// Interaktionslogik für ExportView.xaml
 /// </summary>
-public partial class ExImPortView : UserControl {
+public partial class ExImPortView : ContentControl {
     public ExImPortView() {
         this.InitializeComponent();
     }

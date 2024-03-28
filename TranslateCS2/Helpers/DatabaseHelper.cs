@@ -7,7 +7,7 @@ using TranslateCS2.Configurations;
 
 namespace TranslateCS2.Helpers;
 internal class DatabaseHelper {
-    internal static void CreateIfNotExists() {
+    public static void CreateIfNotExists() {
         string? assetPath = AppConfigurationManager.AssetPath;
         ArgumentNullException.ThrowIfNull(nameof(assetPath));
         foreach (ConnectionStringSettings item in ConfigurationManager.ConnectionStrings) {
@@ -23,5 +23,16 @@ internal class DatabaseHelper {
                 }
             }
         }
+    }
+
+    /// <seealso href="https://stackoverflow.com/questions/71986869/disable-sqlite-automatic-database-creation-c-sharp"/>
+    public static bool DatabaseExists(ConnectionStringSettings connectionStringSettings) {
+        string? assetPath = AppConfigurationManager.AssetPath;
+        ArgumentNullException.ThrowIfNull(nameof(assetPath));
+        string databaseName = connectionStringSettings.Name;
+        if (databaseName.EndsWith(".sqlite")) {
+            return File.Exists(databaseName);
+        }
+        return false;
     }
 }

@@ -61,7 +61,18 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This is a Test ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please select a .json-file. ähnelt.
+        /// </summary>
+        public static string ImExportWarningJSON {
+            get {
+                return ResourceManager.GetString("ImExportWarningJSON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die App can not be used.
+        ///Please take a look at &quot;Limitations&quot;.
+        ///If something went wrong with the database, try to restart this app. ähnelt.
         /// </summary>
         public static string MessageAppUnusableWarning {
             get {
@@ -75,6 +86,33 @@ namespace TranslateCS2.Properties {
         public static string MessageConsistOfCharacters {
             get {
                 return ResourceManager.GetString("MessageConsistOfCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die something went wrong with the database - app should be restarted ähnelt.
+        /// </summary>
+        public static string MessageErrorTranslationsDB {
+            get {
+                return ResourceManager.GetString("MessageErrorTranslationsDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die export failed ähnelt.
+        /// </summary>
+        public static string MessageExportFailed {
+            get {
+                return ResourceManager.GetString("MessageExportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die import failed ähnelt.
+        /// </summary>
+        public static string MessageImportFailed {
+            get {
+                return ResourceManager.GetString("MessageImportFailed", resourceCulture);
             }
         }
         
@@ -290,6 +328,15 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Element Count ähnelt.
+        /// </summary>
+        public static string StringElementCountCap {
+            get {
+                return ResourceManager.GetString("StringElementCountCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die EnglishValue ähnelt.
         /// </summary>
         public static string StringEnglishValueCap {
@@ -385,6 +432,15 @@ namespace TranslateCS2.Properties {
         public static string StringImportDialogTitle {
             get {
                 return ResourceManager.GetString("StringImportDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die imported ähnelt.
+        /// </summary>
+        public static string StringImported {
+            get {
+                return ResourceManager.GetString("StringImported", resourceCulture);
             }
         }
         
@@ -593,6 +649,33 @@ namespace TranslateCS2.Properties {
         public static string StringTranslationSessions {
             get {
                 return ResourceManager.GetString("StringTranslationSessions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warning ähnelt.
+        /// </summary>
+        public static string StringWarningCap {
+            get {
+                return ResourceManager.GetString("StringWarningCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die replace existing localization based on session-properties ähnelt.
+        /// </summary>
+        public static string ToolTipExportFormatDirectOverwrite {
+            get {
+                return ResourceManager.GetString("ToolTipExportFormatDirectOverwrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die export as json to share with others ähnelt.
+        /// </summary>
+        public static string ToolTipExportFormatJSON {
+            get {
+                return ResourceManager.GetString("ToolTipExportFormatJSON", resourceCulture);
             }
         }
     }

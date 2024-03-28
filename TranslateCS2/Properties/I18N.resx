@@ -117,11 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ImExportWarningJSON" xml:space="preserve">
+    <value>Please select a .json-file.</value>
+  </data>
   <data name="MessageAppUnusableWarning" xml:space="preserve">
-    <value>This is a Test</value>
+    <value>App can not be used.
+Please take a look at "Limitations".
+If something went wrong with the database, try to restart this app.</value>
   </data>
   <data name="MessageConsistOfCharacters" xml:space="preserve">
     <value>Should only consist of characters, lower or uppercase, from a - z!</value>
+  </data>
+  <data name="MessageErrorTranslationsDB" xml:space="preserve">
+    <value>something went wrong with the database - app should be restarted</value>
+  </data>
+  <data name="MessageExportFailed" xml:space="preserve">
+    <value>export failed</value>
+  </data>
+  <data name="MessageImportFailed" xml:space="preserve">
+    <value>import failed</value>
   </data>
   <data name="MessageLocalizationFileOverwriteDifferentMerge" xml:space="preserve">
     <value>Localization file to overwrite must be a different ones than the ones you want to merge with!</value>
@@ -196,6 +210,9 @@ session</value>
 selected
 session</value>
   </data>
+  <data name="StringElementCountCap" xml:space="preserve">
+    <value>Element Count</value>
+  </data>
   <data name="StringEnglishValueCap" xml:space="preserve">
     <value>EnglishValue</value>
   </data>
@@ -228,6 +245,9 @@ session</value>
   </data>
   <data name="StringImportDialogTitle" xml:space="preserve">
     <value>import translations from JSON</value>
+  </data>
+  <data name="StringImported" xml:space="preserve">
+    <value>imported</value>
   </data>
   <data name="StringIn" xml:space="preserve">
     <value>in</value>
@@ -298,5 +318,14 @@ file</value>
   </data>
   <data name="StringTranslationSessions" xml:space="preserve">
     <value>translation sessions (selected ones is current)</value>
+  </data>
+  <data name="StringWarningCap" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="ToolTipExportFormatDirectOverwrite" xml:space="preserve">
+    <value>replace existing localization based on session-properties</value>
+  </data>
+  <data name="ToolTipExportFormatJSON" xml:space="preserve">
+    <value>export as json to share with others</value>
   </data>
 </root>

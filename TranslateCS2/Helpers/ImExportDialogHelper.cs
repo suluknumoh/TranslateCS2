@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 using Microsoft.Win32;
 
@@ -14,18 +15,16 @@ internal static class ImExportDialogHelper {
             CheckPathExists = true,
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             FileName = AppConfigurationManager.ImExportDefaultFileName,
-            Filter = AppConfigurationManager.ImExportFilter
+            Filter = AppConfigurationManager.ImExportFilter,
+            ValidateNames = true,
+            DereferenceLinks = false
         };
         if (path is not null) {
             dialog.InitialDirectory = path;
         }
-        bool ok = dialog.ShowDialog() ?? true;
-        if (ok) {
-            return dialog.FileName;
-        }
-        return null;
+        return Display(dialog);
     }
-    public static string? OpenFileDialog(string? path) {
+    public static string? ShowOpenFileDialog(string? path) {
         OpenFileDialog dialog = new OpenFileDialog {
             Title = I18N.StringImportDialogTitle,
             Multiselect = false,
@@ -33,12 +32,29 @@ internal static class ImExportDialogHelper {
             CheckFileExists = true,
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             FileName = AppConfigurationManager.ImExportDefaultFileName,
-            Filter = AppConfigurationManager.ImExportFilter
+            Filter = AppConfigurationManager.ImExportFilter,
+            ValidateNames = true,
+            DereferenceLinks = false
         };
         if (path is not null) {
             dialog.InitialDirectory = path;
         }
-        bool ok = dialog.ShowDialog() ?? true;
+        return Display(dialog);
+    }
+
+    private static string? Display(FileDialog dialog) {
+        bool ok;
+        do {
+            ok = dialog.ShowDialog() ?? false;
+            if (!ok) {
+                // cancel
+                break;
+            }
+            ok = dialog.FileName.EndsWith(AppConfigurationManager.ImExportFileExtension);
+            if (!ok) {
+                MessageBox.Show(I18N.ImExportWarningJSON, I18N.StringWarningCap, MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.None, MessageBoxOptions.None);
+            }
+        } while (!ok);
         if (ok) {
             return dialog.FileName;
         }

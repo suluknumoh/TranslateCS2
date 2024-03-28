@@ -20,11 +20,15 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     private LocalizationKeyFilter _selectedFilter;
 
     public ObservableCollection<LocalizationKeyFilter> Filters { get; private set; }
-    public EditDefaultViewModel(ViewConfigurations viewConfigurations, TranslationSessionManager translationSessionManager, FiltersService filtersService) : base(viewConfigurations, translationSessionManager) {
+    public EditDefaultViewModel(ViewConfigurations viewConfigurations,
+                                TranslationSessionManager translationSessionManager,
+                                FiltersService filtersService) : base(viewConfigurations,
+                                                                      translationSessionManager) {
         this._filtersService = filtersService;
         this.Filters = this._filtersService.GetFilters();
         this._selectedFilter = this.Filters.First();
         this.AddToolsGroup();
+        this.AddCountGroup();
         this.TextSearchContext = new TextSearchControlContext(this.RefreshViewList, true);
     }
 
@@ -40,6 +44,9 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         }
         SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
+        if (this.SessionManager.HasDatabaseError) {
+            // see xaml-code
+        }
         this.RefreshViewList();
     }
 
@@ -72,6 +79,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
                 this.Mapping.Add(entry);
             }
         }
+        base.RefreshViewList();
     }
 
     protected override IEnumerable<object> CreateToolsGroupItems() {

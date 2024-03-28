@@ -23,7 +23,7 @@ internal class MainWindowViewModel {
         foreach (IAppCloseBroker appCloseBroker in this._appCloseBrokers.Items) {
             if (appCloseBroker.IsCancelClose) {
                 args.Cancel = true;
-                // Info: MessageBox if there is no autosave - but autosave is default
+                // INFO: MessageBox if there is no autosave - but autosave is default
                 return;
             }
         }

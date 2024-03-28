@@ -1,10 +1,15 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Windows;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Input;
 
 namespace TranslateCS2.Helpers;
 internal class RibbonHelper {
-    public static RibbonComboBox CreateComboBox(string label, System.Collections.IEnumerable itemsSource, RoutedPropertyChangedEventHandler<object> onSelectionChanged, object? selectedItem, string? displayMemberPath = null) {
+    public static RibbonComboBox CreateComboBox(string label,
+                                                IEnumerable itemsSource,
+                                                RoutedPropertyChangedEventHandler<object> onSelectionChanged,
+                                                object? selectedItem,
+                                                string? displayMemberPath = null) {
         RibbonComboBox comboBox = new RibbonComboBox {
             Label = label,
             Cursor = Cursors.Hand

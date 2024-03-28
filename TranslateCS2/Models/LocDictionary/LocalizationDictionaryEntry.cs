@@ -22,7 +22,9 @@ internal class LocalizationDictionaryEntry : BindableBase {
     }
     [JsonIgnore]
     public bool IsTranslated => !String.IsNullOrEmpty(this.Translation) && !String.IsNullOrWhiteSpace(this.Translation);
-    public LocalizationDictionaryEntry(string key, string value, string? translation) {
+    public LocalizationDictionaryEntry(string key,
+                                       string value,
+                                       string? translation) {
         this.AddKey(key);
         this.Value = value;
         this.Translation = translation;

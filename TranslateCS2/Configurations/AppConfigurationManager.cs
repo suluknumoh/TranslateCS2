@@ -19,4 +19,5 @@ internal static class AppConfigurationManager {
     public static string CheckLatestURL { get; } = ConfigurationManager.AppSettings[nameof(CheckLatestURL)] ?? String.Empty;
     public static string ImExportDefaultFileName { get; } = ConfigurationManager.AppSettings[nameof(ImExportDefaultFileName)] ?? String.Empty;
     public static string ImExportFilter { get; } = ConfigurationManager.AppSettings[nameof(ImExportFilter)] ?? String.Empty;
+    public static string ImExportFileExtension { get; } = ConfigurationManager.AppSettings[nameof(ImExportFileExtension)] ?? String.Empty;
 }

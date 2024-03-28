@@ -21,7 +21,7 @@ namespace TranslateCS2.Controls.Exports;
 internal class ExportControlContext : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
     private readonly TranslationSessionManager _translationSessionManager;
-    private readonly ExportService _exportService;
+    private readonly ExImportService _exportService;
 
 
     private bool _IsEnabled;
@@ -80,7 +80,9 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     public DelegateCommand ExportCommand { get; }
 
 
-    public ExportControlContext(ViewConfigurations viewConfigurations, TranslationSessionManager translationSessionManager, ExportService exportService) {
+    public ExportControlContext(ViewConfigurations viewConfigurations,
+                                TranslationSessionManager translationSessionManager,
+                                ExImportService exportService) {
         this._viewConfigurations = viewConfigurations;
         this._translationSessionManager = translationSessionManager;
         this._exportService = exportService;
@@ -135,10 +137,23 @@ internal class ExportControlContext : BindableBase, INavigationAware {
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18N.StringExporting;
             })
-            .ContinueWith((t) => this._exportService.Export(this.SelectedExportFormat, this.ExportLocalizationFile, this.SelectedPath))
             .ContinueWith((t) => {
-                this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18N.StringExported;
+                try {
+                    this._exportService.Export(this.SelectedExportFormat, this.ExportLocalizationFile, this.SelectedPath);
+                } catch {
+                    return I18N.MessageExportFailed;
+                }
+                return null;
+            })
+            .ContinueWith((t) => {
+                if (t.GetAwaiter().GetResult() is string error) {
+                    this.InfoMessageColor = Brushes.DarkRed;
+                    this.InfoMessage = error;
+                } else {
+                    this.InfoMessageColor = Brushes.DarkGreen;
+                    this.InfoMessage = I18N.StringExported;
+                }
+
                 this.IsEnabled = true;
                 this.IsExportButtonEnabled = true;
             });

@@ -11,8 +11,11 @@ namespace TranslateCS2.ViewModels.Works;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
     private readonly List<LocalizationDictionaryEntry> _entries = [];
-    public EditOccurancesViewModel(ViewConfigurations viewConfigurations, TranslationSessionManager translationSessionManager) : base(viewConfigurations, translationSessionManager) {
+    public EditOccurancesViewModel(ViewConfigurations viewConfigurations,
+                                   TranslationSessionManager translationSessionManager) : base(viewConfigurations,
+                                                                                               translationSessionManager) {
         this.AddToolsGroup();
+        this.AddCountGroup();
         this.TextSearchContext = new TextSearchControlContext(this.RefreshViewList, false);
     }
 
@@ -29,6 +32,9 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
         this.SetNewValue(textBox, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
+        if (this.SessionManager.HasDatabaseError) {
+            // see xaml-code
+        }
         this.RefreshViewList();
     }
 
@@ -75,6 +81,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             }
             this.Mapping.Add(entry);
         }
+        base.RefreshViewList();
     }
     private void SetNewValue(TextBox textBox, LocalizationDictionaryEntry edited) {
         foreach (LocalizationDictionaryEntry entry in this._entries) {
