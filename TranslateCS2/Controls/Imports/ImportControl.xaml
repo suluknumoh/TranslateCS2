@@ -39,7 +39,7 @@
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
-            Orientation="Horizontal"
+            Orientation="Vertical"
             HorizontalAlignment="Center">
             <Button
                 HorizontalAlignment="Center"
@@ -70,6 +70,8 @@
                 TextAlignment="Left"
                 Margin="10 10 10 10"
                 Padding="5 5 5 5"
+                TextWrapping="WrapWithOverflow"
+                MaxWidth="300"
                 Text="{Binding SelectedPath}">
             </TextBlock>
         </StackPanel>
