@@ -78,18 +78,54 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - pressing enter or return moves to the next row
 - just start typing within the "Translation"-Cloumn
 - if you want to copy paste, press backspace on the respective cell within the "Translation"-Column
+- since Translation-Cells accept return for multi-line-editing, cell editing can be stopped by pressing escape
 - after adding a translation, all entries with the same value receive the translation and its saved to the [SQLite](https://www.sqlite.org/)-Database "Translations.sqlite"
 
-## Export
-- currently there is only one export-format called "direct-overwrite"; it overwrites the localization file you selected while creating the current Translation-Session
+## Ex-Import
+### Export
+#### direct-overwrite
+- it overwrites the localization file you selected while creating the current Translation-Session
 - after a click on the export-button, you're asked if you are sure. if you confirm, the current Translation-Session gets prepared and exported
+
+#### json
+- to share your translations with others
+- select a json-file to export to
+- click export
+
+### Import
+- to import shared translations that are exported with this tool
+- select the json-file to read to review
+- click read selected file
+- the selected json-file is read
+- afterwards a confrontation/juxtaposition/comparison is shown
+- it shows three columns:
+1. Key
+2. Existing Translation
+3. Imported Translation
+- there are three Import-Modes available
+1. NEW
+: removes all existing translations and takes all imported translations
+1. LeftJoin
+: keeps all existing translations and adds missing imported translations
+1. RightJoin
+: takes all imported translations and keeps existing translations that aren't imported
+- default Import-Mode is LeftJoin
+- after reviewing and selecting an appropriate Import-Mode, a click on import-button
+1. a backup of the database gets created
+2. translations are imported into the database
 
 # Recommendations/Suggestions
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
 
 # Changelog
+## Version 0.2
+- ex-/import as/from JSON to share with others
+- Database-BackUps
+1. at every start of the tool
+1. before translations are imported
+
 ## Version 0.1.1
-- Translation-Cell accepts return for multi-line-editing
+- Translation-Cells accept return for multi-line-editing
 - save-performance improved
 - minor other changes
 - Credits updated
@@ -134,7 +170,9 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - [MIT-License](https://www.nuget.org/packages/Prism.Unity/8.1.97/license)
 ---
 ## Brian Lagunas
+- https://brianlagunas.com/
 - https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/
+- https://github.com/brianlagunas/
 - https://github.com/brianlagunas/BindingEnumsInWpf
 ---
 ## SQLite

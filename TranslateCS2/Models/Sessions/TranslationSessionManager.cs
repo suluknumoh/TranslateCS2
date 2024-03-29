@@ -10,6 +10,8 @@ using Prism.Regions;
 using TranslateCS2.Configurations;
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Databases;
+using TranslateCS2.Helpers;
+using TranslateCS2.Models.Imports;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Services;
 using TranslateCS2.ViewModels.Works;
@@ -83,7 +85,7 @@ internal class TranslationSessionManager : BindableBase {
         this.CurrentTranslationSession = translationSession;
         this.RaisePropertyChanged(nameof(this.HasTranslationSessions));
     }
-    private void CurrentTranslationSessionChanged() {
+    public void CurrentTranslationSessionChanged() {
         foreach (TranslationSession translationSession in this.TranslationSessions) {
             translationSession.LocalizationDictionary.Clear();
         }
@@ -153,5 +155,41 @@ internal class TranslationSessionManager : BindableBase {
         this.RaisePropertyChanged(nameof(this.HasNoDatabaseError));
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<StartViewModel>();
         this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
+    }
+
+    internal void HandleImported(IList<CompareExistingImportedTranslations> preview, ImportModes importMode) {
+        foreach (LocalizationDictionaryEntry currentEntry in this.CurrentTranslationSession.LocalizationDictionary) {
+            foreach (CompareExistingImportedTranslations importedItem in preview) {
+                if (importedItem.Key == currentEntry.Key) {
+                    switch (importMode) {
+                        case ImportModes.NEW:
+                            // set all imported
+                            currentEntry.Translation = importedItem.TranslationImported;
+                            break;
+                        case ImportModes.LeftJoin:
+                            // set missing imported; all existing + imported that are missing
+                            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(importedItem.TranslationExisting)) {
+                                // only set if no translation existed
+                                currentEntry.Translation = importedItem.TranslationImported;
+                            } else {
+                                // just for clarififaction
+                                // keep current!
+                            }
+                            break;
+                        case ImportModes.RightJoin:
+                            // set all imported; all imported + existing that werent imported
+                            if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(importedItem.TranslationImported)) {
+                                // only set, if a translation is imported
+                                currentEntry.Translation = importedItem.TranslationImported;
+                            } else {
+                                // just for clarififaction
+                                // keep current!
+                            }
+                            break;
+                    }
+                    continue;
+                }
+            }
+        }
     }
 }

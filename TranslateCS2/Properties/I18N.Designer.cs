@@ -81,6 +81,15 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die backup database ähnelt.
+        /// </summary>
+        public static string MessageBackUpDatabase {
+            get {
+                return ResourceManager.GetString("MessageBackUpDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Should only consist of characters, lower or uppercase, from a - z! ähnelt.
         /// </summary>
         public static string MessageConsistOfCharacters {
@@ -108,11 +117,20 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die import failed ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die import translations into database ähnelt.
         /// </summary>
-        public static string MessageImportFailed {
+        public static string MessageImport {
             get {
-                return ResourceManager.GetString("MessageImportFailed", resourceCulture);
+                return ResourceManager.GetString("MessageImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die translations successfully imported into database ähnelt.
+        /// </summary>
+        public static string MessageImportSuccess {
+            get {
+                return ResourceManager.GetString("MessageImportSuccess", resourceCulture);
             }
         }
         
@@ -149,6 +167,33 @@ namespace TranslateCS2.Properties {
         public static string MessagePreparingTranslationExport {
             get {
                 return ResourceManager.GetString("MessagePreparingTranslationExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die read translations to review and to select an import-mode ähnelt.
+        /// </summary>
+        public static string MessageReadTranslation {
+            get {
+                return ResourceManager.GetString("MessageReadTranslation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die selected file cannot be read ähnelt.
+        /// </summary>
+        public static string MessageReadTranslationFailed {
+            get {
+                return ResourceManager.GetString("MessageReadTranslationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die translations read to review and to select an import-mode ähnelt.
+        /// </summary>
+        public static string MessageReadTranslationSuccess {
+            get {
+                return ResourceManager.GetString("MessageReadTranslationSuccess", resourceCulture);
             }
         }
         
@@ -436,15 +481,6 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die imported ähnelt.
-        /// </summary>
-        public static string StringImported {
-            get {
-                return ResourceManager.GetString("StringImported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die in ähnelt.
         /// </summary>
         public static string StringIn {
@@ -495,6 +531,26 @@ namespace TranslateCS2.Properties {
         public static string StringNew {
             get {
                 return ResourceManager.GetString("StringNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die read
+        ///selected
+        ///file ähnelt.
+        /// </summary>
+        public static string StringRead {
+            get {
+                return ResourceManager.GetString("StringRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die save ähnelt.
+        /// </summary>
+        public static string StringSave {
+            get {
+                return ResourceManager.GetString("StringSave", resourceCulture);
             }
         }
         

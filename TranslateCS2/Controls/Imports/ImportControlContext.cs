@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -26,6 +29,13 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     public bool IsEnabled {
         get => this._IsEnabled;
         set => this.SetProperty(ref this._IsEnabled, value);
+    }
+
+
+    private bool _IsReadButtonEnabled;
+    public bool IsReadButtonEnabled {
+        get => this._IsReadButtonEnabled;
+        set => this.SetProperty(ref this._IsReadButtonEnabled, value);
     }
 
 
@@ -64,7 +74,12 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
 
+    public ObservableCollection<CompareExistingImportedTranslations> Preview { get; } = [];
+    public bool IsPreviewAvailable => this.Preview.Any();
+
+
     public DelegateCommand SelectPathCommand { get; }
+    public DelegateCommand ReadCommand { get; }
     public DelegateCommand ImportCommand { get; }
 
 
@@ -75,10 +90,12 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         this._translationSessionManager = translationSessionManager;
         this._exportService = exportService;
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
+        this.ReadCommand = new DelegateCommand(this.ReadCommandAction);
         this.ImportCommand = new DelegateCommand(this.ImportCommandAction);
-        this._ImportMode = ImportModes.New;
+        this._ImportMode = ImportModes.LeftJoin;
         this._IsEnabled = true;
-        this._IsImportButtonEnabled = true;
+        this._IsReadButtonEnabled = false;
+        this._IsImportButtonEnabled = false;
     }
 
     private void SelectPathCommandAction() {
@@ -90,9 +107,42 @@ internal class ImportControlContext : BindableBase, INavigationAware {
 
 
     private void OnChange() {
-        this.IsImportButtonEnabled = !String.IsNullOrEmpty(this.SelectedPath) && !String.IsNullOrWhiteSpace(this.SelectedPath);
+        this.IsReadButtonEnabled = !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.SelectedPath);
     }
 
+
+    private void ReadCommandAction() {
+        Task.Factory.StartNew(() => {
+            this.IsEnabled = false;
+            this.IsReadButtonEnabled = false;
+            Application.Current.Dispatcher.Invoke(this.Preview.Clear);
+            this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+            this.InfoMessageColor = Brushes.Black;
+            this.InfoMessage = I18N.MessageReadTranslation;
+        })
+        .ContinueWith((t) => {
+            try {
+                return this._exportService.Import(this._translationSessionManager.CurrentTranslationSession,
+                                                  this.SelectedPath);
+            } catch (Exception ex) {
+                return null;
+            }
+        })
+        .ContinueWith((t) => {
+            if (t.GetAwaiter().GetResult() is List<CompareExistingImportedTranslations> preview) {
+                this.InfoMessageColor = Brushes.DarkGreen;
+                this.InfoMessage = I18N.MessageReadTranslationSuccess;
+                Application.Current.Dispatcher.Invoke(() => this.Preview.AddRange(preview));
+                this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+                this.IsImportButtonEnabled = true;
+            } else {
+                this.InfoMessageColor = Brushes.DarkRed;
+                this.InfoMessage = I18N.MessageReadTranslationFailed;
+            }
+            this.IsEnabled = true;
+            this.IsReadButtonEnabled = true;
+        });
+    }
 
     private void ImportCommandAction() {
         MessageBoxResult result = MessageBox.Show(I18N.QuestionAreYouSure,
@@ -104,32 +154,29 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         if (result == MessageBoxResult.Yes) {
             Task.Factory.StartNew(() => {
                 this.InfoMessageColor = Brushes.Black;
-                this.InfoMessage = I18N.MessagePreparingTranslationExport;
+                this.InfoMessage = I18N.MessageBackUpDatabase;
                 this.IsEnabled = false;
+                this.IsReadButtonEnabled = false;
                 this.IsImportButtonEnabled = false;
+                DatabaseHelper.BackUpIfExists(Databases.DatabaseBackUpIndicators.BEFORE_IMPORT);
             })
-            .ContinueWith((t) => {
-                try {
-                    this._exportService.Import(this._translationSessionManager.CurrentTranslationSession,
-                                               this.ImportMode,
-                                               this.SelectedPath);
-                    this._translationSessionManager.SaveCurrentTranslationSessionsTranslations();
-                    return null;
-                } catch (Exception ex) {
-                    return String.Empty;
-                }
+            .ContinueWith(t => this._translationSessionManager.HandleImported(this.Preview, this.ImportMode))
+            .ContinueWith(t => {
+                this.InfoMessageColor = Brushes.Black;
+                this.InfoMessage = I18N.MessageImport;
+                this._translationSessionManager.SaveCurrentTranslationSessionsTranslations();
+                this._translationSessionManager.CurrentTranslationSessionChanged();
             })
-            .ContinueWith((t) => {
-                if (t.GetAwaiter().GetResult() is string error) {
-                    this.InfoMessageColor = Brushes.DarkRed;
-                    this.InfoMessage = I18N.MessageImportFailed;
-                } else {
-                    this.InfoMessageColor = Brushes.DarkGreen;
-                    this.InfoMessage = I18N.StringImported;
-                }
+            .ContinueWith(t => {
+                this.InfoMessageColor = Brushes.DarkGreen;
+                this.InfoMessage = I18N.MessageImportSuccess;
+                Application.Current.Dispatcher.Invoke(this.Preview.Clear);
+                this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
                 this.IsEnabled = true;
+                this.IsReadButtonEnabled = true;
                 this.IsImportButtonEnabled = true;
-            });
+            })
+            ;
         }
     }
 
@@ -138,10 +185,14 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
     public void OnNavigatedFrom(NavigationContext navigationContext) {
-        //
+        this.Preview.Clear();
+        this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+        this.InfoMessage = null;
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
-        //
+        this.Preview.Clear();
+        this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+        this.InfoMessage = null;
     }
 }

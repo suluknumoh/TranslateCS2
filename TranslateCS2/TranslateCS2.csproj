@@ -43,10 +43,13 @@
     <None Remove="Assets\Icons\home.png" />
     <None Remove="Assets\Icons\person_circle.png" />
     <None Remove="Assets\Icons\save.png" />
+    <None Remove="Assets\Icons\scan_text.png" />
     <None Remove="Assets\Icons\search.png" />
     <None Remove="Assets\Icons\search_square.png" />
     <None Remove="Assets\Icons\settings.png" />
     <None Remove="Assets\Icons\settings_applications.png" />
+    <None Remove="Assets\Icons\textbox_more.png" />
+    <None Remove="Assets\Icons\text_proofing_tools.png" />
     <None Remove="Assets\Icons\translate.png" />
     <None Remove="Assets\README.md" />
     <None Remove="Assets\splashscreen.png" />
@@ -83,10 +86,13 @@
     <Resource Include="Assets\Icons\folder_open_vertical.png" />
     <Resource Include="Assets\Icons\home.png" />
     <Resource Include="Assets\Icons\save.png" />
+    <Resource Include="Assets\Icons\scan_text.png" />
     <Resource Include="Assets\Icons\search.png" />
     <Resource Include="Assets\Icons\search_square.png" />
     <Resource Include="Assets\Icons\settings.png" />
     <Resource Include="Assets\Icons\settings_applications.png" />
+    <Resource Include="Assets\Icons\textbox_more.png" />
+    <Resource Include="Assets\Icons\text_proofing_tools.png" />
     <Resource Include="Assets\Icons\translate.png" />
   </ItemGroup>
 
@@ -130,7 +136,6 @@
 
   <ItemGroup>
     <Folder Include="Assets\SplashScreen\" />
-    <Folder Include="BindingEnums\" />
   </ItemGroup>
 
   <ItemGroup>

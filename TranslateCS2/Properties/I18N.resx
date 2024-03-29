@@ -125,6 +125,9 @@
 Please take a look at "Limitations".
 If something went wrong with the database, try to restart this app.</value>
   </data>
+  <data name="MessageBackUpDatabase" xml:space="preserve">
+    <value>backup database</value>
+  </data>
   <data name="MessageConsistOfCharacters" xml:space="preserve">
     <value>Should only consist of characters, lower or uppercase, from a - z!</value>
   </data>
@@ -134,8 +137,11 @@ If something went wrong with the database, try to restart this app.</value>
   <data name="MessageExportFailed" xml:space="preserve">
     <value>export failed</value>
   </data>
-  <data name="MessageImportFailed" xml:space="preserve">
-    <value>import failed</value>
+  <data name="MessageImport" xml:space="preserve">
+    <value>import translations into database</value>
+  </data>
+  <data name="MessageImportSuccess" xml:space="preserve">
+    <value>translations successfully imported into database</value>
   </data>
   <data name="MessageLocalizationFileOverwriteDifferentMerge" xml:space="preserve">
     <value>Localization file to overwrite must be a different ones than the ones you want to merge with!</value>
@@ -148,6 +154,15 @@ If something went wrong with the database, try to restart this app.</value>
   </data>
   <data name="MessagePreparingTranslationExport" xml:space="preserve">
     <value>preparing translation for export</value>
+  </data>
+  <data name="MessageReadTranslation" xml:space="preserve">
+    <value>read translations to review and to select an import-mode</value>
+  </data>
+  <data name="MessageReadTranslationFailed" xml:space="preserve">
+    <value>selected file cannot be read</value>
+  </data>
+  <data name="MessageReadTranslationSuccess" xml:space="preserve">
+    <value>translations read to review and to select an import-mode</value>
   </data>
   <data name="MessageSelectLocalizationFileOverwrite" xml:space="preserve">
     <value>Select a localization file to overwrite!</value>
@@ -246,9 +261,6 @@ session</value>
   <data name="StringImportDialogTitle" xml:space="preserve">
     <value>import translations from JSON</value>
   </data>
-  <data name="StringImported" xml:space="preserve">
-    <value>imported</value>
-  </data>
   <data name="StringIn" xml:space="preserve">
     <value>in</value>
   </data>
@@ -266,6 +278,14 @@ session</value>
   </data>
   <data name="StringNew" xml:space="preserve">
     <value>new</value>
+  </data>
+  <data name="StringRead" xml:space="preserve">
+    <value>read
+selected
+file</value>
+  </data>
+  <data name="StringSave" xml:space="preserve">
+    <value>save</value>
   </data>
   <data name="StringSearch" xml:space="preserve">
     <value>search</value>

@@ -263,6 +263,16 @@ namespace TranslateCS2.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap scan_text {
+            get {
+                object obj = ResourceManager.GetObject("scan_text", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap search {
             get {
                 object obj = ResourceManager.GetObject("search", resourceCulture);
@@ -296,6 +306,26 @@ namespace TranslateCS2.Properties {
         internal static System.Drawing.Bitmap settings_applications {
             get {
                 object obj = ResourceManager.GetObject("settings_applications", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_proofing_tools {
+            get {
+                object obj = ResourceManager.GetObject("text_proofing_tools", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap textbox_more {
+            get {
+                object obj = ResourceManager.GetObject("textbox_more", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

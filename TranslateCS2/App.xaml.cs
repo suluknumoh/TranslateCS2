@@ -18,6 +18,7 @@ using TranslateCS2.Controls.Exports;
 using TranslateCS2.Controls.Imports;
 using TranslateCS2.Controls.Ribbons;
 using TranslateCS2.Controls.Sessions;
+using TranslateCS2.Databases;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties;
@@ -81,6 +82,8 @@ public partial class App : PrismApplication {
     /// </summary>
     /// <param name="e"></param>
     protected override void OnStartup(StartupEventArgs e) {
+        // backup first; no need to backup newly created database
+        DatabaseHelper.BackUpIfExists(DatabaseBackUpIndicators.APP_STARTED);
         DatabaseHelper.CreateIfNotExists();
         if (e.Args is not null && e.Args.Length > 0) {
             string arg = e.Args[0];
