@@ -105,11 +105,16 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - there are three Import-Modes available
 1. NEW
 : removes all existing translations and takes all imported translations
-1. LeftJoin
+2. LeftJoin
 : keeps all existing translations and adds missing imported translations
-1. RightJoin
+3. RightJoin
 : takes all imported translations and keeps existing translations that aren't imported
 - default Import-Mode is LeftJoin
+- the colums Existing Translation and Imported Translation are highlighted with colors based on the selected Import-Mode
+1. light green
+: indicates the translations that are kept
+2. light salmon
+: indicates the translations that are removed/replaced
 - after reviewing and selecting an appropriate Import-Mode, a click on import-button
 1. a backup of the database gets created
 2. translations are imported into the database
@@ -122,7 +127,8 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - ex-/import as/from JSON to share with others
 - Database-BackUps
 1. at every start of the tool
-1. before translations are imported
+2. before translations are imported
+- next to the working database "Translations.sqlite", a maximum of twenty backups is created and held
 
 ## Version 0.1.1
 - Translation-Cells accept return for multi-line-editing
