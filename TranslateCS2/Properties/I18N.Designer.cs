@@ -373,15 +373,6 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Element Count ähnelt.
-        /// </summary>
-        public static string StringElementCountCap {
-            get {
-                return ResourceManager.GetString("StringElementCountCap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die EnglishValue ähnelt.
         /// </summary>
         public static string StringEnglishValueCap {
@@ -396,6 +387,15 @@ namespace TranslateCS2.Properties {
         public static string StringExImportCap {
             get {
                 return ResourceManager.GetString("StringExImportCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Existing Translation ähnelt.
+        /// </summary>
+        public static string StringExistingTranslationCap {
+            get {
+                return ResourceManager.GetString("StringExistingTranslationCap", resourceCulture);
             }
         }
         
@@ -481,6 +481,15 @@ namespace TranslateCS2.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Imported Translation ähnelt.
+        /// </summary>
+        public static string StringImportedTranslationCap {
+            get {
+                return ResourceManager.GetString("StringImportedTranslationCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die in ähnelt.
         /// </summary>
         public static string StringIn {
@@ -542,6 +551,15 @@ namespace TranslateCS2.Properties {
         public static string StringRead {
             get {
                 return ResourceManager.GetString("StringRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Row(s) shown ähnelt.
+        /// </summary>
+        public static string StringRowsShownCap {
+            get {
+                return ResourceManager.GetString("StringRowsShownCap", resourceCulture);
             }
         }
         

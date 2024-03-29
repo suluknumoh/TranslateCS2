@@ -200,7 +200,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="Existing Transalation"
+                    Header="{Binding Source={x:Static app_properties:I18N.StringExistingTranslationCap}, Mode=OneWay}"
                     Binding="{Binding TranslationExisting, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"
@@ -292,7 +292,7 @@
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="Imported Transalation"
+                    Header="{Binding Source={x:Static app_properties:I18N.StringImportedTranslationCap}, Mode=OneWay}"
                     Binding="{Binding TranslationImported, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"

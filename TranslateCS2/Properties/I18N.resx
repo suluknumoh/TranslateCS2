@@ -225,14 +225,14 @@ session</value>
 selected
 session</value>
   </data>
-  <data name="StringElementCountCap" xml:space="preserve">
-    <value>Element Count</value>
-  </data>
   <data name="StringEnglishValueCap" xml:space="preserve">
     <value>EnglishValue</value>
   </data>
   <data name="StringExImportCap" xml:space="preserve">
     <value>Ex-/Import</value>
+  </data>
+  <data name="StringExistingTranslationCap" xml:space="preserve">
+    <value>Existing Translation</value>
   </data>
   <data name="StringExport" xml:space="preserve">
     <value>export</value>
@@ -261,6 +261,9 @@ session</value>
   <data name="StringImportDialogTitle" xml:space="preserve">
     <value>import translations from JSON</value>
   </data>
+  <data name="StringImportedTranslationCap" xml:space="preserve">
+    <value>Imported Translation</value>
+  </data>
   <data name="StringIn" xml:space="preserve">
     <value>in</value>
   </data>
@@ -283,6 +286,9 @@ session</value>
     <value>read
 selected
 file</value>
+  </data>
+  <data name="StringRowsShownCap" xml:space="preserve">
+    <value>Row(s) shown</value>
   </data>
   <data name="StringSave" xml:space="preserve">
     <value>save</value>

@@ -95,7 +95,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
         if (viewConfiguration != null) {
             RibbonGroup ribbonGroup = new RibbonGroup {
-                Header = I18N.StringElementCountCap,
+                Header = I18N.StringRowsShownCap,
                 IsEnabled = false,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,

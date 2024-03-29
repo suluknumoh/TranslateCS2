@@ -125,10 +125,10 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 # Changelog
 ## Version 0.2
 - ex-/import as/from JSON to share with others
-- Database-BackUps
+- Database-BackUps (next to the working database "Translations.sqlite", a maximum of twenty backups is created and held)
 1. at every start of the tool
 2. before translations are imported
-- next to the working database "Translations.sqlite", a maximum of twenty backups is created and held
+- Edit- and Edit by Occurances Views display the number of rows shown
 
 ## Version 0.1.1
 - Translation-Cells accept return for multi-line-editing
