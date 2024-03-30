@@ -3,13 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TranslateCS2.Controls.Exports"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
-    xmlns:exportmodels="clr-namespace:TranslateCS2.Models.Exports"
-    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid
         HorizontalAlignment="Stretch"
@@ -30,7 +27,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Style="{StaticResource StyleHeading}"
-            Text="{Binding Source={x:Static app_properties:I18N.StringExport}, Mode=OneWay}">
+            Text="{Binding Source={x:Static i18n:I18NExport.Caption}, Mode=OneWay}">
         </TextBlock>
         <StackPanel
             Grid.Row="1"
@@ -93,13 +90,13 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         TextAlignment="Center"
-                        Text="{Binding Source={x:Static app_properties:I18N.StringSelectFile}, Mode=OneWay}"/>
+                        Text="{Binding Source={x:Static i18n:I18NExport.DoSelectFile}, Mode=OneWay}"/>
                 </StackPanel>
             </Button>
             <TextBlock
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                TextAlignment="Left"
+                TextAlignment="Center"
                 Margin="10 10 10 10"
                 Padding="5 5 5 5"
                 TextWrapping="WrapWithOverflow"
@@ -129,7 +126,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     TextAlignment="Center"
-                    Text="{Binding Source={x:Static app_properties:I18N.StringExport}, Mode=OneWay}"/>
+                    Text="{Binding Source={x:Static i18n:I18NExport.DoExport}, Mode=OneWay}"/>
             </StackPanel>
         </Button>
         <TextBlock

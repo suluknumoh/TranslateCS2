@@ -11,7 +11,7 @@ using Prism.Regions;
 
 using TranslateCS2.Configurations;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.Controls.Sessions;
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
@@ -119,10 +119,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         this._newSessionBindingGroup.CancelEdit();
         if (this._isEdit) {
             this.NewSession = this.SessionManager.CurrentTranslationSession;
-            this.ActionString = I18N.StringEditSelectedSession.Replace("\r\n", " ");
+            this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
         } else {
             this.NewSession = new TranslationSession();
-            this.ActionString = I18N.StringCreateNewSession.Replace("\r\n", " ");
+            this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
         }
         this._newSessionBindingGroup.BeginEdit();
     }

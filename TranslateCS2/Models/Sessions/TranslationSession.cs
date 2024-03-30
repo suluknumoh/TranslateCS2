@@ -8,8 +8,9 @@ using System.Text.RegularExpressions;
 using Prism.Mvvm;
 
 using TranslateCS2.Configurations;
+using TranslateCS2.Helpers;
 using TranslateCS2.Models.LocDictionary;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.Models.Sessions;
 // https://learn.microsoft.com/en-us/archive/msdn-magazine/2010/june/msdn-magazine-input-validation-enforcing-complex-business-data-rules-with-wpf
@@ -64,7 +65,7 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
         get => this._OverwriteLocalizationNameLocalized;
         set {
             if (value != null) {
-                this.SetProperty(ref this._OverwriteLocalizationNameLocalized, value.Replace(" ", ""));
+                this.SetProperty(ref this._OverwriteLocalizationNameLocalized, value.Replace(" ", String.Empty));
             } else {
                 this.SetProperty(ref this._OverwriteLocalizationNameLocalized, value);
             }
@@ -99,30 +100,30 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
             switch (columnName) {
                 case nameof(this.Name):
                     if (String.IsNullOrEmpty(this.Name) || String.IsNullOrWhiteSpace(this.Name)) {
-                        return I18N.MessageNotEmptyOrWhitespace;
+                        return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
                     break;
                 case nameof(this.OverwriteLocalizationNameEN):
                     if (String.IsNullOrEmpty(this.OverwriteLocalizationNameEN) || String.IsNullOrWhiteSpace(this.OverwriteLocalizationNameEN)) {
-                        return I18N.MessageNotEmptyOrWhitespace;
+                        return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
                     Regex regex = new Regex("^[a-zA-Z]+$");
                     if (!regex.IsMatch(this.OverwriteLocalizationNameEN)) {
-                        return I18N.MessageConsistOfCharacters;
+                        return I18NSessions.InputWarningConsistOfCharacters;
                     }
                     break;
                 case nameof(this.OverwriteLocalizationNameLocalized):
                     if (String.IsNullOrEmpty(this.OverwriteLocalizationNameLocalized) || String.IsNullOrWhiteSpace(this.OverwriteLocalizationNameLocalized)) {
-                        return I18N.MessageNotEmptyOrWhitespace;
+                        return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
                     break;
                 case nameof(this.OverwriteLocalizationFileName):
-                    if (String.IsNullOrEmpty(this.OverwriteLocalizationFileName) || String.IsNullOrWhiteSpace(this.OverwriteLocalizationFileName)) {
-                        return I18N.MessageSelectLocalizationFileOverwrite;
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.OverwriteLocalizationFileName)) {
+                        return I18NSessions.InputOverwriteFileWarningEmpty;
                     } else if (this.OverwriteLocalizationFileName == this.MergeLocalizationFileName) {
-                        return I18N.MessageLocalizationFileOverwriteDifferentMerge;
+                        return I18NSessions.InputOverwriteFileWarningDifferentMergeFile;
                     } else if (this.OverwriteLocalizationFileName == AppConfigurationManager.LeadingLocFileName) {
-                        return $"{I18N.MessageLocalizationFileOverwriteOthersThan} '{AppConfigurationManager.LeadingLocFileName}'!";
+                        return $"{I18NSessions.InputOverwriteFileWarningOthersThan} '{AppConfigurationManager.LeadingLocFileName}'!";
                     }
                     break;
             }

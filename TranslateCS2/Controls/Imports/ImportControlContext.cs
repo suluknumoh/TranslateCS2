@@ -14,7 +14,7 @@ using TranslateCS2.Configurations.Views;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Imports;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 using TranslateCS2.Services;
 
 namespace TranslateCS2.Controls.Imports;
@@ -23,6 +23,9 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
     private readonly TranslationSessionManager _translationSessionManager;
     private readonly ExImportService _exportService;
+    private readonly string _dialogtitle = I18NImport.DialogTitle;
+    private readonly string _dialogWarningCaption = I18NImport.DialogWarningCaption;
+    private readonly string _dialogWarningText = I18NImport.DialogWarningText;
 
 
     private bool _IsEnabled;
@@ -99,7 +102,10 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
     private void SelectPathCommandAction() {
-        string? selected = ImExportDialogHelper.ShowOpenFileDialog(this.SelectedPath);
+        string? selected = ImExportDialogHelper.ShowOpenFileDialog(this.SelectedPath,
+                                                                   this._dialogtitle,
+                                                                   this._dialogWarningCaption,
+                                                                   this._dialogWarningText);
         if (selected != null) {
             this.SelectedPath = selected;
         }
@@ -118,7 +124,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             Application.Current.Dispatcher.Invoke(this.Preview.Clear);
             this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
             this.InfoMessageColor = Brushes.Black;
-            this.InfoMessage = I18N.MessageReadTranslation;
+            this.InfoMessage = I18NImport.MessageRead;
         })
         .ContinueWith((t) => {
             try {
@@ -131,13 +137,13 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         .ContinueWith((t) => {
             if (t.GetAwaiter().GetResult() is List<CompareExistingImportedTranslations> preview) {
                 this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18N.MessageReadTranslationSuccess;
+                this.InfoMessage = I18NImport.MessageReadSuccess;
                 Application.Current.Dispatcher.Invoke(() => this.Preview.AddRange(preview));
                 this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
                 this.IsImportButtonEnabled = true;
             } else {
                 this.InfoMessageColor = Brushes.DarkRed;
-                this.InfoMessage = I18N.MessageReadTranslationFailed;
+                this.InfoMessage = I18NImport.MessageReadFail;
             }
             this.IsEnabled = true;
             this.IsReadButtonEnabled = true;
@@ -145,8 +151,8 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
     private void ImportCommandAction() {
-        MessageBoxResult result = MessageBox.Show(I18N.QuestionAreYouSure,
-                                                  I18N.StringExportTranslation,
+        MessageBoxResult result = MessageBox.Show(I18NImport.DialogText,
+                                                  I18NImport.DialogTitle,
                                                   MessageBoxButton.YesNo,
                                                   MessageBoxImage.Question,
                                                   MessageBoxResult.No,
@@ -154,7 +160,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         if (result == MessageBoxResult.Yes) {
             Task.Factory.StartNew(() => {
                 this.InfoMessageColor = Brushes.Black;
-                this.InfoMessage = I18N.MessageBackUpDatabase;
+                this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
                 this.IsEnabled = false;
                 this.IsReadButtonEnabled = false;
                 this.IsImportButtonEnabled = false;
@@ -163,13 +169,13 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             .ContinueWith(t => this._translationSessionManager.HandleImported(this.Preview, this.ImportMode))
             .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.Black;
-                this.InfoMessage = I18N.MessageImport;
+                this.InfoMessage = I18NImport.MessageImport;
                 this._translationSessionManager.SaveCurrentTranslationSessionsTranslations();
                 this._translationSessionManager.CurrentTranslationSessionChanged();
             })
             .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18N.MessageImportSuccess;
+                this.InfoMessage = I18NImport.MessageImportSuccess;
                 Application.Current.Dispatcher.Invoke(this.Preview.Clear);
                 this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
                 this.IsEnabled = true;

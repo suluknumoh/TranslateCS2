@@ -13,7 +13,7 @@ using TranslateCS2.Helpers;
 using TranslateCS2.Models;
 using TranslateCS2.Models.Exports;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 using TranslateCS2.Services;
 
 namespace TranslateCS2.Controls.Exports;
@@ -22,6 +22,9 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
     private readonly TranslationSessionManager _translationSessionManager;
     private readonly ExImportService _exportService;
+    private readonly string _dialogtitle = I18NExport.DialogTitle;
+    private readonly string _dialogWarningCaption = I18NExport.DialogWarningCaption;
+    private readonly string _dialogWarningText = I18NExport.DialogWarningText;
 
 
     private bool _IsEnabled;
@@ -96,7 +99,10 @@ internal class ExportControlContext : BindableBase, INavigationAware {
 
 
     private void SelectPathCommandAction() {
-        string? selected = ImExportDialogHelper.ShowSaveFileDialog(this.SelectedPath);
+        string? selected = ImExportDialogHelper.ShowSaveFileDialog(this.SelectedPath,
+                                                                   this._dialogtitle,
+                                                                   this._dialogWarningCaption,
+                                                                   this._dialogWarningText);
         if (selected != null) {
             this.SelectedPath = selected;
         }
@@ -116,8 +122,8 @@ internal class ExportControlContext : BindableBase, INavigationAware {
 
 
     private void ExportCommandAction() {
-        MessageBoxResult result = MessageBox.Show(I18N.QuestionAreYouSure,
-                                                  I18N.StringExportTranslation,
+        MessageBoxResult result = MessageBox.Show(I18NExport.DialogText,
+                                                  I18NExport.DialogTitle,
                                                   MessageBoxButton.YesNo,
                                                   MessageBoxImage.Question,
                                                   MessageBoxResult.No,
@@ -125,23 +131,23 @@ internal class ExportControlContext : BindableBase, INavigationAware {
         if (result == MessageBoxResult.Yes) {
             Task.Factory.StartNew(() => {
                 this.InfoMessageColor = Brushes.Black;
-                this.InfoMessage = I18N.MessagePreparingTranslationExport;
+                this.InfoMessage = I18NExport.MessagePrepareDo;
                 this.IsEnabled = false;
                 this.IsExportButtonEnabled = false;
             })
             .ContinueWith((t) => this.ExportLocalizationFile = this._translationSessionManager.GetForExport())
             .ContinueWith((t) => {
                 this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18N.MessageTranslationReadyExport;
+                this.InfoMessage = I18NExport.MessagePrepareSuccess;
             }).ContinueWith((t) => {
                 this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18N.StringExporting;
+                this.InfoMessage = I18NExport.MessageDo;
             })
             .ContinueWith((t) => {
                 try {
                     this._exportService.Export(this.SelectedExportFormat, this.ExportLocalizationFile, this.SelectedPath);
                 } catch {
-                    return I18N.MessageExportFailed;
+                    return I18NExport.MessageFail;
                 }
                 return null;
             })
@@ -151,7 +157,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
                     this.InfoMessage = error;
                 } else {
                     this.InfoMessageColor = Brushes.DarkGreen;
-                    this.InfoMessage = I18N.StringExported;
+                    this.InfoMessage = I18NExport.MessageSuccess;
                 }
 
                 this.IsEnabled = true;

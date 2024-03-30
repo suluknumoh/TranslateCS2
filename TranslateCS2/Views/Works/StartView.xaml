@@ -2,13 +2,10 @@
     x:Class="TranslateCS2.Views.Works.StartView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TranslateCS2.Views.Works"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
-    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
-    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     prism:ViewModelLocator.AutoWireViewModel="True">
@@ -31,7 +28,7 @@
             VerticalAlignment="Center"
             TextAlignment="Center"
             TextWrapping="Wrap"
-            Text="{Binding Source={x:Static app_properties:I18N.MessageAppUnusableWarning}, Mode=OneWay}">
+            Text="{Binding Source={x:Static i18n:I18NGlobal.MessageAppUnusable}, Mode=OneWay}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter

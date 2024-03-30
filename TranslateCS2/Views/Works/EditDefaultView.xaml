@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
-    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
@@ -80,7 +80,7 @@
             </bhv:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringKeyCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"
                     Binding="{Binding Key, Mode=OneWay}"
                     MinWidth="200"
                     Width="200"
@@ -95,7 +95,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringEnglishValueCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"
                     Binding="{Binding Value, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"
@@ -110,7 +110,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringMergeValueCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"
                     Binding="{Binding ValueMerge, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"
@@ -125,7 +125,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringTranslationCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"
                     Binding="{Binding Translation, Mode=TwoWay}"
                     MinWidth="100"
                     Width="400"

@@ -11,7 +11,7 @@ using Prism.Ioc;
 
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.Configurations.Views;
 internal class ViewConfiguration<V, M> : IViewConfiguration {
@@ -72,7 +72,7 @@ internal class ViewConfiguration<V, M> : IViewConfiguration {
             this.Tab.IsEnabled = false;
         }
         RibbonGroup navGroup = new RibbonGroup {
-            Header = I18N.StringNavigationCap
+            Header = I18NRibbon.Navigation
         };
         this.Tab.Items.Add(navGroup);
         navGroup.Items.Add(this.NavToggleButton);

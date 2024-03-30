@@ -111,10 +111,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\I18N.Designer.cs">
+    <Compile Update="Properties\I18N\I18NGlobal.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>I18N.resx</DependentUpon>
+      <DependentUpon>I18NGlobal.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\I18N\I18NSettings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>I18NSettings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\I18N\I18NEdits.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>I18NEdits.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\I18N\I18NExport.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>I18NExport.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\I18N\I18NImport.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>I18NImport.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\I18N\I18NRibbon.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>I18NRibbon.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\I18N\I18NSessions.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>I18NSessions.resx</DependentUpon>
     </Compile>
     <Compile Update="Properties\ImageResources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -124,9 +154,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Properties\I18N.resx">
+    <EmbeddedResource Update="Properties\I18N\I18NGlobal.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18N.Designer.cs</LastGenOutput>
+      <LastGenOutput>I18NGlobal.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\I18N\I18NSettings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18NSettings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\I18N\I18NEdits.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18NEdits.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\I18N\I18NExport.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18NExport.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\I18N\I18NImport.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18NImport.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\I18N\I18NRibbon.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18NRibbon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\I18N\I18NSessions.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18NSessions.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\ImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

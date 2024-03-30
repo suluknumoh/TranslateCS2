@@ -10,7 +10,7 @@ using TranslateCS2.Helpers;
 using TranslateCS2.Models.Filters;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 using TranslateCS2.Services;
 
 namespace TranslateCS2.ViewModels.Works;
@@ -84,7 +84,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
 
     protected override IEnumerable<object> CreateToolsGroupItems() {
         // dont translate displayMemberPath
-        return [RibbonHelper.CreateComboBox(I18N.StringFilterKeys, this.Filters, this.FilterChanged, this._selectedFilter, "Name")];
+        return [RibbonHelper.CreateComboBox(I18NRibbon.FilterKeys, this.Filters, this.FilterChanged, this._selectedFilter, "Name")];
     }
 
 

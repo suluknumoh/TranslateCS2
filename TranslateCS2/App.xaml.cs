@@ -22,6 +22,7 @@ using TranslateCS2.Databases;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 using TranslateCS2.Services;
 using TranslateCS2.ViewModels.Works;
 using TranslateCS2.Views;
@@ -153,23 +154,23 @@ public partial class App : PrismApplication {
         // INFO: ViewConfigurations für Tabs
         ViewConfigurations viewConfigurations = this.Container.Resolve<ViewConfigurations>();
         // startview is always useable!!!
-        ViewConfiguration<StartView, StartViewModel> startView = new ViewConfiguration<StartView, StartViewModel>(I18N.StringStartCap,
+        ViewConfiguration<StartView, StartViewModel> startView = new ViewConfiguration<StartView, StartViewModel>(I18NRibbon.Start,
                                                                                                                   ImageResources.home,
                                                                                                                   true,
                                                                                                                   true);
         startView.NavToggleButton.IsChecked = true;
         viewConfigurations.Add(startView);
-        viewConfigurations.Add(new ViewConfiguration<SessionManagement, SessionManagementViewModel>(I18N.StringSessionsCap, ImageResources.clock_toolbox, true, false, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18N.StringEditCap, ImageResources.translate, false, false, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18N.StringEditByOccurancesCap, ImageResources.translate, false, false, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18N.StringExImportCap, ImageResources.database_multiple, false, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<SessionManagement, SessionManagementViewModel>(I18NRibbon.Sessions, ImageResources.clock_toolbox, true, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18NRibbon.Edit, ImageResources.translate, false, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18NRibbon.EditByOccurances, ImageResources.translate, false, false, translationSessionManager));
+        viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18NRibbon.ExImport, ImageResources.database_multiple, false, false, translationSessionManager));
         if (false) {
             // disabled - under construction
             // settings view is always useable!!!
-            viewConfigurations.Add(new ViewConfiguration<SettingsView, SettingsViewModel>(I18N.StringSettingsCap, ImageResources.settings, true, false, translationSessionManager));
+            viewConfigurations.Add(new ViewConfiguration<SettingsView, SettingsViewModel>(I18NRibbon.Settings, ImageResources.settings, true, false, translationSessionManager));
         }
         // credits view is always useable!!!
-        viewConfigurations.Add(new ViewConfiguration<CreditsView, CreditsViewModel>(I18N.StringCreditsCaps, ImageResources.person_circle, true, true));
+        viewConfigurations.Add(new ViewConfiguration<CreditsView, CreditsViewModel>(I18NRibbon.Credits, ImageResources.person_circle, true, true));
         viewConfigurations.Register(regionManager);
         return startView;
     }

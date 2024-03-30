@@ -4,14 +4,16 @@ using System.Windows;
 using Microsoft.Win32;
 
 using TranslateCS2.Configurations;
-using TranslateCS2.Properties;
 
 namespace TranslateCS2.Helpers;
 
 internal static class ImExportDialogHelper {
-    public static string? ShowSaveFileDialog(string? path) {
+    public static string? ShowSaveFileDialog(string? path,
+                                             string title,
+                                             string dialogWarningCaption,
+                                             string dialogWarningText) {
         SaveFileDialog dialog = new SaveFileDialog {
-            Title = I18N.StringExportDialogTitle,
+            Title = title,
             CheckPathExists = true,
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             FileName = AppConfigurationManager.ImExportDefaultFileName,
@@ -22,11 +24,14 @@ internal static class ImExportDialogHelper {
         if (path is not null) {
             dialog.InitialDirectory = path;
         }
-        return Display(dialog);
+        return Display(dialog, dialogWarningCaption, dialogWarningText);
     }
-    public static string? ShowOpenFileDialog(string? path) {
+    public static string? ShowOpenFileDialog(string? path,
+                                             string title,
+                                             string dialogWarningCaption,
+                                             string dialogWarningText) {
         OpenFileDialog dialog = new OpenFileDialog {
-            Title = I18N.StringImportDialogTitle,
+            Title = title,
             Multiselect = false,
             CheckPathExists = true,
             CheckFileExists = true,
@@ -39,10 +44,10 @@ internal static class ImExportDialogHelper {
         if (path is not null) {
             dialog.InitialDirectory = path;
         }
-        return Display(dialog);
+        return Display(dialog, dialogWarningCaption, dialogWarningText);
     }
 
-    private static string? Display(FileDialog dialog) {
+    private static string? Display(FileDialog dialog, string dialogWarningCaption, string dialogWarningText) {
         bool ok;
         do {
             ok = dialog.ShowDialog() ?? false;
@@ -52,7 +57,12 @@ internal static class ImExportDialogHelper {
             }
             ok = dialog.FileName.EndsWith(AppConfigurationManager.ImExportFileExtension);
             if (!ok) {
-                MessageBox.Show(I18N.ImExportWarningJSON, I18N.StringWarningCap, MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.None, MessageBoxOptions.None);
+                MessageBox.Show(dialogWarningText,
+                                dialogWarningCaption,
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Exclamation,
+                                MessageBoxResult.None,
+                                MessageBoxOptions.None);
             }
         } while (!ok);
         if (ok) {

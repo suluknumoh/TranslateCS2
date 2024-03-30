@@ -15,7 +15,7 @@ using TranslateCS2.Configurations.Views;
 using TranslateCS2.Controls.Edits;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.ViewModels.Works;
 internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
@@ -61,7 +61,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
         if (viewConfiguration != null) {
             RibbonGroup ribbonGroup = new RibbonGroup {
-                Header = I18N.StringToolsCap,
+                Header = I18NRibbon.Tools,
                 IsEnabled = false
             };
             IEnumerable<object> toolsGroupItems = this.CreateToolsGroupItems();
@@ -71,7 +71,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
             {
 
                 RibbonCheckBox ribbonCheckBox = new RibbonCheckBox {
-                    Label = I18N.StringHideTranslated,
+                    Label = I18NRibbon.HideTranslated,
                     Cursor = Cursors.Hand
                 };
                 ribbonCheckBox.SetBinding(RibbonCheckBox.IsCheckedProperty, new Binding(nameof(this.HideTranslated)) { Source = this });
@@ -80,7 +80,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
             {
 
                 RibbonCheckBox ribbonCheckBox = new RibbonCheckBox {
-                    Label = I18N.StringShowOnlyTranslated,
+                    Label = I18NRibbon.ShowOnlyTranslated,
                     Cursor = Cursors.Hand
                 };
                 ribbonCheckBox.SetBinding(RibbonCheckBox.IsCheckedProperty, new Binding(nameof(this.OnlyTranslated)) { Source = this });
@@ -95,7 +95,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
         if (viewConfiguration != null) {
             RibbonGroup ribbonGroup = new RibbonGroup {
-                Header = I18N.StringRowsShownCap,
+                Header = I18NRibbon.RowsShown,
                 IsEnabled = false,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,

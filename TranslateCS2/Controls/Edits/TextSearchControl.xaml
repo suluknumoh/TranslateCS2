@@ -2,12 +2,10 @@
     x:Class="TranslateCS2.Controls.Edits.TextSearchControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TranslateCS2.Controls.Edits"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
-    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     mc:Ignorable="d" >
     <StackPanel
         Margin="10 10 10 10"
@@ -15,7 +13,7 @@
         <TextBlock
             Margin="10 0 10 0"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static app_properties:I18N.StringSearchFor}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static i18n:I18NEdits.StringSearchFor}, Mode=OneWay}"/>
         <TextBox
             Margin="10 0 10 0"
             VerticalAlignment="Center"
@@ -32,7 +30,7 @@
         <TextBlock
             Margin="10 0 10 0"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static app_properties:I18N.StringIn}, Mode=OneWay}"/>
+            Text="{Binding Source={x:Static i18n:I18NEdits.StringIn}, Mode=OneWay}"/>
         <CheckBox
             Margin="10 0 10 0"
             VerticalAlignment="Center"
@@ -55,7 +53,7 @@
                 </Style>
             </CheckBox.Style>
             <TextBlock
-                Text="{Binding Source={x:Static app_properties:I18N.StringKeyCap}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -63,7 +61,7 @@
             Cursor="Hand"
             IsChecked="{Binding IsEnglishValue}">
             <TextBlock
-                Text="{Binding Source={x:Static app_properties:I18N.StringEnglishValueCap}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -71,7 +69,7 @@
             Cursor="Hand"
             IsChecked="{Binding IsMergeValue}">
             <TextBlock
-                Text="{Binding Source={x:Static app_properties:I18N.StringMergeValueCap}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -79,14 +77,14 @@
             Cursor="Hand"
             IsChecked="{Binding IsTranslation}">
             <TextBlock
-                Text="{Binding Source={x:Static app_properties:I18N.StringTranslationCap}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"/>
         </CheckBox>
         <Button
             VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
             Margin="10 0 10 0"
-            ToolTip="{Binding Source={x:Static app_properties:I18N.StringSearch}, Mode=OneWay}"
+            ToolTip="{Binding Source={x:Static i18n:I18NEdits.DoSearch}, Mode=OneWay}"
             Cursor="Hand"
             Command="{Binding SearchCommand}">
             <StackPanel>

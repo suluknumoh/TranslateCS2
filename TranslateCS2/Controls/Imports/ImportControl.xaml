@@ -3,14 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TranslateCS2.Controls.Imports"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
     xmlns:binding_enums="clr-namespace:TranslateCS2.BindingEnums"
     xmlns:import_models="clr-namespace:TranslateCS2.Models.Imports"
-    xmlns:app_properties="clr-namespace:TranslateCS2.Properties"
+    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     prism:ViewModelLocator.AutoWireViewModel="True"
     x:Name="ICC">
     <Grid
@@ -34,7 +32,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="4"
             Style="{StaticResource StyleHeading}"
-            Text="{Binding Source={x:Static app_properties:I18N.StringImport}, Mode=OneWay}">
+            Text="{Binding Source={x:Static i18n:I18NImport.Caption}, Mode=OneWay}">
         </TextBlock>
         <StackPanel
             Grid.Row="1"
@@ -61,13 +59,13 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         TextAlignment="Center"
-                        Text="{Binding Source={x:Static app_properties:I18N.StringSelectFile}, Mode=OneWay}"/>
+                        Text="{Binding Source={x:Static i18n:I18NImport.DoSelectFile}, Mode=OneWay}"/>
                 </StackPanel>
             </Button>
             <TextBlock
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                TextAlignment="Left"
+                TextAlignment="Center"
                 Margin="10 10 10 10"
                 Padding="5 5 5 5"
                 TextWrapping="WrapWithOverflow"
@@ -97,7 +95,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     TextAlignment="Center"
-                    Text="{Binding Source={x:Static app_properties:I18N.StringRead}, Mode=OneWay}"/>
+                    Text="{Binding Source={x:Static i18n:I18NImport.DoRead}, Mode=OneWay}"/>
             </StackPanel>
         </Button>
         <StackPanel
@@ -113,9 +111,25 @@
             <ComboBox
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
                 IsEnabled="{Binding IsPreviewAvailable}"
                 ItemsSource="{Binding Source={binding_enums:EnumBindingSource {x:Type import_models:ImportModes}}}"
-                SelectedItem="{Binding ImportMode}"/>
+                SelectedItem="{Binding ImportMode}"
+                Width="250"
+                Height="110">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Separator/>
+                            <TextBlock
+                                Width="250"
+                                Margin="5 5 5 5"
+                                Text="{Binding .}"/>
+                            <Separator/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
         <Button
             Grid.Row="1"
@@ -139,7 +153,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     TextAlignment="Center"
-                    Text="{Binding Source={x:Static app_properties:I18N.StringImport}, Mode=OneWay}"/>
+                    Text="{Binding Source={x:Static i18n:I18NImport.DoImport}, Mode=OneWay}"/>
             </StackPanel>
         </Button>
         <TextBlock
@@ -187,7 +201,7 @@
             </DataGrid.Style>
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringKeyCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NImport.ColumnKey}, Mode=OneWay}"
                     Binding="{Binding Key, Mode=OneWay}"
                     MinWidth="200"
                     Width="200"
@@ -202,7 +216,7 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringExistingTranslationCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NImport.ColumnExisting}, Mode=OneWay}"
                     Binding="{Binding TranslationExisting, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"
@@ -294,7 +308,7 @@
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Header="{Binding Source={x:Static app_properties:I18N.StringImportedTranslationCap}, Mode=OneWay}"
+                    Header="{Binding Source={x:Static i18n:I18NImport.ColumnImported}, Mode=OneWay}"
                     Binding="{Binding TranslationImported, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"

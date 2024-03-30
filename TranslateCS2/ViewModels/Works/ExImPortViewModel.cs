@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
+using System.Windows.Input;
 
 using Prism.Mvvm;
 using Prism.Regions;
@@ -11,6 +12,7 @@ using TranslateCS2.Controls.Exports;
 using TranslateCS2.Controls.Imports;
 using TranslateCS2.Helpers;
 using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.ViewModels.Works;
 internal class ExImPortViewModel : BindableBase, INavigationAware {
@@ -26,7 +28,7 @@ internal class ExImPortViewModel : BindableBase, INavigationAware {
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
         this._subNavigation = new RibbonGroup() {
-            Header = I18N.StringExImportCap,
+            Header = I18NRibbon.ExImport,
             IsEnabled = false
         };
         this.InitSubNavigation();
@@ -34,18 +36,20 @@ internal class ExImPortViewModel : BindableBase, INavigationAware {
 
     private void InitSubNavigation() {
         this._subNavExport = new RibbonToggleButton {
-            Label = I18N.StringExport,
+            Label = I18NRibbon.Export,
             LargeImageSource = ImageHelper.GetBitmapImage(ImageResources.database_arrow_up),
-            IsChecked = true
+            IsChecked = true,
+            Cursor = Cursors.Hand
         };
         this._subNavExport.Click += this.SubNavExportClickAction;
         this._subNavigation.Items.Add(this._subNavExport);
         //
         //
         this._subNavImport = new RibbonToggleButton {
-            Label = I18N.StringImport,
+            Label = I18NRibbon.Import,
             LargeImageSource = ImageHelper.GetBitmapImage(ImageResources.database_arrow_down),
-            IsChecked = false
+            IsChecked = false,
+            Cursor = Cursors.Hand
         };
         this._subNavImport.Click += this.SubNavImportClickAction;
         this._subNavigation.Items.Add(this._subNavImport);

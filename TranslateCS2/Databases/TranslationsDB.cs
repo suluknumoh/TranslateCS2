@@ -10,7 +10,7 @@ using Microsoft.Data.Sqlite;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 
 
@@ -75,7 +75,7 @@ internal static class TranslationsDB {
                 translationSessionManager.CurrentTranslationSession = translationSessionManager.TranslationSessions.Last();
             }
         } catch {
-            onError?.Invoke(I18N.MessageErrorTranslationsDB);
+            onError?.Invoke(I18NGlobal.MessageDatabaseError);
         }
     }
 
@@ -126,7 +126,7 @@ internal static class TranslationsDB {
                 throw;
             }
         } catch {
-            onError?.Invoke(I18N.MessageErrorTranslationsDB);
+            onError?.Invoke(I18NGlobal.MessageDatabaseError);
         }
     }
 
@@ -171,7 +171,7 @@ internal static class TranslationsDB {
                 throw;
             }
         } catch {
-            onError?.Invoke(I18N.MessageErrorTranslationsDB);
+            onError?.Invoke(I18NGlobal.MessageDatabaseError);
 
         }
     }
@@ -193,7 +193,7 @@ internal static class TranslationsDB {
             }
             EnrichNewWithTranslatedValue(session, valueTranslationMapping, onError);
         } catch {
-            onError?.Invoke(I18N.MessageErrorTranslationsDB);
+            onError?.Invoke(I18NGlobal.MessageDatabaseError);
         }
     }
 
@@ -276,7 +276,7 @@ internal static class TranslationsDB {
                 throw;
             }
         } catch {
-            onError?.Invoke(I18N.MessageErrorTranslationsDB);
+            onError?.Invoke(I18NGlobal.MessageDatabaseError);
         }
     }
 

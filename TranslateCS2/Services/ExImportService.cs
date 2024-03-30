@@ -7,7 +7,7 @@ using TranslateCS2.Models.Exports;
 using TranslateCS2.Models.Imports;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
+using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.Services;
 internal class ExImportService {
@@ -29,14 +29,14 @@ internal class ExImportService {
             ExportFormat exportFormat = new ExportFormat("direct-overwrite",
                                                          ExportFormats.Direct,
                                                          false,
-                                                         I18N.ToolTipExportFormatDirectOverwrite);
+                                                         I18NExport.ToolTipExportFormatDirectOverwrite);
             exportFormats.Add(exportFormat);
         }
         {
             ExportFormat exportFormat = new ExportFormat("json",
                                                          ExportFormats.JSON,
                                                          true,
-                                                         I18N.ToolTipExportFormatJSON);
+                                                         I18NExport.ToolTipExportFormatJSON);
             exportFormats.Add(exportFormat);
         }
         return exportFormats;
