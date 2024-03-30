@@ -53,7 +53,8 @@
                 </Style>
             </CheckBox.Style>
             <TextBlock
-                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"
+                ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -61,7 +62,8 @@
             Cursor="Hand"
             IsChecked="{Binding IsEnglishValue}">
             <TextBlock
-                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"
+                ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglishTip}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -69,7 +71,8 @@
             Cursor="Hand"
             IsChecked="{Binding IsMergeValue}">
             <TextBlock
-                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"
+                ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnMergeTip}, Mode=OneWay}"/>
         </CheckBox>
         <CheckBox
             Margin="10 0 10 0"
@@ -77,7 +80,8 @@
             Cursor="Hand"
             IsChecked="{Binding IsTranslation}">
             <TextBlock
-                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"/>
+                Text="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"
+                ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslationTip}, Mode=OneWay}"/>
         </CheckBox>
         <Button
             VerticalAlignment="Center"

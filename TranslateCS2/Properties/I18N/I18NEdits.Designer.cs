@@ -70,11 +70,31 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the count/amount/quantity of times the english value occurs/appears
+        ///a little more technical: the amount of keys the english value is used for ähnelt.
+        /// </summary>
+        public static string ColumnCountTip {
+            get {
+                return ResourceManager.GetString("ColumnCountTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die English Value ähnelt.
         /// </summary>
         public static string ColumnEnglish {
             get {
                 return ResourceManager.GetString("ColumnEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the value/text that corresponds to the key within the Key-column
+        ///it&apos;s always english, cause english seems to be the &apos;leading&apos; language ähnelt.
+        /// </summary>
+        public static string ColumnEnglishTip {
+            get {
+                return ResourceManager.GetString("ColumnEnglishTip", resourceCulture);
             }
         }
         
@@ -88,6 +108,15 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the key used by Colossal Order ähnelt.
+        /// </summary>
+        public static string ColumnKeyTip {
+            get {
+                return ResourceManager.GetString("ColumnKeyTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Merge Value ähnelt.
         /// </summary>
         public static string ColumnMerge {
@@ -97,11 +126,33 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the value/text
+        ///that corresponds to the key within the Key-column
+        ///inside the localization file to merge with
+        ///that is selected while creating the translation session ähnelt.
+        /// </summary>
+        public static string ColumnMergeTip {
+            get {
+                return ResourceManager.GetString("ColumnMergeTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Translation ähnelt.
         /// </summary>
         public static string ColumnTranslation {
             get {
                 return ResourceManager.GetString("ColumnTranslation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die the new value that is going to correspond to the respective key within the Key-column
+        ///for each cell that is left empty, the respective value/text within the Merge Value-column gets exported ähnelt.
+        /// </summary>
+        public static string ColumnTranslationTip {
+            get {
+                return ResourceManager.GetString("ColumnTranslationTip", resourceCulture);
             }
         }
         

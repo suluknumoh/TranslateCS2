@@ -89,6 +89,9 @@
                             <Setter
                                 Property="HorizontalContentAlignment"
                                 Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglishTip}, Mode=OneWay}" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
@@ -104,6 +107,9 @@
                             <Setter
                                 Property="HorizontalContentAlignment"
                                 Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnMergeTip}, Mode=OneWay}" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
@@ -119,6 +125,9 @@
                             <Setter
                                 Property="HorizontalContentAlignment"
                                 Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnCountTip}, Mode=OneWay}" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.ElementStyle>
@@ -144,6 +153,9 @@
                             <Setter
                                 Property="HorizontalContentAlignment"
                                 Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslationTip}, Mode=OneWay}" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.EditingElementStyle>
