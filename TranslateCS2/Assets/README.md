@@ -54,6 +54,9 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 
 Solution: close this tool, close [STEAM](https://store.steampowered.com) and open this tool again
 
+# Kown Issues
+please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues)
+
 # Documentation (somewhat like that)
 ## First-Start
 - start this tool
