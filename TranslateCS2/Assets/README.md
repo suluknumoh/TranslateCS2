@@ -81,6 +81,34 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - since Translation-Cells accept return for multi-line-editing, cell editing can be stopped by pressing escape
 - after adding a translation, all entries with the same value receive the translation and its saved to the [SQLite](https://www.sqlite.org/)-Database "Translations.sqlite"
 
+### Edit-View
+- four columns are shown
+1. Key
+- this column displays the key used by [Colossal Order](https://colossalorder.fi)
+2. English Value
+- this column displays the value/text that corresponds to the key within the Key-column
+- it's always english, cause english seems to be the 'leading' language
+3. Merge Value
+- displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
+4. Translation
+- the new value that is going to correspond to the respective key within the Key-column
+- for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
+
+### Edit by occurances-View
+- four columns are shown
+- Key-column is missing, cause each entry/value can relate to multiple keys
+1. English Value
+- this column displays the value/text that corresponds to the key within the Key-column
+- it's always english, cause english seems to be the 'leading' language
+2. Merge Value
+- displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
+3. Count
+- displays the count/amount/quantity of times the english value occurs/appears
+- a little more technical: the amount of keys the english value is used for
+4. Translation
+- the new value that is going to correspond to the respective key within the Key-column
+- for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
+
 ## Ex-Import
 ### Export
 #### direct-overwrite
