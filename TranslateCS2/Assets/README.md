@@ -123,6 +123,8 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
 
 # Changelog
+[releases](https://github.com/suluknumoh/TranslateCS2/releases)
+
 ## Version 0.2
 - ex-/import as/from JSON to share with others
 - Database-BackUps (next to the working database "Translations.sqlite", a maximum of twenty backups is created and held)
