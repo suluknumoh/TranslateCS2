@@ -71,7 +71,11 @@ internal class LocalizationFilesService {
         foreach (LocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
             WriteString(stream, entry.Key);
             if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
-                WriteString(stream, entry.ValueMerge);
+                if (String.IsNullOrEmpty(entry.ValueMerge) || String.IsNullOrWhiteSpace(entry.ValueMerge)) {
+                    WriteString(stream, entry.Value);
+                } else {
+                    WriteString(stream, entry.ValueMerge);
+                }
             } else {
                 WriteString(stream, entry.Translation);
             }
