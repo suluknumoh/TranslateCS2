@@ -64,6 +64,7 @@ public partial class App : PrismApplication {
             );
         this._httpClient = new HttpClient();
     }
+
     private void StateChanged(object? sender, EventArgs e) {
         MainWindow? mainWindow = sender as MainWindow;
         WindowChrome windowChrome = WindowChrome.GetWindowChrome(mainWindow);

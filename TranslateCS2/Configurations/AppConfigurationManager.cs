@@ -3,21 +3,53 @@ using System.Configuration;
 
 namespace TranslateCS2.Configurations;
 internal static class AppConfigurationManager {
-    public static string AppTitle { get; } = ConfigurationManager.AppSettings[nameof(AppTitle)] ?? String.Empty;
-    public static string AppMinHeight { get; } = ConfigurationManager.AppSettings[nameof(AppMinHeight)] ?? String.Empty;
-    public static string AppMinWidth { get; } = ConfigurationManager.AppSettings[nameof(AppMinWidth)] ?? String.Empty;
-    public static string AppMenuRegion { get; } = ConfigurationManager.AppSettings[nameof(AppMenuRegion)] ?? String.Empty;
-    public static string AppRibbonBarRegion { get; } = ConfigurationManager.AppSettings[nameof(AppRibbonBarRegion)] ?? String.Empty;
-    public static string AppMainRegion { get; } = ConfigurationManager.AppSettings[nameof(AppMainRegion)] ?? String.Empty;
-    public static string AppNewEditSessionRegion { get; } = ConfigurationManager.AppSettings[nameof(AppNewEditSessionRegion)] ?? String.Empty;
-    public static string AppExportImportRegion { get; } = ConfigurationManager.AppSettings[nameof(AppExportImportRegion)] ?? String.Empty;
+
+    static AppConfigurationManager() {
+        InitDatabaseMaxUpdateCount();
+        InitSkipWorkAround();
+    }
+
+    private static void InitSkipWorkAround() {
+        string? s = ConfigurationManager.AppSettings[nameof(SkipWorkAround)];
+        if (s != null
+            && (s == "1" || s.Equals("true", StringComparison.OrdinalIgnoreCase))) {
+            SkipWorkAround = true;
+        }
+        SkipWorkAround = false;
+    }
+
+    private static void InitDatabaseMaxUpdateCount() {
+        string? s = ConfigurationManager.AppSettings[nameof(DatabaseMaxBackUpCount)];
+        bool parsed = UInt32.TryParse(s, out uint result);
+        if (parsed) {
+            DatabaseMaxBackUpCount = result;
+        }
+        DatabaseMaxBackUpCount = 20;
+    }
+
+    public static string AppTitle { get; } = "TranslateCS2 - an unofficial Translator-Tool for Cities: Skylines 2";
+    public static string AppMinHeight { get; } = "800";
+    public static string AppMinWidth { get; } = "1200";
+    public static string AppMenuRegion { get; } = nameof(AppMenuRegion);
+    public static string AppRibbonBarRegion { get; } = nameof(AppRibbonBarRegion);
+    public static string AppMainRegion { get; } = nameof(AppMainRegion);
+    public static string AppNewEditSessionRegion { get; } = nameof(AppNewEditSessionRegion);
+    public static string AppExportImportRegion { get; } = nameof(AppExportImportRegion);
     /// <summary>
     ///     ends with a dot!
     /// </summary>
-    public static string AssetPath { get; } = ConfigurationManager.AppSettings[nameof(AssetPath)] ?? String.Empty;
-    public static string LeadingLocFileName { get; } = ConfigurationManager.AppSettings[nameof(LeadingLocFileName)] ?? String.Empty;
-    public static string CheckLatestURL { get; } = ConfigurationManager.AppSettings[nameof(CheckLatestURL)] ?? String.Empty;
-    public static string ImExportDefaultFileName { get; } = ConfigurationManager.AppSettings[nameof(ImExportDefaultFileName)] ?? String.Empty;
-    public static string ImExportFilter { get; } = ConfigurationManager.AppSettings[nameof(ImExportFilter)] ?? String.Empty;
-    public static string ImExportFileExtension { get; } = ConfigurationManager.AppSettings[nameof(ImExportFileExtension)] ?? String.Empty;
+    public static string AssetPath { get; } = "TranslateCS2.Assets.";
+    public static string LeadingLocFileName { get; } = "en-US.loc";
+    public static string CheckLatestURL { get; } = "https://raw.githubusercontent.com/suluknumoh/TranslateCS2/main/latest";
+    public static string ImExportDefaultFileName { get; } = "translations.json";
+    public static string ImExportFilter { get; } = "JSON-File (*.json)|*.json";
+    public static string ImExportFileExtension { get; } = ".json";
+    public static uint DatabaseMaxBackUpCount { get; private set; }
+    public static string DatabaseExtension { get; } = ".sqlite";
+    public static string DatabaseNameRaw { get; } = "Translations";
+    public static string DatabaseName { get; } = $"{DatabaseNameRaw}{DatabaseExtension}";
+    public static string DatabaseProvider { get; } = "SqliteConnection.SqliteConnectionFactory";
+    public static string DatabaseConnectionString { get; } = $"Data Source=./{DatabaseName};Pooling=False";
+    public static string DatabaseConnectionStringDebug { get; } = $"Data Source=../../../../../../{DatabaseName};Pooling=False";
+    public static bool SkipWorkAround { get; private set; }
 }

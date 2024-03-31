@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Data.Common;
 using System.Linq;
 
 using Microsoft.Data.Sqlite;
 
+using TranslateCS2.Configurations;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
@@ -16,8 +16,7 @@ using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.Databases;
 internal static class TranslationsDB {
-    private static readonly string _databaseName = ConfigurationManager.AppSettings["DatabaseNameTranslations"];
-    private static readonly ConnectionStringSettings _connectionStringSettings = ConfigurationManager.ConnectionStrings[_databaseName];
+    private static string ConnectionString { get; } = AppConfigurationManager.DatabaseConnectionString;
 
     public delegate void OnErrorCallBack(string message);
 
@@ -298,12 +297,12 @@ internal static class TranslationsDB {
     }
 
     private static SqliteConnection GetOpenConnection() {
-        if (!DatabaseHelper.DatabaseExists(_connectionStringSettings)) {
+        if (!DatabaseHelper.DatabaseExists()) {
             throw new ArgumentNullException();
         }
 
         // no using!!!
-        SqliteConnection connection = new SqliteConnection(_connectionStringSettings.ConnectionString);
+        SqliteConnection connection = new SqliteConnection(ConnectionString);
         connection.Open();
         return connection;
     }
