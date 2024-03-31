@@ -10,16 +10,6 @@
     >
     <ContentControl.Resources>
         <Style
-            x:Key="StyleHeading"
-            TargetType="TextBlock">
-            <Setter
-                Property="FontSize"
-                Value="18"/>
-            <Setter
-                Property="FontWeight"
-                Value="Bold"/>
-        </Style>
-        <Style
             x:Key="ControlInputError"
             TargetType="Control">
             <Style.Triggers>
@@ -53,7 +43,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -67,30 +56,18 @@
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Center"
-            TextWrapping="Wrap"
+            Style="{StaticResource StyleTextBlockAlginedCenter}"
             FontSize="16"
             FontWeight="Bold"
-            Margin="10 10 10 10"
             Text="{Binding ActionString, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Right"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputName}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
             Margin="10 10 10 10"
             Style="{StaticResource ControlInputError}">
             <TextBox.Text>
@@ -103,20 +80,12 @@
         <TextBlock
             Grid.Row="1"
             Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputNameTip}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Right"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputMergeFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <ComboBox
             Grid.Row="2"
@@ -137,20 +106,12 @@
         <TextBlock
             Grid.Row="2"
             Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputMergeFileTip}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="3"
             Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Right"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputOverwriteFile}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <ComboBox
             Grid.Row="3"
@@ -171,20 +132,12 @@
         <TextBlock
             Grid.Row="3"
             Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputOverwriteFileTip}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="4"
             Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Right"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleEnglish}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
             Grid.Row="4"
@@ -205,20 +158,12 @@
         <TextBlock
             Grid.Row="4"
             Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleEnglishTip}, Mode=OneWay}"/>
         <TextBlock
             Grid.Row="5"
             Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Right"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleLocalized}, StringFormat={}{0}*:, Mode=OneWay}"/>
         <TextBox
             Grid.Row="5"
@@ -239,47 +184,10 @@
         <TextBlock
             Grid.Row="5"
             Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleLocalizedTip}, Mode=OneWay}"/>
-        <TextBlock
-            Grid.Row="6"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Center"
-            FontSize="20"
-            Foreground="DarkRed"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
-            Text="{Binding SessionManager.DatabaseError,
-                           Mode=OneWay,
-                           NotifyOnSourceUpdated=True}">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter
-                        Property="Visibility"
-                        Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger
-                            Binding="{Binding SessionManager.HasDatabaseError,
-                                              Mode=OneWay,
-                                              NotifyOnSourceUpdated=True}"
-                            Value="True">
-                            <Setter
-                                Property="Visibility"
-                                Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
         <StackPanel
-            Grid.Row="7"
+            Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Orientation="Horizontal"
@@ -287,13 +195,7 @@
             VerticalAlignment="Center">
             <Button
                 IsEnabled="True"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Margin="10 10 10 10"
-                Padding="5 5 5 5"
-                Cursor="Hand"
+                Style="{StaticResource StyleButton}"
                 Command="{Binding Save}">
                 <StackPanel>
                     <Image
@@ -308,13 +210,7 @@
             </Button>
             <Button
                 IsEnabled="True"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Margin="10 10 10 10"
-                Padding="5 5 5 5"
-                Cursor="Hand"
+                Style="{StaticResource StyleButton}"
                 Command="{Binding Cancel}">
                 <StackPanel>
                     <Image

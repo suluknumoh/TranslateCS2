@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Prism.Mvvm;
 
 using TranslateCS2.Configurations;
+using TranslateCS2.Databases;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Properties.I18N;
@@ -26,10 +27,20 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
         get => this._Name;
         set => this.SetProperty(ref this._Name, value, this.ChangeRefresh);
     }
+    /// <summary>
+    ///     local <see cref="DateTime"/> !!!
+    ///     <br/>
+    ///     gets converted to universal time within <see cref="TranslationsDB" />
+    /// </summary>
     public DateTime Started { get; set; }
 
 
     private DateTime _LastEdited;
+    /// <summary>
+    ///     local <see cref="DateTime"/>!!!
+    ///     <br/>
+    ///     gets converted to universal time within <see cref="TranslationsDB"/>
+    /// </summary>
     public DateTime LastEdited {
         get => this._LastEdited;
         set => this.SetProperty(ref this._LastEdited, value, this.ChangeRefresh);
@@ -89,7 +100,7 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
     public TranslationSession() { }
 
     private void ChangeRefresh() {
-        this.DisplayName = $"{nameof(this.ID)}: {this.ID} - {nameof(this.Name)}: {this.Name} - {nameof(this.Started)}: {this.Started.ToLocalTime()} - {nameof(this.LastEdited)}: {this.LastEdited.ToLocalTime()}";
+        this.DisplayName = $"{nameof(this.ID)}: {this.ID} - {nameof(this.Name)}: {this.Name} - {nameof(this.Started)}: {this.Started} - {nameof(this.LastEdited)}: {this.LastEdited}";
     }
 
 

@@ -120,12 +120,23 @@
   <data name="Caption" xml:space="preserve">
     <value>Session Management</value>
   </data>
+  <data name="DialogDeleteText" xml:space="preserve">
+    <value>Do you really want to delete the selected session?</value>
+  </data>
+  <data name="DialogDeleteTitle" xml:space="preserve">
+    <value>delete selected session</value>
+  </data>
   <data name="DoCancel" xml:space="preserve">
     <value>cancel</value>
   </data>
   <data name="DoCreate" xml:space="preserve">
     <value>create
 new
+session</value>
+  </data>
+  <data name="DoDelete" xml:space="preserve">
+    <value>delete
+selected
 session</value>
   </data>
   <data name="DoEdit" xml:space="preserve">
@@ -196,7 +207,19 @@ so you always have an ingame-fallback without the need to verify your installati
   <data name="OutputAutoDetectedLocFiles" xml:space="preserve">
     <value>autodetected .loc-files</value>
   </data>
+  <data name="OutputID" xml:space="preserve">
+    <value>ID</value>
+  </data>
   <data name="OutputInstallationDirectory" xml:space="preserve">
     <value>autodetected Cities: Skylines 2 - Installation Directory</value>
+  </data>
+  <data name="OutputLastEdited" xml:space="preserve">
+    <value>last edited</value>
+  </data>
+  <data name="OutputStarted" xml:space="preserve">
+    <value>started</value>
+  </data>
+  <data name="StringAffectedSession" xml:space="preserve">
+    <value>affected session</value>
   </data>
 </root>

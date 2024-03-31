@@ -1,10 +1,13 @@
-﻿using Prism.Commands;
+﻿using System.Windows;
+
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Configurations;
 using TranslateCS2.Controls.Sessions;
 using TranslateCS2.Models.Sessions;
+using TranslateCS2.Properties.I18N;
 
 using static TranslateCS2.Controls.Sessions.NewEditSessionControlContext;
 
@@ -13,6 +16,7 @@ namespace TranslateCS2.ViewModels.Works;
 internal class SessionManagementViewModel : BindableBase, INavigationAware {
 
     private readonly IRegionManager _regionManager;
+    public DelegateCommand DeleteSessionCommand { get; }
 
     public DelegateCommand<SessionActions?> CreateEditSessionCommand { get; }
 
@@ -53,6 +57,7 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
         this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
         this.InstallPath = this.SessionManager.InstallPath;
         this.CreateEditSessionCommand = new DelegateCommand<SessionActions?>(this.CreateEditSessionCommandAction);
+        this.DeleteSessionCommand = new DelegateCommand(this.DeleteSessionCommandAction);
     }
 
     private void CreateEditSessionCommandAction(SessionActions? action) {
@@ -72,6 +77,18 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
         this.IsEnabled = true;
         this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
         this.SessionAction = null;
+    }
+    private void DeleteSessionCommandAction() {
+        MessageBoxResult result = MessageBox.Show(I18NSessions.DialogDeleteText,
+                                                  I18NSessions.DialogDeleteTitle,
+                                                  MessageBoxButton.YesNo,
+                                                  MessageBoxImage.Warning,
+                                                  MessageBoxResult.No,
+                                                  MessageBoxOptions.None);
+        if (result == MessageBoxResult.Yes) {
+            this.SessionManager.Delete(this.SessionManager.CurrentTranslationSession);
+            this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
+        }
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext) {

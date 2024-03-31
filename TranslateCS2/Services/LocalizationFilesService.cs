@@ -47,9 +47,6 @@ internal class LocalizationFilesService {
         }
         return localizationFile;
     }
-    public void WriteLocalizationFileDirect(LocalizationFile localizationFile) {
-        this.WriteLocalizationFileDirect(localizationFile, null);
-    }
     /// <summary>
     ///     writes the given <see cref="LocalizationFile{T}"/>
     /// </summary>
@@ -59,7 +56,7 @@ internal class LocalizationFilesService {
     /// <param name="fileInfo">
     ///     currently for testing-purposes only
     /// </param>
-    public void WriteLocalizationFileDirect(LocalizationFile localizationFile, FileInfo? fileInfo) {
+    public void WriteLocalizationFileDirect(LocalizationFile localizationFile, FileInfo? fileInfo = null) {
         fileInfo ??= this.GetLocalizationFileInfo(localizationFile.FileName);
         fileInfo.Delete();
         using Stream stream = File.OpenWrite(fileInfo.FullName);
@@ -67,24 +64,31 @@ internal class LocalizationFilesService {
         WriteString(stream, localizationFile.LocaleNameEN);
         WriteString(stream, localizationFile.LocaleNameID);
         WriteString(stream, localizationFile.LocaleNameLocalized);
-        WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
-        foreach (LocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
-            WriteString(stream, entry.Key);
-            if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
-                if (String.IsNullOrEmpty(entry.ValueMerge) || String.IsNullOrWhiteSpace(entry.ValueMerge)) {
-                    WriteString(stream, entry.Value);
+        {
+            // localization-dictionary
+            WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
+            foreach (LocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
+                WriteString(stream, entry.Key);
+                if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
+                    if (String.IsNullOrEmpty(entry.ValueMerge) || String.IsNullOrWhiteSpace(entry.ValueMerge)) {
+                        WriteString(stream, entry.Value);
+                    } else {
+                        WriteString(stream, entry.ValueMerge);
+                    }
                 } else {
-                    WriteString(stream, entry.ValueMerge);
+                    WriteString(stream, entry.Translation);
                 }
-            } else {
-                WriteString(stream, entry.Translation);
             }
         }
-        WriteInt32(stream, localizationFile.Indizes.Count);
-        foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
-            WriteString(stream, entry.Key);
-            WriteInt32(stream, entry.Value);
+        {
+            // indizes
+            WriteInt32(stream, localizationFile.Indizes.Count);
+            foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
+                WriteString(stream, entry.Key);
+                WriteInt32(stream, entry.Value);
+            }
         }
+        stream.Flush();
     }
     private static short ReadInt16(Stream stream) {
         byte[] buffer = new byte[2];

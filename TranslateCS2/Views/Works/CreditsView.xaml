@@ -7,55 +7,72 @@
     mc:Ignorable="d"
     xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     prism:ViewModelLocator.AutoWireViewModel="True">
-    <markdig:MarkdownViewer
-        Markdown="{Binding Doc}"
-        Pipeline="{Binding Pipeline}">
-        <markdig:MarkdownViewer.Resources>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.Heading1StyleKey}">
-                <Setter Property="FontSize" Value="22" />
-                <Setter Property="Foreground" Value="#ff000000" />
-                <Setter Property="FontWeight" Value="Bold" />
-                <Setter Property="Margin" Value="0 15 0 0" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.Heading2StyleKey}">
-                <Setter Property="FontSize" Value="18" />
-                <Setter Property="Foreground" Value="#ff000000" />
-                <Setter Property="FontWeight" Value="Bold" />
-                <Setter Property="Margin" Value="0 5 0 0" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.Heading3StyleKey}">
-                <Setter Property="FontSize" Value="18" />
-                <Setter Property="Foreground" Value="#ff000000" />
-                <Setter Property="FontWeight" Value="Bold" />
-                <Setter Property="Margin" Value="0 5 0 0" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.Heading4StyleKey}">
-                <Setter Property="FontSize" Value="18" />
-                <Setter Property="Foreground" Value="#ff000000" />
-                <Setter Property="FontWeight" Value="Light" />
-                <Setter Property="TextDecorations" Value="Underline" />
-                <Setter Property="Margin" Value="0 5 0 0" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.Heading5StyleKey}">
-                <Setter Property="Margin" Value="0 5 0 0" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.Heading6StyleKey}">
-                <Setter Property="Margin" Value="0 5 0 0" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static markdig:Styles.ParagraphStyleKey}">
-                <Setter Property="Margin" Value="0 5 0 10" />
-                <Setter Property="Padding" Value="0 0 0 0" />
-            </Style>
-        </markdig:MarkdownViewer.Resources>
-        <FrameworkElement.CommandBindings>
-            <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenURLCommandAction" />
-        </FrameworkElement.CommandBindings>
-    </markdig:MarkdownViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="{Binding Source={x:Static i18n:I18NGlobal.MessageAppUnusable}, Mode=OneWay}">
+            <TextBlock.Style>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource StyleAppUnUseAbleError}">
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SessionManager.IsAppUseAble}"
+                            Value="false">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="{Binding SessionManager.DatabaseError,
+                           Mode=OneWay,
+                           NotifyOnSourceUpdated=True}">
+            <TextBlock.Style>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource StyleDatabaseError}">
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SessionManager.HasDatabaseError,
+                                              Mode=OneWay,
+                                              NotifyOnSourceUpdated=True}"
+                            Value="True">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <markdig:MarkdownViewer
+            Grid.Row="2"
+            Grid.Column="0"
+            Markdown="{Binding Doc}"
+            Pipeline="{Binding Pipeline}">
+            <markdig:MarkdownViewer.Resources>
+                <ResourceDictionary Source="/Properties/markdig.wpf.xaml" />
+            </markdig:MarkdownViewer.Resources>
+            <FrameworkElement.CommandBindings>
+                <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenURLCommandAction" />
+            </FrameworkElement.CommandBindings>
+        </markdig:MarkdownViewer>
+    </Grid>
 </ContentControl>

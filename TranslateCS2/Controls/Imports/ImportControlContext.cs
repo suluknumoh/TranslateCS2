@@ -21,11 +21,13 @@ namespace TranslateCS2.Controls.Imports;
 
 internal class ImportControlContext : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
-    private readonly TranslationSessionManager _translationSessionManager;
     private readonly ExImportService _exportService;
     private readonly string _dialogtitle = I18NImport.DialogTitle;
     private readonly string _dialogWarningCaption = I18NImport.DialogWarningCaption;
     private readonly string _dialogWarningText = I18NImport.DialogWarningText;
+
+
+    public TranslationSessionManager SessionManager { get; }
 
 
     private bool _IsEnabled;
@@ -90,7 +92,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                                 TranslationSessionManager translationSessionManager,
                                 ExImportService exportService) {
         this._viewConfigurations = viewConfigurations;
-        this._translationSessionManager = translationSessionManager;
+        this.SessionManager = translationSessionManager;
         this._exportService = exportService;
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ReadCommand = new DelegateCommand(this.ReadCommandAction);
@@ -128,7 +130,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         })
         .ContinueWith((t) => {
             try {
-                return this._exportService.Import(this._translationSessionManager.CurrentTranslationSession,
+                return this._exportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
                                                   this.SelectedPath);
             } catch (Exception ex) {
                 return null;
@@ -166,12 +168,12 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.IsImportButtonEnabled = false;
                 DatabaseHelper.BackUpIfExists(Databases.DatabaseBackUpIndicators.BEFORE_IMPORT);
             })
-            .ContinueWith(t => this._translationSessionManager.HandleImported(this.Preview, this.ImportMode))
+            .ContinueWith(t => this.SessionManager.HandleImported(this.Preview, this.ImportMode))
             .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NImport.MessageImport;
-                this._translationSessionManager.SaveCurrentTranslationSessionsTranslations();
-                this._translationSessionManager.CurrentTranslationSessionChanged();
+                this.SessionManager.SaveCurrentTranslationSessionsTranslations();
+                this.SessionManager.CurrentTranslationSessionChanged();
             })
             .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.DarkGreen;

@@ -86,6 +86,8 @@ internal class TranslationSessionManager : BindableBase {
         this.RaisePropertyChanged(nameof(this.HasTranslationSessions));
     }
     public void CurrentTranslationSessionChanged() {
+        // always raise!!!
+        this.RaisePropertyChanged(nameof(this.HasTranslationSessions));
         foreach (TranslationSession translationSession in this.TranslationSessions) {
             translationSession.LocalizationDictionary.Clear();
         }
@@ -145,6 +147,23 @@ internal class TranslationSessionManager : BindableBase {
         }
     }
 
+    public void Delete(TranslationSession? session) {
+        if (session == null) {
+            return;
+        }
+        DatabaseHelper.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_DELETE_SESSION);
+        TranslationsDB.DeleteTranslationSession(session, this._onError);
+        if (!this.HasDatabaseError) {
+            this.TranslationSessions.Remove(session);
+            if (this.TranslationSessions.Any()) {
+                this.CurrentTranslationSession = this.TranslationSessions.Last();
+            } else {
+                this.CurrentTranslationSession = null;
+            }
+            this.CurrentTranslationSessionChanged();
+        }
+    }
+
     public void SaveCurrentTranslationSessionsTranslations() {
         TranslationsDB.SaveTranslations(this.CurrentTranslationSession, this._onError);
     }
@@ -168,7 +187,10 @@ internal class TranslationSessionManager : BindableBase {
                             break;
                         case ImportModes.LeftJoin:
                             // set missing imported; all existing + imported that are missing
-                            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(importedItem.TranslationExisting)) {
+                            // preview leads!
+                            // preview knows about Existing and Imported!
+                            // take care of method name 'is ... EXISTING available'
+                            if (!importedItem.IsTranslationExistingAvailable) {
                                 // only set if no translation existed
                                 currentEntry.Translation = importedItem.TranslationImported;
                             } else {
@@ -178,7 +200,10 @@ internal class TranslationSessionManager : BindableBase {
                             break;
                         case ImportModes.RightJoin:
                             // set all imported; all imported + existing that werent imported
-                            if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(importedItem.TranslationImported)) {
+                            // preview leads!
+                            // preview knows about Existing and Imported!
+                            // take care of method name 'is ... IMPORTED available'
+                            if (importedItem.IsTranslationImportedAvailable) {
                                 // only set, if a translation is imported
                                 currentEntry.Translation = importedItem.TranslationImported;
                             } else {

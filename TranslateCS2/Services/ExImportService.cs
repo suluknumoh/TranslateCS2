@@ -55,7 +55,7 @@ internal class ExImportService {
         }
     }
 
-    public List<CompareExistingImportedTranslations>? Import(TranslationSession translationSession,
+    public List<CompareExistingImportedTranslations>? ReadToReview(TranslationSession translationSession,
                                                              string selectedPath) {
         List<LocalizationDictionaryEntry>? imports = this._jsonService.ReadLocalizationFileJson(selectedPath);
         if (imports == null) {

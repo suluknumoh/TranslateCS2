@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+
+using TranslateCS2.Helpers;
 
 namespace TranslateCS2.Views.Works;
 
@@ -10,9 +11,7 @@ public partial class CreditsView : ContentControl {
     }
     public void OpenURLCommandAction(object? sender, ExecutedRoutedEventArgs args) {
         if (args.Parameter is string url) {
-            Process.Start(new ProcessStartInfo(url) {
-                UseShellExecute = true
-            });
+            URLHelper.Open(url);
         }
     }
 }

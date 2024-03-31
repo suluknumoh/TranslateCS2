@@ -40,10 +40,10 @@ internal static class TranslationsDB {
                             session.ID = reader.GetInt64(ordinal);
                             break;
                         case "started":
-                            session.Started = reader.GetDateTime(ordinal);
+                            session.Started = reader.GetDateTime(ordinal).ToLocalTime();
                             break;
                         case "last_edited":
-                            session.LastEdited = reader.GetDateTime(ordinal);
+                            session.LastEdited = reader.GetDateTime(ordinal).ToLocalTime();
                             break;
                         case "name":
                             session.Name = reader.GetString(ordinal);
@@ -81,7 +81,7 @@ internal static class TranslationsDB {
 
     public static void AddTranslationSession(TranslationSession translationSession, OnErrorCallBack? onError) {
         try {
-            translationSession.Started = DateTime.UtcNow;
+            translationSession.Started = DateTime.Now;
             translationSession.LastEdited = translationSession.Started;
             using SqliteConnection connection = GetOpenConnection();
             using SqliteTransaction transaction = connection.BeginTransaction();
@@ -106,8 +106,8 @@ internal static class TranslationsDB {
                 SqliteParameter autosaveParameter = command.Parameters.Add("@autosave", SqliteType.Integer);
                 command.Prepare();
                 nameParameter.Value = translationSession.Name?.Trim();
-                startedParameter.Value = translationSession.Started;
-                lastEditedParameter.Value = translationSession.LastEdited;
+                startedParameter.Value = translationSession.Started.ToUniversalTime();
+                lastEditedParameter.Value = translationSession.LastEdited.ToUniversalTime();
                 if (String.IsNullOrEmpty(translationSession.MergeLocalizationFileName) || String.IsNullOrWhiteSpace(translationSession.MergeLocalizationFileName)) {
                     mergeLocFileParameter.Value = DBNull.Value;
                 } else {
@@ -132,7 +132,7 @@ internal static class TranslationsDB {
 
     public static void UpdateTranslationSession(TranslationSession translationSession, OnErrorCallBack? onError) {
         try {
-            translationSession.LastEdited = DateTime.UtcNow;
+            translationSession.LastEdited = DateTime.Now;
             using SqliteConnection connection = GetOpenConnection();
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
@@ -153,7 +153,7 @@ internal static class TranslationsDB {
                 SqliteParameter autosaveParameter = command.Parameters.Add("@autosave", SqliteType.Integer);
                 command.Prepare();
                 idParameter.Value = translationSession.ID;
-                lastEditedParameter.Value = translationSession.LastEdited;
+                lastEditedParameter.Value = translationSession.LastEdited.ToUniversalTime();
                 nameParameter.Value = translationSession.Name?.Trim();
                 if (String.IsNullOrEmpty(translationSession.MergeLocalizationFileName) || String.IsNullOrWhiteSpace(translationSession.MergeLocalizationFileName)) {
                     mergeLocFileParameter.Value = DBNull.Value;
@@ -237,7 +237,7 @@ internal static class TranslationsDB {
             using SqliteConnection connection = GetOpenConnection();
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
-                UpdateLastUpdated(connection, transaction, translationSession);
+                UpdateLastEdited(connection, transaction, translationSession);
                 IEnumerable<LocalizationDictionaryEntry> deletes = translationSession.LocalizationDictionary.Where(item => String.IsNullOrEmpty(item.Translation) || String.IsNullOrWhiteSpace(item.Translation));
                 if (deletes.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
@@ -280,8 +280,8 @@ internal static class TranslationsDB {
         }
     }
 
-    private static void UpdateLastUpdated(SqliteConnection connection, SqliteTransaction transaction, TranslationSession translationSession) {
-        translationSession.LastEdited = DateTime.UtcNow;
+    private static void UpdateLastEdited(SqliteConnection connection, SqliteTransaction transaction, TranslationSession translationSession) {
+        translationSession.LastEdited = DateTime.Now;
         using SqliteCommand command = connection.CreateCommand();
         command.Transaction = transaction;
         command.CommandText = "UPDATE t_translation_session SET last_edited = @last_edited WHERE id = @id;";
@@ -292,7 +292,7 @@ internal static class TranslationsDB {
         lastEditedParameter = command.Parameters.Add(lastEditedParameter);
         SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
         command.Prepare();
-        lastEditedParameter.Value = translationSession.LastEdited;
+        lastEditedParameter.Value = translationSession.LastEdited.ToUniversalTime();
         idParameter.Value = translationSession.ID;
         command.ExecuteNonQuery();
     }
@@ -306,5 +306,28 @@ internal static class TranslationsDB {
         SqliteConnection connection = new SqliteConnection(_connectionStringSettings.ConnectionString);
         connection.Open();
         return connection;
+    }
+
+    public static void DeleteTranslationSession(TranslationSession translationSession, OnErrorCallBack onError) {
+        try {
+            using SqliteConnection connection = GetOpenConnection();
+            using SqliteTransaction transaction = connection.BeginTransaction();
+            try {
+                using SqliteCommand command = connection.CreateCommand();
+                command.Transaction = transaction;
+                command.CommandText = "DELETE FROM t_translation_session WHERE id = @id;";
+                command.CommandType = System.Data.CommandType.Text;
+                SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
+                command.Prepare();
+                idParameter.Value = translationSession.ID;
+                command.ExecuteNonQuery();
+                transaction.Commit();
+            } catch {
+                transaction.Rollback();
+                throw;
+            }
+        } catch {
+            onError?.Invoke(I18NGlobal.MessageDatabaseError);
+        }
     }
 }

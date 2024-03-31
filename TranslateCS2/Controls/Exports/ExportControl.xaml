@@ -7,12 +7,14 @@
     mc:Ignorable="d"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
+    xmlns:session_infos="clr-namespace:TranslateCS2.Controls.SessionInfos"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid
         HorizontalAlignment="Stretch"
         VerticalAlignment="Top"
         ShowGridLines="False">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -29,8 +31,14 @@
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NExport.Caption}, Mode=OneWay}">
         </TextBlock>
-        <StackPanel
+        <session_infos:SelectedSessionInfo
             Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            DataContext="{Binding SessionManager.CurrentTranslationSession}"
+            />
+        <StackPanel
+            Grid.Row="2"
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -51,7 +59,7 @@
                 Text="{Binding SelectedExportFormat.ToolTip, StringFormat={}({0})}"/>
         </StackPanel>
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             Orientation="Vertical">
             <StackPanel.Style>
@@ -71,13 +79,7 @@
                 </Style>
             </StackPanel.Style>
             <Button
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Margin="10 10 10 10"
-                Padding="5 5 5 5"
-                Cursor="Hand"
+                Style="{StaticResource StyleButton}"
                 Command="{Binding SelectPathCommand}"
                 IsEnabled="{Binding IsEnabled}">
                 <StackPanel
@@ -94,28 +96,18 @@
                 </StackPanel>
             </Button>
             <TextBlock
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                TextAlignment="Center"
-                Margin="10 10 10 10"
-                Padding="5 5 5 5"
+                Style="{StaticResource StyleTextBlockAlginedCenter}"
                 TextWrapping="WrapWithOverflow"
                 MaxWidth="300"
                 Text="{Binding SelectedPath}">
             </TextBlock>
         </StackPanel>
         <Button
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="2"
             Command="{Binding ExportCommand}"
             IsEnabled="{Binding IsExportButtonEnabled}"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Margin="10 10 10 10"
-            Padding="5 5 5 5"
-            Cursor="Hand">
+            Style="{StaticResource StyleButton}">
             <StackPanel
                 Orientation="Vertical">
                 <Image
@@ -130,17 +122,13 @@
             </StackPanel>
         </Button>
         <TextBlock
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             FontSize="16"
             FontWeight="Bold"
             Foreground="{Binding InfoMessageColor}"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            TextAlignment="Center"
-            TextWrapping="Wrap"
-            Margin="10 10 10 10"
+            Style="{StaticResource StyleTextBlockAlginedCenter}"
             Text="{Binding InfoMessage}"/>
     </Grid>
 </ContentControl>

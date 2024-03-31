@@ -10,9 +10,8 @@
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <TextBlock
+            Style="{StaticResource StyleHeading}"
             FontSize="64"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
             Text="{Binding Source={x:Static i18n:I18NSettings.Caption}, Mode=OneWay}"/>
     </Grid>
 </ContentControl>

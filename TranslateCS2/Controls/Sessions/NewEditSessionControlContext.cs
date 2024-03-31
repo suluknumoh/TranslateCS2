@@ -17,7 +17,14 @@ namespace TranslateCS2.Controls.Sessions;
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private readonly IRegionManager _regionManager;
     private bool _isLoaded = false;
+
+
     private bool _isEdit = false;
+    public bool IsEdit {
+        get => this._isEdit;
+        set => this.SetProperty(ref this._isEdit, value);
+    }
+
 
     public delegate void CallBackAfter();
 
@@ -85,7 +92,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
     private void SaveAction() {
         if (this._newSessionBindingGroup.CommitEdit()) {
-            if (this._isEdit) {
+            if (this.IsEdit) {
                 this.SessionManager.Update(this.NewSession);
             } else {
                 this.SessionManager.Insert(this.NewSession);
@@ -107,7 +114,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
         SessionActions? action = navigationContext.Parameters.GetValue<SessionActions?>(nameof(SessionActions));
-        this._isEdit = SessionActions.Edit == action;
+        this.IsEdit = SessionActions.Edit == action;
         this._callbackEnd = navigationContext.Parameters.GetValue<CallBackAfter>(nameof(CallBackAfter));
         if (!this._isLoaded) {
             return;
@@ -117,7 +124,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void InitNewSession() {
         this._newSessionBindingGroup.CancelEdit();
-        if (this._isEdit) {
+        if (this.IsEdit) {
             this.NewSession = this.SessionManager.CurrentTranslationSession;
             this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
         } else {

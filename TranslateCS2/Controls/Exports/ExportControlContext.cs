@@ -19,12 +19,15 @@ using TranslateCS2.Services;
 namespace TranslateCS2.Controls.Exports;
 
 internal class ExportControlContext : BindableBase, INavigationAware {
+    // TODO: more TextBoxes with explanations of what gets exported and how
     private readonly ViewConfigurations _viewConfigurations;
-    private readonly TranslationSessionManager _translationSessionManager;
     private readonly ExImportService _exportService;
     private readonly string _dialogtitle = I18NExport.DialogTitle;
     private readonly string _dialogWarningCaption = I18NExport.DialogWarningCaption;
     private readonly string _dialogWarningText = I18NExport.DialogWarningText;
+
+
+    public TranslationSessionManager SessionManager { get; }
 
 
     private bool _IsEnabled;
@@ -87,7 +90,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
                                 TranslationSessionManager translationSessionManager,
                                 ExImportService exportService) {
         this._viewConfigurations = viewConfigurations;
-        this._translationSessionManager = translationSessionManager;
+        this.SessionManager = translationSessionManager;
         this._exportService = exportService;
         this.ExportFormats = new ObservableCollection<ExportFormat>(exportService.GetExportFormats());
         this._SelectedExportFormat = this.ExportFormats.First();
@@ -135,7 +138,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
                 this.IsEnabled = false;
                 this.IsExportButtonEnabled = false;
             })
-            .ContinueWith((t) => this.ExportLocalizationFile = this._translationSessionManager.GetForExport())
+            .ContinueWith((t) => this.ExportLocalizationFile = this.SessionManager.GetForExport())
             .ContinueWith((t) => {
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NExport.MessagePrepareSuccess;

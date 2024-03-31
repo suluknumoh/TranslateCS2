@@ -70,6 +70,24 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you really want to delete the selected session? ähnelt.
+        /// </summary>
+        public static string DialogDeleteText {
+            get {
+                return ResourceManager.GetString("DialogDeleteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die delete selected session ähnelt.
+        /// </summary>
+        public static string DialogDeleteTitle {
+            get {
+                return ResourceManager.GetString("DialogDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die cancel ähnelt.
         /// </summary>
         public static string DoCancel {
@@ -86,6 +104,17 @@ namespace TranslateCS2.Properties.I18N {
         public static string DoCreate {
             get {
                 return ResourceManager.GetString("DoCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die delete
+        ///selected
+        ///session ähnelt.
+        /// </summary>
+        public static string DoDelete {
+            get {
+                return ResourceManager.GetString("DoDelete", resourceCulture);
             }
         }
         
@@ -272,11 +301,47 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ID ähnelt.
+        /// </summary>
+        public static string OutputID {
+            get {
+                return ResourceManager.GetString("OutputID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die autodetected Cities: Skylines 2 - Installation Directory ähnelt.
         /// </summary>
         public static string OutputInstallationDirectory {
             get {
                 return ResourceManager.GetString("OutputInstallationDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die last edited ähnelt.
+        /// </summary>
+        public static string OutputLastEdited {
+            get {
+                return ResourceManager.GetString("OutputLastEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die started ähnelt.
+        /// </summary>
+        public static string OutputStarted {
+            get {
+                return ResourceManager.GetString("OutputStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die affected session ähnelt.
+        /// </summary>
+        public static string StringAffectedSession {
+            get {
+                return ResourceManager.GetString("StringAffectedSession", resourceCulture);
             }
         }
     }

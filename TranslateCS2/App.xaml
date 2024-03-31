@@ -32,6 +32,169 @@
                 Property="FontWeight"
                 Value="Bold"/>
         </Style>
+        <Style
+            x:Key="StyleButton"
+            TargetType="ButtonBase">
+            <Setter
+                Property="HorizontalAlignment"
+                Value="Center"/>
+            <Setter
+                Property="VerticalAlignment"
+                Value="Center"/>
+            <Setter
+                Property="HorizontalContentAlignment"
+                Value="Center"/>
+            <Setter
+                Property="VerticalContentAlignment"
+                Value="Center"/>
+            <Setter
+                Property="Margin"
+                Value="10 10 10 10"/>
+            <Setter
+                Property="Padding"
+                Value="5 5 5 5"/>
+            <Setter
+                Property="Cursor"
+                Value="Hand"/>
+        </Style>
+        <Style
+            x:Key="StyleTextDefault"
+            TargetType="TextBlock">
+            <Setter
+                Property="HorizontalAlignment"
+                Value="Stretch"/>
+            <Setter
+                Property="VerticalAlignment"
+                Value="Center"/>
+            <Setter
+                Property="Margin"
+                Value="10 10 10 10"/>
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap"/>
+        </Style>
+        <Style
+            x:Key="StyleTextBlockAlginedRight"
+            BasedOn="{StaticResource StyleTextDefault}"
+            TargetType="TextBlock">
+            <Setter
+                Property="TextAlignment"
+                Value="Right"/>
+        </Style>
+        <Style
+            x:Key="StyleTextBlockAlginedLeft"
+            BasedOn="{StaticResource StyleTextDefault}"
+            TargetType="TextBlock">
+            <Setter
+                Property="TextAlignment"
+                Value="Left"/>
+        </Style>
+        <Style
+            x:Key="StyleTextBlockAlginedCenter"
+            BasedOn="{StaticResource StyleTextDefault}"
+            TargetType="TextBlock">
+            <Setter
+                Property="TextAlignment"
+                Value="Center"/>
+        </Style>
+        <Style
+            x:Key="StyleTextBoxAlginedRight"
+            BasedOn="{StaticResource StyleTextDefault}"
+            TargetType="TextBlock">
+            <Setter
+                Property="TextAlignment"
+                Value="Right"/>
+        </Style>
+        <Style
+            x:Key="StyleTextBoxAlginedLeft"
+            BasedOn="{StaticResource StyleTextDefault}"
+            TargetType="TextBlock">
+            <Setter
+                Property="TextAlignment"
+                Value="Left"/>
+        </Style>
+        <Style
+            x:Key="StyleDataGrid"
+            TargetType="DataGrid">
+            <Setter
+                Property="AutoGenerateColumns"
+                Value="False"/>
+            <Setter
+                Property="CanUserAddRows"
+                Value="False"/>
+            <Setter
+                Property="CanUserDeleteRows"
+                Value="False"/>
+            <Setter
+                Property="AllowDrop"
+                Value="False"/>
+            <Setter
+                Property="IsTextSearchEnabled"
+                Value="True"/>
+            <Setter
+                Property="IsTextSearchCaseSensitive"
+                Value="False"/>
+            <Setter
+                Property="SelectionMode"
+                Value="Single"/>
+            <Setter
+                Property="ColumnHeaderHeight"
+                Value="30"/>
+            <Setter
+                Property="SelectionUnit"
+                Value="Cell"/>
+        </Style>
+        <Style
+            x:Key="StyleMajorError"
+            TargetType="TextBlock">
+            <Setter
+                Property="HorizontalAlignment"
+                Value="Stretch"/>
+            <Setter
+                Property="VerticalAlignment"
+                Value="Center"/>
+            <Setter
+                Property="TextAlignment"
+                Value="Center"/>
+            <Setter
+                Property="Foreground"
+                Value="DarkRed"/>
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap"/>
+            <Setter
+                Property="Margin"
+                Value="10 10 10 10"/>
+            <Setter
+                Property="FontSize"
+                Value="20"/>
+            <Setter
+                Property="Visibility"
+                Value="Collapsed"/>
+        </Style>
+        <Style
+            x:Key="StyleDatabaseError"
+            BasedOn="{StaticResource StyleMajorError}"
+            TargetType="TextBlock"/>
+        <Style
+            x:Key="StyleAppUnUseAbleError"
+            BasedOn="{StaticResource StyleMajorError}"
+            TargetType="TextBlock">
+            <Setter
+                Property="FontWeight"
+                Value="Bold"/>
+        </Style>
+        <Style
+            x:Key="StyleNewVersionAvailableMessage"
+            BasedOn="{StaticResource StyleMajorError}"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="DarkGreen"/>
+            <Setter
+                Property="Visibility"
+                Value="Visible"/>
+        </Style>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

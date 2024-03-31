@@ -33,6 +33,7 @@
     <None Remove="Assets\Icons\database_arrow_down.png" />
     <None Remove="Assets\Icons\database_arrow_up.png" />
     <None Remove="Assets\Icons\database_multiple.png" />
+    <None Remove="Assets\Icons\delete.png" />
     <None Remove="Assets\Icons\description.png" />
     <None Remove="Assets\Icons\developer_board.png" />
     <None Remove="Assets\Icons\dismiss_circle.png" />
@@ -77,6 +78,7 @@
     <Resource Include="Assets\Icons\database_arrow_down.png" />
     <Resource Include="Assets\Icons\database_arrow_up.png" />
     <Resource Include="Assets\Icons\database_multiple.png" />
+    <Resource Include="Assets\Icons\delete.png" />
     <Resource Include="Assets\Icons\description.png" />
     <Resource Include="Assets\Icons\developer_board.png" />
     <Resource Include="Assets\Icons\dismiss_circle.png" />
