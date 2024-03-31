@@ -156,6 +156,16 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
+## Version 0.3
+- Ex- and Import-Views display information about the affected session
+- one internationalization-file per view
+- some tooltips added
+- readonly-configs
+- workaround for the following localization files, cause they have more content than expected
+1. pl-PL.loc
+2. zh-HANS.loc
+3. zh-HANT.loc
+
 ## Version 0.2
 - ex-/import as/from JSON to share with others
 - Database-BackUps (next to the working database "Translations.sqlite", a maximum of twenty backups is created and held)
