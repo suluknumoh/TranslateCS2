@@ -12,6 +12,10 @@
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     prism:ViewModelLocator.AutoWireViewModel="True"
     x:Name="ICC">
+    <ContentControl.Resources>
+        <!-- https://stackoverflow.com/a/32879146 -->
+        <DiscreteObjectKeyFrame x:Key="ImportModeProxy" Value="{Binding ElementName=ICC, Path=DataContext.ImportMode, Mode=OneWay}"/>
+    </ContentControl.Resources>
     <Grid
         HorizontalAlignment="Stretch"
         VerticalAlignment="Top"
@@ -210,8 +214,9 @@
                                 Property="Background"
                                 Value="Transparent"/>
                             <Style.Triggers>
+                                <!-- https://stackoverflow.com/a/32879146 -->
                                 <DataTrigger
-                                    Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                    Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                     Value="{x:Static import_models:ImportModes.NEW}">
                                     <Setter
                                         Property="Background"
@@ -219,8 +224,9 @@
                                 </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.LeftJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
@@ -234,8 +240,9 @@
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.LeftJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
@@ -250,8 +257,9 @@
                                 <!-- -->
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationImportedAvailable}"
@@ -265,8 +273,9 @@
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationImportedAvailable}"
@@ -302,8 +311,9 @@
                                 Property="Background"
                                 Value="Transparent"/>
                             <Style.Triggers>
+                                <!-- https://stackoverflow.com/a/32879146 -->
                                 <DataTrigger
-                                    Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                    Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                     Value="{x:Static import_models:ImportModes.NEW}">
                                     <Setter
                                         Property="Background"
@@ -311,8 +321,9 @@
                                 </DataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.LeftJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
@@ -326,8 +337,9 @@
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.LeftJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
@@ -342,8 +354,9 @@
                                 <!-- -->
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
@@ -357,8 +370,9 @@
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
@@ -375,8 +389,9 @@
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
+                                        <!-- https://stackoverflow.com/a/32879146 -->
                                         <Condition
-                                            Binding="{Binding ElementName=ICC, Path=DataContext.ImportMode}"
+                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
                                             Binding="{Binding IsTranslationExistingAvailable}"
