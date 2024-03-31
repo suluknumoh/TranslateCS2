@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using TranslateCS2.Configurations;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models;
 using TranslateCS2.Models.LocDictionary;
 
 namespace TranslateCS2.Services;
 internal class LocalizationFilesService {
+    private readonly bool _skipWorkAround = AppConfigurationManager.SkipWorkAround;
     private readonly InstallPathDetector _installPathDetector;
 
     public LocalizationFilesService(InstallPathDetector installPathDetector) {
@@ -25,12 +27,30 @@ internal class LocalizationFilesService {
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
     public LocalizationFile GetLocalizationFile(FileInfo fileInfo) {
         using Stream stream = File.OpenRead(fileInfo.FullName);
+        return GetLocalizationFile(fileInfo, stream);
+    }
+    /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
+    private static LocalizationFile GetLocalizationFile(FileInfo fileInfo, Stream stream) {
         short fileHeader = ReadInt16(stream);
         string localeNameEN = ReadString(stream);
         string localeNameID = ReadString(stream);
         string localeNameLocalized = ReadString(stream);
         LocalizationFile localizationFile = new LocalizationFile(fileInfo.Name, fileHeader, localeNameEN, localeNameID, localeNameLocalized);
+        ReadLocalizationFilesLocalizationDictionary(stream, localizationFile);
+        ReadLocalizationFilesIndizes(stream, localizationFile);
+        return localizationFile;
+    }
 
+    private static void ReadLocalizationFilesIndizes(Stream stream, LocalizationFile localizationFile) {
+        int indexCount = ReadInt32(stream);
+        for (int i = 0; i < indexCount; i++) {
+            string key = ReadString(stream);
+            int val = ReadInt32(stream);
+            localizationFile.Indizes.Add(new KeyValuePair<string, int>(key, val));
+        }
+    }
+
+    private static void ReadLocalizationFilesLocalizationDictionary(Stream stream, LocalizationFile localizationFile) {
         int localizationCount = ReadInt32(stream);
         for (int i = 0; i < localizationCount; i++) {
             string key = ReadString(stream);
@@ -38,58 +58,50 @@ internal class LocalizationFilesService {
             LocalizationDictionaryEntry originLocalizationKey = new LocalizationDictionaryEntry(key, value, null);
             localizationFile.LocalizationDictionary.Add(originLocalizationKey);
         }
-
-        int indexCount = ReadInt32(stream);
-        for (int i = 0; i < indexCount; i++) {
-            string key = ReadString(stream);
-            int val = ReadInt32(stream);
-            localizationFile.Indizes.Add(new KeyValuePair<string, int>(key, val));
-        }
-        return localizationFile;
     }
-    /// <summary>
-    ///     writes the given <see cref="LocalizationFile{T}"/>
-    /// </summary>
-    /// <param name="localizationFile">
-    ///     the <see cref="LocalizationFile{T}"/> to write
-    /// </param>
-    /// <param name="fileInfo">
-    ///     currently for testing-purposes only
-    /// </param>
-    public void WriteLocalizationFileDirect(LocalizationFile localizationFile, FileInfo? fileInfo = null) {
-        fileInfo ??= this.GetLocalizationFileInfo(localizationFile.FileName);
-        fileInfo.Delete();
-        using Stream stream = File.OpenWrite(fileInfo.FullName);
+
+    public void WriteLocalizationFileDirect(LocalizationFile localizationFile,
+                                            Stream? streamParameter = null) {
+        FileInfo fileInfo = this.GetLocalizationFileInfo(localizationFile.FileName);
+        WorkAround workAround = new WorkAround(this._skipWorkAround);
+        workAround.Start(fileInfo);
+        //
+        // write new file with this apps logic
+        using Stream stream = streamParameter ?? File.OpenWrite(fileInfo.FullName);
         WriteInt16(stream, localizationFile.FileHeader);
         WriteString(stream, localizationFile.LocaleNameEN);
         WriteString(stream, localizationFile.LocaleNameID);
         WriteString(stream, localizationFile.LocaleNameLocalized);
-        {
-            // localization-dictionary
-            WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
-            foreach (LocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
-                WriteString(stream, entry.Key);
-                if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
-                    if (String.IsNullOrEmpty(entry.ValueMerge) || String.IsNullOrWhiteSpace(entry.ValueMerge)) {
-                        WriteString(stream, entry.Value);
-                    } else {
-                        WriteString(stream, entry.ValueMerge);
-                    }
-                } else {
-                    WriteString(stream, entry.Translation);
-                }
-            }
-        }
-        {
-            // indizes
-            WriteInt32(stream, localizationFile.Indizes.Count);
-            foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
-                WriteString(stream, entry.Key);
-                WriteInt32(stream, entry.Value);
-            }
-        }
+        WriteLocalizationFilesLocalizationDictionary(localizationFile, stream);
+        WriteLocalizationFilesIndizes(localizationFile, stream);
+        workAround.Stop(stream);
         stream.Flush();
     }
+
+    private static void WriteLocalizationFilesIndizes(LocalizationFile localizationFile, Stream stream) {
+        WriteInt32(stream, localizationFile.Indizes.Count);
+        foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
+            WriteString(stream, entry.Key);
+            WriteInt32(stream, entry.Value);
+        }
+    }
+
+    private static void WriteLocalizationFilesLocalizationDictionary(LocalizationFile localizationFile, Stream stream) {
+        WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
+        foreach (LocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
+            WriteString(stream, entry.Key);
+            if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
+                if (String.IsNullOrEmpty(entry.ValueMerge) || String.IsNullOrWhiteSpace(entry.ValueMerge)) {
+                    WriteString(stream, entry.Value);
+                } else {
+                    WriteString(stream, entry.ValueMerge);
+                }
+            } else {
+                WriteString(stream, entry.Translation);
+            }
+        }
+    }
+
     private static short ReadInt16(Stream stream) {
         byte[] buffer = new byte[2];
         stream.ReadExactly(buffer);
@@ -126,5 +138,37 @@ internal class LocalizationFilesService {
 
     private FileInfo GetLocalizationFileInfo(string? fileName) {
         return this.GetLocalizationFiles().Where(item => item.Name == fileName).First();
+    }
+
+
+    /// <summary>
+    ///     workaround - "pl-PL.loc", "zh-HANS.loc" and "zh-HANT.loc" have more content after indizes
+    /// </summary>
+    private class WorkAround {
+        private byte[] _extraContent = Array.Empty<byte>();
+        private readonly bool _skip;
+        public WorkAround(bool skip) {
+            this._skip = skip;
+        }
+        public void Start(FileInfo fileInfo) {
+            if (this._skip) {
+                return;
+            }
+            //
+            // read loc file with this apps logic
+            using Stream workaround = File.OpenRead(fileInfo.FullName);
+            GetLocalizationFile(fileInfo, workaround);
+            //
+            // copy remaining bytes (extra content)
+            using MemoryStream memoryStream = new MemoryStream();
+            workaround.CopyTo(memoryStream);
+            this._extraContent = memoryStream.ToArray();
+        }
+        public void Stop(Stream stream) {
+            if (this._skip) {
+                return;
+            }
+            stream.Write(this._extraContent);
+        }
     }
 }
