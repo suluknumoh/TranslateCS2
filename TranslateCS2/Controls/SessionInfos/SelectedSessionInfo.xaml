@@ -14,114 +14,192 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
                 FontSize="16"
                 FontStyle="Oblique"
                 FontWeight="SemiBold"
                 Text="{Binding Source={x:Static i18n:I18NSessions.StringAffectedSession}, Mode=OneWay}"/>
-            <!-- first column -->
-            <StackPanel
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                HorizontalAlignment="Right"
+                MaxHeight="24"
+                MaxWidth="24"
+                Margin="5 5 5 5"
+                Background="Transparent"
+                BorderThickness="0"
+                Cursor="Hand"
+                Command="{Binding DisplayCommand}">
+                <Image
+                    MaxHeight="24"
+                    MaxWidth="24">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter
+                                Property="Source"
+                                Value="/TranslateCS2;component/Assets/Icons/chevron_circle_up.png"/>
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Display}"
+                                    Value="False">
+                                    <Setter
+                                        Property="Source"
+                                        Value="/TranslateCS2;component/Assets/Icons/chevron_circle_down.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Button>
+            <Grid
                 Grid.Row="1"
                 Grid.Column="0"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.OutputID}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding ID, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="2"
-                Grid.Column="0"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.InputName}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding Name, Mode=OneWay}"/>
-            </StackPanel>
-            <!-- second column -->
-            <StackPanel
-                Grid.Row="1"
-                Grid.Column="1"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.OutputStarted}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding Started, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="2"
-                Grid.Column="1"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.OutputLastEdited}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding LastEdited, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="3"
-                Grid.Column="1"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleEnglish}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding OverwriteLocalizationNameEN, Mode=OneWay}"/>
-            </StackPanel>
-            <!-- third column -->
-            <StackPanel
-                Grid.Row="1"
-                Grid.Column="2"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.InputOverwriteFile}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding OverwriteLocalizationFileName, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="2"
-                Grid.Column="2"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.InputMergeFile}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding MergeLocalizationFileName, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="3"
-                Grid.Column="2"
-                Orientation="Horizontal">
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedRight}"
-                    Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleLocalized}, StringFormat={}{0}:, Mode=OneWay}"/>
-                <TextBlock
-                    Style="{StaticResource StyleTextBlockAlginedLeft}"
-                    Text="{Binding OverwriteLocalizationNameLocalized, Mode=OneWay}"/>
-            </StackPanel>
+                Grid.ColumnSpan="4">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter
+                            Property="Visibility"
+                            Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Display}"
+                                Value="False">
+                                <Setter
+                                    Property="Visibility"
+                                    Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- first column -->
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.OutputID}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.ID, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.InputName}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.Name, Mode=OneWay}"/>
+                </StackPanel>
+                <!-- second column -->
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.OutputStarted}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.Started, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.OutputLastEdited}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.LastEdited, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleEnglish}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationNameEN, Mode=OneWay}"/>
+                </StackPanel>
+                <!-- third column -->
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.InputOverwriteFile}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.InputMergeFile}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.MergeLocalizationFileName, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedRight}"
+                        Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleLocalized}, StringFormat={}{0}:, Mode=OneWay}"/>
+                    <TextBlock
+                        Margin="2 2 2 2"
+                        Style="{StaticResource StyleTextBlockAlginedLeft}"
+                        Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationNameLocalized, Mode=OneWay}"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </ContentControl>

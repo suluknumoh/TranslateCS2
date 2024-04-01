@@ -29,7 +29,8 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         this._selectedFilter = this.Filters.First();
         this.AddToolsGroup();
         this.AddCountGroup();
-        this.TextSearchContext = new TextSearchControlContext(this.RefreshViewList, true);
+        this.TextSearchContext = new TextSearchControlContext(true);
+        this.TextSearchContext.OnSearch += this.RefreshViewList;
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {

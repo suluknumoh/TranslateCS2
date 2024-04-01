@@ -165,7 +165,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 1. pl-PL.loc
 2. zh-HANS.loc
 3. zh-HANT.loc
-- added ability to delete sessions
+- added ability to delete sessions (includes Database-BackUp before session is deleted)
 
 ## Version 0.2
 - ex-/import as/from JSON to share with others

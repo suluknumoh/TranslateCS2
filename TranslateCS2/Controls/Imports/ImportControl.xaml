@@ -8,9 +8,9 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:binding_enums="clr-namespace:TranslateCS2.BindingEnums"
     xmlns:import_models="clr-namespace:TranslateCS2.Models.Imports"
-    xmlns:session_infos="clr-namespace:TranslateCS2.Controls.SessionInfos"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
     x:Name="ICC">
     <ContentControl.Resources>
         <!-- https://stackoverflow.com/a/32879146 -->
@@ -40,12 +40,11 @@
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NImport.Caption}, Mode=OneWay}">
         </TextBlock>
-        <session_infos:SelectedSessionInfo
+        <ContentControl
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="4"
-            DataContext="{Binding SessionManager.CurrentTranslationSession}"
-            />
+            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppSelectedSessionInfoRegionImport}, Mode=OneWay}"/>
         <StackPanel
             Grid.Row="2"
             Grid.Column="0"

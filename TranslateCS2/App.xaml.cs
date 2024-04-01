@@ -17,6 +17,7 @@ using TranslateCS2.Configurations.Views;
 using TranslateCS2.Controls.Exports;
 using TranslateCS2.Controls.Imports;
 using TranslateCS2.Controls.Ribbons;
+using TranslateCS2.Controls.SessionInfos;
 using TranslateCS2.Controls.Sessions;
 using TranslateCS2.Databases;
 using TranslateCS2.Helpers;
@@ -108,12 +109,14 @@ public partial class App : PrismApplication {
         containerRegistry.RegisterSingleton<IAppCloseBrokers>(AppCloseBrokers.GetInstance);
         containerRegistry.RegisterSingleton<ViewConfigurations>(this.GetViewConfigurations);
         containerRegistry.RegisterSingleton<TranslationSessionManager>();
+        containerRegistry.RegisterSingleton<SelectedSessionInfoContext>();
         containerRegistry.Register<JSONService>();
         containerRegistry.Register<ExImportService>();
         containerRegistry.Register<FiltersService>();
         {
             // configure controls
             containerRegistry.RegisterForNavigation<NewEditSessionControl, NewEditSessionControlContext>(nameof(NewEditSessionControl));
+            containerRegistry.RegisterForNavigation<SelectedSessionInfo, SelectedSessionInfoContext>(nameof(SelectedSessionInfo));
             containerRegistry.RegisterForNavigation<ExportControl, ExportControlContext>(nameof(ExportControl));
             containerRegistry.RegisterForNavigation<ImportControl, ImportControlContext>(nameof(ImportControl));
         }
@@ -145,6 +148,9 @@ public partial class App : PrismApplication {
         TranslationSessionManager translationSessionManager = this.Container.Resolve<TranslationSessionManager>();
         IRegionManager regionManager = this.Container.Resolve<IRegionManager>();
         regionManager.RegisterViewWithRegion<AppRibbonControl>(AppConfigurationManager.AppRibbonBarRegion);
+        regionManager.RegisterViewWithRegion<SelectedSessionInfo>(AppConfigurationManager.AppSelectedSessionInfoRegionImport);
+        regionManager.RegisterViewWithRegion<SelectedSessionInfo>(AppConfigurationManager.AppSelectedSessionInfoRegionExport);
+
         //regionManager.RegisterViewWithRegion<>();
         // modules are initilized
         IViewConfiguration startView = this.ConfigureViews(regionManager, translationSessionManager);

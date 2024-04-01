@@ -16,7 +16,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
                                                                                                translationSessionManager) {
         this.AddToolsGroup();
         this.AddCountGroup();
-        this.TextSearchContext = new TextSearchControlContext(this.RefreshViewList, false);
+        this.TextSearchContext = new TextSearchControlContext(false);
+        this.TextSearchContext.OnSearch += this.RefreshViewList;
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {

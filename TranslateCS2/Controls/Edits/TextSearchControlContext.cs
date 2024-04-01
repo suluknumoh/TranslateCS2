@@ -7,7 +7,7 @@ using Prism.Mvvm;
 
 namespace TranslateCS2.Controls.Edits;
 internal class TextSearchControlContext : BindableBase {
-    private readonly Action _SearchCommandAction;
+    public event Action? OnSearch;
     public bool IsKeyVisible { get; }
 
 
@@ -21,36 +21,34 @@ internal class TextSearchControlContext : BindableBase {
     private bool _IsKey;
     public bool IsKey {
         get => this._IsKey;
-        set => this.SetProperty(ref this._IsKey, value, this._SearchCommandAction);
+        set => this.SetProperty(ref this._IsKey, value, this.Invoke);
     }
 
 
     private bool _IsEnglishValue = true;
     public bool IsEnglishValue {
         get => this._IsEnglishValue;
-        set => this.SetProperty(ref this._IsEnglishValue, value, this._SearchCommandAction);
+        set => this.SetProperty(ref this._IsEnglishValue, value, this.Invoke);
     }
 
 
     private bool _IsMergeValue = true;
     public bool IsMergeValue {
         get => this._IsMergeValue;
-        set => this.SetProperty(ref this._IsMergeValue, value, this._SearchCommandAction);
+        set => this.SetProperty(ref this._IsMergeValue, value, this.Invoke);
     }
 
 
     private bool _IsTranslation;
     public bool IsTranslation {
         get => this._IsTranslation;
-        set => this.SetProperty(ref this._IsTranslation, value, this._SearchCommandAction);
+        set => this.SetProperty(ref this._IsTranslation, value, this.Invoke);
     }
 
 
     public DelegateCommand<RoutedEventArgs> SearchCommand { get; }
 
-    public TextSearchControlContext(Action SearchCommandAction,
-                                    bool isKeyVisible) {
-        this._SearchCommandAction = SearchCommandAction;
+    public TextSearchControlContext(bool isKeyVisible) {
         this.IsKeyVisible = isKeyVisible;
         this._IsKey = this.IsKeyVisible;
         this.SearchCommand = new DelegateCommand<RoutedEventArgs>(this.CommandAction);
@@ -68,6 +66,10 @@ internal class TextSearchControlContext : BindableBase {
                     return;
             }
         }
-        this._SearchCommandAction();
+        this.Invoke();
+    }
+
+    private void Invoke() {
+        OnSearch?.Invoke();
     }
 }

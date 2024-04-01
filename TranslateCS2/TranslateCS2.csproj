@@ -23,8 +23,12 @@
 
   <ItemGroup>
     <None Remove="Assets\Icons\add.png" />
+    <None Remove="Assets\Icons\add_circle.png" />
+    <None Remove="Assets\Icons\add_square.png" />
     <None Remove="Assets\Icons\appicon.ico" />
     <None Remove="Assets\Icons\appicon.png" />
+    <None Remove="Assets\Icons\chevron_circle_down.png" />
+    <None Remove="Assets\Icons\chevron_circle_up.png" />
     <None Remove="Assets\Icons\city.png" />
     <None Remove="Assets\Icons\clock_dismiss.png" />
     <None Remove="Assets\Icons\clock_toolbox.png" />
@@ -37,6 +41,7 @@
     <None Remove="Assets\Icons\description.png" />
     <None Remove="Assets\Icons\developer_board.png" />
     <None Remove="Assets\Icons\dismiss_circle.png" />
+    <None Remove="Assets\Icons\dismiss_square.png" />
     <None Remove="Assets\Icons\edit.png" />
     <None Remove="Assets\Icons\folder.png" />
     <None Remove="Assets\Icons\folder_open.png" />
@@ -68,8 +73,12 @@
 
   <ItemGroup>
     <Resource Include="Assets\Icons\add.png" />
+    <Resource Include="Assets\Icons\add_circle.png" />
+    <Resource Include="Assets\Icons\add_square.png" />
     <Resource Include="Assets\Icons\appicon.ico" />
     <Resource Include="Assets\Icons\appicon.png" />
+    <Resource Include="Assets\Icons\chevron_circle_down.png" />
+    <Resource Include="Assets\Icons\chevron_circle_up.png" />
     <Resource Include="Assets\Icons\city.png" />
     <Resource Include="Assets\Icons\clock_dismiss.png" />
     <Resource Include="Assets\Icons\clock_toolbox.png" />
@@ -82,6 +91,7 @@
     <Resource Include="Assets\Icons\description.png" />
     <Resource Include="Assets\Icons\developer_board.png" />
     <Resource Include="Assets\Icons\dismiss_circle.png" />
+    <Resource Include="Assets\Icons\dismiss_square.png" />
     <Resource Include="Assets\Icons\edit.png" />
     <Resource Include="Assets\Icons\folder.png" />
     <Resource Include="Assets\Icons\folder_open.png" />

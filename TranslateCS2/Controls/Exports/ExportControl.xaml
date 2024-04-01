@@ -8,6 +8,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     xmlns:session_infos="clr-namespace:TranslateCS2.Controls.SessionInfos"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid
         HorizontalAlignment="Stretch"
@@ -31,12 +32,11 @@
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NExport.Caption}, Mode=OneWay}">
         </TextBlock>
-        <session_infos:SelectedSessionInfo
+        <ContentControl
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="4"
-            DataContext="{Binding SessionManager.CurrentTranslationSession}"
-            />
+            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppSelectedSessionInfoRegionExport}, Mode=OneWay}"/>
         <StackPanel
             Grid.Row="2"
             Grid.Column="0"
