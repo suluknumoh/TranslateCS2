@@ -28,7 +28,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public delegate void CallBackAfter();
 
-    private CallBackAfter _callbackEnd;
+    private CallBackAfter? _callbackEnd;
 
 
     private string? _ActionString;
@@ -91,7 +91,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         }
     }
     private void SaveAction() {
-        if (this._newSessionBindingGroup.CommitEdit()) {
+        if (this._newSessionBindingGroup != null && this._newSessionBindingGroup.CommitEdit()) {
             if (this.IsEdit) {
                 this.SessionManager.Update(this.NewSession);
             } else {
@@ -123,14 +123,16 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     private void InitNewSession() {
-        this._newSessionBindingGroup.CancelEdit();
-        if (this.IsEdit) {
-            this.NewSession = this.SessionManager.CurrentTranslationSession;
-            this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
-        } else {
-            this.NewSession = new TranslationSession();
-            this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
+        if (this._newSessionBindingGroup != null) {
+            this._newSessionBindingGroup.CancelEdit();
+            if (this.IsEdit) {
+                this.NewSession = this.SessionManager.CurrentTranslationSession;
+                this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
+            } else {
+                this.NewSession = new TranslationSession();
+                this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
+            }
+            this._newSessionBindingGroup.BeginEdit();
         }
-        this._newSessionBindingGroup.BeginEdit();
     }
 }

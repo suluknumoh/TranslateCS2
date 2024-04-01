@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -46,8 +45,8 @@ internal class TranslationSessionManager : BindableBase {
         set => this.SetProperty(ref this._DatabaseError, value, this.OnDatabaseErrorChange);
     }
 
-    public bool HasDatabaseError => !String.IsNullOrEmpty(this.DatabaseError) && !String.IsNullOrWhiteSpace(this.DatabaseError);
-    public bool HasNoDatabaseError => String.IsNullOrEmpty(this.DatabaseError) && String.IsNullOrWhiteSpace(this.DatabaseError);
+    public bool HasDatabaseError => !this.HasNoDatabaseError;
+    public bool HasNoDatabaseError => StringHelper.IsNullOrWhiteSpaceOrEmpty(this.DatabaseError);
 
 
     public TranslationSessionManager(IRegionManager regionManager,
@@ -56,15 +55,15 @@ internal class TranslationSessionManager : BindableBase {
                                      LocalizationFilesService localizationFilesService) {
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
+        this.InstallPathDetector = installPathDetector;
         this._onError = (error) => this.DatabaseError = error;
         try {
-            this.InstallPath = installPathDetector.DetectInstallPath();
+            this.InstallPath = this.InstallPathDetector.DetectInstallPath();
             this.IsAppUseAble = true;
         } catch {
             this.IsAppUseAble = false;
             return;
         }
-        this.InstallPathDetector = installPathDetector;
         this.LocalizationFilesService = localizationFilesService;
         this.LocalizationFiles = this.LocalizationFilesService.GetLocalizationFiles();
         this.BaseLocalizationFile = this.GetLocalizationFile(AppConfigurationManager.LeadingLocFileName);
@@ -122,7 +121,7 @@ internal class TranslationSessionManager : BindableBase {
         merged.Indizes.Clear();
         merged.Indizes.AddRange(mergeLocalizationFile.Indizes);
         merged.LocalizationDictionary.Clear();
-        List<LocalizationDictionaryEntry> dic = this.CurrentTranslationSession.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.ValueMerge) && !String.IsNullOrWhiteSpace(item.ValueMerge)).ToList();
+        List<LocalizationDictionaryEntry> dic = this.CurrentTranslationSession.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
         merged.LocalizationDictionary.AddRange(dic);
         return merged;
     }
@@ -131,7 +130,7 @@ internal class TranslationSessionManager : BindableBase {
         if (session == null) {
             return;
         }
-        TranslationsDB.AddTranslationSession(session, this._onError);
+        TranslationsDB.UpsertTranslationSession(session, this._onError);
         if (!this.HasDatabaseError) {
             this.AddTranslationSession(session);
         }
@@ -141,7 +140,7 @@ internal class TranslationSessionManager : BindableBase {
         if (session == null) {
             return;
         }
-        TranslationsDB.UpdateTranslationSession(session, this._onError);
+        TranslationsDB.UpsertTranslationSession(session, this._onError);
         if (!this.HasDatabaseError) {
             this.CurrentTranslationSessionChanged();
         }

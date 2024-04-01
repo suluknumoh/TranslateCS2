@@ -42,7 +42,12 @@ internal static class AppConfigurationManager {
     public static string DatabaseNameRaw { get; } = "Translations";
     public static string DatabaseName { get; } = $"{DatabaseNameRaw}{DatabaseExtension}";
     public static string DatabaseProvider { get; } = "SqliteConnection.SqliteConnectionFactory";
-    public static string DatabaseConnectionString { get; } = $"Data Source=./{DatabaseName};Pooling=False";
-    public static string DatabaseConnectionStringDebug { get; } = $"Data Source=../../../../../../{DatabaseName};Pooling=False";
     public static bool SkipWorkAround { get; } = false;
+
+
+
+    public static string DatabaseConnectionString { get; } = $"Data Source=./{DatabaseName};Pooling=False";
+
+    public static string DatabaseConnectionStringDebug { get; } = $"Data Source=../../../../../../{DatabaseName};Pooling=False";
+
 }

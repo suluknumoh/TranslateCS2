@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -132,7 +131,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             try {
                 return this._exportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
                                                   this.SelectedPath);
-            } catch (Exception ex) {
+            } catch {
                 return null;
             }
         })

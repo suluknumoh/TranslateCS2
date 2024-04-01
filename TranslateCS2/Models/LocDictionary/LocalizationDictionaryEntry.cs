@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using Prism.Mvvm;
+
+using TranslateCS2.Helpers;
 
 namespace TranslateCS2.Models.LocDictionary;
 internal class LocalizationDictionaryEntry : BindableBase {
@@ -21,7 +22,7 @@ internal class LocalizationDictionaryEntry : BindableBase {
         set => this.SetProperty(ref this._Translation, value);
     }
     [JsonIgnore]
-    public bool IsTranslated => !String.IsNullOrEmpty(this.Translation) && !String.IsNullOrWhiteSpace(this.Translation);
+    public bool IsTranslated => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation);
     public LocalizationDictionaryEntry(string key,
                                        string value,
                                        string? translation) {

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
+using TranslateCS2.Helpers;
 using TranslateCS2.Models;
 using TranslateCS2.Models.LocDictionary;
 
@@ -17,7 +17,7 @@ internal class JSONService {
     };
     public void WriteLocalizationFileJson(LocalizationFile localizationFile,
                                           string file) {
-        List<LocalizationDictionaryEntry> exp = localizationFile.LocalizationDictionary.Where(item => !String.IsNullOrEmpty(item.Translation) && !String.IsNullOrWhiteSpace(item.Translation)).ToList();
+        List<LocalizationDictionaryEntry> exp = localizationFile.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToList();
         byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
         File.WriteAllBytes(file, bytes);
     }

@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Resources;
 
+using TranslateCS2.Helpers;
+
 namespace TranslateCS2.BindingEnums;
 /// <seealso href="https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/"/>
 /// <seealso href="https://github.com/brianlagunas/BindingEnumsInWpf"/>
@@ -17,7 +19,11 @@ public class LocalizedDescriptionAttribute : DescriptionAttribute {
     public override string Description {
         get {
             string? description = this._resourceManager.GetString(this._resourceKey);
-            return String.IsNullOrWhiteSpace(description) ? String.Format("[[{0}]]", this._resourceKey) : description;
+            if (description != null
+                && !StringHelper.IsNullOrWhiteSpaceOrEmpty(description)) {
+                return description;
+            }
+            return String.Format("[[{0}]]", this._resourceKey);
         }
     }
 }

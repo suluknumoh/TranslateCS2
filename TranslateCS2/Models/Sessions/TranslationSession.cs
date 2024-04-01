@@ -90,14 +90,17 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
     public ObservableCollection<LocalizationDictionaryEntry> LocalizationDictionary { get; } = [];
 
 
-    private string _DisplayName;
-    public string DisplayName {
+    private string? _DisplayName;
+    public string? DisplayName {
         get => this._DisplayName;
         set => this.SetProperty(ref this._DisplayName, value);
     }
 
 
-    public TranslationSession() { }
+    public TranslationSession() {
+        this.Started = DateTime.Now;
+        this.LastEdited = this.Started;
+    }
 
     private void ChangeRefresh() {
         this.DisplayName = $"{nameof(this.ID)}: {this.ID} - {nameof(this.Name)}: {this.Name} - {nameof(this.Started)}: {this.Started} - {nameof(this.LastEdited)}: {this.LastEdited}";
@@ -110,12 +113,12 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
         get {
             switch (columnName) {
                 case nameof(this.Name):
-                    if (String.IsNullOrEmpty(this.Name) || String.IsNullOrWhiteSpace(this.Name)) {
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Name)) {
                         return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
                     break;
                 case nameof(this.OverwriteLocalizationNameEN):
-                    if (String.IsNullOrEmpty(this.OverwriteLocalizationNameEN) || String.IsNullOrWhiteSpace(this.OverwriteLocalizationNameEN)) {
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.OverwriteLocalizationNameEN)) {
                         return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
                     Regex regex = new Regex("^[a-zA-Z]+$");
@@ -124,7 +127,7 @@ internal class TranslationSession : BindableBase, IEquatable<TranslationSession?
                     }
                     break;
                 case nameof(this.OverwriteLocalizationNameLocalized):
-                    if (String.IsNullOrEmpty(this.OverwriteLocalizationNameLocalized) || String.IsNullOrWhiteSpace(this.OverwriteLocalizationNameLocalized)) {
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.OverwriteLocalizationNameLocalized)) {
                         return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
                     break;
