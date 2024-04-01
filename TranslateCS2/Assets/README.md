@@ -161,6 +161,8 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - one internationalization-file per view
 - some tooltips added
 - readonly-configs
+- only configurable configs within TranslateCS2.ddl.config
+1. DatabaseMaxBackUpCount
 - workaround for the following localization files, cause they have more content than expected
 1. pl-PL.loc
 2. zh-HANS.loc

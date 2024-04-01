@@ -6,16 +6,6 @@ internal static class AppConfigurationManager {
 
     static AppConfigurationManager() {
         InitDatabaseMaxUpdateCount();
-        InitSkipWorkAround();
-    }
-
-    private static void InitSkipWorkAround() {
-        string? s = ConfigurationManager.AppSettings[nameof(SkipWorkAround)];
-        if (s != null
-            && (s == "1" || s.Equals("true", StringComparison.OrdinalIgnoreCase))) {
-            SkipWorkAround = true;
-        }
-        SkipWorkAround = false;
     }
 
     private static void InitDatabaseMaxUpdateCount() {
@@ -23,8 +13,9 @@ internal static class AppConfigurationManager {
         bool parsed = UInt32.TryParse(s, out uint result);
         if (parsed) {
             DatabaseMaxBackUpCount = result;
+        } else {
+            DatabaseMaxBackUpCount = 20;
         }
-        DatabaseMaxBackUpCount = 20;
     }
 
     public static string AppTitle { get; } = "TranslateCS2 - an unofficial Translator-Tool for Cities: Skylines 2";
@@ -53,5 +44,5 @@ internal static class AppConfigurationManager {
     public static string DatabaseProvider { get; } = "SqliteConnection.SqliteConnectionFactory";
     public static string DatabaseConnectionString { get; } = $"Data Source=./{DatabaseName};Pooling=False";
     public static string DatabaseConnectionStringDebug { get; } = $"Data Source=../../../../../../{DatabaseName};Pooling=False";
-    public static bool SkipWorkAround { get; private set; }
+    public static bool SkipWorkAround { get; } = false;
 }
