@@ -156,7 +156,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
-## Version 0.3
+## Version 0.3 (unreleased)
 - Ex- and Import-Views display information about the affected session
 - Import-View:
 1. compare existing and read translations in a new window
