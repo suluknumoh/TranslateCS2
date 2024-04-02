@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ColumnCount" xml:space="preserve">
-    <value>Count</value>
+  <data name="DoClear" xml:space="preserve">
+    <value>clear</value>
   </data>
-  <data name="ColumnCountTip" xml:space="preserve">
-    <value>displays the count/amount/quantity of times the english value occurs/appears
-a little more technical: the amount of keys the english value is used for</value>
+  <data name="DoSearch" xml:space="preserve">
+    <value>search</value>
   </data>
-  <data name="ColumnEnglish" xml:space="preserve">
-    <value>English Value</value>
+  <data name="StringIn" xml:space="preserve">
+    <value>in</value>
   </data>
-  <data name="ColumnEnglishTip" xml:space="preserve">
-    <value>displays the value/text that corresponds to the key within the Key-column
-it's always english, cause english seems to be the 'leading' language</value>
-  </data>
-  <data name="ColumnKey" xml:space="preserve">
-    <value>Key</value>
-  </data>
-  <data name="ColumnKeyTip" xml:space="preserve">
-    <value>displays the key used by Colossal Order</value>
-  </data>
-  <data name="ColumnMerge" xml:space="preserve">
-    <value>Merge Value</value>
-  </data>
-  <data name="ColumnMergeTip" xml:space="preserve">
-    <value>displays the value/text
-that corresponds to the key within the Key-column
-inside the localization file to merge with
-that is selected while creating the translation session</value>
-  </data>
-  <data name="ColumnTranslation" xml:space="preserve">
-    <value>Translation</value>
-  </data>
-  <data name="ColumnTranslationTip" xml:space="preserve">
-    <value>the new value that is going to correspond to the respective key within the Key-column
-for each cell that is left empty, the respective value/text within the Merge Value-column gets exported</value>
+  <data name="StringSearchFor" xml:space="preserve">
+    <value>search for</value>
   </data>
 </root>

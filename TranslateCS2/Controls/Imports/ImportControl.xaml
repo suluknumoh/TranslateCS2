@@ -6,16 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:local="clr-namespace:TranslateCS2.Controls.Imports"
     xmlns:binding_enums="clr-namespace:TranslateCS2.BindingEnums"
     xmlns:import_models="clr-namespace:TranslateCS2.Models.Imports"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
-    x:Name="ICC">
-    <ContentControl.Resources>
-        <!-- https://stackoverflow.com/a/32879146 -->
-        <DiscreteObjectKeyFrame x:Key="ImportModeProxy" Value="{Binding ElementName=ICC, Path=DataContext.ImportMode, Mode=OneWay}"/>
-    </ContentControl.Resources>
+    prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid
         HorizontalAlignment="Stretch"
         VerticalAlignment="Top"
@@ -93,39 +89,41 @@
                     Text="{Binding Source={x:Static i18n:I18NImport.DoRead}, Mode=OneWay}"/>
             </StackPanel>
         </Button>
-        <StackPanel
+        <Button
             Grid.Row="2"
             Grid.Column="2"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            >
-            <!--
-                /// <seealso href="https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/"/>
-                /// <seealso href="https://github.com/brianlagunas/BindingEnumsInWpf"/>
-            -->
-            <ComboBox
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                IsEnabled="{Binding IsPreviewAvailable}"
-                ItemsSource="{Binding Source={binding_enums:EnumBindingSource {x:Type import_models:ImportModes}}}"
-                SelectedItem="{Binding ImportMode}"
-                Width="250"
-                Height="110">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Separator/>
-                            <TextBlock
-                                Width="250"
-                                Margin="5 5 5 5"
-                                Text="{Binding .}"/>
-                            <Separator/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel>
+            Command="{Binding OpenComparisonInNewWindowCommand}"
+            IsEnabled="{Binding IsImportButtonEnabled}"
+            Style="{StaticResource StyleButton}">
+            <StackPanel
+                Orientation="Vertical">
+                <Image
+                    MaxHeight="64"
+                    MaxWidth="64">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter
+                                Property="Source"
+                                Value="/TranslateCS2;component/Assets/Icons/open_off.png"/>
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsImportButtonEnabled}"
+                                    Value="True">
+                                    <Setter
+                                        Property="Source"
+                                        Value="/TranslateCS2;component/Assets/Icons/open.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    TextAlignment="Center"
+                    Text="{Binding Source={x:Static i18n:I18NImport.DoOpenCompare}, Mode=OneWay}"/>
+            </StackPanel>
+        </Button>
         <Button
             Grid.Row="2"
             Grid.Column="3"
@@ -154,262 +152,10 @@
             Foreground="{Binding InfoMessageColor}"
             Style="{StaticResource StyleTextBlockAlginedCenter}"
             Text="{Binding InfoMessage}"/>
-        <DataGrid
+        <local:ComparisonDataGrid
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="4"
-            ItemsSource="{Binding Preview}">
-            <DataGrid.Style>
-                <Style
-                    TargetType="DataGrid"
-                    BasedOn="{StaticResource StyleDataGrid}">
-                    <Setter
-                        Property="Visibility"
-                        Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger
-                            Binding="{Binding IsPreviewAvailable}"
-                            Value="True">
-                            <Setter
-                                Property="Visibility"
-                                Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Style>
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Header="{Binding Source={x:Static i18n:I18NImport.ColumnKey}, Mode=OneWay}"
-                    Binding="{Binding Key, Mode=OneWay}"
-                    MinWidth="200"
-                    Width="200"
-                    MaxWidth="300"
-                    IsReadOnly="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter
-                                Property="HorizontalContentAlignment"
-                                Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn
-                    Header="{Binding Source={x:Static i18n:I18NImport.ColumnExisting}, Mode=OneWay}"
-                    Binding="{Binding TranslationExisting, Mode=OneWay}"
-                    MinWidth="100"
-                    Width="400"
-                    MaxWidth="500"
-                    IsReadOnly="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter
-                                Property="HorizontalContentAlignment"
-                                Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter
-                                Property="Background"
-                                Value="Transparent"/>
-                            <Style.Triggers>
-                                <!-- https://stackoverflow.com/a/32879146 -->
-                                <DataTrigger
-                                    Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                    Value="{x:Static import_models:ImportModes.NEW}">
-                                    <Setter
-                                        Property="Background"
-                                        Value="LightSalmon"/>
-                                </DataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.LeftJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightGreen"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.LeftJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightSalmon"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <!-- -->
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.RightJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
-                                            Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightGreen"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.RightJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
-                                            Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightSalmon"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn
-                    Header="{Binding Source={x:Static i18n:I18NImport.ColumnImported}, Mode=OneWay}"
-                    Binding="{Binding TranslationImported, Mode=OneWay}"
-                    MinWidth="100"
-                    Width="400"
-                    MaxWidth="500"
-                    IsReadOnly="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter
-                                Property="HorizontalContentAlignment"
-                                Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter
-                                Property="Background"
-                                Value="Transparent"/>
-                            <Style.Triggers>
-                                <!-- https://stackoverflow.com/a/32879146 -->
-                                <DataTrigger
-                                    Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                    Value="{x:Static import_models:ImportModes.NEW}">
-                                    <Setter
-                                        Property="Background"
-                                        Value="LightGreen"/>
-                                </DataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.LeftJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightSalmon"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.LeftJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightGreen"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <!-- -->
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.RightJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightGreen"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.RightJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="True"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
-                                            Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightGreen"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <!-- https://stackoverflow.com/a/32879146 -->
-                                        <Condition
-                                            Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
-                                            Value="{x:Static import_models:ImportModes.RightJoin}"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationExistingAvailable}"
-                                            Value="True"/>
-                                        <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
-                                            Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightSalmon"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+            DataContext="{Binding CDGContext}"/>
     </Grid>
 </ContentControl>

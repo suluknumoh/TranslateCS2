@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace TranslateCS2.Controls.Edits;
+namespace TranslateCS2.Controls.Searchs;
 /// <summary>
 /// Interaktionslogik für SearchControl.xaml
 /// </summary>

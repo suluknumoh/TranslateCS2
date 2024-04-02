@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:editcontrols="clr-namespace:TranslateCS2.Controls.Edits"
+    xmlns:searchcontrols="clr-namespace:TranslateCS2.Controls.Searchs"
     mc:Ignorable="d"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
@@ -19,7 +19,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <editcontrols:TextSearchControl
+        <searchcontrols:TextSearchControl
             Grid.Row="0"
             Grid.Column="0"
             DataContext="{Binding TextSearchContext}"/>

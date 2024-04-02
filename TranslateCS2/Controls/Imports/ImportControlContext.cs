@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -8,6 +6,7 @@ using System.Windows.Media;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Helpers;
@@ -15,15 +14,21 @@ using TranslateCS2.Models.Imports;
 using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties.I18N;
 using TranslateCS2.Services;
+using TranslateCS2.ViewModels.Dialogs;
+using TranslateCS2.Views.Dialogs;
 
 namespace TranslateCS2.Controls.Imports;
 
 internal class ImportControlContext : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
     private readonly ExImportService _exportService;
+    private readonly IDialogService _dialogService;
     private readonly string _dialogtitle = I18NImport.DialogTitle;
     private readonly string _dialogWarningCaption = I18NImport.DialogWarningCaption;
     private readonly string _dialogWarningText = I18NImport.DialogWarningText;
+
+
+    public ComparisonDataGridContext CDGContext { get; }
 
 
     public TranslationSessionManager SessionManager { get; }
@@ -71,32 +76,27 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
 
-    private ImportModes _ImportMode;
-    public ImportModes ImportMode {
-        get => this._ImportMode;
-        set => this.SetProperty(ref this._ImportMode, value);
-    }
-
-
-    public ObservableCollection<CompareExistingImportedTranslations> Preview { get; } = [];
-    public bool IsPreviewAvailable => this.Preview.Any();
-
 
     public DelegateCommand SelectPathCommand { get; }
     public DelegateCommand ReadCommand { get; }
+    public DelegateCommand OpenComparisonInNewWindowCommand { get; }
     public DelegateCommand ImportCommand { get; }
 
 
     public ImportControlContext(ViewConfigurations viewConfigurations,
                                 TranslationSessionManager translationSessionManager,
-                                ExImportService exportService) {
+                                ExImportService exportService,
+                                IDialogService dialogService) {
         this._viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
         this._exportService = exportService;
+        this._dialogService = dialogService;
+        this.CDGContext = new ComparisonDataGridContext();
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ReadCommand = new DelegateCommand(this.ReadCommandAction);
+        this.OpenComparisonInNewWindowCommand = new DelegateCommand(this.OpenComparisonInNewWindowCommandAction);
         this.ImportCommand = new DelegateCommand(this.ImportCommandAction);
-        this._ImportMode = ImportModes.LeftJoin;
+        this.CDGContext.ImportMode = ImportModes.LeftJoin;
         this._IsEnabled = true;
         this._IsReadButtonEnabled = false;
         this._IsImportButtonEnabled = false;
@@ -120,10 +120,9 @@ internal class ImportControlContext : BindableBase, INavigationAware {
 
     private void ReadCommandAction() {
         Task.Factory.StartNew(() => {
-            this.IsEnabled = false;
-            this.IsReadButtonEnabled = false;
-            Application.Current.Dispatcher.Invoke(this.Preview.Clear);
-            this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+            this.SwitchEnablements(false);
+            this.CDGContext.Clear();
+            this.RaisePropertyChanged(nameof(this.CDGContext));
             this.InfoMessageColor = Brushes.Black;
             this.InfoMessage = I18NImport.MessageRead;
         })
@@ -136,18 +135,18 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             }
         })
         .ContinueWith((t) => {
-            if (t.GetAwaiter().GetResult() is List<CompareExistingImportedTranslations> preview) {
+            if (t.GetAwaiter().GetResult() is List<CompareExistingImportedTranslation> preview) {
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NImport.MessageReadSuccess;
-                Application.Current.Dispatcher.Invoke(() => this.Preview.AddRange(preview));
-                this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
-                this.IsImportButtonEnabled = true;
+                this.CDGContext.SetItems(preview);
+                this.RaisePropertyChanged(nameof(this.CDGContext));
+                this.CDGContext.Raiser();
+                this.SwitchEnablements(true);
             } else {
                 this.InfoMessageColor = Brushes.DarkRed;
                 this.InfoMessage = I18NImport.MessageReadFail;
+                this.SwitchEnablements(false);
             }
-            this.IsEnabled = true;
-            this.IsReadButtonEnabled = true;
         });
     }
 
@@ -162,12 +161,10 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             Task.Factory.StartNew(() => {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
-                this.IsEnabled = false;
-                this.IsReadButtonEnabled = false;
-                this.IsImportButtonEnabled = false;
+                this.SwitchEnablements(true);
                 DatabaseHelper.BackUpIfExists(Databases.DatabaseBackUpIndicators.BEFORE_IMPORT);
             })
-            .ContinueWith(t => this.SessionManager.HandleImported(this.Preview, this.ImportMode))
+            .ContinueWith(t => this.SessionManager.HandleImported(this.CDGContext.GetItems(), this.CDGContext.ImportMode))
             .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NImport.MessageImport;
@@ -177,13 +174,35 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NImport.MessageImportSuccess;
-                Application.Current.Dispatcher.Invoke(this.Preview.Clear);
-                this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
-                this.IsEnabled = true;
-                this.IsReadButtonEnabled = true;
-                this.IsImportButtonEnabled = true;
-            })
-            ;
+                this.CDGContext.Clear();
+                this.SwitchEnablements(false);
+            });
+        }
+    }
+
+    private void OpenComparisonInNewWindowCommandAction() {
+        this.SwitchEnablements(true);
+        DialogParameters dialogParameters = new DialogParameters {
+            { ImportComparisonViewModel.ContextName, this.CDGContext }
+        };
+        if (false) {
+            // non-modal/non-blocking dialog
+            this._dialogService.Show(nameof(ImportComparisonView), dialogParameters, this.OnDialogClosed);
+        } else {
+            // modal/blocking dialog
+            this._dialogService.ShowDialog(nameof(ImportComparisonView), dialogParameters, this.OnDialogClosed);
+        }
+    }
+
+    private void OnDialogClosed(IDialogResult? result) {
+        this.SwitchEnablements(true);
+    }
+
+    private void SwitchEnablements(bool withImportButton) {
+        this.IsEnabled = !this.IsEnabled;
+        this.IsReadButtonEnabled = !this.IsReadButtonEnabled;
+        if (withImportButton) {
+            this.IsImportButtonEnabled = !this.IsImportButtonEnabled;
         }
     }
 
@@ -192,14 +211,14 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
     public void OnNavigatedFrom(NavigationContext navigationContext) {
-        this.Preview.Clear();
-        this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+        this.CDGContext.OnNavigatedFrom(navigationContext);
         this.InfoMessage = null;
+        this.IsImportButtonEnabled = false;
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
-        this.Preview.Clear();
-        this.RaisePropertyChanged(nameof(this.IsPreviewAvailable));
+        this.CDGContext.OnNavigatedTo(navigationContext);
         this.InfoMessage = null;
+        this.IsImportButtonEnabled = false;
     }
 }

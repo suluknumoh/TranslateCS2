@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 
 using TranslateCS2.Configurations.Views;
-using TranslateCS2.Controls.Edits;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
 
@@ -16,7 +16,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
                                                                                                translationSessionManager) {
         this.AddToolsGroup();
         this.AddCountGroup();
-        this.TextSearchContext = new TextSearchControlContext(false);
+        this.TextSearchContext.Columns.AddRange(this._columnsSearchAble.Skip(1));
         this.TextSearchContext.OnSearch += this.RefreshViewList;
     }
 
@@ -77,7 +77,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             if (!add) {
                 continue;
             }
-            if (!this.IsTextSearchMatch(entry)) {
+            if (!this.TextSearchContext.IsTextSearchMatch(entry)) {
                 continue;
             }
             this.Mapping.Add(entry);

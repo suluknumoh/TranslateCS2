@@ -175,9 +175,9 @@ internal class TranslationSessionManager : BindableBase {
         this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
     }
 
-    internal void HandleImported(IList<CompareExistingImportedTranslations> preview, ImportModes importMode) {
+    internal void HandleImported(IList<CompareExistingImportedTranslation> preview, ImportModes importMode) {
         foreach (LocalizationDictionaryEntry currentEntry in this.CurrentTranslationSession.LocalizationDictionary) {
-            foreach (CompareExistingImportedTranslations importedItem in preview) {
+            foreach (CompareExistingImportedTranslation importedItem in preview) {
                 if (importedItem.Key == currentEntry.Key) {
                     switch (importMode) {
                         case ImportModes.NEW:

@@ -55,13 +55,13 @@ internal class ExImportService {
         }
     }
 
-    public List<CompareExistingImportedTranslations>? ReadToReview(TranslationSession translationSession,
+    public List<CompareExistingImportedTranslation>? ReadToReview(TranslationSession translationSession,
                                                              string selectedPath) {
         List<LocalizationDictionaryEntry>? imports = this._jsonService.ReadLocalizationFileJson(selectedPath);
         if (imports == null) {
             return null;
         }
-        List<CompareExistingImportedTranslations> preview = [];
+        List<CompareExistingImportedTranslation> preview = [];
         foreach (LocalizationDictionaryEntry existing in translationSession.LocalizationDictionary) {
             IEnumerable<LocalizationDictionaryEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
             string key = existing.Key;
@@ -74,7 +74,7 @@ internal class ExImportService {
                 && StringHelper.IsNullOrWhiteSpaceOrEmpty(translationExisting)) {
                 continue;
             }
-            CompareExistingImportedTranslations previewEntry = new CompareExistingImportedTranslations(key, translationExisting, translationImported);
+            CompareExistingImportedTranslation previewEntry = new CompareExistingImportedTranslation(key, translationExisting, translationImported);
             preview.Add(previewEntry);
         }
         return preview;

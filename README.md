@@ -54,6 +54,9 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 
 Solution: close this tool, close [STEAM](https://store.steampowered.com) and open this tool again
 
+# Kown Issues
+please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues)
+
 # Documentation (somewhat like that)
 ## First-Start
 - start this tool
@@ -80,6 +83,34 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - if you want to copy paste, press backspace on the respective cell within the "Translation"-Column
 - since Translation-Cells accept return for multi-line-editing, cell editing can be stopped by pressing escape
 - after adding a translation, all entries with the same value receive the translation and its saved to the [SQLite](https://www.sqlite.org/)-Database "Translations.sqlite"
+
+### Edit-View
+- four columns are shown
+1. Key
+- this column displays the key used by [Colossal Order](https://colossalorder.fi)
+2. English Value
+- this column displays the value/text that corresponds to the key within the Key-column
+- it's always english, cause english seems to be the 'leading' language
+3. Merge Value
+- displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
+4. Translation
+- the new value that is going to correspond to the respective key within the Key-column
+- for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
+
+### Edit by occurances-View
+- four columns are shown
+- Key-column is missing, cause each entry/value can relate to multiple keys
+1. English Value
+- this column displays the value/text that corresponds to the key within the Key-column
+- it's always english, cause english seems to be the 'leading' language
+2. Merge Value
+- displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
+3. Count
+- displays the count/amount/quantity of times the english value occurs/appears
+- a little more technical: the amount of keys the english value is used for
+4. Translation
+- the new value that is going to correspond to the respective key within the Key-column
+- for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
 
 ## Ex-Import
 ### Export
@@ -123,6 +154,30 @@ Solution: close this tool, close [STEAM](https://store.steampowered.com) and ope
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
 
 # Changelog
+[releases](https://github.com/suluknumoh/TranslateCS2/releases)
+
+## Version 0.3
+- Ex- and Import-Views display information about the affected session
+- Import-View:
+1. compare existing and read translations in a new window
+2. warning: the text-search-filter does not exclude translations to import. It's just to ease comparison!
+
+
+- one internationalization-file per view
+- some tooltips added
+- readonly-configs
+- only configurable configs within TranslateCS2.ddl.config
+1. DatabaseMaxBackUpCount
+
+
+- workaround for the following localization files, cause they have more content than expected
+1. pl-PL.loc
+2. zh-HANS.loc
+3. zh-HANT.loc
+
+
+- added ability to delete sessions (includes Database-BackUp before session is deleted)
+
 ## Version 0.2
 - ex-/import as/from JSON to share with others
 - Database-BackUps (next to the working database "Translations.sqlite", a maximum of twenty backups is created and held)

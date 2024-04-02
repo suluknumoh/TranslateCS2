@@ -12,14 +12,17 @@ using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Configurations.Views;
-using TranslateCS2.Controls.Edits;
+using TranslateCS2.Controls.Searchs;
 using TranslateCS2.Models.LocDictionary;
+using TranslateCS2.Models.Searchs;
 using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.ViewModels.Works;
 internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
     private readonly ViewConfigurations _viewConfigurations;
+    protected readonly List<ColumnSearchAble<LocalizationDictionaryEntry>> _columnsSearchAble = [];
+
 
     public TranslationSessionManager SessionManager { get; }
 
@@ -45,7 +48,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
     }
 
 
-    public TextSearchControlContext TextSearchContext { get; protected set; }
+    public TextSearchControlContext<LocalizationDictionaryEntry> TextSearchContext { get; protected set; }
 
     public TranslationSession? CurrentSession => this.SessionManager.CurrentTranslationSession;
     public ObservableCollection<LocalizationDictionaryEntry> Mapping { get; } = [];
@@ -54,7 +57,34 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
                              TranslationSessionManager translationSessionManager) {
         this._viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
+        this.InitColumnsSearchAble();
+        this.TextSearchContext = new TextSearchControlContext<LocalizationDictionaryEntry>();
         this.CellEditEndingCommand = new DelegateCommand<DataGridCellEditEndingEventArgs>(this.CellEditEndingCommandAction);
+    }
+
+    private void InitColumnsSearchAble() {
+        this._columnsSearchAble.Add(
+        new ColumnSearchAble<LocalizationDictionaryEntry>(I18NEdits.ColumnKey, I18NEdits.ColumnKeyTip) {
+            IsChecked = true,
+            Matcher = this.MatchesKeyColumn
+        });
+        this._columnsSearchAble.Add(
+        new ColumnSearchAble<LocalizationDictionaryEntry>(I18NEdits.ColumnEnglish, I18NEdits.ColumnEnglishTip) {
+            IsChecked = true,
+            Matcher = this.MatchesEnglishColumn
+        });
+        this._columnsSearchAble.Add(
+        new ColumnSearchAble<LocalizationDictionaryEntry>(I18NEdits.ColumnMerge, I18NEdits.ColumnMergeTip) {
+            IsChecked = true,
+            Matcher = this.MatchesMergeColumn
+        });
+        this._columnsSearchAble.Add(
+        new ColumnSearchAble<LocalizationDictionaryEntry>(I18NEdits.ColumnTranslation, I18NEdits.ColumnTranslationTip) {
+            Matcher = this.MatchesTranslationColumn
+        });
+        foreach (ColumnSearchAble<LocalizationDictionaryEntry> columnSearchAble in this._columnsSearchAble) {
+            columnSearchAble.OnIsCheckedChange += this.RefreshViewList;
+        }
     }
 
     protected void AddToolsGroup() {
@@ -118,35 +148,17 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
         }
     }
 
-    protected bool IsTextSearchMatch(LocalizationDictionaryEntry entry) {
-        if (this.TextSearchContext == null) {
-            return true;
-        }
-        if (String.IsNullOrEmpty(this.TextSearchContext.SearchString)
-            || String.IsNullOrWhiteSpace(this.TextSearchContext.SearchString)) {
-            return true;
-        }
-        if (this.TextSearchContext.IsKey
-            && entry.Key != null
-            && entry.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase)) {
-            return true;
-        }
-        if (this.TextSearchContext.IsEnglishValue
-            && entry.Value != null
-            && entry.Value.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase)) {
-            return true;
-        }
-        if (this.TextSearchContext.IsMergeValue
-            && entry.ValueMerge != null
-            && entry.ValueMerge.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase)) {
-            return true;
-        }
-        if (this.TextSearchContext.IsTranslation
-            && entry.Translation != null
-            && entry.Translation.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase)) {
-            return true;
-        }
-        return false;
+    protected bool MatchesKeyColumn(LocalizationDictionaryEntry parameter) {
+        return this.TextSearchContext.SearchString != null && parameter.Key != null && parameter.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+    }
+    protected bool MatchesEnglishColumn(LocalizationDictionaryEntry parameter) {
+        return this.TextSearchContext.SearchString != null && parameter.Value != null && parameter.Value.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+    }
+    protected bool MatchesMergeColumn(LocalizationDictionaryEntry parameter) {
+        return this.TextSearchContext.SearchString != null && parameter.ValueMerge != null && parameter.ValueMerge.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+    }
+    protected bool MatchesTranslationColumn(LocalizationDictionaryEntry parameter) {
+        return this.TextSearchContext.SearchString != null && parameter.Translation != null && parameter.Translation.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext) {

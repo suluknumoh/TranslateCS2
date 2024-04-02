@@ -123,11 +123,23 @@
   <data name="ColumnExisting" xml:space="preserve">
     <value>Existing Translation</value>
   </data>
-  <data name="ColumnImported" xml:space="preserve">
-    <value>Imported Translation</value>
+  <data name="ColumnExistingTip" xml:space="preserve">
+    <value>displays the current translation that is assigned to the respective key</value>
   </data>
   <data name="ColumnKey" xml:space="preserve">
     <value>Key</value>
+  </data>
+  <data name="ColumnKeyTip" xml:space="preserve">
+    <value>displays the key used by Colossal Order</value>
+  </data>
+  <data name="ColumnRead" xml:space="preserve">
+    <value>Read Translation</value>
+  </data>
+  <data name="ColumnReadTip" xml:space="preserve">
+    <value>displays the translation from the read json-file that is assigned to the respective key</value>
+  </data>
+  <data name="ComparisonDialogTitle" xml:space="preserve">
+    <value>Import-Comparison-Window</value>
   </data>
   <data name="DialogText" xml:space="preserve">
     <value>Do you really want to import into the current translation session selected within the Session(s)-Tab?</value>
@@ -143,6 +155,11 @@
   </data>
   <data name="DoImport" xml:space="preserve">
     <value>import</value>
+  </data>
+  <data name="DoOpenCompare" xml:space="preserve">
+    <value>compare
+in new
+window</value>
   </data>
   <data name="DoRead" xml:space="preserve">
     <value>read

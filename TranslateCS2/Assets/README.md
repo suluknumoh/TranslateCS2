@@ -158,15 +158,24 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 
 ## Version 0.3
 - Ex- and Import-Views display information about the affected session
+- Import-View:
+1. compare existing and read translations in a new window
+2. warning: the text-search-filter does not exclude translations to import. It's just to ease comparison!
+
+
 - one internationalization-file per view
 - some tooltips added
 - readonly-configs
 - only configurable configs within TranslateCS2.ddl.config
 1. DatabaseMaxBackUpCount
+
+
 - workaround for the following localization files, cause they have more content than expected
 1. pl-PL.loc
 2. zh-HANS.loc
 3. zh-HANT.loc
+
+
 - added ability to delete sessions (includes Database-BackUp before session is deleted)
 
 ## Version 0.2

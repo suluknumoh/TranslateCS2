@@ -25,8 +25,10 @@ using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties;
 using TranslateCS2.Properties.I18N;
 using TranslateCS2.Services;
+using TranslateCS2.ViewModels.Dialogs;
 using TranslateCS2.ViewModels.Works;
 using TranslateCS2.Views;
+using TranslateCS2.Views.Dialogs;
 using TranslateCS2.Views.Works;
 
 namespace TranslateCS2;
@@ -119,6 +121,11 @@ public partial class App : PrismApplication {
             containerRegistry.RegisterForNavigation<SelectedSessionInfo, SelectedSessionInfoContext>(nameof(SelectedSessionInfo));
             containerRegistry.RegisterForNavigation<ExportControl, ExportControlContext>(nameof(ExportControl));
             containerRegistry.RegisterForNavigation<ImportControl, ImportControlContext>(nameof(ImportControl));
+            containerRegistry.RegisterForNavigation<ComparisonDataGrid>(nameof(ComparisonDataGrid));
+        }
+        {
+            // configure dialogs
+            containerRegistry.RegisterDialog<ImportComparisonView, ImportComparisonViewModel>(nameof(ImportComparisonView));
         }
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
     }

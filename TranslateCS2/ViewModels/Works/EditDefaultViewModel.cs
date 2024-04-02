@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 
 using TranslateCS2.Configurations.Views;
-using TranslateCS2.Controls.Edits;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Filters;
 using TranslateCS2.Models.LocDictionary;
@@ -29,7 +28,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         this._selectedFilter = this.Filters.First();
         this.AddToolsGroup();
         this.AddCountGroup();
-        this.TextSearchContext = new TextSearchControlContext(true);
+        this.TextSearchContext.Columns.AddRange(this._columnsSearchAble);
         this.TextSearchContext.OnSearch += this.RefreshViewList;
     }
 
@@ -74,7 +73,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
                 if (!add) {
                     continue;
                 }
-                if (!this.IsTextSearchMatch(entry)) {
+                if (!this.TextSearchContext.IsTextSearchMatch(entry)) {
                     continue;
                 }
                 this.Mapping.Add(entry);

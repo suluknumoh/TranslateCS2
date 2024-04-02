@@ -47,6 +47,8 @@
     <None Remove="Assets\Icons\folder_open.png" />
     <None Remove="Assets\Icons\folder_open_vertical.png" />
     <None Remove="Assets\Icons\home.png" />
+    <None Remove="Assets\Icons\open.png" />
+    <None Remove="Assets\Icons\open_off.png" />
     <None Remove="Assets\Icons\person_circle.png" />
     <None Remove="Assets\Icons\save.png" />
     <None Remove="Assets\Icons\scan_text.png" />
@@ -97,6 +99,8 @@
     <Resource Include="Assets\Icons\folder_open.png" />
     <Resource Include="Assets\Icons\folder_open_vertical.png" />
     <Resource Include="Assets\Icons\home.png" />
+    <Resource Include="Assets\Icons\open.png" />
+    <Resource Include="Assets\Icons\open_off.png" />
     <Resource Include="Assets\Icons\save.png" />
     <Resource Include="Assets\Icons\scan_text.png" />
     <Resource Include="Assets\Icons\search.png" />
@@ -123,6 +127,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\I18N\I18NSearchs.Designer.cs">
+      <DependentUpon>I18NSearchs.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Properties\I18N\I18NGlobal.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -166,6 +175,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Properties\I18N\I18NSearchs.resx">
+      <LastGenOutput>I18NSearchs.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\I18N\I18NGlobal.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>I18NGlobal.Designer.cs</LastGenOutput>

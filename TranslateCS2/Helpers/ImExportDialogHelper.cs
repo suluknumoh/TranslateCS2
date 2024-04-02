@@ -15,14 +15,14 @@ internal static class ImExportDialogHelper {
         SaveFileDialog dialog = new SaveFileDialog {
             Title = title,
             CheckPathExists = true,
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            RestoreDirectory = true,
             FileName = AppConfigurationManager.ImExportDefaultFileName,
             Filter = AppConfigurationManager.ImExportFilter,
             ValidateNames = true,
             DereferenceLinks = false
         };
-        if (path is not null) {
-            dialog.InitialDirectory = path;
+        if (path is null) {
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
         return Display(dialog, dialogWarningCaption, dialogWarningText);
     }
@@ -35,14 +35,14 @@ internal static class ImExportDialogHelper {
             Multiselect = false,
             CheckPathExists = true,
             CheckFileExists = true,
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            RestoreDirectory = true,
             FileName = AppConfigurationManager.ImExportDefaultFileName,
             Filter = AppConfigurationManager.ImExportFilter,
             ValidateNames = true,
             DereferenceLinks = false
         };
-        if (path is not null) {
-            dialog.InitialDirectory = path;
+        if (path is null) {
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
         return Display(dialog, dialogWarningCaption, dialogWarningText);
     }

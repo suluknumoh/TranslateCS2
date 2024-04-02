@@ -79,11 +79,11 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Imported Translation ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the current translation that is assigned to the respective key ähnelt.
         /// </summary>
-        public static string ColumnImported {
+        public static string ColumnExistingTip {
             get {
-                return ResourceManager.GetString("ColumnImported", resourceCulture);
+                return ResourceManager.GetString("ColumnExistingTip", resourceCulture);
             }
         }
         
@@ -93,6 +93,42 @@ namespace TranslateCS2.Properties.I18N {
         public static string ColumnKey {
             get {
                 return ResourceManager.GetString("ColumnKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the key used by Colossal Order ähnelt.
+        /// </summary>
+        public static string ColumnKeyTip {
+            get {
+                return ResourceManager.GetString("ColumnKeyTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Read Translation ähnelt.
+        /// </summary>
+        public static string ColumnRead {
+            get {
+                return ResourceManager.GetString("ColumnRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die displays the translation from the read json-file that is assigned to the respective key ähnelt.
+        /// </summary>
+        public static string ColumnReadTip {
+            get {
+                return ResourceManager.GetString("ColumnReadTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Import-Comparison-Window ähnelt.
+        /// </summary>
+        public static string ComparisonDialogTitle {
+            get {
+                return ResourceManager.GetString("ComparisonDialogTitle", resourceCulture);
             }
         }
         
@@ -138,6 +174,17 @@ namespace TranslateCS2.Properties.I18N {
         public static string DoImport {
             get {
                 return ResourceManager.GetString("DoImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die compare
+        ///in new
+        ///window ähnelt.
+        /// </summary>
+        public static string DoOpenCompare {
+            get {
+                return ResourceManager.GetString("DoOpenCompare", resourceCulture);
             }
         }
         

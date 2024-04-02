@@ -155,32 +155,5 @@ namespace TranslateCS2.Properties.I18N {
                 return ResourceManager.GetString("ColumnTranslationTip", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die search ähnelt.
-        /// </summary>
-        public static string DoSearch {
-            get {
-                return ResourceManager.GetString("DoSearch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die in ähnelt.
-        /// </summary>
-        public static string StringIn {
-            get {
-                return ResourceManager.GetString("StringIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die search for ähnelt.
-        /// </summary>
-        public static string StringSearchFor {
-            get {
-                return ResourceManager.GetString("StringSearchFor", resourceCulture);
-            }
-        }
     }
 }
