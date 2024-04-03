@@ -126,6 +126,7 @@ public partial class App : PrismApplication {
         {
             // configure dialogs
             containerRegistry.RegisterDialog<ImportComparisonView, ImportComparisonViewModel>(nameof(ImportComparisonView));
+            containerRegistry.RegisterDialog<EditEntryLargeView, EditEntryLargeViewModel>(nameof(EditEntryLargeView));
         }
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
     }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
+using Prism.Services.Dialogs;
+
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Helpers;
 using TranslateCS2.Models.Filters;
@@ -21,8 +23,10 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     public ObservableCollection<LocalizationKeyFilter> Filters { get; private set; }
     public EditDefaultViewModel(ViewConfigurations viewConfigurations,
                                 TranslationSessionManager translationSessionManager,
-                                FiltersService filtersService) : base(viewConfigurations,
-                                                                      translationSessionManager) {
+                                FiltersService filtersService,
+                                IDialogService dialogService) : base(viewConfigurations,
+                                                                     translationSessionManager,
+                                                                     dialogService) {
         this._filtersService = filtersService;
         this.Filters = this._filtersService.GetFilters();
         this._selectedFilter = this.Filters.First();
@@ -33,16 +37,20 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (this.CurrentSession is null) {
-            return;
-        }
         if (args.Row.Item is not LocalizationDictionaryEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
             return;
         }
-        SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
+        this.Save(textBox.Text.Trim(), edited);
+    }
+
+    protected override void Save(string? translation, LocalizationDictionaryEntry edited) {
+        if (this.CurrentSession is null) {
+            return;
+        }
+        SetNewValue(this.CurrentSession.LocalizationDictionary, translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
             // see xaml-code

@@ -83,7 +83,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - if you want to copy paste, press backspace on the respective cell within the "Translation"-Column
 - since Translation-Cells accept return for multi-line-editing, cell editing can be stopped by pressing escape
 - after adding a translation, all entries with the same value receive the translation and its saved to the [SQLite](https://www.sqlite.org/)-Database "Translations.sqlite"
-
+- a right click on a row opens a context menu that provides the ability to edit the current entry in a new window
 ### Edit-View
 - four columns are shown
 1. Key
@@ -156,7 +156,11 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
-## Version 0.3 (unreleased)
+## Version 0.3
+- Editing: added the ability to edit the current entry in a new window by opening the context-menu of a row
+1. a right click on a row opens a context menu that provides the ability to edit the current entry in a new window
+
+
 - Ex- and Import-Views display information about the affected session
 - Import-View:
 1. compare existing and read translations in a new window

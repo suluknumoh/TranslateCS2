@@ -21,8 +21,8 @@ internal static class AppConfigurationManager {
     public static string AppTitle { get; } = "TranslateCS2 - an unofficial Translator-Tool for Cities: Skylines 2";
     public static string AppMinHeight { get; } = "800";
     public static string AppMinWidth { get; } = "1260";
-    public static string AppComparisonDialogMinHeight { get; } = "760";
-    public static string AppComparisonDialogMinWidth { get; } = AppMinWidth;
+    public static string AppDialogMinHeight { get; } = "760";
+    public static string AppDialogMinWidth { get; } = AppMinWidth;
     public static string AppMenuRegion { get; } = nameof(AppMenuRegion);
     public static string AppRibbonBarRegion { get; } = nameof(AppRibbonBarRegion);
     public static string AppMainRegion { get; } = nameof(AppMainRegion);

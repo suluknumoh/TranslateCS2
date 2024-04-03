@@ -99,16 +99,27 @@
         </Style>
         <Style
             x:Key="StyleTextBoxAlginedRight"
-            BasedOn="{StaticResource StyleTextDefault}"
-            TargetType="TextBlock">
+            TargetType="TextBox">
+            <Setter
+                Property="HorizontalAlignment"
+                Value="Stretch"/>
+            <Setter
+                Property="VerticalAlignment"
+                Value="Center"/>
+            <Setter
+                Property="Margin"
+                Value="10 10 10 10"/>
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap"/>
             <Setter
                 Property="TextAlignment"
                 Value="Right"/>
         </Style>
         <Style
             x:Key="StyleTextBoxAlginedLeft"
-            BasedOn="{StaticResource StyleTextDefault}"
-            TargetType="TextBlock">
+            BasedOn="{StaticResource StyleTextBoxAlginedRight}"
+            TargetType="TextBox">
             <Setter
                 Property="TextAlignment"
                 Value="Left"/>

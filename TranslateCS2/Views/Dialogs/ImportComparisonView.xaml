@@ -10,13 +10,6 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
     xmlns:importcontrols="clr-namespace:TranslateCS2.Controls.Imports">
-    <bhv:Interaction.Triggers>
-        <bhv:EventTrigger EventName="Loaded">
-            <bhv:InvokeCommandAction
-                Command="{Binding OnLoadedCommand}"
-                PassEventArgsToCommand="True" />
-        </bhv:EventTrigger>
-    </bhv:Interaction.Triggers>
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter
@@ -33,16 +26,16 @@
                 Value="Manual" />
             <Setter
                 Property="MinWidth"
-                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppComparisonDialogMinWidth}, Mode=OneWay}" />
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinWidth}, Mode=OneWay}" />
             <Setter
                 Property="MinHeight"
-                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppComparisonDialogMinHeight}, Mode=OneWay}" />
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinHeight}, Mode=OneWay}" />
             <Setter
                 Property="Width"
-                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppComparisonDialogMinWidth}, Mode=OneWay}" />
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinWidth}, Mode=OneWay}" />
             <Setter
                 Property="Height"
-                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppComparisonDialogMinHeight}, Mode=OneWay}" />
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinHeight}, Mode=OneWay}" />
         </Style>
     </prism:Dialog.WindowStyle>
     <importcontrols:ComparisonDataGrid

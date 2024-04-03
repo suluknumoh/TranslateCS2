@@ -155,5 +155,32 @@ namespace TranslateCS2.Properties.I18N {
                 return ResourceManager.GetString("ColumnTranslationTip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die edit entry ähnelt.
+        /// </summary>
+        public static string DialogTitle {
+            get {
+                return ResourceManager.GetString("DialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die cancel ähnelt.
+        /// </summary>
+        public static string DoCancel {
+            get {
+                return ResourceManager.GetString("DoCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die save ähnelt.
+        /// </summary>
+        public static string DoSave {
+            get {
+                return ResourceManager.GetString("DoSave", resourceCulture);
+            }
+        }
     }
 }

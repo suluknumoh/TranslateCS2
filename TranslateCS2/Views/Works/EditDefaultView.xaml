@@ -67,6 +67,26 @@
                         PassEventArgsToCommand="True" />
                 </bhv:EventTrigger>
             </bhv:Interaction.Triggers>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="edit in new window">
+                        <bhv:Interaction.Triggers>
+                            <bhv:EventTrigger EventName="Click">
+                                <bhv:InvokeCommandAction
+                                    Command="{Binding EditInNewWindowCommand}"
+                                    PassEventArgsToCommand="True"/>
+                            </bhv:EventTrigger>
+                        </bhv:Interaction.Triggers>
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/TranslateCS2;component/Assets/Icons/open.png"
+                                Width="16"
+                                Height="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Header="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"

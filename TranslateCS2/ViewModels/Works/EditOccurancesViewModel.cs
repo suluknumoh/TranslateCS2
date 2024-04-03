@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 
+using Prism.Services.Dialogs;
+
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Sessions;
@@ -12,8 +14,10 @@ namespace TranslateCS2.ViewModels.Works;
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
     private readonly List<LocalizationDictionaryEntry> _entries = [];
     public EditOccurancesViewModel(ViewConfigurations viewConfigurations,
-                                   TranslationSessionManager translationSessionManager) : base(viewConfigurations,
-                                                                                               translationSessionManager) {
+                                   TranslationSessionManager translationSessionManager,
+                                   IDialogService dialogService) : base(viewConfigurations,
+                                                                        translationSessionManager,
+                                                                        dialogService) {
         this.AddToolsGroup();
         this.AddCountGroup();
         this.TextSearchContext.Columns.AddRange(this._columnsSearchAble.Skip(1));
@@ -21,17 +25,21 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (this.CurrentSession is null) {
-            return;
-        }
         if (args.Row.Item is not LocalizationDictionaryEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
             return;
         }
-        SetNewValue(this.CurrentSession.LocalizationDictionary, textBox, edited);
-        this.SetNewValue(textBox, edited);
+        this.Save(textBox.Text.Trim(), edited);
+    }
+
+    protected override void Save(string? translation, LocalizationDictionaryEntry edited) {
+        if (this.CurrentSession is null) {
+            return;
+        }
+        SetNewValue(this.CurrentSession.LocalizationDictionary, translation, edited);
+        this.SetNewValue(translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
             // see xaml-code
@@ -84,10 +92,10 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         }
         base.RefreshViewList();
     }
-    private void SetNewValue(TextBox textBox, LocalizationDictionaryEntry edited) {
+    private void SetNewValue(string? translation, LocalizationDictionaryEntry edited) {
         foreach (LocalizationDictionaryEntry entry in this._entries) {
             if (entry.Value == edited.Value) {
-                entry.Translation = textBox.Text.Trim();
+                entry.Translation = translation;
             }
         }
     }

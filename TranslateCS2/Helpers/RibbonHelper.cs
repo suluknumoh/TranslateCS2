@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TranslateCS2.Helpers;
@@ -49,5 +50,41 @@ internal class RibbonHelper {
             button.Click += clickAction;
         }
         return button;
+    }
+
+    public static RibbonGroup CreateRibbonGroup(string header, bool isEnabled) {
+        RibbonGroup ribbonGroup = new RibbonGroup {
+            Header = header,
+            IsEnabled = isEnabled,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+        };
+        return ribbonGroup;
+    }
+
+    public static RibbonTextBox CreateRibbonTextBox(string? label, bool isEnabled, Binding textBinding) {
+        RibbonTextBox ribbonTextBox = new RibbonTextBox {
+            IsEnabled = isEnabled,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            HorizontalContentAlignment = HorizontalAlignment.Center
+        };
+        if (label is not null) {
+            ribbonTextBox.Label = label;
+        }
+        ribbonTextBox.SetBinding(RibbonTextBox.TextProperty, textBinding);
+        return ribbonTextBox;
+    }
+
+    public static RibbonCheckBox CreateRibbonCheckBox(string label, Binding isCheckedBinding) {
+        RibbonCheckBox ribbonCheckBox = new RibbonCheckBox {
+            Label = label,
+            Cursor = Cursors.Hand
+        };
+        ribbonCheckBox.SetBinding(RibbonCheckBox.IsCheckedProperty, isCheckedBinding);
+        return ribbonCheckBox;
     }
 }
