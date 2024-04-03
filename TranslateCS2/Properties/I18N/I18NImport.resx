@@ -120,6 +120,9 @@
   <data name="Caption" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="CheckBoxHideEqual" xml:space="preserve">
+    <value>hide equal translations</value>
+  </data>
   <data name="ColumnExisting" xml:space="preserve">
     <value>Existing Translation</value>
   </data>
@@ -154,7 +157,9 @@
     <value>Please select a .json-file.</value>
   </data>
   <data name="DoImport" xml:space="preserve">
-    <value>import</value>
+    <value>import
+into
+database</value>
   </data>
   <data name="DoOpenCompare" xml:space="preserve">
     <value>compare
@@ -167,7 +172,8 @@ selected
 file</value>
   </data>
   <data name="DoSelectFile" xml:space="preserve">
-    <value>select file</value>
+    <value>select
+file</value>
   </data>
   <data name="MessageImport" xml:space="preserve">
     <value>import translations into database</value>
@@ -183,5 +189,8 @@ file</value>
   </data>
   <data name="MessageReadSuccess" xml:space="preserve">
     <value>translations read to review and to select an import-mode</value>
+  </data>
+  <data name="WarningFilters" xml:space="preserve">
+    <value>warning: filters do not affect/exclude translations to/from import. they just ease comparison.</value>
   </data>
 </root>

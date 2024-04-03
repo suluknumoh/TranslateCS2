@@ -5,11 +5,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
     xmlns:sessionmodels="clr-namespace:TranslateCS2.Models.Sessions"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <bhv:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -71,9 +79,9 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
-                        Width="*"/>
-                    <ColumnDefinition
                         Width="2*"/>
+                    <ColumnDefinition
+                        Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Row="0"
@@ -149,12 +157,9 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-                    <ToggleButton
+                    <Button
                         Command="{Binding CreateEditSessionCommand}"
                         CommandParameter="{x:Static sessionmodels:SessionActions.Create}"
-                        IsChecked="{Binding SessionAction,
-                                            Converter={StaticResource EnumBooleanConverter},
-                                            ConverterParameter={x:Static sessionmodels:SessionActions.Create}}"
                         IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         Style="{StaticResource StyleButton}">
                         <StackPanel>
@@ -168,13 +173,10 @@
                                 TextAlignment="Center"
                                 Text="{Binding Source={x:Static i18n:I18NSessions.DoCreate}, Mode=OneWay}"/>
                         </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton
+                    </Button>
+                    <Button
                         Command="{Binding CreateEditSessionCommand}"
                         CommandParameter="{x:Static sessionmodels:SessionActions.Edit}"
-                        IsChecked="{Binding SessionAction,
-                                            Converter={StaticResource EnumBooleanConverter},
-                                            ConverterParameter={x:Static sessionmodels:SessionActions.Edit}}"
                         IsEnabled="{Binding IsEditEnabled, Mode=OneWay}"
                         Style="{StaticResource StyleButton}">
                         <StackPanel>
@@ -188,7 +190,7 @@
                                 TextAlignment="Center"
                                 Text="{Binding Source={x:Static i18n:I18NSessions.DoEdit}, Mode=OneWay}"/>
                         </StackPanel>
-                    </ToggleButton>
+                    </Button>
                     <Button
                         IsEnabled="{Binding IsEditEnabled, Mode=OneWay}"
                         Style="{StaticResource StyleButton}"

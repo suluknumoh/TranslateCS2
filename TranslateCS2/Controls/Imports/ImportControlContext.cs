@@ -129,13 +129,16 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         .ContinueWith((t) => {
             try {
                 return this._exportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
-                                                  this.SelectedPath);
+                                                        this.SelectedPath);
             } catch {
                 return null;
             }
         })
         .ContinueWith((t) => {
-            if (t.GetAwaiter().GetResult() is List<CompareExistingImportedTranslation> preview) {
+            if (t.GetAwaiter().GetResult() is List<CompareExistingReadTranslation> preview) {
+                if (false) {
+                    preview.RemoveAll(i => i.IsEqual());
+                }
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NImport.MessageReadSuccess;
                 this.CDGContext.SetItems(preview);

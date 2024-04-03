@@ -70,6 +70,15 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die hide equal translations ähnelt.
+        /// </summary>
+        public static string CheckBoxHideEqual {
+            get {
+                return ResourceManager.GetString("CheckBoxHideEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Existing Translation ähnelt.
         /// </summary>
         public static string ColumnExisting {
@@ -169,7 +178,9 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die import ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die import
+        ///into
+        ///database ähnelt.
         /// </summary>
         public static string DoImport {
             get {
@@ -200,7 +211,8 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die select file ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die select
+        ///file ähnelt.
         /// </summary>
         public static string DoSelectFile {
             get {
@@ -250,6 +262,15 @@ namespace TranslateCS2.Properties.I18N {
         public static string MessageReadSuccess {
             get {
                 return ResourceManager.GetString("MessageReadSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die warning: filters do not affect/exclude translations to/from import. they just ease comparison. ähnelt.
+        /// </summary>
+        public static string WarningFilters {
+            get {
+                return ResourceManager.GetString("WarningFilters", resourceCulture);
             }
         }
     }

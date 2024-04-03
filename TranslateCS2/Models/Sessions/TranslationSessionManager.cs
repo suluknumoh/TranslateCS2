@@ -175,36 +175,36 @@ internal class TranslationSessionManager : BindableBase {
         this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
     }
 
-    internal void HandleImported(IList<CompareExistingImportedTranslation> preview, ImportModes importMode) {
+    internal void HandleImported(IList<CompareExistingReadTranslation> preview, ImportModes importMode) {
         foreach (LocalizationDictionaryEntry currentEntry in this.CurrentTranslationSession.LocalizationDictionary) {
-            foreach (CompareExistingImportedTranslation importedItem in preview) {
-                if (importedItem.Key == currentEntry.Key) {
+            foreach (CompareExistingReadTranslation compareItem in preview) {
+                if (compareItem.Key == currentEntry.Key) {
                     switch (importMode) {
                         case ImportModes.NEW:
-                            // set all imported
-                            currentEntry.Translation = importedItem.TranslationImported;
+                            // set all read
+                            currentEntry.Translation = compareItem.TranslationRead;
                             break;
                         case ImportModes.LeftJoin:
-                            // set missing imported; all existing + imported that are missing
+                            // set missing read; all existing + read that are missing
                             // preview leads!
-                            // preview knows about Existing and Imported!
+                            // preview knows about Existing and Read!
                             // take care of method name 'is ... EXISTING available'
-                            if (!importedItem.IsTranslationExistingAvailable) {
+                            if (!compareItem.IsTranslationExistingAvailable) {
                                 // only set if no translation existed
-                                currentEntry.Translation = importedItem.TranslationImported;
+                                currentEntry.Translation = compareItem.TranslationRead;
                             } else {
                                 // just for clarififaction
                                 // keep current!
                             }
                             break;
                         case ImportModes.RightJoin:
-                            // set all imported; all imported + existing that werent imported
+                            // set all read; all read + existing that werent read
                             // preview leads!
-                            // preview knows about Existing and Imported!
-                            // take care of method name 'is ... IMPORTED available'
-                            if (importedItem.IsTranslationImportedAvailable) {
-                                // only set, if a translation is imported
-                                currentEntry.Translation = importedItem.TranslationImported;
+                            // preview knows about Existing and Read!
+                            // take care of method name 'is ... READ available'
+                            if (compareItem.IsTranslationReadAvailable) {
+                                // only set, if a translation is read
+                                currentEntry.Translation = compareItem.TranslationRead;
                             } else {
                                 // just for clarififaction
                                 // keep current!

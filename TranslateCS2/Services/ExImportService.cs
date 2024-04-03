@@ -55,26 +55,26 @@ internal class ExImportService {
         }
     }
 
-    public List<CompareExistingImportedTranslation>? ReadToReview(TranslationSession translationSession,
-                                                             string selectedPath) {
+    public List<CompareExistingReadTranslation>? ReadToReview(TranslationSession translationSession,
+                                                                  string selectedPath) {
         List<LocalizationDictionaryEntry>? imports = this._jsonService.ReadLocalizationFileJson(selectedPath);
         if (imports == null) {
             return null;
         }
-        List<CompareExistingImportedTranslation> preview = [];
+        List<CompareExistingReadTranslation> preview = [];
         foreach (LocalizationDictionaryEntry existing in translationSession.LocalizationDictionary) {
             IEnumerable<LocalizationDictionaryEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
             string key = existing.Key;
             string? translationExisting = existing.Translation;
-            string? translationImported = null;
+            string? translationRead = null;
             if (importsForKey.Any()) {
-                translationImported = StringHelper.GetNullForEmpty(importsForKey.First().Translation);
+                translationRead = StringHelper.GetNullForEmpty(importsForKey.First().Translation);
             }
-            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(translationImported)
+            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(translationRead)
                 && StringHelper.IsNullOrWhiteSpaceOrEmpty(translationExisting)) {
                 continue;
             }
-            CompareExistingImportedTranslation previewEntry = new CompareExistingImportedTranslation(key, translationExisting, translationImported);
+            CompareExistingReadTranslation previewEntry = new CompareExistingReadTranslation(key, translationExisting, translationRead);
             preview.Add(previewEntry);
         }
         return preview;

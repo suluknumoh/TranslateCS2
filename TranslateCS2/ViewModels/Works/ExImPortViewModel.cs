@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
-using System.Windows.Input;
 
-using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Configurations;
@@ -11,11 +9,12 @@ using TranslateCS2.Configurations.Views;
 using TranslateCS2.Controls.Exports;
 using TranslateCS2.Controls.Imports;
 using TranslateCS2.Helpers;
+using TranslateCS2.Models;
 using TranslateCS2.Properties;
 using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.ViewModels.Works;
-internal class ExImPortViewModel : BindableBase, INavigationAware {
+internal class ExImPortViewModel : ABaseViewModel {
     private readonly IRegionManager _regionManager;
     private readonly ViewConfigurations _viewConfigurations;
     private readonly RibbonGroup _subNavigation;
@@ -35,23 +34,17 @@ internal class ExImPortViewModel : BindableBase, INavigationAware {
     }
 
     private void InitSubNavigation() {
-        this._subNavExport = new RibbonToggleButton {
-            Label = I18NRibbon.Export,
-            LargeImageSource = ImageHelper.GetBitmapImage(ImageResources.database_arrow_up),
-            IsChecked = true,
-            Cursor = Cursors.Hand
-        };
-        this._subNavExport.Click += this.SubNavExportClickAction;
+        this._subNavExport = RibbonHelper.CreateRibbonToggleButton(I18NRibbon.Export,
+                                                                   ImageResources.database_arrow_up,
+                                                                   true,
+                                                                   this.SubNavExportClickAction);
         this._subNavigation.Items.Add(this._subNavExport);
         //
         //
-        this._subNavImport = new RibbonToggleButton {
-            Label = I18NRibbon.Import,
-            LargeImageSource = ImageHelper.GetBitmapImage(ImageResources.database_arrow_down),
-            IsChecked = false,
-            Cursor = Cursors.Hand
-        };
-        this._subNavImport.Click += this.SubNavImportClickAction;
+        this._subNavImport = RibbonHelper.CreateRibbonToggleButton(I18NRibbon.Import,
+                                                                   ImageResources.database_arrow_down,
+                                                                   false,
+                                                                   this.SubNavImportClickAction);
         this._subNavigation.Items.Add(this._subNavImport);
         //
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
@@ -60,28 +53,22 @@ internal class ExImPortViewModel : BindableBase, INavigationAware {
 
     private void SubNavImportClickAction(object sender, RoutedEventArgs e) {
         this._current = typeof(ImportControl);
-        this._subNavImport.IsChecked = true;
-        this._subNavExport.IsChecked = false;
+        this._subNavExport.IsChecked = !this._subNavExport.IsChecked;
         this.SubNavigate();
     }
 
     private void SubNavExportClickAction(object sender, RoutedEventArgs e) {
         this._current = typeof(ExportControl);
-        this._subNavExport.IsChecked = true;
-        this._subNavImport.IsChecked = false;
+        this._subNavImport.IsChecked = !this._subNavImport.IsChecked;
         this.SubNavigate();
     }
 
-    public bool IsNavigationTarget(NavigationContext navigationContext) {
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext) {
+    public override void OnNavigatedFrom(NavigationContext navigationContext) {
         //
         this._subNavigation.IsEnabled = false;
     }
 
-    public void OnNavigatedTo(NavigationContext navigationContext) {
+    public override void OnNavigatedTo(NavigationContext navigationContext) {
         this._subNavigation.IsEnabled = true;
         this.SubNavigate();
     }
@@ -89,4 +76,6 @@ internal class ExImPortViewModel : BindableBase, INavigationAware {
     private void SubNavigate() {
         this._regionManager.RequestNavigate(AppConfigurationManager.AppExportImportRegion, this._current.Name);
     }
+
+    protected override void OnLoadedCommandAction() { }
 }

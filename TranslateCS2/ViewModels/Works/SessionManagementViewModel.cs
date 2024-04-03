@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Configurations;
 using TranslateCS2.Controls.Sessions;
+using TranslateCS2.Models;
 using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties.I18N;
 
@@ -13,7 +13,7 @@ using static TranslateCS2.Controls.Sessions.NewEditSessionControlContext;
 
 namespace TranslateCS2.ViewModels.Works;
 
-internal class SessionManagementViewModel : BindableBase, INavigationAware {
+internal class SessionManagementViewModel : ABaseViewModel {
 
     private readonly IRegionManager _regionManager;
     public DelegateCommand DeleteSessionCommand { get; }
@@ -54,8 +54,6 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
                                       TranslationSessionManager translationSessionManager) {
         this._regionManager = regionManager;
         this.SessionManager = translationSessionManager;
-        this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
-        this.InstallPath = this.SessionManager.InstallPath;
         this.CreateEditSessionCommand = new DelegateCommand<SessionActions?>(this.CreateEditSessionCommandAction);
         this.DeleteSessionCommand = new DelegateCommand(this.DeleteSessionCommandAction);
     }
@@ -91,15 +89,8 @@ internal class SessionManagementViewModel : BindableBase, INavigationAware {
         }
     }
 
-    public bool IsNavigationTarget(NavigationContext navigationContext) {
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext) {
-        //
-    }
-
-    public void OnNavigatedTo(NavigationContext navigationContext) {
-        //
+    protected override void OnLoadedCommandAction() {
+        this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
+        this.InstallPath = this.SessionManager.InstallPath;
     }
 }

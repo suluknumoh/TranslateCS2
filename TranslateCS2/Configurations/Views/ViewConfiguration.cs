@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
-using System.Windows.Input;
 
 using Prism.Ioc;
 
@@ -36,11 +35,9 @@ internal class ViewConfiguration<V, M> : IViewConfiguration {
         this.View = typeof(V);
         this.ViewModel = typeof(M);
         this.Label = label;
-        this.NavToggleButton = new RibbonToggleButton {
-            Label = label,
-            Cursor = Cursors.Hand,
-            LargeImageSource = ImageHelper.GetBitmapImage(image)
-        };
+        this.NavToggleButton = RibbonHelper.CreateRibbonToggleButton(label,
+                                                                     image,
+                                                                     false);
         this.Tab = new RibbonTab {
             Header = label
         };
@@ -72,7 +69,9 @@ internal class ViewConfiguration<V, M> : IViewConfiguration {
             this.Tab.IsEnabled = false;
         }
         RibbonGroup navGroup = new RibbonGroup {
-            Header = I18NRibbon.Navigation
+            Header = I18NRibbon.Navigation,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
         };
         this.Tab.Items.Add(navGroup);
         navGroup.Items.Add(this.NavToggleButton);

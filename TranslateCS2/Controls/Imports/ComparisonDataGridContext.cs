@@ -14,7 +14,7 @@ using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.Controls.Imports;
 internal class ComparisonDataGridContext : BindableBase, INavigationAware {
-    public TextSearchControlContext<CompareExistingImportedTranslation> TextSearchContext { get; }
+    public TextSearchControlContext<CompareExistingReadTranslation> TextSearchContext { get; }
 
 
     private ImportModes _ImportMode;
@@ -23,54 +23,66 @@ internal class ComparisonDataGridContext : BindableBase, INavigationAware {
         set => this.SetProperty(ref this._ImportMode, value);
     }
 
-    private readonly List<CompareExistingImportedTranslation> Backing = [];
 
-    public ObservableCollection<CompareExistingImportedTranslation> Preview { get; } = [];
+    private bool _HideEqual = false;
+    public bool HideEqual {
+        get => this._HideEqual;
+        set => this.SetProperty(ref this._HideEqual, value, this.OnSearch);
+    }
+
+
+    private readonly List<CompareExistingReadTranslation> Backing = [];
+
+    public ObservableCollection<CompareExistingReadTranslation> Preview { get; } = [];
     public bool IsPreviewAvailable => this.Preview.Any();
 
+
     public ComparisonDataGridContext() {
-        this.TextSearchContext = new TextSearchControlContext<CompareExistingImportedTranslation>();
+        this.TextSearchContext = new TextSearchControlContext<CompareExistingReadTranslation>();
         this.InitTextSearchContext();
     }
 
     private void InitTextSearchContext() {
         this.TextSearchContext.OnSearch += this.OnSearch;
         this.TextSearchContext.Columns.Add(
-        new ColumnSearchAble<CompareExistingImportedTranslation>(I18NImport.ColumnKey, I18NImport.ColumnKeyTip) {
+        new ColumnSearchAble<CompareExistingReadTranslation>(I18NImport.ColumnKey, I18NImport.ColumnKeyTip) {
             IsChecked = true,
             Matcher = this.MatchesKeyColumn
         });
         this.TextSearchContext.Columns.Add(
-        new ColumnSearchAble<CompareExistingImportedTranslation>(I18NImport.ColumnExisting, I18NImport.ColumnExistingTip) {
+        new ColumnSearchAble<CompareExistingReadTranslation>(I18NImport.ColumnExisting, I18NImport.ColumnExistingTip) {
             IsChecked = true,
             Matcher = this.MatchesExistingColumn
         });
         this.TextSearchContext.Columns.Add(
-        new ColumnSearchAble<CompareExistingImportedTranslation>(I18NImport.ColumnRead, I18NImport.ColumnReadTip) {
+        new ColumnSearchAble<CompareExistingReadTranslation>(I18NImport.ColumnRead, I18NImport.ColumnReadTip) {
             IsChecked = true,
             Matcher = this.MatchesImportedColumn
         });
-        foreach (ColumnSearchAble<CompareExistingImportedTranslation> column in this.TextSearchContext.Columns) {
+        foreach (ColumnSearchAble<CompareExistingReadTranslation> column in this.TextSearchContext.Columns) {
             column.OnIsCheckedChange += this.OnSearch;
         }
     }
 
 
-    private bool MatchesKeyColumn(CompareExistingImportedTranslation parameter) {
+    private bool MatchesKeyColumn(CompareExistingReadTranslation parameter) {
         return this.TextSearchContext.SearchString != null && parameter.Key != null && parameter.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
-    private bool MatchesExistingColumn(CompareExistingImportedTranslation parameter) {
+    private bool MatchesExistingColumn(CompareExistingReadTranslation parameter) {
         return this.TextSearchContext.SearchString != null && parameter.TranslationExisting != null && parameter.TranslationExisting.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
-    private bool MatchesImportedColumn(CompareExistingImportedTranslation parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.TranslationImported != null && parameter.TranslationImported.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+    private bool MatchesImportedColumn(CompareExistingReadTranslation parameter) {
+        return this.TextSearchContext.SearchString != null && parameter.TranslationRead != null && parameter.TranslationRead.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
 
 
     private void OnSearch() {
         Application.Current.Dispatcher.Invoke(() => {
             this.Preview.Clear();
-            foreach (CompareExistingImportedTranslation item in this.Backing) {
+            foreach (CompareExistingReadTranslation item in this.Backing) {
+                if (this.HideEqual && item.IsEqual()) {
+                    continue;
+                }
                 if (this.TextSearchContext.IsTextSearchMatch(item)) {
                     this.Preview.Add(item);
                 }
@@ -105,12 +117,12 @@ internal class ComparisonDataGridContext : BindableBase, INavigationAware {
         this.Raiser();
     }
 
-    public void SetItems(IList<CompareExistingImportedTranslation> preview) {
+    public void SetItems(IList<CompareExistingReadTranslation> preview) {
         this.Backing.AddRange(preview);
         this.OnSearch();
     }
 
-    internal IList<CompareExistingImportedTranslation> GetItems() {
+    public IList<CompareExistingReadTranslation> GetItems() {
         return this.Backing;
     }
 }

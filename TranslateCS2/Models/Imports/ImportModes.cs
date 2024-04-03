@@ -7,10 +7,10 @@ namespace TranslateCS2.Models.Imports;
 /// <seealso href="https://github.com/brianlagunas/BindingEnumsInWpf"/>
 [TypeConverter(typeof(EnumDescriptionTypeConverter))]
 internal enum ImportModes {
-    [Description("NEW:\r\nremoves all existing,\r\nonly imported are kept")]
+    [Description("NEW:\r\nremoves all existing,\r\nonly read are kept")]
     NEW,
-    [Description("LeftJoin:\r\nkeep existing\r\nand\r\nadd missing imported")]
+    [Description("LeftJoin:\r\nkeep existing\r\nand\r\nadd missing read")]
     LeftJoin,
-    [Description("RightJoin:\r\noverwrite existing with imported\r\nand\r\nkeep existing that aren't imported")]
+    [Description("RightJoin:\r\noverwrite existing with read\r\nand\r\nkeep existing that aren't read")]
     RightJoin
 }

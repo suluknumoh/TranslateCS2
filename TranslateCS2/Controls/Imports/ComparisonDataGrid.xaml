@@ -11,6 +11,7 @@
     xmlns:import_models="clr-namespace:TranslateCS2.Models.Imports"
     xmlns:searchcontrols="clr-namespace:TranslateCS2.Controls.Searchs"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
     prism:ViewModelLocator.AutoWireViewModel="False"
     HorizontalAlignment="Stretch"
@@ -38,19 +39,31 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <searchcontrols:TextSearchControl
+        <TextBlock
             Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            FontSize="18"
+            FontWeight="Bold"
+            Style="{StaticResource StyleTextBlockAlginedCenter}"
+            Foreground="DarkOrange"
+            Text="{Binding Source={x:Static i18n:I18NImport.WarningFilters}, Mode=OneWay}"/>
+        <searchcontrols:TextSearchControl
+            Grid.Row="1"
             Grid.Column="0"
             DataContext="{Binding TextSearchContext}"/>
         <StackPanel
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="1"
+            Grid.RowSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             >
@@ -81,8 +94,19 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <CheckBox
+                Content="{Binding Source={x:Static i18n:I18NImport.CheckBoxHideEqual}}"
+                IsChecked="{Binding HideEqual}"/>
+        </StackPanel>
         <DataGrid
-            Grid.Row="1"
+            Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Style="{StaticResource StyleDataGrid}"
@@ -177,7 +201,7 @@
                                             Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
+                                            Binding="{Binding IsTranslationReadAvailable}"
                                             Value="False"/>
                                     </MultiDataTrigger.Conditions>
                                     <MultiDataTrigger.Setters>
@@ -193,7 +217,7 @@
                                             Binding="{Binding Value, Source={StaticResource ImportModeProxy}, Mode=OneWay}"
                                             Value="{x:Static import_models:ImportModes.RightJoin}"/>
                                         <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
+                                            Binding="{Binding IsTranslationReadAvailable}"
                                             Value="True"/>
                                     </MultiDataTrigger.Conditions>
                                     <MultiDataTrigger.Setters>
@@ -208,7 +232,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn
                     Header="{Binding Source={x:Static i18n:I18NImport.ColumnRead}, Mode=OneWay}"
-                    Binding="{Binding TranslationImported, Mode=OneWay}"
+                    Binding="{Binding TranslationRead, Mode=OneWay}"
                     MinWidth="100"
                     Width="400"
                     MaxWidth="500"
@@ -296,7 +320,7 @@
                                             Binding="{Binding IsTranslationExistingAvailable}"
                                             Value="True"/>
                                         <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
+                                            Binding="{Binding IsTranslationReadAvailable}"
                                             Value="True"/>
                                     </MultiDataTrigger.Conditions>
                                     <MultiDataTrigger.Setters>
@@ -315,7 +339,7 @@
                                             Binding="{Binding IsTranslationExistingAvailable}"
                                             Value="True"/>
                                         <Condition
-                                            Binding="{Binding IsTranslationImportedAvailable}"
+                                            Binding="{Binding IsTranslationReadAvailable}"
                                             Value="False"/>
                                     </MultiDataTrigger.Conditions>
                                     <MultiDataTrigger.Setters>

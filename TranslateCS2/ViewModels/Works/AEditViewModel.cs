@@ -8,18 +8,18 @@ using System.Windows.Data;
 using System.Windows.Input;
 
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Configurations.Views;
 using TranslateCS2.Controls.Searchs;
+using TranslateCS2.Models;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Models.Searchs;
 using TranslateCS2.Models.Sessions;
 using TranslateCS2.Properties.I18N;
 
 namespace TranslateCS2.ViewModels.Works;
-internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
+internal abstract class AEditViewModel<T> : ABaseViewModel {
     private readonly ViewConfigurations _viewConfigurations;
     protected readonly List<ColumnSearchAble<LocalizationDictionaryEntry>> _columnsSearchAble = [];
 
@@ -161,15 +161,7 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
         return this.TextSearchContext.SearchString != null && parameter.Translation != null && parameter.Translation.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
 
-    public bool IsNavigationTarget(NavigationContext navigationContext) {
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext) {
-        //
-    }
-
-    public void OnNavigatedTo(NavigationContext navigationContext) {
+    public override void OnNavigatedTo(NavigationContext navigationContext) {
         this.RefreshViewList();
     }
 
@@ -188,4 +180,6 @@ internal abstract class AEditViewModel<T> : BindableBase, INavigationAware {
             }
         }
     }
+
+    protected override void OnLoadedCommandAction() { }
 }

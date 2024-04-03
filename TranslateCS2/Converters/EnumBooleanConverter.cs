@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media.Animation;
 
 namespace TranslateCS2.Converters;
 internal class EnumBooleanConverter : IValueConverter {
@@ -11,6 +12,9 @@ internal class EnumBooleanConverter : IValueConverter {
         if (value is null) {
             return false;
         }
+        if (parameter is DiscreteObjectKeyFrame dof) {
+            return value.Equals(dof.Value);
+        }
         return value.Equals(parameter);
     }
 
@@ -20,6 +24,9 @@ internal class EnumBooleanConverter : IValueConverter {
                               CultureInfo culture) {
         if (value is null) {
             return Binding.DoNothing;
+        }
+        if (parameter is DiscreteObjectKeyFrame dof) {
+            return ((bool) value) ? dof.Value : Binding.DoNothing;
         }
         return ((bool) value) ? parameter : Binding.DoNothing;
     }

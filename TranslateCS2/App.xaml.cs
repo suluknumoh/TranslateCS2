@@ -178,11 +178,6 @@ public partial class App : PrismApplication {
         viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18NRibbon.Edit, ImageResources.translate, false, false, translationSessionManager));
         viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18NRibbon.EditByOccurances, ImageResources.translate, false, false, translationSessionManager));
         viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18NRibbon.ExImport, ImageResources.database_multiple, false, false, translationSessionManager));
-        if (false) {
-            // disabled - under construction
-            // settings view is always useable!!!
-            viewConfigurations.Add(new ViewConfiguration<SettingsView, SettingsViewModel>(I18NRibbon.Settings, ImageResources.settings, true, false, translationSessionManager));
-        }
         // credits view is always useable!!!
         viewConfigurations.Add(new ViewConfiguration<CreditsView, CreditsViewModel>(I18NRibbon.Credits, ImageResources.person_circle, true, true));
         viewConfigurations.Register(regionManager);
