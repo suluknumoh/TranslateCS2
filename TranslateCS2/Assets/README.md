@@ -156,6 +156,13 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
+## Version 0.3.1 (Patch for texts with many rows)
+- edit entry window
+1. is now resizeable
+2. now has a scrollviewer
+3. now has copy to clipboard buttons for each value (english, merge, translation)
+4. example key: Tutorials.DESCRIPTION[CargoAirlineTutorialConnectingRoute]
+
 ## Version 0.3
 - Editing: added the ability to edit the current entry in a new window by opening the context-menu of a row
 1. a right click on a row opens a context menu that provides the ability to edit the current entry in a new window

@@ -34,18 +34,14 @@
                 Grid.Row="0"
                 Grid.Column="3"
                 HorizontalAlignment="Right"
-                MaxHeight="24"
-                MaxWidth="24"
                 Margin="5 5 5 5"
-                Background="Transparent"
-                BorderThickness="0"
-                Cursor="Hand"
+                Style="{StaticResource StyleSmallButton}"
                 Command="{Binding DisplayCommand}">
-                <Image
-                    MaxHeight="24"
-                    MaxWidth="24">
+                <Image>
                     <Image.Style>
-                        <Style TargetType="Image">
+                        <Style
+                            BasedOn="{StaticResource StyleSmallButtonImage}"
+                            TargetType="Image">
                             <Setter
                                 Property="Source"
                                 Value="/TranslateCS2;component/Assets/Icons/chevron_circle_up.png"/>

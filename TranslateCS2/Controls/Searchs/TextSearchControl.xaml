@@ -56,36 +56,28 @@
             VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
+            Style="{StaticResource StyleSmallButton}"
             Margin="10 0 10 0"
             ToolTip="{Binding Source={x:Static i18n:I18NSearchs.DoClear}, Mode=OneWay}"
-            Cursor="Hand"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            BorderThickness="0"
             Command="{Binding ClearCommand}">
             <StackPanel>
                 <Image
                     Source="/TranslateCS2;component/Assets/Icons/dismiss_square.png"
-                    MaxHeight="30"
-                    MaxWidth="30"/>
+                    Style="{StaticResource StyleSmallButtonImage}"/>
             </StackPanel>
         </Button>
         <Button
             VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
+            Style="{StaticResource StyleSmallButton}"
             Margin="10 0 10 0"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            BorderThickness="0"
             ToolTip="{Binding Source={x:Static i18n:I18NSearchs.DoSearch}, Mode=OneWay}"
-            Cursor="Hand"
             Command="{Binding SearchCommand}">
             <StackPanel>
                 <Image
                     Source="/TranslateCS2;component/Assets/Icons/search_square.png"
-                    MaxHeight="30"
-                    MaxWidth="30"/>
+                    Style="{StaticResource StyleSmallButtonImage}"/>
             </StackPanel>
         </Button>
     </StackPanel>

@@ -175,6 +175,15 @@ namespace TranslateCS2.Properties.I18N {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die copy to clipboard ähnelt.
+        /// </summary>
+        public static string DoCopy {
+            get {
+                return ResourceManager.GetString("DoCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die save ähnelt.
         /// </summary>
         public static string DoSave {

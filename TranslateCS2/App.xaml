@@ -206,6 +206,35 @@
                 Property="Visibility"
                 Value="Visible"/>
         </Style>
+        <Style
+            x:Key="StyleSmallButton"
+            TargetType="Button">
+            <Setter
+                Property="Background"
+                Value="Transparent"/>
+            <Setter
+                Property="BorderBrush"
+                Value="Transparent"/>
+            <Setter
+                Property="BorderThickness"
+                Value="0"/>
+            <Setter
+                Property="Cursor"
+                Value="Hand"/>
+            <Setter
+                Property="MaxHeight"
+                Value="30"/>
+            <Setter
+                Property="MaxWidth"
+                Value="30"/>
+        </Style>
+        <Style
+            x:Key="StyleSmallButtonImage"
+            TargetType="Image">
+            <Setter
+                Property="MaxWidth"
+                Value="30"/>
+        </Style>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

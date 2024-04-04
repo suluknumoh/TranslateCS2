@@ -10,7 +10,7 @@
     <Configurations>Debug;Release</Configurations>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <ApplicationIcon>Assets\Icons\appicon.ico</ApplicationIcon>
-    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <AssemblyVersion>0.3.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +32,10 @@
     <None Remove="Assets\Icons\city.png" />
     <None Remove="Assets\Icons\clock_dismiss.png" />
     <None Remove="Assets\Icons\clock_toolbox.png" />
+    <None Remove="Assets\Icons\copy.png" />
+    <None Remove="Assets\Icons\copy_add.png" />
+    <None Remove="Assets\Icons\copy_arrow_right.png" />
+    <None Remove="Assets\Icons\copy_select.png" />
     <None Remove="Assets\Icons\dashboard.png" />
     <None Remove="Assets\Icons\database.png" />
     <None Remove="Assets\Icons\database_arrow_down.png" />
@@ -84,6 +88,10 @@
     <Resource Include="Assets\Icons\city.png" />
     <Resource Include="Assets\Icons\clock_dismiss.png" />
     <Resource Include="Assets\Icons\clock_toolbox.png" />
+    <Resource Include="Assets\Icons\copy.png" />
+    <Resource Include="Assets\Icons\copy_add.png" />
+    <Resource Include="Assets\Icons\copy_arrow_right.png" />
+    <Resource Include="Assets\Icons\copy_select.png" />
     <Resource Include="Assets\Icons\dashboard.png" />
     <Resource Include="Assets\Icons\database.png" />
     <Resource Include="Assets\Icons\database_arrow_down.png" />

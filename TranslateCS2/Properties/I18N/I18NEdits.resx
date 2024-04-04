@@ -159,6 +159,9 @@ for each cell that is left empty, the respective value/text within the Merge Val
   <data name="DoCancel" xml:space="preserve">
     <value>cancel</value>
   </data>
+  <data name="DoCopy" xml:space="preserve">
+    <value>copy to clipboard</value>
+  </data>
   <data name="DoSave" xml:space="preserve">
     <value>save</value>
   </data>

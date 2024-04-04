@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Windows;
 
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
+using TranslateCS2.Models.Edits;
 using TranslateCS2.Models.LocDictionary;
 using TranslateCS2.Properties.I18N;
 
@@ -31,15 +33,36 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
     public event Action<IDialogResult>? RequestClose;
 
+    public DelegateCommand<CopyToClipBoardCommandParameters?> CopyCommand { get; }
     public DelegateCommand SaveCommand { get; }
     public DelegateCommand CancelCommand { get; }
 
     public EditEntryLargeViewModel() {
+        this.CopyCommand = new DelegateCommand<CopyToClipBoardCommandParameters?>(this.CopyCommandAction);
         this.SaveCommand = new DelegateCommand(this.SaveCommandAction);
         this.CancelCommand = new DelegateCommand(this.CancelCommandAction);
     }
 
-    public void SaveCommandAction() {
+    private void CopyCommandAction(CopyToClipBoardCommandParameters? copyToClipBoardCommandParameter) {
+        if (copyToClipBoardCommandParameter is null) {
+            return;
+        }
+        string? copy = null;
+        switch (copyToClipBoardCommandParameter) {
+            case CopyToClipBoardCommandParameters.ValueEnglish:
+                copy = this.Entry?.Value;
+                break;
+            case CopyToClipBoardCommandParameters.ValueMerge:
+                copy = this.Entry?.ValueMerge;
+                break;
+            case CopyToClipBoardCommandParameters.ValueTranslation:
+                copy = this.Entry?.Translation;
+                break;
+        }
+        Clipboard.SetText(copy);
+    }
+
+    private void SaveCommandAction() {
         this._buttonResult = ButtonResult.OK;
         IDialogResult result = new DialogResult(this._buttonResult);
         result.Parameters.Add(nameof(LocalizationDictionaryEntry), this.Entry);
@@ -48,7 +71,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this._backUpTranslation = null;
     }
 
-    public void CancelCommandAction() {
+    private void CancelCommandAction() {
         this._buttonResult = ButtonResult.Cancel;
         if (this.Entry != null) {
             this.Entry.Translation = this._backUpTranslation;

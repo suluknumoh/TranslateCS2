@@ -9,7 +9,9 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:editmodels="clr-namespace:TranslateCS2.Models.Edits"
     xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N">
+    <!-- Key with the most lines of text: Tutorials.DESCRIPTION[CargoAirlineTutorialConnectingRoute] -->
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter
@@ -17,7 +19,7 @@
                 Value="CenterScreen" />
             <Setter
                 Property="ResizeMode"
-                Value="NoResize" />
+                Value="CanResize" />
             <Setter
                 Property="ShowInTaskbar"
                 Value="False" />
@@ -36,302 +38,363 @@
             <Setter
                 Property="Height"
                 Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinHeight}, Mode=OneWay}" />
-            <Setter
-                Property="MaxWidth"
-                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinWidth}, Mode=OneWay}" />
-            <Setter
-                Property="MaxHeight"
-                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinHeight}, Mode=OneWay}" />
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid
         ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="2"
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NEdits.DialogTitle}, Mode=OneWay}"/>
-        <Border
+        <ScrollViewer
             Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="5 5 5 5"
-            Padding="5 5 5 5"
-            BorderThickness="1"
-            BorderBrush="Black">
-            <Grid>
+            Grid.Column="0">
+            
+            <Grid
+                ShowGridLines="False">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock
+                <Border
                     Grid.Row="0"
                     Grid.Column="0"
-                    FontWeight="Bold"
-                    FontSize="15"
-                    Text="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}"
-                    >
-                    <TextBlock.Style>
-                        <Style
-                            TargetType="TextBlock"
-                            BasedOn="{StaticResource StyleTextBlockAlginedRight}">
-                            <Setter
-                                Property="Visibility"
-                                Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsCount}"
-                                    Value="True">
-                                    <Setter
-                                        Property="Visibility"
-                                        Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontWeight="Bold"
-                    FontSize="15"
-                    Text="{Binding Source={x:Static i18n:I18NEdits.ColumnCount}, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnCountTip}, Mode=OneWay}"
-                    >
-                    <TextBlock.Style>
-                        <Style
-                            TargetType="TextBlock"
-                            BasedOn="{StaticResource StyleTextBlockAlginedRight}">
-                            <Setter
-                                Property="Visibility"
-                                Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsCount}"
-                                    Value="True">
+                    Grid.ColumnSpan="2"
+                    Margin="5 5 5 5"
+                    Padding="5 5 5 5"
+                    BorderThickness="1"
+                    BorderBrush="Black">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Text="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}"
+                            >
+                            <TextBlock.Style>
+                                <Style
+                                    TargetType="TextBlock"
+                                    BasedOn="{StaticResource StyleTextBlockAlginedRight}">
                                     <Setter
                                         Property="Visibility"
                                         Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    FontSize="14"
-                    Text="{Binding Entry.Key, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}"
-                    >
-                    <TextBlock.Style>
-                        <Style
-                            TargetType="TextBlock"
-                            BasedOn="{StaticResource StyleTextBlockAlginedLeft}">
-                            <Setter
-                                Property="Visibility"
-                                Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsCount}"
-                                    Value="True">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsCount}"
+                                            Value="True">
+                                            <Setter
+                                                Property="Visibility"
+                                                Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Text="{Binding Source={x:Static i18n:I18NEdits.ColumnCount}, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnCountTip}, Mode=OneWay}"
+                            >
+                            <TextBlock.Style>
+                                <Style
+                                    TargetType="TextBlock"
+                                    BasedOn="{StaticResource StyleTextBlockAlginedRight}">
                                     <Setter
                                         Property="Visibility"
                                         Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    FontSize="14"
-                    Text="{Binding Entry.Count, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnCountTip}, Mode=OneWay}"
-                    >
-                    <TextBlock.Style>
-                        <Style
-                            TargetType="TextBlock"
-                            BasedOn="{StaticResource StyleTextBlockAlginedLeft}">
-                            <Setter
-                                Property="Visibility"
-                                Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding IsCount}"
-                                    Value="True">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsCount}"
+                                            Value="True">
+                                            <Setter
+                                                Property="Visibility"
+                                                Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="14"
+                            Text="{Binding Entry.Key, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}"
+                            >
+                            <TextBlock.Style>
+                                <Style
+                                    TargetType="TextBlock"
+                                    BasedOn="{StaticResource StyleTextBlockAlginedLeft}">
                                     <Setter
                                         Property="Visibility"
                                         Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-            </Grid>
-        </Border>
-        <Border
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="5 5 5 5"
-            Padding="5 5 5 5"
-            BorderThickness="1"
-            BorderBrush="Black">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontWeight="Bold"
-                    FontSize="15"
-                    Style="{StaticResource StyleTextBlockAlginedCenter}"
-                    Text="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglishTip}, Mode=OneWay}"
-                    />
-                <TextBox
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsCount}"
+                                            Value="True">
+                                            <Setter
+                                                Property="Visibility"
+                                                Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="14"
+                            Text="{Binding Entry.Count, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnCountTip}, Mode=OneWay}"
+                            >
+                            <TextBlock.Style>
+                                <Style
+                                    TargetType="TextBlock"
+                                    BasedOn="{StaticResource StyleTextBlockAlginedLeft}">
+                                    <Setter
+                                        Property="Visibility"
+                                        Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsCount}"
+                                            Value="True">
+                                            <Setter
+                                                Property="Visibility"
+                                                Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+                <Border
                     Grid.Row="1"
                     Grid.Column="0"
-                    FontSize="14"
-                    IsReadOnly="True"
-                    BorderBrush="Transparent"
-                    BorderThickness="0"
-                    Style="{StaticResource StyleTextBoxAlginedLeft}"
-                    Text="{Binding Entry.Value, Mode=OneWay}"
-                    />
-            </Grid>
-        </Border>
-        <Border
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="5 5 5 5"
-            Padding="5 5 5 5"
-            BorderThickness="1"
-            BorderBrush="Black">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontWeight="Bold"
-                    FontSize="15"
-                    Style="{StaticResource StyleTextBlockAlginedCenter}"
-                    Text="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnMergeTip}, Mode=OneWay}"
-                    />
-                <TextBox
+                    Margin="5 5 5 5"
+                    Padding="5 5 5 5"
+                    BorderThickness="1"
+                    BorderBrush="Black">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Style="{StaticResource StyleTextBlockAlginedCenter}"
+                            Text="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglishTip}, Mode=OneWay}"
+                            />
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            Margin="5 5 5 5"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.DoCopy}, Mode=OneWay}"
+                            Style="{StaticResource StyleSmallButton}"
+                            Command="{Binding CopyCommand}"
+                            CommandParameter="{x:Static editmodels:CopyToClipBoardCommandParameters.ValueEnglish}">
+                        <Image
+                            Style="{StaticResource StyleSmallButtonImage}"
+                            Source="/TranslateCS2;component/Assets/Icons/copy.png"/>
+                        </Button>
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            FontSize="14"
+                            IsReadOnly="True"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            TextWrapping="NoWrap"
+                            HorizontalScrollBarVisibility="Visible"
+                            Style="{StaticResource StyleTextBoxAlginedLeft}"
+                            Text="{Binding Entry.Value, Mode=OneWay}"
+                            />
+                    </Grid>
+                </Border>
+                <Border
                     Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="5 5 5 5"
+                    Padding="5 5 5 5"
+                    BorderThickness="1"
+                    BorderBrush="Black">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Style="{StaticResource StyleTextBlockAlginedCenter}"
+                            Text="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnMergeTip}, Mode=OneWay}"
+                            />
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            Margin="5 5 5 5"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.DoCopy}, Mode=OneWay}"
+                            Style="{StaticResource StyleSmallButton}"
+                            Command="{Binding CopyCommand}"
+                            CommandParameter="{x:Static editmodels:CopyToClipBoardCommandParameters.ValueMerge}">
+                        <Image
+                            Style="{StaticResource StyleSmallButtonImage}"
+                            Source="/TranslateCS2;component/Assets/Icons/copy.png"/>
+                        </Button>
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            FontSize="14"
+                            IsReadOnly="True"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            TextWrapping="NoWrap"
+                            HorizontalScrollBarVisibility="Visible"
+                            Style="{StaticResource StyleTextBoxAlginedLeft}"
+                            Text="{Binding Entry.ValueMerge, Mode=OneWay}"
+                            />
+                    </Grid>
+                </Border>
+                <Border
+                    Grid.Row="2"
                     Grid.Column="0"
-                    FontSize="14"
-                    IsReadOnly="True"
-                    BorderBrush="Transparent"
-                    BorderThickness="0"
-                    Style="{StaticResource StyleTextBoxAlginedLeft}"
-                    Text="{Binding Entry.ValueMerge, Mode=OneWay}"
-                    />
-            </Grid>
-        </Border>
-        <Border
-            Grid.Row="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="5 5 5 5"
-            Padding="5 5 5 5"
-            BorderThickness="1"
-            BorderBrush="Black">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="5 5 5 5"
+                    Padding="5 5 5 5"
+                    BorderThickness="1"
+                    BorderBrush="Black">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Style="{StaticResource StyleTextBlockAlginedCenter}"
+                            Text="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslationTip}, Mode=OneWay}"
+                            />
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            Margin="5 5 5 5"
+                            Style="{StaticResource StyleSmallButton}"
+                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.DoCopy}, Mode=OneWay}"
+                            Command="{Binding CopyCommand}"
+                            CommandParameter="{x:Static editmodels:CopyToClipBoardCommandParameters.ValueTranslation}">
+                            <Image
+                                Style="{StaticResource StyleSmallButtonImage}"
+                                Source="/TranslateCS2;component/Assets/Icons/copy.png"/>
+                        </Button>
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            FontSize="14"
+                            Text="{Binding Entry.Translation}"
+                            AcceptsReturn="True"
+                            Height="340"
+                            TextWrapping="NoWrap"
+                            HorizontalScrollBarVisibility="Visible"
+                            VerticalScrollBarVisibility="Visible"
+                            />
+                    </Grid>
+                </Border>
+                <StackPanel
+                    Grid.Row="3"
                     Grid.Column="0"
-                    FontWeight="Bold"
-                    FontSize="15"
-                    Style="{StaticResource StyleTextBlockAlginedCenter}"
-                    Text="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslationTip}, Mode=OneWay}"
-                    />
-                <TextBox
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    FontSize="14"
-                    Text="{Binding Entry.Translation}"
-                    AcceptsReturn="True"
-                    Height="200"
-                    VerticalScrollBarVisibility="Visible"
-                    />
-            </Grid>
-        </Border>
-        <StackPanel
-            Grid.Row="4"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Orientation="Horizontal"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <Button
-                IsEnabled="True"
-                Style="{StaticResource StyleButton}"
-                Command="{Binding SaveCommand}">
-                <StackPanel>
-                    <Image
-                        Source="/TranslateCS2;component/Assets/Icons/save.png"
-                        MaxHeight="64"
-                        MaxWidth="64"/>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding Source={x:Static i18n:I18NEdits.DoSave}}"/>
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Button
+                        IsEnabled="True"
+                        Style="{StaticResource StyleButton}"
+                        Command="{Binding SaveCommand}">
+                        <StackPanel>
+                            <Image
+                                Source="/TranslateCS2;component/Assets/Icons/save.png"
+                                MaxHeight="64"
+                                MaxWidth="64"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding Source={x:Static i18n:I18NEdits.DoSave}}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        IsEnabled="True"
+                        Style="{StaticResource StyleButton}"
+                        Command="{Binding CancelCommand}">
+                        <StackPanel>
+                            <Image
+                                Source="/TranslateCS2;component/Assets/Icons/dismiss_circle.png"
+                                MaxHeight="64"
+                                MaxWidth="64"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding Source={x:Static i18n:I18NEdits.DoCancel}}"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Button>
-            <Button
-                IsEnabled="True"
-                Style="{StaticResource StyleButton}"
-                Command="{Binding CancelCommand}">
-                <StackPanel>
-                    <Image
-                        Source="/TranslateCS2;component/Assets/Icons/dismiss_circle.png"
-                        MaxHeight="64"
-                        MaxWidth="64"/>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding Source={x:Static i18n:I18NEdits.DoCancel}}"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </ContentControl>
