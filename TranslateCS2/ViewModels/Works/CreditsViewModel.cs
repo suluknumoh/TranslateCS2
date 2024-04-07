@@ -1,18 +1,18 @@
 ﻿using Markdig;
 using Markdig.Wpf;
 
+using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.ViewModels;
 using TranslateCS2.Helpers;
-using TranslateCS2.Models;
-using TranslateCS2.Models.Sessions;
 
 namespace TranslateCS2.ViewModels.Works;
 
 internal class CreditsViewModel : ABaseViewModel {
-    public TranslationSessionManager SessionManager { get; }
+    public ITranslationSessionManager SessionManager { get; }
     public string? Doc { get; private set; }
     public MarkdownPipeline? Pipeline { get; private set; }
 
-    public CreditsViewModel(TranslationSessionManager translationSessionManager) {
+    public CreditsViewModel(ITranslationSessionManager translationSessionManager) {
         this.SessionManager = translationSessionManager;
     }
 

@@ -5,4 +5,4 @@ using System.Windows;
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly
 )]
-[assembly: InternalsVisibleTo("TranslateCS2.Tests")]
+[assembly: InternalsVisibleTo("TranslateCS2.ZTests")]

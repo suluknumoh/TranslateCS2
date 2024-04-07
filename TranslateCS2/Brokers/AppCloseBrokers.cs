@@ -2,6 +2,8 @@
 using System.Collections.Immutable;
 using System.Threading;
 
+using TranslateCS2.Core.Brokers;
+
 namespace TranslateCS2.Brokers;
 internal class AppCloseBrokers : IAppCloseBrokers {
     private static AppCloseBrokers? _instance;

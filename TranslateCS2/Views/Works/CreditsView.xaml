@@ -8,7 +8,7 @@
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:i18n="clr-namespace:TranslateCS2.Properties.I18N"
+    xmlns:i18n="clr-namespace:TranslateCS2.Core.Properties.I18N;assembly=TranslateCS2.Core"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <bhv:Interaction.Triggers>
         <bhv:EventTrigger EventName="Loaded">
@@ -17,14 +17,17 @@
                 PassEventArgsToCommand="True" />
         </bhv:EventTrigger>
     </bhv:Interaction.Triggers>
+    <ContentControl.Resources>
+        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
+    </ContentControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Row="0"
@@ -40,7 +43,7 @@
                             Value="false">
                             <Setter
                                 Property="Visibility"
-                                Value="Visible"/>
+                                Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -64,7 +67,7 @@
                             Value="True">
                             <Setter
                                 Property="Visibility"
-                                Value="Visible"/>
+                                Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -76,10 +79,12 @@
             Markdown="{Binding Doc}"
             Pipeline="{Binding Pipeline}">
             <markdig:MarkdownViewer.Resources>
-                <ResourceDictionary Source="/Properties/markdig.wpf.xaml" />
+                <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
             </markdig:MarkdownViewer.Resources>
             <FrameworkElement.CommandBindings>
-                <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenURLCommandAction" />
+                <CommandBinding
+                    Command="{x:Static markdig:Commands.Hyperlink}"
+                    Executed="OpenURLCommandAction" />
             </FrameworkElement.CommandBindings>
         </markdig:MarkdownViewer>
     </Grid>

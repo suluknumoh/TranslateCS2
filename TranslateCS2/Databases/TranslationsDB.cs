@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Microsoft.Data.Sqlite;
 
-using TranslateCS2.Configurations;
-using TranslateCS2.Helpers;
-using TranslateCS2.Models.LocDictionary;
-using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties.I18N;
+using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Helpers;
+using TranslateCS2.Core.Properties.I18N;
+using TranslateCS2.Core.Services.Databases;
+using TranslateCS2.Core.Sessions;
+
 
 
 
 namespace TranslateCS2.Databases;
-internal static class TranslationsDB {
+internal class TranslationsDB : ITranslationsDatabaseService {
+    private static readonly string _sqliteExtension = $"{AppConfigurationManager.DatabaseExtension}";
+    private static readonly string _searchPattern = $"*{_sqliteExtension}";
+    private static readonly string _underscore = "_";
+    private static readonly string _dateTimeFormatString = "yyyy-MM-dd_HH-mm-ss";
+    private static readonly uint _backUpsToKeep = AppConfigurationManager.DatabaseMaxBackUpCount;
     private static string ConnectionString { get; } = AppConfigurationManager.DatabaseConnectionString;
 
-    public delegate void OnErrorCallBack(string message);
-
-    public static void EnrichTranslationSessions(TranslationSessionManager translationSessionManager, OnErrorCallBack? onError) {
+    public void EnrichTranslationSessions(ITranslationSessionManager translationSessionManager, ITranslationsDatabaseService.OnErrorCallBack? onError) {
         try {
-            using SqliteConnection connection = GetOpenConnection();
+            using SqliteConnection connection = this.GetOpenConnection();
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText =
 @"
@@ -44,7 +50,7 @@ internal static class TranslationsDB {
             command.CommandType = CommandType.Text;
             using SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
-                TranslationSession session = new TranslationSession();
+                ITranslationSession session = translationSessionManager.GetNewTranslationSession();
                 ReadOnlyCollection<DbColumn> columnSchema = reader.GetColumnSchema();
                 foreach (DbColumn column in columnSchema) {
                     if (column.ColumnOrdinal is null) {
@@ -95,12 +101,12 @@ internal static class TranslationsDB {
         }
     }
 
-    public static void UpsertTranslationSession(TranslationSession translationSession, OnErrorCallBack? onError) {
+    public void UpsertTranslationSession(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack? onError) {
         try {
             if (translationSession.ID > 0) {
                 translationSession.LastEdited = DateTime.Now;
             }
-            using SqliteConnection connection = GetOpenConnection();
+            using SqliteConnection connection = this.GetOpenConnection();
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
                 using SqliteCommand command = connection.CreateCommand();
@@ -198,9 +204,9 @@ internal static class TranslationsDB {
         }
     }
 
-    public static void EnrichSavedTranslations(TranslationSession session, OnErrorCallBack? onError) {
+    public void EnrichSavedTranslations(ITranslationSession session, ITranslationsDatabaseService.OnErrorCallBack? onError) {
         try {
-            using SqliteConnection connection = GetOpenConnection();
+            using SqliteConnection connection = this.GetOpenConnection();
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText =
 @"
@@ -223,9 +229,9 @@ internal static class TranslationsDB {
                 }
                 string key = reader.GetString(0);
                 string translation = reader.GetString(1);
-                EnrichSavedTranslation(session.LocalizationDictionary, key, translation, valueTranslationMapping);
+                this.EnrichSavedTranslation(session.LocalizationDictionary, key, translation, valueTranslationMapping);
             }
-            EnrichNewWithTranslatedValue(session, valueTranslationMapping, onError);
+            this.EnrichNewWithTranslatedValue(session, valueTranslationMapping, onError);
         } catch {
             onError?.Invoke(I18NGlobal.MessageDatabaseError);
         }
@@ -238,29 +244,34 @@ internal static class TranslationsDB {
     ///     is done in c# code, cause i feel safer having the key within the database...
     /// </summary>
     /// <param name="session">
-    ///     <see cref="TranslationSession"/>
+    ///     <see cref="ITranslationSession"/>
     /// </param>
     /// <param name="valueTranslationMapping">
     ///     <see cref="Dictionary{string, string}"/> where TKey is the english value and TValue is the current translation
     /// </param>
-    private static void EnrichNewWithTranslatedValue(TranslationSession session, Dictionary<string, string> valueTranslationMapping, OnErrorCallBack? onError) {
-        IEnumerable<LocalizationDictionaryEntry> newEntries =
+    private void EnrichNewWithTranslatedValue(ITranslationSession session,
+                                                     Dictionary<string, string> valueTranslationMapping,
+                                                     ITranslationsDatabaseService.OnErrorCallBack? onError) {
+        IEnumerable<ILocalizationDictionaryEntry> newEntries =
             session.LocalizationDictionary.Where(
                 entry => valueTranslationMapping.ContainsKey(entry.Value) && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)
         );
         if (newEntries.Any()) {
-            foreach (LocalizationDictionaryEntry entry in newEntries) {
+            foreach (ILocalizationDictionaryEntry entry in newEntries) {
                 bool got = valueTranslationMapping.TryGetValue(entry.Value, out string? translation);
                 if (got && !StringHelper.IsNullOrWhiteSpaceOrEmpty(translation)) {
                     entry.Translation = translation;
                 }
             }
-            SaveTranslations(session, onError);
+            this.SaveTranslations(session, onError);
         }
     }
 
-    private static void EnrichSavedTranslation(ObservableCollection<LocalizationDictionaryEntry> localizationDictionary, string key, string translation, Dictionary<string, string> valueTranslationMapping) {
-        foreach (LocalizationDictionaryEntry entry in localizationDictionary) {
+    private void EnrichSavedTranslation(ObservableCollection<ILocalizationDictionaryEntry> localizationDictionary,
+                                               string key,
+                                               string translation,
+                                               Dictionary<string, string> valueTranslationMapping) {
+        foreach (ILocalizationDictionaryEntry entry in localizationDictionary) {
             if (entry.Key == key) {
                 entry.Translation = translation;
                 valueTranslationMapping.TryAdd(entry.Value, entry.Translation);
@@ -269,13 +280,13 @@ internal static class TranslationsDB {
         }
     }
 
-    public static void SaveTranslations(TranslationSession translationSession, OnErrorCallBack? onError) {
+    public void SaveTranslations(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack? onError) {
         try {
-            using SqliteConnection connection = GetOpenConnection();
+            using SqliteConnection connection = this.GetOpenConnection();
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
-                UpdateLastEdited(connection, transaction, translationSession);
-                IEnumerable<LocalizationDictionaryEntry> deletes = translationSession.LocalizationDictionary.Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
+                this.UpdateLastEdited(connection, transaction, translationSession);
+                IEnumerable<ILocalizationDictionaryEntry> deletes = translationSession.LocalizationDictionary.Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
                 if (deletes.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
                     command.Transaction = transaction;
@@ -291,13 +302,13 @@ internal static class TranslationsDB {
                     SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     command.Prepare();
-                    foreach (LocalizationDictionaryEntry delete in deletes) {
+                    foreach (ILocalizationDictionaryEntry delete in deletes) {
                         idParameter.Value = translationSession.ID;
                         keyParameter.Value = delete.Key;
                         command.ExecuteNonQuery();
                     }
                 }
-                IEnumerable<LocalizationDictionaryEntry> upserts = translationSession.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
+                IEnumerable<ILocalizationDictionaryEntry> upserts = translationSession.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
                 if (upserts.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
                     command.Transaction = transaction;
@@ -329,7 +340,7 @@ internal static class TranslationsDB {
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     SqliteParameter translationParameter = command.Parameters.Add("@translation", SqliteType.Text);
                     command.Prepare();
-                    foreach (LocalizationDictionaryEntry upsert in upserts) {
+                    foreach (ILocalizationDictionaryEntry upsert in upserts) {
                         idParameter.Value = translationSession.ID;
                         keyParameter.Value = upsert.Key;
                         translationParameter.Value = upsert.Translation;
@@ -346,7 +357,7 @@ internal static class TranslationsDB {
         }
     }
 
-    private static void UpdateLastEdited(SqliteConnection connection, SqliteTransaction transaction, TranslationSession translationSession) {
+    private void UpdateLastEdited(SqliteConnection connection, SqliteTransaction transaction, ITranslationSession translationSession) {
         translationSession.LastEdited = DateTime.Now;
         using SqliteCommand command = connection.CreateCommand();
         command.Transaction = transaction;
@@ -370,20 +381,21 @@ internal static class TranslationsDB {
         command.ExecuteNonQuery();
     }
 
-    private static SqliteConnection GetOpenConnection() {
-        if (!DatabaseHelper.DatabaseExists()) {
+    private SqliteConnection GetOpenConnection() {
+        if (!this.DatabaseExists()) {
             throw new ArgumentNullException();
         }
 
         // no using!!!
         SqliteConnection connection = new SqliteConnection(ConnectionString);
+        SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
         connection.Open();
         return connection;
     }
 
-    public static void DeleteTranslationSession(TranslationSession translationSession, OnErrorCallBack onError) {
+    public void DeleteTranslationSession(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack onError) {
         try {
-            using SqliteConnection connection = GetOpenConnection();
+            using SqliteConnection connection = this.GetOpenConnection();
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
                 using SqliteCommand command = connection.CreateCommand();
@@ -407,6 +419,61 @@ internal static class TranslationsDB {
             }
         } catch {
             onError?.Invoke(I18NGlobal.MessageDatabaseError);
+        }
+    }
+    public void CreateIfNotExists() {
+        string? assetPath = AppConfigurationManager.AssetPath;
+        ArgumentNullException.ThrowIfNull(nameof(assetPath));
+        if (!this.DatabaseExists()) {
+            string databaseName = AppConfigurationManager.DatabaseName;
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using Stream? databaseAssetStream = assembly.GetManifestResourceStream(assetPath + databaseName);
+            ArgumentNullException.ThrowIfNull(databaseAssetStream, nameof(databaseAssetStream));
+            using Stream output = File.OpenWrite(databaseName);
+            byte[] buffer = new byte[1024];
+            while (databaseAssetStream.Read(buffer) > 0) {
+                output.Write(buffer);
+            }
+        }
+    }
+
+    /// <seealso href="https://stackoverflow.com/questions/71986869/disable-sqlite-automatic-database-creation-c-sharp"/>
+    public bool DatabaseExists() {
+        return File.Exists(AppConfigurationManager.DatabaseName);
+    }
+
+    public void BackUpIfExists(DatabaseBackUpIndicators backUpIndicator) {
+        if (_backUpsToKeep == 0) {
+            return;
+        }
+        string dateTimeString = DateTime.Now.ToString(_dateTimeFormatString);
+        string? assetPath = AppConfigurationManager.AssetPath;
+        ArgumentNullException.ThrowIfNull(nameof(assetPath));
+        if (this.DatabaseExists()) {
+            string backUpFileName = String.Concat(AppConfigurationManager.DatabaseNameRaw,
+                                                    _underscore,
+                                                    dateTimeString,
+                                                    _underscore,
+                                                    backUpIndicator.ToString(),
+                                                    _sqliteExtension);
+            string databaseName = AppConfigurationManager.DatabaseName;
+            File.Copy(databaseName, backUpFileName);
+            this.RemoveEldestBackUps(databaseName);
+        }
+    }
+
+    private void RemoveEldestBackUps(string databaseName) {
+        string directory = Directory.GetCurrentDirectory();
+        DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+        IEnumerable<FileInfo> backUps = directoryInfo.EnumerateFiles(_searchPattern).Where(f => f.Name != databaseName);
+        IOrderedEnumerable<FileInfo> sqlitesOrdered = backUps.OrderByDescending(f => f.CreationTimeUtc);
+        IEnumerable<FileInfo> deletes = sqlitesOrdered.Skip((int) _backUpsToKeep);
+        foreach (FileInfo delete in deletes) {
+            try {
+                delete.Delete();
+            } catch {
+                // TODO: ???
+            }
         }
     }
 }

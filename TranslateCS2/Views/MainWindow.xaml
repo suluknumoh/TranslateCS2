@@ -8,10 +8,10 @@
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core"
     WindowStartupLocation="CenterScreen"
     ResizeMode="CanResize"
-    Icon="/TranslateCS2;component/Assets/Icons/appicon.png"
+    Icon="/TranslateCS2.Core;component/Assets/Icons/appicon.png"
     Title="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppTitle}, Mode=OneWay}"
     MinHeight="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMinHeight}, Mode=OneWay}"
     Height="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppMinHeight}, Mode=OneWay}"
@@ -30,6 +30,9 @@
                 PassEventArgsToCommand="True" />
         </bhv:EventTrigger>
     </bhv:Interaction.Triggers>
+    <ContentControl.Resources>
+        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
+    </ContentControl.Resources>
     <DockPanel
         LastChildFill="True">
         <!-- unused -->

@@ -87,30 +87,30 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ### Edit-View
 - four columns are shown
 1. Key
-- this column displays the key used by [Colossal Order](https://colossalorder.fi)
+    - this column displays the key used by [Colossal Order](https://colossalorder.fi)
 2. English Value
-- this column displays the value/text that corresponds to the key within the Key-column
-- it's always english, cause english seems to be the 'leading' language
+    - this column displays the value/text that corresponds to the key within the Key-column
+    - it's always english, cause english seems to be the 'leading' language
 3. Merge Value
-- displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
+    - displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
 4. Translation
-- the new value that is going to correspond to the respective key within the Key-column
-- for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
+    - the new value that is going to correspond to the respective key within the Key-column
+    - for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
 
 ### Edit by occurances-View
 - four columns are shown
 - Key-column is missing, cause each entry/value can relate to multiple keys
 1. English Value
-- this column displays the value/text that corresponds to the key within the Key-column
-- it's always english, cause english seems to be the 'leading' language
+    - this column displays the value/text that corresponds to the key within the Key-column
+    - it's always english, cause english seems to be the 'leading' language
 2. Merge Value
-- displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
+    - displays the value/text that corresponds to the key within the Key-column inside the localization file to merge with that is selected while creating the translation session
 3. Count
-- displays the count/amount/quantity of times the english value occurs/appears
-- a little more technical: the amount of keys the english value is used for
+    - displays the count/amount/quantity of times the english value occurs/appears
+    - a little more technical: the amount of keys the english value is used for
 4. Translation
-- the new value that is going to correspond to the respective key within the Key-column
-- for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
+    - the new value that is going to correspond to the respective key within the Key-column
+    - for each cell that is left empty, the respective value/text within the Merge Value-column gets exported
 
 ## Ex-Import
 ### Export
@@ -130,25 +130,25 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - the selected json-file is read
 - afterwards a confrontation/juxtaposition/comparison is shown
 - it shows three columns:
-1. Key
-2. Existing Translation
-3. Imported Translation
+    1. Key
+    2. Existing Translation
+    3. Imported Translation
 - there are three Import-Modes available
-1. NEW
-: removes all existing translations and takes all imported translations
-2. LeftJoin
-: keeps all existing translations and adds missing imported translations
-3. RightJoin
-: takes all imported translations and keeps existing translations that aren't imported
+    1. NEW
+        removes all existing translations and takes all imported translations
+    2. LeftJoin
+        keeps all existing translations and adds missing imported translations
+    3. RightJoin
+        takes all imported translations and keeps existing translations that aren't imported
 - default Import-Mode is LeftJoin
 - the colums Existing Translation and Imported Translation are highlighted with colors based on the selected Import-Mode
-1. light green
-: indicates the translations that are kept
-2. light salmon
-: indicates the translations that are removed/replaced
+    1. light green
+        indicates the translations that are kept
+    2. light salmon
+        indicates the translations that are removed/replaced
 - after reviewing and selecting an appropriate Import-Mode, a click on import-button
-1. a backup of the database gets created
-2. translations are imported into the database
+    1. a backup of the database gets created
+    2. translations are imported into the database
 
 # Recommendations/Suggestions
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
@@ -156,35 +156,42 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
+## Version 0.4 (work in progress)
+- configure/define custom filters via App.config/TranslateCS2.dll.config
+    - TranslateCS2.dll.config contains an explanation and two examples next to the three 'built-in' filters
+- modularization
+    - ability to implement and realize an external translator module that calls a translator-api
+    - see also: [TranslateCS2.TranslatorsExample readme.md](https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.TranslatorsExample/readme.md)
+
 ## Version 0.3.1 (Patch for texts with many rows)
 - edit entry window
-1. is now resizeable
-2. now has a scrollviewer
-3. now has copy to clipboard buttons for each value (english, merge, translation)
-4. example key: Tutorials.DESCRIPTION[CargoAirlineTutorialConnectingRoute]
+    1. is now resizeable
+    2. now has a scrollviewer
+    3. now has copy to clipboard buttons for each value (english, merge, translation)
+    4. example key: Tutorials.DESCRIPTION[CargoAirlineTutorialConnectingRoute]
 
 ## Version 0.3
 - Editing: added the ability to edit the current entry in a new window by opening the context-menu of a row
-1. a right click on a row opens a context menu that provides the ability to edit the current entry in a new window
+    1. a right click on a row opens a context menu that provides the ability to edit the current entry in a new window
 
 
 - Ex- and Import-Views display information about the affected session
 - Import-View:
-1. compare existing and read translations in a new window
-2. warning: the text-search-filter does not exclude translations to import. It's just to ease comparison!
+    1. compare existing and read translations in a new window
+    2. warning: the text-search-filter does not exclude translations to import. It's just to ease comparison!
 
 
 - one internationalization-file per view
 - some tooltips added
 - readonly-configs
 - only configurable configs within TranslateCS2.ddl.config
-1. DatabaseMaxBackUpCount
+    1. DatabaseMaxBackUpCount
 
 
 - workaround for the following localization files, cause they have more content than expected
-1. pl-PL.loc
-2. zh-HANS.loc
-3. zh-HANT.loc
+    1. pl-PL.loc
+    2. zh-HANS.loc
+    3. zh-HANT.loc
 
 
 - added ability to delete sessions (includes Database-BackUp before session is deleted)
@@ -192,8 +199,8 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ## Version 0.2
 - ex-/import as/from JSON to share with others
 - Database-BackUps (next to the working database "Translations.sqlite", a maximum of twenty backups is created and held)
-1. at every start of the tool
-2. before translations are imported
+    1. at every start of the tool
+    2. before translations are imported
 - Edit- and Edit by Occurances Views display the number of rows shown
 
 ## Version 0.1.1

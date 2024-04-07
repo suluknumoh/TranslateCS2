@@ -9,8 +9,10 @@
     <NeutralLanguage>en</NeutralLanguage>
     <Configurations>Debug;Release</Configurations>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <ApplicationIcon>Assets\Icons\appicon.ico</ApplicationIcon>
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
     <AssemblyVersion>0.3.1.0</AssemblyVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,54 +24,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Icons\add.png" />
-    <None Remove="Assets\Icons\add_circle.png" />
-    <None Remove="Assets\Icons\add_square.png" />
-    <None Remove="Assets\Icons\appicon.ico" />
-    <None Remove="Assets\Icons\appicon.png" />
-    <None Remove="Assets\Icons\chevron_circle_down.png" />
-    <None Remove="Assets\Icons\chevron_circle_up.png" />
-    <None Remove="Assets\Icons\city.png" />
-    <None Remove="Assets\Icons\clock_dismiss.png" />
-    <None Remove="Assets\Icons\clock_toolbox.png" />
-    <None Remove="Assets\Icons\copy.png" />
-    <None Remove="Assets\Icons\copy_add.png" />
-    <None Remove="Assets\Icons\copy_arrow_right.png" />
-    <None Remove="Assets\Icons\copy_select.png" />
-    <None Remove="Assets\Icons\dashboard.png" />
-    <None Remove="Assets\Icons\database.png" />
-    <None Remove="Assets\Icons\database_arrow_down.png" />
-    <None Remove="Assets\Icons\database_arrow_up.png" />
-    <None Remove="Assets\Icons\database_multiple.png" />
-    <None Remove="Assets\Icons\delete.png" />
-    <None Remove="Assets\Icons\description.png" />
-    <None Remove="Assets\Icons\developer_board.png" />
-    <None Remove="Assets\Icons\dismiss_circle.png" />
-    <None Remove="Assets\Icons\dismiss_square.png" />
-    <None Remove="Assets\Icons\edit.png" />
-    <None Remove="Assets\Icons\folder.png" />
-    <None Remove="Assets\Icons\folder_open.png" />
-    <None Remove="Assets\Icons\folder_open_vertical.png" />
-    <None Remove="Assets\Icons\home.png" />
-    <None Remove="Assets\Icons\open.png" />
-    <None Remove="Assets\Icons\open_off.png" />
-    <None Remove="Assets\Icons\person_circle.png" />
-    <None Remove="Assets\Icons\save.png" />
-    <None Remove="Assets\Icons\scan_text.png" />
-    <None Remove="Assets\Icons\search.png" />
-    <None Remove="Assets\Icons\search_square.png" />
-    <None Remove="Assets\Icons\settings.png" />
-    <None Remove="Assets\Icons\settings_applications.png" />
-    <None Remove="Assets\Icons\textbox_more.png" />
-    <None Remove="Assets\Icons\text_proofing_tools.png" />
-    <None Remove="Assets\Icons\translate.png" />
     <None Remove="Assets\README.md" />
     <None Remove="Assets\splashscreen.png" />
     <None Remove="Assets\Translations.sqlite" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Icons\appicon.ico" />
+    <Content Include="appicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,142 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Icons\add.png" />
-    <Resource Include="Assets\Icons\add_circle.png" />
-    <Resource Include="Assets\Icons\add_square.png" />
-    <Resource Include="Assets\Icons\appicon.ico" />
-    <Resource Include="Assets\Icons\appicon.png" />
-    <Resource Include="Assets\Icons\chevron_circle_down.png" />
-    <Resource Include="Assets\Icons\chevron_circle_up.png" />
-    <Resource Include="Assets\Icons\city.png" />
-    <Resource Include="Assets\Icons\clock_dismiss.png" />
-    <Resource Include="Assets\Icons\clock_toolbox.png" />
-    <Resource Include="Assets\Icons\copy.png" />
-    <Resource Include="Assets\Icons\copy_add.png" />
-    <Resource Include="Assets\Icons\copy_arrow_right.png" />
-    <Resource Include="Assets\Icons\copy_select.png" />
-    <Resource Include="Assets\Icons\dashboard.png" />
-    <Resource Include="Assets\Icons\database.png" />
-    <Resource Include="Assets\Icons\database_arrow_down.png" />
-    <Resource Include="Assets\Icons\database_arrow_up.png" />
-    <Resource Include="Assets\Icons\database_multiple.png" />
-    <Resource Include="Assets\Icons\delete.png" />
-    <Resource Include="Assets\Icons\description.png" />
-    <Resource Include="Assets\Icons\developer_board.png" />
-    <Resource Include="Assets\Icons\dismiss_circle.png" />
-    <Resource Include="Assets\Icons\dismiss_square.png" />
-    <Resource Include="Assets\Icons\edit.png" />
-    <Resource Include="Assets\Icons\folder.png" />
-    <Resource Include="Assets\Icons\folder_open.png" />
-    <Resource Include="Assets\Icons\folder_open_vertical.png" />
-    <Resource Include="Assets\Icons\home.png" />
-    <Resource Include="Assets\Icons\open.png" />
-    <Resource Include="Assets\Icons\open_off.png" />
-    <Resource Include="Assets\Icons\save.png" />
-    <Resource Include="Assets\Icons\scan_text.png" />
-    <Resource Include="Assets\Icons\search.png" />
-    <Resource Include="Assets\Icons\search_square.png" />
-    <Resource Include="Assets\Icons\settings.png" />
-    <Resource Include="Assets\Icons\settings_applications.png" />
-    <Resource Include="Assets\Icons\textbox_more.png" />
-    <Resource Include="Assets\Icons\text_proofing_tools.png" />
-    <Resource Include="Assets\Icons\translate.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.36.2" />
-    <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
-    <PackageReference Include="Prism.Unity" Version="8.1.97" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\Icons\person_circle.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\I18N\I18NSearchs.Designer.cs">
-      <DependentUpon>I18NSearchs.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NGlobal.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>I18NGlobal.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NEdits.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>I18NEdits.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NExport.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>I18NExport.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NImport.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>I18NImport.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NRibbon.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>I18NRibbon.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NSessions.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>I18NSessions.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\ImageResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ImageResources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\I18N\I18NSearchs.resx">
-      <LastGenOutput>I18NSearchs.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NGlobal.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18NGlobal.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NEdits.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18NEdits.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NExport.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18NExport.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NImport.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18NImport.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NRibbon.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18NRibbon.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NSessions.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>I18NSessions.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\ImageResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ImageResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\SplashScreen\" />
+    <ProjectReference Include="..\TranslateCS2.Edits\TranslateCS2.Edits.csproj" />
+    <ProjectReference Include="..\TranslateCS2.ExImport\TranslateCS2.ExImport.csproj" />
+    <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
+    <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -221,6 +50,6 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="call prebuild.bat" />
+    <Exec Command="call prebuild.bat $(AssemblyVersion)" />
   </Target>
 </Project>

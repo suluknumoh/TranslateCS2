@@ -3,7 +3,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Configurations"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core"
     prism:ViewModelLocator.AutoWireViewModel="True"
     SelectedIndex="0"
     WindowIconVisibility="Visible"

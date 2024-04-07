@@ -5,18 +5,18 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-using TranslateCS2.Configurations;
-using TranslateCS2.Configurations.Views;
+using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Configurations.Views;
 
 namespace TranslateCS2.Controls.Ribbons;
 
 internal class AppRibbonControlContext : BindableBase {
     private readonly IRegionManager _regionManager;
-    private readonly ViewConfigurations _viewConfigurations;
+    private readonly IViewConfigurations _viewConfigurations;
 
     public DelegateCommand<RoutedEventArgs> LoadedCommand { get; }
     public AppRibbonControlContext(IRegionManager regionManager,
-                                   ViewConfigurations viewConfigurations) {
+                                   IViewConfigurations viewConfigurations) {
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
         this.LoadedCommand = new DelegateCommand<RoutedEventArgs>(this.LoadedCommandAction);

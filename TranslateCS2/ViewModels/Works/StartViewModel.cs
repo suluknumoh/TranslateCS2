@@ -3,22 +3,22 @@
 using Markdig;
 using Markdig.Wpf;
 
+using TranslateCS2.Core.Services.LatestVersions;
+using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.ViewModels;
 using TranslateCS2.Helpers;
-using TranslateCS2.Models;
-using TranslateCS2.Models.Sessions;
-using TranslateCS2.Services;
 
 namespace TranslateCS2.ViewModels.Works;
 
 internal class StartViewModel : ABaseViewModel {
-    private readonly LatestVersionCheckService _latestVersionCheckService;
-    public TranslationSessionManager SessionManager { get; }
+    private readonly ILatestVersionCheckService _latestVersionCheckService;
+    public ITranslationSessionManager SessionManager { get; }
     public string? Doc { get; private set; }
     public MarkdownPipeline? Pipeline { get; private set; }
     public string? NVAString { get; private set; }
 
-    public StartViewModel(TranslationSessionManager translationSessionManager,
-                          LatestVersionCheckService latestVersionCheckService) {
+    public StartViewModel(ITranslationSessionManager translationSessionManager,
+                          ILatestVersionCheckService latestVersionCheckService) {
         this.SessionManager = translationSessionManager;
         this._latestVersionCheckService = latestVersionCheckService;
     }

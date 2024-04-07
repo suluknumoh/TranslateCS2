@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-using TranslateCS2.Helpers;
+using TranslateCS2.Core.Helpers;
 
 namespace TranslateCS2.Views.Works;
 

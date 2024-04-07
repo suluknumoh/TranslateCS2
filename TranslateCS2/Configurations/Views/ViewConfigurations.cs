@@ -4,10 +4,14 @@ using System.Linq;
 using Prism.Ioc;
 using Prism.Regions;
 
+using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Configurations.Views;
+
 namespace TranslateCS2.Configurations.Views;
-internal class ViewConfigurations {
-    private readonly List<IViewConfiguration> viewConfigurations = [];
+internal class ViewConfigurations : IViewConfigurations {
+    private List<IViewConfiguration> viewConfigurations = [];
     private readonly IContainerRegistry _containerRegistry;
+    private IViewConfiguration? _startViewConfiguration;
 
     public IReadOnlyList<IViewConfiguration> ViewConfigurationList => this.viewConfigurations.AsReadOnly();
     public ViewConfigurations(IContainerRegistry containerRegistry) {
@@ -15,6 +19,10 @@ internal class ViewConfigurations {
     }
     public void Add(IViewConfiguration configuration) {
         this.viewConfigurations.Add(configuration);
+    }
+    public void AddStartViewConfiguration(IViewConfiguration configuration) {
+        this.viewConfigurations = this.viewConfigurations.Prepend(configuration).ToList();
+        this._startViewConfiguration = configuration;
     }
     public void Register(IRegionManager regionManager) {
         foreach (IViewConfiguration viewConfiguration in this.ViewConfigurationList.Reverse()) {
@@ -32,5 +40,9 @@ internal class ViewConfigurations {
             }
         }
         return null;
+    }
+
+    public IViewConfiguration? GetStartViewConfiguration() {
+        return this._startViewConfiguration;
     }
 }

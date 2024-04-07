@@ -1,0 +1,86 @@
+﻿<ContentControl
+    x:Class="TranslateCS2.TextSearch.Views.TextSearchControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:i18n="clr-namespace:TranslateCS2.TextSearch.Properties.I18N"
+    mc:Ignorable="d">
+    <ContentControl.Resources>
+        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
+    </ContentControl.Resources>
+    <StackPanel
+        Margin="10 10 10 10"
+        Orientation="Horizontal">
+        <TextBlock
+            Margin="10 0 10 0"
+            VerticalAlignment="Center"
+            Text="{Binding Source={x:Static i18n:I18NSearchs.StringSearchFor}, Mode=OneWay}" />
+        <TextBox
+            Margin="10 0 10 0"
+            VerticalAlignment="Center"
+            Width="400"
+            Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}">
+            <bhv:Interaction.Triggers>
+                <bhv:EventTrigger EventName="KeyUp">
+                    <bhv:InvokeCommandAction
+                        Command="{Binding SearchCommand}"
+                        PassEventArgsToCommand="True" />
+                </bhv:EventTrigger>
+            </bhv:Interaction.Triggers>
+        </TextBox>
+        <TextBlock
+            Margin="10 0 10 0"
+            VerticalAlignment="Center"
+            Text="{Binding Source={x:Static i18n:I18NSearchs.StringIn}, Mode=OneWay}" />
+        <ItemsControl ItemsSource="{Binding Columns}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox
+                        Margin="10 0 10 0"
+                        VerticalAlignment="Center"
+                        Cursor="Hand"
+                        IsChecked="{Binding IsChecked}">
+                        <TextBlock
+                            Text="{Binding Name, Mode=OneWay}"
+                            ToolTip="{Binding ToolTip, Mode=OneWay}" />
+                    </CheckBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Style="{StaticResource StyleSmallButton}"
+            Margin="10 0 10 0"
+            ToolTip="{Binding Source={x:Static i18n:I18NSearchs.DoClear}, Mode=OneWay}"
+            Command="{Binding ClearCommand}">
+            <StackPanel>
+                <Image
+                    Source="/TranslateCS2.Core;component/Assets/Icons/dismiss_square.png"
+                    Style="{StaticResource StyleSmallButtonImage}" />
+            </StackPanel>
+        </Button>
+        <Button
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Style="{StaticResource StyleSmallButton}"
+            Margin="10 0 10 0"
+            ToolTip="{Binding Source={x:Static i18n:I18NSearchs.DoSearch}, Mode=OneWay}"
+            Command="{Binding SearchCommand}">
+            <StackPanel>
+                <Image
+                    Source="/TranslateCS2.Core;component/Assets/Icons/search_square.png"
+                    Style="{StaticResource StyleSmallButtonImage}" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</ContentControl>

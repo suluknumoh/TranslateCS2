@@ -2,10 +2,10 @@
 using System.Reflection;
 using System.Text;
 
-using TranslateCS2.Configurations;
+using TranslateCS2.Core.Configurations;
 
 namespace TranslateCS2.Helpers;
-internal class MarkdownHelper {
+public static class MarkdownHelper {
     private static readonly string _readmePath = $"{AppConfigurationManager.AssetPath}README.md";
     public static string GetReadmeTillCaption(string caption) {
         Assembly assembly = Assembly.GetExecutingAssembly();

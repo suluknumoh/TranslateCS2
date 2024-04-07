@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Markup;
@@ -12,23 +13,23 @@ using Prism.Regions;
 using Prism.Unity;
 
 using TranslateCS2.Brokers;
-using TranslateCS2.Configurations;
 using TranslateCS2.Configurations.Views;
-using TranslateCS2.Controls.Exports;
-using TranslateCS2.Controls.Imports;
 using TranslateCS2.Controls.Ribbons;
-using TranslateCS2.Controls.SessionInfos;
-using TranslateCS2.Controls.Sessions;
+using TranslateCS2.Core;
+using TranslateCS2.Core.Brokers;
+using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Properties;
+using TranslateCS2.Core.Properties.I18N;
+using TranslateCS2.Core.Services.Databases;
+using TranslateCS2.Core.Sessions;
 using TranslateCS2.Databases;
-using TranslateCS2.Helpers;
-using TranslateCS2.Models.Sessions;
-using TranslateCS2.Properties;
-using TranslateCS2.Properties.I18N;
-using TranslateCS2.Services;
-using TranslateCS2.ViewModels.Dialogs;
+using TranslateCS2.Edits;
+using TranslateCS2.ExImport;
+using TranslateCS2.Sessions;
+using TranslateCS2.TextSearch;
 using TranslateCS2.ViewModels.Works;
 using TranslateCS2.Views;
-using TranslateCS2.Views.Dialogs;
 using TranslateCS2.Views.Works;
 
 namespace TranslateCS2;
@@ -38,8 +39,9 @@ namespace TranslateCS2;
 public partial class App : PrismApplication {
     private readonly int resizeBorderThickness = 12;
     private Thickness defaultResizeBorderThickness;
-    private ViewConfigurations _viewConfigurations;
-    private ViewConfigurations GetViewConfigurations() {
+    private IViewConfigurations _viewConfigurations;
+    private readonly ITranslationsDatabaseService _translationsDatabaseService;
+    private IViewConfigurations GetViewConfigurations() {
         return this._viewConfigurations;
     }
 
@@ -66,6 +68,7 @@ public partial class App : PrismApplication {
                 )
             );
         this._httpClient = new HttpClient();
+        this._translationsDatabaseService = new TranslationsDB();
     }
 
     private void StateChanged(object? sender, EventArgs e) {
@@ -88,8 +91,8 @@ public partial class App : PrismApplication {
     /// <param name="e"></param>
     protected override void OnStartup(StartupEventArgs e) {
         // backup first; no need to backup newly created database
-        DatabaseHelper.BackUpIfExists(DatabaseBackUpIndicators.APP_STARTED);
-        DatabaseHelper.CreateIfNotExists();
+        this._translationsDatabaseService.BackUpIfExists(DatabaseBackUpIndicators.APP_STARTED);
+        this._translationsDatabaseService.CreateIfNotExists();
         if (e.Args is not null && e.Args.Length > 0) {
             string arg = e.Args[0];
             // ability to add start parameters
@@ -105,30 +108,22 @@ public partial class App : PrismApplication {
     protected override void RegisterTypes(IContainerRegistry containerRegistry) {
         this._viewConfigurations = new ViewConfigurations(containerRegistry);
         containerRegistry.RegisterSingleton<HttpClient>(this.GetHttpClient);
-        containerRegistry.RegisterSingleton<LatestVersionCheckService>();
-        containerRegistry.RegisterSingleton<InstallPathDetector>();
-        containerRegistry.RegisterSingleton<LocalizationFilesService>();
+        containerRegistry.RegisterSingleton<ITranslationsDatabaseService>(() => this._translationsDatabaseService);
         containerRegistry.RegisterSingleton<IAppCloseBrokers>(AppCloseBrokers.GetInstance);
-        containerRegistry.RegisterSingleton<ViewConfigurations>(this.GetViewConfigurations);
-        containerRegistry.RegisterSingleton<TranslationSessionManager>();
-        containerRegistry.RegisterSingleton<SelectedSessionInfoContext>();
-        containerRegistry.Register<JSONService>();
-        containerRegistry.Register<ExImportService>();
-        containerRegistry.Register<FiltersService>();
-        {
-            // configure controls
-            containerRegistry.RegisterForNavigation<NewEditSessionControl, NewEditSessionControlContext>(nameof(NewEditSessionControl));
-            containerRegistry.RegisterForNavigation<SelectedSessionInfo, SelectedSessionInfoContext>(nameof(SelectedSessionInfo));
-            containerRegistry.RegisterForNavigation<ExportControl, ExportControlContext>(nameof(ExportControl));
-            containerRegistry.RegisterForNavigation<ImportControl, ImportControlContext>(nameof(ImportControl));
-            containerRegistry.RegisterForNavigation<ComparisonDataGrid>(nameof(ComparisonDataGrid));
-        }
-        {
-            // configure dialogs
-            containerRegistry.RegisterDialog<ImportComparisonView, ImportComparisonViewModel>(nameof(ImportComparisonView));
-            containerRegistry.RegisterDialog<EditEntryLargeView, EditEntryLargeViewModel>(nameof(EditEntryLargeView));
-        }
+        containerRegistry.RegisterSingleton<IViewConfigurations>(this.GetViewConfigurations);
+
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
+    }
+
+    protected override IModuleCatalog CreateModuleCatalog() {
+        if (Path.Exists(AppConfigurationManager.AppModuleDirectory)) {
+            // module path has to exists and must not be null or empty, otherwise an exception is thrown
+            DirectoryModuleCatalog directoryModuleCatalog = new DirectoryModuleCatalog {
+                ModulePath = AppConfigurationManager.AppModuleDirectory
+            };
+            return directoryModuleCatalog;
+        }
+        return base.CreateModuleCatalog();
     }
 
     /// <summary>
@@ -136,10 +131,22 @@ public partial class App : PrismApplication {
     /// </summary>
     /// <param name="moduleCatalog"></param>
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {
-        //moduleCatalog.AddModule<>();
+        moduleCatalog.AddModule<CoreModule>();
+
+        // if you want to build/publish this app with your TranslatorModule
+        // add a reference to your Translator-Module-Project
+        // and add this module here (after CoreModule is added!)
+        //moduleCatalog.AddModule<TranslatorsExampleModule>();
+
+        moduleCatalog.AddModule<TextSearchModule>();
+        moduleCatalog.AddModule<SessionsModule>();
+        moduleCatalog.AddModule<EditsModule>();
+        moduleCatalog.AddModule<ExImportModule>();
+
         // modules still not started!!!
         base.ConfigureModuleCatalog(moduleCatalog);
     }
+
     /// <summary>
     ///     Step: 4
     /// </summary>
@@ -153,11 +160,9 @@ public partial class App : PrismApplication {
     ///     Step: 5
     /// </summary>
     protected override void OnInitialized() {
-        TranslationSessionManager translationSessionManager = this.Container.Resolve<TranslationSessionManager>();
+        ITranslationSessionManager translationSessionManager = this.Container.Resolve<ITranslationSessionManager>();
         IRegionManager regionManager = this.Container.Resolve<IRegionManager>();
         regionManager.RegisterViewWithRegion<AppRibbonControl>(AppConfigurationManager.AppRibbonBarRegion);
-        regionManager.RegisterViewWithRegion<SelectedSessionInfo>(AppConfigurationManager.AppSelectedSessionInfoRegionImport);
-        regionManager.RegisterViewWithRegion<SelectedSessionInfo>(AppConfigurationManager.AppSelectedSessionInfoRegionExport);
 
         //regionManager.RegisterViewWithRegion<>();
         // modules are initilized
@@ -165,22 +170,19 @@ public partial class App : PrismApplication {
         regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, startView.NavigationTarget);
         base.OnInitialized();
     }
-    private IViewConfiguration ConfigureViews(IRegionManager regionManager, TranslationSessionManager translationSessionManager) {
+
+    private IViewConfiguration ConfigureViews(IRegionManager regionManager, ITranslationSessionManager translationSessionManager) {
         // INFO: ViewConfigurations für Tabs
-        ViewConfigurations viewConfigurations = this.Container.Resolve<ViewConfigurations>();
+        ViewConfigurations viewConfigurations = (ViewConfigurations) this.Container.Resolve<IViewConfigurations>();
         // startview is always useable!!!
-        ViewConfiguration<StartView, StartViewModel> startView = new ViewConfiguration<StartView, StartViewModel>(I18NRibbon.Start,
-                                                                                                                  ImageResources.home,
-                                                                                                                  true,
-                                                                                                                  true);
+        IViewConfiguration startView = IViewConfiguration.Create<StartView, StartViewModel>(I18NRibbon.Start,
+                                                                                           ImageResources.home,
+                                                                                           true,
+                                                                                           true);
         startView.NavToggleButton.IsChecked = true;
-        viewConfigurations.Add(startView);
-        viewConfigurations.Add(new ViewConfiguration<SessionManagement, SessionManagementViewModel>(I18NRibbon.Sessions, ImageResources.clock_toolbox, true, false, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<EditDefaultView, EditDefaultViewModel>(I18NRibbon.Edit, ImageResources.translate, false, false, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<EditOccurancesView, EditOccurancesViewModel>(I18NRibbon.EditByOccurances, ImageResources.translate, false, false, translationSessionManager));
-        viewConfigurations.Add(new ViewConfiguration<ExImPortView, ExImPortViewModel>(I18NRibbon.ExImport, ImageResources.database_multiple, false, false, translationSessionManager));
+        viewConfigurations.AddStartViewConfiguration(startView);
         // credits view is always useable!!!
-        viewConfigurations.Add(new ViewConfiguration<CreditsView, CreditsViewModel>(I18NRibbon.Credits, ImageResources.person_circle, true, true));
+        viewConfigurations.Add(IViewConfiguration.Create<CreditsView, CreditsViewModel>(I18NRibbon.Credits, ImageResources.person_circle, true, true));
         viewConfigurations.Register(regionManager);
         return startView;
     }

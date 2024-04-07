@@ -3,7 +3,7 @@ using System.Windows;
 
 using Prism.Commands;
 
-using TranslateCS2.Brokers;
+using TranslateCS2.Core.Brokers;
 
 namespace TranslateCS2.ViewModels;
 internal class MainWindowViewModel {

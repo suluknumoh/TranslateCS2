@@ -1,0 +1,175 @@
+﻿<ContentControl
+    x:Class="TranslateCS2.Edits.Views.EditDefaultView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:searchcontrols="clr-namespace:TranslateCS2.TextSearch.Views;assembly=TranslateCS2.TextSearch"
+    mc:Ignorable="d"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:i18n="clr-namespace:TranslateCS2.Edits.Properties.I18N"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <bhv:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
+    <ContentControl.Resources>
+        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
+    </ContentControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <searchcontrols:TextSearchControl
+            Grid.Row="0"
+            Grid.Column="0"
+            DataContext="{Binding TextSearchContext}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="{Binding SessionManager.DatabaseError,
+                           Mode=OneWay,
+                           NotifyOnSourceUpdated=True}">
+            <TextBlock.Style>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource StyleDatabaseError}">
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SessionManager.HasDatabaseError,
+                                              Mode=OneWay,
+                                              NotifyOnSourceUpdated=True}"
+                            Value="True">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <DataGrid
+            Grid.Row="2"
+            Grid.Column="0"
+            Style="{StaticResource StyleDataGrid}"
+            AlternatingRowBackground="LightGray"
+            ItemsSource="{Binding Mapping}">
+            <bhv:Interaction.Triggers>
+                <bhv:EventTrigger EventName="CellEditEnding">
+                    <bhv:InvokeCommandAction
+                        Command="{Binding CellEditEndingCommand}"
+                        PassEventArgsToCommand="True" />
+                </bhv:EventTrigger>
+            </bhv:Interaction.Triggers>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="edit in new window">
+                        <bhv:Interaction.Triggers>
+                            <bhv:EventTrigger EventName="Click">
+                                <bhv:InvokeCommandAction
+                                    Command="{Binding EditInNewWindowCommand}"
+                                    PassEventArgsToCommand="True" />
+                            </bhv:EventTrigger>
+                        </bhv:Interaction.Triggers>
+                        <MenuItem.Icon>
+                            <Image
+                                Source="/TranslateCS2.Core;component/Assets/Icons/open.png"
+                                Width="16"
+                                Height="16" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"
+                    Binding="{Binding Key, Mode=OneWay}"
+                    MinWidth="200"
+                    Width="200"
+                    MaxWidth="300"
+                    IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter
+                                Property="HorizontalContentAlignment"
+                                Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglish}, Mode=OneWay}"
+                    Binding="{Binding Value, Mode=OneWay}"
+                    MinWidth="100"
+                    Width="400"
+                    MaxWidth="500"
+                    IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter
+                                Property="HorizontalContentAlignment"
+                                Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnEnglishTip}, Mode=OneWay}" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnMerge}, Mode=OneWay}"
+                    Binding="{Binding ValueMerge, Mode=OneWay}"
+                    MinWidth="100"
+                    Width="400"
+                    MaxWidth="500"
+                    IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter
+                                Property="HorizontalContentAlignment"
+                                Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnMergeTip}, Mode=OneWay}" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Header="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslation}, Mode=OneWay}"
+                    Binding="{Binding Translation, Mode=TwoWay}"
+                    MinWidth="100"
+                    Width="400"
+                    MaxWidth="500"
+                    IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter
+                                Property="HorizontalContentAlignment"
+                                Value="Center" />
+                            <Setter
+                                Property="ToolTip"
+                                Value="{Binding Source={x:Static i18n:I18NEdits.ColumnTranslationTip}, Mode=OneWay}" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter
+                                Property="AcceptsReturn"
+                                Value="True" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</ContentControl>
