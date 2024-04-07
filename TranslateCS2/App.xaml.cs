@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Shell;
@@ -47,17 +46,6 @@ public partial class App : PrismApplication {
 
 
 
-    /// <summary>
-    ///     INFO: https://learn.microsoft.com/de-de/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use
-    /// </summary>
-    private readonly HttpClient _httpClient;
-
-    private HttpClient GetHttpClient() {
-        return this._httpClient;
-    }
-
-
-
     public App() : base() {
         FrameworkElement.LanguageProperty.OverrideMetadata(
             typeof(FrameworkElement),
@@ -67,7 +55,6 @@ public partial class App : PrismApplication {
                     )
                 )
             );
-        this._httpClient = new HttpClient();
         this._translationsDatabaseService = new TranslationsDB();
     }
 
@@ -107,7 +94,6 @@ public partial class App : PrismApplication {
     /// <param name="containerRegistry"></param>
     protected override void RegisterTypes(IContainerRegistry containerRegistry) {
         this._viewConfigurations = new ViewConfigurations(containerRegistry);
-        containerRegistry.RegisterSingleton<HttpClient>(this.GetHttpClient);
         containerRegistry.RegisterSingleton<ITranslationsDatabaseService>(() => this._translationsDatabaseService);
         containerRegistry.RegisterSingleton<IAppCloseBrokers>(AppCloseBrokers.GetInstance);
         containerRegistry.RegisterSingleton<IViewConfigurations>(this.GetViewConfigurations);
