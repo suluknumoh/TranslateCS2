@@ -16,7 +16,6 @@ public class CoreModule : IModule {
     }
 
     public void RegisterTypes(IContainerRegistry containerRegistry) {
-        containerRegistry.RegisterSingleton<AppHttpClient>();
         containerRegistry.RegisterSingleton<IHttpClient, AppHttpClient>();
         containerRegistry.RegisterSingleton<IFiltersService, FiltersService>();
         containerRegistry.RegisterSingleton<ILatestVersionCheckService, LatestVersionCheckService>();
