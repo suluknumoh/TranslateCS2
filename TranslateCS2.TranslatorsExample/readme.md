@@ -24,19 +24,19 @@
 
 ### debugging
 - (re-)build/publish TranslateCS2
-- ![(re-)build/publish TranslateCS2](/docs/images/001.png)
+- ![(re-)build/publish TranslateCS2](docs/images/001.png)
 - open the output-directory and create a sub-directory named modules
-- ![open the output-directory and create a sub-directory named modules](/docs/images/002.png)
+- ![open the output-directory and create a sub-directory named modules](docs/images/002.png)
 - (re-)build/publish a translator module
-- ![(re-)build/publish a translator module](/docs/images/003.png)
+- ![(re-)build/publish a translator module](docs/images/003.png)
 - open the output directory of the translator module
-- ![open the output directory of the translator module](/docs/images/004.png)
+- ![open the output directory of the translator module](docs/images/004.png)
 - copy the three files of the translator module into the modules directory
-- ![copy the three files of the translator module into the modules directory](/docs/images/005.png)
+- ![copy the three files of the translator module into the modules directory](docs/images/005.png)
 - define break-points within the translator module, if needed
 - debug TranslateCS2
 - what it should look like:
-- ![edit-view, open edit window](/docs/images/006.png)
-- ![select a or the translator and a target language](/docs/images/007.png)
-- ![translate from english value](/docs/images/008.png)
-- ![translate from merge value](/docs/images/009.png)
+- ![edit-view, open edit window](docs/images/006.png)
+- ![select a or the translator and a target language](docs/images/007.png)
+- ![translate from english value](docs/images/008.png)
+- ![translate from merge value](docs/images/009.png)
