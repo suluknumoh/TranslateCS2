@@ -4,14 +4,13 @@ using System.Net.Http;
 using System.Reflection;
 
 using TranslateCS2.Core.Configurations;
-using TranslateCS2.Core.HttpClients;
 
 namespace TranslateCS2.Core.Services.LatestVersions;
 internal class LatestVersionCheckService : ILatestVersionCheckService {
-    private readonly IHttpClient _httpClient;
+    private readonly HttpClient _httpClient;
     public Version Latest { get; private set; }
     public Version Current { get; private set; }
-    public LatestVersionCheckService(IHttpClient httpClient) {
+    public LatestVersionCheckService(HttpClient httpClient) {
         this._httpClient = httpClient;
         this.Current = new Version("0.0.0.0");
         this.Latest = this.Current;
@@ -31,6 +30,7 @@ internal class LatestVersionCheckService : ILatestVersionCheckService {
             string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
             string versionString = contentString.Trim();
             this.Latest = new Version(versionString);
+            this._httpClient.Dispose();
             return this.Latest > this.Current;
         } catch {
             // nüx

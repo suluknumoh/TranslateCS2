@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Threading.Tasks;
-
-using TranslateCS2.Core.HttpClients;
 
 namespace TranslateCS2.Core.Translators;
 public interface ITranslator {
@@ -51,7 +50,7 @@ public interface ITranslator {
     ///     <br/>
     ///     <seealso href="https://learn.microsoft.com/de-de/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
     /// </param>
-    void Init(IHttpClient httpClient);
+    void Init(HttpClient httpClient);
     /// <summary>
     ///     to translate <paramref name="s"/> from <paramref name="sourceLanguageCode"/> to <see cref="SelectedTargetLanguageCode"/> via <paramref name="httpClient"/>
     /// </summary>
@@ -87,5 +86,5 @@ public interface ITranslator {
     /// <returns>
     ///     <see cref="TranslatorResult"/>
     /// </returns>
-    Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
+    Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s);
 }

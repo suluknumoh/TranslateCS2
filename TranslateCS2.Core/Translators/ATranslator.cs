@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Prism.Mvvm;
 
 using TranslateCS2.Core.Helpers;
-using TranslateCS2.Core.HttpClients;
 
 namespace TranslateCS2.Core.Translators;
 public abstract class ATranslator : BindableBase, ITranslator {
@@ -37,7 +37,7 @@ public abstract class ATranslator : BindableBase, ITranslator {
         this.Description = description;
     }
     /// <inheritdoc/>
-    public abstract void Init(IHttpClient httpClient);
+    public abstract void Init(HttpClient httpClient);
     /// <inheritdoc/>
-    public abstract Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
+    public abstract Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s);
 }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using TranslateCS2.Core.Configurations;
-using TranslateCS2.Core.HttpClients;
 using TranslateCS2.Core.Translators;
 
 namespace TranslateCS2.TranslatorsExample;
@@ -15,7 +14,7 @@ internal class TranslatorExample : ATranslator {
         // no need to provide an HttpClient
         // Translators receive it from the app itself!!!
     }
-    public override void Init(IHttpClient httpClient) {
+    public override void Init(HttpClient httpClient) {
         // this method is called by the app itself!!!
         //
         // this is just an example-list
@@ -29,7 +28,7 @@ internal class TranslatorExample : ATranslator {
             request.Headers.Add(HttpRequestHeader.Accept.ToString(), "text/plain");
             request.Headers.Add("Upgrade-Insecure-Requests", "1");
             request.Headers.Add("Sec-GPC", "1");
-            HttpResponseMessage response = httpClient.Underlying.Send(request);
+            HttpResponseMessage response = httpClient.Send(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
             string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
@@ -67,7 +66,7 @@ internal class TranslatorExample : ATranslator {
         this.TargetLanguageCodes.Add("ZH - Chinese");
     }
 
-    public override async Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s) {
+    public override async Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s) {
         if (String.IsNullOrEmpty(s) || String.IsNullOrWhiteSpace(s)) {
             return new TranslatorResult() { Error = "nothing to translate; text to translate is empty" };
         }
@@ -79,7 +78,7 @@ internal class TranslatorExample : ATranslator {
             request.Headers.Add(HttpRequestHeader.Accept.ToString(), "text/plain");
             request.Headers.Add("Upgrade-Insecure-Requests", "1");
             request.Headers.Add("Sec-GPC", "1");
-            HttpResponseMessage response = httpClient.Underlying.Send(request);
+            HttpResponseMessage response = httpClient.Send(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
             string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();

@@ -1,4 +1,6 @@
-﻿using Prism.Ioc;
+﻿using System.Net.Http;
+
+using Prism.Ioc;
 using Prism.Modularity;
 
 using TranslateCS2.Core.HttpClients;
@@ -16,7 +18,7 @@ public class CoreModule : IModule {
     }
 
     public void RegisterTypes(IContainerRegistry containerRegistry) {
-        containerRegistry.RegisterSingleton<IHttpClient, AppHttpClient>();
+        containerRegistry.RegisterSingleton<HttpClient, AppHttpClient>();
         containerRegistry.RegisterSingleton<IFiltersService, FiltersService>();
         containerRegistry.RegisterSingleton<ILatestVersionCheckService, LatestVersionCheckService>();
         containerRegistry.RegisterSingleton<IInstallPathDetector, InstallPathDetector>();

@@ -1,16 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Prism.Mvvm;
 
-using TranslateCS2.Core.HttpClients;
 using TranslateCS2.Core.Properties.I18N;
 
 namespace TranslateCS2.Core.Translators.Collectors;
 /// <inheritdoc cref="ITranslatorCollector"/>
 internal class TranslatorCollector : BindableBase, ITranslatorCollector {
-    private readonly IHttpClient _httpClient;
+    private readonly HttpClient _httpClient;
     /// <inheritdoc/>
     public ObservableCollection<ITranslator> Translators { get; } = [];
     /// <inheritdoc/>
@@ -33,7 +33,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
     }
 
 
-    public TranslatorCollector(IHttpClient httpClient) {
+    public TranslatorCollector(HttpClient httpClient) {
         this._httpClient = httpClient;
         this.Translators.CollectionChanged += this.TranslatorsChangedAction;
     }

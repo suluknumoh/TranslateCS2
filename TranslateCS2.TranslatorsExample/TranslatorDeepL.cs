@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using DeepL;
 using DeepL.Model;
 
-using TranslateCS2.Core.HttpClients;
 using TranslateCS2.Core.Translators;
 
 namespace TranslateCS2.TranslatorsExample;
@@ -14,12 +14,12 @@ internal class TranslatorDeepL : ATranslator {
     private SourceLanguage[] SourceLanguages { get; set; } = [];
     private TargetLanguage[] TargetLanguages { get; set; } = [];
     public TranslatorDeepL() : base("DeepL", "DeepL-API") { }
-    public override async void Init(IHttpClient httpClient) {
+    public override async void Init(HttpClient httpClient) {
         if (this.authKey is null) {
             return;
         }
         TranslatorOptions options = new TranslatorOptions {
-            ClientFactory = () => new HttpClientAndDisposeFlag() { HttpClient = httpClient.Underlying, DisposeClient = false }
+            ClientFactory = () => new HttpClientAndDisposeFlag() { HttpClient = httpClient, DisposeClient = false }
         };
         this.Translator = new Translator(this.authKey, options);
         this.SourceLanguages = await this.Translator.GetSourceLanguagesAsync();
@@ -29,7 +29,7 @@ internal class TranslatorDeepL : ATranslator {
         }
     }
 
-    public override async Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s) {
+    public override async Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s) {
         if (this.authKey is null) {
             return new TranslatorResult() { Error = "authKey is null" };
         }
