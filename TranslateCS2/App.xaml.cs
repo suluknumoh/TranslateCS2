@@ -40,10 +40,6 @@ public partial class App : PrismApplication {
     private Thickness defaultResizeBorderThickness;
     private IViewConfigurations _viewConfigurations;
     private readonly ITranslationsDatabaseService _translationsDatabaseService;
-    private IViewConfigurations GetViewConfigurations() {
-        return this._viewConfigurations;
-    }
-
 
 
     public App() : base() {
@@ -75,7 +71,6 @@ public partial class App : PrismApplication {
     /// <summary>
     ///     Step: 1
     /// </summary>
-    /// <param name="e"></param>
     protected override void OnStartup(StartupEventArgs e) {
         // backup first; no need to backup newly created database
         this._translationsDatabaseService.BackUpIfExists(DatabaseBackUpIndicators.APP_STARTED);
@@ -91,12 +86,11 @@ public partial class App : PrismApplication {
     /// <summary>
     ///     Step: 2
     /// </summary>
-    /// <param name="containerRegistry"></param>
     protected override void RegisterTypes(IContainerRegistry containerRegistry) {
         this._viewConfigurations = new ViewConfigurations(containerRegistry);
         containerRegistry.RegisterSingleton<ITranslationsDatabaseService>(() => this._translationsDatabaseService);
         containerRegistry.RegisterSingleton<IAppCloseBrokers>(AppCloseBrokers.GetInstance);
-        containerRegistry.RegisterSingleton<IViewConfigurations>(this.GetViewConfigurations);
+        containerRegistry.RegisterSingleton<IViewConfigurations>(() => this._viewConfigurations);
 
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
     }
@@ -115,7 +109,6 @@ public partial class App : PrismApplication {
     /// <summary>
     ///     Step: 3
     /// </summary>
-    /// <param name="moduleCatalog"></param>
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {
         moduleCatalog.AddModule<CoreModule>();
 
@@ -152,12 +145,12 @@ public partial class App : PrismApplication {
 
         //regionManager.RegisterViewWithRegion<>();
         // modules are initilized
-        IViewConfiguration startView = this.ConfigureViews(regionManager, translationSessionManager);
+        IViewConfiguration startView = this.ConfigureViews(regionManager);
         regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, startView.NavigationTarget);
         base.OnInitialized();
     }
 
-    private IViewConfiguration ConfigureViews(IRegionManager regionManager, ITranslationSessionManager translationSessionManager) {
+    private IViewConfiguration ConfigureViews(IRegionManager regionManager) {
         // INFO: ViewConfigurations für Tabs
         ViewConfigurations viewConfigurations = (ViewConfigurations) this.Container.Resolve<IViewConfigurations>();
         // startview is always useable!!!
