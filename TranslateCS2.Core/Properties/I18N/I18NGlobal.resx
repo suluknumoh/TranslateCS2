@@ -128,4 +128,13 @@ If something went wrong with the database, try to restart this app.</value>
   <data name="MessageDatabaseError" xml:space="preserve">
     <value>something went wrong with the database - app should be restarted</value>
   </data>
+  <data name="MessageNoTargetLanguageSelected" xml:space="preserve">
+    <value>no target language selected</value>
+  </data>
+  <data name="MessageNoTranslators" xml:space="preserve">
+    <value>no translators available</value>
+  </data>
+  <data name="MessageNoTranslatorSelected" xml:space="preserve">
+    <value>no translator selected</value>
+  </data>
 </root>

@@ -168,6 +168,12 @@ for each cell that is left empty, the respective value/text within the Merge Val
   <data name="DoTranslate" xml:space="preserve">
     <value>translate</value>
   </data>
+  <data name="MessageSomethingWentWrong" xml:space="preserve">
+    <value>something went wrong</value>
+  </data>
+  <data name="MessageTranslating" xml:space="preserve">
+    <value>translating text</value>
+  </data>
   <data name="StringTranslateInto" xml:space="preserve">
     <value>into</value>
   </data>
