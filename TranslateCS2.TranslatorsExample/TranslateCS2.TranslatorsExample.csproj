@@ -24,4 +24,8 @@
     <Folder Include="docs\images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DeepL.net" Version="1.9.0" />
+  </ItemGroup>
+
 </Project>

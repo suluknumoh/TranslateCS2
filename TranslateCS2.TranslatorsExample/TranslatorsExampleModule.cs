@@ -15,10 +15,12 @@ public class TranslatorsExampleModule : ATranslatorModule {
         // this is just an example, there may be more
         // there is no need to realize each translator!!!
         // realize your preferred ones and propagate it here
-        this.Translators.Add(new TranslatorExample("Microsoft", "just an example"));
-        this.Translators.Add(new TranslatorExample("DeepL", "just an example"));
-        this.Translators.Add(new TranslatorExample("LibreTranslate", "just an example"));
-        this.Translators.Add(new TranslatorExample("google", "just an example"));
-        this.Translators.Add(new TranslatorExample("other", "just an example"));
+        this.Translators.Add(new TranslatorDeepL());
+        //
+        this.Translators.Add(new TranslatorExample("Microsoft-Example", "just an example"));
+        this.Translators.Add(new TranslatorExample("DeepL-Example", "just an example"));
+        this.Translators.Add(new TranslatorExample("LibreTranslate-Example", "just an example"));
+        this.Translators.Add(new TranslatorExample("google-Example", "just an example"));
+        this.Translators.Add(new TranslatorExample("other-Example", "just an example"));
     }
 }
