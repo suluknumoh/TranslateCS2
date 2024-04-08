@@ -258,6 +258,12 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - https://www.sqlite.org/
 - [License](https://www.sqlite.org/copyright.html)
 ---
+## DeepL
+- https://deepl.com
+- https://developers.deepl.com
+- https://github.com/deeplcom/deepl-dotnet
+- [MIT-License](https://github.com/deeplcom/deepl-dotnet?tab=MIT-1-ov-file)
+---
 ## wikipedia
 - https://www.wikipedia.org
 - https://en.wikipedia.org/wiki/LEB128
