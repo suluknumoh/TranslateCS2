@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace TranslateCS2.Core.Translators.Collectors;
 /// <summary>
@@ -30,7 +31,7 @@ public interface ITranslatorCollector {
     /// <param name="translator"></param>
     void AddTranslator(ITranslator translator);
     /// <summary>
-    ///     calls <see cref="SelectedTranslator"/>s <see cref="ITranslator.Translate(HttpClients.IHttpClient, System.String, System.String?)"/>
+    ///     calls <see cref="SelectedTranslator"/>s <see cref="ITranslator.TranslateAsync(HttpClients.IHttpClient, System.String, System.String?)"/>
     /// </summary>
     /// <param name="sourceLanguageCode">
     ///     language-code that corresponds to one of the .loc-files
@@ -58,5 +59,5 @@ public interface ITranslatorCollector {
     /// <returns>
     ///     should return the translation
     /// </returns>
-    string? Translate(string sourceLanguageCode, string? s);
+    Task<string?> TranslateAsync(string sourceLanguageCode, string? s);
 }

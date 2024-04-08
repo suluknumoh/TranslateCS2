@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using TranslateCS2.Core.HttpClients;
 
@@ -86,5 +87,5 @@ public interface ITranslator {
     /// <returns>
     ///     should return the translation
     /// </returns>
-    string? Translate(IHttpClient httpClient, string sourceLanguageCode, string? s);
+    Task<string?> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
 }

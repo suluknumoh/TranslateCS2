@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.HttpClients;
@@ -19,7 +20,7 @@ internal class TranslatorExample : ATranslator {
         // this is just an example-list
         // this list should contain language-codes or some other text related to the used translator-api
         // the selected ones gets reflected into
-        /// <see cref="SelectedLanguageCode"/>
+        /// <see cref="SelectedTargetLanguageCode"/>
         if (false) {
             // example-usage!
             // you should retrieve the available language codes from the api you'd like to use
@@ -27,11 +28,12 @@ internal class TranslatorExample : ATranslator {
             request.Headers.Add(HttpRequestHeader.Accept.ToString(), "text/plain");
             request.Headers.Add("Upgrade-Insecure-Requests", "1");
             request.Headers.Add("Sec-GPC", "1");
-            HttpResponseMessage response = httpClient.Send(request);
+            HttpResponseMessage response = httpClient.Underlying.Send(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
             string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
+
         this.TargetLanguageCodes.Add("AR - Arabic");
         this.TargetLanguageCodes.Add("BG - Bulgarian");
         this.TargetLanguageCodes.Add("CS - Czech");
@@ -63,7 +65,8 @@ internal class TranslatorExample : ATranslator {
         this.TargetLanguageCodes.Add("UK - Ukrainian");
         this.TargetLanguageCodes.Add("ZH - Chinese");
     }
-    public override string? Translate(IHttpClient httpClient, string sourceLanguageCode, string? s) {
+
+    public override async Task<string?> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s) {
         if (s is null) {
             return s;
         }
@@ -75,16 +78,16 @@ internal class TranslatorExample : ATranslator {
             request.Headers.Add(HttpRequestHeader.Accept.ToString(), "text/plain");
             request.Headers.Add("Upgrade-Insecure-Requests", "1");
             request.Headers.Add("Sec-GPC", "1");
-            HttpResponseMessage response = httpClient.Send(request);
+            HttpResponseMessage response = httpClient.Underlying.Send(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
             string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
 
 
-        /// <see cref="SelectedLanguageCode"/>
+        /// <see cref="SelectedTargetLanguageCode"/>
         /// is the selected language code from
-        /// <see cref="LanguageCodes"/>
+        /// <see cref="TargetLanguageCodes"/>
         StringBuilder builder = new StringBuilder();
         builder.AppendLine("this is just an example");
         builder.AppendLine("nothing got translated!!!");

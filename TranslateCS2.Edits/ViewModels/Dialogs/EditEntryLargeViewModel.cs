@@ -70,16 +70,16 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         Clipboard.SetText(copy);
     }
 
-    private void TranslateCommandAction(ValueToUse? valueToUse) {
+    private async void TranslateCommandAction(ValueToUse? valueToUse) {
         if (valueToUse is null || this.Entry is null) {
             return;
         }
         switch (valueToUse) {
             case ValueToUse.ValueEnglish:
-                this.Entry.Translation = this.Translators.Translate(this.Entry.ValueLanguageCode, this.Entry?.Value);
+                this.Entry.Translation = await this.Translators.TranslateAsync(this.Entry.ValueLanguageCode, this.Entry?.Value);
                 break;
             case ValueToUse.ValueMerge:
-                this.Entry.Translation = this.Translators.Translate(this.Entry.ValueMergeLanguageCode, this.Entry?.ValueMerge);
+                this.Entry.Translation = await this.Translators.TranslateAsync(this.Entry.ValueMergeLanguageCode, this.Entry?.ValueMerge);
                 break;
             case ValueToUse.ValueTranslation:
                 // dont translate a translation :D

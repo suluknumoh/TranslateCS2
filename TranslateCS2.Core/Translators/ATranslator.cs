@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using Prism.Mvvm;
 
@@ -38,5 +39,5 @@ public abstract class ATranslator : BindableBase, ITranslator {
     /// <inheritdoc/>
     public abstract void Init(IHttpClient httpClient);
     /// <inheritdoc/>
-    public abstract string? Translate(IHttpClient httpClient, string sourceLanguageCode, string? s);
+    public abstract Task<string?> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
 }

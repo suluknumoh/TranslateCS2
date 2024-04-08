@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 using Prism.Mvvm;
 
@@ -37,7 +38,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
     }
 
     /// <inheritdoc/>
-    public string? Translate(string sourceLanguageCode, string? s) {
+    public async Task<string?> TranslateAsync(string sourceLanguageCode, string? s) {
         if (!this.AreTranslatorsAvailable) {
             return s;
         }
@@ -47,7 +48,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
         if (this.SelectedTranslator.SelectedTargetLanguageCode is null) {
             return s;
         }
-        return this.SelectedTranslator.Translate(this._httpClient, sourceLanguageCode, s);
+        return await this.SelectedTranslator.TranslateAsync(this._httpClient, sourceLanguageCode, s);
     }
 
     private void TranslatorsChangedAction(object? sender, NotifyCollectionChangedEventArgs e) {
