@@ -134,6 +134,13 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
                         return $"{I18NSessions.InputOverwriteFileWarningOthersThan} '{AppConfigurationManager.LeadingLocFileName}'!";
                     }
                     break;
+                case nameof(this.MergeLocalizationFileName):
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.MergeLocalizationFileName)) {
+                        // cannot be empty
+                    } else if (this.OverwriteLocalizationFileName == this.MergeLocalizationFileName) {
+                        return I18NSessions.InputOverwriteFileWarningDifferentMergeFile;
+                    }
+                    break;
             }
             return String.Empty;
         }

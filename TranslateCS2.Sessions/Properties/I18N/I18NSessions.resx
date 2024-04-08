@@ -168,7 +168,8 @@ unknown restrictions/limitations</value>
     <value>if you only want to change some translations,
 tanslations within this file and yours are going to be merged;
 or if you want to create a new translation e.g. based on english,
-you'll get a mixed translation file</value>
+you'll get a mixed translation file;
+should be another language than the ones you want to merge;</value>
   </data>
   <data name="InputName" xml:space="preserve">
     <value>name</value>

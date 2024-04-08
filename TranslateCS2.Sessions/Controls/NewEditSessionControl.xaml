@@ -99,6 +99,14 @@
             Margin="10 10 10 10"
             Cursor="Hand"
             ItemsSource="{Binding Merges}">
+            <bhv:Interaction.Triggers>
+                <bhv:EventTrigger
+                    EventName="SelectionChanged">
+                    <bhv:InvokeCommandAction
+                        Command="{Binding FileComboBoxSelectionChangedCommand}"
+                        PassEventArgsToCommand="False"/>
+                </bhv:EventTrigger>
+            </bhv:Interaction.Triggers>
             <ComboBox.SelectedItem>
                 <Binding
                     Path="NewSession.MergeLocalizationFileName"
@@ -125,11 +133,19 @@
             Cursor="Hand"
             ItemsSource="{Binding Overwrites}"
             Style="{StaticResource ControlInputError}">
+            <bhv:Interaction.Triggers>
+                <bhv:EventTrigger
+                    EventName="SelectionChanged">
+                    <bhv:InvokeCommandAction
+                        Command="{Binding FileComboBoxSelectionChangedCommand}"
+                        PassEventArgsToCommand="False"/>
+                </bhv:EventTrigger>
+            </bhv:Interaction.Triggers>
             <ComboBox.SelectedItem>
                 <Binding
                     Path="NewSession.OverwriteLocalizationFileName"
                     UpdateSourceTrigger="PropertyChanged"
-                    ValidatesOnDataErrors="True" />
+                    ValidatesOnDataErrors="True"/>
             </ComboBox.SelectedItem>
         </ComboBox>
         <TextBlock
@@ -155,7 +171,7 @@
                 <Binding
                     Path="NewSession.OverwriteLocalizationNameEN"
                     UpdateSourceTrigger="PropertyChanged"
-                    ValidatesOnDataErrors="True" />
+                    ValidatesOnDataErrors="True"/>
             </TextBox.Text>
         </TextBox>
         <TextBlock

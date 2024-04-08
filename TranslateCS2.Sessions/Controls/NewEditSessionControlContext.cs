@@ -54,6 +54,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
 
     public DelegateCommand<RoutedEventArgs> CreateNewTranslationSessionGridLoaded { get; }
+    public DelegateCommand FileComboBoxSelectionChangedCommand { get; }
     public DelegateCommand Save { get; }
     public DelegateCommand Cancel { get; }
     public ITranslationSessionManager SessionManager { get; }
@@ -62,10 +63,15 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
                                         ITranslationSessionManager translationSessionManager) {
         this._regionManager = regionManager;
         this.CreateNewTranslationSessionGridLoaded = new DelegateCommand<RoutedEventArgs>(this.CreateNewTranslationSessionGridLoadedAction);
+        this.FileComboBoxSelectionChangedCommand = new DelegateCommand(this.FileComboBoxSelectionChangedCommandAction);
         this.Save = new DelegateCommand(this.SaveAction);
         this.Cancel = new DelegateCommand(this.CancelAction);
         this.SessionManager = translationSessionManager;
         this.InitMergesOverwrites();
+    }
+
+    private void FileComboBoxSelectionChangedCommandAction() {
+        this._newSessionBindingGroup?.UpdateSources();
     }
 
     private void CancelAction() {
