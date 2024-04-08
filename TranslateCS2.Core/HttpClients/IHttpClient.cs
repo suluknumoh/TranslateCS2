@@ -10,9 +10,15 @@ namespace TranslateCS2.Core.HttpClients;
 /// <summary>
 ///     wrapper for <see cref="HttpClient"/>
 ///     <br/>
-///     <seealso href="https://learn.microsoft.com/de-de/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
+///     <seealso href="https://learn.microsoft.com/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
 /// </summary>
 public interface IHttpClient {
+    /// <summary>
+    ///     <see cref="HttpClient.Dispose(Boolean)"/> does nothing!
+    ///     <br/>
+    ///     <seealso href="https://learn.microsoft.com/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
+    /// </summary>
+    HttpClient Underlying { get; }
     void CancelPendingRequests();
     Task<HttpResponseMessage> DeleteAsync(Uri? requestUri);
     Task<HttpResponseMessage> DeleteAsync([StringSyntax("Uri")] string? requestUri, CancellationToken cancellationToken);
