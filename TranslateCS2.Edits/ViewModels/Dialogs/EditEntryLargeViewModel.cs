@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.Translators;
 using TranslateCS2.Core.Translators.Collectors;
 using TranslateCS2.Edits.Models;
 using TranslateCS2.Edits.Properties.I18N;
@@ -27,6 +29,27 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     public bool IsCount {
         get => this._IsCount;
         set => this.SetProperty(ref this._IsCount, value);
+    }
+
+
+    private Brush _ActionTextColor = Brushes.DarkGreen;
+    public Brush ActionTextColor {
+        get => this._ActionTextColor;
+        set => this.SetProperty(ref this._ActionTextColor, value);
+    }
+
+
+    private string? _ActionText;
+    public string? ActionText {
+        get => this._ActionText;
+        set => this.SetProperty(ref this._ActionText, value);
+    }
+
+
+    private bool _IsEnabled = true;
+    public bool IsEnabled {
+        get => this._IsEnabled;
+        set => this.SetProperty(ref this._IsEnabled, value);
     }
 
 
@@ -74,17 +97,33 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         if (valueToUse is null || this.Entry is null) {
             return;
         }
+        this.IsEnabled = !this.IsEnabled;
+        this.ActionText = I18NEdits.MessageTranslating;
+        this.ActionTextColor = Brushes.DarkGreen;
+        TranslatorResult? result = null;
         switch (valueToUse) {
             case ValueToUse.ValueEnglish:
-                this.Entry.Translation = await this.Translators.TranslateAsync(this.Entry.ValueLanguageCode, this.Entry?.Value);
+                result = await this.Translators.TranslateAsync(this.Entry.ValueLanguageCode, this.Entry?.Value);
                 break;
             case ValueToUse.ValueMerge:
-                this.Entry.Translation = await this.Translators.TranslateAsync(this.Entry.ValueMergeLanguageCode, this.Entry?.ValueMerge);
+                result = await this.Translators.TranslateAsync(this.Entry.ValueMergeLanguageCode, this.Entry?.ValueMerge);
                 break;
             case ValueToUse.ValueTranslation:
                 // dont translate a translation :D
                 break;
         }
+        this.IsEnabled = !this.IsEnabled;
+        if (result == null) {
+            this.ActionText = I18NEdits.MessageSomethingWentWrong;
+            this.ActionTextColor = Brushes.DarkRed;
+        }
+        if (result.IsError) {
+            this.ActionText = result.Error;
+            this.ActionTextColor = Brushes.DarkRed;
+            return;
+        }
+        this.Entry.Translation = result.Translation;
+        this.ActionText = null;
     }
 
     private void SaveCommandAction() {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Prism.Mvvm;
 
 using TranslateCS2.Core.HttpClients;
+using TranslateCS2.Core.Properties.I18N;
 
 namespace TranslateCS2.Core.Translators.Collectors;
 /// <inheritdoc cref="ITranslatorCollector"/>
@@ -38,15 +39,15 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
     }
 
     /// <inheritdoc/>
-    public async Task<string?> TranslateAsync(string sourceLanguageCode, string? s) {
+    public async Task<TranslatorResult> TranslateAsync(string sourceLanguageCode, string? s) {
         if (!this.AreTranslatorsAvailable) {
-            return s;
+            return new TranslatorResult() { Error = I18NGlobal.MessageNoTranslators };
         }
         if (this.SelectedTranslator is null) {
-            return s;
+            return new TranslatorResult() { Error = I18NGlobal.MessageNoTranslatorSelected };
         }
         if (this.SelectedTranslator.SelectedTargetLanguageCode is null) {
-            return s;
+            return new TranslatorResult() { Error = I18NGlobal.MessageNoTargetLanguageSelected };
         }
         return await this.SelectedTranslator.TranslateAsync(this._httpClient, sourceLanguageCode, s);
     }

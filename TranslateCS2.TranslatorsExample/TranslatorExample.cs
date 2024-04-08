@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,9 +67,9 @@ internal class TranslatorExample : ATranslator {
         this.TargetLanguageCodes.Add("ZH - Chinese");
     }
 
-    public override async Task<string?> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s) {
-        if (s is null) {
-            return s;
+    public override async Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s) {
+        if (String.IsNullOrEmpty(s) || String.IsNullOrWhiteSpace(s)) {
+            return new TranslatorResult() { Error = "nothing to translate; text to translate is empty" };
         }
 
         if (false) {
@@ -92,6 +93,6 @@ internal class TranslatorExample : ATranslator {
         builder.AppendLine("this is just an example");
         builder.AppendLine("nothing got translated!!!");
         builder.AppendLine($"'{this.Name}' translated '{s}' from '{sourceLanguageCode}' into '{this.SelectedTargetLanguageCode}'");
-        return builder.ToString();
+        return new TranslatorResult() { Translation = builder.ToString() };
     }
 }

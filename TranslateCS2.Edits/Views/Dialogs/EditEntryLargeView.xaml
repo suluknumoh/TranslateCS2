@@ -88,6 +88,7 @@
                 IsEditable="False"
                 DisplayMemberPath="Name"
                 Margin="10 0 10 0"
+                IsEnabled="{Binding IsEnabled}"
                 />
             <TextBlock
                 Margin="10 0 10 0"
@@ -104,6 +105,7 @@
             Grid.Column="0">
             <Grid ShowGridLines="False">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -269,7 +271,8 @@
                                 Margin="5 5 5 5"
                                 ToolTip="{Binding Source={x:Static i18n:I18NEdits.DoTranslate}, Mode=OneWay}"
                                 Command="{Binding TranslateCommand}"
-                                CommandParameter="{x:Static editmodels:ValueToUse.ValueEnglish}">
+                                CommandParameter="{x:Static editmodels:ValueToUse.ValueEnglish}"
+                                IsEnabled="{Binding IsEnabled}">
                                 <Button.Style>
                                     <Style
                                         BasedOn="{StaticResource StyleSmallButton}"
@@ -363,7 +366,8 @@
                                 Margin="5 5 5 5"
                                 ToolTip="{Binding Source={x:Static i18n:I18NEdits.DoTranslate}, Mode=OneWay}"
                                 Command="{Binding TranslateCommand}"
-                                CommandParameter="{x:Static editmodels:ValueToUse.ValueMerge}">
+                                CommandParameter="{x:Static editmodels:ValueToUse.ValueMerge}"
+                                IsEnabled="{Binding IsEnabled}">
                                 <Button.Style>
                                     <Style
                                         BasedOn="{StaticResource StyleSmallButton}"
@@ -429,6 +433,38 @@
                     Padding="5 5 5 5"
                     BorderThickness="1"
                     BorderBrush="Black">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding ActionText}"
+                                    Value="{x:Null}">
+                                    <Setter
+                                        Property="Visibility"
+                                        Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock
+                        FontWeight="Bold"
+                        FontSize="15"
+                        Style="{StaticResource StyleTextBlockAlginedCenter}"
+                        Foreground="{Binding ActionTextColor}"
+                        Text="{Binding ActionText}"
+                        />
+                </Border>
+                <Border
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="5 5 5 5"
+                    Padding="5 5 5 5"
+                    BorderThickness="1"
+                    BorderBrush="Black">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -479,14 +515,14 @@
                     </Grid>
                 </Border>
                 <StackPanel
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                     <Button
-                        IsEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         Style="{StaticResource StyleButton}"
                         Command="{Binding SaveCommand}">
                         <StackPanel>
@@ -501,7 +537,7 @@
                         </StackPanel>
                     </Button>
                     <Button
-                        IsEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         Style="{StaticResource StyleButton}"
                         Command="{Binding CancelCommand}">
                         <StackPanel>

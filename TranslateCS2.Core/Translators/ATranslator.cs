@@ -39,5 +39,5 @@ public abstract class ATranslator : BindableBase, ITranslator {
     /// <inheritdoc/>
     public abstract void Init(IHttpClient httpClient);
     /// <inheritdoc/>
-    public abstract Task<string?> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
+    public abstract Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
 }

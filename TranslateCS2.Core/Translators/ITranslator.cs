@@ -85,7 +85,7 @@ public interface ITranslator {
     ///     the value as is to translate
     /// </param>
     /// <returns>
-    ///     should return the translation
+    ///     <see cref="TranslatorResult"/>
     /// </returns>
-    Task<string?> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
+    Task<TranslatorResult> TranslateAsync(IHttpClient httpClient, string sourceLanguageCode, string? s);
 }
