@@ -23,8 +23,8 @@ internal class StartViewModel : ABaseViewModel {
         this._latestVersionCheckService = latestVersionCheckService;
     }
 
-    protected override void OnLoadedCommandAction() {
-        bool newVersionAvailable = this._latestVersionCheckService.IsNewVersionAvailable();
+    protected override async void OnLoadedCommandAction() {
+        bool newVersionAvailable = await this._latestVersionCheckService.IsNewVersionAvailable();
         if (newVersionAvailable) {
             Version current = this._latestVersionCheckService.Current;
             Version latest = this._latestVersionCheckService.Latest;

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
@@ -14,16 +15,18 @@ internal class JSONService {
         IgnoreReadOnlyFields = false,
         AllowTrailingCommas = true,
     };
-    public void WriteLocalizationFileJson(ILocalizationFile localizationFile,
-                                          string file) {
-        List<ILocalizationDictionaryEntry> exp = localizationFile.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToList();
-        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
-        File.WriteAllBytes(file, bytes);
+    public async Task WriteLocalizationFileJson(ILocalizationFile localizationFile,
+                                                string file) {
+        await Task.Factory.StartNew(() => {
+            List<ILocalizationDictionaryEntry> exp = localizationFile.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToList();
+            byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
+            File.WriteAllBytes(file, bytes);
+        });
     }
 
-    public List<ILocalizationDictionaryEntry>? ReadLocalizationFileJson(string file) {
+    public async Task<List<ILocalizationDictionaryEntry>?> ReadLocalizationFileJson(string file) {
         using Stream stream = File.OpenRead(file);
-        List<LocalizationDictionaryEntry>? deserialized = JsonSerializer.Deserialize<List<LocalizationDictionaryEntry>?>(stream, this._jsonSerializerOptions);
+        List<LocalizationDictionaryEntry>? deserialized = await JsonSerializer.DeserializeAsync<List<LocalizationDictionaryEntry>?>(stream, this._jsonSerializerOptions);
         return deserialized?.ToList<ILocalizationDictionaryEntry>();
     }
 }

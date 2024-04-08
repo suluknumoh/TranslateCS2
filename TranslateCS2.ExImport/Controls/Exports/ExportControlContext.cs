@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -122,7 +121,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     }
 
 
-    private void ExportCommandAction() {
+    private async void ExportCommandAction() {
         MessageBoxResult result = MessageBox.Show(I18NExport.DialogText,
                                                   I18NExport.DialogTitle,
                                                   MessageBoxButton.YesNo,
@@ -130,40 +129,25 @@ internal class ExportControlContext : BindableBase, INavigationAware {
                                                   MessageBoxResult.No,
                                                   MessageBoxOptions.None);
         if (result == MessageBoxResult.Yes) {
-            Task.Factory.StartNew(() => {
-                this.InfoMessageColor = Brushes.Black;
-                this.InfoMessage = I18NExport.MessagePrepareDo;
-                this.IsEnabled = false;
-                this.IsExportButtonEnabled = false;
-            })
-            .ContinueWith((t) => this.ExportLocalizationFile = this.SessionManager.GetForExport())
-            .ContinueWith((t) => {
+            this.InfoMessageColor = Brushes.Black;
+            this.InfoMessage = I18NExport.MessagePrepareDo;
+            this.IsEnabled = false;
+            this.IsExportButtonEnabled = false;
+            this.ExportLocalizationFile = this.SessionManager.GetForExport();
+            this.InfoMessageColor = Brushes.DarkGreen;
+            this.InfoMessage = I18NExport.MessagePrepareSuccess;
+            this.InfoMessageColor = Brushes.DarkGreen;
+            this.InfoMessage = I18NExport.MessageDo;
+            try {
+                await this._exportService.Export(this.SelectedExportFormat, this.ExportLocalizationFile, this.SelectedPath);
                 this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18NExport.MessagePrepareSuccess;
-            }).ContinueWith((t) => {
-                this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18NExport.MessageDo;
-            })
-            .ContinueWith((t) => {
-                try {
-                    this._exportService.Export(this.SelectedExportFormat, this.ExportLocalizationFile, this.SelectedPath);
-                } catch {
-                    return I18NExport.MessageFail;
-                }
-                return null;
-            })
-            .ContinueWith((t) => {
-                if (t.GetAwaiter().GetResult() is string error) {
-                    this.InfoMessageColor = Brushes.DarkRed;
-                    this.InfoMessage = error;
-                } else {
-                    this.InfoMessageColor = Brushes.DarkGreen;
-                    this.InfoMessage = I18NExport.MessageSuccess;
-                }
-
-                this.IsEnabled = true;
-                this.IsExportButtonEnabled = true;
-            });
+                this.InfoMessage = I18NExport.MessageSuccess;
+            } catch {
+                this.InfoMessageColor = Brushes.DarkRed;
+                this.InfoMessage = I18NExport.MessageFail;
+            }
+            this.IsEnabled = true;
+            this.IsExportButtonEnabled = true;
         }
     }
     public bool IsNavigationTarget(NavigationContext navigationContext) {

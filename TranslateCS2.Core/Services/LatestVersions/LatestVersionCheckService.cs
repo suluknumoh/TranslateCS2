@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 using TranslateCS2.Core.Configurations;
 
@@ -15,7 +16,7 @@ internal class LatestVersionCheckService : ILatestVersionCheckService {
         this.Current = new Version("0.0.0.0");
         this.Latest = this.Current;
     }
-    public bool IsNewVersionAvailable() {
+    public async Task<bool> IsNewVersionAvailable() {
         Assembly assembly = Assembly.GetExecutingAssembly();
         this.Current = assembly.GetName().Version ?? new Version("0.0.0.0");
         this.Latest = this.Current;
@@ -24,10 +25,10 @@ internal class LatestVersionCheckService : ILatestVersionCheckService {
             request.Headers.Add(HttpRequestHeader.Accept.ToString(), "text/plain");
             request.Headers.Add("Upgrade-Insecure-Requests", "1");
             request.Headers.Add("Sec-GPC", "1");
-            HttpResponseMessage response = this._httpClient.Send(request);
+            HttpResponseMessage response = await this._httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
-            string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
+            string contentString = await content.ReadAsStringAsync();
             string versionString = contentString.Trim();
             this.Latest = new Version(versionString);
             this._httpClient.Dispose();

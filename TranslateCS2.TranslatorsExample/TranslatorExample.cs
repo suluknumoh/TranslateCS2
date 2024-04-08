@@ -14,7 +14,7 @@ internal class TranslatorExample : ATranslator {
         // no need to provide an HttpClient
         // Translators receive it from the app itself!!!
     }
-    public override void Init(HttpClient httpClient) {
+    public override async Task InitAsync(HttpClient httpClient) {
         // this method is called by the app itself!!!
         //
         // this is just an example-list
@@ -31,7 +31,7 @@ internal class TranslatorExample : ATranslator {
             HttpResponseMessage response = httpClient.Send(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
-            string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
+            string contentString = await content.ReadAsStringAsync();
         }
 
         this.TargetLanguageCodes.Add("AR - Arabic");
@@ -81,7 +81,7 @@ internal class TranslatorExample : ATranslator {
             HttpResponseMessage response = httpClient.Send(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
-            string contentString = content.ReadAsStringAsync().GetAwaiter().GetResult();
+            string contentString = await content.ReadAsStringAsync();
         }
 
 

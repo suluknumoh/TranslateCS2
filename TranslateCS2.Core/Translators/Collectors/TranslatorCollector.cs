@@ -57,8 +57,8 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
     }
 
     /// <inheritdoc/>
-    public void AddTranslator(ITranslator translator) {
-        translator.Init(this._httpClient);
+    public async void AddTranslator(ITranslator translator) {
+        await translator.InitAsync(this._httpClient);
         this.Translators.Add(translator);
     }
 }

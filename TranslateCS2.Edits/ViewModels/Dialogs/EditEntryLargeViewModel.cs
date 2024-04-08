@@ -116,6 +116,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         if (result == null) {
             this.ActionText = I18NEdits.MessageSomethingWentWrong;
             this.ActionTextColor = Brushes.DarkRed;
+            return;
         }
         if (result.IsError) {
             this.ActionText = result.Error;

@@ -14,7 +14,7 @@ internal class TranslatorDeepL : ATranslator {
     private SourceLanguage[] SourceLanguages { get; set; } = [];
     private TargetLanguage[] TargetLanguages { get; set; } = [];
     public TranslatorDeepL() : base("DeepL", "DeepL-API") { }
-    public override async void Init(HttpClient httpClient) {
+    public override async Task InitAsync(HttpClient httpClient) {
         if (this.authKey is null) {
             return;
         }

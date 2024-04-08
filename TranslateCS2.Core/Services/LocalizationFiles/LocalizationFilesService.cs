@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Helpers;
@@ -60,22 +61,24 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         }
     }
 
-    public void WriteLocalizationFileDirect(ILocalizationFile localizationFile,
-                                            Stream? streamParameter = null) {
-        FileInfo fileInfo = this.GetLocalizationFileInfo(localizationFile.FileName);
-        WorkAround workAround = new WorkAround(this._skipWorkAround);
-        workAround.Start(fileInfo);
-        //
-        // write new file with this apps logic
-        using Stream stream = streamParameter ?? File.OpenWrite(fileInfo.FullName);
-        WriteInt16(stream, localizationFile.FileHeader);
-        WriteString(stream, localizationFile.LocaleNameEN);
-        WriteString(stream, localizationFile.LocaleNameID);
-        WriteString(stream, localizationFile.LocaleNameLocalized);
-        WriteLocalizationFilesLocalizationDictionary(localizationFile, stream);
-        WriteLocalizationFilesIndizes(localizationFile, stream);
-        workAround.Stop(stream);
-        stream.Flush();
+    public async Task WriteLocalizationFileDirect(ILocalizationFile localizationFile,
+                                                  Stream? streamParameter = null) {
+        await Task.Factory.StartNew(() => {
+            FileInfo fileInfo = this.GetLocalizationFileInfo(localizationFile.FileName);
+            WorkAround workAround = new WorkAround(this._skipWorkAround);
+            workAround.Start(fileInfo);
+            //
+            // write new file with this apps logic
+            using Stream stream = streamParameter ?? File.OpenWrite(fileInfo.FullName);
+            WriteInt16(stream, localizationFile.FileHeader);
+            WriteString(stream, localizationFile.LocaleNameEN);
+            WriteString(stream, localizationFile.LocaleNameID);
+            WriteString(stream, localizationFile.LocaleNameLocalized);
+            WriteLocalizationFilesLocalizationDictionary(localizationFile, stream);
+            WriteLocalizationFilesIndizes(localizationFile, stream);
+            workAround.Stop(stream);
+            stream.Flush();
+        });
     }
 
     private static void WriteLocalizationFilesIndizes(ILocalizationFile localizationFile, Stream stream) {

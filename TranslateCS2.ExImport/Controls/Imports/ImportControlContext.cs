@@ -124,42 +124,37 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
 
-    private void ReadCommandAction() {
-        Task.Factory.StartNew(() => {
-            this.SwitchEnablements(false);
-            this.CDGContext.Clear();
+    private async void ReadCommandAction() {
+        this.SwitchEnablements(false);
+        this.CDGContext.Clear();
+        this.RaisePropertyChanged(nameof(this.CDGContext));
+        this.InfoMessageColor = Brushes.Black;
+        this.InfoMessage = I18NImport.MessageRead;
+        List<CompareExistingReadTranslation>? preview = null;
+        try {
+            preview = await this._exportImportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
+                                                                   this.SelectedPath);
+        } catch {
+            // nix
+        }
+        if (preview is not null) {
+            if (false) {
+                preview.RemoveAll(i => i.IsEqual());
+            }
+            this.InfoMessageColor = Brushes.DarkGreen;
+            this.InfoMessage = I18NImport.MessageReadSuccess;
+            this.CDGContext.SetItems(preview);
             this.RaisePropertyChanged(nameof(this.CDGContext));
-            this.InfoMessageColor = Brushes.Black;
-            this.InfoMessage = I18NImport.MessageRead;
-        })
-        .ContinueWith((t) => {
-            try {
-                return this._exportImportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
-                                                        this.SelectedPath);
-            } catch {
-                return null;
-            }
-        })
-        .ContinueWith((t) => {
-            if (t.GetAwaiter().GetResult() is List<CompareExistingReadTranslation> preview) {
-                if (false) {
-                    preview.RemoveAll(i => i.IsEqual());
-                }
-                this.InfoMessageColor = Brushes.DarkGreen;
-                this.InfoMessage = I18NImport.MessageReadSuccess;
-                this.CDGContext.SetItems(preview);
-                this.RaisePropertyChanged(nameof(this.CDGContext));
-                this.CDGContext.Raiser();
-                this.SwitchEnablements(true);
-            } else {
-                this.InfoMessageColor = Brushes.DarkRed;
-                this.InfoMessage = I18NImport.MessageReadFail;
-                this.SwitchEnablements(false);
-            }
-        });
+            this.CDGContext.Raiser();
+            this.SwitchEnablements(true);
+        } else {
+            this.InfoMessageColor = Brushes.DarkRed;
+            this.InfoMessage = I18NImport.MessageReadFail;
+            this.SwitchEnablements(false);
+        }
     }
 
-    private void ImportCommandAction() {
+    private async void ImportCommandAction() {
         MessageBoxResult result = MessageBox.Show(I18NImport.DialogText,
                                                   I18NImport.DialogTitle,
                                                   MessageBoxButton.YesNo,
@@ -167,22 +162,18 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                                                   MessageBoxResult.No,
                                                   MessageBoxOptions.None);
         if (result == MessageBoxResult.Yes) {
-            Task.Factory.StartNew(() => {
+            await Task.Factory.StartNew(() => {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
                 this.SwitchEnablements(true);
                 this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
-            })
-            .ContinueWith(t => this._exportImportService.HandleImported(this.CDGContext.GetItems(),
-                                                                        this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
-                                                                        this.CDGContext.ImportMode))
-            .ContinueWith(t => {
+                this._exportImportService.HandleImported(this.CDGContext.GetItems(),
+                                                         this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
+                                                         this.CDGContext.ImportMode);
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NImport.MessageImport;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                 this.SessionManager.CurrentTranslationSessionChanged();
-            })
-            .ContinueWith(t => {
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NImport.MessageImportSuccess;
                 this.CDGContext.Clear();

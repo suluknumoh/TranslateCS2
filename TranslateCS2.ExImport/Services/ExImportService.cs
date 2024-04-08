@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Services.LocalizationFiles;
@@ -37,22 +38,22 @@ internal class ExImportService {
         return exportFormats;
     }
 
-    public void Export(ExportFormat exportFormat,
-                       ILocalizationFile localizationFile,
-                       string? file) {
+    public async Task Export(ExportFormat exportFormat,
+                             ILocalizationFile localizationFile,
+                             string? file) {
         switch (exportFormat.Format) {
             case ExportFormats.Direct:
-                this._localizationFilesService.WriteLocalizationFileDirect(localizationFile);
+                await this._localizationFilesService.WriteLocalizationFileDirect(localizationFile);
                 break;
             case ExportFormats.JSON:
-                this._jsonService.WriteLocalizationFileJson(localizationFile, file);
+                await this._jsonService.WriteLocalizationFileJson(localizationFile, file);
                 break;
         }
     }
 
-    public List<CompareExistingReadTranslation>? ReadToReview(ITranslationSession translationSession,
-                                                              string selectedPath) {
-        List<ILocalizationDictionaryEntry>? imports = this._jsonService.ReadLocalizationFileJson(selectedPath);
+    public async Task<List<CompareExistingReadTranslation>?> ReadToReview(ITranslationSession translationSession,
+                                                                          string selectedPath) {
+        List<ILocalizationDictionaryEntry>? imports = await this._jsonService.ReadLocalizationFileJson(selectedPath);
         if (imports == null) {
             return null;
         }
@@ -69,13 +70,17 @@ internal class ExImportService {
                 && StringHelper.IsNullOrWhiteSpaceOrEmpty(translationExisting)) {
                 continue;
             }
-            CompareExistingReadTranslation previewEntry = new CompareExistingReadTranslation(key, translationExisting, translationRead);
+            CompareExistingReadTranslation previewEntry = new CompareExistingReadTranslation(key,
+                                                                                             translationExisting,
+                                                                                             translationRead);
             preview.Add(previewEntry);
         }
         return preview;
     }
 
-    public void HandleImported(IList<CompareExistingReadTranslation> preview, IList<ILocalizationDictionaryEntry> localizationDictionary, ImportModes importMode) {
+    public void HandleImported(IList<CompareExistingReadTranslation> preview,
+                               IList<ILocalizationDictionaryEntry> localizationDictionary,
+                               ImportModes importMode) {
         foreach (ILocalizationDictionaryEntry currentEntry in localizationDictionary) {
             foreach (CompareExistingReadTranslation compareItem in preview) {
                 if (compareItem.Key == currentEntry.Key) {

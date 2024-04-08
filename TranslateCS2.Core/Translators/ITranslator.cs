@@ -50,7 +50,7 @@ public interface ITranslator {
     ///     <br/>
     ///     <seealso href="https://learn.microsoft.com/de-de/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
     /// </param>
-    void Init(HttpClient httpClient);
+    Task InitAsync(HttpClient httpClient);
     /// <summary>
     ///     to translate <paramref name="s"/> from <paramref name="sourceLanguageCode"/> to <see cref="SelectedTargetLanguageCode"/> via <paramref name="httpClient"/>
     /// </summary>
