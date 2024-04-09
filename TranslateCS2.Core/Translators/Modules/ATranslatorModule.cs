@@ -5,7 +5,8 @@ using Prism.Ioc;
 using TranslateCS2.Core.Translators.Collectors;
 
 namespace TranslateCS2.Core.Translators.Modules;
-public class ATranslatorModule : ITranslatorModule {
+/// <inheritdoc cref="ITranslatorModule" />
+public abstract class ATranslatorModule : ITranslatorModule {
     public List<ITranslator> Translators { get; } = [];
     public void OnInitialized(IContainerProvider containerProvider) {
         ITranslatorCollector translatorCollector = containerProvider.Resolve<ITranslatorCollector>();

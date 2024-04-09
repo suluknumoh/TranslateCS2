@@ -95,6 +95,15 @@ public partial class App : PrismApplication {
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
     }
 
+    /// <summary>
+    ///     <br/>
+    ///     <br/>
+    ///     <seealso href="https://docs.prismlibrary.com/docs/modularity/index.html"/>
+    ///     <br/>
+    ///     <seealso href="https://github.com/PrismLibrary/Prism-Samples-Wpf/tree/master/07-Modules-Code"/>
+    ///     <br/>
+    ///     <seealso href="https://github.com/PrismLibrary/Prism-Samples-Wpf/tree/master/07-Modules-Directory"/>
+    /// </summary>
     protected override IModuleCatalog CreateModuleCatalog() {
         if (Path.Exists(AppConfigurationManager.AppModuleDirectory)) {
             // module path has to exists and must not be null or empty, otherwise an exception is thrown
@@ -108,6 +117,13 @@ public partial class App : PrismApplication {
 
     /// <summary>
     ///     Step: 3
+    ///     <br/>
+    ///     <br/>
+    ///     <seealso href="https://docs.prismlibrary.com/docs/modularity/index.html"/>
+    ///     <br/>
+    ///     <seealso href="https://github.com/PrismLibrary/Prism-Samples-Wpf/tree/master/07-Modules-Code"/>
+    ///     <br/>
+    ///     <seealso href="https://github.com/PrismLibrary/Prism-Samples-Wpf/tree/master/07-Modules-Directory"/>
     /// </summary>
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {
         moduleCatalog.AddModule<CoreModule>();
