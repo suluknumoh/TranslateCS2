@@ -511,7 +511,8 @@
                             Height="340"
                             TextWrapping="NoWrap"
                             HorizontalScrollBarVisibility="Visible"
-                            VerticalScrollBarVisibility="Visible" />
+                            VerticalScrollBarVisibility="Visible"
+                            IsEnabled="{Binding IsEnabled}"/>
                     </Grid>
                 </Border>
                 <StackPanel
