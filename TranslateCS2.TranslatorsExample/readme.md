@@ -42,7 +42,7 @@
             - take care of
                 - line breaks (multiline-texts)
                 - variables within texts (as far as I know, they are enclosed by curly braces: `{variablename}`)
-                - control characters like the double asterix `**` (there may be more/others)
+                - control characters like the double asterisk `**` (there may be more/others)
 - now, add a new Class, for example: `TranslatorMyPreferredTranslatorAPIModule`
     - this class has to be public
     - let this class extend `TranslateCS2.Core.Translators.Modules.ATranslatorModule`
