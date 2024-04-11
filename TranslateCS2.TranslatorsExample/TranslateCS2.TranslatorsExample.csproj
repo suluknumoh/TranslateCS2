@@ -8,24 +8,13 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
+  <Import Project="../TranslateCS2.Core/BuildTargets/Translator.Build.targets"/>
 
   <ItemGroup>
     <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="docs\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DeepL.net" Version="1.9.0" />
   </ItemGroup>
-
 </Project>
