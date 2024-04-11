@@ -23,17 +23,24 @@
 - choose `.NET 8.0` as Framework
 - now edit the project file
     1. change `TargetFramework` from `net8.0` to `net8.0-windows`
-    2. add the following:
+    2. ```
+        <PropertyGroup>
+            <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
+            <IsCopyToModules>true</IsCopyToModules>
+        </PropertyGroup>
+       ```
+        - set `<IsCopyToModules>true</IsCopyToModules>` to `<IsCopyToModules>false</IsCopyToModules>`, to disable auto-copying
+    3. add the following:
         - `<Import Project="../TranslateCS2.Core/BuildTargets/Translator.Build.targets"/>`
 - add a Project Reference to the newly created Project
     - only select `TranslateCS2.Core`
 - remove the existing Class1.cs
 - add a new Class, for example: `MyPreferredTranslatorAPI`
-    - this may be an internal class
+    - this may be an `internal` class
     - let this class extend `TranslateCS2.Core.Translators.ATranslator`
     - implement and realize the inherited methods
         - `Task InitAsync(HttpClient httpClient)`
-            - ensure to add target language codes to the TargetLanguageCodes Property of this class
+            - ensure to add target language codes to the `TargetLanguageCodes` Property of this class
         - `Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s)`
             - the selected target language code can be gathered from the `SelectedTargetLanguageCode` Property of this class
             - handle multiline text if needed
@@ -44,7 +51,7 @@
                 - variables within texts (as far as I know, they are enclosed by curly braces: `{variablename}`)
                 - control characters like the double asterisk `**` (there may be more/others)
 - now, add a new Class, for example: `TranslatorMyPreferredTranslatorAPIModule`
-    - this class has to be public
+    - this class has to be `public`
     - let this class extend `TranslateCS2.Core.Translators.Modules.ATranslatorModule`
     - add the following class attribute
         - `[ModuleDependency(nameof(CoreModule))]`
