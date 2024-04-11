@@ -5,7 +5,7 @@
 - take care of
     - line breaks (multiline-texts)
     - variables within texts (as far as I know, they are enclosed by curly braces: `{variablename}`)
-    - control characters like the double asterix `**` (there may be more/others)
+    - control characters like the double asterisk `**` (there may be more/others)
 
 ## getting started in Visual Studio
 - there are two solutions available
