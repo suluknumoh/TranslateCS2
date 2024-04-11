@@ -8,9 +8,9 @@
         Name="DeleteUnnecessaryBuild"
         AfterTargets="Build">
         <!--
-        to delete unnecessary files that are copied via CopyLocalLockFileAssemblies
-        https://learn.microsoft.com/de-de/visualstudio/msbuild/delete-task?view=vs-2022
-      -->
+            to delete unnecessary files that are copied via CopyLocalLockFileAssemblies
+            https://learn.microsoft.com/de-de/visualstudio/msbuild/delete-task?view=vs-2022
+          -->
         <ItemGroup>
             <FilesToDelete Include="$(PublishDir)/e_sqlite3.dll"/>
             <FilesToDelete Include="$(OutDir)/Markdig.dll"/>
@@ -41,6 +41,17 @@
         </ItemGroup>
         <Delete Files="@(FilesToDelete)"/>
         <RemoveDir Directories="$(OutDir)/runtimes"/>
+    </Target>
+    <Target
+        Name="CopyToModules"
+        AfterTargets="DeleteUnnecessaryBuild"
+        Condition="'$(IsCopyToModules)'=='true'">
+        <ItemGroup>
+            <FilesToCopy Include="$(OutDir)*.*"/>
+        </ItemGroup>
+        <Copy
+            SourceFiles="@(FilesToCopy)"
+            DestinationFolder="$(SolutionDir)TranslateCS2\bin\$(Configuration)\modules"/>
     </Target>
     <!-- hmmm :| -->
     <Target

@@ -7,7 +7,10 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
+    <IsCopyToModules>true</IsCopyToModules>
+  </PropertyGroup>
   <Import Project="../TranslateCS2.Core/BuildTargets/Translator.Build.targets"/>
 
   <ItemGroup>
