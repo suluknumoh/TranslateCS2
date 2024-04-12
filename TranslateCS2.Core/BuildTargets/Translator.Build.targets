@@ -27,7 +27,7 @@
             https://learn.microsoft.com/de-de/visualstudio/msbuild/delete-task?view=vs-2022
           -->
         <ItemGroup>
-            <FilesToDelete Include="$(PublishDir)/e_sqlite3.dll"/>
+            <FilesToDelete Include="$(OutDir)/e_sqlite3.dll"/>
             <FilesToDelete Include="$(OutDir)/Markdig.dll"/>
             <FilesToDelete Include="$(OutDir)/Markdig.Wpf.dll"/>
             <FilesToDelete Include="$(OutDir)/Microsoft.Data.Sqlite.dll"/>
