@@ -1,55 +1,74 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Configurations>Debug;Release</Configurations>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <ApplicationIcon>appicon.ico</ApplicationIcon>
-    <AssemblyVersion>0.3.1.0</AssemblyVersion>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Configurations>Debug;Release</Configurations>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <ApplicationIcon>appicon.ico</ApplicationIcon>
+        <AssemblyVersion>0.3.1.0</AssemblyVersion>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\README.md" />
-    <None Remove="Assets\splashscreen.png" />
-    <None Remove="Assets\Translations.sqlite" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Assets\README.md" />
+        <None Remove="Assets\splashscreen.png" />
+        <None Remove="Assets\Translations.sqlite" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="appicon.ico" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="appicon.ico" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\README.md" />
-    <EmbeddedResource Include="Assets\Translations.sqlite" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Assets\README.md" />
+        <EmbeddedResource Include="Assets\Translations.sqlite" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TranslateCS2.Edits\TranslateCS2.Edits.csproj" />
-    <ProjectReference Include="..\TranslateCS2.ExImport\TranslateCS2.ExImport.csproj" />
-    <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
-    <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TranslateCS2.Edits\TranslateCS2.Edits.csproj" />
+        <ProjectReference Include="..\TranslateCS2.ExImport\TranslateCS2.ExImport.csproj" />
+        <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
+        <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <SplashScreen Include="Assets\splashscreen.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <SplashScreen Include="Assets\splashscreen.png" />
+    </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="call prebuild.bat $(AssemblyVersion)" />
-  </Target>
+    <Target
+        Name="CopyReadMe"
+        BeforeTargets="AfterBuild">
+        <ItemGroup>
+            <FilesToCopy Include="$(ProjectDir)Assets\README.MD"/>
+        </ItemGroup>
+        <Copy
+            SourceFiles="@(FilesToCopy)"
+            DestinationFolder="$(SolutionDir)"/>
+    </Target>
+    <Target
+        Name="WriteLatest"
+        BeforeTargets="CopyReadMe">
+        <ItemGroup>
+            <FileToWriteTo Include="$(SolutionDir)latest"/>
+            <ContentToWrite Include="$(AssemblyVersion)"/>
+        </ItemGroup>
+        <WriteLinesToFile
+            File="@(FileToWriteTo)"
+            Lines="@(ContentToWrite)"
+            Overwrite="true"/>
+    </Target>
 </Project>
