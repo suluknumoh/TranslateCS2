@@ -1,9 +1,15 @@
 <Project>
     <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
     <PropertyGroup>
-        <!-- to copy nuget dll-files -->
+        <!--
+            to copy nuget dll-files
+            has to be true
+        -->
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
+
+
+
     <Target
         Name="DeleteUnnecessaryBuild"
         AfterTargets="Build">
@@ -42,6 +48,9 @@
         <Delete Files="@(FilesToDelete)"/>
         <RemoveDir Directories="$(OutDir)/runtimes"/>
     </Target>
+
+
+
     <Target
         Name="CopyToModules"
         AfterTargets="DeleteUnnecessaryBuild"
@@ -53,6 +62,9 @@
             SourceFiles="@(FilesToCopy)"
             DestinationFolder="$(SolutionDir)TranslateCS2\bin\$(Configuration)\modules"/>
     </Target>
+
+
+
     <!-- hmmm :| -->
     <Target
         Name="DeleteUnnecessaryPublish"
