@@ -10,6 +10,37 @@
 
 
 
+    <ItemGroup>
+        <FilesToDelete Include="e_sqlite3.dll"/>
+        <FilesToDelete Include="Markdig.dll"/>
+        <FilesToDelete Include="Markdig.Wpf.dll"/>
+        <FilesToDelete Include="Microsoft.Data.Sqlite.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.DependencyInjection.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.Http.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.Http.Polly.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.Logging.Abstractions.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.Logging.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.Options.dll"/>
+        <FilesToDelete Include="Microsoft.Extensions.Primitives.dll"/>
+        <FilesToDelete Include="Microsoft.Xaml.Behaviors.dll"/>
+        <FilesToDelete Include="Polly.dll"/>
+        <FilesToDelete Include="Polly.Extensions.Http.dll"/>
+        <FilesToDelete Include="Prism.dll"/>
+        <FilesToDelete Include="Prism.Unity.Wpf.dll"/>
+        <FilesToDelete Include="Prism.Wpf.dll"/>
+        <FilesToDelete Include="SQLitePCLRaw.batteries_v2.dll"/>
+        <FilesToDelete Include="SQLitePCLRaw.core.dll"/>
+        <FilesToDelete Include="SQLitePCLRaw.provider.e_sqlite3.dll"/>
+        <FilesToDelete Include="System.Drawing.Common.dll"/>
+        <FilesToDelete Include="TranslateCS2.Core.dll"/>
+        <FilesToDelete Include="TranslateCS2.Core.pdb"/>
+        <FilesToDelete Include="Unity.Abstractions.dll"/>
+        <FilesToDelete Include="Unity.Container.dll"/>
+    </ItemGroup>
+
+
+
     <Target
         Name="CleanUpModules"
         AfterTargets="BeforeClean;BeforeBuild;BeforeRebuild;BeforePublish"
@@ -25,45 +56,18 @@
         <!--
             to delete unnecessary files that are copied via CopyLocalLockFileAssemblies
             https://learn.microsoft.com/de-de/visualstudio/msbuild/delete-task?view=vs-2022
-          -->
-        <ItemGroup>
-            <FilesToDelete Include="$(OutDir)e_sqlite3.dll"/>
-            <FilesToDelete Include="$(OutDir)Markdig.dll"/>
-            <FilesToDelete Include="$(OutDir)Markdig.Wpf.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Data.Sqlite.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.DependencyInjection.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.Http.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.Http.Polly.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.Logging.Abstractions.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.Logging.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.Options.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Extensions.Primitives.dll"/>
-            <FilesToDelete Include="$(OutDir)Microsoft.Xaml.Behaviors.dll"/>
-            <FilesToDelete Include="$(OutDir)Polly.dll"/>
-            <FilesToDelete Include="$(OutDir)Polly.Extensions.Http.dll"/>
-            <FilesToDelete Include="$(OutDir)Prism.dll"/>
-            <FilesToDelete Include="$(OutDir)Prism.Unity.Wpf.dll"/>
-            <FilesToDelete Include="$(OutDir)Prism.Wpf.dll"/>
-            <FilesToDelete Include="$(OutDir)SQLitePCLRaw.batteries_v2.dll"/>
-            <FilesToDelete Include="$(OutDir)SQLitePCLRaw.core.dll"/>
-            <FilesToDelete Include="$(OutDir)SQLitePCLRaw.provider.e_sqlite3.dll"/>
-            <FilesToDelete Include="$(OutDir)System.Drawing.Common.dll"/>
-            <FilesToDelete Include="$(OutDir)TranslateCS2.Core.dll"/>
-            <FilesToDelete Include="$(OutDir)TranslateCS2.Core.pdb"/>
-            <FilesToDelete Include="$(OutDir)Unity.Abstractions.dll"/>
-            <FilesToDelete Include="$(OutDir)Unity.Container.dll"/>
-        </ItemGroup>
-        <Delete Files="@(FilesToDelete)"/>
+        -->
+        <Delete Files="$(OutDir)%(FilesToDelete.Identity)"/>
         <RemoveDir Directories="$(OutDir)runtimes"/>
+        <CallTarget
+            Targets="CopyToModules"
+            Condition="'$(IsCopyToModules)'=='true'"/>
     </Target>
 
 
 
     <Target
-        Name="CopyToModules"
-        AfterTargets="DeleteUnnecessaryBuild"
-        Condition="'$(IsCopyToModules)'=='true'">
+        Name="CopyToModules">
         <ItemGroup>
             <FilesToCopy Include="$(OutDir)*.*"/>
         </ItemGroup>
@@ -74,43 +78,17 @@
 
 
 
-    <!-- hmmm :| -->
     <Target
         Name="DeleteUnnecessaryPublish"
         AfterTargets="Publish">
         <!--
             to delete unnecessary files that are copied via CopyLocalLockFileAssemblies
             https://learn.microsoft.com/de-de/visualstudio/msbuild/delete-task?view=vs-2022
-          -->
-        <ItemGroup>
-            <FilesToDelete Include="$(PublishDir)e_sqlite3.dll"/>
-            <FilesToDelete Include="$(PublishDir)Markdig.dll"/>
-            <FilesToDelete Include="$(PublishDir)Markdig.Wpf.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Data.Sqlite.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.DependencyInjection.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.Http.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.Http.Polly.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.Logging.Abstractions.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.Logging.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.Options.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Extensions.Primitives.dll"/>
-            <FilesToDelete Include="$(PublishDir)Microsoft.Xaml.Behaviors.dll"/>
-            <FilesToDelete Include="$(PublishDir)Polly.dll"/>
-            <FilesToDelete Include="$(PublishDir)Polly.Extensions.Http.dll"/>
-            <FilesToDelete Include="$(PublishDir)Prism.dll"/>
-            <FilesToDelete Include="$(PublishDir)Prism.Unity.Wpf.dll"/>
-            <FilesToDelete Include="$(PublishDir)Prism.Wpf.dll"/>
-            <FilesToDelete Include="$(PublishDir)SQLitePCLRaw.batteries_v2.dll"/>
-            <FilesToDelete Include="$(PublishDir)SQLitePCLRaw.core.dll"/>
-            <FilesToDelete Include="$(PublishDir)SQLitePCLRaw.provider.e_sqlite3.dll"/>
-            <FilesToDelete Include="$(PublishDir)System.Drawing.Common.dll"/>
-            <FilesToDelete Include="$(PublishDir)TranslateCS2.Core.dll"/>
-            <FilesToDelete Include="$(PublishDir)TranslateCS2.Core.pdb"/>
-            <FilesToDelete Include="$(PublishDir)Unity.Abstractions.dll"/>
-            <FilesToDelete Include="$(PublishDir)Unity.Container.dll"/>
-        </ItemGroup>
-        <Delete Files="@(FilesToDelete)"/>
+        -->
+        <Delete Files="$(PublishDir)%(FilesToDelete.Identity)"/>
         <RemoveDir Directories="$(PublishDir)runtimes"/>
     </Target>
+
+
+
 </Project>
