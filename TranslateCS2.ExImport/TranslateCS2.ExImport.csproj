@@ -1,12 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>disable</ImplicitUsings>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+      <!--
+            AppendTargetFrameworkToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+        -->
+      <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+      <!--
+            AppendRuntimeIdentifierToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+        -->
+      <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
   </PropertyGroup>
 
   <ItemGroup>

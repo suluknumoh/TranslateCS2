@@ -11,8 +11,27 @@
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <ApplicationIcon>appicon.ico</ApplicationIcon>
         <AssemblyVersion>0.3.1.0</AssemblyVersion>
+
+        <!--
+            AppendTargetFrameworkToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+
+            \TranslateCS2.Core\BuildTargets\Translator.Build.targets rely on this setting to be 'false'!
+        -->
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+        <!--
+            AppendRuntimeIdentifierToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+
+            \TranslateCS2.Core\BuildTargets\Translator.Build.targets rely on this setting to be 'false'!
+        -->
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
