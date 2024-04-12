@@ -11,6 +11,15 @@
 
 
     <Target
+        Name="CleanUpModules"
+        AfterTargets="BeforeClean;BeforeBuild;BeforeRebuild;BeforePublish"
+        Condition="'$(CleanUpModules)'=='true'">
+        <RemoveDir Directories="$(SolutionDir)TranslateCS2\bin\$(Configuration)\modules"/>
+    </Target>
+
+
+
+    <Target
         Name="DeleteUnnecessaryBuild"
         AfterTargets="Build">
         <!--

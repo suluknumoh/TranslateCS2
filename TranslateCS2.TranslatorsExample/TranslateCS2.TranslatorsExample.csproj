@@ -23,6 +23,12 @@
 
   </PropertyGroup>
   <PropertyGroup>
+        <!-- to delete the modules-directory within the output directory of TranslateCS2 depending on the configuration (Debug/Release) -->
+        <!--
+            TranslateCS2\bin\Debug\modules
+            TranslateCS2\bin\Release\modules
+        -->
+        <CleanUpModules>true</CleanUpModules>
     <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
         <!--
             TranslateCS2\bin\Debug\modules
