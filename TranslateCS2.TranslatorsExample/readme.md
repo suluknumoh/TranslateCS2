@@ -24,14 +24,33 @@
 - now edit the project file
     1. change `TargetFramework` from `net8.0` to `net8.0-windows`
     2. ```
-        <PropertyGroup>
-            <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
-            <IsCopyToModules>true</IsCopyToModules>
-        </PropertyGroup>
+       <PropertyGroup>
+           <!-- to delete the modules-directory within the output directory of TranslateCS2 depending on the configuration (Debug/Release) -->
+           <!--
+               TranslateCS2\bin\Debug\modules
+               TranslateCS2\bin\Release\modules
+           -->
+           <CleanUpModules>true</CleanUpModules>
+           <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
+           <!--
+               TranslateCS2\bin\Debug\modules
+               TranslateCS2\bin\Release\modules
+           -->
+           <IsCopyToModules>true</IsCopyToModules>
+       </PropertyGroup>
        ```
-        - set `<IsCopyToModules>true</IsCopyToModules>` to `<IsCopyToModules>false</IsCopyToModules>`, to disable auto-copying
+        - set `<CleanUpModules>true</CleanUpModules>` to `<CleanUpModules>false</CleanUpModules>`, to disable clean up (if needed)
+        - set `<IsCopyToModules>true</IsCopyToModules>` to `<IsCopyToModules>false</IsCopyToModules>`, to disable auto-copying (if needed)
     3. add the following:
-        - `<Import Project="../TranslateCS2.Core/BuildTargets/Translator.Build.targets"/>`
+        - ```
+          <!--
+              contains Targets
+                  - to cleanup this projects output directory
+                  - to cleanup TranslateCS2 output directory, if CleanUpModules is set to true
+                  - to copy this projects cleaned up output to the modules-directory of TranslateCS2, if IsCopyToModules is set to true
+          -->
+          <Import Project="..\TranslateCS2.Core\BuildTargets\Translator.Build.targets"/>
+          ```
 - add a Project Reference to the newly created Project
     - only select `TranslateCS2.Core`
 - remove the existing Class1.cs

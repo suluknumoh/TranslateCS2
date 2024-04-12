@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 
         <!--
             AppendTargetFrameworkToOutputPath has to be 'false'
@@ -11,7 +11,7 @@
             \bin\Debug
             \bin\Release
         -->
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
         <!--
             AppendRuntimeIdentifierToOutputPath has to be 'false'
@@ -19,23 +19,23 @@
             \bin\Debug
             \bin\Release
         -->
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 
-  </PropertyGroup>
-  <PropertyGroup>
+    </PropertyGroup>
+    <PropertyGroup>
         <!-- to delete the modules-directory within the output directory of TranslateCS2 depending on the configuration (Debug/Release) -->
         <!--
             TranslateCS2\bin\Debug\modules
             TranslateCS2\bin\Release\modules
         -->
         <CleanUpModules>true</CleanUpModules>
-    <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
+        <!-- to copy this projects output to the modules-directory of TranslateCS2 depending on the configuration (Debug/Release) -->
         <!--
             TranslateCS2\bin\Debug\modules
             TranslateCS2\bin\Release\modules
         -->
-    <IsCopyToModules>true</IsCopyToModules>
-  </PropertyGroup>
+        <IsCopyToModules>true</IsCopyToModules>
+    </PropertyGroup>
     <!--
         contains Targets
             - to cleanup this projects output directory
@@ -44,11 +44,11 @@
     -->
     <Import Project="..\TranslateCS2.Core\BuildTargets\Translator.Build.targets"/>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DeepL.net" Version="1.9.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DeepL.net" Version="1.9.0" />
+    </ItemGroup>
 </Project>
