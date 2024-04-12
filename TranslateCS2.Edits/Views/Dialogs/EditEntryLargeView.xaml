@@ -508,7 +508,7 @@
                             FontSize="14"
                             Text="{Binding Entry.Translation}"
                             AcceptsReturn="True"
-                            Height="340"
+                            Height="{Binding TranslationTextBoxHeight}"
                             TextWrapping="NoWrap"
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Visible"

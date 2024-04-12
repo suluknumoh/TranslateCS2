@@ -14,6 +14,9 @@ using TranslateCS2.Edits.Properties.I18N;
 
 namespace TranslateCS2.Edits.ViewModels.Dialogs;
 internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
+    private readonly int _translationTextBoxHeightLineMultiplier = 3;
+    private readonly int _translationTextBoxHeightLine = 20;
+    private readonly int _translationTextBoxHeightMax = 360;
 
     private ButtonResult _buttonResult = ButtonResult.None;
 
@@ -21,7 +24,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private ILocalizationDictionaryEntry? _Entry;
     public ILocalizationDictionaryEntry? Entry {
         get => this._Entry;
-        set => this.SetProperty(ref this._Entry, value);
+        set => this.SetProperty(ref this._Entry, value, this.OnEntryChanged);
     }
 
 
@@ -52,6 +55,12 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         set => this.SetProperty(ref this._IsEnabled, value);
     }
 
+
+    private int _TranslationTextBoxHeight;
+    public int TranslationTextBoxHeight {
+        get => this._TranslationTextBoxHeight;
+        set => this.SetProperty(ref this._TranslationTextBoxHeight, value);
+    }
 
     public string Title => I18NEdits.DialogTitle;
 
@@ -164,13 +173,24 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         bool gotEntry = parameters.TryGetValue<ILocalizationDictionaryEntry>(nameof(ILocalizationDictionaryEntry), out ILocalizationDictionaryEntry entry);
         if (!gotEntry) {
             this.Entry = null;
-            this._backUpTranslation = null;
             return;
         }
-        this._backUpTranslation = entry.Translation;
         this.Entry = entry;
         bool isCount;
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(isCount), out isCount);
         this.IsCount = isCount;
+    }
+
+    private void OnEntryChanged() {
+        int lines = 1;
+        if (this.Entry != null) {
+            this._backUpTranslation = this.Entry.Translation;
+            lines = this.Entry.Value.Split("\n").Length;
+        }
+        int height = this._translationTextBoxHeightLine * this._translationTextBoxHeightLineMultiplier * lines;
+        if (height > this._translationTextBoxHeightMax) {
+            height = this._translationTextBoxHeightMax;
+        }
+        this.TranslationTextBoxHeight = height;
     }
 }
