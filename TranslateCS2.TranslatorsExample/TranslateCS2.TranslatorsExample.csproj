@@ -42,7 +42,7 @@
             - to cleanup TranslateCS2 output directory, if CleanUpModules is set to true
             - to copy this projects cleaned up output to the modules-directory of TranslateCS2, if IsCopyToModules is set to true
     -->
-    <Import Project="..\TranslateCS2.Core\BuildTargets\Translator.Build.targets"/>
+    <Import Project="..\TranslateCS2.Core\BuildTargets\Translator.Build.targets" />
 
     <ItemGroup>
         <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
