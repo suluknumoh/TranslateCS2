@@ -83,6 +83,8 @@
 - add a new project to the solution
     - choose `xUnit Test Project`
 - give it a name, for example: `TranslateCS2.TranslatorMyPreferredTranslatorAPI.Tests`
+- edit the project file
+    - change `TargetFramework` from `net8.0` to `net8.0-windows`
 - add a Project Reference to the newly created `xUnit Test Project`
     - only select `TranslateCS2.TranslatorMyPreferredTranslatorAPI`
 - if your `TranslateCS2.TranslatorMyPreferredTranslatorAPI.MyPreferredTranslatorAPI` class is an `internal` ones and you don't want to make it `public`
