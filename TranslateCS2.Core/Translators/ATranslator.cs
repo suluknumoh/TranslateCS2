@@ -4,28 +4,26 @@ using System.Threading.Tasks;
 
 using Prism.Mvvm;
 
-using TranslateCS2.Core.Helpers;
-
 namespace TranslateCS2.Core.Translators;
 public abstract class ATranslator : BindableBase, ITranslator {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="ITranslator.Name"/>
     public string Name { get; }
-    /// <inheritdoc/>
+    /// <inheritdoc cref="ITranslator.Description"/>
     public string Description { get; }
-    /// <inheritdoc/>
-    public ObservableCollection<string> TargetLanguageCodes { get; } = [];
+    /// <inheritdoc cref="ITranslator.TargetLanguageCodes"/>
+    public ObservableCollection<object> TargetLanguageCodes { get; } = [];
 
 
-    private string? _SelectedTargetLanguageCode;
-    /// <inheritdoc/>
-    public string? SelectedTargetLanguageCode {
+    private object? _SelectedTargetLanguageCode;
+    /// <inheritdoc cref="ITranslator.SelectedTargetLanguageCode"/>
+    public object? SelectedTargetLanguageCode {
         get => this._SelectedTargetLanguageCode;
-        set => this.SetProperty(ref this._SelectedTargetLanguageCode, value, () => this.IsTargetLanguageCodeSelected = !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.SelectedTargetLanguageCode));
+        set => this.SetProperty(ref this._SelectedTargetLanguageCode, value, () => this.IsTargetLanguageCodeSelected = this.SelectedTargetLanguageCode is not null);
     }
 
 
     private bool _IsLanguageCodeSelected;
-    /// <inheritdoc/>
+    /// <inheritdoc cref="ITranslator.IsTargetLanguageCodeSelected"/>
     public bool IsTargetLanguageCodeSelected {
         get => this._IsLanguageCodeSelected;
         set => this.SetProperty(ref this._IsLanguageCodeSelected, value);
@@ -36,8 +34,8 @@ public abstract class ATranslator : BindableBase, ITranslator {
         this.Name = name;
         this.Description = description;
     }
-    /// <inheritdoc/>
+    /// <inheritdoc cref="ITranslator.InitAsync(HttpClient)"/>
     public abstract Task InitAsync(HttpClient httpClient);
-    /// <inheritdoc/>
+    /// <inheritdoc cref="ITranslator.TranslateAsync(HttpClient, System.String, System.String?)"/>
     public abstract Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s);
 }

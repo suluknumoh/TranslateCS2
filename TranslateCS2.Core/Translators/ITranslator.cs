@@ -12,25 +12,28 @@ public interface ITranslator {
     ///     a description
     /// </summary>
     string Description { get; }
-    ObservableCollection<string> TargetLanguageCodes { get; }
+    /// <summary>
+    ///     <see cref="ObservableCollection{System.Object}"/> with available target language codes
+    ///     <br/>
+    ///     <br/>
+    ///     the <see langword="object"/>s within should provide an apropriate <see cref="System.Object.ToString"/>-method
+    ///     <br/>
+    ///     it is used to generate the text that is displayed to select a target language within the view
+    /// </summary>
+    ObservableCollection<object> TargetLanguageCodes { get; }
     /// <summary>
     ///     the selected target-language-code
+    ///     <br/>
+    ///     <br/>
+    ///     or <see langword="null"/> if none is selected
     /// </summary>
-    string? SelectedTargetLanguageCode { get; set; }
+    object? SelectedTargetLanguageCode { get; set; }
     /// <summary>
     ///     <see langword="true"/>
     ///     <br/>
     ///     if <see cref="SelectedTargetLanguageCode"/>
     ///     <br/>
-    ///     <see langword="is"/> <see langword="not"/> <see langword="null"/>,
-    ///     <br/>
-    ///     and
-    ///     <br/>
-    ///     <see langword="not"/> <see cref="System.String.Empty"/>
-    ///     <br/>
-    ///     and
-    ///     <br/>
-    ///     <see langword="not"/> whitespaces
+    ///     <see langword="is"/> <see langword="not"/> <see langword="null"/>
     /// </summary>
     bool IsTargetLanguageCodeSelected { get; set; }
     /// <summary>
@@ -45,7 +48,7 @@ public interface ITranslator {
     ///     e.g. the available target-language-codes
     /// </summary>
     /// <param name="httpClient">
-    ///     an <see cref="IHttpClient"/> that can not be disposed
+    ///     an <see cref="HttpClient"/> that can not be disposed
     ///     <br/>
     ///     <br/>
     ///     <seealso href="https://learn.microsoft.com/de-de/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
@@ -55,7 +58,7 @@ public interface ITranslator {
     ///     to translate <paramref name="s"/> from <paramref name="sourceLanguageCode"/> to <see cref="SelectedTargetLanguageCode"/> via <paramref name="httpClient"/>
     /// </summary>
     /// <param name="httpClient">
-    ///     an <see cref="IHttpClient"/> that can not be disposed
+    ///     an <see cref="HttpClient"/> that can not be disposed
     ///     <br/>
     ///     <br/>
     ///     <seealso href="https://learn.microsoft.com/de-de/dotnet/fundamentals/networking/http/httpclient-guidelines#recommended-use"/>
