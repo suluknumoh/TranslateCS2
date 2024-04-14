@@ -156,7 +156,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
-## Version 0.4 (work in progress)
+## Version 0.4
 - configure/define custom filters via App.config/TranslateCS2.dll.config
     - TranslateCS2.dll.config contains an explanation and two examples next to the three 'built-in' filters
 - edit entry window
