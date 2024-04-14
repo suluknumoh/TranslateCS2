@@ -17,8 +17,8 @@ internal class LatestVersionCheckService : ILatestVersionCheckService {
         this.Latest = this.Current;
     }
     public async Task<bool> IsNewVersionAvailable() {
-        Assembly assembly = Assembly.GetExecutingAssembly();
-        this.Current = assembly.GetName().Version ?? new Version("0.0.0.0");
+        Assembly? assembly = Assembly.GetEntryAssembly();
+        this.Current = assembly?.GetName().Version ?? new Version("0.0.0.0");
         this.Latest = this.Current;
         try {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, AppConfigurationManager.CheckLatestURL);
