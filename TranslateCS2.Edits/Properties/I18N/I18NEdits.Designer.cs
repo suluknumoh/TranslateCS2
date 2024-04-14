@@ -157,6 +157,26 @@ namespace TranslateCS2.Edits.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Translation changed!.
+        /// </summary>
+        public static string DialogCancelCaption {
+            get {
+                return ResourceManager.GetString("DialogCancelCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Translation changed!
+        ///
+        ///Do you really want to cancel without saving?.
+        /// </summary>
+        public static string DialogCancelText {
+            get {
+                return ResourceManager.GetString("DialogCancelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to edit entry.
         /// </summary>
         public static string DialogTitle {

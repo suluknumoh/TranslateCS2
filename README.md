@@ -159,6 +159,8 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ## Version 0.4 (work in progress)
 - configure/define custom filters via App.config/TranslateCS2.dll.config
     - TranslateCS2.dll.config contains an explanation and two examples next to the three 'built-in' filters
+- edit entry window
+    - cancel is interrupted by a question if the translation changed
 - modularization
 - translator module
     - ability to implement and realize an external translator module that calls a translator-api (depends on modularization)

@@ -153,6 +153,14 @@ that is selected while creating the translation session</value>
     <value>the new value that is going to correspond to the respective key within the Key-column
 for each cell that is left empty, the respective value/text within the Merge Value-column gets exported</value>
   </data>
+  <data name="DialogCancelCaption" xml:space="preserve">
+    <value>Translation changed!</value>
+  </data>
+  <data name="DialogCancelText" xml:space="preserve">
+    <value>The Translation changed!
+
+Do you really want to cancel without saving?</value>
+  </data>
   <data name="DialogTitle" xml:space="preserve">
     <value>edit entry</value>
   </data>

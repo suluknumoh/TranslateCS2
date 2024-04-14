@@ -17,8 +17,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private readonly int _translationTextBoxHeightLineMultiplier = 3;
     private readonly int _translationTextBoxHeightLine = 20;
     private readonly int _translationTextBoxHeightMax = 360;
+    private bool _canCloseDialog = false;
 
-    private ButtonResult _buttonResult = ButtonResult.None;
 
     private string? _backUpTranslation;
     private ILocalizationDictionaryEntry? _Entry;
@@ -137,8 +137,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void SaveCommandAction() {
-        this._buttonResult = ButtonResult.OK;
-        IDialogResult result = new DialogResult(this._buttonResult);
+        this._canCloseDialog = true;
+        IDialogResult result = new DialogResult(ButtonResult.OK);
         result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
@@ -146,30 +146,49 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void CancelCommandAction() {
-        this._buttonResult = ButtonResult.Cancel;
-        if (this.Entry != null) {
-            this.Entry.Translation = this._backUpTranslation;
+        if (this.Entry == null) {
+            return;
         }
-        IDialogResult result = new DialogResult(this._buttonResult);
+        if (this.IsCancelInterruptable()) {
+            if (this.IsCancelInterrupted()) {
+                return;
+            }
+        }
+        this._canCloseDialog = true;
+        this.Entry.Translation = this._backUpTranslation;
+        IDialogResult result = new DialogResult(ButtonResult.Cancel);
         result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
         this._backUpTranslation = null;
     }
 
+    private bool IsCancelInterrupted() {
+        MessageBoxResult messageBoxResult = MessageBox.Show(I18NEdits.DialogCancelText,
+                                                            I18NEdits.DialogCancelCaption,
+                                                            MessageBoxButton.YesNo,
+                                                            MessageBoxImage.Warning,
+                                                            MessageBoxResult.None);
+        // yes = cancel anyway
+        // everything else interrupts canceling
+        return MessageBoxResult.Yes != messageBoxResult;
+    }
+
+    private bool IsCancelInterruptable() {
+        return !Equals(this.Entry?.Translation, this._backUpTranslation);
+    }
+
     public bool CanCloseDialog() {
-        return true;
+        return this._canCloseDialog;
     }
 
     public void OnDialogClosed() {
-        if (ButtonResult.None == this._buttonResult) {
-            // x in the top right corner is clicked
-            this.CancelCommandAction();
-        }
+        // x in the top right corner is clicked
+        // nothing can and should be done
     }
 
     public void OnDialogOpened(IDialogParameters parameters) {
-        this._buttonResult = ButtonResult.None;
+        this._canCloseDialog = false;
         bool gotEntry = parameters.TryGetValue<ILocalizationDictionaryEntry>(nameof(ILocalizationDictionaryEntry), out ILocalizationDictionaryEntry entry);
         if (!gotEntry) {
             this.Entry = null;
