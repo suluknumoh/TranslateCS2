@@ -4,6 +4,7 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
 
         <!--
             AppendTargetFrameworkToOutputPath has to be 'false'
