@@ -108,7 +108,8 @@
             VerticalAlignment="Center">
             <CheckBox
                 Content="{Binding Source={x:Static i18n:I18NImport.CheckBoxHideEqual}}"
-                IsChecked="{Binding HideEqual}" />
+                IsChecked="{Binding HideEqual}"
+                Cursor="Hand"/>
         </StackPanel>
         <DataGrid
             Grid.Row="3"
