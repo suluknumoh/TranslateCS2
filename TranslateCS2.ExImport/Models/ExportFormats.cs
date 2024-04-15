@@ -2,5 +2,6 @@
 
 internal enum ExportFormats {
     Direct,
-    JSON
+    JSON,
+    I18NEverywhere
 }

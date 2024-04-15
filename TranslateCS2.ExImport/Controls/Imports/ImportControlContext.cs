@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -62,8 +63,11 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     private string? _InfoMessage;
     public string? InfoMessage {
         get => this._InfoMessage;
-        set => this.SetProperty(ref this._InfoMessage, value);
+        set => this.SetProperty(ref this._InfoMessage, value, () => this.RaisePropertyChanged(nameof(this.IsDisplayMessage)));
     }
+
+
+    public bool IsDisplayMessage => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this._InfoMessage);
 
 
     private string? _SelectedPath;
@@ -143,6 +147,8 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             }
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NImport.MessageReadSuccess;
+            await Task.Delay(TimeSpan.FromSeconds(3));
+            this.InfoMessage = null;
             this.CDGContext.SetItems(preview);
             this.RaisePropertyChanged(nameof(this.CDGContext));
             this.CDGContext.Raiser();
@@ -167,7 +173,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
                 this.SwitchEnablements(true);
                 this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
-                this._exportImportService.HandleImported(this.CDGContext.GetItems(),
+                this._exportImportService.HandleRead(this.CDGContext.GetItems(),
                                                          this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
                                                          this.CDGContext.ImportMode);
                 this.InfoMessageColor = Brushes.Black;

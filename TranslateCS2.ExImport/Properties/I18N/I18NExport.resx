@@ -156,6 +156,9 @@
   <data name="ToolTipExportFormatDirectOverwrite" xml:space="preserve">
     <value>replace existing localization based on session-properties</value>
   </data>
+  <data name="ToolTipExportFormatI18NEverywhere" xml:space="preserve">
+    <value>export to use with I18NEverywhere</value>
+  </data>
   <data name="ToolTipExportFormatJSON" xml:space="preserve">
     <value>export as json to share with others</value>
   </data>

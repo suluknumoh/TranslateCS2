@@ -29,10 +29,17 @@ internal class ExImportService {
             exportFormats.Add(exportFormat);
         }
         {
-            ExportFormat exportFormat = new ExportFormat("json",
+            ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.JSON),
                                                          ExportFormats.JSON,
                                                          true,
                                                          I18NExport.ToolTipExportFormatJSON);
+            exportFormats.Add(exportFormat);
+        }
+        {
+            ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.I18NEverywhere),
+                                                         ExportFormats.I18NEverywhere,
+                                                         true,
+                                                         I18NExport.ToolTipExportFormatI18NEverywhere);
             exportFormats.Add(exportFormat);
         }
         return exportFormats;
@@ -47,6 +54,9 @@ internal class ExImportService {
                 break;
             case ExportFormats.JSON:
                 await this._jsonService.WriteLocalizationFileJson(localizationFile, file);
+                break;
+            case ExportFormats.I18NEverywhere:
+                await this._jsonService.WriteLocalizationFileI18NEverywhere(localizationFile, file);
                 break;
         }
     }
@@ -78,9 +88,9 @@ internal class ExImportService {
         return preview;
     }
 
-    public void HandleImported(IList<CompareExistingReadTranslation> preview,
-                               IList<ILocalizationDictionaryEntry> localizationDictionary,
-                               ImportModes importMode) {
+    public void HandleRead(IList<CompareExistingReadTranslation> preview,
+                           IList<ILocalizationDictionaryEntry> localizationDictionary,
+                           ImportModes importMode) {
         foreach (ILocalizationDictionaryEntry currentEntry in localizationDictionary) {
             foreach (CompareExistingReadTranslation compareItem in preview) {
                 if (compareItem.Key == currentEntry.Key) {
