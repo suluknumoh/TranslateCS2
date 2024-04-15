@@ -5,6 +5,8 @@ using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Input;
 
+using TranslateCS2.Core.Helpers.Ribbons;
+
 namespace TranslateCS2.Core.Helpers;
 public class RibbonHelper {
     public static RibbonComboBox CreateComboBox(string label,
@@ -27,6 +29,43 @@ public class RibbonHelper {
         }
         if (displayMemberPath != null) {
             ribbonGalleryCategory.DisplayMemberPath = displayMemberPath;
+        }
+        return comboBox;
+    }
+
+    public static RibbonComboBox CreateComboBox(RibbonComboBoxConfig config) {
+        RibbonComboBox comboBox = new RibbonComboBox {
+            Label = config.Label,
+            Cursor = Cursors.Hand
+        };
+        RibbonGallery ribbonGallery = new RibbonGallery();
+        comboBox.Items.Add(ribbonGallery);
+
+
+        foreach (RibbonComboBoxItems items in config.ItemsList) {
+            if (items.Items.Count == 0) {
+                continue;
+            }
+            if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(items.SeparatorLabel)) {
+                RibbonSeparator ribbonSeparator = new RibbonSeparator {
+                    Label = items.SeparatorLabel
+                };
+                ribbonGallery.Items.Add(ribbonSeparator);
+            }
+            RibbonGalleryCategory ribbonGalleryCategory = new RibbonGalleryCategory();
+            if (config.DisplayMemberPath != null) {
+                ribbonGalleryCategory.DisplayMemberPath = config.DisplayMemberPath;
+            }
+            ribbonGallery.Items.Add(ribbonGalleryCategory);
+            foreach (object? item in items.Items) {
+                ribbonGalleryCategory.Items.Add(item);
+            }
+        }
+        if (config.OnSelectionChanged != null) {
+            ribbonGallery.SelectionChanged += config.OnSelectionChanged;
+        }
+        if (config.SelectedItem != null) {
+            ribbonGallery.SelectedItem = config.SelectedItem;
         }
         return comboBox;
     }
