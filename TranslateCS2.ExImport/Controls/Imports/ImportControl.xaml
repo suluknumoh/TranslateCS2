@@ -7,10 +7,7 @@
     mc:Ignorable="d"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:local="clr-namespace:TranslateCS2.ExImport.Controls.Imports"
-    xmlns:binding_enums="clr-namespace:TranslateCS2.Core.BindingEnums;assembly=TranslateCS2.Core"
-    xmlns:import_models="clr-namespace:TranslateCS2.ExImport.Models"
     xmlns:i18n="clr-namespace:TranslateCS2.ExImport.Properties.I18N"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <ContentControl.Resources>
         <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
@@ -20,7 +17,6 @@
         VerticalAlignment="Top"
         ShowGridLines="False">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -38,13 +34,8 @@
             Grid.ColumnSpan="4"
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NImport.Caption}, Mode=OneWay}" />
-        <ContentControl
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="4"
-            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppSelectedSessionInfoRegionImport}, Mode=OneWay}" />
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
             Orientation="Vertical"
             HorizontalAlignment="Center">
@@ -52,7 +43,7 @@
                 Style="{StaticResource StyleButton}"
                 Command="{Binding SelectPathCommand}"
                 IsEnabled="{Binding IsEnabled}">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
                     <Image
                         Source="/TranslateCS2.Core;component/Assets/Icons/folder_open.png"
                         MaxHeight="64"
@@ -71,12 +62,12 @@
                 Text="{Binding SelectedPath}" />
         </StackPanel>
         <Button
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             Command="{Binding ReadCommand}"
             IsEnabled="{Binding IsReadButtonEnabled}"
             Style="{StaticResource StyleButton}">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
                 <Image
                     Source="/TranslateCS2.Core;component/Assets/Icons/scan_text.png"
                     MaxHeight="64"
@@ -89,12 +80,12 @@
             </StackPanel>
         </Button>
         <Button
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="2"
             Command="{Binding OpenComparisonInNewWindowCommand}"
             IsEnabled="{Binding IsImportButtonEnabled}"
             Style="{StaticResource StyleButton}">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
                 <Image
                     MaxHeight="64"
                     MaxWidth="64">
@@ -123,12 +114,12 @@
             </StackPanel>
         </Button>
         <Button
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="3"
             Command="{Binding ImportCommand}"
             IsEnabled="{Binding IsImportButtonEnabled}"
             Style="{StaticResource StyleButton}">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
                 <Image
                     Source="/TranslateCS2.Core;component/Assets/Icons/database_arrow_down.png"
                     MaxHeight="64"
@@ -141,16 +132,34 @@
             </StackPanel>
         </Button>
         <TextBlock
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="4"
             FontSize="16"
             FontWeight="Bold"
             Foreground="{Binding InfoMessageColor}"
-            Style="{StaticResource StyleTextBlockAlginedCenter}"
-            Text="{Binding InfoMessage}" />
+            Text="{Binding InfoMessage}">
+            <TextBlock.Style>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource StyleTextBlockAlginedCenter}">
+                    <Setter
+                        Property="Visibility"
+                        Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding IsDisplayMessage}"
+                            Value="True">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
         <local:ComparisonDataGrid
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="4"
             DataContext="{Binding CDGContext}" />

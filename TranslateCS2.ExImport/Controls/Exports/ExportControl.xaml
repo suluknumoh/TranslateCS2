@@ -7,7 +7,6 @@
     mc:Ignorable="d"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:i18n="clr-namespace:TranslateCS2.ExImport.Properties.I18N"
-    xmlns:session_infos="clr-namespace:TranslateCS2.Sessions.Controls.SessionInfos;assembly=TranslateCS2.Sessions"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <ContentControl.Resources>
@@ -18,7 +17,6 @@
         VerticalAlignment="Top"
         ShowGridLines="False">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -34,13 +32,8 @@
             Grid.ColumnSpan="3"
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NExport.Caption}, Mode=OneWay}" />
-        <ContentControl
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="4"
-            prism:RegionManager.RegionName="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppSelectedSessionInfoRegionExport}, Mode=OneWay}" />
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -59,7 +52,7 @@
             <TextBlock Text="{Binding SelectedExportFormat.ToolTip, StringFormat={}({0})}" />
         </StackPanel>
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             Orientation="Vertical">
             <StackPanel.Style>
@@ -101,7 +94,7 @@
                 Text="{Binding SelectedPath}" />
         </StackPanel>
         <Button
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="2"
             Command="{Binding ExportCommand}"
             IsEnabled="{Binding IsExportButtonEnabled}"
@@ -119,7 +112,7 @@
             </StackPanel>
         </Button>
         <TextBlock
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             FontSize="16"

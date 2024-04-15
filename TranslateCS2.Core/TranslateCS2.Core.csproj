@@ -96,6 +96,9 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
       </Compile>
+      <Compile Update="Ribbons\Sessions\CurrentSessionInfo.xaml.cs">
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Properties\I18N\I18NGlobal.resx">

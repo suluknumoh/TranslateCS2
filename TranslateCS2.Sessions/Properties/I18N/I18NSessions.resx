@@ -205,7 +205,4 @@ so you always have an ingame-fallback without the need to verify your installati
   <data name="OutputStarted" xml:space="preserve">
     <value>started</value>
   </data>
-  <data name="StringAffectedSession" xml:space="preserve">
-    <value>affected session</value>
-  </data>
 </root>

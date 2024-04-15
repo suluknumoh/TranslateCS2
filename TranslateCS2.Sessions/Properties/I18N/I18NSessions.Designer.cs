@@ -291,14 +291,5 @@ namespace TranslateCS2.Sessions.Properties.I18N {
                 return ResourceManager.GetString("OutputStarted", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to affected session.
-        /// </summary>
-        public static string StringAffectedSession {
-            get {
-                return ResourceManager.GetString("StringAffectedSession", resourceCulture);
-            }
-        }
     }
 }

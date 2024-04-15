@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls.Ribbon;
 
+using Prism.Ioc;
 using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
@@ -9,12 +10,14 @@ using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties;
 using TranslateCS2.Core.Properties.I18N;
+using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Controls.Exports;
 using TranslateCS2.ExImport.Controls.Imports;
 
 namespace TranslateCS2.ExImport.ViewModels;
 internal class ExImPortViewModel : ABaseViewModel {
+    private readonly IContainerProvider _containerProvider;
     private readonly IRegionManager _regionManager;
     private readonly IViewConfigurations _viewConfigurations;
     private readonly RibbonGroup _subNavigation;
@@ -22,8 +25,10 @@ internal class ExImPortViewModel : ABaseViewModel {
     private RibbonToggleButton _subNavImport;
     private Type _current = typeof(ExportControl);
 
-    public ExImPortViewModel(IRegionManager regionManager,
+    public ExImPortViewModel(IContainerProvider containerProvider,
+                             IRegionManager regionManager,
                              IViewConfigurations viewConfigurations) {
+        this._containerProvider = containerProvider;
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
         this._subNavigation = new RibbonGroup() {
@@ -31,6 +36,7 @@ internal class ExImPortViewModel : ABaseViewModel {
             IsEnabled = false
         };
         this.InitSubNavigation();
+        this.InitSelectedSessionInfo();
     }
 
     private void InitSubNavigation() {
@@ -49,6 +55,12 @@ internal class ExImPortViewModel : ABaseViewModel {
         //
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
         viewConfiguration.Tab.Items.Add(this._subNavigation);
+    }
+
+    private void InitSelectedSessionInfo() {
+        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
+        CurrentSessionInfo selectedSessionInfoGroup = this._containerProvider.Resolve<CurrentSessionInfo>();
+        viewConfiguration.Tab.Items.Add(selectedSessionInfoGroup);
     }
 
     private void SubNavImportClickAction(object sender, RoutedEventArgs e) {

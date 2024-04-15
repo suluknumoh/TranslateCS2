@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 
+using Prism.Ioc;
 using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
@@ -12,13 +13,16 @@ namespace TranslateCS2.Edits.ViewModels;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
     private readonly List<ILocalizationDictionaryEntry> _entries = [];
-    public EditOccurancesViewModel(IViewConfigurations viewConfigurations,
+    public EditOccurancesViewModel(IContainerProvider containerProvider,
+                                   IViewConfigurations viewConfigurations,
                                    ITranslationSessionManager translationSessionManager,
-                                   IDialogService dialogService) : base(viewConfigurations,
+                                   IDialogService dialogService) : base(containerProvider,
+                                                                        viewConfigurations,
                                                                         translationSessionManager,
                                                                         dialogService) {
         this.AddToolsGroup();
         this.AddCountGroup();
+        this.AddAffectedSessionGroup();
         this.TextSearchContext.Columns.AddRange(this._columnsSearchAble.Skip(1));
         this.TextSearchContext.OnSearch += this.RefreshViewList;
     }

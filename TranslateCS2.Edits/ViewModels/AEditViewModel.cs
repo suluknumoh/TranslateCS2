@@ -5,14 +5,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
+using System.Windows.Media;
 
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties.I18N;
+using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.Edits.Properties.I18N;
@@ -22,6 +25,7 @@ using TranslateCS2.TextSearch.ViewModels;
 
 namespace TranslateCS2.Edits.ViewModels;
 internal abstract class AEditViewModel<T> : ABaseViewModel {
+    private readonly IContainerProvider _containerProvider;
     private readonly IViewConfigurations _viewConfigurations;
     private readonly IDialogService _dialogService;
     protected readonly List<ColumnSearchAble<ILocalizationDictionaryEntry>> _columnsSearchAble = [];
@@ -57,9 +61,11 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     public ObservableCollection<ILocalizationDictionaryEntry> Mapping { get; } = [];
     public DelegateCommand<DataGridCellEditEndingEventArgs> CellEditEndingCommand { get; }
     public DelegateCommand<RoutedEventArgs> EditInNewWindowCommand { get; }
-    protected AEditViewModel(IViewConfigurations viewConfigurations,
+    protected AEditViewModel(IContainerProvider containerProvider,
+                             IViewConfigurations viewConfigurations,
                              ITranslationSessionManager translationSessionManager,
                              IDialogService dialogService) {
+        this._containerProvider = containerProvider;
         this._viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
         this._dialogService = dialogService;
@@ -153,9 +159,18 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
             {
                 Binding textBinding = new Binding(nameof(this.ElementCount)) { Source = this, Mode = BindingMode.OneWay, StringFormat = "{0:N0}" };
                 RibbonTextBox ribbonTextBox = RibbonHelper.CreateRibbonTextBox(null, false, textBinding);
+                ribbonTextBox.Background = Brushes.Transparent;
                 ribbonGroup.Items.Add(ribbonTextBox);
             }
             viewConfiguration.Tab.Items.Add(ribbonGroup);
+        }
+    }
+
+    protected void AddAffectedSessionGroup() {
+        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
+        if (viewConfiguration != null) {
+            CurrentSessionInfo selectedSessionInfoGroup = this._containerProvider.Resolve<CurrentSessionInfo>();
+            viewConfiguration.Tab.Items.Add(selectedSessionInfoGroup);
         }
     }
 

@@ -4,6 +4,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 
 using TranslateCS2.Core.HttpClients;
+using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Services.Filters;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LatestVersions;
@@ -25,5 +26,7 @@ public class CoreModule : IModule {
         containerRegistry.RegisterSingleton<ILocalizationFilesService, LocalizationFilesService>();
         containerRegistry.RegisterSingleton<ITranslationSessionManager, TranslationSessionManager>();
         containerRegistry.RegisterSingleton<ITranslatorCollector, TranslatorCollector>();
+        //
+        containerRegistry.RegisterForNavigation<CurrentSessionInfo, CurrentSessionInfoContext>();
     }
 }

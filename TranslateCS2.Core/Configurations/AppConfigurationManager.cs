@@ -28,8 +28,6 @@ public static class AppConfigurationManager {
     public static string AppMainRegion { get; } = nameof(AppMainRegion);
     public static string AppNewEditSessionRegion { get; } = nameof(AppNewEditSessionRegion);
     public static string AppExportImportRegion { get; } = nameof(AppExportImportRegion);
-    public static string AppSelectedSessionInfoRegionImport { get; } = nameof(AppSelectedSessionInfoRegionImport);
-    public static string AppSelectedSessionInfoRegionExport { get; } = nameof(AppSelectedSessionInfoRegionExport);
     public static string AppModuleDirectory { get; } = "./modules";
     /// <summary>
     ///     ends with a dot!
