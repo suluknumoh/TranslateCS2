@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Net.Http;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Shell;
@@ -18,6 +20,7 @@ using TranslateCS2.Core;
 using TranslateCS2.Core.Brokers;
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.HttpClients;
 using TranslateCS2.Core.Properties;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Services.Databases;
@@ -52,6 +55,16 @@ public partial class App : PrismApplication {
                 )
             );
         this._translationsDatabaseService = new TranslationsDB();
+        this.Exit += this.AppExit;
+    }
+
+    private void AppExit(object sender, ExitEventArgs e) {
+        HttpClient client = this.Container.Resolve<HttpClient>();
+        if (client is AppHttpClient appHttpClient) {
+            BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+            MethodInfo? appExitDisposer = appHttpClient.GetType().GetMethod("AppExitDisposer", bindingFlags);
+            appExitDisposer?.Invoke(appHttpClient, []);
+        }
     }
 
     private void StateChanged(object? sender, EventArgs e) {

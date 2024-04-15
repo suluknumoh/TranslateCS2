@@ -26,12 +26,12 @@ public interface ITranslatorCollector {
     /// </summary>
     bool IsTranslatorSelected { get; }
     /// <summary>
-    ///     calls <see cref="ITranslator.Init(HttpClients.IHttpClient)"/> and adds the <see cref="ITranslator"/> to <see cref="Translators"/>
+    ///     calls <see cref="ITranslator.Init(HttpClients.AppHttpClient)"/> and adds the <see cref="ITranslator"/> to <see cref="Translators"/>
     /// </summary>
     /// <param name="translator"></param>
     void AddTranslator(ITranslator translator);
     /// <summary>
-    ///     calls <see cref="SelectedTranslator"/>s <see cref="ITranslator.TranslateAsync(HttpClients.IHttpClient, System.String, System.String?)"/>
+    ///     calls <see cref="SelectedTranslator"/>s <see cref="ITranslator.TranslateAsync(HttpClients.AppHttpClient, System.String, System.String?)"/>
     /// </summary>
     /// <param name="sourceLanguageCode">
     ///     language-code that corresponds to one of the .loc-files

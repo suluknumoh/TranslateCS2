@@ -31,7 +31,6 @@ internal class LatestVersionCheckService : ILatestVersionCheckService {
             string contentString = await content.ReadAsStringAsync();
             string versionString = contentString.Trim();
             this.Latest = new Version(versionString);
-            this._httpClient.Dispose();
             return this.Latest > this.Current;
         } catch {
             // nüx
