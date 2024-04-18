@@ -76,6 +76,9 @@
         <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj" />
+    </ItemGroup>
+    <ItemGroup>
       <Compile Update="Properties\I18N\I18NGlobal.Designer.cs">
         <DependentUpon>I18NGlobal.resx</DependentUpon>
         <DesignTime>True</DesignTime>
