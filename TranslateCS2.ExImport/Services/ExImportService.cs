@@ -36,6 +36,13 @@ internal class ExImportService {
             exportFormats.Add(exportFormat);
         }
         {
+            ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.TranslateCS2Mod),
+                                                         ExportFormats.TranslateCS2Mod,
+                                                         true,
+                                                         I18NExport.ToolTipExportFormatI18NEverywhere);
+            exportFormats.Add(exportFormat);
+        }
+        {
             ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.I18NEverywhere),
                                                          ExportFormats.I18NEverywhere,
                                                          true,
@@ -55,8 +62,11 @@ internal class ExImportService {
             case ExportFormats.JSON:
                 await this._jsonService.WriteLocalizationFileJson(localizationFile, file);
                 break;
+            case ExportFormats.TranslateCS2Mod:
+                await this._jsonService.WriteLocalizationFileForMod(localizationFile, file, true);
+                break;
             case ExportFormats.I18NEverywhere:
-                await this._jsonService.WriteLocalizationFileI18NEverywhere(localizationFile, file);
+                await this._jsonService.WriteLocalizationFileForMod(localizationFile, file, false);
                 break;
         }
     }

@@ -175,6 +175,8 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
             - https://github.com/baka-gourd/I18NEverywhere.Localization
     - import
         - from [baka-gourd](https://github.com/baka-gourd)'s [I18NEverywhere](https://github.com/baka-gourd/I18NEveryWhere)-Mod
+- lots of work to do
+
 
 ## Version 0.4
 - configure/define custom filters via App.config/TranslateCS2.dll.config

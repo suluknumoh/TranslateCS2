@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.ExImport.Services;
 internal class JSONService {
@@ -25,12 +26,16 @@ internal class JSONService {
         });
     }
 
-    public async Task WriteLocalizationFileI18NEverywhere(ILocalizationFile localizationFile,
-                                                          string file) {
+    public async Task WriteLocalizationFileForMod(ILocalizationFile localizationFile,
+                                                  string file,
+                                                  bool addKey) {
         await Task.Factory.StartNew(() => {
-            System.Func<ILocalizationDictionaryEntry, string> keySelector = (item) => item.Key;
-            System.Func<ILocalizationDictionaryEntry, string> valueSelector = (item) => item.Translation;
+            Func<ILocalizationDictionaryEntry, string> keySelector = (item) => item.Key;
+            Func<ILocalizationDictionaryEntry, string> valueSelector = (item) => item.Translation;
             Dictionary<string, string> exp = localizationFile.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToDictionary<ILocalizationDictionaryEntry, string, string>(keySelector, valueSelector);
+            if (addKey) {
+                exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.LocaleNameLocalized);
+            }
             byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
             File.WriteAllBytes(file, bytes);
         });
