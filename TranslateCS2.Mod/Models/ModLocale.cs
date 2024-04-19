@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 using Colossal;
@@ -14,27 +13,32 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 internal class ModLocale : IDictionarySource {
+    public static IList<string> BuiltIn { get; } = [
+        "de-DE",
+        "en-US",
+        "es-ES",
+        "fr-FR",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "pl-PL",
+        "pt-BR",
+        "ru-RU",
+        "zh-HANS",
+        "zh_HANT"
+    ];
     private static readonly Dictionary<string, int> localeCounters = [];
 
     static ModLocale() {
-        localeCounters.Add("de-DE", 0);
-        localeCounters.Add("en-US", 0);
-        localeCounters.Add("es-ES", 0);
-        localeCounters.Add("fr-FR", 0);
-        localeCounters.Add("it-IT", 0);
-        localeCounters.Add("ja-JP", 0);
-        localeCounters.Add("ko-KR", 0);
-        localeCounters.Add("pl-PL", 0);
-        localeCounters.Add("pt-BR", 0);
-        localeCounters.Add("ru-RU", 0);
-        localeCounters.Add("zh-HANS", 0);
-        localeCounters.Add("zh_HANT", 0);
+        foreach (string key in BuiltIn) {
+            localeCounters.Add(key, 0);
+        }
     }
 
     private readonly Dictionary<string, string> dictionary;
-    public string? LocaleId { get; }
-    public string? LocaleName { get; }
-    public SystemLanguage? Language { get; }
+    public string? LocaleId { get; private set; }
+    public string? LocaleName { get; private set; }
+    public SystemLanguage? Language { get; private set; }
     public bool IsOK {
         get {
             if (String.IsNullOrEmpty(this.LocaleId)
@@ -52,33 +56,53 @@ internal class ModLocale : IDictionarySource {
             return this.Language != null;
         }
     }
-    private ModLocale(string localeId, string json) {
+    private ModLocale(TranslationFile translationFile) {
+        string local_localeId = translationFile.Name;
+        //
+        //
+        // dont use this.LocaleId, could be extended by a counter
+        bool isCountAble = this.InitLocaleId(local_localeId, out int counter);
+        //
+        //
+        // dont use this.LocaleId, could be extended by a counter
+        SystemLanguageHelperResult systemLanguageResult = this.InitLanguage(local_localeId);
+        //
+        //
+        string json = translationFile.ReadJson();
+        this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        //
+        //
+        this.InitLocaleName(isCountAble, systemLanguageResult, counter);
+    }
 
+    private bool InitLocaleId(string localeIdParameter, out int counter) {
         // dont use this.LocaleId, could be extended by a counter!!!
-        bool isCountAble = localeCounters.TryGetValue(localeId, out int counter);
+        bool isCountAble = localeCounters.TryGetValue(localeIdParameter, out counter);
         if (isCountAble) {
             counter++;
             // dont use this.LocaleId, could be extended by a counter!!!
-            localeCounters[localeId] = counter;
+            localeCounters[localeIdParameter] = counter;
             // localeid rules, so we add a counter
-            this.LocaleId = localeId;
+            this.LocaleId = localeIdParameter;
             this.LocaleId += counter;
         } else {
             // dont use this.LocaleId, could be extended by a counter!!!
-            localeCounters.Add(localeId, 0);
-            this.LocaleId = localeId;
+            localeCounters.Add(localeIdParameter, 0);
+            this.LocaleId = localeIdParameter;
         }
-
+        return isCountAble;
+    }
+    private SystemLanguageHelperResult InitLanguage(string localeIdParameter) {
         // dont use this.LocaleId, could be extended by a counter
-        SystemLanguageHelperResult systemLanguageResult = SystemLanguageHelper.Get(localeId);
+        SystemLanguageHelperResult systemLanguageResult = SystemLanguageHelper.Get(localeIdParameter);
         this.Language = systemLanguageResult.Language;
         // INFO: there is a localeid to systemlanguage mapping which has to be unique!
         if (SystemLanguageHelper.IsRandomizeLanguage(this.Language)) {
             this.Language = SystemLanguageHelper.Random();
         }
-
-        this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-
+        return systemLanguageResult;
+    }
+    private void InitLocaleName(bool isCountAble, SystemLanguageHelperResult systemLanguageResult, int counter) {
         // first check if there is a custom localized locale name
         bool got = this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string localeName);
         if (got) {
@@ -88,8 +112,8 @@ internal class ModLocale : IDictionarySource {
             this.LocaleName = systemLanguageResult.Culture?.NativeName;
         }
 
-        if (isCountAble) {
-            // TODO: algorithm to check if a locale name already exists; if the new localization already has a different name to an existing ones, there is no need to add a counter
+        if (isCountAble
+            && !LocaleNameHelper.IsLocaleNameAvailable(this.LocaleName)) {
             this.LocaleName += $" ({counter})";
         }
     }
@@ -110,10 +134,7 @@ internal class ModLocale : IDictionarySource {
         return builder.ToString();
     }
 
-    public static ModLocale Read(string path) {
-        string[] splittedPath = path.Split('/');
-        string localeId = splittedPath[splittedPath.Length - 1].Split('.')[0];
-        string json = File.ReadAllText(path, Encoding.UTF8);
-        return new ModLocale(localeId, json);
+    public static ModLocale Read(TranslationFile translationFile) {
+        return new ModLocale(translationFile);
     }
 }
