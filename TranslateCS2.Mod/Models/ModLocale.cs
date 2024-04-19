@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -31,42 +32,66 @@ internal class ModLocale : IDictionarySource {
     }
 
     private readonly Dictionary<string, string> dictionary;
-    public string LocaleId { get; }
-    public string LocaleName { get; }
+    public string? LocaleId { get; }
+    public string? LocaleName { get; }
     public SystemLanguage? Language { get; }
     public bool IsOK {
         get {
-            if (System.String.IsNullOrEmpty(this.LocaleId) || System.String.IsNullOrWhiteSpace(this.LocaleId)) {
+            if (String.IsNullOrEmpty(this.LocaleId)
+                || String.IsNullOrWhiteSpace(this.LocaleId)) {
                 return false;
             }
-            if (System.String.IsNullOrEmpty(this.LocaleName) || System.String.IsNullOrWhiteSpace(this.LocaleName)) {
+            if (String.IsNullOrEmpty(this.LocaleName)
+                || String.IsNullOrWhiteSpace(this.LocaleName)) {
                 return false;
             }
-            if (this.dictionary == null || this.dictionary.Count == 0) {
+            if (this.dictionary == null
+                || this.dictionary.Count == 0) {
                 return false;
             }
             return this.Language != null;
         }
     }
     private ModLocale(string localeId, string json) {
-        this.LocaleId = localeId;
-        bool isCountAble = localeCounters.TryGetValue(this.LocaleId, out int counter);
+
+        // dont use this.LocaleId, could be extended by a counter!!!
+        bool isCountAble = localeCounters.TryGetValue(localeId, out int counter);
         if (isCountAble) {
             counter++;
-            localeCounters[this.LocaleId] = counter;
+            // dont use this.LocaleId, could be extended by a counter!!!
+            localeCounters[localeId] = counter;
             // localeid rules, so we add a counter
+            this.LocaleId = localeId;
             this.LocaleId += counter;
+        } else {
+            // dont use this.LocaleId, could be extended by a counter!!!
+            localeCounters.Add(localeId, 0);
+            this.LocaleId = localeId;
         }
+
+        // dont use this.LocaleId, could be extended by a counter
+        SystemLanguageHelperResult systemLanguageResult = SystemLanguageHelper.Get(localeId);
+        this.Language = systemLanguageResult.Language;
+        // INFO: there is a localeid to systemlanguage mapping which has to be unique!
+        if (SystemLanguageHelper.IsRandomizeLanguage(this.Language)) {
+            this.Language = SystemLanguageHelper.Random();
+        }
+
         this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+        // first check if there is a custom localized locale name
         bool got = this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string localeName);
         if (got) {
             this.LocaleName = localeName;
-            // TODO: algorithm to check if a locale name already exists; if the new localization already has a different name to an existing ones, there is no need to add a counter
-            if (isCountAble) {
-                this.LocaleName += $" ({counter})";
-            }
+        } else {
+            // use this as fallback
+            this.LocaleName = systemLanguageResult.Culture?.NativeName;
         }
-        this.Language = SystemLanguageHelper.Get(this.LocaleId);
+
+        if (isCountAble) {
+            // TODO: algorithm to check if a locale name already exists; if the new localization already has a different name to an existing ones, there is no need to add a counter
+            this.LocaleName += $" ({counter})";
+        }
     }
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
         return this.dictionary;
@@ -74,6 +99,15 @@ internal class ModLocale : IDictionarySource {
 
     public void Unload() {
         //
+    }
+
+    public override string ToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(nameof(ModLocale));
+        builder.AppendLine($"{nameof(this.LocaleId)}: {this.LocaleId}");
+        builder.AppendLine($"{nameof(this.LocaleName)}: {this.LocaleName}");
+        builder.AppendLine($"{nameof(this.Language)}: {this.Language}");
+        return builder.ToString();
     }
 
     public static ModLocale Read(string path) {
