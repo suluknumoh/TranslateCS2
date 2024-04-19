@@ -66,10 +66,10 @@ public class Mod : IMod {
         try {
             GameManager.instance.localizationManager.AddSource(modLocale.LocaleId,
                                                                modLocale);
+        } catch {
             Mod.log.LogError(this.GetType(),
                              this.FailedToLoad,
                              [translationFile, modLocale]);
-        } catch {
             GameManager.instance.localizationManager.RemoveLocale(modLocale.LocaleId);
             GameManager.instance.localizationManager.RemoveSource(modLocale.LocaleId,
                                                                   modLocale);
