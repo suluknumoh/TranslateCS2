@@ -47,7 +47,6 @@ internal static class LogExtensions {
                                               CallerLineNumber);
         logger?.Critical(messageToLog);
     }
-
     private static string BuildLogMessage(Type type,
                                           string message,
                                           object[]? messageParameters,
