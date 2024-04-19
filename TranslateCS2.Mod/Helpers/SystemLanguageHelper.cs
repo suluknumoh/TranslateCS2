@@ -12,7 +12,7 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Helpers;
 internal class SystemLanguageHelper {
     public static SystemLanguageHelperResult Get(string id) {
-        Array systemLanguages = Enum.GetValues(typeof(SystemLanguage));
+        IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         IEnumerable<CultureInfo> cultureInfos =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Where(item => item.Name.Equals(id, StringComparison.OrdinalIgnoreCase));
@@ -40,28 +40,24 @@ internal class SystemLanguageHelper {
         return false;
     }
 
-    public static SystemLanguage? Random() {
-        Array availableSystemLanguages = Enum.GetValues(typeof(SystemLanguage));
+    public static SystemLanguage Random() {
+        IEnumerable<SystemLanguage> allSystemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         List<SystemLanguage> alreadyUsedSystemLanguages = [];
         string[] alreadySupportedLocales = GameManager.instance.localizationManager.GetSupportedLocales();
         foreach (string alreadySupportedLocale in alreadySupportedLocales) {
             SystemLanguage alreadyUsedSystemLanguage = GameManager.instance.localizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
             alreadyUsedSystemLanguages.Add(alreadyUsedSystemLanguage);
         }
-        if (alreadyUsedSystemLanguages.Count == availableSystemLanguages.Length) {
+        if (alreadyUsedSystemLanguages.Count == allSystemLanguages.Count()) {
             throw new Exception("Too many Languages!");
         }
+        SystemLanguage[] availableSystemLanguages = allSystemLanguages.Except(alreadyUsedSystemLanguages).ToArray();
         System.Random random = new System.Random();
-        while (true) {
-            int index = random.Next(availableSystemLanguages.Length);
-            SystemLanguage use = (SystemLanguage) availableSystemLanguages.GetValue(index);
-            if (!alreadyUsedSystemLanguages.Contains(use)) {
-                return use;
-            }
-        }
+        int index = random.Next(availableSystemLanguages.Count());
+        return availableSystemLanguages[index];
     }
 
-    private static SystemLanguageHelperResult? TryToGetResult(Array systemLanguages, CultureInfo cultureInfo) {
+    private static SystemLanguageHelperResult? TryToGetResult(IEnumerable<SystemLanguage> systemLanguages, CultureInfo cultureInfo) {
         foreach (SystemLanguage systemLanguage in systemLanguages) {
             string? comparator = null;
             switch (systemLanguage) {
