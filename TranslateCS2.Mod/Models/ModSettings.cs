@@ -4,7 +4,6 @@ using Colossal.Json;
 using Game.Modding;
 using Game.Settings;
 
-using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Services;
 
 namespace TranslateCS2.Mod.Models;
@@ -44,11 +43,8 @@ internal class ModSettings : ModSetting {
     }
 
     public void ApplyAndSaveAlso(Setting setting) {
-        Mod.Logger.LogInfo(this.GetType(), "a");
         if (setting is InterfaceSettings interfaceSettings) {
-            Mod.Logger.LogInfo(this.GetType(), "b");
             this.Locale = interfaceSettings.locale;
-            Mod.Logger.LogInfo(this.GetType(), this.Locale);
             this.ApplyAndSave();
         }
     }
