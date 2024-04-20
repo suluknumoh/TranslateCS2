@@ -7,7 +7,7 @@ using Colossal.Logging;
 namespace TranslateCS2.Mod.Loggers;
 
 internal static class LogExtensions {
-    private static readonly string Format = "in {0}.{1} at line {2}:\r\n";
+    private static readonly string Format = "in {0}.{1} at line {2}:";
     public static void LogError(this ILog logger,
                                 Type type,
                                 string message,
@@ -55,7 +55,7 @@ internal static class LogExtensions {
         string preFormat = String.Format(Format, type.FullName, CallerMemberName, CallerLineNumber);
         string formattedMessage = String.Format(message, messageParameters ?? Array.Empty<object>());
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.Append(preFormat);
+        messageBuilder.AppendLine(preFormat);
         messageBuilder.AppendLine(formattedMessage);
         return messageBuilder.ToString();
     }
