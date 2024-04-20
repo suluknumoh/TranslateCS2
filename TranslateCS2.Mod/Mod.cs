@@ -15,7 +15,6 @@ using TranslateCS2.Mod.Services;
 namespace TranslateCS2.Mod;
 public class Mod : IMod {
     public const string Name = $"{nameof(TranslateCS2)}.{nameof(Mod)}";
-    public const string NameSettings = $"{nameof(TranslateCS2)}{nameof(Mod)}";
     public static ILog Logger = LogManager.GetLogger(Name).SetShowsErrorsInUI(false);
     private static readonly GameManager gameManager = GameManager.instance;
     private static readonly LocalizationManager localizationManager = gameManager.localizationManager;
@@ -36,7 +35,12 @@ public class Mod : IMod {
                 this._translationFileService.Load();
                 //
                 //
-                AssetDatabase.global.LoadSettings(NameSettings, this._setting, this._setting);
+                AssetDatabase.global.LoadSettings(Name, this._setting);
+                if (localizationManager.SupportsLocale(this._setting.Locale)) {
+                    localizationManager.SetActiveLocale(this._setting.Locale);
+                    gameManager.settings.userInterface.currentLocale = this._setting.Locale;
+                    gameManager.settings.userInterface.locale = this._setting.Locale;
+                }
                 gameManager.settings.userInterface.onSettingsApplied += this._setting.ApplyAndSaveAlso;
             }
         } catch (Exception ex) {

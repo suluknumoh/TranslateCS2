@@ -8,7 +8,7 @@ using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Services;
 
 namespace TranslateCS2.Mod.Models;
-[FileLocation(Mod.NameSettings)]
+[FileLocation(Mod.Name)]
 [SettingsUIGroupOrder(kButtonGroup)]
 [SettingsUIShowGroupName(kButtonGroup)]
 internal class ModSettings : ModSetting {
