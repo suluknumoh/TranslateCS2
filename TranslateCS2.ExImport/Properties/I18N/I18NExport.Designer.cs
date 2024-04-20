@@ -194,5 +194,14 @@ namespace TranslateCS2.ExImport.Properties.I18N {
                 return ResourceManager.GetString("ToolTipExportFormatJSON", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to export to use with TranslateCS2.Mod.
+        /// </summary>
+        public static string ToolTipExportFormatTranslateCS2Mod {
+            get {
+                return ResourceManager.GetString("ToolTipExportFormatTranslateCS2Mod", resourceCulture);
+            }
+        }
     }
 }

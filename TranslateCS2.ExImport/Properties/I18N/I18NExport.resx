@@ -162,4 +162,7 @@
   <data name="ToolTipExportFormatJSON" xml:space="preserve">
     <value>export as json to share with others</value>
   </data>
+  <data name="ToolTipExportFormatTranslateCS2Mod" xml:space="preserve">
+    <value>export to use with TranslateCS2.Mod</value>
+  </data>
 </root>

@@ -39,7 +39,7 @@ internal class ExImportService {
             ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.TranslateCS2Mod),
                                                          ExportFormats.TranslateCS2Mod,
                                                          true,
-                                                         I18NExport.ToolTipExportFormatI18NEverywhere);
+                                                         I18NExport.ToolTipExportFormatTranslateCS2Mod);
             exportFormats.Add(exportFormat);
         }
         {
