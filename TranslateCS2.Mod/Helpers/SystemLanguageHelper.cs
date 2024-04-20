@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
+using Colossal.Localization;
+
 using Game.SceneFlow;
 
 using TranslateCS2.Mod.Models;
@@ -11,6 +13,7 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Helpers;
 internal class SystemLanguageHelper {
+    private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
     public static SystemLanguageHelperResult Get(string id) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         IEnumerable<CultureInfo> cultureInfos =
@@ -30,9 +33,9 @@ internal class SystemLanguageHelper {
     }
 
     public static bool IsRandomizeLanguage(SystemLanguage? language) {
-        string[] alreadySupportedLocales = GameManager.instance.localizationManager.GetSupportedLocales();
+        string[] alreadySupportedLocales = LocalizationManager.GetSupportedLocales();
         foreach (string alreadySupportedLocale in alreadySupportedLocales) {
-            SystemLanguage alreadyUsedSystemLanguage = GameManager.instance.localizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
+            SystemLanguage alreadyUsedSystemLanguage = LocalizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
             if (alreadyUsedSystemLanguage == language) {
                 return true;
             }
@@ -43,9 +46,9 @@ internal class SystemLanguageHelper {
     public static SystemLanguage Random() {
         IEnumerable<SystemLanguage> allSystemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         List<SystemLanguage> alreadyUsedSystemLanguages = [];
-        string[] alreadySupportedLocales = GameManager.instance.localizationManager.GetSupportedLocales();
+        string[] alreadySupportedLocales = LocalizationManager.GetSupportedLocales();
         foreach (string alreadySupportedLocale in alreadySupportedLocales) {
-            SystemLanguage alreadyUsedSystemLanguage = GameManager.instance.localizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
+            SystemLanguage alreadyUsedSystemLanguage = LocalizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
             alreadyUsedSystemLanguages.Add(alreadyUsedSystemLanguage);
         }
         if (alreadyUsedSystemLanguages.Count == allSystemLanguages.Count()) {
