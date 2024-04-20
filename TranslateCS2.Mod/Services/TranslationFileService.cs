@@ -16,12 +16,26 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Services;
 internal class TranslationFileService {
     private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
+    public static IList<string> BuiltIn { get; } = [
+        "de-DE",
+        "en-US",
+        "es-ES",
+        "fr-FR",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "pl-PL",
+        "pt-BR",
+        "ru-RU",
+        "zh-HANS",
+        "zh_HANT"
+    ];
     private string SeeWhatItIs => "just to see, what it is:\r\n{0}";
     private string FailedToLoad => "failed to load: {0}\r\n{1}";
     private string FailedToUnLoad => "failed to unload:\r\n{0}\r\n{1}";
     private string JsonExtension => ".json";
     private string SearchPattern => $"*{this.JsonExtension}";
-    private IList<ModLocale> ModLocales { get; } = [];
+    private IList<TranslationFile> ModLocales { get; } = [];
     private ExecutableAsset Asset { get; }
     public string AssetDirectoryPath { get; }
     public TranslationFileService(ExecutableAsset asset) {
@@ -42,11 +56,11 @@ internal class TranslationFileService {
     }
 
     private IList<TranslationFile> OnlyBuiltIn(IList<TranslationFile> translationFiles) {
-        return translationFiles.Where(translationFile => ModLocale.BuiltIn.Contains(translationFile.Name)).ToList();
+        return translationFiles.Where(translationFile => BuiltIn.Contains(translationFile.Name)).ToList();
     }
 
     private IList<TranslationFile> WithoutBuiltIn(IList<TranslationFile> translationFiles) {
-        return translationFiles.Where(translationFile => !ModLocale.BuiltIn.Contains(translationFile.Name)).ToList();
+        return translationFiles.Where(translationFile => !BuiltIn.Contains(translationFile.Name)).ToList();
     }
     private void LoadFiles(IList<TranslationFile> translationFiles, bool isReload) {
         foreach (TranslationFile translationFile in translationFiles) {
@@ -56,21 +70,21 @@ internal class TranslationFileService {
 
     private void TryToLoadTranslationFile(TranslationFile translationFile, bool isReload) {
         try {
-            ModLocale modLocale = ModLocale.Read(translationFile);
-            if (!modLocale.IsOK) {
+            translationFile.Init();
+            if (!translationFile.IsOK) {
                 Mod.Logger.LogError(typeof(TranslationFileService),
                                     this.FailedToLoad,
-                                    [translationFile, modLocale]);
+                                    [translationFile]);
                 return;
             }
             if (!isReload) {
-                this.ModLocales.Add(modLocale);
+                this.ModLocales.Add(translationFile);
                 Mod.Logger.LogInfo(typeof(TranslationFileService),
                                    this.SeeWhatItIs,
-                                   [modLocale]);
-                this.TryToAddLocale(modLocale, translationFile);
+                                   [translationFile]);
+                this.TryToAddLocale(translationFile);
             }
-            this.TryToAddSource(modLocale, translationFile);
+            this.TryToAddSource(translationFile);
         } catch (Exception ex) {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToLoad,
@@ -78,29 +92,29 @@ internal class TranslationFileService {
         }
     }
 
-    private void TryToAddSource(ModLocale modLocale, TranslationFile translationFile) {
+    private void TryToAddSource(TranslationFile translationFile) {
         try {
-            LocalizationManager.AddSource(modLocale.LocaleId,
-                                          modLocale);
+            LocalizationManager.AddSource(translationFile.LocaleId,
+                                          translationFile);
         } catch {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToLoad,
-                                [translationFile, modLocale]);
-            this.TryToUnload(modLocale);
+                                [translationFile]);
+            this.TryToUnload(translationFile);
             throw;
         }
     }
 
-    private void TryToAddLocale(ModLocale modLocale, TranslationFile translationFile) {
+    private void TryToAddLocale(TranslationFile translationFile) {
         try {
-            LocalizationManager.AddLocale(modLocale.LocaleId,
-                                          (SystemLanguage) modLocale.Language,
-                                          modLocale.LocaleName);
+            LocalizationManager.AddLocale(translationFile.LocaleId,
+                                          (SystemLanguage) translationFile.Language,
+                                          translationFile.LocaleName);
         } catch {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToLoad,
-                                [translationFile, modLocale]);
-            LocalizationManager.RemoveLocale(modLocale.LocaleId);
+                                [translationFile]);
+            LocalizationManager.RemoveLocale(translationFile.LocaleId);
             throw;
         }
     }
@@ -137,20 +151,20 @@ internal class TranslationFileService {
     }
 
     private void Unload() {
-        foreach (ModLocale modLocale in this.ModLocales) {
-            this.TryToUnload(modLocale);
+        foreach (TranslationFile translationFile in this.ModLocales) {
+            this.TryToUnload(translationFile);
         }
     }
 
-    private void TryToUnload(ModLocale modLocale) {
+    private void TryToUnload(TranslationFile translationFile) {
         try {
-            LocalizationManager.RemoveSource(modLocale.LocaleId,
-                                             modLocale);
-            LocalizationManager.RemoveLocale(modLocale.LocaleId);
+            LocalizationManager.RemoveSource(translationFile.LocaleId,
+                                             translationFile);
+            LocalizationManager.RemoveLocale(translationFile.LocaleId);
         } catch (Exception ex) {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToUnLoad,
-                                [ex, modLocale]);
+                                [ex, translationFile]);
         }
     }
 }

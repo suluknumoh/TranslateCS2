@@ -8,12 +8,12 @@ using TranslateCS2.Mod.Services;
 
 namespace TranslateCS2.Mod.Models;
 [FileLocation(Mod.Name)]
-[SettingsUIGroupOrder(kButtonGroup)]
-[SettingsUIShowGroupName(kButtonGroup)]
+[SettingsUIGroupOrder(ButtonGroup)]
+[SettingsUIShowGroupName(ButtonGroup)]
 internal class ModSettings : ModSetting {
-    public const string kSection = "Main";
+    public const string Section = "Main";
 
-    public const string kButtonGroup = "Reload";
+    public const string ButtonGroup = "Reload";
 
     private readonly TranslationFileService _fileHelper;
 
@@ -28,14 +28,9 @@ internal class ModSettings : ModSetting {
 
     [SettingsUIButton]
     [SettingsUIConfirmation]
-    [SettingsUISection(kSection, kButtonGroup)]
+    [SettingsUISection(Section, ButtonGroup)]
     public bool ButtonWithConfirmation {
-        set {
-            //
-            Mod.Logger.Info("ButtonWithConfirmation clicked");
-            //
-            this._fileHelper.Reload();
-        }
+        set => this._fileHelper.Reload();
     }
 
     public override void SetDefaults() {

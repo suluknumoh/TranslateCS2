@@ -13,9 +13,9 @@ internal class ModSettingsLocale : IDictionarySource {
         {
                 { this.m_Setting.GetSettingsLocaleID(), Mod.Name },
                 // TODO: what is it for?
-                { this.m_Setting.GetOptionTabLocaleID(ModSettings.kSection), ModSettings.kSection },
+                { this.m_Setting.GetOptionTabLocaleID(ModSettings.Section), ModSettings.Section },
 
-                { this.m_Setting.GetOptionGroupLocaleID(ModSettings.kButtonGroup), ModSettings.kButtonGroup },
+                { this.m_Setting.GetOptionGroupLocaleID(ModSettings.ButtonGroup), ModSettings.ButtonGroup },
 
                 { this.m_Setting.GetOptionLabelLocaleID(nameof(ModSettings.ButtonWithConfirmation)), "reload language files" },
                 { this.m_Setting.GetOptionDescLocaleID(nameof(ModSettings.ButtonWithConfirmation)), $"Reloads the language file(s)." },
