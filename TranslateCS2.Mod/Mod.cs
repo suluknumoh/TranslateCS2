@@ -43,8 +43,8 @@ public class Mod : IMod {
             }
         } catch (Exception ex) {
             Mod.Logger.LogCritical(this.GetType(),
-                                this.StrangerThings,
-                                [ex]);
+                                   this.StrangerThings,
+                                   [ex]);
         }
     }
 

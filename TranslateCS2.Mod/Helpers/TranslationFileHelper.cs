@@ -50,19 +50,19 @@ internal static class TranslationFileHelper {
             ModLocale modLocale = ModLocale.Read(translationFile);
             if (!modLocale.IsOK) {
                 Mod.Logger.LogError(typeof(TranslationFileHelper),
-                                 FailedToLoad,
-                                 [translationFile, modLocale]);
+                                    FailedToLoad,
+                                    [translationFile, modLocale]);
                 return;
             }
             Mod.Logger.LogInfo(typeof(TranslationFileHelper),
-                            SeeWhatItIs,
-                            [modLocale]);
+                               SeeWhatItIs,
+                               [modLocale]);
             TryToAddLocale(modLocale, translationFile);
             TryToAddSource(modLocale, translationFile);
         } catch (Exception ex) {
             Mod.Logger.LogError(typeof(TranslationFileHelper),
-                             FailedToLoad,
-                             [translationFile, ex]);
+                                FailedToLoad,
+                                [translationFile, ex]);
         }
     }
 
@@ -72,8 +72,8 @@ internal static class TranslationFileHelper {
                                                                modLocale);
         } catch {
             Mod.Logger.LogError(typeof(TranslationFileHelper),
-                             FailedToLoad,
-                             [translationFile, modLocale]);
+                                FailedToLoad,
+                                [translationFile, modLocale]);
             GameManager.instance.localizationManager.RemoveLocale(modLocale.LocaleId);
             GameManager.instance.localizationManager.RemoveSource(modLocale.LocaleId,
                                                                   modLocale);
@@ -88,8 +88,8 @@ internal static class TranslationFileHelper {
                                                                modLocale.LocaleName);
         } catch {
             Mod.Logger.LogError(typeof(TranslationFileHelper),
-                             FailedToLoad,
-                             [translationFile, modLocale]);
+                                FailedToLoad,
+                                [translationFile, modLocale]);
             GameManager.instance.localizationManager.RemoveLocale(modLocale.LocaleId);
             throw;
         }
