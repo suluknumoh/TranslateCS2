@@ -96,4 +96,23 @@
       <ProjectReference Include="..\TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Properties\I18N\I18NMod.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>I18NMod.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\I18N\I18NMod.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>I18NMod.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\" />
+    </ItemGroup>
+
 </Project>

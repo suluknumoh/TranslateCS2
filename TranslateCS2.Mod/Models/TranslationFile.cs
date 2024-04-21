@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 using Colossal;
@@ -8,24 +9,14 @@ using Colossal;
 using Newtonsoft.Json;
 
 using TranslateCS2.Mod.Helpers;
-using TranslateCS2.Mod.Services;
 using TranslateCS2.ModBridge;
 
-using UnityEngine;
-
 namespace TranslateCS2.Mod.Models;
-internal class TranslationFile : IDictionarySource {
-    private static readonly Dictionary<string, int> localeCounters = [];
-
-    static TranslationFile() {
-        foreach (string key in TranslationFileService.BuiltIn) {
-            localeCounters.Add(key, 0);
-        }
-    }
+internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
     private Dictionary<string, string>? dictionary;
-    public string? LocaleId { get; private set; }
-    public string? LocaleName { get; private set; }
-    public SystemLanguage? Language { get; private set; }
+    public string LocaleId { get; private set; }
+    public string LocaleName { get; private set; }
+    public SystemLanguageCultureInfo LanguageCulture { get; private set; }
     public bool IsOK {
         get {
             if (String.IsNullOrEmpty(this.LocaleId)
@@ -40,79 +31,52 @@ internal class TranslationFile : IDictionarySource {
                 || this.dictionary.Count == 0) {
                 return false;
             }
-            return this.Language != null;
+            return this.LanguageCulture != null;
         }
     }
     public string Name { get; }
     public string Path { get; }
+    public bool MapsToExisting { get; }
     public TranslationFile(string name, string path) {
         this.Name = name;
+        this.LocaleId = this.Name;
+        this.MapsToExisting = LocaleHelper.MapsToExisting(name);
+        if (this.MapsToExisting) {
+            this.LocaleId = LocaleHelper.GetExisting(this.LocaleId);
+        }
+        this.LanguageCulture = SystemLanguageHelper.Get(this.LocaleId);
         this.Path = path;
-    }
-    public void Init() {
-        //
-        //
-        // dont use this.LocaleId, could be extended by a counter
-        bool isCountAble = this.InitLocaleId(this.Name, out int counter);
-        //
-        //
-        // dont use this.LocaleId, could be extended by a counter
-        SystemLanguageHelperResult systemLanguageResult = this.InitLanguage(this.Name);
-        //
-        //
         string json = this.ReadJson();
         this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        //
-        //
-        this.InitLocaleName(isCountAble, systemLanguageResult, counter);
-    }
-    private string ReadJson() {
-        return File.ReadAllText(this.Path, Encoding.UTF8);
-    }
-    private bool InitLocaleId(string localeIdParameter, out int counter) {
-        // dont use this.LocaleId, could be extended by a counter!!!
-        bool isCountAble = localeCounters.TryGetValue(localeIdParameter, out counter);
-        if (isCountAble) {
-            counter++;
-            // dont use this.LocaleId, could be extended by a counter!!!
-            localeCounters[localeIdParameter] = counter;
-            // localeid rules, so we add a counter
-            this.LocaleId = localeIdParameter;
-            this.LocaleId += counter;
-        } else {
-            // dont use this.LocaleId, could be extended by a counter!!!
-            localeCounters.Add(localeIdParameter, 0);
-            this.LocaleId = localeIdParameter;
-        }
-        return isCountAble;
-    }
-    private SystemLanguageHelperResult InitLanguage(string localeIdParameter) {
-        // dont use this.LocaleId, could be extended by a counter
-        SystemLanguageHelperResult systemLanguageResult = SystemLanguageHelper.Get(localeIdParameter);
-        this.Language = systemLanguageResult.Language;
-        // INFO: there is a localeid to systemlanguage mapping which has to be unique!
-        if (SystemLanguageHelper.IsRandomizeLanguage(this.Language)) {
-            this.Language = SystemLanguageHelper.Random();
-        }
-        return systemLanguageResult;
-    }
-    private void InitLocaleName(bool isCountAble, SystemLanguageHelperResult systemLanguageResult, int counter) {
-        // first check if there is a custom localized locale name
         bool got = this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string localeName);
         if (got) {
             this.LocaleName = localeName;
         } else {
             // use this as fallback
-            this.LocaleName = systemLanguageResult.Culture?.NativeName;
-        }
-
-        if (isCountAble
-            && !LocaleNameHelper.IsLocaleNameAvailable(this.LocaleName)) {
-            this.LocaleName += $" ({counter})";
+            this.LocaleName = this.LanguageCulture.Culture?.NativeName;
         }
     }
+    public void ReInit() {
+        try {
+            string json = this.ReadJson();
+            Dictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            if (temporary != null) {
+                this.dictionary = temporary;
+            }
+        } catch {
+            //
+        }
+    }
+    private string ReadJson() {
+        return File.ReadAllText(this.Path, Encoding.UTF8);
+    }
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
-        return this.dictionary;
+        return this.dictionary
+            .Where(item =>
+                !String.IsNullOrEmpty(item.Key)
+                && !String.IsNullOrWhiteSpace(item.Key)
+                && !String.IsNullOrEmpty(item.Value)
+                && !String.IsNullOrWhiteSpace(item.Value));
     }
 
     public void Unload() {
@@ -126,7 +90,38 @@ internal class TranslationFile : IDictionarySource {
         builder.AppendLine($"{nameof(this.Path)}: {this.Path}");
         builder.AppendLine($"{nameof(this.LocaleId)}: {this.LocaleId}");
         builder.AppendLine($"{nameof(this.LocaleName)}: {this.LocaleName}");
-        builder.AppendLine($"{nameof(this.Language)}: {this.Language}");
+        builder.AppendLine($"{nameof(this.IsOK)}: {this.IsOK}");
+        builder.AppendLine($"{nameof(this.MapsToExisting)}: {this.MapsToExisting}");
+        builder.AppendLine($"{nameof(this.LanguageCulture)}: {this.LanguageCulture}");
         return builder.ToString();
+    }
+
+    public override bool Equals(object? obj) {
+        return this.Equals(obj as TranslationFile);
+    }
+
+    public bool Equals(TranslationFile? other) {
+        return other is not null &&
+               this.LocaleId == other.LocaleId &&
+               this.LocaleName == other.LocaleName &&
+               this.LanguageCulture == other.LanguageCulture &&
+               this.Name == other.Name;
+    }
+
+    public override int GetHashCode() {
+        int hashCode = 1646257719;
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleId);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleName);
+        hashCode = (hashCode * -1521134295) + this.LanguageCulture.GetHashCode();
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Name);
+        return hashCode;
+    }
+
+    public static bool operator ==(TranslationFile? left, TranslationFile? right) {
+        return EqualityComparer<TranslationFile>.Default.Equals(left, right);
+    }
+
+    public static bool operator !=(TranslationFile? left, TranslationFile? right) {
+        return !(left == right);
     }
 }

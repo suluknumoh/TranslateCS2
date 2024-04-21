@@ -15,10 +15,11 @@ using TranslateCS2.Mod.Services;
 namespace TranslateCS2.Mod;
 public class Mod : IMod {
     public const string Name = $"{nameof(TranslateCS2)}.{nameof(Mod)}";
-    public static ILog Logger = LogManager.GetLogger(Name).SetShowsErrorsInUI(false);
-    private static readonly GameManager gameManager = GameManager.instance;
-    private static readonly LocalizationManager localizationManager = gameManager.localizationManager;
-    private string StrangerThings => "failed to load the entire mod: {0}";
+    public static string NameSimple { get; } = nameof(TranslateCS2);
+    public static ILog Logger { get; } = LogManager.GetLogger(Name).SetShowsErrorsInUI(false);
+    private static GameManager GameManager { get; } = GameManager.instance;
+    private static LocalizationManager LocalizationManager { get; } = Mod.GameManager.localizationManager;
+    private string StrangerThings => "failed to load the entire mod:";
     private ModSettings? _setting;
     private TranslationFileService? _translationFileService;
 
@@ -29,19 +30,14 @@ public class Mod : IMod {
                 this._translationFileService = new TranslationFileService(asset);
                 this._setting = new ModSettings(this, this._translationFileService);
                 this._setting.RegisterInOptionsUI();
-                localizationManager.AddSource("en-US", new ModSettingsLocale(this._setting));
+                AssetDatabase.global.LoadSettings(Name, this._setting);
+                Mod.LocalizationManager.AddSource("en-US", new ModSettingsLocale(this._setting));
                 //
                 //
                 this._translationFileService.Load();
                 //
                 //
-                AssetDatabase.global.LoadSettings(Name, this._setting);
-                if (localizationManager.SupportsLocale(this._setting.Locale)) {
-                    localizationManager.SetActiveLocale(this._setting.Locale);
-                    gameManager.settings.userInterface.currentLocale = this._setting.Locale;
-                    gameManager.settings.userInterface.locale = this._setting.Locale;
-                }
-                gameManager.settings.userInterface.onSettingsApplied += this._setting.ApplyAndSaveAlso;
+                this._setting.HandleLocaleOnLoad();
             }
         } catch (Exception ex) {
             Logger.LogCritical(this.GetType(),
@@ -53,13 +49,6 @@ public class Mod : IMod {
     public void OnDispose() {
         Logger.LogInfo(this.GetType(), nameof(OnDispose));
         this._setting?.UnregisterInOptionsUI();
-        if (this._setting != null) {
-            // dont replicate os lang into this mods settings
-            gameManager.settings.userInterface.onSettingsApplied -= this._setting.ApplyAndSaveAlso;
-        }
-        // reset to os-language, if the mod is not used next time the game starts
-        gameManager.settings.userInterface.currentLocale = LocalizationManager.kOsLanguage;
-        gameManager.settings.userInterface.locale = LocalizationManager.kOsLanguage;
-        gameManager.settings.userInterface.ApplyAndSave();
+        this._setting?.HandleLocaleOnUnLoad();
     }
 }

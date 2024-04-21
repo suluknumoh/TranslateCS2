@@ -53,10 +53,14 @@ internal static class LogExtensions {
                                           string CallerMemberName,
                                           int CallerLineNumber) {
         string preFormat = String.Format(Format, type.FullName, CallerMemberName, CallerLineNumber);
-        string formattedMessage = String.Format(message, messageParameters ?? Array.Empty<object>());
         StringBuilder messageBuilder = new StringBuilder();
         messageBuilder.AppendLine(preFormat);
-        messageBuilder.AppendLine(formattedMessage);
+        messageBuilder.AppendLine(message);
+        if (messageParameters != null) {
+            foreach (object parameter in messageParameters) {
+                messageBuilder.AppendLine(parameter.ToString());
+            }
+        }
         return messageBuilder.ToString();
     }
 }

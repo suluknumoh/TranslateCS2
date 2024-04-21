@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -8,36 +9,23 @@ using Colossal.Localization;
 
 using Game.SceneFlow;
 
+using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
-
-using UnityEngine;
 
 namespace TranslateCS2.Mod.Services;
 internal class TranslationFileService {
     private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
-    public static IList<string> BuiltIn { get; } = [
-        "de-DE",
-        "en-US",
-        "es-ES",
-        "fr-FR",
-        "it-IT",
-        "ja-JP",
-        "ko-KR",
-        "pl-PL",
-        "pt-BR",
-        "ru-RU",
-        "zh-HANS",
-        "zh_HANT"
-    ];
-    private string SeeWhatItIs => "just to see, what it is:\r\n{0}";
-    private string FailedToLoad => "failed to load: {0}\r\n{1}";
-    private string FailedToUnLoad => "failed to unload:\r\n{0}\r\n{1}";
+    private string SeeWhatItIs => "just to see, what it is:";
+    private string FailedToLoad => "failed to load:";
+    private string FailedToUnLoad => "failed to unload:";
     private string JsonExtension => ".json";
     private string SearchPattern => $"*{this.JsonExtension}";
-    private IList<TranslationFile> ModLocales { get; } = [];
+    private IList<TranslationFile> TranslationFiles { get; } = [];
     private ExecutableAsset Asset { get; }
+    private bool IsOverwrite => this.Settings?.IsOverwrite ?? false;
     public string AssetDirectoryPath { get; }
+    public ModSettings? Settings { get; set; }
     public TranslationFileService(ExecutableAsset asset) {
         this.Asset = asset;
         this.AssetDirectoryPath = this.Asset.path.Replace($"{Mod.Name}{ExecutableAsset.kExtension}", String.Empty);
@@ -46,69 +34,84 @@ internal class TranslationFileService {
         List<TranslationFile> files = [];
         IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(this.AssetDirectoryPath, this.SearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
-            string name = translationFilePath
-                .Replace(this.AssetDirectoryPath, String.Empty)
-                .Replace(this.JsonExtension, String.Empty);
-            TranslationFile translationFile = new TranslationFile(name, translationFilePath);
-            files.Add(translationFile);
+            try {
+                string name = translationFilePath
+                    .Replace(this.AssetDirectoryPath, String.Empty)
+                    .Replace(this.JsonExtension, String.Empty);
+                if (!this.IsLoadAble(name)) {
+                    continue;
+                }
+                TranslationFile translationFile = new TranslationFile(name, translationFilePath);
+                files.Add(translationFile);
+            } catch (Exception ex) {
+                Mod.Logger.LogError(typeof(TranslationFileService),
+                                    this.FailedToLoad,
+                                    [translationFilePath, ex]);
+            }
         }
         return files;
     }
 
-    private IList<TranslationFile> OnlyBuiltIn(IList<TranslationFile> translationFiles) {
-        return translationFiles.Where(translationFile => BuiltIn.Contains(translationFile.Name)).ToList();
-    }
-
-    private IList<TranslationFile> WithoutBuiltIn(IList<TranslationFile> translationFiles) {
-        return translationFiles.Where(translationFile => !BuiltIn.Contains(translationFile.Name)).ToList();
-    }
-    private void LoadFiles(IList<TranslationFile> translationFiles, bool isReload) {
-        foreach (TranslationFile translationFile in translationFiles) {
-            this.TryToLoadTranslationFile(translationFile, isReload);
+    private bool IsLoadAble(string id) {
+        if (id.Contains("-")) {
+            return CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Where(item => item.Name.Equals(id, StringComparison.OrdinalIgnoreCase))
+                .Any()
+                && !this.TranslationFiles
+                .Where(item => item.Name.Equals(id, StringComparison.OrdinalIgnoreCase))
+                .Any();
         }
+        return false;
     }
 
-    private void TryToLoadTranslationFile(TranslationFile translationFile, bool isReload) {
+    private bool TryToLoadTranslationFile(TranslationFile translationFile, bool isReload) {
         try {
-            translationFile.Init();
+            if (isReload) {
+                translationFile.ReInit();
+            }
             if (!translationFile.IsOK) {
                 Mod.Logger.LogError(typeof(TranslationFileService),
                                     this.FailedToLoad,
                                     [translationFile]);
-                return;
+                return false;
             }
-            if (!isReload) {
-                this.ModLocales.Add(translationFile);
-                Mod.Logger.LogInfo(typeof(TranslationFileService),
-                                   this.SeeWhatItIs,
-                                   [translationFile]);
+            if (!isReload && !translationFile.MapsToExisting) {
                 this.TryToAddLocale(translationFile);
             }
             this.TryToAddSource(translationFile);
+            return true;
         } catch (Exception ex) {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToLoad,
                                 [translationFile, ex]);
+            return false;
         }
     }
 
     private void TryToAddSource(TranslationFile translationFile) {
         try {
+            if (translationFile.MapsToExisting && !this.IsOverwrite) {
+                return;
+            }
             LocalizationManager.AddSource(translationFile.LocaleId,
                                           translationFile);
         } catch {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToLoad,
                                 [translationFile]);
-            this.TryToUnload(translationFile);
+            this.TryToUnload(translationFile, false);
             throw;
         }
     }
 
     private void TryToAddLocale(TranslationFile translationFile) {
         try {
+            if (LocaleHelper.MapsToExisting(translationFile.LocaleId)
+                || SystemLanguageHelper.IsSystemLanguageInUse(translationFile.LanguageCulture.Language)) {
+                return;
+            }
             LocalizationManager.AddLocale(translationFile.LocaleId,
-                                          (SystemLanguage) translationFile.Language,
+                                          translationFile.LanguageCulture.Language,
                                           translationFile.LocaleName);
         } catch {
             Mod.Logger.LogError(typeof(TranslationFileService),
@@ -119,52 +122,54 @@ internal class TranslationFileService {
         }
     }
 
-    public void Load(bool isReload = false) {
+    public void Load() {
         IList<TranslationFile> translationFiles = this.GetFiles();
-        //
-        // to assign the 'correct' SystemLanguage and block them
-        /// <seealso cref="ModLocale.ModLocale(String, String)"/>
-        /// <seealso cref="SystemLanguageHelper.IsRandomizeLanguage(SystemLanguage?)"/>
-        /// <seealso cref="SystemLanguageHelper.Random"/>
-        IList<TranslationFile> loadFirst = this.WithoutBuiltIn(translationFiles);
-        this.LoadFiles(loadFirst, isReload);
-        if (false) {
-            // TODO: this is crap
-            //
-            // to assign a remaining SystemLanguage
-            /// <seealso cref="ModLocale.ModLocale(String, String)"/>
-            /// <seealso cref="SystemLanguageHelper.IsRandomizeLanguage(SystemLanguage?)"/>
-            /// <seealso cref="SystemLanguageHelper.Random"/>
-            IList<TranslationFile> loadLast = this.OnlyBuiltIn(translationFiles);
-            this.LoadFiles(loadLast, isReload);
+        foreach (TranslationFile translationFile in translationFiles) {
+            bool loaded = this.TryToLoadTranslationFile(translationFile, false);
+            if (loaded) {
+                this.TranslationFiles.Add(translationFile);
+            }
         }
     }
 
     public void Reload() {
-        // TODO:
-        if (false) {
-            // INFO: it seems to be impossible to unload...
-            this.Unload();
-        }
-        this.Load(true);
-
-    }
-
-    private void Unload() {
-        foreach (TranslationFile translationFile in this.ModLocales) {
-            this.TryToUnload(translationFile);
+        foreach (TranslationFile translationFile in this.TranslationFiles) {
+            this.TryToUnload(translationFile, true);
+            this.TryToLoadTranslationFile(translationFile, true);
         }
     }
 
-    private void TryToUnload(TranslationFile translationFile) {
+    private void TryToUnload(TranslationFile translationFile, bool isReload) {
         try {
             LocalizationManager.RemoveSource(translationFile.LocaleId,
                                              translationFile);
-            LocalizationManager.RemoveLocale(translationFile.LocaleId);
+            if (!isReload && !translationFile.MapsToExisting) {
+                LocalizationManager.RemoveLocale(translationFile.LocaleId);
+            }
         } catch (Exception ex) {
             Mod.Logger.LogError(typeof(TranslationFileService),
                                 this.FailedToUnLoad,
                                 [ex, translationFile]);
+        }
+    }
+
+    private void TryToClear(TranslationFile translationFile) {
+        try {
+            if (!translationFile.MapsToExisting) {
+                return;
+            }
+            LocalizationManager.RemoveSource(translationFile.LocaleId,
+                                             translationFile);
+        } catch (Exception ex) {
+            Mod.Logger.LogError(typeof(TranslationFileService),
+                                this.FailedToUnLoad,
+                                [ex, translationFile]);
+        }
+    }
+
+    public void ClearOverwritten() {
+        foreach (TranslationFile translationFile in this.TranslationFiles) {
+            this.TryToClear(translationFile);
         }
     }
 }

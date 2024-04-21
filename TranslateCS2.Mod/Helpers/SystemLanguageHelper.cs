@@ -14,7 +14,7 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Helpers;
 internal class SystemLanguageHelper {
     private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
-    public static SystemLanguageHelperResult Get(string id) {
+    public static SystemLanguageCultureInfo Get(string id) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         IEnumerable<CultureInfo> cultureInfos =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
@@ -22,17 +22,17 @@ internal class SystemLanguageHelper {
         foreach (CultureInfo cultureInfo in cultureInfos) {
 
 
-            SystemLanguageHelperResult? result = TryToGetResult(systemLanguages, cultureInfo);
+            SystemLanguageCultureInfo? result = TryToGetResult(systemLanguages, cultureInfo);
             if (result != null) {
                 return result;
             }
 
 
         }
-        return new SystemLanguageHelperResult(SystemLanguage.Unknown, null);
+        return new SystemLanguageCultureInfo(SystemLanguage.Unknown, null);
     }
 
-    public static bool IsRandomizeLanguage(SystemLanguage? language) {
+    public static bool IsSystemLanguageInUse(SystemLanguage? language) {
         string[] alreadySupportedLocales = LocalizationManager.GetSupportedLocales();
         foreach (string alreadySupportedLocale in alreadySupportedLocales) {
             SystemLanguage alreadyUsedSystemLanguage = LocalizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
@@ -43,24 +43,7 @@ internal class SystemLanguageHelper {
         return false;
     }
 
-    public static SystemLanguage Random() {
-        IEnumerable<SystemLanguage> allSystemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        List<SystemLanguage> alreadyUsedSystemLanguages = [];
-        string[] alreadySupportedLocales = LocalizationManager.GetSupportedLocales();
-        foreach (string alreadySupportedLocale in alreadySupportedLocales) {
-            SystemLanguage alreadyUsedSystemLanguage = LocalizationManager.LocaleIdToSystemLanguage(alreadySupportedLocale);
-            alreadyUsedSystemLanguages.Add(alreadyUsedSystemLanguage);
-        }
-        if (alreadyUsedSystemLanguages.Count == allSystemLanguages.Count()) {
-            throw new Exception("Too many Languages!");
-        }
-        SystemLanguage[] availableSystemLanguages = allSystemLanguages.Except(alreadyUsedSystemLanguages).ToArray();
-        System.Random random = new System.Random();
-        int index = random.Next(availableSystemLanguages.Count());
-        return availableSystemLanguages[index];
-    }
-
-    private static SystemLanguageHelperResult? TryToGetResult(IEnumerable<SystemLanguage> systemLanguages, CultureInfo cultureInfo) {
+    private static SystemLanguageCultureInfo? TryToGetResult(IEnumerable<SystemLanguage> systemLanguages, CultureInfo cultureInfo) {
         foreach (SystemLanguage systemLanguage in systemLanguages) {
             string? comparator = null;
             switch (systemLanguage) {
@@ -76,7 +59,7 @@ internal class SystemLanguageHelper {
                     // INFO: SystemLanguage.SerboCroatian -> in CultureInfo its separated
                     if (cultureInfo.EnglishName.StartsWith("Croatian", StringComparison.OrdinalIgnoreCase)
                         || cultureInfo.EnglishName.StartsWith("Serbian", StringComparison.OrdinalIgnoreCase)) {
-                        return new SystemLanguageHelperResult(systemLanguage, cultureInfo);
+                        return new SystemLanguageCultureInfo(systemLanguage, cultureInfo);
                     }
                     break;
                 default:
@@ -84,7 +67,7 @@ internal class SystemLanguageHelper {
                     break;
             }
             if (cultureInfo.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
-                return new SystemLanguageHelperResult(systemLanguage, cultureInfo);
+                return new SystemLanguageCultureInfo(systemLanguage, cultureInfo);
             }
         }
         return null;
