@@ -472,7 +472,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             try {
                 delete.Delete();
             } catch {
-                // TODO: ???
+                // does not matter
             }
         }
     }
