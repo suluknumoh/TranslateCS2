@@ -52,6 +52,9 @@ internal class JSONService {
             ArgumentNullException.ThrowIfNull(deserialized);
             List<ILocalizationDictionaryEntry> localizationDictionaryEntries = [];
             foreach (KeyValuePair<string, string> entry in deserialized) {
+                if (entry.Key == ModConstants.LocaleNameLocalizedKey) {
+                    continue;
+                }
                 localizationDictionaryEntries.Add(new LocalizationDictionaryEntry(entry.Key, entry.Value));
             }
             return localizationDictionaryEntries;
