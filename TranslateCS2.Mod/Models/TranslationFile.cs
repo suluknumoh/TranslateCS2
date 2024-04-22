@@ -53,7 +53,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
             this.LocaleName = localeName;
         } else {
             // use this as fallback
-            this.LocaleName = this.LanguageCulture.Culture?.NativeName;
+            // dont use native name! - does not work!
+            this.LocaleName = this.LanguageCulture.Culture?.EnglishName;
         }
     }
     public void ReInit() {
