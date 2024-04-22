@@ -9,12 +9,13 @@ To load custom translations that are listed within [Cities: Skylines II](https:/
 # How it works
 ## preamble
 - the engine, [Unity](https://unity.com),  used by [Colossal Order](https://colossalorder.fi), supports a general set of languages
-- for example:
-    - locales/flavours like
-        - en-GB
-        - en-US
-        - and others; in general 'en-'
-    - result in [Unity](https://unity.com)'s language 'English'
+    - for example:
+        - locales/flavours like
+            - en-GB
+            - en-US
+            - and others; in general 'en-'
+        - result in [Unity](https://unity.com)'s language 'English'
+    - this general support limits the options for sideloading additional languages or flavors
 - [Colossal Order](https://colossalorder.fi) already provided us, the community, with a rich set of translations
     - de-DE
     - en-US
@@ -28,12 +29,17 @@ To load custom translations that are listed within [Cities: Skylines II](https:/
     - ru-RU
     - zh-HANS
     - zh-HANT
+- for those languages, only flavors can be added
 
 ### general
 - create a JSON-file or use an existing ones
 - the JSON-file should contain one JSON-Object
 - the JSON-Object should contain commaseperated Key-Value-Pairs
 - use [Colossal Order](https://colossalorder.fi)'s respective Key as Key and the custom translation as Value
+- filename format:
+    - [language-code]-[region].json
+    - example:
+        - en-US.json
 
 #### example
 
@@ -104,3 +110,23 @@ To load custom translations that are listed within [Cities: Skylines II](https:/
   "Options.SECTION[General]": "Algemeen"
 }
 ```
+
+# limitations
+as described in the preamble of how it works:
+
+- for the built-in languages, only flavors can be added
+    - de-DE
+    - en-US
+    - es-ES
+    - fr-FR
+    - it-IT
+    - ja-JP
+    - ko-KR
+    - pl-PL
+    - pt-BR
+    - ru-RU
+    - zh-HANS
+    - zh-HANT
+- adding multiple language files, that result in a single [Unity](https://unity.com)-language:
+    - flavors are added in the order of load
+
