@@ -2,7 +2,5 @@
 
 internal enum ExportFormats {
     Direct,
-    JSON,
-    TranslateCS2Mod,
-    I18NEverywhere
+    JSON
 }

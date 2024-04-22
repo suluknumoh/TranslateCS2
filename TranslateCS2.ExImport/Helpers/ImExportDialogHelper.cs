@@ -10,20 +10,20 @@ namespace TranslateCS2.ExImport.Helpers;
 internal static class ImExportDialogHelper {
     public static string? ShowSaveFileDialog(string? path,
                                              string title,
+                                             string? fileName,
                                              string dialogWarningCaption,
                                              string dialogWarningText) {
         SaveFileDialog dialog = new SaveFileDialog {
             Title = title,
             CheckPathExists = true,
             RestoreDirectory = true,
-            FileName = AppConfigurationManager.ImExportDefaultFileName,
+            FileName = fileName ?? AppConfigurationManager.ImExportDefaultFileName,
             Filter = AppConfigurationManager.ImExportFilter,
             ValidateNames = true,
-            DereferenceLinks = false
+            DereferenceLinks = false,
+            InitialDirectory = path ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
         };
-        if (path is null) {
-            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        }
+
         return Display(dialog, dialogWarningCaption, dialogWarningText);
     }
     public static string? ShowOpenFileDialog(string? path,

@@ -35,38 +35,20 @@ internal class ExImportService {
                                                          I18NExport.ToolTipExportFormatJSON);
             exportFormats.Add(exportFormat);
         }
-        {
-            ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.TranslateCS2Mod),
-                                                         ExportFormats.TranslateCS2Mod,
-                                                         true,
-                                                         I18NExport.ToolTipExportFormatTranslateCS2Mod);
-            exportFormats.Add(exportFormat);
-        }
-        {
-            ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.I18NEverywhere),
-                                                         ExportFormats.I18NEverywhere,
-                                                         true,
-                                                         I18NExport.ToolTipExportFormatI18NEverywhere);
-            exportFormats.Add(exportFormat);
-        }
         return exportFormats;
     }
 
     public async Task Export(ExportFormat exportFormat,
                              ILocalizationFile localizationFile,
+                             bool addKey,
+                             bool addMergeValues,
                              string? file) {
         switch (exportFormat.Format) {
             case ExportFormats.Direct:
                 await this._localizationFilesService.WriteLocalizationFileDirect(localizationFile);
                 break;
             case ExportFormats.JSON:
-                await this._jsonService.WriteLocalizationFileJson(localizationFile, file);
-                break;
-            case ExportFormats.TranslateCS2Mod:
-                await this._jsonService.WriteLocalizationFileForMod(localizationFile, file, true);
-                break;
-            case ExportFormats.I18NEverywhere:
-                await this._jsonService.WriteLocalizationFileForMod(localizationFile, file, false);
+                await this._jsonService.WriteLocalizationFileJson(localizationFile, file, addKey, addMergeValues);
                 break;
         }
     }

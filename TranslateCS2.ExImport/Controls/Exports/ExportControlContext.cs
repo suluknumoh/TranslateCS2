@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -8,11 +10,13 @@ using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.ExImport.Helpers;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
 using TranslateCS2.ExImport.Services;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.ExImport.Controls.Exports;
 
@@ -41,6 +45,20 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     }
 
 
+    private bool _IsAddKeyEnabled;
+    public bool IsAddKeyEnabled {
+        get => this._IsAddKeyEnabled;
+        set => this.SetProperty(ref this._IsAddKeyEnabled, value);
+    }
+
+
+    private bool _IsAddMergeValuesEnabled;
+    public bool IsAddMergeValuesEnabled {
+        get => this._IsAddMergeValuesEnabled;
+        set => this.SetProperty(ref this._IsAddMergeValuesEnabled, value);
+    }
+
+
     private string? _InfoMessage;
     public string? InfoMessage {
         get => this._InfoMessage;
@@ -52,6 +70,20 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     public string? SelectedPath {
         get => this._SelectedPath;
         set => this.SetProperty(ref this._SelectedPath, value, this.OnChange);
+    }
+
+
+    private bool _IsAddKey;
+    public bool IsAddKey {
+        get => this._IsAddKey;
+        set => this.SetProperty(ref this._IsAddKey, value);
+    }
+
+
+    private bool _IsAddMergeValues;
+    public bool IsAddMergeValues {
+        get => this._IsAddMergeValues;
+        set => this.SetProperty(ref this._IsAddMergeValues, value);
     }
 
 
@@ -94,13 +126,36 @@ internal class ExportControlContext : BindableBase, INavigationAware {
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ExportCommand = new DelegateCommand(this.ExportCommandAction);
         this._IsEnabled = true;
+        this._IsAddKey = false;
+        this._IsAddMergeValues = false;
         this._IsExportButtonEnabled = true;
     }
 
 
     private void SelectPathCommandAction() {
-        string? selected = ImExportDialogHelper.ShowSaveFileDialog(this.SelectedPath,
+        string? fileName = CultureInfoHelper.GatherCultureFromEnglishName(this.SessionManager.CurrentTranslationSession?.OverwriteLocalizationNameEN)?.Name;
+        if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(fileName)) {
+            fileName += ".json";
+        }
+        string? path = this.SelectedPath;
+        if (path == null) {
+            string tempPath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low",
+                                           "Colossal Order",
+                                           "Cities Skylines II",
+                                           ".cache",
+                                           "Mods",
+                                           "mods_subscribed");
+            if (Path.Exists(tempPath)) {
+                path = tempPath;
+                tempPath = Path.Combine(tempPath, $"{ModConstants.ModId}_1");
+                if (Path.Exists(tempPath)) {
+                    path = tempPath;
+                }
+            }
+        }
+        string? selected = ImExportDialogHelper.ShowSaveFileDialog(path,
                                                                    this._dialogtitle,
+                                                                   fileName,
                                                                    this._dialogWarningCaption,
                                                                    this._dialogWarningText);
         if (selected != null) {
@@ -113,9 +168,13 @@ internal class ExportControlContext : BindableBase, INavigationAware {
         switch (this.SelectedExportFormat.Format) {
             case Models.ExportFormats.Direct:
                 this.IsExportButtonEnabled = true;
+                this.IsAddKeyEnabled = false;
+                this.IsAddMergeValuesEnabled = false;
                 break;
             case Models.ExportFormats.JSON:
                 this.IsExportButtonEnabled = this.SelectedPath != null;
+                this.IsAddKeyEnabled = true;
+                this.IsAddMergeValuesEnabled = true;
                 break;
         }
     }
@@ -139,7 +198,11 @@ internal class ExportControlContext : BindableBase, INavigationAware {
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessageDo;
             try {
-                await this._exportService.Export(this.SelectedExportFormat, this.ExportLocalizationFile, this.SelectedPath);
+                await this._exportService.Export(this.SelectedExportFormat,
+                                                 this.ExportLocalizationFile,
+                                                 this.IsAddKey,
+                                                 this.IsAddMergeValues,
+                                                 this.SelectedPath);
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NExport.MessageSuccess;
             } catch {

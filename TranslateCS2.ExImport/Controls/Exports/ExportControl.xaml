@@ -25,11 +25,13 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="5"
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NExport.Caption}, Mode=OneWay}" />
         <StackPanel
@@ -49,7 +51,13 @@
                 ToolTip="{Binding SelectedExportFormat.ToolTip}"
                 IsEnabled="{Binding IsEnabled}"
                 DisplayMemberPath="Name" />
-            <TextBlock Text="{Binding SelectedExportFormat.ToolTip, StringFormat={}({0})}" />
+            <TextBlock
+                Text="{Binding SelectedExportFormat.ToolTip}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                TextAlignment="Center"
+                MaxWidth="200"
+                TextWrapping="Wrap"/>
         </StackPanel>
         <StackPanel
             Grid.Row="1"
@@ -90,12 +98,56 @@
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
                 TextWrapping="WrapWithOverflow"
-                MaxWidth="300"
+                MaxWidth="180"
                 Text="{Binding SelectedPath}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <CheckBox
+                Margin="10 10 10 10"
+                Cursor="Hand"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding IsAddKeyEnabled}"
+                Content="{Binding Source={x:Static i18n:I18NExport.DoAddKey}, Mode=OneWay}"
+                ToolTip="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddKey}, Mode=OneWay}"
+                IsChecked="{Binding IsAddKey}"/>
+            <TextBlock
+                Style="{StaticResource StyleTextBlockAlginedCenter}"
+                TextWrapping="WrapWithOverflow"
+                MaxWidth="180"
+                Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddKey}, Mode=OneWay}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <CheckBox
+                Margin="10 10 10 10"
+                Cursor="Hand"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding IsAddMergeValuesEnabled}"
+                Content="{Binding Source={x:Static i18n:I18NExport.DoAddMergeValues}, Mode=OneWay}"
+                ToolTip="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddMergeValues}, Mode=OneWay}"
+                IsChecked="{Binding IsAddMergeValues}"/>
+            <TextBlock
+                Style="{StaticResource StyleTextBlockAlginedCenter}"
+                TextWrapping="WrapWithOverflow"
+                MaxWidth="180"
+                Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddMergeValues}, Mode=OneWay}" />
         </StackPanel>
         <Button
             Grid.Row="1"
-            Grid.Column="2"
+            Grid.Column="4"
             Command="{Binding ExportCommand}"
             IsEnabled="{Binding IsExportButtonEnabled}"
             Style="{StaticResource StyleButton}">
@@ -114,7 +166,7 @@
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="5"
             FontSize="16"
             FontWeight="Bold"
             Foreground="{Binding InfoMessageColor}"

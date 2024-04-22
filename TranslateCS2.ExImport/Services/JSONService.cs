@@ -17,22 +17,30 @@ internal class JSONService {
         IgnoreReadOnlyFields = false,
         AllowTrailingCommas = true,
     };
-    public async Task WriteLocalizationFileJson(ILocalizationFile localizationFile,
-                                                string file) {
-        await Task.Factory.StartNew(() => {
-            List<ILocalizationDictionaryEntry> exp = localizationFile.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToList();
-            byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
-            File.WriteAllBytes(file, bytes);
-        });
-    }
 
-    public async Task WriteLocalizationFileForMod(ILocalizationFile localizationFile,
+    public async Task WriteLocalizationFileJson(ILocalizationFile localizationFile,
                                                   string file,
-                                                  bool addKey) {
+                                                bool addKey,
+                                                bool addMergeValues) {
         await Task.Factory.StartNew(() => {
+            Func<ILocalizationDictionaryEntry, bool> predicate = item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation);
             Func<ILocalizationDictionaryEntry, string> keySelector = (item) => item.Key;
             Func<ILocalizationDictionaryEntry, string> valueSelector = (item) => item.Translation;
-            Dictionary<string, string> exp = localizationFile.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToDictionary<ILocalizationDictionaryEntry, string, string>(keySelector, valueSelector);
+            if (addMergeValues) {
+                predicate = item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation) || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge);
+
+                valueSelector = (item) => {
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)) {
+                        return item.ValueMerge;
+                    };
+                    return item.Translation;
+                };
+            }
+
+            Dictionary<string, string> exp =
+                localizationFile.LocalizationDictionary
+                .Where(predicate)
+                .ToDictionary(keySelector, valueSelector);
             if (addKey) {
                 exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.LocaleNameLocalized);
             }

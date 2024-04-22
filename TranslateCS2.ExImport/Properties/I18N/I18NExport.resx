@@ -132,6 +132,12 @@
   <data name="DialogWarningText" xml:space="preserve">
     <value>Please select a .json-file.</value>
   </data>
+  <data name="DoAddKey" xml:space="preserve">
+    <value>add key</value>
+  </data>
+  <data name="DoAddMergeValues" xml:space="preserve">
+    <value>add merge-values</value>
+  </data>
   <data name="DoExport" xml:space="preserve">
     <value>export</value>
   </data>
@@ -153,16 +159,16 @@
   <data name="MessageSuccess" xml:space="preserve">
     <value>exported</value>
   </data>
+  <data name="ToolTipExportAddKey" xml:space="preserve">
+    <value>TODO:</value>
+  </data>
+  <data name="ToolTipExportAddMergeValues" xml:space="preserve">
+    <value>TODO:</value>
+  </data>
   <data name="ToolTipExportFormatDirectOverwrite" xml:space="preserve">
     <value>replace existing localization based on session-properties</value>
   </data>
-  <data name="ToolTipExportFormatI18NEverywhere" xml:space="preserve">
-    <value>export to use with I18NEverywhere</value>
-  </data>
   <data name="ToolTipExportFormatJSON" xml:space="preserve">
     <value>export as json to share with others</value>
-  </data>
-  <data name="ToolTipExportFormatTranslateCS2Mod" xml:space="preserve">
-    <value>export to use with TranslateCS2.Mod</value>
   </data>
 </root>

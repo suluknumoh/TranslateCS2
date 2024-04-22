@@ -106,6 +106,24 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to add key.
+        /// </summary>
+        public static string DoAddKey {
+            get {
+                return ResourceManager.GetString("DoAddKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add merge-values.
+        /// </summary>
+        public static string DoAddMergeValues {
+            get {
+                return ResourceManager.GetString("DoAddMergeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to export.
         /// </summary>
         public static string DoExport {
@@ -169,6 +187,24 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TODO:.
+        /// </summary>
+        public static string ToolTipExportAddKey {
+            get {
+                return ResourceManager.GetString("ToolTipExportAddKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TODO:.
+        /// </summary>
+        public static string ToolTipExportAddMergeValues {
+            get {
+                return ResourceManager.GetString("ToolTipExportAddMergeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to replace existing localization based on session-properties.
         /// </summary>
         public static string ToolTipExportFormatDirectOverwrite {
@@ -178,29 +214,11 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to export to use with I18NEverywhere.
-        /// </summary>
-        public static string ToolTipExportFormatI18NEverywhere {
-            get {
-                return ResourceManager.GetString("ToolTipExportFormatI18NEverywhere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to export as json to share with others.
         /// </summary>
         public static string ToolTipExportFormatJSON {
             get {
                 return ResourceManager.GetString("ToolTipExportFormatJSON", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to export to use with TranslateCS2.Mod.
-        /// </summary>
-        public static string ToolTipExportFormatTranslateCS2Mod {
-            get {
-                return ResourceManager.GetString("ToolTipExportFormatTranslateCS2Mod", resourceCulture);
             }
         }
     }
