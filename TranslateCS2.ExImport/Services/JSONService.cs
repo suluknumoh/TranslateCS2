@@ -19,7 +19,7 @@ internal class JSONService {
     };
 
     public async Task WriteLocalizationFileJson(ILocalizationFile localizationFile,
-                                                  string file,
+                                                string file,
                                                 bool addKey,
                                                 bool addMergeValues) {
         await Task.Factory.StartNew(() => {
@@ -42,6 +42,8 @@ internal class JSONService {
                 .Where(predicate)
                 .ToDictionary(keySelector, valueSelector);
             if (addKey) {
+                // TODO: LocaleNameLocalized???
+                // TODO: if localename localized contains special characters, replace with english name???
                 exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.LocaleNameLocalized);
             }
             byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
