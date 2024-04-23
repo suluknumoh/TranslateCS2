@@ -14,6 +14,10 @@ namespace TranslateCS2.Mod.Models;
 [SettingsUIGroupOrder(BehaviourGroup, ClearGroup, ReloadGroup)]
 [SettingsUIShowGroupName(BehaviourGroup, ClearGroup, ReloadGroup)]
 internal class ModSettings : ModSetting {
+    // TODO: refactor
+    // TODO: enable/disable/hide items based on the detected language files
+    // TODO: is it possible to make flavors selectable? the general language code is not used, so it should be possible to add for example 'nl' as general language and add the selected flavors
+    // TODO: is it possible fill and refill a single drop down or is SettingsUIDropDown->itemsGetterMethod called only once? if it is, add drop downs for each possible UnityEngine.SystemLanguage and use SettingsUIHideByCondition
     private static GameManager GameManager { get; } = GameManager.instance;
     private static InterfaceSettings InterfaceSettings { get; } = ModSettings.GameManager.settings.userInterface;
     private static LocalizationManager LocalizationManager { get; } = ModSettings.GameManager.localizationManager;
@@ -58,7 +62,6 @@ internal class ModSettings : ModSetting {
     [SettingsUISection(Section, BehaviourGroup)]
     public bool IsOverwrite { get; set; }
 
-
     public override void SetDefaults() {
         //
     }
@@ -92,7 +95,7 @@ internal class ModSettings : ModSetting {
         }
     }
 
-    internal void HandleLocaleOnUnLoad() {
+    public void HandleLocaleOnUnLoad() {
         // dont replicate os lang into this mods settings
         ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
         // reset to os-language, if the mod is not used next time the game starts
