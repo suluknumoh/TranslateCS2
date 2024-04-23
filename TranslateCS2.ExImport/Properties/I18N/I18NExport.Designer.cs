@@ -213,7 +213,9 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to replace existing localization based on session-properties.
+        ///   Looks up a localized string similar to replace existing localization based on session-properties
+        ///
+        ///this export method overwrites the selected file to overwrite within the game-folder.
         /// </summary>
         public static string ToolTipExportFormatDirectOverwrite {
             get {

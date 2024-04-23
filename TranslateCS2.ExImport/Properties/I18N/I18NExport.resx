@@ -174,7 +174,9 @@ only entries that have a translation get exported
 'missing' entries are supplemented within the game with the fallbacklanguage 'en-US'</value>
   </data>
   <data name="ToolTipExportFormatDirectOverwrite" xml:space="preserve">
-    <value>replace existing localization based on session-properties</value>
+    <value>replace existing localization based on session-properties
+
+this export method overwrites the selected file to overwrite within the game-folder</value>
   </data>
   <data name="ToolTipExportFormatJSON" xml:space="preserve">
     <value>export as json to share with others</value>
