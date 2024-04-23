@@ -195,7 +195,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
         - try to preselect at least 'mods_subscribed' folder
     - import
         - 'old' exported JSON-files will be read/imported as expected (backward-compatibility)
-- ability to add entries
+- ability to add/remove custom entries
     - to add translations for known keys used by mods
 - lots of work to do
 
