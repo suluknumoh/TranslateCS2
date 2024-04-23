@@ -126,4 +126,33 @@ public class RibbonHelper {
         ribbonCheckBox.SetBinding(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, isCheckedBinding);
         return ribbonCheckBox;
     }
+
+    public static RibbonButton CreateRibbonButton(string label,
+                                                  Bitmap largeImageSource,
+                                                  RoutedEventHandler? clickAction = null) {
+        RibbonButton button = new RibbonButton {
+            Label = label,
+            LargeImageSource = ImageHelper.GetBitmapImage(largeImageSource),
+            Cursor = Cursors.Hand,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            MinWidth = 75,
+            MaxWidth = 75,
+            Width = 75,
+        };
+        if (clickAction is not null) {
+            button.Click += clickAction;
+        }
+        return button;
+    }
+
+    public static System.Windows.Shapes.Rectangle CreateInGroupSeparator() {
+        System.Windows.Shapes.Rectangle rectangle = new System.Windows.Shapes.Rectangle {
+            Width = 2,
+            Height = 65,
+            Stroke = System.Windows.Media.Brushes.Silver,
+            Margin = new Thickness(5, 0, 5, 0)
+        };
+        return rectangle;
+    }
 }
