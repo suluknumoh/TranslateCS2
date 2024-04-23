@@ -20,6 +20,7 @@ public class Mod : IMod {
     private static GameManager GameManager { get; } = GameManager.instance;
     private static LocalizationManager LocalizationManager { get; } = Mod.GameManager.localizationManager;
     private string StrangerThings => "failed to load the entire mod:";
+    private string StrangerThingsDispose => "failed to dispose:";
     private ModSettings? _setting;
     private TranslationFileService? _translationFileService;
 
@@ -47,8 +48,14 @@ public class Mod : IMod {
     }
 
     public void OnDispose() {
-        Logger.LogInfo(this.GetType(), nameof(OnDispose));
-        this._setting?.UnregisterInOptionsUI();
-        this._setting?.HandleLocaleOnUnLoad();
+        try {
+            Logger.LogInfo(this.GetType(), nameof(OnDispose));
+            this._setting?.UnregisterInOptionsUI();
+            this._setting?.HandleLocaleOnUnLoad();
+        } catch (Exception ex) {
+            Logger.LogCritical(this.GetType(),
+                               this.StrangerThingsDispose,
+                               [ex]);
+        }
     }
 }
