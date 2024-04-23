@@ -154,8 +154,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         if (!this.Entry.IsDeleteAble) {
             return;
         }
-        if (IsActionInterrupted(I18NEdits.DialogDeleteText,
-                                I18NEdits.DialogDeleteCaption)) {
+        if (IsActionInterrupted(I18NEdits.DialogDeleteCaption,
+                                I18NEdits.DialogDeleteText)) {
             return;
         }
         this._canCloseDialog = true;
@@ -172,8 +172,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
             return;
         }
         if (this.IsCancelInterruptable()) {
-            if (IsActionInterrupted(I18NEdits.DialogCancelText,
-                                    I18NEdits.DialogCancelCaption)) {
+            if (IsActionInterrupted(I18NEdits.DialogCancelCaption,
+                                    I18NEdits.DialogCancelText)) {
                 return;
             }
         }
