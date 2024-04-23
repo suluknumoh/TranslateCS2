@@ -174,7 +174,9 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         this.RaisePropertyChanged(nameof(this.HasDatabaseError));
         this.RaisePropertyChanged(nameof(this.HasNoDatabaseError));
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetStartViewConfiguration();
-        this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
+        if (viewConfiguration != null) {
+            this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
+        }
     }
 
     public ITranslationSession GetNewTranslationSession() {
