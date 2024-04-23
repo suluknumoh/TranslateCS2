@@ -3,229 +3,229 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:TranslateCS2.Core.Converters">
     <Style
-            x:Key="StyleHeading"
-            TargetType="TextBlock">
+        x:Key="StyleHeading"
+        TargetType="TextBlock">
         <Setter
-                Property="HorizontalAlignment"
-                Value="Stretch"/>
+            Property="HorizontalAlignment"
+            Value="Stretch"/>
         <Setter
-                Property="VerticalAlignment"
-                Value="Center"/>
+            Property="VerticalAlignment"
+            Value="Center"/>
         <Setter
-                Property="TextAlignment"
-                Value="Center"/>
+            Property="TextAlignment"
+            Value="Center"/>
         <Setter
-                Property="Padding"
-                Value="0 20 0 20"/>
+            Property="Padding"
+            Value="0 20 0 20"/>
         <Setter
-                Property="FontSize"
-                Value="20"/>
+            Property="FontSize"
+            Value="20"/>
         <Setter
-                Property="FontWeight"
-                Value="Bold"/>
+            Property="FontWeight"
+            Value="Bold"/>
     </Style>
     <Style
-            x:Key="StyleButton"
-            TargetType="ButtonBase">
+        x:Key="StyleButton"
+        TargetType="ButtonBase">
         <Setter
-                Property="HorizontalAlignment"
-                Value="Center"/>
+            Property="HorizontalAlignment"
+            Value="Center"/>
         <Setter
-                Property="VerticalAlignment"
-                Value="Center"/>
+            Property="VerticalAlignment"
+            Value="Center"/>
         <Setter
-                Property="HorizontalContentAlignment"
-                Value="Center"/>
+            Property="HorizontalContentAlignment"
+            Value="Center"/>
         <Setter
-                Property="VerticalContentAlignment"
-                Value="Center"/>
+            Property="VerticalContentAlignment"
+            Value="Center"/>
         <Setter
-                Property="Margin"
-                Value="10 10 10 10"/>
+            Property="Margin"
+            Value="10 10 10 10"/>
         <Setter
-                Property="Padding"
-                Value="5 5 5 5"/>
+            Property="Padding"
+            Value="5 5 5 5"/>
         <Setter
-                Property="Cursor"
-                Value="Hand"/>
+            Property="Cursor"
+            Value="Hand"/>
     </Style>
     <Style
-            x:Key="StyleTextDefault"
-            TargetType="TextBlock">
+        x:Key="StyleTextDefault"
+        TargetType="TextBlock">
         <Setter
-                Property="HorizontalAlignment"
-                Value="Stretch"/>
+            Property="HorizontalAlignment"
+            Value="Stretch"/>
         <Setter
-                Property="VerticalAlignment"
-                Value="Center"/>
+            Property="VerticalAlignment"
+            Value="Center"/>
         <Setter
-                Property="Margin"
-                Value="10 10 10 10"/>
+            Property="Margin"
+            Value="10 10 10 10"/>
         <Setter
-                Property="TextWrapping"
-                Value="Wrap"/>
+            Property="TextWrapping"
+            Value="Wrap"/>
     </Style>
     <Style
-            x:Key="StyleTextBlockAlginedRight"
-            BasedOn="{StaticResource StyleTextDefault}"
-            TargetType="TextBlock">
+        x:Key="StyleTextBlockAlginedRight"
+        BasedOn="{StaticResource StyleTextDefault}"
+        TargetType="TextBlock">
         <Setter
-                Property="TextAlignment"
-                Value="Right"/>
+            Property="TextAlignment"
+            Value="Right"/>
     </Style>
     <Style
-            x:Key="StyleTextBlockAlginedLeft"
-            BasedOn="{StaticResource StyleTextDefault}"
-            TargetType="TextBlock">
+        x:Key="StyleTextBlockAlginedLeft"
+        BasedOn="{StaticResource StyleTextDefault}"
+        TargetType="TextBlock">
         <Setter
-                Property="TextAlignment"
-                Value="Left"/>
+            Property="TextAlignment"
+            Value="Left"/>
     </Style>
     <Style
-            x:Key="StyleTextBlockAlginedCenter"
-            BasedOn="{StaticResource StyleTextDefault}"
-            TargetType="TextBlock">
+        x:Key="StyleTextBlockAlginedCenter"
+        BasedOn="{StaticResource StyleTextDefault}"
+        TargetType="TextBlock">
         <Setter
-                Property="TextAlignment"
-                Value="Center"/>
+            Property="TextAlignment"
+            Value="Center"/>
     </Style>
     <Style
-            x:Key="StyleTextBoxAlginedRight"
-            TargetType="TextBox">
+        x:Key="StyleTextBoxAlginedRight"
+        TargetType="TextBox">
         <Setter
-                Property="HorizontalAlignment"
-                Value="Stretch"/>
+            Property="HorizontalAlignment"
+            Value="Stretch"/>
         <Setter
-                Property="VerticalAlignment"
-                Value="Center"/>
+            Property="VerticalAlignment"
+            Value="Center"/>
         <Setter
-                Property="Margin"
-                Value="10 10 10 10"/>
+            Property="Margin"
+            Value="10 10 10 10"/>
         <Setter
-                Property="TextWrapping"
-                Value="Wrap"/>
+            Property="TextWrapping"
+            Value="Wrap"/>
         <Setter
-                Property="TextAlignment"
-                Value="Right"/>
+            Property="TextAlignment"
+            Value="Right"/>
     </Style>
     <Style
-            x:Key="StyleTextBoxAlginedLeft"
-            BasedOn="{StaticResource StyleTextBoxAlginedRight}"
-            TargetType="TextBox">
+        x:Key="StyleTextBoxAlginedLeft"
+        BasedOn="{StaticResource StyleTextBoxAlginedRight}"
+        TargetType="TextBox">
         <Setter
-                Property="TextAlignment"
-                Value="Left"/>
+            Property="TextAlignment"
+            Value="Left"/>
     </Style>
     <Style
-            x:Key="StyleDataGrid"
-            TargetType="DataGrid">
+        x:Key="StyleDataGrid"
+        TargetType="DataGrid">
         <Setter
-                Property="AutoGenerateColumns"
-                Value="False"/>
+            Property="AutoGenerateColumns"
+            Value="False"/>
         <Setter
-                Property="CanUserAddRows"
-                Value="False"/>
+            Property="CanUserAddRows"
+            Value="False"/>
         <Setter
-                Property="CanUserDeleteRows"
-                Value="False"/>
+            Property="CanUserDeleteRows"
+            Value="False"/>
         <Setter
-                Property="AllowDrop"
-                Value="False"/>
+            Property="AllowDrop"
+            Value="False"/>
         <Setter
-                Property="IsTextSearchEnabled"
-                Value="True"/>
+            Property="IsTextSearchEnabled"
+            Value="True"/>
         <Setter
-                Property="IsTextSearchCaseSensitive"
-                Value="False"/>
+            Property="IsTextSearchCaseSensitive"
+            Value="False"/>
         <Setter
-                Property="SelectionMode"
-                Value="Single"/>
+            Property="SelectionMode"
+            Value="Single"/>
         <Setter
-                Property="ColumnHeaderHeight"
-                Value="30"/>
+            Property="ColumnHeaderHeight"
+            Value="30"/>
         <Setter
-                Property="SelectionUnit"
-                Value="Cell"/>
+            Property="SelectionUnit"
+            Value="Cell"/>
     </Style>
     <Style
-            x:Key="StyleMajorError"
-            TargetType="TextBlock">
+        x:Key="StyleMajorError"
+        TargetType="TextBlock">
         <Setter
-                Property="HorizontalAlignment"
-                Value="Stretch"/>
+            Property="HorizontalAlignment"
+            Value="Stretch"/>
         <Setter
-                Property="VerticalAlignment"
-                Value="Center"/>
+            Property="VerticalAlignment"
+            Value="Center"/>
         <Setter
-                Property="TextAlignment"
-                Value="Center"/>
+            Property="TextAlignment"
+            Value="Center"/>
         <Setter
-                Property="Foreground"
-                Value="DarkRed"/>
+            Property="Foreground"
+            Value="DarkRed"/>
         <Setter
-                Property="TextWrapping"
-                Value="Wrap"/>
+            Property="TextWrapping"
+            Value="Wrap"/>
         <Setter
-                Property="Margin"
-                Value="10 10 10 10"/>
+            Property="Margin"
+            Value="10 10 10 10"/>
         <Setter
-                Property="FontSize"
-                Value="20"/>
+            Property="FontSize"
+            Value="20"/>
         <Setter
-                Property="Visibility"
-                Value="Collapsed"/>
+            Property="Visibility"
+            Value="Collapsed"/>
     </Style>
     <Style
-            x:Key="StyleDatabaseError"
-            BasedOn="{StaticResource StyleMajorError}"
-            TargetType="TextBlock"/>
+        x:Key="StyleDatabaseError"
+        BasedOn="{StaticResource StyleMajorError}"
+        TargetType="TextBlock"/>
     <Style
-            x:Key="StyleAppUnUseAbleError"
-            BasedOn="{StaticResource StyleMajorError}"
-            TargetType="TextBlock">
+        x:Key="StyleAppUnUseAbleError"
+        BasedOn="{StaticResource StyleMajorError}"
+        TargetType="TextBlock">
         <Setter
-                Property="FontWeight"
-                Value="Bold"/>
+            Property="FontWeight"
+            Value="Bold"/>
     </Style>
     <Style
-            x:Key="StyleNewVersionAvailableMessage"
-            BasedOn="{StaticResource StyleMajorError}"
-            TargetType="TextBlock">
+        x:Key="StyleNewVersionAvailableMessage"
+        BasedOn="{StaticResource StyleMajorError}"
+        TargetType="TextBlock">
         <Setter
-                Property="Foreground"
-                Value="DarkGreen"/>
+            Property="Foreground"
+            Value="DarkGreen"/>
         <Setter
-                Property="Visibility"
-                Value="Visible"/>
+            Property="Visibility"
+            Value="Visible"/>
     </Style>
     <Style
-            x:Key="StyleSmallButton"
-            TargetType="Button">
+        x:Key="StyleSmallButton"
+        TargetType="Button">
         <Setter
-                Property="Background"
-                Value="Transparent"/>
+            Property="Background"
+            Value="Transparent"/>
         <Setter
-                Property="BorderBrush"
-                Value="Transparent"/>
+            Property="BorderBrush"
+            Value="Transparent"/>
         <Setter
-                Property="BorderThickness"
-                Value="0"/>
+            Property="BorderThickness"
+            Value="0"/>
         <Setter
-                Property="Cursor"
-                Value="Hand"/>
+            Property="Cursor"
+            Value="Hand"/>
         <Setter
-                Property="MaxHeight"
-                Value="30"/>
+            Property="MaxHeight"
+            Value="30"/>
         <Setter
-                Property="MaxWidth"
-                Value="30"/>
+            Property="MaxWidth"
+            Value="30"/>
     </Style>
     <Style
-            x:Key="StyleSmallButtonImage"
-            TargetType="Image">
+        x:Key="StyleSmallButtonImage"
+        TargetType="Image">
         <Setter
-                Property="MaxWidth"
-                Value="30"/>
+            Property="MaxWidth"
+            Value="30"/>
     </Style>
     <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
 </ResourceDictionary>
