@@ -56,7 +56,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         for (int i = 0; i < localizationCount; i++) {
             string key = ReadString(stream);
             string value = ReadString(stream);
-            ILocalizationDictionaryEntry originLocalizationKey = new LocalizationDictionaryEntry(key, value, null);
+            ILocalizationDictionaryEntry originLocalizationKey = new LocalizationDictionaryEntry(key, value, null, false);
             localizationFile.LocalizationDictionary.Add(originLocalizationKey);
         }
     }

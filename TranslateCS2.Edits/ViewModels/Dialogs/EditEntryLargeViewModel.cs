@@ -70,6 +70,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     public DelegateCommand<ValueToUse?> TranslateCommand { get; }
     public DelegateCommand SaveCommand { get; }
     public DelegateCommand CancelCommand { get; }
+    public DelegateCommand DeleteCommand { get; }
 
 
     public ITranslatorCollector Translators { get; }
@@ -81,6 +82,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this.TranslateCommand = new DelegateCommand<ValueToUse?>(this.TranslateCommandAction);
         this.SaveCommand = new DelegateCommand(this.SaveCommandAction);
         this.CancelCommand = new DelegateCommand(this.CancelCommandAction);
+        this.DeleteCommand = new DelegateCommand(this.DeleteCommandAction);
     }
 
     private void CopyCommandAction(ValueToUse? valueToUse) {
@@ -145,12 +147,33 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this._backUpTranslation = null;
     }
 
+    private void DeleteCommandAction() {
+        if (this.Entry == null) {
+            return;
+        }
+        if (!this.Entry.IsDeleteAble) {
+            return;
+        }
+        if (IsActionInterrupted(I18NEdits.DialogDeleteText,
+                                I18NEdits.DialogDeleteCaption)) {
+            return;
+        }
+        this._canCloseDialog = true;
+        this.Entry.Translation = null;
+        IDialogResult result = new DialogResult(ButtonResult.Yes);
+        result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
+        RequestClose?.Invoke(result);
+        this.Entry = null;
+        this._backUpTranslation = null;
+    }
+
     private void CancelCommandAction() {
         if (this.Entry == null) {
             return;
         }
         if (this.IsCancelInterruptable()) {
-            if (this.IsCancelInterrupted()) {
+            if (IsActionInterrupted(I18NEdits.DialogCancelText,
+                                    I18NEdits.DialogCancelCaption)) {
                 return;
             }
         }
@@ -163,9 +186,9 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this._backUpTranslation = null;
     }
 
-    private bool IsCancelInterrupted() {
-        MessageBoxResult messageBoxResult = MessageBox.Show(I18NEdits.DialogCancelText,
-                                                            I18NEdits.DialogCancelCaption,
+    private static bool IsActionInterrupted(string caption, string text) {
+        MessageBoxResult messageBoxResult = MessageBox.Show(text,
+                                                            caption,
                                                             MessageBoxButton.YesNo,
                                                             MessageBoxImage.Warning,
                                                             MessageBoxResult.None);
@@ -195,16 +218,21 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
             return;
         }
         this.Entry = entry;
-        bool isCount;
-        bool gotIsCount = parameters.TryGetValue<bool>(nameof(isCount), out isCount);
-        this.IsCount = isCount;
+        //
+        bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
+        this.IsCount = gotIsCount && isCount;
     }
 
     private void OnEntryChanged() {
-        int lines = 1;
+        int lines = 3;
         if (this.Entry != null) {
             this._backUpTranslation = this.Entry.Translation;
-            lines = this.Entry.Value.Split("\n").Length;
+            if (this.Entry.Value != null) {
+                int valueLines = this.Entry.Value.Split("\n").Length;
+                if (valueLines > lines) {
+                    lines = valueLines;
+                }
+            }
         }
         int height = this._translationTextBoxHeightLine * this._translationTextBoxHeightLineMultiplier * lines;
         if (height > this._translationTextBoxHeightMax) {

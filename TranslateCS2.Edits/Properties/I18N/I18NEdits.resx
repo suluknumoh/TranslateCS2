@@ -161,14 +161,26 @@ for each cell that is left empty, the respective value/text within the Merge Val
 
 Do you really want to cancel without saving?</value>
   </data>
+  <data name="DialogDeleteCaption" xml:space="preserve">
+    <value>Delete entry?</value>
+  </data>
+  <data name="DialogDeleteText" xml:space="preserve">
+    <value>Do you really want to delete this entry?</value>
+  </data>
   <data name="DialogTitle" xml:space="preserve">
     <value>edit entry</value>
+  </data>
+  <data name="DoAdd" xml:space="preserve">
+    <value>add entry</value>
   </data>
   <data name="DoCancel" xml:space="preserve">
     <value>cancel</value>
   </data>
   <data name="DoCopy" xml:space="preserve">
     <value>copy to clipboard</value>
+  </data>
+  <data name="DoDelete" xml:space="preserve">
+    <value>delete</value>
   </data>
   <data name="DoSave" xml:space="preserve">
     <value>save</value>

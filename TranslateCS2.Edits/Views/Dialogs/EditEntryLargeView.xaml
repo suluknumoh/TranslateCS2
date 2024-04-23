@@ -183,16 +183,20 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock
+                        <TextBox
                             Grid.Row="0"
                             Grid.Column="1"
                             FontSize="14"
-                            Text="{Binding Entry.Key, Mode=OneWay}"
+                            AcceptsReturn="False"
+                            HorizontalAlignment="Stretch"
+                            Text="{Binding Entry.Key,
+                                           Mode=TwoWay,
+                                           UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}">
-                            <TextBlock.Style>
+                            <TextBox.Style>
                                 <Style
-                                    TargetType="TextBlock"
-                                    BasedOn="{StaticResource StyleTextBlockAlginedLeft}">
+                                    TargetType="TextBox"
+                                    BasedOn="{StaticResource StyleTextBoxAlginedLeft}">
                                     <Setter
                                         Property="Visibility"
                                         Value="Visible" />
@@ -204,10 +208,26 @@
                                                 Property="Visibility"
                                                 Value="Collapsed" />
                                         </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding Entry.IsDeleteAble}"
+                                            Value="False">
+                                            <Setter
+                                                Property="IsReadOnly"
+                                                Value="True"/>
+                                            <Setter
+                                                Property="BorderBrush"
+                                                Value="Transparent"/>
+                                            <Setter
+                                                Property="BorderThickness"
+                                                Value="0"/>
+                                            <Setter
+                                                Property="TextWrapping"
+                                                Value="NoWrap"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                            </TextBox.Style>
+                        </TextBox>
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="1"
@@ -535,6 +555,38 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Text="{Binding Source={x:Static i18n:I18NEdits.DoSave}}" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        IsEnabled="{Binding IsEnabled}"
+                        Command="{Binding DeleteCommand}">
+                        <Button.Style>
+                            <Style
+                                TargetType="Button"
+                                BasedOn="{StaticResource StyleButton}">
+                                <Setter
+                                    Property="Visibility"
+                                    Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Entry.IsDeleteAble}"
+                                        Value="True">
+                                        <Setter
+                                            Property="Visibility"
+                                            Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel>
+                            <Image
+                                Source="/TranslateCS2.Core;component/Assets/Icons/delete.png"
+                                MaxHeight="64"
+                                MaxWidth="64" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding Source={x:Static i18n:I18NEdits.DoDelete}}" />
                         </StackPanel>
                     </Button>
                     <Button

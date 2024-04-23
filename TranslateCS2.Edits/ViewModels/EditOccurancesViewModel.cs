@@ -62,7 +62,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         }
         IEnumerable<IGrouping<string, ILocalizationDictionaryEntry>> groups = this.CurrentSession.LocalizationDictionary.GroupBy(entry => entry.Value);
         foreach (IGrouping<string, ILocalizationDictionaryEntry> group in groups) {
-            ILocalizationDictionaryEntry entry = new LocalizationDictionaryEntry(null, group.First().Value, null);
+            ILocalizationDictionaryEntry entry = new LocalizationDictionaryEntry(null, group.First().Value, null, false);
             this._entries.Add(entry);
             foreach (ILocalizationDictionaryEntry groupItem in group) {
                 entry.AddKey(groupItem.Key);

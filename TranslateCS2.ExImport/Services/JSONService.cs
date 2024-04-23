@@ -65,7 +65,7 @@ internal class JSONService {
                 if (entry.Key == ModConstants.LocaleNameLocalizedKey) {
                     continue;
                 }
-                localizationDictionaryEntries.Add(new LocalizationDictionaryEntry(entry.Key, entry.Value));
+                localizationDictionaryEntries.Add(new LocalizationDictionaryEntry(entry.Key, entry.Value, false));
             }
             return localizationDictionaryEntries;
         }

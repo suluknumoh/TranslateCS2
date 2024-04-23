@@ -250,11 +250,11 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     ///     <see cref="Dictionary{string, string}"/> where TKey is the english value and TValue is the current translation
     /// </param>
     private void EnrichNewWithTranslatedValue(ITranslationSession session,
-                                                     Dictionary<string, string> valueTranslationMapping,
-                                                     ITranslationsDatabaseService.OnErrorCallBack? onError) {
+                                              Dictionary<string, string> valueTranslationMapping,
+                                              ITranslationsDatabaseService.OnErrorCallBack? onError) {
         IEnumerable<ILocalizationDictionaryEntry> newEntries =
             session.LocalizationDictionary.Where(
-                entry => valueTranslationMapping.ContainsKey(entry.Value) && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)
+                entry => !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && valueTranslationMapping.ContainsKey(entry.Value) && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)
         );
         if (newEntries.Any()) {
             foreach (ILocalizationDictionaryEntry entry in newEntries) {
@@ -268,16 +268,20 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     }
 
     private void EnrichSavedTranslation(ObservableCollection<ILocalizationDictionaryEntry> localizationDictionary,
-                                               string key,
-                                               string translation,
-                                               Dictionary<string, string> valueTranslationMapping) {
+                                        string key,
+                                        string translation,
+                                        Dictionary<string, string> valueTranslationMapping) {
         foreach (ILocalizationDictionaryEntry entry in localizationDictionary) {
             if (entry.Key == key) {
                 entry.Translation = translation;
-                valueTranslationMapping.TryAdd(entry.Value, entry.Translation);
-                break;
+                if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)) {
+                    valueTranslationMapping.TryAdd(entry.Value, entry.Translation);
+                }
+                return;
             }
         }
+        // manually added key-translation-pair
+        localizationDictionary.Add(new LocalizationDictionaryEntry(key, translation, true));
     }
 
     public void SaveTranslations(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack? onError) {

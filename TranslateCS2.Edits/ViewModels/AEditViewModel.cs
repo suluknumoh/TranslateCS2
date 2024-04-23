@@ -19,6 +19,7 @@ using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.Edits.Properties.I18N;
+using TranslateCS2.Edits.ViewModels.Dialogs;
 using TranslateCS2.Edits.Views.Dialogs;
 using TranslateCS2.TextSearch.Models;
 using TranslateCS2.TextSearch.ViewModels;
@@ -91,16 +92,33 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
         bool isCount = typeof(T) == typeof(EditOccurancesViewModel);
         IDialogParameters parameters = new DialogParameters {
             { nameof(ILocalizationDictionaryEntry), entry },
-            { nameof(isCount), isCount },
-
+            { nameof(EditEntryLargeViewModel.IsCount), isCount }
         };
+        this.OpenEditEntryLarge(parameters);
+    }
+
+    protected void OpenEditEntryLarge(IDialogParameters parameters) {
         this._dialogService.ShowDialog(nameof(EditEntryLargeView), parameters, this.EditEntryLargeCallBack);
     }
 
     private void EditEntryLargeCallBack(IDialogResult dialogResult) {
         bool gotEdited = dialogResult.Parameters.TryGetValue(nameof(ILocalizationDictionaryEntry), out ILocalizationDictionaryEntry edited);
-        if (dialogResult.Result == ButtonResult.OK && gotEdited) {
-            this.Save(edited.Translation, edited);
+        if (!gotEdited) {
+            return;
+        }
+        switch (dialogResult.Result) {
+            case ButtonResult.OK:
+                // save
+                this.Save(edited.Translation, edited);
+                break;
+            case ButtonResult.Yes:
+                // delete
+                // entry.Translation is set to null,
+                // so it gets deleted in the next step
+                this.SessionManager.SaveCurrentTranslationSessionsTranslations();
+                this.SessionManager.CurrentTranslationSession.LocalizationDictionary.Remove(edited);
+                this.RefreshViewList();
+                break;
         }
     }
 

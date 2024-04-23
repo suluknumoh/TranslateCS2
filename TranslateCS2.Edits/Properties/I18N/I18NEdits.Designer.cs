@@ -177,11 +177,38 @@ namespace TranslateCS2.Edits.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete entry?.
+        /// </summary>
+        public static string DialogDeleteCaption {
+            get {
+                return ResourceManager.GetString("DialogDeleteCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete this entry?.
+        /// </summary>
+        public static string DialogDeleteText {
+            get {
+                return ResourceManager.GetString("DialogDeleteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to edit entry.
         /// </summary>
         public static string DialogTitle {
             get {
                 return ResourceManager.GetString("DialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add entry.
+        /// </summary>
+        public static string DoAdd {
+            get {
+                return ResourceManager.GetString("DoAdd", resourceCulture);
             }
         }
         
@@ -200,6 +227,15 @@ namespace TranslateCS2.Edits.Properties.I18N {
         public static string DoCopy {
             get {
                 return ResourceManager.GetString("DoCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string DoDelete {
+            get {
+                return ResourceManager.GetString("DoDelete", resourceCulture);
             }
         }
         
