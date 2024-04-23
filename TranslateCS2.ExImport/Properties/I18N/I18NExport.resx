@@ -170,7 +170,8 @@ for entries, that do not have a translation, texts/translations get exported fro
 
 
 add merge-values unchecked:
-only entries that have a translation get exported</value>
+only entries that have a translation get exported
+'missing' entries are supplemented within the game with the fallbacklanguage 'en-US'</value>
   </data>
   <data name="ToolTipExportFormatDirectOverwrite" xml:space="preserve">
     <value>replace existing localization based on session-properties</value>

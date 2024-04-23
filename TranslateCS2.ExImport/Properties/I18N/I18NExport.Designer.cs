@@ -203,7 +203,8 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         ///
         ///
         ///add merge-values unchecked:
-        ///only entries that have a translation get exported.
+        ///only entries that have a translation get exported
+        ///&apos;missing&apos; entries are supplemented within the game with the fallbacklanguage &apos;en-US&apos;.
         /// </summary>
         public static string ToolTipExportAddMergeValues {
             get {
