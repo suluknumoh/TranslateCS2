@@ -160,10 +160,17 @@
     <value>exported</value>
   </data>
   <data name="ToolTipExportAddKey" xml:space="preserve">
-    <value>TODO:</value>
+    <value>adds a Key-Value-Pair that controls the displayed language-name within the game
+
+does not affect built in languages where flavors are 'added'</value>
   </data>
   <data name="ToolTipExportAddMergeValues" xml:space="preserve">
-    <value>TODO:</value>
+    <value>add merge-values checked:
+for entries, that do not have a translation, texts/translations get exported from the selected merge-file
+
+
+add merge-values unchecked:
+only entries that have a translation get exported</value>
   </data>
   <data name="ToolTipExportFormatDirectOverwrite" xml:space="preserve">
     <value>replace existing localization based on session-properties</value>

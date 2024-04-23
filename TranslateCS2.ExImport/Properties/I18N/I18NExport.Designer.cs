@@ -187,7 +187,9 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO:.
+        ///   Looks up a localized string similar to adds a Key-Value-Pair that controls the displayed language-name within the game
+        ///
+        ///does not affect built in languages where flavors are &apos;added&apos;.
         /// </summary>
         public static string ToolTipExportAddKey {
             get {
@@ -196,7 +198,12 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO:.
+        ///   Looks up a localized string similar to add merge-values checked:
+        ///for entries, that do not have a translation, texts/translations get exported from the selected merge-file
+        ///
+        ///
+        ///add merge-values unchecked:
+        ///only entries that have a translation get exported.
         /// </summary>
         public static string ToolTipExportAddMergeValues {
             get {

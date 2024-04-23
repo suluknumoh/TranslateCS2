@@ -38,7 +38,7 @@
             Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+            VerticalAlignment="Top">
             <ComboBox
                 Margin="10 10 10 10"
                 Cursor="Hand"
@@ -62,6 +62,8 @@
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
             Orientation="Vertical">
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
@@ -105,7 +107,7 @@
             Grid.Row="1"
             Grid.Column="2"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+            VerticalAlignment="Top">
             <CheckBox
                 Margin="10 10 10 10"
                 Cursor="Hand"
@@ -127,7 +129,7 @@
             Grid.Row="1"
             Grid.Column="3"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+            VerticalAlignment="Top">
             <CheckBox
                 Margin="10 10 10 10"
                 Cursor="Hand"
