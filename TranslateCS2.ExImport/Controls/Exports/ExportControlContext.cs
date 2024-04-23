@@ -135,7 +135,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     private void SelectPathCommandAction() {
         string? fileName = CultureInfoHelper.GatherCultureFromEnglishName(this.SessionManager.CurrentTranslationSession?.OverwriteLocalizationNameEN)?.Name;
         if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(fileName)) {
-            fileName += ".json";
+            fileName += ModConstants.JsonExtension;
         }
         string? path = this.SelectedPath;
         if (path == null) {

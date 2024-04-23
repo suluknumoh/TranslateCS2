@@ -12,15 +12,14 @@ using Game.SceneFlow;
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Services;
 internal class TranslationFileService {
     private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
-    private string SeeWhatItIs => "just to see, what it is:";
     private string FailedToLoad => "failed to load:";
     private string FailedToUnLoad => "failed to unload:";
-    private string JsonExtension => ".json";
-    private string SearchPattern => $"*{this.JsonExtension}";
+    private string SearchPattern => $"*{ModConstants.JsonExtension}";
     private IList<TranslationFile> TranslationFiles { get; } = [];
     private ExecutableAsset Asset { get; }
     private bool IsOverwrite => this.Settings?.IsOverwrite ?? false;
@@ -37,7 +36,7 @@ internal class TranslationFileService {
             try {
                 string name = translationFilePath
                     .Replace(this.AssetDirectoryPath, String.Empty)
-                    .Replace(this.JsonExtension, String.Empty);
+                    .Replace(ModConstants.JsonExtension, String.Empty);
                 if (!this.IsLoadAble(name)) {
                     continue;
                 }
@@ -106,7 +105,7 @@ internal class TranslationFileService {
 
     private void TryToAddLocale(TranslationFile translationFile) {
         try {
-            if (LocaleHelper.MapsToExisting(translationFile.LocaleId)
+            if (translationFile.MapsToExisting
                 || SystemLanguageHelper.IsSystemLanguageInUse(translationFile.LanguageCulture.Language)) {
                 return;
             }

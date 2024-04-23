@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
 
+using TranslateCS2.ModBridge;
+
 namespace TranslateCS2.Core.Configurations;
 public static class AppConfigurationManager {
 
@@ -36,9 +38,8 @@ public static class AppConfigurationManager {
     public static string LeadingLocFileName { get; } = "en-US.loc";
     public static string LeadingLocLanguageCode { get; } = LeadingLocFileName.Split(".")[0];
     public static string CheckLatestURL { get; } = "https://raw.githubusercontent.com/suluknumoh/TranslateCS2/main/latest";
-    public static string ImExportDefaultFileName { get; } = "translations.json";
-    public static string ImExportFilter { get; } = "JSON-File (*.json)|*.json";
-    public static string ImExportFileExtension { get; } = ".json";
+    public static string ImExportDefaultFileName { get; } = $"translations{ModConstants.JsonExtension}";
+    public static string ImExportFilter { get; } = $"JSON-File ({ModConstants.JsonExtension})|{ModConstants.JsonExtension}";
     public static uint DatabaseMaxBackUpCount { get; private set; }
     public static string DatabaseExtension { get; } = ".sqlite";
     public static string DatabaseNameRaw { get; } = "Translations";
