@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -174,5 +175,29 @@
             Foreground="{Binding InfoMessageColor}"
             Style="{StaticResource StyleTextBlockAlginedCenter}"
             Text="{Binding InfoMessage}" />
+        <Grid
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource StyleHeading}"
+                Text="{Binding Source={x:Static i18n:I18NExport.CaptionAdditionalInformation}, Mode=OneWay}"
+                />
+            <ScrollViewer
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalScrollBarVisibility="Auto">
+                
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </ContentControl>

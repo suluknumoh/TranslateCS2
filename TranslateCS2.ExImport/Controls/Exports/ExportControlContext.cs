@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -20,7 +18,9 @@ using TranslateCS2.ExImport.Services;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.ExImport.Controls.Exports;
-
+// TODO: additional information: filename-proposal
+// TODO: additional information: LocaleNameLocalized???
+// TODO: additional information: if localename localized contains special characters, replace with english name???
 internal class ExportControlContext : BindableBase, INavigationAware {
     private readonly IViewConfigurations _viewConfigurations;
     private readonly ExImportService _exportService;

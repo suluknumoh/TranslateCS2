@@ -70,6 +70,15 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Information.
+        /// </summary>
+        public static string CaptionAdditionalInformation {
+            get {
+                return ResourceManager.GetString("CaptionAdditionalInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string DialogText {

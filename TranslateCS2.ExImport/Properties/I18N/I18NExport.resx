@@ -120,6 +120,9 @@
   <data name="Caption" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="CaptionAdditionalInformation" xml:space="preserve">
+    <value>Additional Information</value>
+  </data>
   <data name="DialogText" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
