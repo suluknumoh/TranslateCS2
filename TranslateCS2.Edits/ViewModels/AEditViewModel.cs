@@ -19,7 +19,6 @@ using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
-using TranslateCS2.Edits.Properties.I18N;
 using TranslateCS2.Edits.ViewModels.Dialogs;
 using TranslateCS2.Edits.Views.Dialogs;
 using TranslateCS2.TextSearch.Models;
@@ -129,22 +128,22 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     private void InitColumnsSearchAble() {
         this._columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationDictionaryEntry>(I18NEdits.ColumnKey, I18NEdits.ColumnKeyTip) {
+        new ColumnSearchAble<ILocalizationDictionaryEntry>(Properties.I18N.I18NEdits.ColumnKey, Properties.I18N.I18NEdits.ColumnKeyTip) {
             IsChecked = true,
             Matcher = this.MatchesKeyColumn
         });
         this._columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationDictionaryEntry>(I18NEdits.ColumnEnglish, I18NEdits.ColumnEnglishTip) {
+        new ColumnSearchAble<ILocalizationDictionaryEntry>(Properties.I18N.I18NEdits.ColumnEnglish, Properties.I18N.I18NEdits.ColumnEnglishTip) {
             IsChecked = true,
             Matcher = this.MatchesEnglishColumn
         });
         this._columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationDictionaryEntry>(I18NEdits.ColumnMerge, I18NEdits.ColumnMergeTip) {
+        new ColumnSearchAble<ILocalizationDictionaryEntry>(Properties.I18N.I18NEdits.ColumnMerge, Properties.I18N.I18NEdits.ColumnMergeTip) {
             IsChecked = true,
             Matcher = this.MatchesMergeColumn
         });
         this._columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationDictionaryEntry>(I18NEdits.ColumnTranslation, I18NEdits.ColumnTranslationTip) {
+        new ColumnSearchAble<ILocalizationDictionaryEntry>(Properties.I18N.I18NEdits.ColumnTranslation, Properties.I18N.I18NEdits.ColumnTranslationTip) {
             Matcher = this.MatchesTranslationColumn
         });
         foreach (ColumnSearchAble<ILocalizationDictionaryEntry> columnSearchAble in this._columnsSearchAble) {

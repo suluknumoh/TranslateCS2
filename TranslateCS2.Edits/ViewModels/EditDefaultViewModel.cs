@@ -16,7 +16,6 @@ using TranslateCS2.Core.Properties;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Services.Filters;
 using TranslateCS2.Core.Sessions;
-using TranslateCS2.Edits.Properties.I18N;
 using TranslateCS2.Edits.ViewModels.Dialogs;
 
 namespace TranslateCS2.Edits.ViewModels;
@@ -117,7 +116,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     protected override IEnumerable<object> CreateToolsGroupItems() {
         IList<object> items = [];
         {
-            RibbonButton button = RibbonHelper.CreateRibbonButton(I18NEdits.DoAdd,
+            RibbonButton button = RibbonHelper.CreateRibbonButton(Properties.I18N.I18NEdits.DoAdd,
                                                                   ImageResources.add,
                                                                   this.AddEntry);
             items.Add(button);
