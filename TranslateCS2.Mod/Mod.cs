@@ -31,7 +31,7 @@ public class Mod : IMod {
                 this._setting = new ModSettings(this, this._translationFileService);
                 this._setting.RegisterInOptionsUI();
                 AssetDatabase.global.LoadSettings(ModConstants.Name, this._setting);
-                Mod.LocalizationManager.AddSource("en-US", new ModSettingsLocale(this._setting));
+                Mod.LocalizationManager.AddSource(LocalizationManager.fallbackLocaleId, new ModSettingsLocale(this._setting));
                 //
                 //
                 this._translationFileService.Load();
