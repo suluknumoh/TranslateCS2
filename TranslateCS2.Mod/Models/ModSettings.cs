@@ -25,9 +25,9 @@ internal class ModSettings : ModSetting {
 
 
     public const string Section = "Main";
-    public const string BehaviourGroup = "Behaviour";
-    public const string ClearGroup = "Clear";
-    public const string ReloadGroup = "Reload";
+    public const string BehaviourGroup = nameof(BehaviourGroup);
+    public const string ClearGroup = nameof(ClearGroup);
+    public const string ReloadGroup = nameof(ReloadGroup);
 
 
     [Include]
