@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 using Prism.Commands;
@@ -18,6 +20,10 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private readonly int _translationTextBoxHeightLine = 20;
     private readonly int _translationTextBoxHeightMax = 360;
     private bool _canCloseDialog = false;
+    private bool _isLoaded = false;
+    private BindingGroup? _bindingGroup;
+
+    private ITranslationSessionManager SessionManager { get; }
 
 
     private string? _backUpTranslation;
@@ -71,18 +77,21 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     public DelegateCommand SaveCommand { get; }
     public DelegateCommand CancelCommand { get; }
     public DelegateCommand DeleteCommand { get; }
-
+    public DelegateCommand<RoutedEventArgs> OnLoaded { get; }
 
     public ITranslatorCollector Translators { get; }
 
 
-    public EditEntryLargeViewModel(ITranslatorCollector translatorCollector) {
+    public EditEntryLargeViewModel(ITranslatorCollector translatorCollector,
+                                   ITranslationSessionManager translationSessionManager) {
         this.Translators = translatorCollector;
+        this.SessionManager = translationSessionManager;
         this.CopyCommand = new DelegateCommand<ValueToUse?>(this.CopyCommandAction);
         this.TranslateCommand = new DelegateCommand<ValueToUse?>(this.TranslateCommandAction);
         this.SaveCommand = new DelegateCommand(this.SaveCommandAction);
         this.CancelCommand = new DelegateCommand(this.CancelCommandAction);
         this.DeleteCommand = new DelegateCommand(this.DeleteCommandAction);
+        this.OnLoaded = new DelegateCommand<RoutedEventArgs>(this.OnLoadedAction);
     }
 
     private void CopyCommandAction(ValueToUse? valueToUse) {
@@ -139,12 +148,15 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void SaveCommandAction() {
-        this._canCloseDialog = true;
-        IDialogResult result = new DialogResult(ButtonResult.OK);
-        result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
-        RequestClose?.Invoke(result);
-        this.Entry = null;
-        this._backUpTranslation = null;
+        if (this._bindingGroup != null && this._bindingGroup.CommitEdit()) {
+            this._canCloseDialog = true;
+            this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
+            IDialogResult result = new DialogResult(ButtonResult.OK);
+            result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
+            RequestClose?.Invoke(result);
+            this.Entry = null;
+            this._backUpTranslation = null;
+        }
     }
 
     private void DeleteCommandAction() {
@@ -160,6 +172,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         }
         this._canCloseDialog = true;
         this.Entry.Translation = null;
+        this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
         IDialogResult result = new DialogResult(ButtonResult.Yes);
         result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
         RequestClose?.Invoke(result);
@@ -179,11 +192,27 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         }
         this._canCloseDialog = true;
         this.Entry.Translation = this._backUpTranslation;
+        this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
         IDialogResult result = new DialogResult(ButtonResult.Cancel);
         result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
         this._backUpTranslation = null;
+    }
+
+    private void OnLoadedAction(RoutedEventArgs e) {
+        if (e.Source is Grid grid) {
+            this._bindingGroup = grid.BindingGroup;
+            this.InitBindingGroup();
+            this._isLoaded = true;
+        }
+    }
+
+    private void InitBindingGroup() {
+        if (this._bindingGroup != null) {
+            this._bindingGroup.CancelEdit();
+            this._bindingGroup.BeginEdit();
+        }
     }
 
     private static bool IsActionInterrupted(string caption, string text) {
@@ -217,10 +246,15 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
             this.Entry = null;
             return;
         }
+        entry.ExistsKeyInCurrentTranslationSession += this.SessionManager.ExistsKeyInCurrentTranslationSession;
         this.Entry = entry;
         //
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
         this.IsCount = gotIsCount && isCount;
+        if (!this._isLoaded) {
+            return;
+        }
+        this.InitBindingGroup();
     }
 
     private void OnEntryChanged() {

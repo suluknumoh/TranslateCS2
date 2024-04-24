@@ -115,6 +115,34 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.BindingGroup>
+                    <BindingGroup NotifyOnValidationError="True" />
+                </Grid.BindingGroup>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style
+                            x:Key="ControlInputError"
+                            TargetType="Control">
+                            <Style.Triggers>
+                                <Trigger
+                                    Property="Validation.HasError"
+                                    Value="true">
+                                    <Setter
+                                        Property="ToolTip"
+                                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                        Path=(Validation.Errors)[0].ErrorContent}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <bhv:Interaction.Triggers>
+                    <bhv:EventTrigger EventName="Loaded">
+                        <bhv:InvokeCommandAction
+                            Command="{Binding OnLoaded}"
+                            PassEventArgsToCommand="True" />
+                    </bhv:EventTrigger>
+                </bhv:Interaction.Triggers>
                 <Border
                     Grid.Row="0"
                     Grid.Column="0"
@@ -191,7 +219,8 @@
                             HorizontalAlignment="Stretch"
                             Text="{Binding Entry.Key,
                                            Mode=TwoWay,
-                                           UpdateSourceTrigger=PropertyChanged}"
+                                           UpdateSourceTrigger=PropertyChanged,
+                                           ValidatesOnDataErrors=True}"
                             ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}">
                             <TextBox.Style>
                                 <Style
@@ -526,7 +555,10 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             FontSize="14"
-                            Text="{Binding Entry.Translation}"
+                            Text="{Binding Entry.Translation,
+                                           Mode=TwoWay,
+                                           UpdateSourceTrigger=PropertyChanged,
+                                           ValidatesOnDataErrors=True}"
                             AcceptsReturn="True"
                             Height="{Binding TranslationTextBoxHeight}"
                             TextWrapping="NoWrap"

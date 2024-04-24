@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
@@ -89,9 +90,10 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
         if (dataGrid.SelectedCells[0].Item is not ILocalizationDictionaryEntry entry) {
             return;
         }
+        ILocalizationDictionaryEntry copy = new LocalizationDictionaryEntry(entry);
         bool isCount = typeof(T) == typeof(EditOccurancesViewModel);
         IDialogParameters parameters = new DialogParameters {
-            { nameof(ILocalizationDictionaryEntry), entry },
+            { nameof(ILocalizationDictionaryEntry), copy },
             { nameof(EditEntryLargeViewModel.IsCount), isCount }
         };
         this.OpenEditEntryLarge(parameters);
@@ -113,10 +115,13 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
                 break;
             case ButtonResult.Yes:
                 // delete
-                // entry.Translation is set to null,
-                // so it gets deleted in the next step
-                this.SessionManager.SaveCurrentTranslationSessionsTranslations();
-                this.SessionManager.CurrentTranslationSession.LocalizationDictionary.Remove(edited);
+                IEnumerable<ILocalizationDictionaryEntry> existings = this.SessionManager.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == edited.Key);
+                if (existings.Any()) {
+                    ILocalizationDictionaryEntry existing = existings.First();
+                    existing.Translation = null;
+                    this.SessionManager.SaveCurrentTranslationSessionsTranslations();
+                    this.SessionManager.CurrentTranslationSession.LocalizationDictionary.Remove(existing);
+                }
                 this.RefreshViewList();
                 break;
         }
@@ -221,7 +226,8 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected static void SetNewValue(ObservableCollection<ILocalizationDictionaryEntry> list, string? translation, ILocalizationDictionaryEntry edited) {
         foreach (ILocalizationDictionaryEntry entry in list) {
-            if (entry.Value == edited.Value) {
+            if (entry.Value == edited.Value
+                || entry.Key == edited.Key) {
                 entry.Translation = translation;
             }
         }

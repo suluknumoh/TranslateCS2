@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
@@ -60,7 +60,17 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         if (this.CurrentSession is null) {
             return;
         }
-        // TODO: check again
+        if (edited.KeyOrigin != null && edited.KeyOrigin != edited.Key) {
+            // key has changed
+            // set translation to null to delete from database
+            IEnumerable<ILocalizationDictionaryEntry> existings = this.CurrentSession.LocalizationDictionary.Where(item => item.Key == edited.KeyOrigin);
+            if (existings.Any()) {
+                ILocalizationDictionaryEntry existing = existings.First();
+                existing.Translation = null;
+                this.SessionManager.SaveCurrentTranslationSessionsTranslations();
+                this.CurrentSession.LocalizationDictionary.Remove(existing);
+            }
+        }
         if (!this.CurrentSession.LocalizationDictionary.Contains(edited)) {
             this.CurrentSession.LocalizationDictionary.Add(edited);
         }

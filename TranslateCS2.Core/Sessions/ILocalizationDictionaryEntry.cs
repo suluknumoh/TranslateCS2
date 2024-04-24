@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
@@ -8,6 +9,8 @@ namespace TranslateCS2.Core.Sessions;
 public interface ILocalizationDictionaryEntry : IDataErrorInfo {
     [JsonIgnore]
     List<string> Keys { get; }
+    [JsonIgnore]
+    string? KeyOrigin { get; }
     string Key { get; set; }
     [JsonIgnore]
     int Count => this.Keys.Count;
@@ -24,5 +27,6 @@ public interface ILocalizationDictionaryEntry : IDataErrorInfo {
     public bool IsDeleteAble { get; }
     [JsonIgnore]
     bool IsTranslated => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation);
+    Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
     void AddKey(string keyParameter);
 }

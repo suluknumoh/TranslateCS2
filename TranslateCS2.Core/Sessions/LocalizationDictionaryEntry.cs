@@ -11,6 +11,8 @@ namespace TranslateCS2.Core.Sessions;
 public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionaryEntry, IEquatable<LocalizationDictionaryEntry?> {
     [JsonIgnore]
     public List<string> Keys { get; } = [];
+    [JsonIgnore]
+    public string? KeyOrigin { get; }
     private string _Key;
     public string Key {
         get => this._Key;
@@ -38,10 +40,13 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
 
     public string Error => String.Empty;
 
+    public Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
+
     public LocalizationDictionaryEntry(string key,
                                        string value,
                                        string? translation,
                                        bool isDeleteAble) {
+        this.KeyOrigin = key;
         this.Key = key;
         this.AddKey(key);
         this.Value = value;
@@ -85,12 +90,25 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     }
     public string this[string columnName] {
         get {
+            if (!this.IsDeleteAble) {
+                return String.Empty;
+            }
             switch (columnName) {
                 case nameof(this.Key):
-                    // TODO: check if already exists
+                    // TODO:
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Key)) {
+                        return "Key must not be empty!";
+                    } else if (this.Key != this.KeyOrigin) {
+                        if (this.ExistsKeyInCurrentTranslationSession(this.Key)) {
+                            return "Key already exists!";
+                        }
+                    }
                     break;
                 case nameof(this.Translation):
-                    // TODO: check
+                    // TODO:
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation)) {
+                        return "Translation must not be empty!";
+                    }
                     break;
             }
             return String.Empty;

@@ -98,7 +98,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
     private void SetNewValue(string? translation, ILocalizationDictionaryEntry edited) {
         foreach (ILocalizationDictionaryEntry entry in this._entries) {
-            if (entry.Value == edited.Value) {
+            if (entry.Value == edited.Value
+                || entry.Key == edited.Key) {
                 entry.Translation = translation;
             }
         }

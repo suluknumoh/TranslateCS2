@@ -24,4 +24,5 @@ public interface ITranslationSessionManager {
     void SaveCurrentTranslationSessionsTranslations();
     void CurrentTranslationSessionChanged();
     ITranslationSession GetNewTranslationSession();
+    bool ExistsKeyInCurrentTranslationSession(string key);
 }
