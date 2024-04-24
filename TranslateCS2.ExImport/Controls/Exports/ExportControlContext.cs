@@ -137,21 +137,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
             fileName += ModConstants.JsonExtension;
         }
         string? path = this.SelectedPath;
-        if (path == null) {
-            string tempPath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low",
-                                           "Colossal Order",
-                                           "Cities Skylines II",
-                                           ".cache",
-                                           "Mods",
-                                           "mods_subscribed");
-            if (Path.Exists(tempPath)) {
-                path = tempPath;
-                tempPath = Path.Combine(tempPath, $"{ModConstants.ModId}_1");
-                if (Path.Exists(tempPath)) {
-                    path = tempPath;
-                }
-            }
-        }
+        path ??= PathHelper.TryToGetModsPath();
         string? selected = ImExportDialogHelper.ShowSaveFileDialog(path,
                                                                    this._dialogtitle,
                                                                    fileName,
