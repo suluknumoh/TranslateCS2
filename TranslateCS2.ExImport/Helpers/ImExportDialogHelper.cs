@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.Win32;
 
 using TranslateCS2.Core.Configurations;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.ExImport.Helpers;
 
@@ -55,7 +56,7 @@ internal static class ImExportDialogHelper {
                 // cancel
                 break;
             }
-            ok = dialog.FileName.EndsWith(AppConfigurationManager.ImExportFileExtension);
+            ok = dialog.FileName.EndsWith(ModConstants.JsonExtension);
             if (!ok) {
                 MessageBox.Show(dialogWarningText,
                                 dialogWarningCaption,

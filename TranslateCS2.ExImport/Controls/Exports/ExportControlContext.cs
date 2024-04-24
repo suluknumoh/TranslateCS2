@@ -9,6 +9,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
+using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
@@ -101,7 +102,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     }
 
 
-    public ObservableCollection<ExportFormat> ExportFormats { get; }
+    public ObservableCollection<ExportFormat> ExportFormats { get; } = [];
 
 
     private ExportFormat _SelectedExportFormat;
@@ -121,8 +122,6 @@ internal class ExportControlContext : BindableBase, INavigationAware {
         this._viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
         this._exportService = exportService;
-        this.ExportFormats = new ObservableCollection<ExportFormat>(exportService.GetExportFormats());
-        this._SelectedExportFormat = this.ExportFormats.First();
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ExportCommand = new DelegateCommand(this.ExportCommandAction);
         this._IsEnabled = true;
@@ -222,6 +221,12 @@ internal class ExportControlContext : BindableBase, INavigationAware {
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
-        //
+        this.ExportFormats.Clear();
+        System.Collections.Generic.List<ExportFormat> formats = this._exportService.GetExportFormats();
+        if (this.SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName == AppConfigurationManager.NoneOverwrite) {
+            formats.Remove(ExportFormat.DirectOverwrite());
+        }
+        this.ExportFormats.AddRange(formats);
+        this.SelectedExportFormat = this.ExportFormats.First();
     }
 }

@@ -76,7 +76,7 @@
             Style="{StaticResource ControlInputError}">
             <TextBox.Text>
                 <Binding
-                    Path="NewSession.Name"
+                    Path="Session.Name"
                     UpdateSourceTrigger="PropertyChanged"
                     ValidatesOnDataErrors="True" />
             </TextBox.Text>
@@ -109,7 +109,7 @@
             </bhv:Interaction.Triggers>
             <ComboBox.SelectedItem>
                 <Binding
-                    Path="NewSession.MergeLocalizationFileName"
+                    Path="Session.MergeLocalizationFileName"
                     UpdateSourceTrigger="PropertyChanged"
                     ValidatesOnDataErrors="True" />
             </ComboBox.SelectedItem>
@@ -143,7 +143,7 @@
             </bhv:Interaction.Triggers>
             <ComboBox.SelectedItem>
                 <Binding
-                    Path="NewSession.OverwriteLocalizationFileName"
+                    Path="Session.OverwriteLocalizationFileName"
                     UpdateSourceTrigger="PropertyChanged"
                     ValidatesOnDataErrors="True"/>
             </ComboBox.SelectedItem>
@@ -169,7 +169,7 @@
             Style="{StaticResource ControlInputError}">
             <TextBox.Text>
                 <Binding
-                    Path="NewSession.OverwriteLocalizationNameEN"
+                    Path="Session.OverwriteLocalizationNameEN"
                     UpdateSourceTrigger="PropertyChanged"
                     ValidatesOnDataErrors="True"/>
             </TextBox.Text>
@@ -195,7 +195,7 @@
             Style="{StaticResource ControlInputError}">
             <TextBox.Text>
                 <Binding
-                    Path="NewSession.OverwriteLocalizationNameLocalized"
+                    Path="Session.OverwriteLocalizationNameLocalized"
                     UpdateSourceTrigger="PropertyChanged"
                     ValidatesOnDataErrors="True" />
             </TextBox.Text>

@@ -37,6 +37,8 @@ public static class AppConfigurationManager {
     public static string AssetPath { get; } = "TranslateCS2.Assets.";
     public static string LeadingLocFileName { get; } = "en-US.loc";
     public static string LeadingLocLanguageCode { get; } = LeadingLocFileName.Split(".")[0];
+    // INFO: dont translate! this value gets written into the database
+    public static string NoneOverwrite { get; } = "none";
     public static string CheckLatestURL { get; } = "https://raw.githubusercontent.com/suluknumoh/TranslateCS2/main/latest";
     public static string ImExportDefaultFileName { get; } = $"translations{ModConstants.JsonExtension}";
     public static string ImExportFilter { get; } = $"JSON-File ({ModConstants.JsonExtension})|{ModConstants.JsonExtension}";

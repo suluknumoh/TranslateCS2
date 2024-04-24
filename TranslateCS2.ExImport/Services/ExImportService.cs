@@ -22,10 +22,7 @@ internal class ExImportService {
     public List<ExportFormat> GetExportFormats() {
         List<ExportFormat> exportFormats = [];
         {
-            ExportFormat exportFormat = new ExportFormat("direct-overwrite",
-                                                         ExportFormats.Direct,
-                                                         false,
-                                                         I18NExport.ToolTipExportFormatDirectOverwrite);
+            ExportFormat exportFormat = ExportFormat.DirectOverwrite();
             exportFormats.Add(exportFormat);
         }
         {

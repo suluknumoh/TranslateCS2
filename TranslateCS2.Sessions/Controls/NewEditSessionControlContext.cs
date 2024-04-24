@@ -47,7 +47,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
 
     private ITranslationSession? _NewSession;
-    public ITranslationSession? NewSession {
+    public ITranslationSession? Session {
         get => this._NewSession;
         set => this.SetProperty(ref this._NewSession, value);
     }
@@ -82,6 +82,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void InitMergesOverwrites() {
         IEnumerable<FileInfo> localizationFiles = this.SessionManager.LocalizationFiles;
+        this.Overwrites.Add(AppConfigurationManager.NoneOverwrite);
         foreach (FileInfo file in localizationFiles) {
             this.Merges.Add(file.Name);
             if (file.Name != AppConfigurationManager.LeadingLocFileName) {
@@ -100,9 +101,9 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private void SaveAction() {
         if (this._newSessionBindingGroup != null && this._newSessionBindingGroup.CommitEdit()) {
             if (this.IsEdit) {
-                this.SessionManager.Update(this.NewSession);
+                this.SessionManager.Update(this.Session);
             } else {
-                this.SessionManager.Insert(this.NewSession);
+                this.SessionManager.Insert(this.Session);
             }
             if (!this.SessionManager.HasDatabaseError) {
                 this.CancelAction();
@@ -133,10 +134,11 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         if (this._newSessionBindingGroup != null) {
             this._newSessionBindingGroup.CancelEdit();
             if (this.IsEdit) {
-                this.NewSession = this.SessionManager.CurrentTranslationSession;
+                this.Session = this.SessionManager.CurrentTranslationSession;
                 this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
             } else {
-                this.NewSession = this.SessionManager.GetNewTranslationSession();
+                this.Session = this.SessionManager.GetNewTranslationSession();
+                this.Session.OverwriteLocalizationFileName = AppConfigurationManager.NoneOverwrite;
                 this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
             }
             this._newSessionBindingGroup.BeginEdit();
