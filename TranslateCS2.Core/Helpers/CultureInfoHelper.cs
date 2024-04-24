@@ -9,7 +9,7 @@ public static class CultureInfoHelper {
             return null;
         }
         CultureInfo[] specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-        IEnumerable<CultureInfo> guessedCultures = specificCultures.Where(item => item.EnglishName.StartsWith(englishName));
+        IEnumerable<CultureInfo> guessedCultures = specificCultures.Where(item => item.EnglishName.StartsWith(englishName, System.StringComparison.OrdinalIgnoreCase));
         IOrderedEnumerable<CultureInfo> orderedGuessedCultures = guessedCultures.OrderBy(item => item.Name);
         if (orderedGuessedCultures.Any()) {
             return orderedGuessedCultures.First();
