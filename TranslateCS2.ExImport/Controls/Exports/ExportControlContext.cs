@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -150,6 +151,9 @@ internal class ExportControlContext : BindableBase, INavigationAware {
 
 
     private void OnChange() {
+        if (this.SelectedExportFormat == null) {
+            return;
+        }
         switch (this.SelectedExportFormat.Format) {
             case Models.ExportFormats.Direct:
                 this.IsExportButtonEnabled = true;
@@ -208,7 +212,7 @@ internal class ExportControlContext : BindableBase, INavigationAware {
 
     public void OnNavigatedTo(NavigationContext navigationContext) {
         this.ExportFormats.Clear();
-        System.Collections.Generic.List<ExportFormat> formats = this._exportService.GetExportFormats();
+        List<ExportFormat> formats = this._exportService.GetExportFormats();
         if (this.SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName == AppConfigurationManager.NoneOverwrite) {
             formats.Remove(ExportFormat.DirectOverwrite());
         }
