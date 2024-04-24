@@ -28,6 +28,7 @@ public class Mod : IMod {
                 //
                 //
                 Countrys.ReadFiles();
+                // TODO: load read files
                 //
                 //
                 this._setting = new ModSettings(this);
