@@ -8,9 +8,11 @@ using Game.Settings;
 
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Services;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
-[FileLocation(Mod.Name)]
+/// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
+[FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}")]
 [SettingsUIGroupOrder(BehaviourGroup, ClearGroup, ReloadGroup)]
 [SettingsUIShowGroupName(BehaviourGroup, ClearGroup, ReloadGroup)]
 internal class ModSettings : ModSetting {

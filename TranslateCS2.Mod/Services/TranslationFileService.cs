@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-using Colossal.IO.AssetDatabase;
 using Colossal.Localization;
 
 using Game.SceneFlow;
@@ -21,21 +20,16 @@ internal class TranslationFileService {
     private string FailedToUnLoad => "failed to unload:";
     private string SearchPattern => $"*{ModConstants.JsonExtension}";
     private IList<TranslationFile> TranslationFiles { get; } = [];
-    private ExecutableAsset Asset { get; }
     private bool IsOverwrite => this.Settings?.IsOverwrite ?? false;
-    public string AssetDirectoryPath { get; }
     public ModSettings? Settings { get; set; }
-    public TranslationFileService(ExecutableAsset asset) {
-        this.Asset = asset;
-        this.AssetDirectoryPath = this.Asset.path.Replace($"{Mod.Name}{ExecutableAsset.kExtension}", String.Empty);
-    }
+    public TranslationFileService() { }
     private IList<TranslationFile> GetFiles() {
         List<TranslationFile> files = [];
-        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(this.AssetDirectoryPath, this.SearchPattern);
+        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(FileSystemHelper.DataFolder, this.SearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
             try {
                 string name = translationFilePath
-                    .Replace(this.AssetDirectoryPath, String.Empty)
+                    .Replace(FileSystemHelper.DataFolder, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
                 if (!this.IsLoadAble(name)) {
                     continue;
@@ -43,7 +37,7 @@ internal class TranslationFileService {
                 TranslationFile translationFile = new TranslationFile(name, translationFilePath);
                 files.Add(translationFile);
             } catch (Exception ex) {
-                Mod.Logger.LogError(typeof(TranslationFileService),
+                Mod.Logger.LogError(this.GetType(),
                                     this.FailedToLoad,
                                     [translationFilePath, ex]);
             }
@@ -69,7 +63,7 @@ internal class TranslationFileService {
                 translationFile.ReInit();
             }
             if (!translationFile.IsOK) {
-                Mod.Logger.LogError(typeof(TranslationFileService),
+                Mod.Logger.LogError(this.GetType(),
                                     this.FailedToLoad,
                                     [translationFile]);
                 return false;
@@ -80,7 +74,7 @@ internal class TranslationFileService {
             this.TryToAddSource(translationFile);
             return true;
         } catch (Exception ex) {
-            Mod.Logger.LogError(typeof(TranslationFileService),
+            Mod.Logger.LogError(this.GetType(),
                                 this.FailedToLoad,
                                 [translationFile, ex]);
             return false;
@@ -95,7 +89,7 @@ internal class TranslationFileService {
             LocalizationManager.AddSource(translationFile.LocaleId,
                                           translationFile);
         } catch {
-            Mod.Logger.LogError(typeof(TranslationFileService),
+            Mod.Logger.LogError(this.GetType(),
                                 this.FailedToLoad,
                                 [translationFile]);
             this.TryToUnload(translationFile, false);
@@ -113,7 +107,7 @@ internal class TranslationFileService {
                                           translationFile.LanguageCulture.Language,
                                           translationFile.LocaleName);
         } catch {
-            Mod.Logger.LogError(typeof(TranslationFileService),
+            Mod.Logger.LogError(this.GetType(),
                                 this.FailedToLoad,
                                 [translationFile]);
             LocalizationManager.RemoveLocale(translationFile.LocaleId);
@@ -146,7 +140,7 @@ internal class TranslationFileService {
                 LocalizationManager.RemoveLocale(translationFile.LocaleId);
             }
         } catch (Exception ex) {
-            Mod.Logger.LogError(typeof(TranslationFileService),
+            Mod.Logger.LogError(this.GetType(),
                                 this.FailedToUnLoad,
                                 [ex, translationFile]);
         }
@@ -160,7 +154,7 @@ internal class TranslationFileService {
             LocalizationManager.RemoveSource(translationFile.LocaleId,
                                              translationFile);
         } catch (Exception ex) {
-            Mod.Logger.LogError(typeof(TranslationFileService),
+            Mod.Logger.LogError(this.GetType(),
                                 this.FailedToUnLoad,
                                 [ex, translationFile]);
         }

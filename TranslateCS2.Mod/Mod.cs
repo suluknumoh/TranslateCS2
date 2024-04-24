@@ -11,12 +11,11 @@ using Game.SceneFlow;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 using TranslateCS2.Mod.Services;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod;
 public class Mod : IMod {
-    public const string Name = $"{nameof(TranslateCS2)}.{nameof(Mod)}";
-    public static string NameSimple { get; } = nameof(TranslateCS2);
-    public static ILog Logger { get; } = LogManager.GetLogger(Name).SetShowsErrorsInUI(false);
+    public static ILog Logger { get; } = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
     private static GameManager GameManager { get; } = GameManager.instance;
     private static LocalizationManager LocalizationManager { get; } = Mod.GameManager.localizationManager;
     private string StrangerThings => "failed to load the entire mod:";
@@ -28,10 +27,10 @@ public class Mod : IMod {
         try {
             Logger.LogInfo(this.GetType(), nameof(OnLoad));
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out ExecutableAsset asset)) {
-                this._translationFileService = new TranslationFileService(asset);
+                this._translationFileService = new TranslationFileService();
                 this._setting = new ModSettings(this, this._translationFileService);
                 this._setting.RegisterInOptionsUI();
-                AssetDatabase.global.LoadSettings(Name, this._setting);
+                AssetDatabase.global.LoadSettings(ModConstants.Name, this._setting);
                 Mod.LocalizationManager.AddSource("en-US", new ModSettingsLocale(this._setting));
                 //
                 //

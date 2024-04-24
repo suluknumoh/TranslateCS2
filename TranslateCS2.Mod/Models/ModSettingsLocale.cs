@@ -3,6 +3,7 @@
 using Colossal;
 
 using TranslateCS2.Mod.Properties.I18N;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
 internal class ModSettingsLocale : IDictionarySource {
@@ -13,7 +14,7 @@ internal class ModSettingsLocale : IDictionarySource {
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
         return new Dictionary<string, string>
         {
-                { this.m_Setting.GetSettingsLocaleID(), Mod.NameSimple },
+                { this.m_Setting.GetSettingsLocaleID(), ModConstants.NameSimple },
                 // TODO: what is it for?
                 { this.m_Setting.GetOptionTabLocaleID(ModSettings.Section), ModSettings.Section },
 
