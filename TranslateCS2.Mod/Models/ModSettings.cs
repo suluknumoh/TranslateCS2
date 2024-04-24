@@ -12,7 +12,7 @@ using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
 /// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
-[FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}")]
+[FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
 [SettingsUIGroupOrder(BehaviourGroup, ClearGroup, ReloadGroup)]
 [SettingsUIShowGroupName(BehaviourGroup, ClearGroup, ReloadGroup)]
 internal class ModSettings : ModSetting {

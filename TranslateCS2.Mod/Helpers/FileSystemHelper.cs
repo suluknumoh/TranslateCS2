@@ -9,9 +9,7 @@ namespace TranslateCS2.Mod.Helpers;
 internal static class FileSystemHelper {
     // has to end with a forward-slash!
     public static string DataFolder { get; } = $"{EnvPath.kUserDataPath}/{ModConstants.ModsData}/{ModConstants.Name}/";
-    public static string SettingsFolder { get; } = $"{EnvPath.kUserDataPath}/{ModConstants.ModsSettings}/{ModConstants.Name}";
-    static FileSystemHelper() {
+    public static void CreateIfNotExists() {
         Directory.CreateDirectory(DataFolder);
-        Directory.CreateDirectory(SettingsFolder);
     }
 }

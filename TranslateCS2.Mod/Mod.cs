@@ -8,6 +8,7 @@ using Game;
 using Game.Modding;
 using Game.SceneFlow;
 
+using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 using TranslateCS2.Mod.Services;
@@ -27,6 +28,7 @@ public class Mod : IMod {
         try {
             Logger.LogInfo(this.GetType(), nameof(OnLoad));
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out ExecutableAsset asset)) {
+                FileSystemHelper.CreateIfNotExists();
                 this._translationFileService = new TranslationFileService();
                 this._setting = new ModSettings(this, this._translationFileService);
                 this._setting.RegisterInOptionsUI();
