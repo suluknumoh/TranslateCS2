@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 
 using Prism.Mvvm;
 
 using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Constants;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties.I18N;
 
@@ -115,8 +115,7 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.OverwriteLocalizationNameEN)) {
                         return I18NSessions.InputWarningNotEmptyOrWhitespace;
                     }
-                    Regex regex = new Regex("^[a-zA-Z]+$");
-                    if (!regex.IsMatch(this.OverwriteLocalizationNameEN)) {
+                    if (!RegExConstants.IsOnlyAZCaseInSensitive.IsMatch(this.OverwriteLocalizationNameEN)) {
                         return I18NSessions.InputWarningConsistOfCharacters;
                     }
                     break;
