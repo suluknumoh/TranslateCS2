@@ -80,7 +80,10 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     [JsonConstructor]
     public LocalizationDictionaryEntry(string key, string? translation) : this(key, null, translation, false) { }
     public LocalizationDictionaryEntry(string key, string? translation, bool isDeleteAble) : this(key, null, translation, isDeleteAble) { }
-    public LocalizationDictionaryEntry(ILocalizationDictionaryEntry other) : this(other.Key, other.Value, other.Translation, other.IsDeleteAble) { }
+    public LocalizationDictionaryEntry(ILocalizationDictionaryEntry other) : this(other.Key, other.Value, other.Translation, other.IsDeleteAble) {
+        this.ValueMerge = other.ValueMerge;
+        this.ValueMergeLanguageCode = other.ValueMergeLanguageCode;
+    }
 
     public static bool operator ==(LocalizationDictionaryEntry? left, LocalizationDictionaryEntry? right) {
         return EqualityComparer<LocalizationDictionaryEntry>.Default.Equals(left, right);
