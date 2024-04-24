@@ -21,4 +21,10 @@ public static class ModConstants {
     public static string LocaleNameLocalizedKey => $"{nameof(TranslateCS2)}.{nameof(LocaleNameLocalizedKey)}";
     public static string JsonExtension => ".json";
     public static string JsonSearchPattern => $"*{JsonExtension}";
+    public static string LocExtension => ".loc";
+    public static string LocSearchPattern => $"*{LocExtension}";
+    public static string FailedToLoad => "failed to load:";
+    public static string FailedToUnLoad => "failed to unload:";
+    public static string StrangerThings => "failed to load the entire mod:";
+    public static string StrangerThingsDispose => "failed to dispose:";
 }

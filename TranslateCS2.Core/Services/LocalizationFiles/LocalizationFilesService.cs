@@ -10,6 +10,7 @@ using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
 internal class LocalizationFilesService : ILocalizationFilesService {
@@ -23,7 +24,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         string installPath = this._installPathDetector.DetectInstallPath();
         string locLocation = Path.Combine(installPath, "Cities2_Data", "StreamingAssets", "Data~");
         DirectoryInfo loc = new DirectoryInfo(locLocation);
-        return loc.EnumerateFiles("*.loc");
+        return loc.EnumerateFiles(ModConstants.LocSearchPattern);
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
     public LocalizationFile GetLocalizationFile(FileInfo fileInfo) {

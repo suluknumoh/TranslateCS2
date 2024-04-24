@@ -35,7 +35,7 @@ public static class AppConfigurationManager {
     ///     ends with a dot!
     /// </summary>
     public static string AssetPath { get; } = "TranslateCS2.Assets.";
-    public static string LeadingLocFileName { get; } = "en-US.loc";
+    public static string LeadingLocFileName { get; } = $"en-US{ModConstants.LocExtension}";
     public static string LeadingLocLanguageCode { get; } = LeadingLocFileName.Split(".")[0];
     // INFO: dont translate! this value gets written into the database
     public static string NoneOverwrite { get; } = "none";
