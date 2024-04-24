@@ -118,24 +118,6 @@
                 <Grid.BindingGroup>
                     <BindingGroup NotifyOnValidationError="True" />
                 </Grid.BindingGroup>
-                <Grid.Resources>
-                    <ResourceDictionary>
-                        <Style
-                            x:Key="ControlInputError"
-                            TargetType="Control">
-                            <Style.Triggers>
-                                <Trigger
-                                    Property="Validation.HasError"
-                                    Value="true">
-                                    <Setter
-                                        Property="ToolTip"
-                                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                                        Path=(Validation.Errors)[0].ErrorContent}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ResourceDictionary>
-                </Grid.Resources>
                 <bhv:Interaction.Triggers>
                     <bhv:EventTrigger EventName="Loaded">
                         <bhv:InvokeCommandAction
@@ -220,16 +202,26 @@
                             Text="{Binding Entry.Key,
                                            Mode=TwoWay,
                                            UpdateSourceTrigger=PropertyChanged,
-                                           ValidatesOnDataErrors=True}"
-                            ToolTip="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}">
+                                           ValidatesOnDataErrors=True}">
                             <TextBox.Style>
                                 <Style
                                     TargetType="TextBox"
                                     BasedOn="{StaticResource StyleTextBoxAlginedLeft}">
                                     <Setter
+                                        Property="ToolTip"
+                                        Value="{Binding Source={x:Static i18n:I18NEdits.ColumnKeyTip}, Mode=OneWay}"/>
+                                    <Setter
                                         Property="Visibility"
                                         Value="Visible" />
                                     <Style.Triggers>
+                                        <Trigger
+                                            Property="Validation.HasError"
+                                            Value="true">
+                                            <Setter
+                                                Property="ToolTip"
+                                                Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                                Path=(Validation.Errors)[0].ErrorContent}" />
+                                        </Trigger>
                                         <DataTrigger
                                             Binding="{Binding IsCount}"
                                             Value="True">
@@ -564,7 +556,22 @@
                             TextWrapping="NoWrap"
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Visible"
-                            IsEnabled="{Binding IsEnabled}"/>
+                            IsEnabled="{Binding IsEnabled}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger
+                                            Property="Validation.HasError"
+                                            Value="true">
+                                            <Setter
+                                                Property="ToolTip"
+                                                Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                                Path=(Validation.Errors)[0].ErrorContent}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
                     </Grid>
                 </Border>
                 <StackPanel
