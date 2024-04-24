@@ -7,7 +7,6 @@ using Game.SceneFlow;
 using Game.Settings;
 
 using TranslateCS2.Mod.Helpers;
-using TranslateCS2.Mod.Services;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
@@ -30,8 +29,6 @@ internal class ModSettings : ModSetting {
     public const string ClearGroup = "Clear";
     public const string ReloadGroup = "Reload";
 
-    private readonly TranslationFileService _translationFileService;
-
 
     [Include]
     [SettingsUIHidden]
@@ -40,9 +37,7 @@ internal class ModSettings : ModSetting {
     [SettingsUIHidden]
     public string? PreviousLocale { get; set; }
 
-    public ModSettings(IMod mod, TranslationFileService fileHelper) : base(mod) {
-        this._translationFileService = fileHelper;
-        this._translationFileService.Settings = this;
+    public ModSettings(IMod mod) : base(mod) {
     }
 
     [SettingsUIButton]
@@ -53,7 +48,7 @@ internal class ModSettings : ModSetting {
             ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.LocalizationManager.SetActiveLocale(ModSettings.InterfaceSettings.locale);
-            this._translationFileService.Reload();
+            MyCountrys.Instance.Reload();
             ModSettings.InterfaceSettings.currentLocale = this.Locale;
             ModSettings.InterfaceSettings.locale = this.Locale;
             ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
@@ -73,7 +68,7 @@ internal class ModSettings : ModSetting {
     [SettingsUISection(Section, ClearGroup)]
     //[SettingsUIDisableByCondition(typeof(ModSettings), "IsClearOverwrittenAllowed")]
     public bool ClearOverwritten {
-        set => this._translationFileService.ClearOverwritten();
+        set => MyCountrys.Instance.ClearOverwritten();
     }
 
     public bool IsClearOverwrittenAllowed() {

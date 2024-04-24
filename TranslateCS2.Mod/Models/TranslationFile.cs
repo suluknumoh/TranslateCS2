@@ -8,7 +8,6 @@ using Colossal;
 
 using Newtonsoft.Json;
 
-using TranslateCS2.Mod.Helpers;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
@@ -16,7 +15,6 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     private Dictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
     public string LocaleName { get; private set; }
-    public SystemLanguageCultureInfo LanguageCulture { get; private set; }
     public bool IsOK {
         get {
             if (String.IsNullOrEmpty(this.LocaleId)
@@ -31,20 +29,14 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
                 || this.dictionary.Count == 0) {
                 return false;
             }
-            return this.LanguageCulture != null;
+            return true;
         }
     }
     public string Name { get; }
     public string Path { get; }
-    public bool MapsToExisting { get; }
     public TranslationFile(string name, string path) {
         this.Name = name;
         this.LocaleId = this.Name;
-        this.MapsToExisting = LocaleHelper.MapsToExisting(name);
-        if (this.MapsToExisting) {
-            this.LocaleId = LocaleHelper.GetExisting(this.LocaleId);
-        }
-        this.LanguageCulture = SystemLanguageHelper.Get(this.LocaleId);
         this.Path = path;
         string json = this.ReadJson();
         this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
@@ -54,7 +46,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         } else {
             // use this as fallback
             // dont use native name! - does not work!
-            this.LocaleName = this.LanguageCulture.Culture?.EnglishName;
+            //this.LocaleName = this.LanguageCulture.Culture?.EnglishName;
+            // TODO:
         }
     }
     public void ReInit() {
@@ -92,8 +85,6 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         builder.AppendLine($"{nameof(this.LocaleId)}: {this.LocaleId}");
         builder.AppendLine($"{nameof(this.LocaleName)}: {this.LocaleName}");
         builder.AppendLine($"{nameof(this.IsOK)}: {this.IsOK}");
-        builder.AppendLine($"{nameof(this.MapsToExisting)}: {this.MapsToExisting}");
-        builder.AppendLine($"{nameof(this.LanguageCulture)}: {this.LanguageCulture}");
         return builder.ToString();
     }
 
@@ -105,7 +96,6 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         return other is not null &&
                this.LocaleId == other.LocaleId &&
                this.LocaleName == other.LocaleName &&
-               this.LanguageCulture == other.LanguageCulture &&
                this.Name == other.Name;
     }
 
@@ -113,7 +103,6 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         int hashCode = 1646257719;
         hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleId);
         hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleName);
-        hashCode = (hashCode * -1521134295) + this.LanguageCulture.GetHashCode();
         hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Name);
         return hashCode;
     }
