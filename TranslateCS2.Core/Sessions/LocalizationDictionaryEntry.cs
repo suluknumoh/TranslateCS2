@@ -6,6 +6,7 @@ using Prism.Mvvm;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Helpers;
+using TranslateCS2.Core.Properties.I18N;
 
 namespace TranslateCS2.Core.Sessions;
 public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionaryEntry, IEquatable<LocalizationDictionaryEntry?> {
@@ -95,19 +96,17 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
             }
             switch (columnName) {
                 case nameof(this.Key):
-                    // TODO:
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Key)) {
-                        return "Key must not be empty!";
-                    } else if (this.Key != this.KeyOrigin) {
+                        return I18NEdits.InputWarningKeyEmpty;
+                    } else if (this.Key != this.KeyOrigin && this.ExistsKeyInCurrentTranslationSession != null) {
                         if (this.ExistsKeyInCurrentTranslationSession(this.Key)) {
-                            return "Key already exists!";
+                            return I18NEdits.InputWarningKeyDuplicate;
                         }
                     }
                     break;
                 case nameof(this.Translation):
-                    // TODO:
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation)) {
-                        return "Translation must not be empty!";
+                        return I18NEdits.InputWarningTranslationEmpty;
                     }
                     break;
             }
