@@ -41,7 +41,7 @@ public static class AppConfigurationManager {
     public static string NoneOverwrite { get; } = "none";
     public static string CheckLatestURL { get; } = "https://raw.githubusercontent.com/suluknumoh/TranslateCS2/main/latest";
     public static string ImExportDefaultFileName { get; } = $"translations{ModConstants.JsonExtension}";
-    public static string ImExportFilter { get; } = $"JSON-File ({ModConstants.JsonExtension})|*{ModConstants.JsonExtension}";
+    public static string ImExportFilter { get; } = $"JSON-File ({ModConstants.JsonExtension})|{ModConstants.JsonSearchPattern}";
     public static uint DatabaseMaxBackUpCount { get; private set; }
     public static string DatabaseExtension { get; } = ".sqlite";
     public static string DatabaseNameRaw { get; } = "Translations";

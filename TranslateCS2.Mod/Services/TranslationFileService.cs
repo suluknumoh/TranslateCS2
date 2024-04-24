@@ -18,14 +18,13 @@ internal class TranslationFileService {
     private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
     private string FailedToLoad => "failed to load:";
     private string FailedToUnLoad => "failed to unload:";
-    private string SearchPattern => $"*{ModConstants.JsonExtension}";
     private IList<TranslationFile> TranslationFiles { get; } = [];
     private bool IsOverwrite => this.Settings?.IsOverwrite ?? false;
     public ModSettings? Settings { get; set; }
     public TranslationFileService() { }
     private IList<TranslationFile> GetFiles() {
         List<TranslationFile> files = [];
-        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(FileSystemHelper.DataFolder, this.SearchPattern);
+        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(FileSystemHelper.DataFolder, ModConstants.JsonSearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
             try {
                 string name = translationFilePath
