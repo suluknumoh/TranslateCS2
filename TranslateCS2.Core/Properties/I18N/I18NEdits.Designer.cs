@@ -79,6 +79,15 @@ namespace TranslateCS2.Core.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key must not contain spaces!.
+        /// </summary>
+        public static string InputWarningSpaces {
+            get {
+                return ResourceManager.GetString("InputWarningSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Translation must not be empty!.
         /// </summary>
         public static string InputWarningTranslationEmpty {
