@@ -21,7 +21,7 @@ This mod sideloads custom localization files.
     <Screenshot Value="" />
 
     <!--Tag, can be set multiple times-->
-    <Tag Value="" />
+    <Tag Value="CodeMod" />
 
     <!--Link to the forum post where the mod can be discussed-->
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/translatecs2-translatecs2-mod.1669371/" />
@@ -38,6 +38,7 @@ This mod sideloads custom localization files.
     <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
     <!--ChangeLog Value="" /-->
     <ChangeLog>
+
     </ChangeLog>
 
     <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
