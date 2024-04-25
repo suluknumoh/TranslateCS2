@@ -5,6 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using Colossal.Localization;
+
+using Game.SceneFlow;
+
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
 
@@ -14,7 +18,7 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 internal class MyLanguages {
-    //private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
+    private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
     public static MyLanguages Instance { get; } = new MyLanguages();
     private readonly Dictionary<SystemLanguage, MyLanguage> Dict = [];
     private MyLanguages() {
@@ -122,7 +126,19 @@ internal class MyLanguages {
     }
 
     public void Load() {
-        // TODO: ggf. zusätzliche locales mit sourcen hinzufügen
+        foreach (MyLanguage language in this.Dict.Values) {
+            if (language.IsBuiltIn || !language.HasFlavors) {
+                continue;
+            }
+            try {
+                this.TryToAddLocale(language);
+                this.TryToAddSource(language, language.Flavors.First());
+            } catch (Exception ex) {
+                Mod.Logger.LogError(this.GetType(),
+                                    LoggingConstants.FailedTo,
+                                    [nameof(Load), ex, language]);
+            }
+        }
     }
 
     public void ReLoad() {
@@ -142,5 +158,41 @@ internal class MyLanguages {
         // TODO: prüfen, ob language die aktuell eingestellte language ist
         // TODO: eigene sourcen removen
         // TODO: source der localeid (Flavor/TranslationFile) hinzufügen
+    }
+    private void TryToAddLocale(MyLanguage language) {
+        try {
+            LocManager.AddLocale(language.ID,
+                                 language.SystemLanguage,
+                                 language.Name);
+        } catch (Exception ex) {
+            Mod.Logger.LogError(this.GetType(),
+                                LoggingConstants.FailedTo,
+                                [nameof(TryToAddLocale), ex, language]);
+            LocManager.RemoveLocale(language.ID);
+            throw;
+        }
+    }
+    private void TryToAddSource(MyLanguage language, TranslationFile translationFile) {
+        try {
+            // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
+            LocManager.AddSource(language.ID,
+                                 translationFile);
+        } catch (Exception ex) {
+            Mod.Logger.LogError(this.GetType(),
+                                LoggingConstants.FailedTo,
+                                [nameof(TryToAddSource), ex, translationFile]);
+            this.TryToRemoveSource(language, translationFile);
+            throw;
+        }
+    }
+    private void TryToRemoveSource(MyLanguage language, TranslationFile translationFile) {
+        try {
+            LocManager.RemoveSource(language.ID,
+                                    translationFile);
+        } catch (Exception ex) {
+            Mod.Logger.LogError(this.GetType(),
+                                LoggingConstants.FailedTo,
+                                [nameof(TryToRemoveSource), ex, translationFile]);
+        }
     }
 }
