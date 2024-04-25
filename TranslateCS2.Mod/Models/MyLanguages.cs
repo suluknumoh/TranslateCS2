@@ -29,20 +29,20 @@ internal class MyLanguages {
                 string? comparator = null;
                 switch (language) {
                     case SystemLanguage.Chinese:
-                        // nix
+                        // i think i cant handle it, because chinese simplified and chinese traditional are present
                         continue;
                     case SystemLanguage.SerboCroatian:
-                        if (culture.EnglishName.StartsWith("Serbian", StringComparison.OrdinalIgnoreCase)
-                            || culture.EnglishName.StartsWith("Croatian", StringComparison.OrdinalIgnoreCase)
+                        if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
+                            || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
                         ) {
                             this.AddToDictionary(culture, language);
                         }
                         continue;
                     case SystemLanguage.ChineseSimplified:
-                        comparator = "Chinese (Simplified";
+                        comparator = LangConstants.ChineseSimplified;
                         break;
                     case SystemLanguage.ChineseTraditional:
-                        comparator = "Chinese (Traditional";
+                        comparator = LangConstants.ChineseTraditional;
                         break;
                     default:
                         comparator = language.ToString();
@@ -75,12 +75,7 @@ internal class MyLanguages {
                 string localeId = translationFilePath
                     .Replace(FileSystemHelper.DataFolder, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
-                // TODO: is it necessary to check for dash and built-int?
-                // TODO: probably check, if cultureinfo exists.
-                if (!this.IsReadAble(localeId)
-                    // deactivated for now
-                    && false
-                    ) {
+                if (!this.IsReadAble(localeId)) {
                     continue;
                 }
                 MyLanguage? language = this.GetLanguage(localeId);
@@ -90,8 +85,8 @@ internal class MyLanguages {
                 CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
                 if (cultureInfo == null) {
                     Mod.Logger.LogError(this.GetType(),
-                                    "no culture info",
-                                    [translationFilePath, localeId]);
+                                    LoggingConstants.NoCultureInfo,
+                                    [translationFilePath, localeId, language]);
                     continue;
                 }
                 string localeName = cultureInfo.NativeName;
@@ -102,8 +97,8 @@ internal class MyLanguages {
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {
                 Mod.Logger.LogError(this.GetType(),
-                                    ModConstants.FailedToLoad,
-                                    [translationFilePath, ex]);
+                                    LoggingConstants.FailedTo,
+                                    [nameof(ReadFiles), translationFilePath, ex]);
             }
         }
     }
@@ -124,31 +119,18 @@ internal class MyLanguages {
     }
     private bool IsReadAble(string id) {
         // TODO: is it necessary to check for dash and built-int?
+        // TODO: probably check, if cultureinfo exists.
+        // TODO:
+        return true;
         return id.Contains("-") && !LocaleHelper.BuiltIn.Contains(id);
     }
 
-    public void ClearOverwritten() {
-        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.Dict) {
-            if (entry.Value.IsBuiltIn) {
-                foreach (TranslationFile translationFile in entry.Value.Flavors) {
-                    this.TryToClear(translationFile);
-                }
-            }
-        }
-    }
-    private void TryToClear(TranslationFile translationFile) {
-        try {
-            //LocManager.RemoveSource(translationFile.LocaleId,
-            //                        translationFile);
-        } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(),
-                                ModConstants.FailedToUnLoad,
-                                [ex, translationFile]);
-        }
+    public void Load() {
+        // TODO: ggf. zusätzliche locales mit sourcen hinzufügen
     }
 
-    public void Reload() {
-        // TODO:
+    public void ReLoad() {
+        // TODO: nur versuchen, die json-dateien erneut einzulesen
     }
 
     public override string ToString() {
@@ -158,5 +140,11 @@ internal class MyLanguages {
             builder.AppendLine($"{entry.Key}: {entry.Value}");
         }
         return builder.ToString();
+    }
+
+    public void FlavorChanged(MyLanguage? language, SystemLanguage systemLanguage, string localeId) {
+        // TODO: prüfen, ob language die aktuell eingestellte language ist
+        // TODO: eigene sourcen removen
+        // TODO: source der localeid (Flavor/TranslationFile) hinzufügen
     }
 }

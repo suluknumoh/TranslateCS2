@@ -78,4 +78,8 @@ internal class MyLanguage {
         }
         return dropdownItems;
     }
+
+    public bool HasFlavor(string localeId) {
+        return this.Flavors.Where(item => item.LocaleId == localeId).Any();
+    }
 }

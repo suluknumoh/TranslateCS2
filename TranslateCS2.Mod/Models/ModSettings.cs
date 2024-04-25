@@ -1,4 +1,6 @@
-﻿using Colossal.IO.AssetDatabase;
+﻿using System;
+
+using Colossal.IO.AssetDatabase;
 using Colossal.Json;
 using Colossal.Localization;
 
@@ -7,6 +9,7 @@ using Game.SceneFlow;
 using Game.Settings;
 
 using TranslateCS2.Mod.Helpers;
+using TranslateCS2.Mod.Loggers;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
@@ -39,14 +42,22 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIConfirmation]
     [SettingsUISection(Section, ReloadGroup)]
     public bool ReloadLanguages {
-        set {
+        set => this.ReloadLangs();
+    }
+
+    private void ReloadLangs() {
+        try {
             ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.LocalizationManager.SetActiveLocale(ModSettings.InterfaceSettings.locale);
-            MyLanguages.Instance.Reload();
+            MyLanguages.Instance.ReLoad();
             ModSettings.InterfaceSettings.currentLocale = this.Locale;
             ModSettings.InterfaceSettings.locale = this.Locale;
             ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(ReloadLangs), ex]);
         }
     }
 
@@ -55,33 +66,51 @@ internal partial class ModSettings : ModSetting {
     }
 
     public void HandleLocaleOnLoad() {
-        this.PreviousLocale = ModSettings.InterfaceSettings.locale;
-        if (ModSettings.LocalizationManager.SupportsLocale(this.Locale)) {
-            ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
-            ModSettings.InterfaceSettings.currentLocale = this.Locale;
-            ModSettings.InterfaceSettings.locale = this.Locale;
+        try {
+            this.PreviousLocale = ModSettings.InterfaceSettings.locale;
+            if (ModSettings.LocalizationManager.SupportsLocale(this.Locale)) {
+                ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
+                ModSettings.InterfaceSettings.currentLocale = this.Locale;
+                ModSettings.InterfaceSettings.locale = this.Locale;
+            }
+            ModSettings.InterfaceSettings.onSettingsApplied += this.ApplyAndSaveAlso;
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(HandleLocaleOnLoad), ex]);
         }
-        ModSettings.InterfaceSettings.onSettingsApplied += this.ApplyAndSaveAlso;
     }
 
     private void ApplyAndSaveAlso(Setting setting) {
-        if (setting is InterfaceSettings interfaceSettings) {
-            this.Locale = interfaceSettings.locale;
-            this.ApplyAndSave();
+        try {
+            if (setting is InterfaceSettings interfaceSettings) {
+                this.Locale = interfaceSettings.locale;
+                this.ApplyAndSave();
+            }
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(ApplyAndSaveAlso), ex]);
         }
     }
 
     public void HandleLocaleOnUnLoad() {
-        // dont replicate os lang into this mods settings
-        ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
-        // reset to os-language, if the mod is not used next time the game starts
-        if (this.Locale != null && LocaleHelper.BuiltIn.Contains(this.Locale)) {
-            ModSettings.InterfaceSettings.currentLocale = this.Locale;
-            ModSettings.InterfaceSettings.locale = this.Locale;
-        } else {
-            ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+        try {
+            // dont replicate os lang into this mods settings
+            ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
+            // reset to os-language, if the mod is not used next time the game starts
+            if (this.Locale != null && LocaleHelper.BuiltIn.Contains(this.Locale)) {
+                ModSettings.InterfaceSettings.currentLocale = this.Locale;
+                ModSettings.InterfaceSettings.locale = this.Locale;
+            } else {
+                ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+            }
+            ModSettings.InterfaceSettings.ApplyAndSave();
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(HandleLocaleOnUnLoad), ex]);
         }
-        ModSettings.InterfaceSettings.ApplyAndSave();
     }
 }
