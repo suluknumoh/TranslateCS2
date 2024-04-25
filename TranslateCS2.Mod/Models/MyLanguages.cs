@@ -155,9 +155,22 @@ internal class MyLanguages {
     }
 
     public void FlavorChanged(MyLanguage? language, SystemLanguage systemLanguage, string localeId) {
-        // TODO: prüfen, ob language die aktuell eingestellte language ist
-        // TODO: eigene sourcen removen
-        // TODO: source der localeid (Flavor/TranslationFile) hinzufügen
+        try {
+            if (language == null) {
+                return;
+            }
+            foreach (TranslationFile flavor in language.Flavors) {
+                this.TryToRemoveSource(language, flavor);
+            }
+            if (language.HasFlavor(localeId)) {
+                TranslationFile flavor = language.GetFlavor(localeId);
+                this.TryToAddSource(language, flavor);
+            }
+        } catch (Exception ex) {
+            Mod.Logger.LogError(this.GetType(),
+                                LoggingConstants.FailedTo,
+                                [nameof(FlavorChanged), ex, language]);
+        }
     }
     private void TryToAddLocale(MyLanguage language) {
         try {
@@ -187,6 +200,7 @@ internal class MyLanguages {
     }
     private void TryToRemoveSource(MyLanguage language, TranslationFile translationFile) {
         try {
+            // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             LocManager.RemoveSource(language.ID,
                                     translationFile);
         } catch (Exception ex) {
