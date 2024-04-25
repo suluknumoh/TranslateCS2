@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
-using Colossal.Localization;
 using Colossal.PSI.Environment;
-
-using Game.SceneFlow;
 
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Helpers;
 internal static class LocaleHelper {
-    private static readonly LocalizationManager LocalizationManager = GameManager.instance.localizationManager;
     public static IList<string> BuiltIn { get; } = [];
     static LocaleHelper() {
-        // TODO: is it ok?
+        // INFO: is it ok?
         // has to end with a forward-slash
         string path = $"{EnvPath.kStreamingDataPath}/Data~/";
         IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);
@@ -27,17 +24,18 @@ internal static class LocaleHelper {
             BuiltIn.Add(locale);
         }
     }
-    public static bool MapsToExisting(string localeId) {
-        HashSet<string> set = LocalizationManager.GetSupportedLocales().Select(i => i.Split('-')[0]).ToHashSet();
-        return set.Contains(localeId.Split('-')[0]);
-    }
 
-    public static string GetExisting(string localeId) {
-        string id = $"{localeId.Split('-')[0]}-";
-        IEnumerable<string> list = LocalizationManager.GetSupportedLocales().Where(item => item.StartsWith(id, StringComparison.OrdinalIgnoreCase));
-        if (!list.Any()) {
-            return localeId;
+    public static string EaseLocaleName(CultureInfo cultureInfo) {
+        if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.NativeName)) {
+            return cultureInfo.EnglishName;
         }
-        return list.First();
+        return cultureInfo.NativeName;
+    }
+    public static string EaseLocaleName(string localeName) {
+        IEnumerable<CultureInfo> cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(item => item.NativeName == localeName || item.EnglishName == localeName || item.DisplayName == localeName);
+        if (cultureInfos.Any()) {
+            return EaseLocaleName(cultureInfos.First());
+        }
+        return localeName;
     }
 }

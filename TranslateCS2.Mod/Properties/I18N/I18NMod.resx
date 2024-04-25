@@ -117,26 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GroupBehaviourOverwriteDescription" xml:space="preserve">
-    <value>Unity SystemLanguages are rare and general. For example: 'en-US' and 'en-GB' result in Unitys SystemLanguage 'English'. By checking 'add as source to existing', 'en-GB.json' would be added as source to 'en-US' and 'overwrite' the existing texts with the provided texts. As far as the respective json file existed on startup, a click on 'reload language files' does the trick. can be reverted with a click on 'clear overwritten'.</value>
-  </data>
-  <data name="GroupBehaviourOverwriteLabel" xml:space="preserve">
-    <value>add as source to existing</value>
-  </data>
-  <data name="GroupBehaviourTitle" xml:space="preserve">
-    <value>behaviour</value>
-  </data>
-  <data name="GroupClearButtonOverwriteDescription" xml:space="preserve">
-    <value>Removes loaded languages from existing languages. Undos 'add as source to existing'.</value>
-  </data>
-  <data name="GroupClearButtonOverwriteLabel" xml:space="preserve">
-    <value>clear overwritten</value>
-  </data>
-  <data name="GroupClearButtonOverwriteWarning" xml:space="preserve">
-    <value>Do you really want to remove loaded languages from existing languages?</value>
-  </data>
-  <data name="GroupClearTitle" xml:space="preserve">
-    <value>clear overwritten</value>
+  <data name="GroupFlavorTitle" xml:space="preserve">
+    <value>flavors</value>
   </data>
   <data name="GroupReloadButtonReloadDescription" xml:space="preserve">
     <value>Reloads the language file(s) that existed at startup. Does not unload language files. Does not load new language files.</value>

@@ -11,7 +11,7 @@ internal static class LogExtensions {
     public static void LogError(this ILog logger,
                                 Type type,
                                 string message,
-                                object[]? messageParameters = null,
+                                object?[]? messageParameters = null,
                                 [CallerMemberName] string CallerMemberName = "",
                                 [CallerLineNumber] int CallerLineNumber = 0) {
         string messageToLog = BuildLogMessage(type,
@@ -24,7 +24,7 @@ internal static class LogExtensions {
     public static void LogInfo(this ILog logger,
                                Type type,
                                string message,
-                               object[]? messageParameters = null,
+                               object?[]? messageParameters = null,
                                [CallerMemberName] string CallerMemberName = "",
                                [CallerLineNumber] int CallerLineNumber = 0) {
         string messageToLog = BuildLogMessage(type,
@@ -37,7 +37,7 @@ internal static class LogExtensions {
     public static void LogCritical(this ILog logger,
                                    Type type,
                                    string message,
-                                   object[]? messageParameters = null,
+                                   object?[]? messageParameters = null,
                                    [CallerMemberName] string CallerMemberName = "",
                                    [CallerLineNumber] int CallerLineNumber = 0) {
         string messageToLog = BuildLogMessage(type,
@@ -49,7 +49,7 @@ internal static class LogExtensions {
     }
     private static string BuildLogMessage(Type type,
                                           string message,
-                                          object[]? messageParameters,
+                                          object?[]? messageParameters,
                                           string CallerMemberName,
                                           int CallerLineNumber) {
         string preFormat = String.Format(Format, type.FullName, CallerMemberName, CallerLineNumber);
@@ -57,7 +57,10 @@ internal static class LogExtensions {
         messageBuilder.AppendLine(preFormat);
         messageBuilder.AppendLine(message);
         if (messageParameters != null) {
-            foreach (object parameter in messageParameters) {
+            foreach (object? parameter in messageParameters) {
+                if (parameter == null) {
+                    continue;
+                }
                 messageBuilder.AppendLine(parameter.ToString());
             }
         }

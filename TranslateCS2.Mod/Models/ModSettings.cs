@@ -1,4 +1,6 @@
-﻿using Colossal.IO.AssetDatabase;
+﻿using System;
+
+using Colossal.IO.AssetDatabase;
 using Colossal.Json;
 using Colossal.Localization;
 
@@ -7,30 +9,23 @@ using Game.SceneFlow;
 using Game.Settings;
 
 using TranslateCS2.Mod.Helpers;
-using TranslateCS2.Mod.Services;
+using TranslateCS2.Mod.Loggers;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
-/// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
+/// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
-[SettingsUIGroupOrder(BehaviourGroup, ClearGroup, ReloadGroup)]
-[SettingsUIShowGroupName(BehaviourGroup, ClearGroup, ReloadGroup)]
-internal class ModSettings : ModSetting {
-    // TODO: refactor
-    // TODO: enable/disable/hide items based on the detected language files
-    // TODO: is it possible to make flavors selectable? the general language code is not used, so it should be possible to add for example 'nl' as general language and add the selected flavors
-    // TODO: is it possible fill and refill a single drop down or is SettingsUIDropDown->itemsGetterMethod called only once? if it is, add drop downs for each possible UnityEngine.SystemLanguage and use SettingsUIHideByCondition
+[SettingsUIGroupOrder(FlavorGroup, ReloadGroup)]
+[SettingsUIShowGroupName(FlavorGroup, ReloadGroup)]
+internal partial class ModSettings : ModSetting {
     private static GameManager GameManager { get; } = GameManager.instance;
     private static InterfaceSettings InterfaceSettings { get; } = ModSettings.GameManager.settings.userInterface;
     private static LocalizationManager LocalizationManager { get; } = ModSettings.GameManager.localizationManager;
 
 
     public const string Section = "Main";
-    public const string BehaviourGroup = "Behaviour";
-    public const string ClearGroup = "Clear";
-    public const string ReloadGroup = "Reload";
-
-    private readonly TranslationFileService _translationFileService;
+    public const string FlavorGroup = nameof(FlavorGroup);
+    public const string ReloadGroup = nameof(ReloadGroup);
 
 
     [Include]
@@ -40,74 +35,82 @@ internal class ModSettings : ModSetting {
     [SettingsUIHidden]
     public string? PreviousLocale { get; set; }
 
-    public ModSettings(IMod mod, TranslationFileService fileHelper) : base(mod) {
-        this._translationFileService = fileHelper;
-        this._translationFileService.Settings = this;
+    public ModSettings(IMod mod) : base(mod) {
     }
 
     [SettingsUIButton]
     [SettingsUIConfirmation]
     [SettingsUISection(Section, ReloadGroup)]
     public bool ReloadLanguages {
-        set {
+        set => this.ReloadLangs();
+    }
+
+    private void ReloadLangs() {
+        try {
             ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.LocalizationManager.SetActiveLocale(ModSettings.InterfaceSettings.locale);
-            this._translationFileService.Reload();
+            MyLanguages.Instance.ReLoad();
             ModSettings.InterfaceSettings.currentLocale = this.Locale;
             ModSettings.InterfaceSettings.locale = this.Locale;
             ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(ReloadLangs), ex]);
         }
     }
-
-    [Include]
-    [SettingsUISection(Section, BehaviourGroup)]
-    public bool IsOverwrite { get; set; }
 
     public override void SetDefaults() {
         //
     }
 
-    [SettingsUIButton]
-    [SettingsUIConfirmation]
-    [SettingsUISection(Section, ClearGroup)]
-    //[SettingsUIDisableByCondition(typeof(ModSettings), "IsClearOverwrittenAllowed")]
-    public bool ClearOverwritten {
-        set => this._translationFileService.ClearOverwritten();
-    }
-
-    public bool IsClearOverwrittenAllowed() {
-        return !this.IsOverwrite;
-    }
-
     public void HandleLocaleOnLoad() {
-        this.PreviousLocale = ModSettings.InterfaceSettings.locale;
-        if (ModSettings.LocalizationManager.SupportsLocale(this.Locale)) {
-            ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
-            ModSettings.InterfaceSettings.currentLocale = this.Locale;
-            ModSettings.InterfaceSettings.locale = this.Locale;
+        try {
+            this.PreviousLocale = ModSettings.InterfaceSettings.locale;
+            if (ModSettings.LocalizationManager.SupportsLocale(this.Locale)) {
+                ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
+                ModSettings.InterfaceSettings.currentLocale = this.Locale;
+                ModSettings.InterfaceSettings.locale = this.Locale;
+            }
+            ModSettings.InterfaceSettings.onSettingsApplied += this.ApplyAndSaveAlso;
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(HandleLocaleOnLoad), ex]);
         }
-        ModSettings.InterfaceSettings.onSettingsApplied += this.ApplyAndSaveAlso;
     }
 
     private void ApplyAndSaveAlso(Setting setting) {
-        if (setting is InterfaceSettings interfaceSettings) {
-            this.Locale = interfaceSettings.locale;
-            this.ApplyAndSave();
+        try {
+            if (setting is InterfaceSettings interfaceSettings) {
+                this.Locale = interfaceSettings.locale;
+                this.ApplyAndSave();
+            }
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(ApplyAndSaveAlso), ex]);
         }
     }
 
     public void HandleLocaleOnUnLoad() {
-        // dont replicate os lang into this mods settings
-        ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
-        // reset to os-language, if the mod is not used next time the game starts
-        if (this.Locale != null && LocaleHelper.BuiltIn.Contains(this.Locale)) {
-            ModSettings.InterfaceSettings.currentLocale = this.Locale;
-            ModSettings.InterfaceSettings.locale = this.Locale;
-        } else {
-            ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+        try {
+            // dont replicate os lang into this mods settings
+            ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
+            // reset to os-language, if the mod is not used next time the game starts
+            if (this.Locale != null && LocaleHelper.BuiltIn.Contains(this.Locale)) {
+                ModSettings.InterfaceSettings.currentLocale = this.Locale;
+                ModSettings.InterfaceSettings.locale = this.Locale;
+            } else {
+                ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+            }
+            ModSettings.InterfaceSettings.ApplyAndSave();
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(HandleLocaleOnUnLoad), ex]);
         }
-        ModSettings.InterfaceSettings.ApplyAndSave();
     }
 }
