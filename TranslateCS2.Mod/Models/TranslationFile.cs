@@ -32,22 +32,16 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
             return true;
         }
     }
-    public string Name { get; }
     public string Path { get; }
-    public TranslationFile(string name, string path) {
-        this.Name = name;
-        this.LocaleId = this.Name;
+    public TranslationFile(string localeId, string localeName, string path) {
+        this.LocaleId = localeId;
         this.Path = path;
         string json = this.ReadJson();
         this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        bool got = this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string localeName);
-        if (got) {
-            this.LocaleName = localeName;
+        if (this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName) && outLocaleName != null) {
+            this.LocaleName = outLocaleName;
         } else {
-            // use this as fallback
-            // dont use native name! - does not work!
-            //this.LocaleName = this.LanguageCulture.Culture?.EnglishName;
-            // TODO:
+            this.LocaleName = localeName;
         }
     }
     public void ReInit() {
@@ -80,10 +74,9 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(nameof(TranslationFile));
-        builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
-        builder.AppendLine($"{nameof(this.Path)}: {this.Path}");
         builder.AppendLine($"{nameof(this.LocaleId)}: {this.LocaleId}");
         builder.AppendLine($"{nameof(this.LocaleName)}: {this.LocaleName}");
+        builder.AppendLine($"{nameof(this.Path)}: {this.Path}");
         builder.AppendLine($"{nameof(this.IsOK)}: {this.IsOK}");
         return builder.ToString();
     }
@@ -95,15 +88,13 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     public bool Equals(TranslationFile? other) {
         return other is not null &&
                this.LocaleId == other.LocaleId &&
-               this.LocaleName == other.LocaleName &&
-               this.Name == other.Name;
+               this.LocaleName == other.LocaleName;
     }
 
     public override int GetHashCode() {
         int hashCode = 1646257719;
         hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleId);
         hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleName);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Name);
         return hashCode;
     }
 

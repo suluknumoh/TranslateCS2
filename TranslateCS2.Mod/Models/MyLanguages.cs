@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-
-using Colossal.Localization;
-
-using Game.SceneFlow;
+using System.Text;
 
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
@@ -16,11 +13,11 @@ using TranslateCS2.ModBridge;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
-internal class MyCountrys {
-    private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
-    public static MyCountrys Instance { get; } = new MyCountrys();
-    private readonly Dictionary<SystemLanguage, MyCountry> Dict = [];
-    private MyCountrys() {
+internal class MyLanguages {
+    //private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
+    public static MyLanguages Instance { get; } = new MyLanguages();
+    private readonly Dictionary<SystemLanguage, MyLanguage> Dict = [];
+    private MyLanguages() {
         this.Init();
     }
 
@@ -38,12 +35,7 @@ internal class MyCountrys {
                         if (culture.EnglishName.StartsWith("Serbian", StringComparison.OrdinalIgnoreCase)
                             || culture.EnglishName.StartsWith("Croatian", StringComparison.OrdinalIgnoreCase)
                         ) {
-                            if (this.Dict.TryGetValue(language, out MyCountry? country) && country != null) {
-                                country.CultureInfos.Add(culture);
-                            } else {
-                                country = new MyCountry(language);
-                                this.Dict.Add(language, country);
-                            }
+                            this.AddToDictionary(culture, language);
                         }
                         continue;
                     case SystemLanguage.ChineseSimplified:
@@ -57,35 +49,57 @@ internal class MyCountrys {
                         break;
                 }
                 if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
-                    if (this.Dict.TryGetValue(language, out MyCountry? country) && country != null) {
-                        country.CultureInfos.Add(culture);
-                    } else {
-                        country = new MyCountry(language);
-                        this.Dict.Add(language, country);
-                    }
+                    this.AddToDictionary(culture, language);
                 }
             }
         }
-        foreach (KeyValuePair<SystemLanguage, MyCountry> entry in this.Dict) {
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.Dict) {
             entry.Value.Init();
         }
     }
+
+    private void AddToDictionary(CultureInfo culture, SystemLanguage language) {
+        if (this.Dict.TryGetValue(language, out MyLanguage? country) && country != null) {
+            country.CultureInfos.Add(culture);
+        } else {
+            country = new MyLanguage(language);
+            country.CultureInfos.Add(culture);
+            this.Dict.Add(language, country);
+        }
+    }
+
     public void ReadFiles() {
         IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(FileSystemHelper.DataFolder, ModConstants.JsonSearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
             try {
-                string name = translationFilePath
+                string localeId = translationFilePath
                     .Replace(FileSystemHelper.DataFolder, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
-                if (!this.IsReadAble(name)) {
+                // TODO: is it necessary to check for dash and built-int?
+                // TODO: probably check, if cultureinfo exists.
+                if (!this.IsReadAble(localeId)
+                    // deactivated for now
+                    && false
+                    ) {
                     continue;
                 }
-                MyCountry? country = this.GetCountry(name);
-                if (country == null) {
+                MyLanguage? language = this.GetLanguage(localeId);
+                if (language == null) {
                     continue;
                 }
-                TranslationFile translationFile = new TranslationFile(name, translationFilePath);
-                country.Flavors.Add(translationFile);
+                CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
+                if (cultureInfo == null) {
+                    Mod.Logger.LogError(this.GetType(),
+                                    "no culture info",
+                                    [translationFilePath, localeId]);
+                    continue;
+                }
+                string localeName = cultureInfo.NativeName;
+                if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(localeName)) {
+                    localeName = cultureInfo.EnglishName;
+                }
+                TranslationFile translationFile = new TranslationFile(localeId, localeName, translationFilePath);
+                language.Flavors.Add(translationFile);
             } catch (Exception ex) {
                 Mod.Logger.LogError(this.GetType(),
                                     ModConstants.FailedToLoad,
@@ -93,8 +107,8 @@ internal class MyCountrys {
             }
         }
     }
-    public MyCountry? GetCountry(string name) {
-        foreach (MyCountry country in this.Dict.Values) {
+    public MyLanguage? GetLanguage(string name) {
+        foreach (MyLanguage country in this.Dict.Values) {
             IEnumerable<CultureInfo> cis = country.CultureInfos.Where(ci => ci.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
                 return country;
@@ -102,12 +116,19 @@ internal class MyCountrys {
         }
         return null;
     }
+    public MyLanguage? GetLanguage(SystemLanguage systemLanguage) {
+        if (this.Dict.TryGetValue(systemLanguage, out MyLanguage? language) && language != null) {
+            return language;
+        }
+        return null;
+    }
     private bool IsReadAble(string id) {
+        // TODO: is it necessary to check for dash and built-int?
         return id.Contains("-") && !LocaleHelper.BuiltIn.Contains(id);
     }
 
     public void ClearOverwritten() {
-        foreach (KeyValuePair<SystemLanguage, MyCountry> entry in this.Dict) {
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.Dict) {
             if (entry.Value.IsBuiltIn) {
                 foreach (TranslationFile translationFile in entry.Value.Flavors) {
                     this.TryToClear(translationFile);
@@ -117,8 +138,8 @@ internal class MyCountrys {
     }
     private void TryToClear(TranslationFile translationFile) {
         try {
-            LocManager.RemoveSource(translationFile.LocaleId,
-                                    translationFile);
+            //LocManager.RemoveSource(translationFile.LocaleId,
+            //                        translationFile);
         } catch (Exception ex) {
             Mod.Logger.LogError(this.GetType(),
                                 ModConstants.FailedToUnLoad,
@@ -128,5 +149,14 @@ internal class MyCountrys {
 
     public void Reload() {
         // TODO:
+    }
+
+    public override string ToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine($"{nameof(MyLanguages)}: {this.Dict.Count}");
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.Dict) {
+            builder.AppendLine($"{entry.Key}: {entry.Value}");
+        }
+        return builder.ToString();
     }
 }

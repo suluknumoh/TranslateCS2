@@ -17,7 +17,7 @@ namespace TranslateCS2.Mod;
 public class Mod : IMod {
     public static ILog Logger { get; } = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
     private static GameManager GameManager { get; } = GameManager.instance;
-    private static MyCountrys Countrys { get; } = MyCountrys.Instance;
+    private static MyLanguages Languages { get; } = MyLanguages.Instance;
     private static LocalizationManager LocalizationManager { get; } = Mod.GameManager.localizationManager;
 
     private ModSettings? _setting;
@@ -29,7 +29,7 @@ public class Mod : IMod {
                 FileSystemHelper.CreateIfNotExists();
                 //
                 //
-                Countrys.ReadFiles();
+                Languages.ReadFiles();
                 // TODO: load read files
                 //
                 //

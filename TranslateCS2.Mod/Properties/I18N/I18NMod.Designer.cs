@@ -61,65 +61,11 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unity SystemLanguages are rare and general. For example: &apos;en-US&apos; and &apos;en-GB&apos; result in Unitys SystemLanguage &apos;English&apos;. By checking &apos;add as source to existing&apos;, &apos;en-GB.json&apos; would be added as source to &apos;en-US&apos; and &apos;overwrite&apos; the existing texts with the provided texts. As far as the respective json file existed on startup, a click on &apos;reload language files&apos; does the trick. can be reverted with a click on &apos;clear overwritten&apos;..
+        ///   Looks up a localized string similar to flavors.
         /// </summary>
-        internal static string GroupBehaviourOverwriteDescription {
+        internal static string GroupFlavorTitle {
             get {
-                return ResourceManager.GetString("GroupBehaviourOverwriteDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to add as source to existing.
-        /// </summary>
-        internal static string GroupBehaviourOverwriteLabel {
-            get {
-                return ResourceManager.GetString("GroupBehaviourOverwriteLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to behaviour.
-        /// </summary>
-        internal static string GroupBehaviourTitle {
-            get {
-                return ResourceManager.GetString("GroupBehaviourTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removes loaded languages from existing languages. Undos &apos;add as source to existing&apos;..
-        /// </summary>
-        internal static string GroupClearButtonOverwriteDescription {
-            get {
-                return ResourceManager.GetString("GroupClearButtonOverwriteDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to clear overwritten.
-        /// </summary>
-        internal static string GroupClearButtonOverwriteLabel {
-            get {
-                return ResourceManager.GetString("GroupClearButtonOverwriteLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do you really want to remove loaded languages from existing languages?.
-        /// </summary>
-        internal static string GroupClearButtonOverwriteWarning {
-            get {
-                return ResourceManager.GetString("GroupClearButtonOverwriteWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to clear overwritten.
-        /// </summary>
-        internal static string GroupClearTitle {
-            get {
-                return ResourceManager.GetString("GroupClearTitle", resourceCulture);
+                return ResourceManager.GetString("GroupFlavorTitle", resourceCulture);
             }
         }
         
