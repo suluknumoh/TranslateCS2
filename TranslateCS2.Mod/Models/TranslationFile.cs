@@ -8,6 +8,7 @@ using Colossal;
 
 using Newtonsoft.Json;
 
+using TranslateCS2.Mod.Helpers;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
@@ -39,9 +40,9 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         string json = this.ReadJson();
         this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
         if (this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName) && outLocaleName != null) {
-            this.LocaleName = outLocaleName;
+            this.LocaleName = LocaleHelper.EaseLocaleName(outLocaleName);
         } else {
-            this.LocaleName = localeName;
+            this.LocaleName = LocaleHelper.EaseLocaleName(localeName);
         }
     }
     public void ReInit() {
