@@ -82,4 +82,8 @@ internal class MyLanguage {
     public bool HasFlavor(string localeId) {
         return this.Flavors.Where(item => item.LocaleId == localeId).Any();
     }
+
+    public TranslationFile GetFlavor(string localeId) {
+        return this.Flavors.Where(item => item.LocaleId == localeId).First();
+    }
 }
