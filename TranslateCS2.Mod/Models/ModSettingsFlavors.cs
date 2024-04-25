@@ -30,7 +30,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Afrikaans);
     }
     public bool IsFlavorAfrikaansDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Afrikaans);
     }
 
 
@@ -51,7 +51,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Arabic);
     }
     public bool IsFlavorArabicDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Arabic);
     }
 
 
@@ -72,7 +72,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Basque);
     }
     public bool IsFlavorBasqueDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Basque);
     }
 
 
@@ -93,7 +93,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Belarusian);
     }
     public bool IsFlavorBelarusianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Belarusian);
     }
 
 
@@ -114,7 +114,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Bulgarian);
     }
     public bool IsFlavorBulgarianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Bulgarian);
     }
 
 
@@ -135,7 +135,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Catalan);
     }
     public bool IsFlavorCatalanDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Catalan);
     }
 
 
@@ -156,7 +156,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Czech);
     }
     public bool IsFlavorCzechDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Czech);
     }
 
 
@@ -177,7 +177,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Danish);
     }
     public bool IsFlavorDanishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Danish);
     }
 
 
@@ -198,7 +198,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Dutch);
     }
     public bool IsFlavorDutchDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Dutch);
     }
 
 
@@ -219,7 +219,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.English);
     }
     public bool IsFlavorEnglishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.English);
     }
 
 
@@ -240,7 +240,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Estonian);
     }
     public bool IsFlavorEstonianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Estonian);
     }
 
 
@@ -261,7 +261,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Faroese);
     }
     public bool IsFlavorFaroeseDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Faroese);
     }
 
 
@@ -282,7 +282,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Finnish);
     }
     public bool IsFlavorFinnishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Finnish);
     }
 
 
@@ -303,7 +303,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.French);
     }
     public bool IsFlavorFrenchDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.French);
     }
 
 
@@ -345,7 +345,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Greek);
     }
     public bool IsFlavorGreekDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Greek);
     }
 
 
@@ -366,7 +366,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Hebrew);
     }
     public bool IsFlavorHebrewDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Hebrew);
     }
 
 
@@ -387,7 +387,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Icelandic);
     }
     public bool IsFlavorIcelandicDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Icelandic);
     }
 
 
@@ -408,7 +408,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Indonesian);
     }
     public bool IsFlavorIndonesianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Indonesian);
     }
 
 
@@ -429,7 +429,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Italian);
     }
     public bool IsFlavorItalianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Italian);
     }
 
 
@@ -450,7 +450,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Japanese);
     }
     public bool IsFlavorJapaneseDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Japanese);
     }
 
 
@@ -471,7 +471,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Korean);
     }
     public bool IsFlavorKoreanDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Korean);
     }
 
 
@@ -492,7 +492,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Latvian);
     }
     public bool IsFlavorLatvianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Latvian);
     }
 
 
@@ -513,7 +513,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Lithuanian);
     }
     public bool IsFlavorLithuanianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Lithuanian);
     }
 
 
@@ -534,7 +534,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Norwegian);
     }
     public bool IsFlavorNorwegianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Norwegian);
     }
 
 
@@ -555,7 +555,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Polish);
     }
     public bool IsFlavorPolishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Polish);
     }
 
 
@@ -576,7 +576,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Portuguese);
     }
     public bool IsFlavorPortugueseDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Portuguese);
     }
 
 
@@ -597,7 +597,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Romanian);
     }
     public bool IsFlavorRomanianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Romanian);
     }
 
 
@@ -618,7 +618,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Russian);
     }
     public bool IsFlavorRussianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Russian);
     }
 
 
@@ -639,7 +639,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.SerboCroatian);
     }
     public bool IsFlavorSerboCroatianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.SerboCroatian);
     }
 
 
@@ -660,7 +660,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Slovak);
     }
     public bool IsFlavorSlovakDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Slovak);
     }
 
 
@@ -681,7 +681,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Slovenian);
     }
     public bool IsFlavorSlovenianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Slovenian);
     }
 
 
@@ -702,7 +702,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Spanish);
     }
     public bool IsFlavorSpanishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Spanish);
     }
 
 
@@ -723,7 +723,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Swedish);
     }
     public bool IsFlavorSwedishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Swedish);
     }
 
 
@@ -744,7 +744,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Thai);
     }
     public bool IsFlavorThaiDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Thai);
     }
 
 
@@ -765,7 +765,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Turkish);
     }
     public bool IsFlavorTurkishDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Turkish);
     }
 
 
@@ -786,7 +786,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Ukrainian);
     }
     public bool IsFlavorUkrainianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Ukrainian);
     }
 
 
@@ -807,7 +807,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Vietnamese);
     }
     public bool IsFlavorVietnameseDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Vietnamese);
     }
 
 
@@ -829,7 +829,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.ChineseSimplified);
     }
     public bool IsFlavorChineseSimplifiedDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.ChineseSimplified);
     }
 
 
@@ -851,7 +851,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.ChineseTraditional);
     }
     public bool IsFlavorChineseTraditionalDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.ChineseTraditional);
     }
 
 
@@ -872,7 +872,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Hindi);
     }
     public bool IsFlavorHindiDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Hindi);
     }
 
 
@@ -893,7 +893,7 @@ internal partial class ModSettings {
         return IsHidden(SystemLanguage.Hungarian);
     }
     public bool IsFlavorHungarianDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return IsDisabled(SystemLanguage.Hungarian);
     }
 
 
