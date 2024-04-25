@@ -118,11 +118,7 @@ internal class MyLanguages {
         return null;
     }
     private bool IsReadAble(string id) {
-        // TODO: is it necessary to check for dash and built-int?
-        // TODO: probably check, if cultureinfo exists.
-        // TODO:
-        return true;
-        return id.Contains("-") && !LocaleHelper.BuiltIn.Contains(id);
+        return id.Contains("-");
     }
 
     public void Load() {

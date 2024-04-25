@@ -10,7 +10,7 @@ namespace TranslateCS2.Mod.Helpers;
 internal static class LocaleHelper {
     public static IList<string> BuiltIn { get; } = [];
     static LocaleHelper() {
-        // TODO: is it ok?
+        // INFO: is it ok?
         // has to end with a forward-slash
         string path = $"{EnvPath.kStreamingDataPath}/Data~/";
         IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);

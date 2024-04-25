@@ -15,7 +15,7 @@ internal class ModSettingsLocale : IDictionarySource {
         return new Dictionary<string, string>
         {
                 { this.modSettings.GetSettingsLocaleID(), ModConstants.NameSimple },
-                // TODO: what is it for?
+                // INFO: what is it for?
                 { this.modSettings.GetOptionTabLocaleID(ModSettings.Section), ModSettings.Section },
 
                 // reload-group
