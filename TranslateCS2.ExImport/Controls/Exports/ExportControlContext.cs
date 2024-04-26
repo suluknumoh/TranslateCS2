@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 
+using Markdig;
+using Markdig.Wpf;
+
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Helpers;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
@@ -19,10 +25,7 @@ using TranslateCS2.ExImport.Services;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.ExImport.Controls.Exports;
-// TODO: additional information: filename-proposal
-// TODO: additional information: LocaleNameLocalized???
-// TODO: additional information: if localename localized contains special characters, replace with english name???
-internal class ExportControlContext : BindableBase, INavigationAware {
+internal class ExportControlContext : ABaseViewModel {
     private readonly IViewConfigurations _viewConfigurations;
     private readonly ExImportService _exportService;
     private readonly string _dialogtitle = I18NExport.DialogTitle;
@@ -31,6 +34,8 @@ internal class ExportControlContext : BindableBase, INavigationAware {
 
 
     public ITranslationSessionManager SessionManager { get; }
+    public string? Doc { get; private set; }
+    public MarkdownPipeline? Pipeline { get; private set; }
 
 
     private bool _IsEnabled;
@@ -202,15 +207,8 @@ internal class ExportControlContext : BindableBase, INavigationAware {
             this.IsExportButtonEnabled = true;
         }
     }
-    public bool IsNavigationTarget(NavigationContext navigationContext) {
-        return true;
-    }
 
-    public void OnNavigatedFrom(NavigationContext navigationContext) {
-        //
-    }
-
-    public void OnNavigatedTo(NavigationContext navigationContext) {
+    public override void OnNavigatedTo(NavigationContext navigationContext) {
         this.ExportFormats.Clear();
         List<ExportFormat> formats = this._exportService.GetExportFormats();
         if (this.SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName == AppConfigurationManager.NoneOverwrite) {
@@ -218,5 +216,24 @@ internal class ExportControlContext : BindableBase, INavigationAware {
         }
         this.ExportFormats.AddRange(formats);
         this.SelectedExportFormat = this.ExportFormats.First();
+    }
+    protected override async void OnLoadedCommandAction() {
+        this.Doc = GetReadMe();
+        this.Pipeline = new MarkdownPipelineBuilder().UseSupportedExtensions().Build();
+        this.RaisePropertyChanged(nameof(this.Doc));
+        this.RaisePropertyChanged(nameof(this.Pipeline));
+    }
+    private static string GetReadMe() {
+        try {
+            Assembly assembly = Assembly.GetCallingAssembly();
+            using Stream? stream = assembly.GetManifestResourceStream("TranslateCS2.ExImport.Assets.README.MOD.md");
+            if (stream != null) {
+                using StreamReader sr = new StreamReader(stream);
+                return sr.ReadToEnd();
+            }
+        } catch {
+            //
+        }
+        return String.Empty;
     }
 }

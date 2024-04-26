@@ -5,10 +5,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:i18n="clr-namespace:TranslateCS2.ExImport.Properties.I18N"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core"
+    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     prism:ViewModelLocator.AutoWireViewModel="True">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <bhv:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
     <ContentControl.Resources>
         <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
     </ContentControl.Resources>
@@ -57,7 +66,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 TextAlignment="Center"
-                MaxWidth="200"
+                MaxWidth="240"
                 TextWrapping="Wrap"/>
         </StackPanel>
         <StackPanel
@@ -101,7 +110,7 @@
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
                 TextWrapping="WrapWithOverflow"
-                MaxWidth="180"
+                MaxWidth="240"
                 Text="{Binding SelectedPath}" />
         </StackPanel>
         <StackPanel
@@ -123,7 +132,7 @@
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
                 TextWrapping="WrapWithOverflow"
-                MaxWidth="180"
+                MaxWidth="240"
                 Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddKey}, Mode=OneWay}" />
         </StackPanel>
         <StackPanel
@@ -145,7 +154,7 @@
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
                 TextWrapping="WrapWithOverflow"
-                MaxWidth="180"
+                MaxWidth="240"
                 Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddMergeValues}, Mode=OneWay}" />
         </StackPanel>
         <Button
@@ -192,12 +201,15 @@
                 Style="{StaticResource StyleHeading}"
                 Text="{Binding Source={x:Static i18n:I18NExport.CaptionAdditionalInformation}, Mode=OneWay}"
                 />
-            <ScrollViewer
+            <markdig:MarkdownViewer
                 Grid.Row="1"
                 Grid.Column="0"
-                VerticalScrollBarVisibility="Auto">
-                
-            </ScrollViewer>
+                Markdown="{Binding Doc}"
+                Pipeline="{Binding Pipeline}">
+                <markdig:MarkdownViewer.Resources>
+                    <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
+                </markdig:MarkdownViewer.Resources>
+            </markdig:MarkdownViewer>
         </Grid>
     </Grid>
 </ContentControl>
