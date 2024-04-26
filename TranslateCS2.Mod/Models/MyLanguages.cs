@@ -125,7 +125,9 @@ internal class MyLanguages {
             }
             try {
                 this.TryToAddLocale(language);
-                this.TryToAddSource(language, language.Flavors.First(), true);
+                TranslationFile flavor = language.Flavors.First();
+                this.TryToAddSource(language, flavor, true);
+                this.AddToFlavorMapping(language.SystemLanguage, flavor.LocaleId);
             } catch (Exception ex) {
                 Mod.Logger.LogError(this.GetType(),
                                     LoggingConstants.FailedTo,
