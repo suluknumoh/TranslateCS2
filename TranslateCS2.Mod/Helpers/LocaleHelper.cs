@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 
 using Colossal.PSI.Environment;
@@ -22,12 +21,5 @@ internal static class LocaleHelper {
                 .Replace(ModConstants.LocExtension, String.Empty);
             BuiltIn.Add(locale);
         }
-    }
-
-    public static string EaseLocaleName(CultureInfo cultureInfo) {
-        if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.NativeName)) {
-            return cultureInfo.EnglishName;
-        }
-        return cultureInfo.NativeName;
     }
 }

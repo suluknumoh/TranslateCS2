@@ -92,10 +92,7 @@ internal class MyLanguages {
                                     [translationFilePath, localeId, language]);
                     continue;
                 }
-                string localeName = cultureInfo.NativeName;
-                if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(localeName)) {
-                    localeName = cultureInfo.EnglishName;
-                }
+                string localeName = CultureInfoHelper.EaseLocaleName(cultureInfo);
                 TranslationFile translationFile = new TranslationFile(localeId, localeName, translationFilePath);
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {

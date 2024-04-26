@@ -2,9 +2,7 @@
 using System.Globalization;
 using System.Linq;
 
-using TranslateCS2.ModBridge;
-
-namespace TranslateCS2.Core.Helpers;
+namespace TranslateCS2.ModBridge;
 public static class CultureInfoHelper {
     public static CultureInfo? GatherCultureFromEnglishName(string? englishName) {
         if (englishName == null) {
@@ -18,5 +16,11 @@ public static class CultureInfoHelper {
             return orderedGuessedCultures.First();
         }
         return null;
+    }
+    public static string EaseLocaleName(CultureInfo cultureInfo) {
+        if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.EnglishName)) {
+            return EaseLocaleName(cultureInfo.Parent);
+        }
+        return cultureInfo.EnglishName;
     }
 }

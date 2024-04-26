@@ -7,6 +7,7 @@ using System.Text;
 using Game.UI.Widgets;
 
 using TranslateCS2.Mod.Helpers;
+using TranslateCS2.ModBridge;
 
 using UnityEngine;
 
@@ -27,7 +28,7 @@ internal class MyLanguage {
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
             this.ID = ci.Name;
-            this.Name = LocaleHelper.EaseLocaleName(ci);
+            this.Name = CultureInfoHelper.EaseLocaleName(ci);
             this.IsBuiltIn = true;
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
@@ -38,7 +39,7 @@ internal class MyLanguage {
                     // otherwise it would be Croatian only
                     this.Name = this.SystemLanguage.ToString();
                 } else {
-                    this.Name = LocaleHelper.EaseLocaleName(ci);
+                    this.Name = CultureInfoHelper.EaseLocaleName(ci);
                 }
                 this.IsBuiltIn = false;
             }
