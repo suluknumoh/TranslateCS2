@@ -182,4 +182,17 @@ This mod is intended to sideload custom localizations/translations from JSONs.
       <Folder Include="Assets\Examples\" />
     </ItemGroup>
 
+    <Target
+        Name="WriteReadme"
+        BeforeTargets="BeforeBuild">
+        <ItemGroup>
+            <FileToWriteTo Include="$(ProjectDir)README.md"/>
+            <ContentToWrite Include="$(LongDescription)"/>
+            <ContentToWrite Include="$(ChangeLog)"/>
+        </ItemGroup>
+        <WriteLinesToFile
+            File="@(FileToWriteTo)"
+            Lines="@(ContentToWrite)"
+            Overwrite="true"/>
+    </Target>
 </Project>
