@@ -8,9 +8,9 @@ namespace TranslateCS2.Helpers;
 public static class MarkdownHelper {
     private static readonly string _readmePath = $"{AppConfigurationManager.AssetPath}README.md";
     public static string GetReadmeTillCaption(string caption) {
-        Assembly assembly = Assembly.GetExecutingAssembly();
         StringBuilder builder = new StringBuilder();
         try {
+            Assembly assembly = Assembly.GetExecutingAssembly();
             using Stream? stream = assembly.GetManifestResourceStream(_readmePath);
             if (stream != null) {
                 using StreamReader sr = new StreamReader(stream);
@@ -28,9 +28,9 @@ public static class MarkdownHelper {
         return builder.ToString();
     }
     public static string GetReadmeFromCaption(string caption) {
-        Assembly assembly = Assembly.GetExecutingAssembly();
         StringBuilder builder = new StringBuilder();
         try {
+            Assembly assembly = Assembly.GetExecutingAssembly();
             using Stream? stream = assembly.GetManifestResourceStream(_readmePath);
             if (stream != null) {
                 using StreamReader sr = new StreamReader(stream);
