@@ -566,9 +566,17 @@ This mod is intended to sideload custom localizations/translations from JSONs.
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
     <ItemGroup>
+      <None Remove="Examples\en-GB.json" />
+      <None Remove="Examples\nl-NL.json" />
       <None Remove="README.md" />
     </ItemGroup>
     <ItemGroup>
+      <EmbeddedResource Include="Examples\en-GB.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Examples\nl-NL.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
       <EmbeddedResource Include="README.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
@@ -653,19 +661,6 @@ This mod is intended to sideload custom localizations/translations from JSONs.
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>I18NMod.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Examples\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Examples\en-GB.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Examples\nl-NL.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
     <Target Name="WriteReadme" BeforeTargets="BeforeBuild">
