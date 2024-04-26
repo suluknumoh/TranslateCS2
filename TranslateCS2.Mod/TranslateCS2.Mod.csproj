@@ -37,7 +37,7 @@ Settings can now be found over there:
 
 ## Mod-Settings within the game
 
-* removed behaviour -> add as source
+* removed behaviour -&gt; add as source
 * removed clear overwritten
 * added drop down to select a flavor
 * if a certain language has no flavors, the drop down is disabled
@@ -656,20 +656,24 @@ This mod is intended to sideload custom localizations/translations from JSONs.
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Assets\Examples\" />
+      <Folder Include="Examples\" />
     </ItemGroup>
 
-    <Target
-        Name="WriteReadme"
-        BeforeTargets="BeforeBuild">
+    <ItemGroup>
+      <None Update="Examples\en-GB.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Examples\nl-NL.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <Target Name="WriteReadme" BeforeTargets="BeforeBuild">
         <ItemGroup>
-            <FileToWriteTo Include="$(ProjectDir)README.md"/>
-            <ContentToWrite Include="$(LongDescription)"/>
-            <ContentToWrite Include="$(ChangeLog)"/>
+            <FileToWriteTo Include="$(ProjectDir)README.md" />
+            <ContentToWrite Include="$(LongDescription)" />
+            <ContentToWrite Include="$(ChangeLog)" />
         </ItemGroup>
-        <WriteLinesToFile
-            File="@(FileToWriteTo)"
-            Lines="@(ContentToWrite)"
-            Overwrite="true"/>
+        <WriteLinesToFile File="@(FileToWriteTo)" Lines="@(ContentToWrite)" Overwrite="true" />
     </Target>
 </Project>
