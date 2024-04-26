@@ -26,6 +26,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\README.MOD.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\README.MOD.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
     <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />
     <ProjectReference Include="..\TranslateCS2.TextSearch\TranslateCS2.TextSearch.csproj" />
@@ -55,4 +63,11 @@
     </EmbeddedResource>
   </ItemGroup>
 
+
+    <Target Name="CopyReadMeMod" BeforeTargets="BeforeBuild">
+        <ItemGroup>
+            <FilesToCopy Include="..\TranslateCS2.Mod\README.md" />
+        </ItemGroup>
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(ProjectDir)Assets\README.MOD.md" />
+    </Target>
 </Project>

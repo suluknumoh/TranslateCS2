@@ -44,7 +44,6 @@
 
     <ItemGroup>
         <None Remove="Assets\README.md" />
-        <None Remove="Assets\README.MOD.md" />
         <None Remove="Assets\splashscreen.png" />
         <None Remove="Assets\Translations.sqlite" />
     </ItemGroup>
@@ -55,7 +54,6 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Assets\README.md" />
-        <EmbeddedResource Include="Assets\README.MOD.md" />
         <EmbeddedResource Include="Assets\Translations.sqlite" />
     </ItemGroup>
 
@@ -69,13 +67,6 @@
     <ItemGroup>
         <SplashScreen Include="Assets\splashscreen.png" />
     </ItemGroup>
-    
-    <Target Name="CopyReadMeMod" BeforeTargets="BeforeBuild">
-        <ItemGroup>
-            <FilesToCopy Include="..\TranslateCS2.Mod\README.md" />
-        </ItemGroup>
-        <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(ProjectDir)Assets\README.MOD.md" />
-    </Target>
 
     <Target Name="CopyReadMe" BeforeTargets="AfterBuild">
         <ItemGroup>
