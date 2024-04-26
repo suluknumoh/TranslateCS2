@@ -18,9 +18,26 @@ public static class CultureInfoHelper {
         return null;
     }
     public static string EaseLocaleName(CultureInfo cultureInfo) {
+        string? ret = EaseLocaleNameNative(cultureInfo, 2);
+        ret ??= EaseLocaleNameEnglish(cultureInfo, 2);
+        return ret;
+    }
+    private static string EaseLocaleNameEnglish(CultureInfo cultureInfo, int steps) {
         if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.EnglishName)) {
-            return EaseLocaleName(cultureInfo.Parent);
+            if (steps <= 0) {
+                return cultureInfo.Name;
+            }
+            return EaseLocaleNameEnglish(cultureInfo.Parent, --steps);
         }
         return cultureInfo.EnglishName;
+    }
+    private static string? EaseLocaleNameNative(CultureInfo cultureInfo, int steps) {
+        if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.NativeName)) {
+            if (steps <= 0) {
+                return null;
+            }
+            return EaseLocaleNameNative(cultureInfo.Parent, --steps);
+        }
+        return cultureInfo.NativeName;
     }
 }
