@@ -81,9 +81,6 @@ internal class MyLanguages {
                 string localeId = translationFilePath
                     .Replace(FileSystemHelper.DataFolder, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
-                if (!this.IsReadAble(localeId)) {
-                    continue;
-                }
                 MyLanguage? language = this.GetLanguage(localeId);
                 if (language == null) {
                     continue;
@@ -122,9 +119,6 @@ internal class MyLanguages {
             return language;
         }
         return null;
-    }
-    private bool IsReadAble(string id) {
-        return id.Contains("-");
     }
 
     public void Load() {
