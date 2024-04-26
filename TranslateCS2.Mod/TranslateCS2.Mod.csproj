@@ -567,12 +567,32 @@ This mod is intended to sideload custom localizations/translations from JSONs.
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
     <ItemGroup>
       <None Remove="CHANGELOG.md" />
+      <None Remove="Examples\directory.png" />
+      <None Remove="Examples\en-GB-0.png" />
+      <None Remove="Examples\en-GB-1.png" />
       <None Remove="Examples\en-GB.json" />
+      <None Remove="Examples\nl-NL-0.png" />
+      <None Remove="Examples\nl-NL-1.png" />
       <None Remove="Examples\nl-NL.json" />
       <None Remove="README.md" />
     </ItemGroup>
     <ItemGroup>
+      <EmbeddedResource Include="Examples\directory.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Examples\en-GB-0.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Examples\en-GB-1.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
       <EmbeddedResource Include="Examples\en-GB.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Examples\nl-NL-0.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Examples\nl-NL-1.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <EmbeddedResource Include="Examples\nl-NL.json">

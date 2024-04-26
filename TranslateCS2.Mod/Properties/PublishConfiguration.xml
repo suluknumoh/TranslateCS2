@@ -16,7 +16,11 @@
     <Thumbnail Value="Properties/Thumbnail.png" />
 
     <!--Screenshot, can be set multiple times-->
-    <Screenshot Value="" />
+    <Screenshot Value="Examples/en-GB-0.png" />
+    <Screenshot Value="Examples/en-GB-1.png" />
+    <Screenshot Value="Examples/nl-NL-0.png" />
+    <Screenshot Value="Examples/nl-NL-1.png" />
+    <Screenshot Value="Examples/directory.png" />
 
     <!--Tag, can be set multiple times-->
     <Tag Value="CodeMod" />
