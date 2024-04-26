@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 
 using Colossal.PSI.Environment;
 
@@ -30,12 +29,5 @@ internal static class LocaleHelper {
             return cultureInfo.EnglishName;
         }
         return cultureInfo.NativeName;
-    }
-    public static string EaseLocaleName(string localeName) {
-        IEnumerable<CultureInfo> cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(item => item.NativeName == localeName || item.EnglishName == localeName || item.DisplayName == localeName);
-        if (cultureInfos.Any()) {
-            return EaseLocaleName(cultureInfos.First());
-        }
-        return localeName;
     }
 }
