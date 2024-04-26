@@ -928,13 +928,20 @@ internal partial class ModSettings {
         return language.Flavors.First().LocaleId;
     }
 
-    private string GetValueToSet(SystemLanguage systemLanguage, string localeId) {
+    private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter) {
+        string localeId = localeIdParameter;
         MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
-        if (language == null || !language.HasFlavor(localeId)) {
+        if (language == null) {
             // if localeId is none: language has no flavor with such a locale id
-            string ret = DropDownItemsHelper.None;
-            OnFlavorChanged?.Invoke(language, systemLanguage, ret);
-            return ret;
+            localeId = DropDownItemsHelper.None;
+        } else {
+            if (!language.HasFlavor(localeId)) {
+                if (language.IsBuiltIn) {
+                    localeId = DropDownItemsHelper.None;
+                } else {
+                    localeId = language.Flavors.First().LocaleId;
+                }
+            }
         }
         OnFlavorChanged?.Invoke(language, systemLanguage, localeId);
         return localeId;
