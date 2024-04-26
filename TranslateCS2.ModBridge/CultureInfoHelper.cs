@@ -18,8 +18,8 @@ public static class CultureInfoHelper {
         return null;
     }
     public static string EaseLocaleName(CultureInfo cultureInfo) {
-        string? ret = EaseLocaleNameNative(cultureInfo, 2);
-        ret ??= EaseLocaleNameEnglish(cultureInfo, 2);
+        string? ret = EaseLocaleNameNative(cultureInfo, 0);
+        ret ??= EaseLocaleNameEnglish(cultureInfo, 1);
         return ret;
     }
     private static string EaseLocaleNameEnglish(CultureInfo cultureInfo, int steps) {
