@@ -61,6 +61,24 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a flavor for {0}.
+        /// </summary>
+        internal static string FlavorDescription {
+            get {
+                return ResourceManager.GetString("FlavorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flavor for {0}.
+        /// </summary>
+        internal static string FlavorLabel {
+            get {
+                return ResourceManager.GetString("FlavorLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to flavors.
         /// </summary>
         internal static string GroupFlavorTitle {
