@@ -28,7 +28,7 @@
     <ModVersion Value="$(AssemblyVersion)" />
 
     <!--Recommended version of the base game to use the mod-->
-    <GameVersion Value="1.1.*" />
+    <GameVersion Value="1.1.2*" />
 
     <!--Dependency for the mod, can be set multiple times-->
     <Dependency Id="" />
