@@ -1,3 +1,9 @@
+# ChangeLog Version 1.3
+
+## fix on load error
+* error on loading the mod and prevented saved flavor selections from beeing restored
+
+
 # ChangeLog Version 1.2
 
 ## display name
