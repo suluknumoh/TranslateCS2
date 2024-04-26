@@ -25,7 +25,7 @@
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/translatecs2-translatecs2-mod.1669371/" />
 
     <!--Version of the mod-->
-    <ModVersion Value="1.1" />
+    <ModVersion Value="$(AssemblyVersion)" />
 
     <!--Recommended version of the base game to use the mod-->
     <GameVersion Value="1.1.*" />
