@@ -44,6 +44,7 @@
 
     <ItemGroup>
         <None Remove="Assets\README.md" />
+        <None Remove="Assets\README.MOD.md" />
         <None Remove="Assets\splashscreen.png" />
         <None Remove="Assets\Translations.sqlite" />
     </ItemGroup>
@@ -54,6 +55,7 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Assets\README.md" />
+        <EmbeddedResource Include="Assets\README.MOD.md" />
         <EmbeddedResource Include="Assets\Translations.sqlite" />
     </ItemGroup>
 
@@ -67,27 +69,25 @@
     <ItemGroup>
         <SplashScreen Include="Assets\splashscreen.png" />
     </ItemGroup>
-
-    <Target
-        Name="CopyReadMe"
-        BeforeTargets="AfterBuild">
+    
+    <Target Name="CopyReadMeMod" BeforeTargets="BeforeBuild">
         <ItemGroup>
-            <FilesToCopy Include="$(ProjectDir)Assets\README.MD"/>
+            <FilesToCopy Include="..\TranslateCS2.Mod\README.md" />
         </ItemGroup>
-        <Copy
-            SourceFiles="@(FilesToCopy)"
-            DestinationFolder="$(SolutionDir)"/>
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(ProjectDir)Assets\README.MOD.md" />
     </Target>
-    <Target
-        Name="WriteLatest"
-        BeforeTargets="CopyReadMe">
+
+    <Target Name="CopyReadMe" BeforeTargets="AfterBuild">
         <ItemGroup>
-            <FileToWriteTo Include="$(SolutionDir)latest"/>
-            <ContentToWrite Include="$(AssemblyVersion)"/>
+            <FilesToCopy Include="$(ProjectDir)Assets\README.MD" />
         </ItemGroup>
-        <WriteLinesToFile
-            File="@(FileToWriteTo)"
-            Lines="@(ContentToWrite)"
-            Overwrite="true"/>
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(SolutionDir)" />
+    </Target>
+    <Target Name="WriteLatest" BeforeTargets="CopyReadMe">
+        <ItemGroup>
+            <FileToWriteTo Include="$(SolutionDir)latest" />
+            <ContentToWrite Include="$(AssemblyVersion)" />
+        </ItemGroup>
+        <WriteLinesToFile File="@(FileToWriteTo)" Lines="@(ContentToWrite)" Overwrite="true" />
     </Target>
 </Project>
