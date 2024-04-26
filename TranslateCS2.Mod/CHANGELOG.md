@@ -1,3 +1,12 @@
+# ChangeLog Version 1.2
+
+## display name
+* correct stepping to display at least the correct english name
+
+## reload language
+* add to flavormapping on load, otherwise language source got removed, but not added
+
+
 # ChangeLog Version 1.1
 
 ## File-System/Locations
