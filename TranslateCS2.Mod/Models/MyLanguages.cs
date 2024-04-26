@@ -20,7 +20,9 @@ namespace TranslateCS2.Mod.Models;
 internal class MyLanguages {
     private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
     public static MyLanguages Instance { get; } = new MyLanguages();
+
     private readonly Dictionary<SystemLanguage, MyLanguage> Dict = [];
+    private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
     private MyLanguages() {
         this.Init();
     }
@@ -132,7 +134,7 @@ internal class MyLanguages {
             }
             try {
                 this.TryToAddLocale(language);
-                this.TryToAddSource(language, language.Flavors.First());
+                this.TryToAddSource(language, language.Flavors.First(), true);
             } catch (Exception ex) {
                 Mod.Logger.LogError(this.GetType(),
                                     LoggingConstants.FailedTo,
@@ -142,7 +144,29 @@ internal class MyLanguages {
     }
 
     public void ReLoad() {
-        // TODO: nur versuchen, die json-dateien erneut einzulesen
+        try {
+            foreach (MyLanguage language in this.Dict.Values) {
+                this.FlavorMapping.TryGetValue(language.SystemLanguage, out string? localeId);
+                localeId ??= DropDownItemsHelper.None;
+                foreach (TranslationFile translationFile in language.Flavors) {
+                    try {
+                        this.TryToRemoveSource(language, translationFile);
+                        translationFile.ReInit();
+                        if (localeId == translationFile.LocaleId) {
+                            this.TryToAddSource(language, translationFile);
+                        }
+                    } catch (Exception ex) {
+                        Mod.Logger.LogError(this.GetType(),
+                                            LoggingConstants.FailedTo,
+                                            [nameof(ReLoad), ex, localeId, language, translationFile]);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            Mod.Logger.LogError(this.GetType(),
+                                LoggingConstants.FailedTo,
+                                [nameof(ReLoad), ex]);
+        }
     }
 
     public override string ToString() {
@@ -156,6 +180,7 @@ internal class MyLanguages {
 
     public void FlavorChanged(MyLanguage? language, SystemLanguage systemLanguage, string localeId) {
         try {
+            this.AddToFlavorMapping(systemLanguage, localeId);
             if (language == null) {
                 return;
             }
@@ -185,7 +210,7 @@ internal class MyLanguages {
             throw;
         }
     }
-    private void TryToAddSource(MyLanguage language, TranslationFile translationFile) {
+    private void TryToAddSource(MyLanguage language, TranslationFile translationFile, bool reThrow = false) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             LocManager.AddSource(language.ID,
@@ -195,7 +220,9 @@ internal class MyLanguages {
                                 LoggingConstants.FailedTo,
                                 [nameof(TryToAddSource), ex, translationFile]);
             this.TryToRemoveSource(language, translationFile);
-            throw;
+            if (reThrow) {
+                throw;
+            }
         }
     }
     private void TryToRemoveSource(MyLanguage language, TranslationFile translationFile) {
@@ -208,5 +235,9 @@ internal class MyLanguages {
                                 LoggingConstants.FailedTo,
                                 [nameof(TryToRemoveSource), ex, translationFile]);
         }
+    }
+    private void AddToFlavorMapping(SystemLanguage systemLanguage, string localeId) {
+        this.FlavorMapping.Remove(systemLanguage);
+        this.FlavorMapping.Add(systemLanguage, localeId);
     }
 }
