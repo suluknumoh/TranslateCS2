@@ -566,6 +566,7 @@ This mod is intended to sideload custom localizations/translations from JSONs.
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
     <ItemGroup>
+      <None Remove="CHANGELOG.md" />
       <None Remove="Examples\en-GB.json" />
       <None Remove="Examples\nl-NL.json" />
       <None Remove="README.md" />
@@ -575,6 +576,9 @@ This mod is intended to sideload custom localizations/translations from JSONs.
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <EmbeddedResource Include="Examples\nl-NL.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="CHANGELOG.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <EmbeddedResource Include="README.md">
@@ -663,12 +667,25 @@ This mod is intended to sideload custom localizations/translations from JSONs.
       </EmbeddedResource>
     </ItemGroup>
 
-    <Target Name="WriteReadme" BeforeTargets="BeforeBuild">
+
+    <Target Name="WriteChangeLog" BeforeTargets="BeforePublish">
+        <ReadLinesFromFile File="$(ProjectDir)CHANGELOG.md">
+            <Output TaskParameter="Lines" ItemName="ChangeLogLines" />
+        </ReadLinesFromFile>
         <ItemGroup>
-            <FileToWriteTo Include="$(ProjectDir)README.md" />
-            <ContentToWrite Include="$(LongDescription)" />
-            <ContentToWrite Include="$(ChangeLog)" />
+            <ChangeLogFile Include="$(ProjectDir)CHANGELOG.md" />
+            <ChangeLogContent Include="$(ChangeLog)" />
+            <ChangeLogContent Include="@(ChangeLogLines)" />
         </ItemGroup>
-        <WriteLinesToFile File="@(FileToWriteTo)" Lines="@(ContentToWrite)" Overwrite="true" />
+        <WriteLinesToFile File="@(ChangeLogFile)" Lines="@(ChangeLogContent)" Overwrite="true" />
+    </Target>
+
+
+    <Target Name="WriteReadMe" AfterTargets="BeforeBuild">
+        <ItemGroup>
+            <ReadMeFile Include="$(ProjectDir)README.md" />
+            <ReadMeContent Include="$(LongDescription)" />
+        </ItemGroup>
+        <WriteLinesToFile File="@(ReadMeFile)" Lines="@(ReadMeContent)" Overwrite="true" />
     </Target>
 </Project>
