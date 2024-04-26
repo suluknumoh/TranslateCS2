@@ -42,7 +42,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         if (this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName) && outLocaleName != null) {
             this.LocaleName = LocaleHelper.EaseLocaleName(outLocaleName);
         } else {
-            this.LocaleName = LocaleHelper.EaseLocaleName(localeName);
+            this.LocaleName = localeName;
         }
     }
     public void ReInit() {
