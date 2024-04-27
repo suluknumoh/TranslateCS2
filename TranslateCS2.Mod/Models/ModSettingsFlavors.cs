@@ -371,6 +371,27 @@ internal partial class ModSettings {
 
 
 
+    private string _FlavorHungarian = InitFlavor(SystemLanguage.Hungarian);
+    [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsHungarian))]
+    [SettingsUISection(Section, FlavorGroup)]
+    [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorHungarianHidden))]
+    [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsFlavorHungarianDisabled))]
+    public string FlavorHungarian {
+        get => this._FlavorHungarian;
+        set => this._FlavorHungarian = this.GetValueToSet(SystemLanguage.Hungarian, value);
+    }
+    public DropdownItem<string>[] GetFlavorsHungarian() {
+        return GetFlavors(SystemLanguage.Hungarian);
+    }
+    public bool IsFlavorHungarianHidden() {
+        return IsHidden(SystemLanguage.Hungarian);
+    }
+    public bool IsFlavorHungarianDisabled() {
+        return IsDisabled(SystemLanguage.Hungarian);
+    }
+
+
+
     private string _FlavorIcelandic = InitFlavor(SystemLanguage.Icelandic);
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsIcelandic))]
     [SettingsUISection(Section, FlavorGroup)]
@@ -817,7 +838,6 @@ internal partial class ModSettings {
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorChineseSimplifiedHidden))]
     [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsFlavorChineseSimplifiedDisabled))]
-
     public string FlavorChineseSimplified {
         get => this._FlavorChineseSimplified;
         set => this._FlavorChineseSimplified = this.GetValueToSet(SystemLanguage.ChineseSimplified, value);
@@ -839,7 +859,6 @@ internal partial class ModSettings {
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorChineseTraditionalHidden))]
     [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsFlavorChineseTraditionalDisabled))]
-
     public string FlavorChineseTraditional {
         get => this._FlavorChineseTraditional;
         set => this._FlavorChineseTraditional = this.GetValueToSet(SystemLanguage.ChineseTraditional, value);
@@ -877,24 +896,7 @@ internal partial class ModSettings {
 
 
 
-    private string _FlavorHungarian = InitFlavor(SystemLanguage.Hungarian);
-    [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsHungarian))]
-    [SettingsUISection(Section, FlavorGroup)]
-    [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorHungarianHidden))]
-    [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsFlavorHungarianDisabled))]
-    public string FlavorHungarian {
-        get => this._FlavorHungarian;
-        set => this._FlavorHungarian = this.GetValueToSet(SystemLanguage.Hungarian, value);
-    }
-    public DropdownItem<string>[] GetFlavorsHungarian() {
-        return GetFlavors(SystemLanguage.Hungarian);
-    }
-    public bool IsFlavorHungarianHidden() {
-        return IsHidden(SystemLanguage.Hungarian);
-    }
-    public bool IsFlavorHungarianDisabled() {
-        return IsDisabled(SystemLanguage.Hungarian);
-    }
+
 
 
 

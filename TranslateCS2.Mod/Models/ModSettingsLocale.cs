@@ -47,6 +47,7 @@ internal class ModSettingsLocale : IDictionarySource {
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorGerman)), this.GetLabel(nameof(ModSettings.FlavorGerman))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorGreek)), this.GetLabel(nameof(ModSettings.FlavorGreek))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHebrew)), this.GetLabel(nameof(ModSettings.FlavorHebrew))},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetLabel(nameof(ModSettings.FlavorHungarian))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorIcelandic)), this.GetLabel(nameof(ModSettings.FlavorIcelandic))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorIndonesian)), this.GetLabel(nameof(ModSettings.FlavorIndonesian))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorItalian)), this.GetLabel(nameof(ModSettings.FlavorItalian))},
@@ -71,7 +72,7 @@ internal class ModSettingsLocale : IDictionarySource {
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetLabel(nameof(ModSettings.FlavorChineseSimplified))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetLabel(nameof(ModSettings.FlavorChineseTraditional))},
                 { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHindi)), this.GetLabel(nameof(ModSettings.FlavorHindi))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetLabel(nameof(ModSettings.FlavorHungarian))},
+
 
 
                 // flavor-group-descriptions: test
@@ -92,6 +93,7 @@ internal class ModSettingsLocale : IDictionarySource {
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorGerman)), this.GetDescription(nameof(ModSettings.FlavorGerman))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorGreek)), this.GetDescription(nameof(ModSettings.FlavorGreek))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHebrew)), this.GetDescription(nameof(ModSettings.FlavorHebrew))},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetDescription(nameof(ModSettings.FlavorHungarian))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorIcelandic)), this.GetDescription(nameof(ModSettings.FlavorIcelandic))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorIndonesian)), this.GetDescription(nameof(ModSettings.FlavorIndonesian))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorItalian)), this.GetDescription(nameof(ModSettings.FlavorItalian))},
@@ -115,8 +117,8 @@ internal class ModSettingsLocale : IDictionarySource {
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetDescription(nameof(ModSettings.FlavorVietnamese))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetDescription(nameof(ModSettings.FlavorChineseSimplified))},
                 { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetDescription(nameof(ModSettings.FlavorChineseTraditional))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHindi)), this.GetDescription(nameof(ModSettings.FlavorHindi))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetDescription(nameof(ModSettings.FlavorHungarian))}
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHindi)), this.GetDescription(nameof(ModSettings.FlavorHindi))}
+
 
             };
     }
