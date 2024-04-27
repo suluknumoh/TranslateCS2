@@ -26,9 +26,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.TextSearch", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.TranslatorsExample", "TranslateCS2.TranslatorsExample\TranslateCS2.TranslatorsExample.csproj", "{59BDEC92-D691-4FD5-9278-62F5A801F55A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateCS2.ModBridge", "TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj", "{1A3973E0-9D33-4743-80A3-38A09EB535D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ModBridge", "TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj", "{1A3973E0-9D33-4743-80A3-38A09EB535D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Mod", "TranslateCS2.Mod\TranslateCS2.Mod.csproj", "{8C68D9F4-A7F8-464D-9F17-FD0738154999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateCS2.ZModDevHelper", "TranslateCS2.ZModDevHelper\TranslateCS2.ZModDevHelper.csproj", "{79785B0B-9CEF-43E2-93D0-D9CB66392314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,14 @@ Global
 		{8C68D9F4-A7F8-464D-9F17-FD0738154999}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C68D9F4-A7F8-464D-9F17-FD0738154999}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C68D9F4-A7F8-464D-9F17-FD0738154999}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.ClientApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.ClientApp|Any CPU.Build.0 = Debug|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
