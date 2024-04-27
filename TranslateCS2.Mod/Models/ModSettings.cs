@@ -99,7 +99,7 @@ internal partial class ModSettings : ModSetting {
             // dont replicate os lang into this mods settings
             ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
             // reset to os-language, if the mod is not used next time the game starts
-            if (this.Locale != null && LocaleHelper.BuiltIn.Contains(this.Locale)) {
+            if (this.Locale != null && LocaleHelper.BuiltInLowerCase.Contains(this.Locale)) {
                 ModSettings.InterfaceSettings.currentLocale = this.Locale;
                 ModSettings.InterfaceSettings.locale = this.Locale;
             } else {

@@ -24,7 +24,7 @@ internal class MyLanguage {
         this.SystemLanguage = systemLanguage;
     }
     public void Init() {
-        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => LocaleHelper.BuiltIn.Contains(ci.Name));
+        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => LocaleHelper.BuiltInLowerCase.Contains(ci.Name.ToLower()));
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
             this.ID = ci.Name;

@@ -8,7 +8,7 @@ using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Helpers;
 internal static class LocaleHelper {
-    public static IList<string> BuiltIn { get; } = [];
+    public static IList<string> BuiltInLowerCase { get; } = [];
     static LocaleHelper() {
         // INFO: is it ok?
         // has to end with a forward-slash
@@ -19,7 +19,7 @@ internal static class LocaleHelper {
                 locFile
                 .Replace(path, String.Empty)
                 .Replace(ModConstants.LocExtension, String.Empty);
-            BuiltIn.Add(locale);
+            BuiltInLowerCase.Add(locale.ToLower());
         }
     }
 }
