@@ -2,6 +2,8 @@
 
 * fix missing pre-init for non built-in languages
 * fix upper-lower-cases (for example: zh-Hans versus zh-HANS)
+* example jsons for each supported language-region-code added
+* images and examples wont be embedded anymore to reduce the dlls size
 
 
 # ChangeLog Version 1.3
