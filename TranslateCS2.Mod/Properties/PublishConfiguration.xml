@@ -371,7 +371,7 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/translatecs2-translatecs2-mod.1669371/" />
 
     <!--Version of the mod-->
-    <ModVersion Value="1.3" />
+    <ModVersion Value="1.4" />
 
     <!--Recommended version of the base game to use the mod-->
     <GameVersion Value="1.1.2*" />
@@ -383,10 +383,11 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
     <!--ChangeLog Value="" /-->
     <ChangeLog>
 
-# ChangeLog Version 1.3
+# ChangeLog Version 1.4
 
-## fix on load error
-* error on loading the mod and prevented saved flavor selections from beeing restored
+* fix missing pre-init for non built-in languages
+* fix upper-lower-cases (for example: zh-Hans versus zh-HANS)
+
 
     </ChangeLog>
 

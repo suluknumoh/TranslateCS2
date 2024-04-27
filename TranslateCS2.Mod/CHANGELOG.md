@@ -1,3 +1,9 @@
+# ChangeLog Version 1.4
+
+* fix missing pre-init for non built-in languages
+* fix upper-lower-cases (for example: zh-Hans versus zh-HANS)
+
+
 # ChangeLog Version 1.3
 
 ## fix on load error
