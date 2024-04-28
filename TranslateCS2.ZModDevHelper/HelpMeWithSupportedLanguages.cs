@@ -12,7 +12,7 @@ public class HelpMeWithSupportedLanguages {
     [Fact(Skip = "dont help me each time")]
     public void GenerateJsons() {
         string directoryPath = PathHelper.TryToGetModsPath();
-        IList<string> supportedLocales = LocalesSupported.List;
+        IEnumerable<string> supportedLocales = LocalesSupported.Lowered;
         foreach (string supportedLocale in supportedLocales) {
             string content = $"{{ \"Options.SECTION[General]\": \"General ({supportedLocale}.json)\" }}";
             string filePath = Path.Combine(directoryPath, $"{supportedLocale}{ModConstants.JsonExtension}");
@@ -28,8 +28,7 @@ public class HelpMeWithSupportedLanguages {
     /// </summary>
     [Fact(Skip = "dont help me each time")]
     public void GenerateMarkdownList() {
-        IList<string> supportedLocales = LocalesSupported.List;
-        this.FillDictionary(supportedLocales);
+        this.FillDictionary();
         IOrderedEnumerable<KeyValuePair<UnitySystemLanguage, List<CultureInfo>>> ordered = this.Dict.OrderBy(item => item.Key.ToString());
         StringBuilder builder = new StringBuilder();
         foreach (KeyValuePair<UnitySystemLanguage, List<CultureInfo>> entry in ordered) {
@@ -45,10 +44,10 @@ public class HelpMeWithSupportedLanguages {
 
     }
 
-    private void FillDictionary(IList<string> supportedLocales) {
+    private void FillDictionary() {
         IEnumerable<UnitySystemLanguage> languages = Enum.GetValues(typeof(UnitySystemLanguage)).OfType<UnitySystemLanguage>();
         CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
-            .Where(culture => supportedLocales.Contains(culture.Name)).ToArray();
+            .Where(culture => LocalesSupported.IsLocaleIdSupported(culture.Name)).ToArray();
         foreach (CultureInfo culture in cultures) {
             foreach (UnitySystemLanguage language in languages) {
                 string? comparator = null;

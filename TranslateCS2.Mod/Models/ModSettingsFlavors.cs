@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Game.Settings;
@@ -914,12 +915,12 @@ internal partial class ModSettings {
 
     private static bool IsHidden(SystemLanguage systemLanguage) {
         MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
-        return language == null || (language != null && (language.ID != InterfaceSettings.locale));
+        return language == null || (language != null && (!language.ID.Equals(InterfaceSettings.locale, StringComparison.OrdinalIgnoreCase)));
     }
 
     private static bool IsDisabled(SystemLanguage systemLanguage) {
         MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
-        return language == null || (language != null && (language.ID != InterfaceSettings.locale || !language.HasFlavors));
+        return language == null || (language != null && (!language.ID.Equals(InterfaceSettings.locale, StringComparison.OrdinalIgnoreCase) || !language.HasFlavors));
     }
 
     private static string InitFlavor(SystemLanguage systemLanguage) {

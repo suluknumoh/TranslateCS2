@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 
 using Colossal.PSI.Environment;
 
@@ -8,9 +10,9 @@ using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Helpers;
 internal static class LocaleHelper {
-    public static IList<string> BuiltInLowerCase { get; } = [];
+    private static IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
     static LocaleHelper() {
-        // INFO: is it ok?
+        Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash
         string path = $"{EnvPath.kStreamingDataPath}/Data~/";
         IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);
@@ -19,7 +21,21 @@ internal static class LocaleHelper {
                 locFile
                 .Replace(path, String.Empty)
                 .Replace(ModConstants.LocExtension, String.Empty);
-            BuiltInLowerCase.Add(locale.ToLower());
+            dictionary.Add(locale.ToLower(), locale);
         }
+        LowerCaseToBuiltIn = dictionary;
+    }
+    public static string CorrectLocaleId(string localeId) {
+        if (LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
+            return ret;
+        }
+        IEnumerable<CultureInfo> cis = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        if (cis.Any()) {
+            return cis.First().Name;
+        }
+        return localeId;
+    }
+    public static bool IsBuiltIn(string localeId) {
+        return LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
     }
 }

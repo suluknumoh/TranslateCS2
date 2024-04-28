@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TranslateCS2.ModBridge;
 /// <summary>
@@ -8,7 +9,10 @@ public static class LocalesSupported {
     /// <summary>
     /// mscorlib used by co supports less cultureinfos
     /// </summary>
-    public static IList<string> List { get; } = [
+    private static IReadOnlyList<string> List { get; }
+    public static IReadOnlyList<string> Lowered { get; }
+    static LocalesSupported() {
+        List = [
         "ar",
         "bg",
         "ca",
@@ -351,4 +355,10 @@ public static class LocalesSupported {
         "tzm-Latn",
         "ha-Latn"
         ];
+        Lowered = List.Select(item => item.ToLower()).ToList();
+    }
+
+    public static bool IsLocaleIdSupported(string localeId) {
+        return Lowered.Contains(localeId.ToLower());
+    }
 }

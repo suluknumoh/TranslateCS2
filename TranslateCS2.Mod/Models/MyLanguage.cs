@@ -24,17 +24,17 @@ internal class MyLanguage {
         this.SystemLanguage = systemLanguage;
     }
     public void Init() {
-        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => LocaleHelper.BuiltInLowerCase.Contains(ci.Name.ToLower()));
+        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => LocaleHelper.IsBuiltIn(ci.Name));
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
-            this.ID = ci.Name;
+            this.ID = LocaleHelper.CorrectLocaleId(ci.Name);
             this.Name = CultureInfoHelper.EaseLocaleName(ci);
             this.IsBuiltIn = true;
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
             if (remaining.Any()) {
                 CultureInfo ci = remaining.First();
-                this.ID = ci.Name;
+                this.ID = LocaleHelper.CorrectLocaleId(ci.Name);
                 if (SystemLanguage.SerboCroatian == this.SystemLanguage) {
                     // otherwise it would be Croatian only
                     this.Name = this.SystemLanguage.ToString();
@@ -58,7 +58,7 @@ internal class MyLanguage {
     }
 
     public CultureInfo? GetCultureInfo(string localeId) {
-        IEnumerable<CultureInfo> matches = this.CultureInfos.Where(item => item.Name == localeId);
+        IEnumerable<CultureInfo> matches = this.CultureInfos.Where(item => item.Name.ToLower() == localeId.ToLower());
         if (matches.Any()) {
             return matches.First();
         }
@@ -86,10 +86,10 @@ internal class MyLanguage {
     }
 
     public bool HasFlavor(string localeId) {
-        return this.Flavors.Where(item => item.LocaleId == localeId).Any();
+        return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).Any();
     }
 
     public TranslationFile GetFlavor(string localeId) {
-        return this.Flavors.Where(item => item.LocaleId == localeId).First();
+        return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
     }
 }

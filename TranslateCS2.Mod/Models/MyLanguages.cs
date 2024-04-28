@@ -78,9 +78,10 @@ internal class MyLanguages {
         IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(FileSystemHelper.DataFolder, ModConstants.JsonSearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
             try {
-                string localeId = translationFilePath
+                string localeIdPre = translationFilePath
                     .Replace(FileSystemHelper.DataFolder, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
+                string localeId = LocaleHelper.CorrectLocaleId(localeIdPre);
                 MyLanguage? language = this.GetLanguage(localeId);
                 if (language == null) {
                     continue;
@@ -102,9 +103,9 @@ internal class MyLanguages {
             }
         }
     }
-    public MyLanguage? GetLanguage(string name) {
+    private MyLanguage? GetLanguage(string localeId) {
         foreach (MyLanguage country in this.Dict.Values) {
-            IEnumerable<CultureInfo> cis = country.CultureInfos.Where(ci => ci.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            IEnumerable<CultureInfo> cis = country.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
                 return country;
             }
