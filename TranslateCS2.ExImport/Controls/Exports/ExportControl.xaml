@@ -8,8 +8,6 @@
     xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:i18n="clr-namespace:TranslateCS2.ExImport.Properties.I18N"
-    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core"
-    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <bhv:Interaction.Triggers>
         <bhv:EventTrigger EventName="Loaded">
@@ -29,9 +27,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -41,7 +39,7 @@
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="5"
+            Grid.ColumnSpan="6"
             Style="{StaticResource StyleHeading}"
             Text="{Binding Source={x:Static i18n:I18NExport.Caption}, Mode=OneWay}" />
         <StackPanel
@@ -66,12 +64,51 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 TextAlignment="Center"
-                MaxWidth="240"
+                MaxWidth="200"
                 TextWrapping="Wrap"/>
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter
+                        Property="Visibility"
+                        Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedExportFormat.RequiresDestinationSelection}"
+                            Value="True">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <ComboBox
+                Margin="10 10 10 10"
+                Cursor="Hand"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding SelectedExportFormat.RequiresDestinationSelection}"
+                ToolTip="{Binding Source={x:Static i18n:I18NExport.ToolTipExportGatheredFileName}, Mode=OneWay}"
+                ItemsSource="{Binding FileNameProposals}"
+                SelectedItem="{Binding SelectedFileNameProposal}"
+                />
+            <TextBlock
+                Style="{StaticResource StyleTextBlockAlginedCenter}"
+                TextWrapping="Wrap"
+                MaxWidth="200"
+                Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportGatheredFileName}, Mode=OneWay}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Vertical">
@@ -94,7 +131,7 @@
             <Button
                 Style="{StaticResource StyleButton}"
                 Command="{Binding SelectPathCommand}"
-                IsEnabled="{Binding IsEnabled}">
+                IsEnabled="{Binding SelectedExportFormat.RequiresDestinationSelection}">
                 <StackPanel Orientation="Vertical">
                     <Image
                         Source="/TranslateCS2.Core;component/Assets/Icons/folder_open.png"
@@ -110,12 +147,12 @@
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
                 TextWrapping="WrapWithOverflow"
-                MaxWidth="240"
+                MaxWidth="200"
                 Text="{Binding SelectedPath}" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
-            Grid.Column="2"
+            Grid.Column="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Top">
             <CheckBox
@@ -131,13 +168,13 @@
                 IsChecked="{Binding IsAddKey}"/>
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
-                TextWrapping="WrapWithOverflow"
-                MaxWidth="240"
+                TextWrapping="Wrap"
+                MaxWidth="200"
                 Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddKey}, Mode=OneWay}" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
-            Grid.Column="3"
+            Grid.Column="4"
             HorizontalAlignment="Center"
             VerticalAlignment="Top">
             <CheckBox
@@ -153,13 +190,13 @@
                 IsChecked="{Binding IsAddMergeValues}"/>
             <TextBlock
                 Style="{StaticResource StyleTextBlockAlginedCenter}"
-                TextWrapping="WrapWithOverflow"
-                MaxWidth="240"
+                TextWrapping="Wrap"
+                MaxWidth="200"
                 Text="{Binding Source={x:Static i18n:I18NExport.ToolTipExportAddMergeValues}, Mode=OneWay}" />
         </StackPanel>
         <Button
             Grid.Row="1"
-            Grid.Column="4"
+            Grid.Column="5"
             Command="{Binding ExportCommand}"
             IsEnabled="{Binding IsExportButtonEnabled}"
             Style="{StaticResource StyleButton}">
@@ -178,38 +215,11 @@
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
-            Grid.ColumnSpan="5"
+            Grid.ColumnSpan="6"
             FontSize="16"
             FontWeight="Bold"
             Foreground="{Binding InfoMessageColor}"
             Style="{StaticResource StyleTextBlockAlginedCenter}"
             Text="{Binding InfoMessage}" />
-        <Grid
-            Grid.Row="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Style="{StaticResource StyleHeading}"
-                Text="{Binding Source={x:Static i18n:I18NExport.CaptionAdditionalInformation}, Mode=OneWay}"
-                />
-            <markdig:MarkdownViewer
-                Grid.Row="1"
-                Grid.Column="0"
-                Markdown="{Binding Doc}"
-                Pipeline="{Binding Pipeline}">
-                <markdig:MarkdownViewer.Resources>
-                    <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
-                </markdig:MarkdownViewer.Resources>
-            </markdig:MarkdownViewer>
-        </Grid>
     </Grid>
 </ContentControl>

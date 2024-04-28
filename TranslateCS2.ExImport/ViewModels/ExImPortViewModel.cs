@@ -4,6 +4,7 @@ using System.Windows.Controls.Ribbon;
 
 using Prism.Ioc;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
@@ -14,28 +15,33 @@ using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Controls.Exports;
 using TranslateCS2.ExImport.Controls.Imports;
+using TranslateCS2.ExImport.Properties.I18N;
+using TranslateCS2.ExImport.Views.Dialogs;
 
 namespace TranslateCS2.ExImport.ViewModels;
 internal class ExImPortViewModel : ABaseViewModel {
     private readonly IContainerProvider _containerProvider;
     private readonly IRegionManager _regionManager;
     private readonly IViewConfigurations _viewConfigurations;
+    private readonly IDialogService _dialogService;
     private readonly RibbonGroup _subNavigation;
+    private readonly RibbonGroup _modInfo;
     private RibbonToggleButton _subNavExport;
     private RibbonToggleButton _subNavImport;
     private Type _current = typeof(ExportControl);
 
     public ExImPortViewModel(IContainerProvider containerProvider,
                              IRegionManager regionManager,
-                             IViewConfigurations viewConfigurations) {
+                             IViewConfigurations viewConfigurations,
+                             IDialogService dialogService) {
         this._containerProvider = containerProvider;
         this._regionManager = regionManager;
         this._viewConfigurations = viewConfigurations;
-        this._subNavigation = new RibbonGroup() {
-            Header = I18NRibbon.ExImport,
-            IsEnabled = false
-        };
+        this._dialogService = dialogService;
+        this._subNavigation = RibbonHelper.CreateRibbonGroup(I18NRibbon.ExImport, false);
+        this._modInfo = RibbonHelper.CreateRibbonGroup(I18NExport.HeaderMod, false);
         this.InitSubNavigation();
+        this.InitAdditionalInformation();
         this.InitSelectedSessionInfo();
     }
 
@@ -55,6 +61,22 @@ internal class ExImPortViewModel : ABaseViewModel {
         //
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
         viewConfiguration.Tab.Items.Add(this._subNavigation);
+    }
+    private void InitAdditionalInformation() {
+        RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelMod,
+                                                              ImageResources.open,
+                                                              this.OpenModReadMeAction);
+        button.Width = 110;
+        button.MinWidth = 110;
+        button.MaxWidth = 110;
+        this._modInfo.Items.Add(button);
+        //
+        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
+        viewConfiguration.Tab.Items.Add(this._modInfo);
+    }
+
+    private void OpenModReadMeAction(object sender, RoutedEventArgs e) {
+        this._dialogService.ShowDialog(nameof(ModReadMeView));
     }
 
     private void InitSelectedSessionInfo() {
@@ -78,14 +100,20 @@ internal class ExImPortViewModel : ABaseViewModel {
     public override void OnNavigatedFrom(NavigationContext navigationContext) {
         //
         this._subNavigation.IsEnabled = false;
+        this._modInfo.IsEnabled = false;
     }
 
     public override void OnNavigatedTo(NavigationContext navigationContext) {
         this._subNavigation.IsEnabled = true;
+        this._modInfo.IsEnabled = true;
         this.SubNavigate();
     }
 
     private void SubNavigate() {
+        this._modInfo.Visibility = Visibility.Collapsed;
+        if (this._current == typeof(ExportControl)) {
+            this._modInfo.Visibility = Visibility.Visible;
+        }
         this._regionManager.RequestNavigate(AppConfigurationManager.AppExportImportRegion, this._current.Name);
     }
 

@@ -61,6 +61,15 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TranslateCS2.Mod readme.md.
+        /// </summary>
+        public static string ButtonLabelMod {
+            get {
+                return ResourceManager.GetString("ButtonLabelMod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string Caption {
@@ -70,7 +79,7 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional Information.
+        ///   Looks up a localized string similar to TranslateCS2.Mod Information.
         /// </summary>
         public static string CaptionAdditionalInformation {
             get {
@@ -147,6 +156,15 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         public static string DoSelectFile {
             get {
                 return ResourceManager.GetString("DoSelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TranslateCS2.Mod.
+        /// </summary>
+        public static string HeaderMod {
+            get {
+                return ResourceManager.GetString("HeaderMod", resourceCulture);
             }
         }
         
@@ -238,6 +256,19 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         public static string ToolTipExportFormatJSON {
             get {
                 return ResourceManager.GetString("ToolTipExportFormatJSON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to filename proposals based on the current sessions english name
+        ///
+        ///selected ones is preassigned within the save file dialog
+        ///
+        ///can not be saved to database.
+        /// </summary>
+        public static string ToolTipExportGatheredFileName {
+            get {
+                return ResourceManager.GetString("ToolTipExportGatheredFileName", resourceCulture);
             }
         }
     }

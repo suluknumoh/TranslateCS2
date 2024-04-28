@@ -151,7 +151,8 @@ session</value>
     <value>localename in english</value>
   </data>
   <data name="InputLocaleEnglishTip" xml:space="preserve">
-    <value>localename in english</value>
+    <value>localename in english;
+it is also used to gather a filename proposals for exports</value>
   </data>
   <data name="InputLocaleLocalized" xml:space="preserve">
     <value>localename localized</value>
@@ -181,11 +182,13 @@ should be another language than the ones you want to merge;</value>
     <value>localization file to overwrite</value>
   </data>
   <data name="InputOverwriteFileTip" xml:space="preserve">
-    <value>the localization file you want to sacrifice/overwrite.
+    <value>select none, if you only want to export as JSON
+
+otherwise, the localization file you want to sacrifice/overwrite.
 should be another language than english
 and the ones you want to merge;
 a language that you are unable to read/speak;
-so you always have an ingame-fallback without the need to verify your installation files</value>
+so you always have an ingame-fallback without the need to verify your installation files;</value>
   </data>
   <data name="InputSelectSession" xml:space="preserve">
     <value>translation sessions (selected ones is current)</value>

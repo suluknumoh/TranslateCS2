@@ -30,6 +30,7 @@ public class ExImportModule : IModule {
         containerRegistry.Register<ExImportService>();
         {
             // configure controls
+            containerRegistry.RegisterForNavigation<ExImPortView, ExImPortViewModel>(nameof(ExImPortViewModel));
             containerRegistry.RegisterForNavigation<ExportControl, ExportControlContext>(nameof(ExportControl));
             containerRegistry.RegisterForNavigation<ImportControl, ImportControlContext>(nameof(ImportControl));
             containerRegistry.RegisterForNavigation<ComparisonDataGrid>(nameof(ComparisonDataGrid));
@@ -37,6 +38,7 @@ public class ExImportModule : IModule {
         {
             // configure dialogs
             containerRegistry.RegisterDialog<ImportComparisonView, ImportComparisonViewModel>(nameof(ImportComparisonView));
+            containerRegistry.RegisterDialog<ModReadMeView, ModReadMeViewModel>(nameof(ModReadMeView));
         }
     }
 }

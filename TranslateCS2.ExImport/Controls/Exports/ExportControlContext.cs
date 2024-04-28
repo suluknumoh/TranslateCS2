@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
-
-using Markdig;
-using Markdig.Wpf;
 
 using Prism.Commands;
 using Prism.Regions;
@@ -34,8 +29,6 @@ internal class ExportControlContext : ABaseViewModel {
 
 
     public ITranslationSessionManager SessionManager { get; }
-    public string? Doc { get; private set; }
-    public MarkdownPipeline? Pipeline { get; private set; }
 
 
     private bool _IsEnabled;
@@ -77,6 +70,16 @@ internal class ExportControlContext : ABaseViewModel {
     public string? SelectedPath {
         get => this._SelectedPath;
         set => this.SetProperty(ref this._SelectedPath, value, this.OnChange);
+    }
+
+
+    public ObservableCollection<string> FileNameProposals { get; } = [];
+
+
+    private string? _SelectedFileNameProposal;
+    public string? SelectedFileNameProposal {
+        get => this._SelectedFileNameProposal;
+        set => this.SetProperty(ref this._SelectedFileNameProposal, value, this.OnChange);
     }
 
 
@@ -138,15 +141,11 @@ internal class ExportControlContext : ABaseViewModel {
 
 
     private void SelectPathCommandAction() {
-        string? fileName = CultureInfoHelper.GatherCultureFromEnglishName(this.SessionManager.CurrentTranslationSession?.OverwriteLocalizationNameEN)?.Name;
-        if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(fileName)) {
-            fileName += ModConstants.JsonExtension;
-        }
         string? path = this.SelectedPath;
         path ??= PathHelper.TryToGetModsPath();
         string? selected = ImExportDialogHelper.ShowSaveFileDialog(path,
                                                                    this._dialogtitle,
-                                                                   fileName,
+                                                                   StringHelper.GetNullForEmpty(this.SelectedFileNameProposal),
                                                                    this._dialogWarningCaption,
                                                                    this._dialogWarningText);
         if (selected != null) {
@@ -216,24 +215,22 @@ internal class ExportControlContext : ABaseViewModel {
         }
         this.ExportFormats.AddRange(formats);
         this.SelectedExportFormat = this.ExportFormats.First();
-    }
-    protected override async void OnLoadedCommandAction() {
-        this.Doc = GetReadMe();
-        this.Pipeline = new MarkdownPipelineBuilder().UseSupportedExtensions().Build();
-        this.RaisePropertyChanged(nameof(this.Doc));
-        this.RaisePropertyChanged(nameof(this.Pipeline));
-    }
-    private static string GetReadMe() {
-        try {
-            Assembly assembly = Assembly.GetCallingAssembly();
-            using Stream? stream = assembly.GetManifestResourceStream("TranslateCS2.ExImport.Assets.README.MOD.md");
-            if (stream != null) {
-                using StreamReader sr = new StreamReader(stream);
-                return sr.ReadToEnd();
+
+        string? selectedFileNameProposal = this.SelectedFileNameProposal;
+        this.FileNameProposals.Clear();
+        IEnumerable<CultureInfo>? guessedCultures = CultureInfoHelper.GatherCulturesFromEnglishName(this.SessionManager.CurrentTranslationSession?.OverwriteLocalizationNameEN);
+        if (guessedCultures != null) {
+            foreach (CultureInfo guessedCulture in guessedCultures) {
+                this.FileNameProposals.Add($"{guessedCulture.Name}{ModConstants.JsonExtension}");
             }
-        } catch {
-            //
         }
-        return String.Empty;
+        if (selectedFileNameProposal != null && this.FileNameProposals.Contains(selectedFileNameProposal)) {
+            this.SelectedFileNameProposal = selectedFileNameProposal;
+        } else {
+            this.SelectedFileNameProposal = null;
+            if (this.FileNameProposals.Count > 0) {
+                this.SelectedFileNameProposal = this.FileNameProposals.First();
+            }
+        }
     }
 }

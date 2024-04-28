@@ -1,0 +1,76 @@
+﻿<ContentControl
+    x:Class="TranslateCS2.ExImport.Views.Dialogs.ModReadMeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:i18n="clr-namespace:TranslateCS2.ExImport.Properties.I18N"
+    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+    xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <bhv:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
+    <ContentControl.Resources>
+        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
+    </ContentControl.Resources>
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter
+                Property="prism:Dialog.WindowStartupLocation"
+                Value="CenterScreen" />
+            <Setter
+                Property="ResizeMode"
+                Value="CanResize" />
+            <Setter
+                Property="ShowInTaskbar"
+                Value="False" />
+            <Setter
+                Property="SizeToContent"
+                Value="Manual" />
+            <Setter
+                Property="MinWidth"
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinWidth}, Mode=OneWay}" />
+            <Setter
+                Property="MinHeight"
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinHeight}, Mode=OneWay}" />
+            <Setter
+                Property="Width"
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinWidth}, Mode=OneWay}" />
+            <Setter
+                Property="Height"
+                Value="{Binding Source={x:Static app_configurationmanager:AppConfigurationManager.AppDialogMinHeight}, Mode=OneWay}" />
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Style="{StaticResource StyleHeading}"
+            Text="{Binding Source={x:Static i18n:I18NExport.CaptionAdditionalInformation}, Mode=OneWay}"
+            />
+        <markdig:MarkdownViewer
+            Grid.Row="1"
+            Grid.Column="0"
+            Markdown="{Binding Doc}"
+            Pipeline="{Binding Pipeline}">
+            <markdig:MarkdownViewer.Resources>
+                <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
+            </markdig:MarkdownViewer.Resources>
+        </markdig:MarkdownViewer>
+    </Grid>
+</ContentControl>

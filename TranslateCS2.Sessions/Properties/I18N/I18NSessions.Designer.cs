@@ -148,7 +148,8 @@ namespace TranslateCS2.Sessions.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to localename in english.
+        ///   Looks up a localized string similar to localename in english;
+        ///it is also used to gather a filename proposals for exports.
         /// </summary>
         public static string InputLocaleEnglishTip {
             get {
@@ -226,11 +227,13 @@ namespace TranslateCS2.Sessions.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the localization file you want to sacrifice/overwrite.
+        ///   Looks up a localized string similar to select none, if you only want to export as JSON
+        ///
+        ///otherwise, the localization file you want to sacrifice/overwrite.
         ///should be another language than english
         ///and the ones you want to merge;
         ///a language that you are unable to read/speak;
-        ///so you always have an ingame-fallback without the need to verify your installation files.
+        ///so you always have an ingame-fallback without the need to verify your installation files;.
         /// </summary>
         public static string InputOverwriteFileTip {
             get {

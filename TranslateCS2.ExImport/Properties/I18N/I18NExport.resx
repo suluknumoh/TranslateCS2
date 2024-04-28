@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonLabelMod" xml:space="preserve">
+    <value>TranslateCS2.Mod readme.md</value>
+  </data>
   <data name="Caption" xml:space="preserve">
     <value>Export</value>
   </data>
   <data name="CaptionAdditionalInformation" xml:space="preserve">
-    <value>Additional Information</value>
+    <value>TranslateCS2.Mod Information</value>
   </data>
   <data name="DialogText" xml:space="preserve">
     <value>Are you sure?</value>
@@ -146,6 +149,9 @@
   </data>
   <data name="DoSelectFile" xml:space="preserve">
     <value>select file</value>
+  </data>
+  <data name="HeaderMod" xml:space="preserve">
+    <value>TranslateCS2.Mod</value>
   </data>
   <data name="MessageDo" xml:space="preserve">
     <value>exporting</value>
@@ -183,5 +189,12 @@ this export method overwrites the selected file to overwrite within the game-fol
   </data>
   <data name="ToolTipExportFormatJSON" xml:space="preserve">
     <value>export as json to share with others</value>
+  </data>
+  <data name="ToolTipExportGatheredFileName" xml:space="preserve">
+    <value>filename proposals based on the current sessions english name
+
+selected ones is preassigned within the save file dialog
+
+can not be saved to database</value>
   </data>
 </root>
