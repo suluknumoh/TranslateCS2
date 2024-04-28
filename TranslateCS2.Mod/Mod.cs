@@ -38,6 +38,7 @@ public class Mod : IMod {
                 // Logger.SetShowsErrorsInUI(true); // swtich to true
                 //      log 'failed to load' as error, so an appropriate message is shown within the ui?
                 // Logger.SetShowsErrorsInUI(false); // switch back to false
+                // TODO: an alternative would be: i know the files, that are present, only register them and load the selected ones, then consider the above
                 Languages.ReadFiles();
                 Languages.Load();
                 //

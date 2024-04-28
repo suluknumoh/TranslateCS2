@@ -37,6 +37,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         this.LocaleId = localeId;
         this.Path = path;
         string json = this.ReadJson();
+        // TODO: see thoughts Mod.cs
         this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
         if (this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null
@@ -48,12 +49,14 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     }
     public void ReInit() {
         try {
+            // TODO: see thoughts Mod.cs
             string json = this.ReadJson();
             Dictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             if (temporary != null) {
                 this.dictionary = temporary;
             }
         } catch {
+            // TODO: see thoughts Mod.cs
             //
         }
     }
