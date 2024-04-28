@@ -388,10 +388,11 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 * long language names (more than 31 characters) are cut
 * filenames are read case-insensitive
 * some more handling between built-in locale-ids and read locale-ids
+* update github link to mods readme.md
 
 
     </ChangeLog>
 
     <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-    <ExternalLink Type="github" Url="https://github.com/suluknumoh/TranslateCS2" />
+    <ExternalLink Type="github" Url="https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.Mod/README.md" />
 </Publish>

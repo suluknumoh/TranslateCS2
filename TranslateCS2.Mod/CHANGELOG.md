@@ -3,6 +3,7 @@
 * long language names (more than 31 characters) are cut
 * filenames are read case-insensitive
 * some more handling between built-in locale-ids and read locale-ids
+* update github link to mods readme.md
 
 
 # ChangeLog Version 1.4
