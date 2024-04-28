@@ -30,44 +30,32 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 ## Afrikaans
 * af - Afrikaans
-* af-NA - Afrikaans (Namibia)
-* af-ZA - Afrikaans (South Africa)
+* af-ZA - Afrikaans (Suid-Afrika)
 
 
 ## Arabic
 * ar - Arabic
-* ar-001 - Arabic (World)
+* ar-SA - Arabic (Saudi Arabia)
+* ar-IQ - Arabic (Iraq)
+* ar-EG - Arabic (Egypt)
+* ar-LY - Arabic (Libya)
+* ar-DZ - Arabic (Algeria)
+* ar-MA - Arabic (Morocco)
+* ar-TN - Arabic (Tunisia)
+* ar-OM - Arabic (Oman)
+* ar-YE - Arabic (Yemen)
+* ar-SY - Arabic (Syria)
+* ar-JO - Arabic (Jordan)
+* ar-LB - Arabic (Lebanon)
+* ar-KW - Arabic (Kuwait)
 * ar-AE - Arabic (United Arab Emirates)
 * ar-BH - Arabic (Bahrain)
-* ar-DJ - Arabic (Djibouti)
-* ar-DZ - Arabic (Algeria)
-* ar-EG - Arabic (Egypt)
-* ar-ER - Arabic (Eritrea)
-* ar-IL - Arabic (Israel)
-* ar-IQ - Arabic (Iraq)
-* ar-JO - Arabic (Jordan)
-* ar-KM - Arabic (Comoros)
-* ar-KW - Arabic (Kuwait)
-* ar-LB - Arabic (Lebanon)
-* ar-LY - Arabic (Libya)
-* ar-MA - Arabic (Morocco)
-* ar-MR - Arabic (Mauritania)
-* ar-OM - Arabic (Oman)
-* ar-PS - Arabic (Palestinian Authority)
 * ar-QA - Arabic (Qatar)
-* ar-SA - Arabic (Saudi Arabia)
-* ar-SD - Arabic (Sudan)
-* ar-SO - Arabic (Somalia)
-* ar-SS - Arabic (South Sudan)
-* ar-SY - Arabic (Syria)
-* ar-TD - Arabic (Chad)
-* ar-TN - Arabic (Tunisia)
-* ar-YE - Arabic (Yemen)
 
 
 ## Basque
-* eu - Basque
-* eu-ES - Basque (Spain)
+* eu - euskara
+* eu-ES - euskara (Espainia)
 
 
 ## Belarusian
@@ -82,241 +70,106 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 ## Catalan
 * ca - Catalan
-* ca-AD - Catalan (Andorra)
 * ca-ES - Catalan (Spain)
-* ca-FR - Catalan (France)
-* ca-IT - Catalan (Italy)
+* ca-ES-valencia - Catalan (Spain)
 
 
 ## ChineseSimplified
 * zh-Hans - Chinese (Simplified)
-* zh-Hans-CN - Chinese (Simplified, China)
-* zh-Hans-HK - Chinese (Simplified, Hong Kong SAR)
-* zh-Hans-MO - Chinese (Simplified, Macao SAR)
-* zh-Hans-SG - Chinese (Simplified, Singapore)
+* zh-CHS - Chinese (Simplified) Legacy
+* zh-CN - Chinese (Simplified)
+* zh-SG - Chinese (Simplified, Singapore)
+* zh - Chinese (Simplified)
 
 
 ## ChineseTraditional
+* zh-TW - Chinese (Traditional)
+* zh-HK - Chinese (Traditional, Hong Kong SAR China)
+* zh-MO - Chinese (Traditional, Macau SAR China)
 * zh-Hant - Chinese (Traditional)
-* zh-Hant-HK - Chinese (Traditional, Hong Kong SAR)
-* zh-Hant-MO - Chinese (Traditional, Macao SAR)
-* zh-Hant-TW - Chinese (Traditional, Taiwan)
+* zh-CHT - Chinese (Traditional) Legacy
 
 
 ## Czech
 * cs - Czech
-* cs-CZ - Czech (Czechia)
+* cs-CZ - Czech (Czech Republic)
 
 
 ## Danish
-* da - Danish
-* da-DK - Danish (Denmark)
-* da-GL - Danish (Greenland)
+* da - dansk
+* da-DK - dansk (Danmark)
 
 
 ## Dutch
-* nl - Dutch
-* nl-AW - Dutch (Aruba)
+* nl - Nederlands
+* nl-NL - Nederlands (Nederland)
 * nl-BE - Dutch (Belgium)
-* nl-BQ - Dutch (Bonaire, Sint Eustatius and Saba)
-* nl-CW - Dutch
-* nl-NL - Dutch (Netherlands)
-* nl-SR - Dutch (Suriname)
-* nl-SX - Dutch (Sint Maarten)
 
 
 ## English
 * en - English
-* en-001 - English (World)
-* en-029 - English (Caribbean)
-* en-150 - English (Europe)
-* en-AE - English (United Arab Emirates)
-* en-AG - English (Antigua and Barbuda)
-* en-AI - English (Anguilla)
-* en-AS - English (American Samoa)
-* en-AT - English (Austria)
-* en-AU - English (Australia)
-* en-BB - English (Barbados)
-* en-BE - English (Belgium)
-* en-BI - English (Burundi)
-* en-BM - English (Bermuda)
-* en-BS - English (Bahamas)
-* en-BW - English (Botswana)
-* en-BZ - English (Belize)
-* en-CA - English (Canada)
-* en-CC - English (Cocos [Keeling] Islands)
-* en-CH - English (Switzerland)
-* en-CK - English (Cook Islands)
-* en-CM - English (Cameroon)
-* en-CX - English (Christmas Island)
-* en-CY - English (Cyprus)
-* en-DE - English (Germany)
-* en-DK - English (Denmark)
-* en-DM - English (Dominica)
-* en-ER - English (Eritrea)
-* en-FI - English (Finland)
-* en-FJ - English (Fiji)
-* en-FK - English (Falkland Islands)
-* en-FM - English (Micronesia)
-* en-GB - English (United Kingdom)
-* en-GD - English (Grenada)
-* en-GG - English (Guernsey)
-* en-GH - English (Ghana)
-* en-GI - English (Gibraltar)
-* en-GM - English (Gambia)
-* en-GU - English (Guam)
-* en-GY - English (Guyana)
-* en-HK - English (Hong Kong SAR)
-* en-ID - English (Indonesia)
-* en-IE - English (Ireland)
-* en-IL - English (Israel)
-* en-IM - English (Isle of Man)
-* en-IN - English (India)
-* en-IO - English (British Indian Ocean Territory)
-* en-JE - English (Jersey)
-* en-JM - English (Jamaica)
-* en-KE - English (Kenya)
-* en-KI - English (Kiribati)
-* en-KN - English (St. Kitts and Nevis)
-* en-KY - English (Cayman Islands)
-* en-LC - English (St. Lucia)
-* en-LR - English (Liberia)
-* en-LS - English (Lesotho)
-* en-MG - English (Madagascar)
-* en-MH - English (Marshall Islands)
-* en-MO - English (Macao SAR)
-* en-MP - English (Northern Mariana Islands)
-* en-MS - English (Montserrat)
-* en-MT - English (Malta)
-* en-MU - English (Mauritius)
-* en-MW - English (Malawi)
-* en-MY - English (Malaysia)
-* en-NA - English (Namibia)
-* en-NF - English (Norfolk Island)
-* en-NG - English (Nigeria)
-* en-NL - English (Netherlands)
-* en-NR - English (Nauru)
-* en-NU - English (Niue)
-* en-NZ - English (New Zealand)
-* en-PG - English (Papua New Guinea)
-* en-PH - English (Philippines)
-* en-PK - English (Pakistan)
-* en-PN - English (Pitcairn Islands)
-* en-PR - English (Puerto Rico)
-* en-PW - English (Palau)
-* en-RW - English (Rwanda)
-* en-SB - English (Solomon Islands)
-* en-SC - English (Seychelles)
-* en-SD - English (Sudan)
-* en-SE - English (Sweden)
-* en-SG - English (Singapore)
-* en-SH - English (St Helena, Ascension, Tristan da Cunha)
-* en-SI - English (Slovenia)
-* en-SL - English (Sierra Leone)
-* en-SS - English (South Sudan)
-* en-SX - English (Sint Maarten)
-* en-SZ - English (Eswatini)
-* en-TC - English (Turks and Caicos Islands)
-* en-TK - English (Tokelau)
-* en-TO - English (Tonga)
-* en-TT - English (Trinidad and Tobago)
-* en-TV - English (Tuvalu)
-* en-TZ - English (Tanzania)
-* en-UG - English (Uganda)
-* en-UM - English (U.S. Outlying Islands)
 * en-US - English (United States)
-* en-US-POSIX - English (United States, Computer)
-* en-VC - English (St. Vincent and Grenadines)
-* en-VG - English (British Virgin Islands)
-* en-VI - English (U.S. Virgin Islands)
-* en-VU - English (Vanuatu)
-* en-WS - English (Samoa)
+* en-GB - English (United Kingdom)
+* en-AU - English (Australia)
+* en-CA - English (Canada)
+* en-NZ - English (New Zealand)
+* en-IE - English (Ireland)
 * en-ZA - English (South Africa)
-* en-ZM - English (Zambia)
+* en-JM - English (Jamaica)
+* en-BZ - English (Belize)
+* en-TT - English (Trinidad and Tobago)
 * en-ZW - English (Zimbabwe)
+* en-PH - English (Philippines)
+* en-HK - English (Hong Kong SAR China)
+* en-IN - English (India)
+* en-MY - English (Malaysia)
+* en-SG - English (Singapore)
 
 
 ## Estonian
-* et - Estonian
-* et-EE - Estonian (Estonia)
+* et - eesti
+* et-EE - eesti (Eesti)
 
 
 ## Faroese
 * fo - Faroese
-* fo-DK - Faroese (Denmark)
 * fo-FO - Faroese (Faroe Islands)
 
 
 ## Finnish
-* fi - Finnish
-* fi-FI - Finnish (Finland)
+* fi - suomi
+* fi-FI - suomi (Suomi)
 
 
 ## French
 * fr - French
-* fr-029 - French (Caribbean)
-* fr-BE - French (Belgium)
-* fr-BF - French (Burkina Faso)
-* fr-BI - French (Burundi)
-* fr-BJ - French (Benin)
-* fr-BL - French
-* fr-CA - French (Canada)
-* fr-CD - French (Congo [DRC])
-* fr-CF - French (Central African Republic)
-* fr-CG - French (Congo)
-* fr-CH - French (Switzerland)
-* fr-CI - French
-* fr-CM - French (Cameroon)
-* fr-DJ - French (Djibouti)
-* fr-DZ - French (Algeria)
 * fr-FR - French (France)
-* fr-GA - French (Gabon)
-* fr-GF - French (French Guiana)
-* fr-GN - French (Guinea)
-* fr-GP - French (Guadeloupe)
-* fr-GQ - French (Equatorial Guinea)
-* fr-HT - French (Haiti)
-* fr-KM - French (Comoros)
+* fr-BE - French (Belgium)
+* fr-CA - French (Canada)
+* fr-CH - French (Switzerland)
 * fr-LU - French (Luxembourg)
-* fr-MA - French (Morocco)
 * fr-MC - French (Monaco)
-* fr-MF - French (St. Martin)
-* fr-MG - French (Madagascar)
-* fr-ML - French (Mali)
-* fr-MQ - French (Martinique)
-* fr-MR - French (Mauritania)
-* fr-MU - French (Mauritius)
-* fr-NC - French (New Caledonia)
-* fr-NE - French (Niger)
-* fr-PF - French (French Polynesia)
-* fr-PM - French (St. Pierre and Miquelon)
 * fr-RE - French
-* fr-RW - French (Rwanda)
-* fr-SC - French (Seychelles)
+* fr-CD - French (Congo - Kinshasa)
 * fr-SN - French (Senegal)
-* fr-SY - French (Syria)
-* fr-TD - French (Chad)
-* fr-TG - French (Togo)
-* fr-TN - French (Tunisia)
-* fr-VU - French (Vanuatu)
-* fr-WF - French (Wallis and Futuna)
-* fr-YT - French (Mayotte)
+* fr-CM - French (Cameroon)
+* fr-CI - French
+* fr-ML - French (Mali)
+* fr-MA - French (Morocco)
+* fr-HT - French (Haiti)
 
 
 ## German
-* de - German
+* de - Deutsch
+* de-DE - Deutsch (Deutschland)
+* de-CH - Deutsch (Schweiz)
 * de-AT - German (Austria)
-* de-BE - German (Belgium)
-* de-CH - German (Switzerland)
-* de-DE - German (Germany)
-* de-IT - German (Italy)
-* de-LI - German (Liechtenstein)
-* de-LU - German (Luxembourg)
+* de-LU - Deutsch (Luxemburg)
+* de-LI - Deutsch (Liechtenstein)
 
 
 ## Greek
 * el - Greek
-* el-CY - Greek (Cyprus)
 * el-GR - Greek (Greece)
 
 
@@ -331,7 +184,7 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 
 ## Hungarian
-* hu - Hungarian
+* hu - magyar
 * hu-HU - Hungarian (Hungary)
 
 
@@ -341,16 +194,14 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 
 ## Indonesian
-* id - Indonesian
-* id-ID - Indonesian (Indonesia)
+* id - Indonesia
+* id-ID - Indonesia (Indonesia)
 
 
 ## Italian
-* it - Italian
-* it-CH - Italian (Switzerland)
-* it-IT - Italian (Italy)
-* it-SM - Italian (San Marino)
-* it-VA - Italian (Vatican City)
+* it - italiano
+* it-IT - italiano (Italia)
+* it-CH - italiano (Svizzera)
 
 
 ## Japanese
@@ -360,8 +211,7 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 ## Korean
 * ko - Korean
-* ko-KP - Korean (North Korea)
-* ko-KR - Korean (Korea)
+* ko-KR - Korean (South Korea)
 
 
 ## Latvian
@@ -375,65 +225,49 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 
 ## Norwegian
-* nb - Invariant Language (Invariant Country)
-* nb-NO - Invariant Language (Invariant Country)
-* nb-SJ - Invariant Language (Invariant Country)
-* nn - Norwegian Nynorsk
-* nn-NO - Norwegian Nynorsk (Norway)
+* no - norsk
+* nb-NO - nb
+* nn-NO - nynorsk (Noreg)
+* nn - nynorsk
+* nb - Norwegian
 
 
 ## Polish
-* pl - Polish
-* pl-PL - Polish (Poland)
+* pl - polski
+* pl-PL - polski (Polska)
 
 
 ## Portuguese
 * pt - Portuguese
-* pt-AO - Portuguese (Angola)
 * pt-BR - Portuguese (Brazil)
-* pt-CH - Portuguese (Switzerland)
-* pt-CV - Portuguese (Cabo Verde)
-* pt-GQ - Portuguese (Equatorial Guinea)
-* pt-GW - Portuguese (Guinea-Bissau)
-* pt-LU - Portuguese (Luxembourg)
-* pt-MO - Portuguese (Macao SAR)
-* pt-MZ - Portuguese (Mozambique)
 * pt-PT - Portuguese (Portugal)
-* pt-ST - Portuguese
-* pt-TL - Portuguese (Timor-Leste)
 
 
 ## Romanian
 * ro - Romanian
-* ro-MD - Romanian (Moldova)
 * ro-RO - Romanian (Romania)
+* ro-MD - Romanian (Moldova)
 
 
 ## Russian
 * ru - Russian
-* ru-BY - Russian (Belarus)
-* ru-KG - Russian (Kyrgyzstan)
-* ru-KZ - Russian (Kazakhstan)
-* ru-MD - Russian (Moldova)
 * ru-RU - Russian (Russia)
-* ru-UA - Russian (Ukraine)
+* ru-MD - Russian (Moldova)
 
 
 ## SerboCroatian
-* hr - Croatian
-* hr-BA - Croatian (Bosnia and Herzegovina)
-* hr-HR - Croatian (Croatia)
-* sr - Serbian
-* sr-Cyrl - Serbian (Cyrillic)
-* sr-Cyrl-BA - Serbian (Cyrillic, Bosnia and Herzegovina)
-* sr-Cyrl-ME - Serbian (Cyrillic, Montenegro)
-* sr-Cyrl-RS - Serbian (Cyrillic, Serbia)
-* sr-Cyrl-XK - Serbian (Cyrillic, Kosovo)
-* sr-Latn - Serbian (Latin)
+* hr - hrvatski
+* hr-HR - hrvatski (Hrvatska)
+* hr-BA - hrvatski (Bosna i Hercegovina)
 * sr-Latn-BA - Serbian (Latin, Bosnia and Herzegovina)
-* sr-Latn-ME - Serbian (Latin, Montenegro)
+* sr-Cyrl-BA - Serbian (Cyrillic, Bosnia and Herzegovina)
 * sr-Latn-RS - Serbian (Latin, Serbia)
-* sr-Latn-XK - Serbian (Latin, Kosovo)
+* sr-Cyrl-RS - Serbian (Cyrillic, Serbia)
+* sr-Latn-ME - Serbian (Latin, Montenegro)
+* sr-Cyrl-ME - Serbian (Cyrillic, Montenegro)
+* sr-Cyrl - Serbian (Cyrillic)
+* sr-Latn - Serbian (Latin)
+* sr - Serbian
 
 
 ## Slovak
@@ -448,39 +282,33 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 ## Spanish
 * es - Spanish
-* es-419 - Spanish (Latin America)
-* es-AR - Spanish (Argentina)
-* es-BO - Spanish (Bolivia)
-* es-BR - Spanish (Brazil)
-* es-BZ - Spanish (Belize)
-* es-CL - Spanish (Chile)
-* es-CO - Spanish (Colombia)
-* es-CR - Spanish (Costa Rica)
-* es-CU - Spanish (Cuba)
-* es-DO - Spanish (Dominican Republic)
-* es-EC - Spanish (Ecuador)
-* es-ES - Spanish (Spain)
-* es-GQ - Spanish (Equatorial Guinea)
-* es-GT - Spanish (Guatemala)
-* es-HN - Spanish (Honduras)
 * es-MX - Spanish (Mexico)
-* es-NI - Spanish (Nicaragua)
+* es-ES - Spanish (Spain)
+* es-GT - Spanish (Guatemala)
+* es-CR - Spanish (Costa Rica)
 * es-PA - Spanish (Panama)
-* es-PE - Spanish (Peru)
-* es-PH - Spanish (Philippines)
-* es-PR - Spanish (Puerto Rico)
-* es-PY - Spanish (Paraguay)
-* es-SV - Spanish (El Salvador)
-* es-US - Spanish (United States)
-* es-UY - Spanish (Uruguay)
+* es-DO - Spanish (Dominican Republic)
 * es-VE - Spanish (Venezuela)
+* es-CO - Spanish (Colombia)
+* es-PE - Spanish (Peru)
+* es-AR - Spanish (Argentina)
+* es-EC - Spanish (Ecuador)
+* es-CL - Spanish (Chile)
+* es-UY - Spanish (Uruguay)
+* es-PY - Spanish (Paraguay)
+* es-BO - Spanish (Bolivia)
+* es-SV - Spanish (El Salvador)
+* es-HN - Spanish (Honduras)
+* es-NI - Spanish (Nicaragua)
+* es-PR - Spanish (Puerto Rico)
+* es-US - Spanish (United States)
+* es-CU - Spanish (Cuba)
 
 
 ## Swedish
-* sv - Swedish
-* sv-AX - Swedish
-* sv-FI - Swedish (Finland)
-* sv-SE - Swedish (Sweden)
+* sv - svenska
+* sv-SE - svenska (Sverige)
+* sv-FI - svenska (Finland)
 
 
 ## Thai
@@ -490,7 +318,6 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
 
 ## Turkish
 * tr - Turkish
-* tr-CY - Turkish (Cyprus)
 * tr-TR - Turkish (Turkey)
 
 
