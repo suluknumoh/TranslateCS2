@@ -93,7 +93,7 @@ internal class MyLanguages {
                                     [translationFilePath, localeId, language]);
                     continue;
                 }
-                string localeName = CultureInfoHelper.EaseLocaleName(cultureInfo);
+                string localeName = cultureInfo.NativeName;
                 TranslationFile translationFile = new TranslationFile(localeId, localeName, translationFilePath);
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {

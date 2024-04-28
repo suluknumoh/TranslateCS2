@@ -41,8 +41,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         if (this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null
             && !String.IsNullOrEmpty(outLocaleName)
-            && !String.IsNullOrWhiteSpace(outLocaleName)
-            && !RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(outLocaleName)) {
+            && !String.IsNullOrWhiteSpace(outLocaleName)) {
             this.LocaleName = outLocaleName;
         }
         this.LocaleName ??= localeName;

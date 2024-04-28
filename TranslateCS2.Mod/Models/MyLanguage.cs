@@ -28,7 +28,7 @@ internal class MyLanguage {
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
             this.ID = LocaleHelper.CorrectLocaleId(ci.Name);
-            this.Name = CultureInfoHelper.EaseLocaleName(ci);
+            this.Name = ci.NativeName;
             this.IsBuiltIn = true;
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
@@ -39,7 +39,7 @@ internal class MyLanguage {
                     // otherwise it would be Croatian only
                     this.Name = this.SystemLanguage.ToString();
                 } else {
-                    this.Name = CultureInfoHelper.EaseLocaleName(ci);
+                    this.Name = ci.NativeName;
                 }
                 this.IsBuiltIn = false;
             }
