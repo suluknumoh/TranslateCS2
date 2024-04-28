@@ -371,7 +371,7 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/translatecs2-translatecs2-mod.1669371/" />
 
     <!--Version of the mod-->
-    <ModVersion Value="1.5" />
+    <ModVersion Value="1.5.1" />
 
     <!--Recommended version of the base game to use the mod-->
     <GameVersion Value="1.1.2*" />
@@ -383,12 +383,10 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
     <!--ChangeLog Value="" /-->
     <ChangeLog>
 
-# ChangeLog Version 1.5
-
-* long language names (more than 31 characters) are cut
-* filenames are read case-insensitive
-* some more handling between built-in locale-ids and read locale-ids
-* update github link to mods readme.md
+# ChangeLog Version 1.5.1
+* native names are displayed instead of english names
+* reduced examples to mappable examples
+* reduced LocalesSupported to mappable language-region-codes
 
 
     </ChangeLog>

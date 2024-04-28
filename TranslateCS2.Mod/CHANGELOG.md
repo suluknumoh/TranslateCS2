@@ -1,3 +1,8 @@
+# ChangeLog Version 1.5.1
+* native names are displayed instead of english names
+* reduced examples to mappable examples
+* reduced LocalesSupported to mappable language-region-codes
+
 # ChangeLog Version 1.5
 
 * long language names (more than 31 characters) are cut
