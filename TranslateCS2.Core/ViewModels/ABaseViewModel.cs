@@ -8,7 +8,7 @@ public abstract class ABaseViewModel : BindableBase, INavigationAware {
     protected ABaseViewModel() {
         this.OnLoadedCommand = new DelegateCommand(this.OnLoadedCommandAction);
     }
-    protected abstract void OnLoadedCommandAction();
+    protected virtual void OnLoadedCommandAction() { }
     public bool IsNavigationTarget(NavigationContext navigationContext) {
         return true;
     }
