@@ -1,3 +1,10 @@
+# ChangeLog Version 1.5
+
+* long language names (more than 31 characters) are cut
+* filenames are read case-insensitive
+* some more handling between built-in locale-ids and read locale-ids
+
+
 # ChangeLog Version 1.4
 
 * fix missing pre-init for non built-in languages

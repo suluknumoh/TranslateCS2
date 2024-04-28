@@ -383,12 +383,11 @@ if the gathered english locale-name contains NonBasicLatinCharacters, the parent
     <!--ChangeLog Value="" /-->
     <ChangeLog>
 
-# ChangeLog Version 1.4
+# ChangeLog Version 1.5
 
-* fix missing pre-init for non built-in languages
-* fix upper-lower-cases (for example: zh-Hans versus zh-HANS)
-* example jsons for each supported language-region-code added
-* images and examples wont be embedded anymore to reduce the dlls size
+* long language names (more than 31 characters) are cut
+* filenames are read case-insensitive
+* some more handling between built-in locale-ids and read locale-ids
 
 
     </ChangeLog>
