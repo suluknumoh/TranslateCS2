@@ -23,27 +23,4 @@ public static class CultureInfoHelper {
         }
         return null;
     }
-    public static string EaseLocaleName(CultureInfo cultureInfo) {
-        string? ret = EaseLocaleNameNative(cultureInfo, 0);
-        ret ??= EaseLocaleNameEnglish(cultureInfo, 1);
-        return ret;
-    }
-    private static string EaseLocaleNameEnglish(CultureInfo cultureInfo, int steps) {
-        if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.EnglishName)) {
-            if (steps <= 0) {
-                return cultureInfo.Name;
-            }
-            return EaseLocaleNameEnglish(cultureInfo.Parent, --steps);
-        }
-        return cultureInfo.EnglishName;
-    }
-    private static string? EaseLocaleNameNative(CultureInfo cultureInfo, int steps) {
-        if (RegExConstants.ContainsNonBasicLatinCharacters.IsMatch(cultureInfo.NativeName)) {
-            if (steps <= 0) {
-                return null;
-            }
-            return EaseLocaleNameNative(cultureInfo.Parent, --steps);
-        }
-        return cultureInfo.NativeName;
-    }
 }
