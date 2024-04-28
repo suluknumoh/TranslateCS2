@@ -36,8 +36,11 @@ internal class MyLanguage {
                 CultureInfo ci = remaining.First();
                 this.ID = LocaleHelper.CorrectLocaleId(ci.Name);
                 if (SystemLanguage.SerboCroatian == this.SystemLanguage) {
+                    // TODO: make this work!
+                    this.ID = this.SystemLanguage.ToString();
                     // otherwise it would be Croatian only
-                    this.Name = this.SystemLanguage.ToString();
+                    // TODO: does it work?
+                    this.Name = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
                 } else {
                     this.Name = ci.NativeName;
                 }

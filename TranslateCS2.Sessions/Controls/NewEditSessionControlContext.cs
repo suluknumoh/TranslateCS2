@@ -15,6 +15,8 @@ using TranslateCS2.Sessions.Models;
 using TranslateCS2.Sessions.Properties.I18N;
 
 namespace TranslateCS2.Sessions.Controls;
+// TODO: restrict sessions english name to english names of supported languages?
+// TODO: what if people want to 'misuse' a supported language/locale for a translation for an unsupported ones?
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private readonly IRegionManager _regionManager;
     private bool _isLoaded = false;

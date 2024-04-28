@@ -29,6 +29,15 @@ public class Mod : IMod {
                 FileSystemHelper.CreateIfNotExists();
                 //
                 //
+                // TODO: dont read all files at startup? only the one selected
+                // TODO: what if all langs and flavors get preregistered now; but are tried to read later?
+                // TODO: if i would do so, would i need my own error-indicator within logs, to log an error as info, so its not shown in the ui, but marked as error within the log?
+                // TODO: is it possible to switch show errors?
+                // TODO: for example:
+                // log the real error with error-location-information
+                // Logger.SetShowsErrorsInUI(true); // swtich to true
+                //      log 'failed to load' as error, so an appropriate message is shown within the ui?
+                // Logger.SetShowsErrorsInUI(false); // switch back to false
                 Languages.ReadFiles();
                 Languages.Load();
                 //
