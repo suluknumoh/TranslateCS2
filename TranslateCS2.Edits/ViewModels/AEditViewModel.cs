@@ -114,7 +114,10 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
                 break;
             case ButtonResult.Yes:
                 // delete
-                IEnumerable<ILocalizationDictionaryEntry> existings = this.SessionManager.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == edited.Key);
+                IEnumerable<ILocalizationDictionaryEntry> existings =
+                    this.SessionManager.CurrentTranslationSession.LocalizationDictionary
+                    .Where(item => item.Key == edited.Key)
+                    .Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
                 if (existings.Any()) {
                     ILocalizationDictionaryEntry existing = existings.First();
                     existing.Translation = null;
