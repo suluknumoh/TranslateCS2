@@ -71,9 +71,14 @@ internal class MyLanguage {
             if (translationFile.LocaleId == null || translationFile.LocaleName == null) {
                 continue;
             }
+            string displayName = translationFile.LocaleName;
+            if (displayName.Length > ModConstants.MaxDisplayNameLength) {
+                displayName = displayName.Substring(0, ModConstants.MaxDisplayNameLength);
+                displayName += "...";
+            }
             DropdownItem<string> item = new DropdownItem<string>() {
                 value = translationFile.LocaleId,
-                displayName = translationFile.LocaleName
+                displayName = displayName
             };
             dropdownItems.Add(item);
         }

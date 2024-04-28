@@ -23,4 +23,5 @@ public static class ModConstants {
     public static string JsonSearchPattern => $"*{JsonExtension}";
     public static string LocExtension => ".loc";
     public static string LocSearchPattern => $"*{LocExtension}";
+    public static int MaxDisplayNameLength => 31;
 }
