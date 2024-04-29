@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
+using Colossal.IO.AssetDatabase.Internal;
+
 using Game.UI.Widgets;
 
 using TranslateCS2.Mod.Helpers;
@@ -16,6 +18,16 @@ internal class MyLanguage {
     public string ID { get; private set; }
     public string Name { get; private set; }
     public IList<TranslationFile> Flavors { get; } = [];
+    public int FlavorCount => this.Flavors.Count;
+    public int EntryCountOfAllFlavors {
+        get {
+            int count = 0;
+            if (this.HasFlavors) {
+                this.Flavors.ForEach(flavor => count += flavor.EntryCount);
+            }
+            return count;
+        }
+    }
     public IList<CultureInfo> CultureInfos { get; } = [];
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }

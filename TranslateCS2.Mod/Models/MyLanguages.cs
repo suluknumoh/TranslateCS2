@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using Colossal.IO.AssetDatabase.Internal;
 using Colossal.Localization;
 
 using Game.SceneFlow;
@@ -22,6 +23,25 @@ internal class MyLanguages {
     public static MyLanguages Instance { get; } = new MyLanguages();
 
     private readonly Dictionary<SystemLanguage, MyLanguage> Dict = [];
+    public int LanguageCount => this.Dict.Count;
+    public int FlavorCountOfAllLanguages {
+        get {
+            int count = 0;
+            if (this.LanguageCount > 0) {
+                this.Dict.Values.ForEach(item => count += item.FlavorCount);
+            }
+            return count;
+        }
+    }
+    public long EntryCountOfAllFlavorsOfAllLanguages {
+        get {
+            long count = 0;
+            if (this.LanguageCount > 0) {
+                this.Dict.Values.ForEach(item => count += item.EntryCountOfAllFlavors);
+            }
+            return count;
+        }
+    }
     private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
     private MyLanguages() {
         this.Init();
