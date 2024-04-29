@@ -16,6 +16,10 @@
 
 This mod is intended to sideload custom localizations/translations from JSONs.
 
+# Disclaimer
+This mod is provided as is to use at your own risk.
+
+Please see also: [MIT-License](https://github.com/suluknumoh/TranslateCS2?tab=MIT-1-ov-file)
 # JSON-File-Format
 
 * a .json-file
