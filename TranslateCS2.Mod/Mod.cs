@@ -40,6 +40,9 @@ public class Mod : IMod {
                 performanceMeasurement.Stop();
                 //
                 //
+                if (Languages.HasErroneous) {
+                    ErrorMessageHelper.DisplayErrorMessage(Languages.Erroneous, false);
+                }
                 this._modSettings = new ModSettings(this);
                 this._modSettings.OnFlavorChanged += Languages.FlavorChanged;
                 this._modSettings.RegisterInOptionsUI();

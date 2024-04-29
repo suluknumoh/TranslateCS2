@@ -47,13 +47,17 @@ internal partial class ModSettings : ModSetting {
 
     private void ReloadLangs() {
         try {
+            MyLanguages languages = MyLanguages.Instance;
             ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             ModSettings.LocalizationManager.SetActiveLocale(ModSettings.InterfaceSettings.locale);
-            MyLanguages.Instance.ReLoad();
+            languages.ReLoad();
             ModSettings.InterfaceSettings.currentLocale = this.Locale;
             ModSettings.InterfaceSettings.locale = this.Locale;
             ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
+            if (languages.HasErroneous) {
+                ErrorMessageHelper.DisplayErrorMessage(languages.Erroneous, true);
+            }
         } catch (Exception ex) {
             Mod.Logger.LogCritical(this.GetType(),
                                    LoggingConstants.FailedTo,
