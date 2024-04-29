@@ -54,6 +54,9 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         return File.ReadAllText(this.Path, Encoding.UTF8);
     }
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
+        if (this.dictionary == null) {
+            return [];
+        }
         return this.dictionary
             .Where(item =>
                 !String.IsNullOrEmpty(item.Key)
