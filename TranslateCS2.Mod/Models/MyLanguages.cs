@@ -42,6 +42,8 @@ internal class MyLanguages {
             return count;
         }
     }
+    public IList<TranslationFile> Erroneous { get; } = [];
+    public bool HasErroneous => this.Erroneous.Count > 0;
     private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
     private MyLanguages() {
         this.Init();
@@ -122,6 +124,9 @@ internal class MyLanguages {
                     }
                 }
                 TranslationFile translationFile = new TranslationFile(localeId, localeName, translationFilePath);
+                if (!translationFile.IsOK) {
+                    this.Erroneous.Add(translationFile);
+                }
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {
                 Mod.Logger.LogError(this.GetType(),
@@ -166,13 +171,17 @@ internal class MyLanguages {
 
     public void ReLoad() {
         try {
+            this.Erroneous.Clear();
             foreach (MyLanguage language in this.Dict.Values) {
                 this.FlavorMapping.TryGetValue(language.SystemLanguage, out string? localeId);
                 localeId ??= DropDownItemsHelper.None;
                 foreach (TranslationFile translationFile in language.Flavors) {
                     try {
                         this.TryToRemoveSource(language, translationFile);
-                        translationFile.ReInit();
+                        bool reInitialized = translationFile.ReInit();
+                        if (!translationFile.IsOK || !reInitialized) {
+                            this.Erroneous.Add(translationFile);
+                        }
                         if (localeId == translationFile.LocaleId) {
                             this.TryToAddSource(language, translationFile);
                         }
