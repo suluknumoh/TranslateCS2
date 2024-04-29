@@ -13,6 +13,7 @@ using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
+    private string Uniquer { get; } = ModConstants.Name;
     private Dictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
     public string LocaleName { get; private set; }
@@ -87,14 +88,18 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
 
     public bool Equals(TranslationFile? other) {
         return other is not null &&
+               this.Uniquer == other.Uniquer &&
                this.LocaleId == other.LocaleId &&
-               this.LocaleName == other.LocaleName;
+               this.LocaleName == other.LocaleName &&
+               this.Path == other.Path;
     }
 
     public override int GetHashCode() {
-        int hashCode = 1646257719;
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleId);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(this.LocaleName);
+        int hashCode = 1111822720;
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Uniquer);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.LocaleId);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.LocaleName);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Path);
         return hashCode;
     }
 
