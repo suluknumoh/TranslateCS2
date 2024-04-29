@@ -17,14 +17,6 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     public string LocaleName { get; private set; }
     public bool IsOK {
         get {
-            if (String.IsNullOrEmpty(this.LocaleId)
-                || String.IsNullOrWhiteSpace(this.LocaleId)) {
-                return false;
-            }
-            if (String.IsNullOrEmpty(this.LocaleName)
-                || String.IsNullOrWhiteSpace(this.LocaleName)) {
-                return false;
-            }
             if (this.dictionary == null
                 || this.dictionary.Count == 0) {
                 return false;
