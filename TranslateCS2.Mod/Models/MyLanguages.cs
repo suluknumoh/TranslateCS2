@@ -114,6 +114,13 @@ internal class MyLanguages {
                     continue;
                 }
                 string localeName = cultureInfo.NativeName;
+                if (language.SystemLanguage == SystemLanguage.SerboCroatian) {
+                    if (cultureInfo.EnglishName.Contains(LangConstants.Latin)) {
+                        localeName += $" ({LangConstants.Latin})";
+                    } else if (cultureInfo.EnglishName.Contains(LangConstants.Cyrillic)) {
+                        localeName += $" ({LangConstants.Cyrillic})";
+                    }
+                }
                 TranslationFile translationFile = new TranslationFile(localeId, localeName, translationFilePath);
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {
