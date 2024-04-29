@@ -1,3 +1,11 @@
+﻿# ChangeLog Version 1.5.2
+* added appendix '(Latin)' or '(Cyrillic)' for Serbian languages within the flavor-drop-down to be able to differentiate them
+* the language drop down within the interface settings now lists 'српски/hrvatski' instead of 'SerboCroatian'
+* if provided json-files are corrupt on load, an error message is shown (an example screenshot is available within the gallery and within this mods examples directory)
+* if provided json-files are corrupt on reload, an error message is shown (an example screenshot is available within the gallery and within this mods examples directory)
+* performance: just as an info and at least on my machine: it takes amongst 3.5 seconds to load all 167 (non-corrupt) language-/translation-files with a total of 2,942,874 entries (17,622 entries per language-/translation-file)
+
+
 # ChangeLog Version 1.5.1
 * native names are displayed instead of english names
 * reduced examples to mappable examples
