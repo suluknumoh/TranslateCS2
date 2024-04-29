@@ -8,6 +8,7 @@ using Colossal;
 
 using Newtonsoft.Json;
 
+using TranslateCS2.Mod.Loggers;
 using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
@@ -29,9 +30,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     public TranslationFile(string localeId, string localeName, string path) {
         this.LocaleId = localeId;
         this.Path = path;
-        string json = this.ReadJson();
-        this.dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        if (this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
+        this.ReadJson();
+        if (this.dictionary != null && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null
             && !String.IsNullOrEmpty(outLocaleName)
             && !String.IsNullOrWhiteSpace(outLocaleName)) {
@@ -39,19 +39,21 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         }
         this.LocaleName ??= localeName;
     }
-    public void ReInit() {
+    public bool ReInit() {
+        return this.ReadJson();
+    }
+    private bool ReadJson() {
         try {
-            string json = this.ReadJson();
+            string json = File.ReadAllText(this.Path, Encoding.UTF8);
             Dictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             if (temporary != null) {
                 this.dictionary = temporary;
+                return true;
             }
-        } catch {
-            //
+        } catch (Exception ex) {
+            Mod.Logger.LogError(this.GetType(), LoggingConstants.FailedTo, [nameof(ReadJson), ex, this]);
         }
-    }
-    private string ReadJson() {
-        return File.ReadAllText(this.Path, Encoding.UTF8);
+        return false;
     }
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
         if (this.dictionary == null) {
