@@ -5,6 +5,7 @@
 * if provided json-files are corrupt on reload, an error message is shown (an example screenshot is available within the gallery and within this mods examples directory)
 * performance: just as an info and at least on my machine: it takes amongst 3.5 seconds to load all 167 (non-corrupt) language-/translation-files with a total of 2,942,874 entries (17,622 entries per language-/translation-file)
 * added Disclaimer to Readme/LongDescription
+* tried to explain it a bit more
 
 
 # ChangeLog Version 1.5.1
