@@ -1,54 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
     </PropertyGroup>
 
     <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
 
-  <ItemGroup>
-    <None Remove="Assets\README.MOD.md" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Assets\README.MOD.md" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\README.MOD.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
-    <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />
-    <ProjectReference Include="..\TranslateCS2.TextSearch\TranslateCS2.TextSearch.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Assets\README.MOD.md" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
+        <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />
+        <ProjectReference Include="..\TranslateCS2.TextSearch\TranslateCS2.TextSearch.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\I18N\I18NExport.Designer.cs">
-      <DependentUpon>I18NExport.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Properties\I18N\I18NImport.Designer.cs">
-      <DependentUpon>I18NImport.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Properties\I18N\I18NExport.Designer.cs">
+            <DependentUpon>I18NExport.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="Properties\I18N\I18NImport.Designer.cs">
+            <DependentUpon>I18NImport.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\I18N\I18NExport.resx">
-      <LastGenOutput>I18NExport.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\I18N\I18NImport.resx">
-      <LastGenOutput>I18NImport.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\I18N\I18NExport.resx">
+            <LastGenOutput>I18NExport.Designer.cs</LastGenOutput>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\I18N\I18NImport.resx">
+            <LastGenOutput>I18NImport.Designer.cs</LastGenOutput>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+    </ItemGroup>
 
 
     <Target Name="CopyReadMeMod" BeforeTargets="BeforeBuild">
         <ItemGroup>
-            <FilesToCopy Include="..\TranslateCS2.Mod\README.md" />
+            <ModReadMe Include="..\TranslateCS2.Mod\README.md" />
         </ItemGroup>
-        <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(ProjectDir)Assets\README.MOD.md" />
+        <Copy SourceFiles="@(ModReadMe)" DestinationFiles="$(ProjectAssetsDir)\README.MOD.md" />
+    </Target>
+    <Target Name="CopyChangeLogMod" AfterTargets="CopyReadMeMod">
+        <ItemGroup>
+            <ModChangeLog Include="..\TranslateCS2.Mod\CHANGELOG.md" />
+        </ItemGroup>
+        <Copy SourceFiles="@(ModChangeLog)" DestinationFiles="$(ProjectAssetsDir)\CHANGELOG.MOD.md" />
     </Target>
 </Project>
