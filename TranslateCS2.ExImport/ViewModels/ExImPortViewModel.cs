@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
 
@@ -16,6 +17,7 @@ using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Controls.Exports;
 using TranslateCS2.ExImport.Controls.Imports;
 using TranslateCS2.ExImport.Properties.I18N;
+using TranslateCS2.ExImport.ViewModels.Dialogs;
 using TranslateCS2.ExImport.Views.Dialogs;
 
 namespace TranslateCS2.ExImport.ViewModels;
@@ -63,22 +65,40 @@ internal class ExImPortViewModel : ABaseViewModel {
         viewConfiguration.Tab.Items.Add(this._subNavigation);
     }
     private void InitAdditionalInformation() {
-        RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelMod,
-                                                              ImageResources.open,
-                                                              this.OpenModReadMeAction);
-        button.Width = 110;
-        button.MinWidth = 110;
-        button.MaxWidth = 110;
-        this._modInfo.Items.Add(button);
+        {
+            RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModReadMe,
+                                                                  ImageResources.open,
+                                                                  this.OpenModReadMeAction);
+            this._modInfo.Items.Add(button);
+        }
+        {
+            RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModChangeLog,
+                                                                  ImageResources.open,
+                                                                  this.OpenModChangeLogAction);
+            this._modInfo.Items.Add(button);
+        }
         //
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
         viewConfiguration.Tab.Items.Add(this._modInfo);
     }
 
     private void OpenModReadMeAction(object sender, RoutedEventArgs e) {
-        this._dialogService.ShowDialog(nameof(ModReadMeView));
+        string title = "README";
+        this.OpenModMarkDown(title);
     }
-
+    private void OpenModChangeLogAction(object sender, RoutedEventArgs e) {
+        string title = "CHANGELOG";
+        this.OpenModMarkDown(title);
+    }
+    private void OpenModMarkDown(string title) {
+        Assembly? assembly = Assembly.GetAssembly(typeof(ModMarkDownViewModel));
+        string doc = MarkDownHelper.GetMarkDown(assembly, $"TranslateCS2.ExImport.Assets.{title}.MOD.md");
+        IDialogParameters parameters = new DialogParameters() {
+            { ModMarkDownViewModel.DocParameterName, doc },
+            { ModMarkDownViewModel.TitleParameterName, title}
+        };
+        this._dialogService.ShowDialog(nameof(ModMarkDownView), parameters, null);
+    }
     private void InitSelectedSessionInfo() {
         IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
         CurrentSessionInfo selectedSessionInfoGroup = this._containerProvider.Resolve<CurrentSessionInfo>();

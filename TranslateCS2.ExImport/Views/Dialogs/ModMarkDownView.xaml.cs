@@ -4,8 +4,8 @@ namespace TranslateCS2.ExImport.Views.Dialogs;
 /// <summary>
 ///     Interaktionslogik für ImportComparisonView.xaml
 /// </summary>
-public partial class ModReadMeView : ContentControl {
-    public ModReadMeView() {
+public partial class ModMarkDownView : ContentControl {
+    public ModMarkDownView() {
         this.InitializeComponent();
     }
 }

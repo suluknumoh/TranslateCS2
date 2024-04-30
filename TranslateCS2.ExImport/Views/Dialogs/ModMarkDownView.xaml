@@ -1,23 +1,15 @@
 ﻿<ContentControl
-    x:Class="TranslateCS2.ExImport.Views.Dialogs.ModReadMeView"
+    x:Class="TranslateCS2.ExImport.Views.Dialogs.ModMarkDownView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
-    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:i18n="clr-namespace:TranslateCS2.ExImport.Properties.I18N"
     xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:app_configurationmanager="clr-namespace:TranslateCS2.Core.Configurations;assembly=TranslateCS2.Core">
-    <bhv:Interaction.Triggers>
-        <bhv:EventTrigger EventName="Loaded">
-            <bhv:InvokeCommandAction
-                Command="{Binding OnLoadedCommand}"
-                PassEventArgsToCommand="True" />
-        </bhv:EventTrigger>
-    </bhv:Interaction.Triggers>
     <ContentControl.Resources>
         <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
     </ContentControl.Resources>
@@ -61,7 +53,7 @@
             Grid.Row="0"
             Grid.Column="0"
             Style="{StaticResource StyleHeading}"
-            Text="{Binding Source={x:Static i18n:I18NExport.CaptionAdditionalInformation}, Mode=OneWay}"
+            Text="{Binding Title, Mode=OneWay}"
             />
         <markdig:MarkdownViewer
             Grid.Row="1"

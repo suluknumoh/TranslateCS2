@@ -61,11 +61,20 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TranslateCS2.Mod readme.md.
+        ///   Looks up a localized string similar to changelog.
         /// </summary>
-        public static string ButtonLabelMod {
+        public static string ButtonLabelModChangeLog {
             get {
-                return ResourceManager.GetString("ButtonLabelMod", resourceCulture);
+                return ResourceManager.GetString("ButtonLabelModChangeLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to readme.
+        /// </summary>
+        public static string ButtonLabelModReadMe {
+            get {
+                return ResourceManager.GetString("ButtonLabelModReadMe", resourceCulture);
             }
         }
         
@@ -79,7 +88,7 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TranslateCS2.Mod Information.
+        ///   Looks up a localized string similar to TranslateCS2.Mod.
         /// </summary>
         public static string CaptionAdditionalInformation {
             get {

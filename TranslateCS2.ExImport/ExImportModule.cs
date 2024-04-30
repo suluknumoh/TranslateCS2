@@ -38,7 +38,7 @@ public class ExImportModule : IModule {
         {
             // configure dialogs
             containerRegistry.RegisterDialog<ImportComparisonView, ImportComparisonViewModel>(nameof(ImportComparisonView));
-            containerRegistry.RegisterDialog<ModReadMeView, ModReadMeViewModel>(nameof(ModReadMeView));
+            containerRegistry.RegisterDialog<ModMarkDownView, ModMarkDownViewModel>(nameof(ModMarkDownView));
         }
     }
 }

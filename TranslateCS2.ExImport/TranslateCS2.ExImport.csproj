@@ -8,10 +8,12 @@
     <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
 
     <ItemGroup>
+        <None Remove="Assets\CHANGELOG.MOD.md" />
         <None Remove="Assets\README.MOD.md" />
     </ItemGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="Assets\CHANGELOG.MOD.md" />
         <EmbeddedResource Include="Assets\README.MOD.md" />
     </ItemGroup>
     <ItemGroup>
