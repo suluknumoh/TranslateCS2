@@ -189,6 +189,8 @@ public partial class App : PrismApplication {
                                                                                            true);
         startView.NavToggleButton.IsChecked = true;
         viewConfigurations.AddStartViewConfiguration(startView);
+        // changelog view is always useable!!!
+        viewConfigurations.Add(IViewConfiguration.Create<ChangeLogView, ChangeLogViewModel>(I18NRibbon.ChangeLog, ImageResources.text_bullet_list_tree, true, true));
         // credits view is always useable!!!
         viewConfigurations.Add(IViewConfiguration.Create<CreditsView, CreditsViewModel>(I18NRibbon.Credits, ImageResources.person_circle, true, true));
         viewConfigurations.Register(regionManager);

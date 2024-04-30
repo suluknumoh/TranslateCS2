@@ -1,0 +1,91 @@
+﻿<ContentControl
+    x:Class="TranslateCS2.Views.Works.ChangeLogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    xmlns:bhv="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:i18n="clr-namespace:TranslateCS2.Core.Properties.I18N;assembly=TranslateCS2.Core"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <bhv:Interaction.Triggers>
+        <bhv:EventTrigger EventName="Loaded">
+            <bhv:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                PassEventArgsToCommand="True" />
+        </bhv:EventTrigger>
+    </bhv:Interaction.Triggers>
+    <ContentControl.Resources>
+        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/theme.xaml" />
+    </ContentControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="{Binding Source={x:Static i18n:I18NGlobal.MessageAppUnusable}, Mode=OneWay}">
+            <TextBlock.Style>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource StyleAppUnUseAbleError}">
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SessionManager.IsAppUseAble}"
+                            Value="false">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="{Binding SessionManager.DatabaseError,
+                           Mode=OneWay,
+                           NotifyOnSourceUpdated=True}">
+            <TextBlock.Style>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource StyleDatabaseError}">
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SessionManager.HasDatabaseError,
+                                              Mode=OneWay,
+                                              NotifyOnSourceUpdated=True}"
+                            Value="True">
+                            <Setter
+                                Property="Visibility"
+                                Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <markdig:MarkdownViewer
+            Grid.Row="2"
+            Grid.Column="0"
+            Markdown="{Binding Doc}"
+            Pipeline="{Binding Pipeline}">
+            <markdig:MarkdownViewer.Resources>
+                <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
+            </markdig:MarkdownViewer.Resources>
+            <FrameworkElement.CommandBindings>
+                <CommandBinding
+                    Command="{x:Static markdig:Commands.Hyperlink}"
+                    Executed="OpenURLCommandAction" />
+            </FrameworkElement.CommandBindings>
+        </markdig:MarkdownViewer>
+    </Grid>
+</ContentControl>

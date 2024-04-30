@@ -43,6 +43,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="Assets\CHANGELOG.md" />
+        <None Remove="Assets\CREDITS.md" />
         <None Remove="Assets\README.md" />
         <None Remove="Assets\splashscreen.png" />
         <None Remove="Assets\Translations.sqlite" />
@@ -53,6 +55,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="Assets\CREDITS.md" />
+        <EmbeddedResource Include="Assets\CHANGELOG.md" />
         <EmbeddedResource Include="Assets\README.md" />
         <EmbeddedResource Include="Assets\Translations.sqlite" />
     </ItemGroup>

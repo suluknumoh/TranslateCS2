@@ -10,18 +10,18 @@ using TranslateCS2.Core.ViewModels;
 
 namespace TranslateCS2.ViewModels.Works;
 
-internal class CreditsViewModel : ABaseViewModel {
+internal class ChangeLogViewModel : ABaseViewModel {
     public ITranslationSessionManager SessionManager { get; }
     public string? Doc { get; private set; }
     public MarkdownPipeline? Pipeline { get; private set; }
 
-    public CreditsViewModel(ITranslationSessionManager translationSessionManager) {
+    public ChangeLogViewModel(ITranslationSessionManager translationSessionManager) {
         this.SessionManager = translationSessionManager;
     }
 
     protected override void OnLoadedCommandAction() {
-        Assembly? assembly = Assembly.GetAssembly(typeof(CreditsViewModel));
-        this.Doc = MarkDownHelper.GetMarkDown(assembly, $"{AppConfigurationManager.AssetPath}CREDITS.md");
+        Assembly? assembly = Assembly.GetAssembly(typeof(ChangeLogViewModel));
+        this.Doc = MarkDownHelper.GetMarkDown(assembly, $"{AppConfigurationManager.AssetPath}CHANGELOG.md");
         this.Pipeline = new MarkdownPipelineBuilder().UseSupportedExtensions().Build();
         this.RaisePropertyChanged(nameof(this.Doc));
         this.RaisePropertyChanged(nameof(this.Pipeline));

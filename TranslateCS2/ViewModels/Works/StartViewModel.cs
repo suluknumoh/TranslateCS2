@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Reflection;
 
 using Markdig;
 using Markdig.Wpf;
 
+using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Services.LatestVersions;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
-using TranslateCS2.Helpers;
 
 namespace TranslateCS2.ViewModels.Works;
 
@@ -31,7 +33,8 @@ internal class StartViewModel : ABaseViewModel {
             this.NVAString = $"New Version available: Current Version {current} - Latest Version {latest}";
             this.RaisePropertyChanged(nameof(this.NVAString));
         }
-        this.Doc = MarkdownHelper.GetReadmeTillCaption("# Credits");
+        Assembly? assembly = Assembly.GetAssembly(typeof(StartViewModel));
+        this.Doc = MarkDownHelper.GetMarkDown(assembly, $"{AppConfigurationManager.AssetPath}README.md");
         this.Pipeline = new MarkdownPipelineBuilder().UseSupportedExtensions().Build();
         this.RaisePropertyChanged(nameof(this.Doc));
         this.RaisePropertyChanged(nameof(this.Pipeline));

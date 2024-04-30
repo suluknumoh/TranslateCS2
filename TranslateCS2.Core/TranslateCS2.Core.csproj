@@ -53,6 +53,7 @@
       <None Remove="Assets\Icons\folder_open.png" />
       <None Remove="Assets\Icons\folder_open_vertical.png" />
       <None Remove="Assets\Icons\home.png" />
+      <None Remove="Assets\Icons\local_language.png" />
       <None Remove="Assets\Icons\open.png" />
       <None Remove="Assets\Icons\open_off.png" />
       <None Remove="Assets\Icons\person_circle.png" />
@@ -63,6 +64,7 @@
       <None Remove="Assets\Icons\settings.png" />
       <None Remove="Assets\Icons\settings_applications.png" />
       <None Remove="Assets\Icons\textbox_more.png" />
+      <None Remove="Assets\Icons\text_bullet_list_tree.png" />
       <None Remove="Assets\Icons\text_proofing_tools.png" />
       <None Remove="Assets\Icons\translate.png" />
     </ItemGroup>
@@ -160,6 +162,7 @@
       <Resource Include="Assets\Icons\folder_open.png" />
       <Resource Include="Assets\Icons\folder_open_vertical.png" />
       <Resource Include="Assets\Icons\home.png" />
+      <Resource Include="Assets\Icons\local_language.png" />
       <Resource Include="Assets\Icons\open.png" />
       <Resource Include="Assets\Icons\open_off.png" />
       <Resource Include="Assets\Icons\person_circle.png" />
@@ -170,6 +173,7 @@
       <Resource Include="Assets\Icons\settings.png" />
       <Resource Include="Assets\Icons\settings_applications.png" />
       <Resource Include="Assets\Icons\textbox_more.png" />
+      <Resource Include="Assets\Icons\text_bullet_list_tree.png" />
       <Resource Include="Assets\Icons\text_proofing_tools.png" />
       <Resource Include="Assets\Icons\translate.png" />
     </ItemGroup>

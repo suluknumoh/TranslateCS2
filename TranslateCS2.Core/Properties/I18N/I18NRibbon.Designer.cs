@@ -61,6 +61,15 @@ namespace TranslateCS2.Core.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ChangeLog.
+        /// </summary>
+        public static string ChangeLog {
+            get {
+                return ResourceManager.GetString("ChangeLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credits.
         /// </summary>
         public static string Credits {
