@@ -4,12 +4,7 @@
         <OutputType>Library</OutputType>
         <TargetFramework>net472</TargetFramework>
         <Configurations>Debug;Release</Configurations>
-        <ImplicitUsings>disable</ImplicitUsings>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <AssemblyVersion>1.5.2.0</AssemblyVersion>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-   </PropertyGroup>
+    </PropertyGroup>
+    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
 
 </Project>

@@ -3,36 +3,13 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>disable</ImplicitUsings>
-        <UseWPF>true</UseWPF>
-        <NeutralLanguage>en</NeutralLanguage>
         <Configurations>Debug;Release</Configurations>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <ApplicationIcon>appicon.ico</ApplicationIcon>
-        <AssemblyVersion>1.5.2.0</AssemblyVersion>
-
-        <!--
-            AppendTargetFrameworkToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-
-            \TranslateCS2.Core\BuildTargets\Translator.Build.targets rely on this setting to be 'false'!
-        -->
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-
-        <!--
-            AppendRuntimeIdentifierToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-
-            \TranslateCS2.Core\BuildTargets\Translator.Build.targets rely on this setting to be 'false'!
-        -->
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-        <ProjectAssetDir>$(ProjectDir)Assets</ProjectAssetDir>
+        <UseWPF>true</UseWPF>
     </PropertyGroup>
+
+    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DebugType>embedded</DebugType>
@@ -74,13 +51,13 @@
 
 
     <Target Name="WriteReadMe" BeforeTargets="AfterBuild">
-        <ReadLinesFromFile File="$(ProjectAssetDir)\README.md">
+        <ReadLinesFromFile File="$(ProjectAssetsDir)\README.md">
             <Output TaskParameter="Lines" ItemName="ReadMeLines" />
         </ReadLinesFromFile>
-        <ReadLinesFromFile File="$(ProjectAssetDir)\CHANGELOG.md">
+        <ReadLinesFromFile File="$(ProjectAssetsDir)\CHANGELOG.md">
             <Output TaskParameter="Lines" ItemName="ChangeLogLines" />
         </ReadLinesFromFile>
-        <ReadLinesFromFile File="$(ProjectAssetDir)\CREDITS.md">
+        <ReadLinesFromFile File="$(ProjectAssetsDir)\CREDITS.md">
             <Output TaskParameter="Lines" ItemName="CreditsLines" />
         </ReadLinesFromFile>
         <ItemGroup>

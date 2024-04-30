@@ -2,28 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    </PropertyGroup>
 
-      <!--
-            AppendTargetFrameworkToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-        -->
-      <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-
-      <!--
-            AppendRuntimeIdentifierToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-        -->
-      <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-
-  </PropertyGroup>
+    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
 
   <ItemGroup>
     <None Remove="Assets\README.MOD.md" />
@@ -32,7 +14,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\README.MOD.md" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
     <ProjectReference Include="..\TranslateCS2.Sessions\TranslateCS2.Sessions.csproj" />

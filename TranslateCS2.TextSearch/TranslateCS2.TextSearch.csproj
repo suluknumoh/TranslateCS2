@@ -1,47 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-      <!--
-            AppendTargetFrameworkToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-        -->
-      <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
 
-      <!--
-            AppendRuntimeIdentifierToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-        -->
-      <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <ItemGroup>
+        <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
+    </ItemGroup>
 
-  </PropertyGroup>
+    <ItemGroup>
+        <Compile Update="Properties\I18N\I18NSearchs.Designer.cs">
+            <DependentUpon>I18NSearchs.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\I18N\I18NSearchs.Designer.cs">
-      <DependentUpon>I18NSearchs.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\I18N\I18NSearchs.resx">
-      <LastGenOutput>I18NSearchs.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\I18N\I18NSearchs.resx">
+            <LastGenOutput>I18NSearchs.Designer.cs</LastGenOutput>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+    </ItemGroup>
 
 </Project>
