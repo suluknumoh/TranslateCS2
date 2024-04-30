@@ -363,8 +363,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-# Fody - auto-generated XML schema
-FodyWeavers.xsd
-/EPGApp/EPGApp.xml
-/CSH_WPF_EPG/CSH_WPF_EPG.xml
