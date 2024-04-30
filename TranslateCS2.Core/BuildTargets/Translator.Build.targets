@@ -2,6 +2,21 @@
     <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
     <PropertyGroup>
         <!--
+            AppendTargetFrameworkToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+        -->
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+        <!--
+            AppendRuntimeIdentifierToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+        -->
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <!--
             to copy nuget dll-files
             has to be true
         -->
