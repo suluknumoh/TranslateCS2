@@ -18,7 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
       <ProjectReference Include="..\TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj" />
     </ItemGroup>
 
