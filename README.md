@@ -74,8 +74,8 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - give your session a name : may not be empty or only whitespaces
 - select a merge-file : an existing translation, you want to merge your translation with
 - select an overwrite-file : i (the author of this app) tried to add non-existing ".loc"-files and the weren't recognized within [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii); so this should be a loc-file different to english (can't be selected) and (recommended) a language you are unable to read/speak; so you always have an ingame-fallback without the need to verify your installation files
-- localename in english : your desired localename in english; MUST only consist of characters, lower- or uppercase, from a - z!
-- localename localized : your desired localename in 'your' language; may not be empty or only whitespaces; please be careful, i (the author of this app) do not know about restrictions/limitations
+- localename in english : should be selected via drop down
+- localename localized : your desired localename in 'your' language; may be selected via drop down, i (the author of this app) do not know about restrictions/limitations
 
 ## Editing
 - pressing enter or return moves to the next row
@@ -174,6 +174,14 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
+
+## Version 1.5.2
+- ModBridge is not needed for translators
+- create/edit translation sessions
+    - localename in english is selectable
+    - localename localized is selectable and customizable
+    - tooltips adjusted/improved
+    - separators added
 
 ## Version 1.5
 - minor code changes
