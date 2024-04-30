@@ -8,6 +8,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>
         <AssemblyVersion>1.5.2.0</AssemblyVersion>
+        <!-- INFO: i think BeforePublish-Target doesnt work -->
+        <IsPublishMod>false</IsPublishMod>
 
         <!--The folder where Game.dll is located. Set it only if the game is not installed in the default location, otherwise keep it empty-->
         <CustomManagedPath>D:\Games\Steam\steamapps\common\Cities Skylines II\Cities2_Data\Managed</CustomManagedPath>
@@ -109,6 +111,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="CHANGELOG.CURRENT.md">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
         <None Update="CHANGELOG.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -644,4 +649,61 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+
+
+    <Target
+        Name="PokeInfosToPublishConfiguration"
+        BeforeTargets="BeforeBuild">
+        <XmlPoke
+            Value="$(AssemblyVersion)"
+            XmlInputPath="Properties\PublishConfiguration.xml"
+            Query=".//Publish/ModVersion/@Value" />
+        <ReadLinesFromFile
+            File="$(ProjectDir)\README.md">
+            <Output
+                TaskParameter="Lines"
+                ItemName="ModReadMeLines" />
+        </ReadLinesFromFile>
+        <XmlPoke
+            Value="@(ModReadMeLines->'%(Identity)', '%0a%0d')"
+            XmlInputPath="Properties\PublishConfiguration.xml"
+            Query=".//Publish/LongDescription" />
+
+        <ReadLinesFromFile
+            File="$(ProjectDir)\CHANGELOG.CURRENT.md">
+            <Output
+                TaskParameter="Lines"
+                ItemName="ModChangeLogCurrentLines" />
+        </ReadLinesFromFile>
+        <XmlPoke
+            Value="@(ModChangeLogCurrentLines->'%(Identity)', '%0a%0d')"
+            XmlInputPath="Properties\PublishConfiguration.xml"
+            Query=".//Publish/ChangeLog" />
+
+        <ReadLinesFromFile
+            File="$(ProjectDir)\CHANGELOG.md">
+            <Output
+                TaskParameter="Lines"
+                ItemName="ModChangeLogLines" />
+        </ReadLinesFromFile>
+    </Target>
+    <Target
+        Name="WriteNewChangeLog"
+        AfterTargets="PokeInfosToPublishConfiguration"
+        DependsOnTargets="PokeInfosToPublishConfiguration"
+        Condition="$(IsPublishMod)=='true'">
+        <ItemGroup>
+            <ModChangeLog
+                Include="$(ProjectDir)CHANGELOG.md" />
+            <ChangeLogContent
+                Include="@(ModChangeLogCurrentLines)" />
+            <ChangeLogContent
+                Include="@(ModChangeLogLines)" />
+        </ItemGroup>
+        <WriteLinesToFile
+            File="@(ModChangeLog)"
+            Lines="@(ChangeLogContent)"
+            Overwrite="true"
+            />
+    </Target>
 </Project>
