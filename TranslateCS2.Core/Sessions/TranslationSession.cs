@@ -69,13 +69,7 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
     private string? _OverwriteLocalizationNameLocalized;
     public string? OverwriteLocalizationNameLocalized {
         get => this._OverwriteLocalizationNameLocalized;
-        set {
-            if (value != null) {
-                this.SetProperty(ref this._OverwriteLocalizationNameLocalized, value.Replace(" ", String.Empty));
-            } else {
-                this.SetProperty(ref this._OverwriteLocalizationNameLocalized, value);
-            }
-        }
+        set => this.SetProperty(ref this._OverwriteLocalizationNameLocalized, value);
     }
 
 
