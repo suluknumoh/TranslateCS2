@@ -133,5 +133,31 @@
                     />
             </StackPanel>
         </StackPanel>
+
+
+
+
+        <Rectangle
+            Height="50"
+            Width="2"
+            Stroke="Silver"/>
+        <StackPanel>
+            <RibbonTextBox
+                Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationNameEN}"
+                ToolTip="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionLocaleNameEN}, Mode=OneWay}"
+                IsEnabled="False"
+                Background="Transparent"
+                TextAlignment="Center"
+                TextBoxWidth="200"
+                />
+            <RibbonTextBox
+                Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationNameLocalized}"
+                ToolTip="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionLocaleNameLocalized}, Mode=OneWay}"
+                IsEnabled="False"
+                Background="Transparent"
+                TextAlignment="Center"
+                TextBoxWidth="200"
+                />
+        </StackPanel>
     </StackPanel>
 </RibbonGroup>

@@ -79,6 +79,24 @@ namespace TranslateCS2.Core.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to locale name in english.
+        /// </summary>
+        public static string CurrentSessionLocaleNameEN {
+            get {
+                return ResourceManager.GetString("CurrentSessionLocaleNameEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to locale name localized.
+        /// </summary>
+        public static string CurrentSessionLocaleNameLocalized {
+            get {
+                return ResourceManager.GetString("CurrentSessionLocaleNameLocalized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to file to merge.
         /// </summary>
         public static string CurrentSessionMerge {

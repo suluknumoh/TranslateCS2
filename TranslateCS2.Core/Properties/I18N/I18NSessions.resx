@@ -123,6 +123,12 @@
   <data name="CurrentSessionLastEdited" xml:space="preserve">
     <value>last edited</value>
   </data>
+  <data name="CurrentSessionLocaleNameEN" xml:space="preserve">
+    <value>locale name in english</value>
+  </data>
+  <data name="CurrentSessionLocaleNameLocalized" xml:space="preserve">
+    <value>locale name localized</value>
+  </data>
   <data name="CurrentSessionMerge" xml:space="preserve">
     <value>file to merge</value>
   </data>
