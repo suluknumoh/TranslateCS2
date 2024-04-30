@@ -68,4 +68,12 @@
         </ItemGroup>
         <WriteLinesToFile File="@(ReadMeFile)" Lines="@(ReadMeContent)" Overwrite="true" />
     </Target>
+
+    <Target Name="WriteLatest" AfterTargets="WriteReadMe">
+        <ItemGroup>
+            <FileToWriteTo Include="$(SolutionDir)latest" />
+            <ContentToWrite Include="$(AssemblyVersion)" />
+        </ItemGroup>
+        <WriteLinesToFile File="@(FileToWriteTo)" Lines="@(ContentToWrite)" Overwrite="true" />
+    </Target>
 </Project>
