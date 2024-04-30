@@ -31,7 +31,7 @@
             \TranslateCS2.Core\BuildTargets\Translator.Build.targets rely on this setting to be 'false'!
         -->
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-
+        <ProjectAssetDir>$(ProjectDir)Assets</ProjectAssetDir>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -72,17 +72,23 @@
         <SplashScreen Include="Assets\splashscreen.png" />
     </ItemGroup>
 
-    <Target Name="CopyReadMe" BeforeTargets="AfterBuild">
+
+    <Target Name="WriteReadMe" BeforeTargets="AfterBuild">
+        <ReadLinesFromFile File="$(ProjectAssetDir)\README.md">
+            <Output TaskParameter="Lines" ItemName="ReadMeLines" />
+        </ReadLinesFromFile>
+        <ReadLinesFromFile File="$(ProjectAssetDir)\CHANGELOG.md">
+            <Output TaskParameter="Lines" ItemName="ChangeLogLines" />
+        </ReadLinesFromFile>
+        <ReadLinesFromFile File="$(ProjectAssetDir)\CREDITS.md">
+            <Output TaskParameter="Lines" ItemName="CreditsLines" />
+        </ReadLinesFromFile>
         <ItemGroup>
-            <FilesToCopy Include="$(ProjectDir)Assets\README.MD" />
+            <ReadMeFile Include="$(SolutionDir)README.md" />
+            <ReadMeContent Include="@(ReadMeLines)" />
+            <ReadMeContent Include="@(ChangeLogLines)" />
+            <ReadMeContent Include="@(CreditsLines)" />
         </ItemGroup>
-        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(SolutionDir)" />
-    </Target>
-    <Target Name="WriteLatest" BeforeTargets="CopyReadMe">
-        <ItemGroup>
-            <FileToWriteTo Include="$(SolutionDir)latest" />
-            <ContentToWrite Include="$(AssemblyVersion)" />
-        </ItemGroup>
-        <WriteLinesToFile File="@(FileToWriteTo)" Lines="@(ContentToWrite)" Overwrite="true" />
+        <WriteLinesToFile File="@(ReadMeFile)" Lines="@(ReadMeContent)" Overwrite="true" />
     </Target>
 </Project>
