@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace TranslateCS2.ModBridge;
+namespace TranslateCS2.Inf;
 public static class PathHelper {
     public static string? TryToGetModsPath() {
         string general = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low",

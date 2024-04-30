@@ -17,7 +17,7 @@ using TranslateCS2.ExImport.Helpers;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
 using TranslateCS2.ExImport.Services;
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Controls.Exports;
 internal class ExportControlContext : ABaseViewModel {

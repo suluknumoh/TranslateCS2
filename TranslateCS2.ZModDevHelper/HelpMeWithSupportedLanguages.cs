@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 
 namespace TranslateCS2.ZModDevHelper;

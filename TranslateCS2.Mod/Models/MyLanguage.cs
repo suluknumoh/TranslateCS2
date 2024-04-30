@@ -8,8 +8,8 @@ using Colossal.IO.AssetDatabase.Internal;
 
 using Game.UI.Widgets;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Helpers;
-using TranslateCS2.ModBridge;
 
 using UnityEngine;
 

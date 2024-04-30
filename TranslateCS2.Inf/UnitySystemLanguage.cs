@@ -1,4 +1,4 @@
-﻿namespace TranslateCS2.ModBridge;
+﻿namespace TranslateCS2.Inf;
 /// copied from
 /// <seealso cref="UnityEngine.SystemLanguage"/>
 public enum UnitySystemLanguage {

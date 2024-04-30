@@ -5,7 +5,7 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
-    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
+    <Import Project="..\TranslateCS2.Inf\Properties\TranslateCS2.props" />
     <ItemGroup>
         <ProjectReference Include="..\TranslateCS2.Core\TranslateCS2.Core.csproj" />
     </ItemGroup>

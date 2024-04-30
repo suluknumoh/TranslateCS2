@@ -90,7 +90,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj" />
+      <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
     </ItemGroup>
 
     <ItemGroup>

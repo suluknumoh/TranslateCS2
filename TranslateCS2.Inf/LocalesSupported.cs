@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TranslateCS2.ModBridge;
+namespace TranslateCS2.Inf;
 /// <summary>
 /// mscorlib used by co supports less cultureinfos
 /// </summary>

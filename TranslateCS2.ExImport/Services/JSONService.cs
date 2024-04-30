@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class JSONService {

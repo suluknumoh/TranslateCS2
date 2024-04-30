@@ -4,7 +4,7 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
-    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
+    <Import Project="..\TranslateCS2.Inf\Properties\TranslateCS2.props" />
 
     <ItemGroup>
           <None Remove="Assets\Icons\add.png" />
@@ -61,7 +61,7 @@
         <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\TranslateCS2.ModBridge\TranslateCS2.ModBridge.csproj" />
+      <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Properties\I18N\I18NEdits.Designer.cs">

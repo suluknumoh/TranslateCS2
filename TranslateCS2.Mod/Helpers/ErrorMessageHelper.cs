@@ -5,9 +5,9 @@ using Colossal.Localization;
 
 using Game.SceneFlow;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
-using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Helpers;
 internal static class ErrorMessageHelper {

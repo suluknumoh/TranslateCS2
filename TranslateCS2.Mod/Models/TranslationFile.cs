@@ -8,8 +8,8 @@ using Colossal;
 
 using Newtonsoft.Json;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Loggers;
-using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {

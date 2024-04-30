@@ -6,7 +6,7 @@ using System.Linq;
 
 using Colossal.PSI.Environment;
 
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Mod.Helpers;
 internal static class LocaleHelper {

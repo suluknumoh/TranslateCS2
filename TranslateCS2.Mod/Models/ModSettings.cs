@@ -8,9 +8,9 @@ using Game.Modding;
 using Game.SceneFlow;
 using Game.Settings;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
-using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>

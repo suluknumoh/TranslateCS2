@@ -13,7 +13,7 @@ using Prism.Regions;
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 using TranslateCS2.Sessions.Models;
 using TranslateCS2.Sessions.Properties.I18N;
 

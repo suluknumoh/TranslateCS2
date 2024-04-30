@@ -2,7 +2,7 @@
 
 using Colossal.PSI.Environment;
 
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Mod.Helpers;
 /// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>

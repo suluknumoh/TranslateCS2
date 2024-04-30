@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using Colossal;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Properties.I18N;
-using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod.Models;
 internal class ModSettingsLocale : IDictionarySource {

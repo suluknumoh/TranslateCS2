@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace TranslateCS2.ModBridge;
+namespace TranslateCS2.Inf;
 public static class CultureInfoHelper {
     public static IEnumerable<CultureInfo> GetSupportedCultures() {
         return CultureInfo.GetCultures(CultureTypes.AllCultures).Where(item => LocalesSupported.IsLocaleIdSupported(item.Name));

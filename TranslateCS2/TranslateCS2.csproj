@@ -9,7 +9,7 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
-    <Import Project="..\TranslateCS2.Core\Properties\TranslateCS2.props" />
+    <Import Project="..\TranslateCS2.Inf\Properties\TranslateCS2.props" />
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DebugType>embedded</DebugType>

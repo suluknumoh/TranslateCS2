@@ -1,4 +1,4 @@
-﻿namespace TranslateCS2.ModBridge;
+﻿namespace TranslateCS2.Inf;
 public static class LangConstants {
     public static string ChineseSimplified { get; } = "Chinese (Simplified";
     public static string ChineseTraditional { get; } = "Chinese (Traditional";

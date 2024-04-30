@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ZModDevHelper;
 public class HelpMeWithModSettingsFlavors {

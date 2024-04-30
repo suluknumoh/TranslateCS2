@@ -4,7 +4,7 @@ using System.Windows;
 using Microsoft.Win32;
 
 using TranslateCS2.Core.Configurations;
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Helpers;
 

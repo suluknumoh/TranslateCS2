@@ -10,10 +10,9 @@ using Colossal.Localization;
 
 using Game.SceneFlow;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
-
-using TranslateCS2.ModBridge;
 
 using UnityEngine;
 

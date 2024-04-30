@@ -8,10 +8,10 @@ using Game;
 using Game.Modding;
 using Game.SceneFlow;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
-using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Mod;
 public class Mod : IMod {

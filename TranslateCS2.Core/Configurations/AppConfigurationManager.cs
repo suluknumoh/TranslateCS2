@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Configurations;
 public static class AppConfigurationManager {

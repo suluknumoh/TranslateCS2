@@ -10,7 +10,7 @@ using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Sessions;
-using TranslateCS2.ModBridge;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
 internal class LocalizationFilesService : ILocalizationFilesService {
