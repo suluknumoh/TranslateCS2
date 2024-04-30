@@ -7,7 +7,6 @@ using Prism.Mvvm;
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties.I18N;
-using TranslateCS2.ModBridge;
 
 namespace TranslateCS2.Core.Sessions;
 // https://learn.microsoft.com/en-us/archive/msdn-magazine/2010/june/msdn-magazine-input-validation-enforcing-complex-business-data-rules-with-wpf
@@ -114,9 +113,6 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
                 case nameof(this.OverwriteLocalizationNameEN):
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.OverwriteLocalizationNameEN)) {
                         return I18NSessions.InputWarningNotEmptyOrWhitespace;
-                    }
-                    if (!RegExConstants.IsOnlyAZCaseInSensitive.IsMatch(this.OverwriteLocalizationNameEN)) {
-                        return I18NSessions.InputWarningConsistOfCharacters;
                     }
                     break;
                 case nameof(this.OverwriteLocalizationNameLocalized):
