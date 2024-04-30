@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,13 +11,13 @@ using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.ModBridge;
 using TranslateCS2.Sessions.Models;
 using TranslateCS2.Sessions.Properties.I18N;
 
 namespace TranslateCS2.Sessions.Controls;
-// TODO: restrict sessions english name to english names of supported languages?
-// TODO: what if people want to 'misuse' a supported language/locale for a translation for an unsupported ones?
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private readonly IRegionManager _regionManager;
     private bool _isLoaded = false;
@@ -45,6 +46,9 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public ObservableCollection<string> Overwrites { get; } = [];
 
+    public ObservableCollection<CultureInfo> CultureInfos { get; } = [];
+
+
     private BindingGroup? _newSessionBindingGroup;
 
 
@@ -56,6 +60,8 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
 
     public DelegateCommand<RoutedEventArgs> CreateNewTranslationSessionGridLoaded { get; }
+    public DelegateCommand<SelectionChangedEventArgs> LocaleENChanged { get; }
+    public DelegateCommand<SelectionChangedEventArgs> LocaleNativeChanged { get; }
     public DelegateCommand FileComboBoxSelectionChangedCommand { get; }
     public DelegateCommand Save { get; }
     public DelegateCommand Cancel { get; }
@@ -65,11 +71,19 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
                                         ITranslationSessionManager translationSessionManager) {
         this._regionManager = regionManager;
         this.CreateNewTranslationSessionGridLoaded = new DelegateCommand<RoutedEventArgs>(this.CreateNewTranslationSessionGridLoadedAction);
+        this.LocaleENChanged = new DelegateCommand<SelectionChangedEventArgs>(this.LocaleENChangedAction);
+        this.LocaleNativeChanged = new DelegateCommand<SelectionChangedEventArgs>(this.LocaleNativeChangedAction);
         this.FileComboBoxSelectionChangedCommand = new DelegateCommand(this.FileComboBoxSelectionChangedCommandAction);
         this.Save = new DelegateCommand(this.SaveAction);
         this.Cancel = new DelegateCommand(this.CancelAction);
         this.SessionManager = translationSessionManager;
         this.InitMergesOverwrites();
+        this.InitCultureInfos();
+    }
+
+    private void InitCultureInfos() {
+        IEnumerable<CultureInfo> supported = CultureInfoHelper.GetSupportedCultures();
+        this.CultureInfos.AddRange(supported);
     }
 
     private void FileComboBoxSelectionChangedCommandAction() {
@@ -144,6 +158,30 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
                 this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
             }
             this._newSessionBindingGroup.BeginEdit();
+        }
+    }
+
+    private void LocaleENChangedAction(SelectionChangedEventArgs args) {
+        if (this.Session == null) {
+            return;
+        }
+        if (args.AddedItems == null || args.AddedItems.Count == 0) {
+            return;
+        }
+        if (args.AddedItems[0] is CultureInfo cultureInfo) {
+            this.Session.OverwriteLocalizationNameLocalized = cultureInfo.NativeName;
+        }
+    }
+    private void LocaleNativeChangedAction(SelectionChangedEventArgs args) {
+        if (this.Session == null) {
+            return;
+        }
+        if (args.AddedItems == null || args.AddedItems.Count == 0) {
+            return;
+        }
+        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Session.OverwriteLocalizationNameEN)
+            && args.AddedItems[0] is CultureInfo cultureInfo) {
+            this.Session.OverwriteLocalizationNameEN = cultureInfo.EnglishName;
         }
     }
 }

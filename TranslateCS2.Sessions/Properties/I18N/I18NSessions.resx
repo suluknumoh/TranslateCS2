@@ -152,15 +152,32 @@ session</value>
   </data>
   <data name="InputLocaleEnglishTip" xml:space="preserve">
     <value>localename in english;
-it is also used to gather a filename proposals for exports</value>
+the drop down lists all supported (available in co's mscorlib AND mappable to a UnityEngine.SystemLanguage) languages english names
+
+it is searchable
+and
+it is strongly recommended to select an appropriate english name, becuase the english name is also used to gather filename proposals for exports
+
+selecting/changing the english name changes the localename localized respectively
+
+below the drop down, the current english name is shown to provide backward-compatibility</value>
   </data>
   <data name="InputLocaleLocalized" xml:space="preserve">
     <value>localename localized</value>
   </data>
   <data name="InputLocaleLocalizedTip" xml:space="preserve">
-    <value>localename in your language;
-be careful;
-unknown restrictions/limitations</value>
+    <value>localename localized;
+the drop down lists all supported (available in co's mscorlib AND mappable to a UnityEngine.SystemLanguage) languages native names
+
+it is searchable
+as long as no english name is selected, selecting/changing the native name changes the localename in english respectively
+
+the textbox below the drop down shows the current localename localized
+
+it also allows you to specify your own name to use it while exporting via the add Key checkbox
+especially for those who would like to create a slang/dialect
+
+'Colognian'/'Kölsch' as an example for german</value>
   </data>
   <data name="InputMergeFile" xml:space="preserve">
     <value>localization file to merge with</value>

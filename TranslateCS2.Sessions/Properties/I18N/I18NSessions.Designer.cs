@@ -149,7 +149,15 @@ namespace TranslateCS2.Sessions.Properties.I18N {
         
         /// <summary>
         ///   Looks up a localized string similar to localename in english;
-        ///it is also used to gather a filename proposals for exports.
+        ///the drop down lists all supported (available in co&apos;s mscorlib AND mappable to a UnityEngine.SystemLanguage) languages english names
+        ///
+        ///it is searchable
+        ///and
+        ///it is strongly recommended to select an appropriate english name, becuase the english name is also used to gather filename proposals for exports
+        ///
+        ///selecting/changing the english name changes the localename localized respectively
+        ///
+        ///below the drop down, the current english name is shown to provide backward-compatibility.
         /// </summary>
         public static string InputLocaleEnglishTip {
             get {
@@ -167,9 +175,16 @@ namespace TranslateCS2.Sessions.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to localename in your language;
-        ///be careful;
-        ///unknown restrictions/limitations.
+        ///   Looks up a localized string similar to localename localized;
+        ///the drop down lists all supported (available in co&apos;s mscorlib AND mappable to a UnityEngine.SystemLanguage) languages native names
+        ///
+        ///it is searchable
+        ///as long as no english name is selected, selecting/changing the native name changes the localename in english respectively
+        ///
+        ///the textbox below the drop down shows the current localename localized
+        ///
+        ///it also allows you to specify your own name to use it while exporting via the add Key checkbox
+        ///especially for those who would like to cre [rest of string was truncated]&quot;;.
         /// </summary>
         public static string InputLocaleLocalizedTip {
             get {
