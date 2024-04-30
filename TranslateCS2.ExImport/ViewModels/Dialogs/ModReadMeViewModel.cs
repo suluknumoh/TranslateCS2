@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 
 using Markdig;
@@ -9,6 +8,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
+using TranslateCS2.Core.Helpers;
 using TranslateCS2.ExImport.Properties.I18N;
 
 namespace TranslateCS2.ExImport.ViewModels.Dialogs;
@@ -27,24 +27,12 @@ internal class ModReadMeViewModel : BindableBase, IDialogAware {
 
     private void OnLoadedCommandAction() {
         if (this.Doc == null) {
-            this.Doc = GetReadMe();
+            Assembly? assembly = Assembly.GetAssembly(typeof(ModReadMeViewModel));
+            this.Doc = MarkDownHelper.GetMarkDown(assembly, "TranslateCS2.ExImport.Assets.README.MOD.md");
             this.Pipeline = new MarkdownPipelineBuilder().UseSupportedExtensions().Build();
             this.RaisePropertyChanged(nameof(this.Doc));
             this.RaisePropertyChanged(nameof(this.Pipeline));
         }
-    }
-    private static string GetReadMe() {
-        try {
-            Assembly assembly = Assembly.GetCallingAssembly();
-            using Stream? stream = assembly.GetManifestResourceStream("TranslateCS2.ExImport.Assets.README.MOD.md");
-            if (stream != null) {
-                using StreamReader sr = new StreamReader(stream);
-                return sr.ReadToEnd();
-            }
-        } catch {
-            //
-        }
-        return String.Empty;
     }
 
     public bool CanCloseDialog() {
