@@ -145,6 +145,32 @@ indicates the translations that are removed/replaced
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
+## Version 2.0 (work-in-progress)
+- sessions view
+- edit/create new session
+- the inputs are separated with a separator for better readability
+- localename in english:
+- now has a drop down to select an available locales english name
+- drop down is searchable
+- selecting/changing the english name changes the localename localized respectively
+- below the drop down, the current english name is shown to provide backward-compatibility
+- localename localized
+- now has a drop down to select an available locales native name
+- it is searchable
+- as long as no english name is selected, selecting/changing the native name changes the localename in english respectively
+- the textbox below the drop down shows the current localename localized
+- it also allows you to specify your own name to use it while exporting via the add Key checkbox
+- especially for those who would like to create a slang/dialect
+- 'Colognian'/'Kölsch' as an example for german
+- current session info in ribbon bar
+- added localename in english
+- added localename localized
+- export
+- TranslateCS2.Mod-group within ribbon bar
+- now contains two buttons
+- one to display the mods readme
+- one to display the mods changelog
+- moved changelog from start view to a new tab
 ## Version 1.5.2
 - ModBridge is not needed for translators
 - create/edit translation sessions
