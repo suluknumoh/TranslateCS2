@@ -1,6 +1,9 @@
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
+## Version 2.0 (work-in-progress)
+- im done for today, gotta write it tomorrow
+
 ## Version 1.5.2
 - ModBridge is not needed for translators
 - create/edit translation sessions
