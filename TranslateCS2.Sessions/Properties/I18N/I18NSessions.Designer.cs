@@ -153,7 +153,7 @@ namespace TranslateCS2.Sessions.Properties.I18N {
         ///
         ///it is searchable
         ///and
-        ///it is strongly recommended to select an appropriate english name, becuase the english name is also used to gather filename proposals for exports
+        ///it is strongly recommended to select an appropriate english name, because the english name is also used to gather filename proposals for exports
         ///
         ///selecting/changing the english name changes the localename localized respectively
         ///
