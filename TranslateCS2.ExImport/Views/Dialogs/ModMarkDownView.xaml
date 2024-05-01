@@ -63,6 +63,11 @@
             <markdig:MarkdownViewer.Resources>
                 <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
             </markdig:MarkdownViewer.Resources>
+            <FrameworkElement.CommandBindings>
+                <CommandBinding
+                    Command="{x:Static markdig:Commands.Hyperlink}"
+                    Executed="OpenURLCommandAction" />
+            </FrameworkElement.CommandBindings>
         </markdig:MarkdownViewer>
     </Grid>
 </ContentControl>
