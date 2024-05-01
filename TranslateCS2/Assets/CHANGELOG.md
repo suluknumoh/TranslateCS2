@@ -17,7 +17,7 @@
             - the textbox below the drop down shows the current localename localized
                 - it also allows you to specify your own name to use it while exporting via the add Key checkbox
                 - especially for those who would like to create a slang/dialect
-                    - 'Colognian'/'Kölsch' as an example for german
+                    - 'Colognian'/'KÃ¶lsch' as an example for german
 - current session info in ribbon bar
     - added localename in english
     - added localename localized
