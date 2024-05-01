@@ -14,10 +14,7 @@
     -->
     <Target Name="CopyPublishConfiguration" AfterTargets="BeforeBuild">
         <!-- copy template publishconfiguration to the publishconfiguration path used within Mod.targets -->
-        <ItemGroup>
-            <PubConf Include="$(PublishConfigurationPathFrom)" />
-        </ItemGroup>
-        <Copy SourceFiles="@(PubConf)" DestinationFiles="$(PublishConfigurationPath)" />
+        <Copy SourceFiles="$(PublishConfigurationPathFrom)" DestinationFiles="$(PublishConfigurationPath)" />
     </Target>
 
 
