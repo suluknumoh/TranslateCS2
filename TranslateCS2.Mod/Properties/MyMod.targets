@@ -45,6 +45,8 @@
                 TaskParameter="Lines"
                 ItemName="ModReadMeLines" />
         </ReadLinesFromFile>
+        <!-- transform lines-array to a single string with escaped linefeeds and carriage returns -->
+        <!-- https://stackoverflow.com/a/274720 -->
         <XmlPoke
             Value="@(ModReadMeLines->'%(Identity)', '%0a%0d')"
             XmlInputPath="$(PublishConfigurationPath)"
