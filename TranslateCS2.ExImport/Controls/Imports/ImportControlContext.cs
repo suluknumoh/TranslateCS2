@@ -129,7 +129,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
 
 
     private async void ReadCommandAction() {
-        this.SwitchEnablements(false);
+        this.Disable(true);
         this.CDGContext.Clear();
         this.RaisePropertyChanged(nameof(this.CDGContext));
         this.InfoMessageColor = Brushes.Black;
@@ -152,11 +152,11 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             this.CDGContext.SetItems(preview);
             this.RaisePropertyChanged(nameof(this.CDGContext));
             this.CDGContext.Raiser();
-            this.SwitchEnablements(true);
+            this.Enable(true);
         } else {
             this.InfoMessageColor = Brushes.DarkRed;
             this.InfoMessage = I18NImport.MessageReadFail;
-            this.SwitchEnablements(false);
+            this.Disable(false);
         }
     }
 
@@ -171,7 +171,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             await Task.Factory.StartNew(() => {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
-                this.SwitchEnablements(true);
+                this.Disable(true);
                 this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
                 this._exportImportService.HandleRead(this.CDGContext.GetItems(),
                                                          this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
@@ -183,13 +183,13 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NImport.MessageImportSuccess;
                 this.CDGContext.Clear();
-                this.SwitchEnablements(false);
+                this.Enable(true);
             });
         }
     }
 
     private void OpenComparisonInNewWindowCommandAction() {
-        this.SwitchEnablements(true);
+        this.Disable(true);
         DialogParameters dialogParameters = new DialogParameters {
             { ImportComparisonViewModel.ContextName, this.CDGContext }
         };
@@ -203,14 +203,21 @@ internal class ImportControlContext : BindableBase, INavigationAware {
     }
 
     private void OnDialogClosed(IDialogResult? result) {
-        this.SwitchEnablements(true);
+        this.Enable(true);
     }
 
-    private void SwitchEnablements(bool withImportButton) {
-        this.IsEnabled = !this.IsEnabled;
-        this.IsReadButtonEnabled = !this.IsReadButtonEnabled;
+    private void Disable(bool withImportButton) {
+        this.IsEnabled = false;
+        this.IsReadButtonEnabled = false;
         if (withImportButton) {
-            this.IsImportButtonEnabled = !this.IsImportButtonEnabled;
+            this.IsImportButtonEnabled = false;
+        }
+    }
+    private void Enable(bool withImportButton) {
+        this.IsEnabled = true;
+        this.IsReadButtonEnabled = true;
+        if (withImportButton) {
+            this.IsImportButtonEnabled = true;
         }
     }
 
