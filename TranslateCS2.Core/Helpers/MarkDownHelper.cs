@@ -7,7 +7,7 @@ public static class MarkDownHelper {
     public static string GetMarkDown(Assembly? assembly, string resourceName) {
         try {
             using Stream? stream = assembly?.GetManifestResourceStream(resourceName);
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8);
             return reader.ReadToEnd();
         } catch {
             StringBuilder builder = new StringBuilder();
