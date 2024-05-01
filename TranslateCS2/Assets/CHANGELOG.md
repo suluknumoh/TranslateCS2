@@ -27,6 +27,7 @@
         - one to display the mods readme
         - one to display the mods changelog
 - moved changelog from start view to a new tab
+- fixed an error for multiple read file while importing (enable/disable buttons)
 
 ## Version 1.5.2
 - ModBridge is not needed for translators
