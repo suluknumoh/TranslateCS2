@@ -7,9 +7,15 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>
+
+        <!--
+            INFO: to publish this mod,
+                fill/change README.md if needed
+                fill/change CHANGELOG.CURRENT.md
+                set this projects AssemblyVersion to the desired ones
+        -->
+        <!-- assemblyversion is set to the publishconfigurations ModVersion via MyMod.targets-->
         <AssemblyVersion>1.5.2.0</AssemblyVersion>
-        <!-- INFO: i think BeforePublish-Target doesnt work -->
-        <IsPublishMod>false</IsPublishMod>
 
         <!--The folder where Game.dll is located. Set it only if the game is not installed in the default location, otherwise keep it empty-->
         <CustomManagedPath>D:\Games\Steam\steamapps\common\Cities Skylines II\Cities2_Data\Managed</CustomManagedPath>
@@ -22,9 +28,26 @@
         <PDXAccountDataPath>$(USERPROFILE)\Desktop\pdx_account.txt</PDXAccountDataPath>
         
         <!--The file where mod information which is required for publishing mod on PDX mods are stored-->
+        <PublishConfigurationPathFrom>Properties\PublishConfigurationTemplate.xml</PublishConfigurationPathFrom>
         <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
     </PropertyGroup>
-    
+
+    <!--
+        to copy the template PublishConfiguration.xml (PublishConfigurationPathFrom) to
+        the ones (PublishConfigurationPath) that is used by Colossal Orders Mod.targets
+        
+        to fill the ones that is used by Colossal Orders Mod.targets with:
+        - ModVersion (this projects assemblyversion)
+        - LongDescription (is read from project-dir/README.md)
+        - ChangeLog (is read from project-dir/CHANGELOG.CURRENT.md)
+        
+        if the mod got published
+            to prepend the changelog-history (project-dir/CHANGELOG.md) with CHANGELOG.CURRENT.md
+        
+    -->
+    <Import Project="Properties\MyMod.targets" />
+
+
     <!--Imports must be after PropertyGroup block-->
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
     <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
@@ -651,59 +674,4 @@
     </ItemGroup>
 
 
-    <Target
-        Name="PokeInfosToPublishConfiguration"
-        BeforeTargets="BeforeBuild">
-        <XmlPoke
-            Value="$(AssemblyVersion)"
-            XmlInputPath="Properties\PublishConfiguration.xml"
-            Query=".//Publish/ModVersion/@Value" />
-        <ReadLinesFromFile
-            File="$(ProjectDir)\README.md">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModReadMeLines" />
-        </ReadLinesFromFile>
-        <XmlPoke
-            Value="@(ModReadMeLines->'%(Identity)', '%0a%0d')"
-            XmlInputPath="Properties\PublishConfiguration.xml"
-            Query=".//Publish/LongDescription" />
-
-        <ReadLinesFromFile
-            File="$(ProjectDir)\CHANGELOG.CURRENT.md">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModChangeLogCurrentLines" />
-        </ReadLinesFromFile>
-        <XmlPoke
-            Value="@(ModChangeLogCurrentLines->'%(Identity)', '%0a%0d')"
-            XmlInputPath="Properties\PublishConfiguration.xml"
-            Query=".//Publish/ChangeLog" />
-
-        <ReadLinesFromFile
-            File="$(ProjectDir)\CHANGELOG.md">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModChangeLogLines" />
-        </ReadLinesFromFile>
-    </Target>
-    <Target
-        Name="WriteNewChangeLog"
-        AfterTargets="PokeInfosToPublishConfiguration"
-        DependsOnTargets="PokeInfosToPublishConfiguration"
-        Condition="$(IsPublishMod)=='true'">
-        <ItemGroup>
-            <ModChangeLog
-                Include="$(ProjectDir)CHANGELOG.md" />
-            <ChangeLogContent
-                Include="@(ModChangeLogCurrentLines)" />
-            <ChangeLogContent
-                Include="@(ModChangeLogLines)" />
-        </ItemGroup>
-        <WriteLinesToFile
-            File="@(ModChangeLog)"
-            Lines="@(ChangeLogContent)"
-            Overwrite="true"
-            />
-    </Target>
 </Project>

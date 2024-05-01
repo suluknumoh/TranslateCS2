@@ -1,0 +1,108 @@
+﻿<Project>
+    <!--
+        to copy the template PublishConfiguration.xml (PublishConfigurationPathFrom) to
+        the ones (PublishConfigurationPath) that is used by Colossal Orders Mod.targets
+        
+        to fill the ones that is used by Colossal Orders Mod.targets with:
+        - ModVersion (this projects assemblyversion)
+        - LongDescription (is read from project-dir/README.md)
+        - ChangeLog (is read from project-dir/CHANGELOG.CURRENT.md)
+        
+        if the mod got published
+            to prepend the changelog-history (project-dir/CHANGELOG.md) with CHANGELOG.CURRENT.md
+        
+    -->
+    <Target Name="CopyPublishConfiguration" AfterTargets="BeforeBuild">
+        <!-- copy template publishconfiguration to the publishconfiguration path used within Mod.targets -->
+        <ItemGroup>
+            <PubConf Include="$(PublishConfigurationPathFrom)" />
+        </ItemGroup>
+        <Copy SourceFiles="@(PubConf)" DestinationFiles="$(PublishConfigurationPath)" />
+    </Target>
+
+
+
+    <Target
+        Name="PokeInfosToPublishConfiguration"
+        AfterTargets="CopyPublishConfiguration">
+        <!-- fill copied publishconfiguration with required values -->
+
+        <!-- https://learn.microsoft.com/dotnet/api/microsoft.build.tasks.xmlpeek?view=msbuild-17-netcore -->
+        <!-- https://learn.microsoft.com/dotnet/api/microsoft.build.tasks.xmlpoke?view=msbuild-17-netcore -->
+
+
+        <!-- assemblyversion to modversion -->
+        <XmlPoke
+            Value="$(AssemblyVersion)"
+            XmlInputPath="$(PublishConfigurationPath)"
+            Query=".//Publish/ModVersion/@Value" />
+
+
+        <!-- readme to longdescription -->
+        <ReadLinesFromFile
+            File="$(ProjectDir)\README.md">
+            <Output
+                TaskParameter="Lines"
+                ItemName="ModReadMeLines" />
+        </ReadLinesFromFile>
+        <XmlPoke
+            Value="@(ModReadMeLines->'%(Identity)', '%0a%0d')"
+            XmlInputPath="$(PublishConfigurationPath)"
+            Query=".//Publish/LongDescription" />
+
+
+        <!-- current changelog to changelog -->
+        <ReadLinesFromFile
+            File="$(ProjectDir)\CHANGELOG.CURRENT.md">
+            <Output
+                TaskParameter="Lines"
+                ItemName="ModChangeLogCurrentLines" />
+        </ReadLinesFromFile>
+
+        <!-- transform lines-array to a single string with escaped linefeeds and carriage returns -->
+        <!-- https://stackoverflow.com/a/274720 -->
+        <XmlPoke
+            Value="@(ModChangeLogCurrentLines->'%(Identity)', '%0a%0d')"
+            XmlInputPath="$(PublishConfigurationPath)"
+            Query=".//Publish/ChangeLog" />
+    </Target>
+
+
+    <Target
+        Name="WriteNewChangeLog"
+        AfterTargets="RunModPublisher"
+        DependsOnTargets="PokeInfosToPublishConfiguration">
+        <!-- aftertarget 'RunModPublisher' indicates final publish -->
+        <!-- prepend changelog-history with current changelogs lines -->
+        <!-- uses items from depend-target -->
+        <ReadLinesFromFile
+            File="$(ProjectDir)\CHANGELOG.md">
+            <Output
+                TaskParameter="Lines"
+                ItemName="ModChangeLogLines" />
+        </ReadLinesFromFile>
+        <ItemGroup>
+            <ModChangeLog
+                Include="$(ProjectDir)CHANGELOG.md" />
+            <ChangeLogContent
+                Include="@(ModChangeLogCurrentLines)" />
+            <ChangeLogContent
+                Include="@(ModChangeLogLines)" />
+        </ItemGroup>
+        <WriteLinesToFile
+            File="@(ModChangeLog)"
+            Lines="@(ChangeLogContent)"
+            Overwrite="true"
+            />
+    </Target>
+
+    <!-- not quiet sure if i want to delete it automatically... -->
+    <!-- aftertarget 'RunModPublisher' indicates final publish -->
+    <!--
+    <Target
+        Name="DeleteCopiedAndPokedPublishConfiguration"
+        AfterTargets="RunModPublisher">
+        <Delete Files="$(PublishConfigurationPath)"/>
+    </Target>
+    -->
+</Project>
