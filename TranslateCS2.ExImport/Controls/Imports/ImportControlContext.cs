@@ -129,6 +129,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
 
 
     private async void ReadCommandAction() {
+        this._viewConfigurations.DeActivateRibbon?.Invoke(false);
         this.Disable(true);
         this.CDGContext.Clear();
         this.RaisePropertyChanged(nameof(this.CDGContext));
@@ -158,6 +159,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             this.InfoMessage = I18NImport.MessageReadFail;
             this.Disable(false);
         }
+        this._viewConfigurations.DeActivateRibbon?.Invoke(true);
     }
 
     private async void ImportCommandAction() {
@@ -172,6 +174,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
                 this.Disable(true);
+                this._viewConfigurations.DeActivateRibbon?.Invoke(false);
                 this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
                 this._exportImportService.HandleRead(this.CDGContext.GetItems(),
                                                          this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
@@ -184,6 +187,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.InfoMessage = I18NImport.MessageImportSuccess;
                 this.CDGContext.Clear();
                 this.Enable(true);
+                this._viewConfigurations.DeActivateRibbon?.Invoke(true);
             });
         }
     }

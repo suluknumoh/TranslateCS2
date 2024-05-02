@@ -171,6 +171,7 @@ indicates the translations that are removed/replaced
 - one to display the mods readme
 - one to display the mods changelog
 - moved changelog from start view to a new tab
+- ribbon bar is disabled under certain circumstances
 - fixed an error for multiple read file while importing (enable/disable buttons)
 - fixed an error where the current translation session isnt reset on cancel editig it within the session management
 ## Version 1.5.2

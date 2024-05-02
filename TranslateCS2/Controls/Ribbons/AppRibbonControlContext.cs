@@ -13,7 +13,7 @@ namespace TranslateCS2.Controls.Ribbons;
 internal class AppRibbonControlContext : BindableBase {
     private readonly IRegionManager _regionManager;
     private readonly IViewConfigurations _viewConfigurations;
-
+    private Ribbon? RibbonBar { get; set; }
     public DelegateCommand<RoutedEventArgs> LoadedCommand { get; }
     public AppRibbonControlContext(IRegionManager regionManager,
                                    IViewConfigurations viewConfigurations) {
@@ -24,10 +24,18 @@ internal class AppRibbonControlContext : BindableBase {
 
     private void LoadedCommandAction(RoutedEventArgs args) {
         if (args.Source is Ribbon ribbon) {
+            this.RibbonBar = ribbon;
+            this._viewConfigurations.DeActivateRibbon = this.DeActivateRibbon;
             foreach (IViewConfiguration viewConfiguration in this._viewConfigurations.ViewConfigurationList) {
                 viewConfiguration.NavToggleButton.Click += this.RibbonNavToggleButtonClicked;
-                ribbon.Items.Add(viewConfiguration.Tab);
+                this.RibbonBar.Items.Add(viewConfiguration.Tab);
             }
+        }
+    }
+
+    private void DeActivateRibbon(bool activate) {
+        if (this.RibbonBar != null) {
+            App.Current.Dispatcher.Invoke(() => this.RibbonBar.IsEnabled = activate);
         }
     }
 

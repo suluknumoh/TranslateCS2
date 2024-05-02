@@ -183,6 +183,7 @@ internal class ExportControlContext : ABaseViewModel {
         if (result == MessageBoxResult.Yes) {
             this.InfoMessageColor = Brushes.Black;
             this.InfoMessage = I18NExport.MessagePrepareDo;
+            this._viewConfigurations.DeActivateRibbon?.Invoke(false);
             this.IsEnabled = false;
             this.IsExportButtonEnabled = false;
             this.ExportLocalizationFile = this.SessionManager.GetForExport();
@@ -204,6 +205,7 @@ internal class ExportControlContext : ABaseViewModel {
             }
             this.IsEnabled = true;
             this.IsExportButtonEnabled = true;
+            this._viewConfigurations.DeActivateRibbon?.Invoke(true);
         }
     }
 

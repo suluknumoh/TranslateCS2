@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Prism.Ioc;
@@ -14,6 +15,9 @@ internal class ViewConfigurations : IViewConfigurations {
     private IViewConfiguration? _startViewConfiguration;
 
     public IReadOnlyList<IViewConfiguration> ViewConfigurationList => this.viewConfigurations.AsReadOnly();
+
+    public Action<bool>? DeActivateRibbon { get; set; }
+
     public ViewConfigurations(IContainerRegistry containerRegistry) {
         this._containerRegistry = containerRegistry;
     }
