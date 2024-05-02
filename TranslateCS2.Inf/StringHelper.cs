@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace TranslateCS2.Core.Helpers;
+namespace TranslateCS2.Inf;
 public static class StringHelper {
     public static string? GetNullForEmpty(string? s) {
         if (IsNullOrWhiteSpaceOrEmpty(s)) {

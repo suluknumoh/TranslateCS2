@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 
+using TranslateCS2.Inf;
 using TranslateCS2.TextSearch.Models;
 
 namespace TranslateCS2.TextSearch.ViewModels;
@@ -56,8 +57,7 @@ public class TextSearchControlContext<T> : BindableBase {
     }
 
     public bool IsTextSearchMatch(T entry) {
-        if (String.IsNullOrEmpty(this.SearchString)
-            || String.IsNullOrWhiteSpace(this.SearchString)) {
+        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.SearchString)) {
             return true;
         }
         foreach (ColumnSearchAble<T> column in this.Columns) {

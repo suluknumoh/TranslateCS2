@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 
 using TranslateCS2.Core.Helpers.Ribbons;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Helpers;
 public class RibbonHelper {

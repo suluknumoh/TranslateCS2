@@ -5,8 +5,8 @@ using System.Text.Json.Serialization;
 using Prism.Mvvm;
 
 using TranslateCS2.Core.Configurations;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties.I18N;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Sessions;
 public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionaryEntry, IEquatable<LocalizationDictionaryEntry?> {

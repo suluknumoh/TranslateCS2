@@ -11,7 +11,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 using TranslateCS2.Sessions.Models;

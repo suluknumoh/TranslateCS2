@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,8 +34,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         this.ReadJson();
         if (this.dictionary != null && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null
-            && !String.IsNullOrEmpty(outLocaleName)
-            && !String.IsNullOrWhiteSpace(outLocaleName)) {
+            && !StringHelper.IsNullOrWhiteSpaceOrEmpty(outLocaleName)) {
             this.LocaleName = outLocaleName;
         }
         this.LocaleName ??= localeName;
@@ -62,10 +61,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         }
         return this.dictionary
             .Where(item =>
-                !String.IsNullOrEmpty(item.Key)
-                && !String.IsNullOrWhiteSpace(item.Key)
-                && !String.IsNullOrEmpty(item.Value)
-                && !String.IsNullOrWhiteSpace(item.Value));
+                !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key)
+                && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
     }
 
     public void Unload() {

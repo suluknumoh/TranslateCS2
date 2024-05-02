@@ -10,10 +10,10 @@ using System.Reflection;
 using Microsoft.Data.Sqlite;
 
 using TranslateCS2.Core.Configurations;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.Inf;
 
 
 

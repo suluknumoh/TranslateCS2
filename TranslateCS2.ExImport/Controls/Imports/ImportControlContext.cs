@@ -10,7 +10,6 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Sessions;
@@ -20,6 +19,7 @@ using TranslateCS2.ExImport.Properties.I18N;
 using TranslateCS2.ExImport.Services;
 using TranslateCS2.ExImport.ViewModels.Dialogs;
 using TranslateCS2.ExImport.Views.Dialogs;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Controls.Imports;
 

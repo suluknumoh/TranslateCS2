@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
-using TranslateCS2.Core.Helpers;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Sessions;
 public interface ITranslationSessionManager {

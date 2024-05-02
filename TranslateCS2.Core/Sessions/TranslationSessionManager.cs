@@ -8,10 +8,10 @@ using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LocalizationFiles;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Sessions;
 internal class TranslationSessionManager : BindableBase, ITranslationSessionManager {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-using TranslateCS2.Core.Helpers;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Sessions;
 public interface ILocalizationDictionaryEntry : IDataErrorInfo {

@@ -1,4 +1,3 @@
-﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -6,6 +5,7 @@ using System.Threading.Tasks;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Translators;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.TranslatorsExample;
 internal class TranslatorExample : ATranslator {
@@ -75,7 +75,7 @@ internal class TranslatorExample : ATranslator {
 
     public override async Task<TranslatorResult> TranslateAsync(HttpClient httpClient, string sourceLanguageCode, string? s) {
         try {
-            if (String.IsNullOrEmpty(s) || String.IsNullOrWhiteSpace(s)) {
+            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(s)) {
                 return new TranslatorResult() { Error = "nothing to translate; text to translate is empty" };
             }
 

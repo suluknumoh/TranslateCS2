@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
@@ -94,8 +94,8 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
         foreach (ILocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
             WriteString(stream, entry.Key);
-            if (String.IsNullOrEmpty(entry.Translation) || String.IsNullOrWhiteSpace(entry.Translation)) {
-                if (String.IsNullOrEmpty(entry.ValueMerge) || String.IsNullOrWhiteSpace(entry.ValueMerge)) {
+            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)) {
+                if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.ValueMerge)) {
                     WriteString(stream, entry.Value);
                 } else {
                     WriteString(stream, entry.ValueMerge);

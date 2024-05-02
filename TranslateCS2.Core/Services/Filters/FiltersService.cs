@@ -4,8 +4,8 @@ using System.Configuration;
 using System.Linq;
 
 using TranslateCS2.Core.Configurations.CustomFilters;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Services.Filters;
 internal class FiltersService : IFiltersService {

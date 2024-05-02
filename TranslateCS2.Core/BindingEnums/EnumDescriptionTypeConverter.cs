@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
-using TranslateCS2.Core.Helpers;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.BindingEnums;
 /// <seealso href="https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/"/>

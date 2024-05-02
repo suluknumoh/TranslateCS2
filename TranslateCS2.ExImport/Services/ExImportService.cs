@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {

@@ -10,7 +10,6 @@ using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Helpers;

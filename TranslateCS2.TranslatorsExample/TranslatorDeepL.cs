@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using DeepL;
 using DeepL.Model;
 
 using TranslateCS2.Core.Translators;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.TranslatorsExample;
 internal class TranslatorDeepL : ATranslator {
@@ -42,7 +43,7 @@ internal class TranslatorDeepL : ATranslator {
             if (this.Translator is null) {
                 return new TranslatorResult() { Error = "DeepL-Translator is null" };
             }
-            if (String.IsNullOrEmpty(s) || String.IsNullOrWhiteSpace(s)) {
+            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(s)) {
                 return new TranslatorResult() { Error = "nothing to translate; text to translate is empty" };
             }
             if (this.SelectedTargetLanguageCode is not TargetLanguage targetLanguage) {

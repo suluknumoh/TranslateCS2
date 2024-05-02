@@ -21,6 +21,7 @@ using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.Edits.ViewModels.Dialogs;
 using TranslateCS2.Edits.Views.Dialogs;
+using TranslateCS2.Inf;
 using TranslateCS2.TextSearch.Models;
 using TranslateCS2.TextSearch.ViewModels;
 

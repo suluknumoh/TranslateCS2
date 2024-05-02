@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 
