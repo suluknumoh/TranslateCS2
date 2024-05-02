@@ -38,7 +38,9 @@ internal partial class ModSettings : ModSetting {
     public ModSettings(IMod mod) : base(mod) {
     }
 
+    [Exclude]
     [SettingsUIButton]
+    [SettingsUIDeveloper]
     [SettingsUIConfirmation]
     [SettingsUISection(Section, ReloadGroup)]
     public bool ReloadLanguages {
