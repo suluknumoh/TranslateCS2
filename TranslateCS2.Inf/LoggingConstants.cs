@@ -1,4 +1,4 @@
-﻿namespace TranslateCS2.Inf;
+namespace TranslateCS2.Inf;
 public static class LoggingConstants {
     public static string FailedTo => "failed to:";
     public static string StrangerThings => $"{FailedTo} load the entire mod:";

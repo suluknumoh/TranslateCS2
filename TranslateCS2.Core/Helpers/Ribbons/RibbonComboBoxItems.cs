@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace TranslateCS2.Core.Helpers.Ribbons;
 public class RibbonComboBoxItems {

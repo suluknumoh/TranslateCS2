@@ -1,4 +1,4 @@
-﻿using Prism.Ioc;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 

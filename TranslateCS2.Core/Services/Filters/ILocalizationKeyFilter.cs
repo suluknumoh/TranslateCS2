@@ -1,4 +1,4 @@
-﻿using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.Sessions;
 
 namespace TranslateCS2.Core.Services.Filters;
 public interface ILocalizationKeyFilter {

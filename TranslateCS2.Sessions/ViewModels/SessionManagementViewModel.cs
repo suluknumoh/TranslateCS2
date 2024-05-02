@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 
 using Prism.Commands;
 using Prism.Regions;

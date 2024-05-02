@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
 namespace TranslateCS2.Core.Brokers;
 public interface IAppCloseBrokers {

@@ -1,4 +1,4 @@
-﻿using Prism.Modularity;
+using Prism.Modularity;
 
 using TranslateCS2.Core;
 using TranslateCS2.Core.Translators.Modules;

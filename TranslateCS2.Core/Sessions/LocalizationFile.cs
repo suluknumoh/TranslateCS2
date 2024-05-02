@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace TranslateCS2.Core.Sessions;
 public class LocalizationFile : ILocalizationFile {

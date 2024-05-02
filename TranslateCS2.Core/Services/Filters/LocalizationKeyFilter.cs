@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using TranslateCS2.Core.Sessions;
 

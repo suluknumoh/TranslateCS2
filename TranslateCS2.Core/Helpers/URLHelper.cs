@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace TranslateCS2.Core.Helpers;
 public static class URLHelper {

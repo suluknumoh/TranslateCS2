@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
     <!--
         to copy the template PublishConfiguration.xml (PublishConfigurationPathFrom) to
         the ones (PublishConfigurationPath) that is used by Colossal Orders Mod.targets

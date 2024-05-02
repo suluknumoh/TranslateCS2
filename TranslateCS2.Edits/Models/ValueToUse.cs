@@ -1,4 +1,4 @@
-﻿namespace TranslateCS2.Edits.Models;
+namespace TranslateCS2.Edits.Models;
 internal enum ValueToUse {
     ValueEnglish,
     ValueMerge,

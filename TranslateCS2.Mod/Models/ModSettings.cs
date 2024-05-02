@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Colossal.IO.AssetDatabase;
 using Colossal.Json;

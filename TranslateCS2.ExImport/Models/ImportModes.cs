@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 using TranslateCS2.Core.BindingEnums;
 

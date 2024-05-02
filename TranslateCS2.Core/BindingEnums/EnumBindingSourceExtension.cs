@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Markup;
 
 namespace TranslateCS2.Core.BindingEnums;

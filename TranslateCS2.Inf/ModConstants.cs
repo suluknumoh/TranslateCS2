@@ -1,4 +1,4 @@
-﻿namespace TranslateCS2.Inf;
+namespace TranslateCS2.Inf;
 
 public static class ModConstants {
 

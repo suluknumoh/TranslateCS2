@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Prism.Mvvm;
 using Prism.Services.Dialogs;

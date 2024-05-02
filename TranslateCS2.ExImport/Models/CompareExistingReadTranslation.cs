@@ -1,4 +1,4 @@
-﻿using TranslateCS2.Inf;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Models;
 internal class CompareExistingReadTranslation {

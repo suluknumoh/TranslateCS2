@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls.Ribbon;
+using System.Windows.Controls.Ribbon;
 
 namespace TranslateCS2.Views;
 /// <summary>
