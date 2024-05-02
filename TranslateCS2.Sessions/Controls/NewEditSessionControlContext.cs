@@ -91,7 +91,6 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void CancelAction() {
         this._callbackEnd?.Invoke();
-        // TODO: reset
         if (this._newSessionBindingGroup != null) {
             this._newSessionBindingGroup.CancelEdit();
         }
