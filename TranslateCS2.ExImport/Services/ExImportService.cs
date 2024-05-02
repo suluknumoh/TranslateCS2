@@ -58,6 +58,7 @@ internal class ExImportService {
         }
         List<CompareExistingReadTranslation> preview = [];
         // TODO: import non existing key-value-pairs!
+        // TODO: check if they are not deleted wile loading or something like that
         foreach (ILocalizationDictionaryEntry existing in translationSession.LocalizationDictionary) {
             IEnumerable<ILocalizationDictionaryEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
             string key = existing.Key;
