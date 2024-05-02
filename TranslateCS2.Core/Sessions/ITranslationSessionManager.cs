@@ -20,9 +20,11 @@ public interface ITranslationSessionManager {
     ILocalizationFile GetForExport();
     void Insert(ITranslationSession? session);
     void Update(ITranslationSession? session);
+    void UpdateCurrentWith(ITranslationSession? session);
     void Delete(ITranslationSession? session);
     void SaveCurrentTranslationSessionsTranslations();
     void CurrentTranslationSessionChanged();
     ITranslationSession GetNewTranslationSession();
     bool ExistsKeyInCurrentTranslationSession(string key);
+    ITranslationSession? CloneCurrent(bool includeDictionary);
 }

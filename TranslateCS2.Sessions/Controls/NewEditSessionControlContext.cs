@@ -92,6 +92,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void CancelAction() {
         this._callbackEnd?.Invoke();
+        // TODO: reset
+        if (this._newSessionBindingGroup != null) {
+            this._newSessionBindingGroup.CancelEdit();
+        }
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
         this._regionManager.Regions[regionName].RemoveAll();
     }
@@ -117,7 +121,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     private void SaveAction() {
         if (this._newSessionBindingGroup != null && this._newSessionBindingGroup.CommitEdit()) {
             if (this.IsEdit) {
-                this.SessionManager.Update(this.Session);
+                this.SessionManager.UpdateCurrentWith(this.Session);
             } else {
                 this.SessionManager.Insert(this.Session);
             }
@@ -150,7 +154,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         if (this._newSessionBindingGroup != null) {
             this._newSessionBindingGroup.CancelEdit();
             if (this.IsEdit) {
-                this.Session = this.SessionManager.CurrentTranslationSession;
+                this.Session = this.SessionManager.CloneCurrent(false);
                 this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
             } else {
                 this.Session = this.SessionManager.GetNewTranslationSession();

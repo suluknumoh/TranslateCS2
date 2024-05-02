@@ -186,4 +186,13 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public bool ExistsKeyInCurrentTranslationSession(string key) {
         return this.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == key).Any();
     }
+
+    public ITranslationSession? CloneCurrent(bool includeDictionary) {
+        return new TranslationSession(this.CurrentTranslationSession, includeDictionary);
+    }
+
+    public void UpdateCurrentWith(ITranslationSession? session) {
+        this.CurrentTranslationSession.UpdateWith(session);
+        this.Update(this.CurrentTranslationSession);
+    }
 }

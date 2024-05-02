@@ -32,4 +32,6 @@ public interface ITranslationSession : IDataErrorInfo {
     bool HasTranslationForKey(string key) {
         return this.LocalizationDictionary.Where(item => item.Key == key && item.IsTranslated).Any();
     }
+
+    void UpdateWith(ITranslationSession session);
 }

@@ -88,6 +88,15 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
         this.Started = DateTime.Now;
         this.LastEdited = this.Started;
     }
+    public TranslationSession(ITranslationSession other, bool includeDictionary) {
+        this.ID = other.ID;
+        this.UpdateWith(other);
+        if (includeDictionary) {
+            foreach (ILocalizationDictionaryEntry otherEntry in other.LocalizationDictionary) {
+                this.LocalizationDictionary.Add(new LocalizationDictionaryEntry(otherEntry));
+            }
+        }
+    }
 
     private void ChangeRefresh() {
         this.DisplayName = $"{nameof(this.ID)}: {this.ID} - {nameof(this.Name)}: {this.Name} - {nameof(this.Started)}: {this.Started} - {nameof(this.LastEdited)}: {this.LastEdited}";
@@ -146,6 +155,17 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
 
     public override int GetHashCode() {
         return HashCode.Combine(this.ID);
+    }
+
+    public void UpdateWith(ITranslationSession session) {
+        this.Name = session.Name;
+        this.Started = session.Started;
+        this.LastEdited = session.LastEdited;
+        this.MergeLocalizationFileName = session.MergeLocalizationFileName;
+        this.OverwriteLocalizationFileName = session.OverwriteLocalizationFileName;
+        this.OverwriteLocalizationNameEN = session.OverwriteLocalizationNameEN;
+        this.OverwriteLocalizationNameLocalized = session.OverwriteLocalizationNameLocalized;
+        this.DisplayName = session.DisplayName;
     }
 
     public static bool operator ==(TranslationSession? left, TranslationSession? right) {
