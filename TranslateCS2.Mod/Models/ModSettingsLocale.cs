@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using Colossal;
@@ -6,9 +5,11 @@ using Colossal;
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Properties.I18N;
 
+using UnityEngine;
+
 namespace TranslateCS2.Mod.Models;
 internal class ModSettingsLocale : IDictionarySource {
-    private string Flavor { get; } = nameof(Flavor);
+    private static MyLanguages Languages { get; } = MyLanguages.Instance;
     private readonly ModSettings modSettings;
     public ModSettingsLocale(ModSettings setting) {
         this.modSettings = setting;
@@ -30,108 +31,117 @@ internal class ModSettingsLocale : IDictionarySource {
 
 
                 // flavor-group-labels: test
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorAfrikaans)), this.GetLabel(nameof(ModSettings.FlavorAfrikaans))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorArabic)), this.GetLabel(nameof(ModSettings.FlavorArabic))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorBasque)), this.GetLabel(nameof(ModSettings.FlavorBasque))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorBelarusian)), this.GetLabel(nameof(ModSettings.FlavorBelarusian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorBulgarian)), this.GetLabel(nameof(ModSettings.FlavorBulgarian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorCatalan)), this.GetLabel(nameof(ModSettings.FlavorCatalan))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorCzech)), this.GetLabel(nameof(ModSettings.FlavorCzech))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorDanish)), this.GetLabel(nameof(ModSettings.FlavorDanish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorDutch)), this.GetLabel(nameof(ModSettings.FlavorDutch))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorEnglish)), this.GetLabel(nameof(ModSettings.FlavorEnglish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorEstonian)), this.GetLabel(nameof(ModSettings.FlavorEstonian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorFaroese)), this.GetLabel(nameof(ModSettings.FlavorFaroese))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorFinnish)), this.GetLabel(nameof(ModSettings.FlavorFinnish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorFrench)), this.GetLabel(nameof(ModSettings.FlavorFrench))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorGerman)), this.GetLabel(nameof(ModSettings.FlavorGerman))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorGreek)), this.GetLabel(nameof(ModSettings.FlavorGreek))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHebrew)), this.GetLabel(nameof(ModSettings.FlavorHebrew))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetLabel(nameof(ModSettings.FlavorHungarian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorIcelandic)), this.GetLabel(nameof(ModSettings.FlavorIcelandic))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorIndonesian)), this.GetLabel(nameof(ModSettings.FlavorIndonesian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorItalian)), this.GetLabel(nameof(ModSettings.FlavorItalian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorJapanese)), this.GetLabel(nameof(ModSettings.FlavorJapanese))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorKorean)), this.GetLabel(nameof(ModSettings.FlavorKorean))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorLatvian)), this.GetLabel(nameof(ModSettings.FlavorLatvian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorLithuanian)), this.GetLabel(nameof(ModSettings.FlavorLithuanian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorNorwegian)), this.GetLabel(nameof(ModSettings.FlavorNorwegian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorPolish)), this.GetLabel(nameof(ModSettings.FlavorPolish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorPortuguese)), this.GetLabel(nameof(ModSettings.FlavorPortuguese))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorRomanian)), this.GetLabel(nameof(ModSettings.FlavorRomanian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorRussian)), this.GetLabel(nameof(ModSettings.FlavorRussian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSerboCroatian)), this.GetLabel(nameof(ModSettings.FlavorSerboCroatian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSlovak)), this.GetLabel(nameof(ModSettings.FlavorSlovak))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSlovenian)), this.GetLabel(nameof(ModSettings.FlavorSlovenian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSpanish)), this.GetLabel(nameof(ModSettings.FlavorSpanish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSwedish)), this.GetLabel(nameof(ModSettings.FlavorSwedish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorThai)), this.GetLabel(nameof(ModSettings.FlavorThai))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorTurkish)), this.GetLabel(nameof(ModSettings.FlavorTurkish))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorUkrainian)), this.GetLabel(nameof(ModSettings.FlavorUkrainian))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetLabel(nameof(ModSettings.FlavorVietnamese))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetLabel(nameof(ModSettings.FlavorChineseSimplified))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetLabel(nameof(ModSettings.FlavorChineseTraditional))},
-                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHindi)), this.GetLabel(nameof(ModSettings.FlavorHindi))},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorAfrikaans)), this.GetLabel(SystemLanguage.Afrikaans)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorArabic)), this.GetLabel(SystemLanguage.Arabic)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorBasque)), this.GetLabel(SystemLanguage.Basque)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorBelarusian)), this.GetLabel(SystemLanguage.Belarusian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorBulgarian)), this.GetLabel(SystemLanguage.Bulgarian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorCatalan)), this.GetLabel(SystemLanguage.Catalan)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorCzech)), this.GetLabel(SystemLanguage.Czech)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorDanish)), this.GetLabel(SystemLanguage.Danish)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorDutch)), this.GetLabel(SystemLanguage.Dutch)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorEnglish)), this.GetLabel(SystemLanguage.English)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorEstonian)), this.GetLabel(SystemLanguage.Estonian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorFaroese)), this.GetLabel(SystemLanguage.Faroese)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorFinnish)), this.GetLabel(SystemLanguage.Finnish)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorFrench)), this.GetLabel(SystemLanguage.French)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorGerman)), this.GetLabel(SystemLanguage.German)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorGreek)), this.GetLabel(SystemLanguage.Greek)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHebrew)), this.GetLabel(SystemLanguage.Hebrew)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetLabel(SystemLanguage.Hungarian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorIcelandic)), this.GetLabel(SystemLanguage.Icelandic)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorIndonesian)), this.GetLabel(SystemLanguage.Indonesian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorItalian)), this.GetLabel(SystemLanguage.Italian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorJapanese)), this.GetLabel(SystemLanguage.Japanese)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorKorean)), this.GetLabel(SystemLanguage.Korean)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorLatvian)), this.GetLabel(SystemLanguage.Latvian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorLithuanian)), this.GetLabel(SystemLanguage.Lithuanian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorNorwegian)), this.GetLabel(SystemLanguage.Norwegian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorPolish)), this.GetLabel(SystemLanguage.Polish)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorPortuguese)), this.GetLabel(SystemLanguage.Portuguese)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorRomanian)), this.GetLabel(SystemLanguage.Romanian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorRussian)), this.GetLabel(SystemLanguage.Russian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSerboCroatian)), this.GetLabel(SystemLanguage.SerboCroatian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSlovak)), this.GetLabel(SystemLanguage.Slovak)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSlovenian)), this.GetLabel(SystemLanguage.Slovenian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSpanish)), this.GetLabel(SystemLanguage.Spanish)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorSwedish)), this.GetLabel(SystemLanguage.Swedish)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorThai)), this.GetLabel(SystemLanguage.Thai)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorTurkish)), this.GetLabel(SystemLanguage.Turkish)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorUkrainian)), this.GetLabel(SystemLanguage.Ukrainian)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetLabel(SystemLanguage.Vietnamese)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetLabel(SystemLanguage.ChineseSimplified)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetLabel(SystemLanguage.ChineseTraditional)},
+                { this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorHindi)), this.GetLabel(SystemLanguage.Hindi)},
+
 
 
 
                 // flavor-group-descriptions: test
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorAfrikaans)), this.GetDescription(nameof(ModSettings.FlavorAfrikaans))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorArabic)), this.GetDescription(nameof(ModSettings.FlavorArabic))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorBasque)), this.GetDescription(nameof(ModSettings.FlavorBasque))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorBelarusian)), this.GetDescription(nameof(ModSettings.FlavorBelarusian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorBulgarian)), this.GetDescription(nameof(ModSettings.FlavorBulgarian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorCatalan)), this.GetDescription(nameof(ModSettings.FlavorCatalan))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorCzech)), this.GetDescription(nameof(ModSettings.FlavorCzech))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorDanish)), this.GetDescription(nameof(ModSettings.FlavorDanish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorDutch)), this.GetDescription(nameof(ModSettings.FlavorDutch))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorEnglish)), this.GetDescription(nameof(ModSettings.FlavorEnglish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorEstonian)), this.GetDescription(nameof(ModSettings.FlavorEstonian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorFaroese)), this.GetDescription(nameof(ModSettings.FlavorFaroese))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorFinnish)), this.GetDescription(nameof(ModSettings.FlavorFinnish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorFrench)), this.GetDescription(nameof(ModSettings.FlavorFrench))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorGerman)), this.GetDescription(nameof(ModSettings.FlavorGerman))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorGreek)), this.GetDescription(nameof(ModSettings.FlavorGreek))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHebrew)), this.GetDescription(nameof(ModSettings.FlavorHebrew))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetDescription(nameof(ModSettings.FlavorHungarian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorIcelandic)), this.GetDescription(nameof(ModSettings.FlavorIcelandic))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorIndonesian)), this.GetDescription(nameof(ModSettings.FlavorIndonesian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorItalian)), this.GetDescription(nameof(ModSettings.FlavorItalian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorJapanese)), this.GetDescription(nameof(ModSettings.FlavorJapanese))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorKorean)), this.GetDescription(nameof(ModSettings.FlavorKorean))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorLatvian)), this.GetDescription(nameof(ModSettings.FlavorLatvian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorLithuanian)), this.GetDescription(nameof(ModSettings.FlavorLithuanian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorNorwegian)), this.GetDescription(nameof(ModSettings.FlavorNorwegian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorPolish)), this.GetDescription(nameof(ModSettings.FlavorPolish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorPortuguese)), this.GetDescription(nameof(ModSettings.FlavorPortuguese))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorRomanian)), this.GetDescription(nameof(ModSettings.FlavorRomanian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorRussian)), this.GetDescription(nameof(ModSettings.FlavorRussian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSerboCroatian)), this.GetDescription(nameof(ModSettings.FlavorSerboCroatian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSlovak)), this.GetDescription(nameof(ModSettings.FlavorSlovak))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSlovenian)), this.GetDescription(nameof(ModSettings.FlavorSlovenian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSpanish)), this.GetDescription(nameof(ModSettings.FlavorSpanish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSwedish)), this.GetDescription(nameof(ModSettings.FlavorSwedish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorThai)), this.GetDescription(nameof(ModSettings.FlavorThai))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorTurkish)), this.GetDescription(nameof(ModSettings.FlavorTurkish))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorUkrainian)), this.GetDescription(nameof(ModSettings.FlavorUkrainian))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetDescription(nameof(ModSettings.FlavorVietnamese))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetDescription(nameof(ModSettings.FlavorChineseSimplified))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetDescription(nameof(ModSettings.FlavorChineseTraditional))},
-                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHindi)), this.GetDescription(nameof(ModSettings.FlavorHindi))}
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorAfrikaans)), this.GetDescription(SystemLanguage.Afrikaans)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorArabic)), this.GetDescription(SystemLanguage.Arabic)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorBasque)), this.GetDescription(SystemLanguage.Basque)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorBelarusian)), this.GetDescription(SystemLanguage.Belarusian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorBulgarian)), this.GetDescription(SystemLanguage.Bulgarian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorCatalan)), this.GetDescription(SystemLanguage.Catalan)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorCzech)), this.GetDescription(SystemLanguage.Czech)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorDanish)), this.GetDescription(SystemLanguage.Danish)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorDutch)), this.GetDescription(SystemLanguage.Dutch)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorEnglish)), this.GetDescription(SystemLanguage.English)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorEstonian)), this.GetDescription(SystemLanguage.Estonian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorFaroese)), this.GetDescription(SystemLanguage.Faroese)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorFinnish)), this.GetDescription(SystemLanguage.Finnish)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorFrench)), this.GetDescription(SystemLanguage.French)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorGerman)), this.GetDescription(SystemLanguage.German)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorGreek)), this.GetDescription(SystemLanguage.Greek)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHebrew)), this.GetDescription(SystemLanguage.Hebrew)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHungarian)), this.GetDescription(SystemLanguage.Hungarian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorIcelandic)), this.GetDescription(SystemLanguage.Icelandic)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorIndonesian)), this.GetDescription(SystemLanguage.Indonesian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorItalian)), this.GetDescription(SystemLanguage.Italian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorJapanese)), this.GetDescription(SystemLanguage.Japanese)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorKorean)), this.GetDescription(SystemLanguage.Korean)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorLatvian)), this.GetDescription(SystemLanguage.Latvian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorLithuanian)), this.GetDescription(SystemLanguage.Lithuanian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorNorwegian)), this.GetDescription(SystemLanguage.Norwegian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorPolish)), this.GetDescription(SystemLanguage.Polish)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorPortuguese)), this.GetDescription(SystemLanguage.Portuguese)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorRomanian)), this.GetDescription(SystemLanguage.Romanian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorRussian)), this.GetDescription(SystemLanguage.Russian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSerboCroatian)), this.GetDescription(SystemLanguage.SerboCroatian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSlovak)), this.GetDescription(SystemLanguage.Slovak)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSlovenian)), this.GetDescription(SystemLanguage.Slovenian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSpanish)), this.GetDescription(SystemLanguage.Spanish)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorSwedish)), this.GetDescription(SystemLanguage.Swedish)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorThai)), this.GetDescription(SystemLanguage.Thai)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorTurkish)), this.GetDescription(SystemLanguage.Turkish)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorUkrainian)), this.GetDescription(SystemLanguage.Ukrainian)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetDescription(SystemLanguage.Vietnamese)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetDescription(SystemLanguage.ChineseSimplified)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetDescription(SystemLanguage.ChineseTraditional)},
+                { this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorHindi)), this.GetDescription(SystemLanguage.Hindi)},
+
 
 
             };
     }
 
-    private string GetLabel(string s) {
-        string param = s.Replace(this.Flavor, String.Empty);
+    private string GetLabel(SystemLanguage systemLanguage) {
+        string param = this.GetLanguageName(systemLanguage);
         string messagePre = I18NMod.FlavorLabel;
-        return String.Format(messagePre, param);
+        return $"{messagePre} {param}";
     }
-    private string GetDescription(string s) {
-        string param = s.Replace(this.Flavor, String.Empty);
+    private string GetDescription(SystemLanguage systemLanguage) {
+        string param = this.GetLanguageName(systemLanguage);
         string messagePre = I18NMod.FlavorDescription;
-        return String.Format(messagePre, param);
+        return $"{messagePre} {param}";
+    }
+    private string GetLanguageName(SystemLanguage systemLanguage) {
+        MyLanguage? language = Languages.GetLanguage(systemLanguage);
+        if (language == null) {
+            return systemLanguage.ToString();
+        }
+        return language.NameEnglish;
     }
 
     public void Unload() { }

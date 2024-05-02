@@ -61,7 +61,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select a flavor for {0}.
+        ///   Looks up a localized string similar to Select a flavor for.
         /// </summary>
         internal static string FlavorDescription {
             get {
@@ -70,7 +70,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flavor for {0}.
+        ///   Looks up a localized string similar to Flavor for.
         /// </summary>
         internal static string FlavorLabel {
             get {

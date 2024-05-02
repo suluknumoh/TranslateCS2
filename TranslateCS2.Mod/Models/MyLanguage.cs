@@ -17,6 +17,7 @@ namespace TranslateCS2.Mod.Models;
 internal class MyLanguage {
     public string ID { get; private set; }
     public string Name { get; private set; }
+    public string NameEnglish { get; private set; }
     public IList<TranslationFile> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
     public int EntryCountOfAllFlavors {
@@ -40,7 +41,13 @@ internal class MyLanguage {
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
             this.ID = LocaleHelper.CorrectLocaleId(ci.Name);
-            this.Name = ci.NativeName;
+            if (this.SystemLanguage == SystemLanguage.Portuguese) {
+                this.Name = ci.NativeName;
+                this.NameEnglish = ci.EnglishName;
+            } else {
+                this.Name = ci.Parent.NativeName;
+                this.NameEnglish = ci.Parent.EnglishName;
+            }
             this.IsBuiltIn = true;
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
@@ -50,8 +57,10 @@ internal class MyLanguage {
                 if (SystemLanguage.SerboCroatian == this.SystemLanguage) {
                     this.ID = this.SystemLanguage.ToString();
                     this.Name = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
+                    this.NameEnglish = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
                 } else {
                     this.Name = ci.NativeName;
+                    this.NameEnglish = ci.EnglishName;
                 }
                 this.IsBuiltIn = false;
             }
@@ -62,6 +71,7 @@ internal class MyLanguage {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine($"{nameof(MyLanguage)}");
         builder.AppendLine($"{nameof(this.ID)}: {this.ID}");
+        builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
         builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
         builder.AppendLine($"{nameof(this.IsBuiltIn)}: {this.IsBuiltIn}");
         builder.AppendLine($"{nameof(this.HasFlavors)}: {this.HasFlavors}");
