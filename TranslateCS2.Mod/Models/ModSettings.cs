@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 
 using Colossal.IO.AssetDatabase;
 using Colossal.Json;
@@ -8,6 +10,8 @@ using Game.Modding;
 using Game.SceneFlow;
 using Game.Settings;
 
+using Newtonsoft.Json;
+
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
@@ -15,17 +19,19 @@ using TranslateCS2.Mod.Loggers;
 namespace TranslateCS2.Mod.Models;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
-[SettingsUIGroupOrder(FlavorGroup, ReloadGroup)]
-[SettingsUIShowGroupName(FlavorGroup, ReloadGroup)]
+[SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
+[SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
 internal partial class ModSettings : ModSetting {
     private static GameManager GameManager { get; } = GameManager.instance;
     private static InterfaceSettings InterfaceSettings { get; } = ModSettings.GameManager.settings.userInterface;
     private static LocalizationManager LocalizationManager { get; } = ModSettings.GameManager.localizationManager;
-
+    [Exclude]
+    public ModSettingsLocale? SettingsLocale { get; set; }
 
     public const string Section = "Main";
     public const string FlavorGroup = nameof(FlavorGroup);
     public const string ReloadGroup = nameof(ReloadGroup);
+    public const string GenerateGroup = nameof(GenerateGroup);
 
 
     [Include]
@@ -35,8 +41,7 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIHidden]
     public string? PreviousLocale { get; set; }
 
-    public ModSettings(IMod mod) : base(mod) {
-    }
+    public ModSettings(IMod mod) : base(mod) { }
 
     [Exclude]
     [SettingsUIButton]
@@ -66,6 +71,31 @@ internal partial class ModSettings : ModSetting {
                                    [nameof(ReloadLangs), ex]);
         }
     }
+
+    [Exclude]
+    [SettingsUIButton]
+    [SettingsUIDeveloper]
+    [SettingsUISection(Section, GenerateGroup)]
+    [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsGenerateLocalizationJsonHiddenDisabled))]
+    [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsGenerateLocalizationJsonHiddenDisabled))]
+    public bool GenerateLocalizationJson {
+        set => this.GenerateLocJson();
+    }
+    private bool IsGenerateLocalizationJsonHiddenDisabled() {
+        return this.SettingsLocale == null;
+    }
+    private void GenerateLocJson() {
+        if (this.IsGenerateLocalizationJsonHiddenDisabled()) {
+            return;
+        }
+        string json = JsonConvert.SerializeObject(this.SettingsLocale.Dictionary, Formatting.Indented);
+        string path = Path.Combine(FileSystemHelper.DataFolder, ModConstants.ModExportKeyValueJsonName);
+        File.WriteAllText(path, json, Encoding.UTF8);
+    }
+
+
+
+
 
     public override void SetDefaults() {
         //

@@ -44,11 +44,12 @@ public class Mod : IMod {
                     ErrorMessageHelper.DisplayErrorMessage(Languages.Erroneous, false);
                 }
                 this._modSettings = new ModSettings(this);
+                ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this._modSettings);
                 this._modSettings.OnFlavorChanged += Languages.FlavorChanged;
                 this._modSettings.RegisterInOptionsUI();
                 // settings have to be loaded after files are read and loaded
                 AssetDatabase.global.LoadSettings(ModConstants.Name, this._modSettings);
-                Mod.LocalizationManager.AddSource(LocalizationManager.fallbackLocaleId, new ModSettingsLocale(this._modSettings));
+                Mod.LocalizationManager.AddSource(LocalizationManager.fallbackLocaleId, modSettingsLocale);
                 this._modSettings.HandleLocaleOnLoad();
             }
         } catch (Exception ex) {

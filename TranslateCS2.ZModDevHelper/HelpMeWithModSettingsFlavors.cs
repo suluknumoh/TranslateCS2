@@ -16,6 +16,7 @@ public class HelpMeWithModSettingsFlavors {
                 continue;
             }
             builder.AppendLine($"private string _Flavor{systemLanguage} = InitFlavor(SystemLanguage.{systemLanguage});");
+            builder.AppendLine($"[Include]");
             builder.AppendLine($"[SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavors{systemLanguage}))]");
             builder.AppendLine($"[SettingsUISection(Section, FlavorGroup)]");
             builder.AppendLine($"[SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavor{systemLanguage}Hidden))]");
@@ -48,7 +49,7 @@ public class HelpMeWithModSettingsFlavors {
             if (systemLanguage is UnitySystemLanguage.Unknown or UnitySystemLanguage.Chinese) {
                 continue;
             }
-            builder.AppendLine($"{{ this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetLabel(SystemLanguage.{systemLanguage})}},");
+            builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetLabel(SystemLanguage.{systemLanguage}), true);");
         }
         string text = builder.ToString().ReplaceLineEndings("\n");
         Assert.True(true);
@@ -61,7 +62,7 @@ public class HelpMeWithModSettingsFlavors {
             if (systemLanguage is UnitySystemLanguage.Unknown or UnitySystemLanguage.Chinese) {
                 continue;
             }
-            builder.AppendLine($"{{ this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetDescription(SystemLanguage.{systemLanguage})}},");
+            builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetDescription(SystemLanguage.{systemLanguage}), true);");
         }
         string text = builder.ToString().ReplaceLineEndings("\n");
         Assert.True(true);
