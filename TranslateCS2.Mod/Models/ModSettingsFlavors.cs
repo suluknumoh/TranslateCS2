@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Colossal.Json;
+
 using Game.Settings;
 using Game.UI.Widgets;
 
@@ -16,6 +18,7 @@ internal partial class ModSettings {
     public event OnFlavorChangedHandler? OnFlavorChanged;
 
     private string _FlavorAfrikaans = InitFlavor(SystemLanguage.Afrikaans);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsAfrikaans))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorAfrikaansHidden))]
@@ -37,6 +40,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorArabic = InitFlavor(SystemLanguage.Arabic);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsArabic))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorArabicHidden))]
@@ -58,6 +62,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorBasque = InitFlavor(SystemLanguage.Basque);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsBasque))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorBasqueHidden))]
@@ -79,6 +84,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorBelarusian = InitFlavor(SystemLanguage.Belarusian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsBelarusian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorBelarusianHidden))]
@@ -100,6 +106,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorBulgarian = InitFlavor(SystemLanguage.Bulgarian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsBulgarian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorBulgarianHidden))]
@@ -121,6 +128,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorCatalan = InitFlavor(SystemLanguage.Catalan);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsCatalan))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorCatalanHidden))]
@@ -142,6 +150,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorCzech = InitFlavor(SystemLanguage.Czech);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsCzech))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorCzechHidden))]
@@ -163,6 +172,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorDanish = InitFlavor(SystemLanguage.Danish);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsDanish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorDanishHidden))]
@@ -184,6 +194,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorDutch = InitFlavor(SystemLanguage.Dutch);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsDutch))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorDutchHidden))]
@@ -205,6 +216,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorEnglish = InitFlavor(SystemLanguage.English);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsEnglish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorEnglishHidden))]
@@ -226,6 +238,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorEstonian = InitFlavor(SystemLanguage.Estonian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsEstonian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorEstonianHidden))]
@@ -247,6 +260,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorFaroese = InitFlavor(SystemLanguage.Faroese);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsFaroese))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorFaroeseHidden))]
@@ -268,6 +282,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorFinnish = InitFlavor(SystemLanguage.Finnish);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsFinnish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorFinnishHidden))]
@@ -289,6 +304,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorFrench = InitFlavor(SystemLanguage.French);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsFrench))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorFrenchHidden))]
@@ -310,6 +326,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorGerman = InitFlavor(SystemLanguage.German);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsGerman))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorGermanHidden))]
@@ -331,6 +348,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorGreek = InitFlavor(SystemLanguage.Greek);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsGreek))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorGreekHidden))]
@@ -352,6 +370,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorHebrew = InitFlavor(SystemLanguage.Hebrew);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsHebrew))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorHebrewHidden))]
@@ -373,6 +392,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorHungarian = InitFlavor(SystemLanguage.Hungarian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsHungarian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorHungarianHidden))]
@@ -394,6 +414,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorIcelandic = InitFlavor(SystemLanguage.Icelandic);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsIcelandic))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorIcelandicHidden))]
@@ -415,6 +436,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorIndonesian = InitFlavor(SystemLanguage.Indonesian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsIndonesian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorIndonesianHidden))]
@@ -436,6 +458,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorItalian = InitFlavor(SystemLanguage.Italian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsItalian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorItalianHidden))]
@@ -457,6 +480,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorJapanese = InitFlavor(SystemLanguage.Japanese);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsJapanese))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorJapaneseHidden))]
@@ -478,6 +502,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorKorean = InitFlavor(SystemLanguage.Korean);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsKorean))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorKoreanHidden))]
@@ -499,6 +524,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorLatvian = InitFlavor(SystemLanguage.Latvian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsLatvian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorLatvianHidden))]
@@ -520,6 +546,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorLithuanian = InitFlavor(SystemLanguage.Lithuanian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsLithuanian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorLithuanianHidden))]
@@ -541,6 +568,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorNorwegian = InitFlavor(SystemLanguage.Norwegian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsNorwegian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorNorwegianHidden))]
@@ -562,6 +590,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorPolish = InitFlavor(SystemLanguage.Polish);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsPolish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorPolishHidden))]
@@ -583,6 +612,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorPortuguese = InitFlavor(SystemLanguage.Portuguese);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsPortuguese))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorPortugueseHidden))]
@@ -604,6 +634,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorRomanian = InitFlavor(SystemLanguage.Romanian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsRomanian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorRomanianHidden))]
@@ -625,6 +656,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorRussian = InitFlavor(SystemLanguage.Russian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsRussian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorRussianHidden))]
@@ -646,6 +678,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorSerboCroatian = InitFlavor(SystemLanguage.SerboCroatian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsSerboCroatian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorSerboCroatianHidden))]
@@ -667,6 +700,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorSlovak = InitFlavor(SystemLanguage.Slovak);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsSlovak))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorSlovakHidden))]
@@ -688,6 +722,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorSlovenian = InitFlavor(SystemLanguage.Slovenian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsSlovenian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorSlovenianHidden))]
@@ -709,6 +744,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorSpanish = InitFlavor(SystemLanguage.Spanish);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsSpanish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorSpanishHidden))]
@@ -730,6 +766,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorSwedish = InitFlavor(SystemLanguage.Swedish);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsSwedish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorSwedishHidden))]
@@ -751,6 +788,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorThai = InitFlavor(SystemLanguage.Thai);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsThai))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorThaiHidden))]
@@ -772,6 +810,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorTurkish = InitFlavor(SystemLanguage.Turkish);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsTurkish))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorTurkishHidden))]
@@ -793,6 +832,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorUkrainian = InitFlavor(SystemLanguage.Ukrainian);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsUkrainian))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorUkrainianHidden))]
@@ -814,6 +854,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorVietnamese = InitFlavor(SystemLanguage.Vietnamese);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsVietnamese))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorVietnameseHidden))]
@@ -835,6 +876,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorChineseSimplified = InitFlavor(SystemLanguage.ChineseSimplified);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsChineseSimplified))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorChineseSimplifiedHidden))]
@@ -856,6 +898,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorChineseTraditional = InitFlavor(SystemLanguage.ChineseTraditional);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsChineseTraditional))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorChineseTraditionalHidden))]
@@ -877,6 +920,7 @@ internal partial class ModSettings {
 
 
     private string _FlavorHindi = InitFlavor(SystemLanguage.Hindi);
+    [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsHindi))]
     [SettingsUISection(Section, FlavorGroup)]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorHindiHidden))]
