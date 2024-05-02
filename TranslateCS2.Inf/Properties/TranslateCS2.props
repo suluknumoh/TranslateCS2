@@ -5,7 +5,7 @@
         <NeutralLanguage>en</NeutralLanguage>
         <LangVersion>latest</LangVersion>
         <ProjectAssetsDir>$(ProjectDir)Assets</ProjectAssetsDir>
-        <AssemblyVersion>1.5.2.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <!--
             AppendTargetFrameworkToOutputPath has to be 'false'
             the output directory structures are as follows
