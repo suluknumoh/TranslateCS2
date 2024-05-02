@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using TranslateCS2.Inf;
@@ -40,7 +37,7 @@ public class HelpMeWithModSettingsFlavors {
             builder.AppendLine();
             builder.AppendLine();
         }
-        string text = builder.ToString();
+        string text = builder.ToString().ReplaceLineEndings("\n");
         Assert.True(true);
     }
     [Fact(Skip = "dont help me each time")]
@@ -53,7 +50,7 @@ public class HelpMeWithModSettingsFlavors {
             }
             builder.AppendLine($"{{ this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetLabel(nameof(ModSettings.Flavor{systemLanguage}))}},");
         }
-        string text = builder.ToString();
+        string text = builder.ToString().ReplaceLineEndings("\n");
         Assert.True(true);
     }
     [Fact(Skip = "dont help me each time")]
@@ -66,7 +63,7 @@ public class HelpMeWithModSettingsFlavors {
             }
             builder.AppendLine($"{{ this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetDescription(nameof(ModSettings.Flavor{systemLanguage}))}},");
         }
-        string text = builder.ToString();
+        string text = builder.ToString().ReplaceLineEndings("\n");
         Assert.True(true);
     }
 }

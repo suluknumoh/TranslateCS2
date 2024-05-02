@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -45,7 +41,7 @@ public class HelpMeWithSupportedLanguages {
             builder.AppendLine();
             builder.AppendLine();
         }
-        string supportedLanguagesMarkDown = builder.ToString().Replace("&", "and");
+        string supportedLanguagesMarkDown = builder.ToString().Replace("&", "and").ReplaceLineEndings("\n");
         Assert.True(true);
 
     }
@@ -58,7 +54,7 @@ public class HelpMeWithSupportedLanguages {
             cis.AddRange(entry.Value);
         }
         string text = "\"";
-        text += String.Join("\",\r\n\"", cis);
+        text += String.Join("\",\n\"", cis);
         text += "\"";
         Assert.NotNull(text);
     }
