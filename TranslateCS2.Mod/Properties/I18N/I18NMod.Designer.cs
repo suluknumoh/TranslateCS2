@@ -88,7 +88,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generates a .json-file named &apos;{0}&apos; with all Key-Value-Pairs for this Mod that can be found in this mods data-directory (&apos;{1}&apos;) after a click on this button..
+        ///   Looks up a localized string similar to Generates a .json-file named &apos;{0}&apos; with all Key-Value-Pairs for this Mod that can be found in this mods data-directory &apos;{1}&apos; after a click on this button. The .json-file named &apos;{0}&apos; is NOT read by this Mod. It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod..
         /// </summary>
         internal static string GroupGenerateButtonGenerateDescription {
             get {
