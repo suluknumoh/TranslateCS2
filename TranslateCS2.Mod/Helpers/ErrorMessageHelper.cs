@@ -12,9 +12,10 @@ using TranslateCS2.Mod.Models;
 namespace TranslateCS2.Mod.Helpers;
 internal static class ErrorMessageHelper {
     private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
-    public static void DisplayErrorMessage(IList<TranslationFile> erroneous, bool missing) {
+    private static string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
+    public static void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine($"from {ModConstants.NameSimple} ({ModConstants.Name}):");
+        builder.AppendLine(Intro);
         builder.Append($"the following provided translationfiles are corrupt");
         if (missing) {
             builder.Append($" or got deleted");

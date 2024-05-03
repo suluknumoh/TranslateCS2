@@ -63,7 +63,7 @@ internal partial class ModSettings : ModSetting {
             ModSettings.InterfaceSettings.locale = this.Locale;
             ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
             if (languages.HasErroneous) {
-                ErrorMessageHelper.DisplayErrorMessage(languages.Erroneous, true);
+                ErrorMessageHelper.DisplayErrorMessageForErroneous(languages.Erroneous, true);
             }
         } catch (Exception ex) {
             Mod.Logger.LogCritical(this.GetType(),

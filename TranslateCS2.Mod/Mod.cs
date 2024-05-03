@@ -41,7 +41,7 @@ public class Mod : IMod {
                 //
                 //
                 if (Languages.HasErroneous) {
-                    ErrorMessageHelper.DisplayErrorMessage(Languages.Erroneous, false);
+                    ErrorMessageHelper.DisplayErrorMessageForErroneous(Languages.Erroneous, false);
                 }
                 this._modSettings = new ModSettings(this);
                 ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this._modSettings);
