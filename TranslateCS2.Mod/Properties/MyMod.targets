@@ -35,33 +35,18 @@
             Query=".//Publish/ModVersion/@Value" />
 
 
-        <!-- readme to longdescription -->
-        <ReadLinesFromFile
-            File="$(ProjectDir)\README.md">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModReadMeLines" />
-        </ReadLinesFromFile>
         <!-- transform lines-array to a single string with escaped linefeeds and carriage returns -->
         <!-- https://stackoverflow.com/a/274720 -->
         <XmlPoke
-            Value="@(ModReadMeLines->'%(Identity)', '%0a%0d')"
+            Value="$([System.IO.File]::ReadAllText('$(ProjectDir)\README.md'))"
             XmlInputPath="$(PublishConfigurationPath)"
             Query=".//Publish/LongDescription" />
 
 
-        <!-- current changelog to changelog -->
-        <ReadLinesFromFile
-            File="$(ProjectDir)\CHANGELOG.CURRENT.md">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModChangeLogCurrentLines" />
-        </ReadLinesFromFile>
-
         <!-- transform lines-array to a single string with escaped linefeeds and carriage returns -->
         <!-- https://stackoverflow.com/a/274720 -->
         <XmlPoke
-            Value="@(ModChangeLogCurrentLines->'%(Identity)', '%0a%0d')"
+            Value="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))"
             XmlInputPath="$(PublishConfigurationPath)"
             Query=".//Publish/ChangeLog" />
     </Target>
@@ -84,9 +69,9 @@
             <ModChangeLog
                 Include="$(ProjectDir)CHANGELOG.md" />
             <ChangeLogContent
-                Include="@(ModChangeLogCurrentLines)" />
+                Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))" />
             <ChangeLogContent
-                Include="@(ModChangeLogLines)" />
+                Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.md'))" />
         </ItemGroup>
         <WriteLinesToFile
             File="@(ModChangeLog)"

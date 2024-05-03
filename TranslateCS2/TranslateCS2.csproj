@@ -32,9 +32,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include="Assets\README.md" />
         <EmbeddedResource Include="Assets\CREDITS.md" />
         <EmbeddedResource Include="Assets\CHANGELOG.md" />
-        <EmbeddedResource Include="Assets\README.md" />
         <EmbeddedResource Include="Assets\Translations.sqlite" />
     </ItemGroup>
 
@@ -51,20 +51,11 @@
 
 
     <Target Name="WriteReadMe" BeforeTargets="AfterBuild">
-        <ReadLinesFromFile File="$(ProjectAssetsDir)\README.md">
-            <Output TaskParameter="Lines" ItemName="ReadMeLines" />
-        </ReadLinesFromFile>
-        <ReadLinesFromFile File="$(ProjectAssetsDir)\CHANGELOG.md">
-            <Output TaskParameter="Lines" ItemName="ChangeLogLines" />
-        </ReadLinesFromFile>
-        <ReadLinesFromFile File="$(ProjectAssetsDir)\CREDITS.md">
-            <Output TaskParameter="Lines" ItemName="CreditsLines" />
-        </ReadLinesFromFile>
         <ItemGroup>
             <ReadMeFile Include="$(SolutionDir)README.md" />
-            <ReadMeContent Include="@(ReadMeLines)" />
-            <ReadMeContent Include="@(ChangeLogLines)" />
-            <ReadMeContent Include="@(CreditsLines)" />
+            <ReadMeContent Include="$([System.IO.File]::ReadAllText('$(ProjectAssetsDir)\README.md'))" />
+            <ReadMeContent Include="$([System.IO.File]::ReadAllText('$(ProjectAssetsDir)\CHANGELOG.md'))" />
+            <ReadMeContent Include="$([System.IO.File]::ReadAllText('$(ProjectAssetsDir)\CREDITS.md'))" />
         </ItemGroup>
         <WriteLinesToFile File="@(ReadMeFile)" Lines="@(ReadMeContent)" Overwrite="true" />
     </Target>
