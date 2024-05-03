@@ -35,16 +35,12 @@
             Query=".//Publish/ModVersion/@Value" />
 
 
-        <!-- transform lines-array to a single string with escaped linefeeds and carriage returns -->
-        <!-- https://stackoverflow.com/a/274720 -->
         <XmlPoke
             Value="$([System.IO.File]::ReadAllText('$(ProjectDir)\README.md'))"
             XmlInputPath="$(PublishConfigurationPath)"
             Query=".//Publish/LongDescription" />
 
 
-        <!-- transform lines-array to a single string with escaped linefeeds and carriage returns -->
-        <!-- https://stackoverflow.com/a/274720 -->
         <XmlPoke
             Value="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))"
             XmlInputPath="$(PublishConfigurationPath)"
