@@ -57,24 +57,44 @@ internal class ExImportService {
             return null;
         }
         List<CompareExistingReadTranslation> preview = [];
-        // TODO: import non existing key-value-pairs!
-        // TODO: check if they are not deleted wile loading or something like that
-        foreach (ILocalizationDictionaryEntry existing in translationSession.LocalizationDictionary) {
-            IEnumerable<ILocalizationDictionaryEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
-            string key = existing.Key;
-            string? translationExisting = existing.Translation;
-            string? translationRead = null;
-            if (importsForKey.Any()) {
-                translationRead = StringHelper.GetNullForEmpty(importsForKey.First().Translation);
+        {
+            // read keys used by colossal order
+            foreach (ILocalizationDictionaryEntry existing in translationSession.LocalizationDictionary) {
+                IEnumerable<ILocalizationDictionaryEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
+                string key = existing.Key;
+                string? translationExisting = existing.Translation;
+                string? translationRead = null;
+                if (importsForKey.Any()) {
+                    translationRead = StringHelper.GetNullForEmpty(importsForKey.First().Translation);
+                }
+                if (StringHelper.IsNullOrWhiteSpaceOrEmpty(translationRead)
+                    && StringHelper.IsNullOrWhiteSpaceOrEmpty(translationExisting)) {
+                    continue;
+                }
+                CompareExistingReadTranslation previewEntry = new CompareExistingReadTranslation(key,
+                                                                                                 translationExisting,
+                                                                                                 translationRead);
+                preview.Add(previewEntry);
             }
-            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(translationRead)
-                && StringHelper.IsNullOrWhiteSpaceOrEmpty(translationExisting)) {
-                continue;
+        }
+        {
+            // read entries other than those used by colossal order (key-value-pairs for mods)
+            IEnumerable<ILocalizationDictionaryEntry> remaining = imports.Where(import => !translationSession.LocalizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+            if (remaining.Any()) {
+                foreach (ILocalizationDictionaryEntry remain in remaining) {
+                    string? key = StringHelper.GetNullForEmpty(remain.Key);
+                    string? translationExisting = null;
+                    string? translationRead = StringHelper.GetNullForEmpty(remain.Translation);
+                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(key)
+                        && StringHelper.IsNullOrWhiteSpaceOrEmpty(translationRead)) {
+                        continue;
+                    }
+                    CompareExistingReadTranslation previewEntry = new CompareExistingReadTranslation(key,
+                                                                                                     translationExisting,
+                                                                                                     translationRead);
+                    preview.Add(previewEntry);
+                }
             }
-            CompareExistingReadTranslation previewEntry = new CompareExistingReadTranslation(key,
-                                                                                             translationExisting,
-                                                                                             translationRead);
-            preview.Add(previewEntry);
         }
         return preview;
     }
@@ -82,42 +102,61 @@ internal class ExImportService {
     public void HandleRead(IList<CompareExistingReadTranslation> preview,
                            IList<ILocalizationDictionaryEntry> localizationDictionary,
                            ImportModes importMode) {
-        foreach (ILocalizationDictionaryEntry currentEntry in localizationDictionary) {
-            foreach (CompareExistingReadTranslation compareItem in preview) {
-                if (compareItem.Key == currentEntry.Key) {
-                    switch (importMode) {
-                        case ImportModes.NEW:
-                            // set all read
-                            currentEntry.Translation = compareItem.TranslationRead;
-                            break;
-                        case ImportModes.LeftJoin:
-                            // set missing read; all existing + read that are missing
-                            // preview leads!
-                            // preview knows about Existing and Read!
-                            // take care of method name 'is ... EXISTING available'
-                            if (!compareItem.IsTranslationExistingAvailable) {
-                                // only set if no translation existed
+        {
+            // handle key-value-pairs used by colossal order
+            foreach (ILocalizationDictionaryEntry currentEntry in localizationDictionary) {
+                foreach (CompareExistingReadTranslation compareItem in preview) {
+                    if (compareItem.Key == currentEntry.Key) {
+                        switch (importMode) {
+                            case ImportModes.NEW:
+                                // set all read
                                 currentEntry.Translation = compareItem.TranslationRead;
-                            } else {
-                                // just for clarififaction
-                                // keep current!
-                            }
-                            break;
-                        case ImportModes.RightJoin:
-                            // set all read; all read + existing that werent read
-                            // preview leads!
-                            // preview knows about Existing and Read!
-                            // take care of method name 'is ... READ available'
-                            if (compareItem.IsTranslationReadAvailable) {
-                                // only set, if a translation is read
-                                currentEntry.Translation = compareItem.TranslationRead;
-                            } else {
-                                // just for clarififaction
-                                // keep current!
-                            }
-                            break;
+                                break;
+                            case ImportModes.LeftJoin:
+                                // set missing read; all existing + read that are missing
+                                // preview leads!
+                                // preview knows about Existing and Read!
+                                // take care of method name 'is ... EXISTING available'
+                                if (!compareItem.IsTranslationExistingAvailable) {
+                                    // only set if no translation existed
+                                    currentEntry.Translation = compareItem.TranslationRead;
+                                } else {
+                                    // just for clarififaction
+                                    // keep current!
+                                }
+                                break;
+                            case ImportModes.RightJoin:
+                                // set all read; all read + existing that werent read
+                                // preview leads!
+                                // preview knows about Existing and Read!
+                                // take care of method name 'is ... READ available'
+                                if (compareItem.IsTranslationReadAvailable) {
+                                    // only set, if a translation is read
+                                    currentEntry.Translation = compareItem.TranslationRead;
+                                } else {
+                                    // just for clarififaction
+                                    // keep current!
+                                }
+                                break;
+                        }
+                        continue;
                     }
-                    continue;
+                }
+            }
+        }
+        {
+            // handle other key-value-pairs that are not used by colossal order (key-value-pairs for mods)
+            IEnumerable<CompareExistingReadTranslation> remaining = preview.Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+            foreach (CompareExistingReadTranslation remain in remaining) {
+                switch (importMode) {
+                    case ImportModes.NEW:
+                    case ImportModes.RightJoin:
+                    case ImportModes.LeftJoin:
+                        // remaining do not existing within the given localizationDictionary
+                        // they should be added always (i think)
+                        ILocalizationDictionaryEntry newItem = new LocalizationDictionaryEntry(remain.Key, remain.TranslationRead);
+                        localizationDictionary.Add(newItem);
+                        break;
                 }
             }
         }

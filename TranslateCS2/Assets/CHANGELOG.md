@@ -26,6 +26,8 @@
         - now contains two buttons
         - one to display the mods readme
         - one to display the mods changelog
+- import
+    - now, complete new key-value-pairs can be imported
 - moved changelog from start view to a new tab
 - ribbon bar is disabled under certain circumstances
 - fixed an error for multiple read file while importing (enable/disable buttons)
