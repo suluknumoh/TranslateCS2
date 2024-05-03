@@ -40,6 +40,16 @@ internal static class ErrorMessageHelper {
         SwitchAndDisplay(builder);
         Mod.Logger.LogError(typeof(ErrorMessageHelper), builder.ToString());
     }
+    public static void DisplayErrorMessageFailedToGenerateJson() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(Intro);
+        builder.AppendLine($"could not write");
+        builder.AppendLine($"'{ModConstants.ModExportKeyValueJsonName}'");
+        builder.AppendLine($"into");
+        builder.AppendLine($"'{FileSystemHelper.DataFolder}'");
+        builder.AppendLine("you should be able to continue");
+        SwitchAndDisplay(builder);
+    }
     private static void SwitchAndDisplay(object obj) {
         Mod.Logger.SetShowsErrorsInUI(true);
         Mod.Logger.Error(obj);

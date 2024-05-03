@@ -662,11 +662,14 @@
         <None Update="Examples\nl-NL.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Examples\zzz_error_on_load.png">
+        <None Update="Examples\zzz_error_0_on_load.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Examples\zzz_error_on_reload.png">
+        <None Update="Examples\zzz_error_1_on_reload.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\zzz_error_2_on_generate.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="README.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>

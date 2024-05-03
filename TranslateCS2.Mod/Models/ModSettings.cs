@@ -88,9 +88,22 @@ internal partial class ModSettings : ModSetting {
         if (this.IsGenerateLocalizationJsonHiddenDisabled()) {
             return;
         }
-        string json = JsonConvert.SerializeObject(this.SettingsLocale.Dictionary, Formatting.Indented);
-        string path = Path.Combine(FileSystemHelper.DataFolder, ModConstants.ModExportKeyValueJsonName);
-        File.WriteAllText(path, json, Encoding.UTF8);
+        try {
+            try {
+                string json = JsonConvert.SerializeObject(this.SettingsLocale.Dictionary, Formatting.Indented);
+                string path = Path.Combine(FileSystemHelper.DataFolder, ModConstants.ModExportKeyValueJsonName);
+                File.WriteAllText(path, json, Encoding.UTF8);
+            } catch (Exception ex) {
+                ErrorMessageHelper.DisplayErrorMessageFailedToGenerateJson();
+                Mod.Logger.LogError(this.GetType(),
+                                    LoggingConstants.FailedTo,
+                                    [nameof(this.GenerateLocalizationJson), ex]);
+            }
+        } catch (Exception ex) {
+            Mod.Logger.LogCritical(this.GetType(),
+                                   LoggingConstants.FailedTo,
+                                   [nameof(this.GenerateLocalizationJson), ex]);
+        }
     }
 
 
