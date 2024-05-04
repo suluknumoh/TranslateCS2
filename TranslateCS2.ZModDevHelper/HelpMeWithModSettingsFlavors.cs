@@ -1,6 +1,6 @@
 using System.Text;
 
-using TranslateCS2.Inf;
+using UnityEngine;
 
 namespace TranslateCS2.ZModDevHelper;
 public class HelpMeWithModSettingsFlavors {
@@ -9,10 +9,10 @@ public class HelpMeWithModSettingsFlavors {
     /// </summary>
     [Fact(Skip = "dont help me each time")]
     public void GenerateCodeBlocks() {
-        IEnumerable<UnitySystemLanguage> systemLanguages = Enum.GetValues(typeof(UnitySystemLanguage)).OfType<UnitySystemLanguage>();
+        IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         StringBuilder builder = new StringBuilder();
-        foreach (UnitySystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is UnitySystemLanguage.Unknown or UnitySystemLanguage.Chinese) {
+        foreach (SystemLanguage systemLanguage in systemLanguages) {
+            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
                 continue;
             }
             builder.AppendLine($"private string _Flavor{systemLanguage} = InitFlavor(SystemLanguage.{systemLanguage});");
@@ -38,33 +38,39 @@ public class HelpMeWithModSettingsFlavors {
             builder.AppendLine();
             builder.AppendLine();
         }
-        string text = builder.ToString().ReplaceLineEndings("\n");
+        string text = builder.ToString()
+            //.ReplaceLineEndings("\n")
+            ;
         Assert.True(true);
     }
     [Fact(Skip = "dont help me each time")]
     public void GenerateLables() {
-        IEnumerable<UnitySystemLanguage> systemLanguages = Enum.GetValues(typeof(UnitySystemLanguage)).OfType<UnitySystemLanguage>();
+        IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         StringBuilder builder = new StringBuilder();
-        foreach (UnitySystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is UnitySystemLanguage.Unknown or UnitySystemLanguage.Chinese) {
+        foreach (SystemLanguage systemLanguage in systemLanguages) {
+            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
                 continue;
             }
             builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetLabel(SystemLanguage.{systemLanguage}), true);");
         }
-        string text = builder.ToString().ReplaceLineEndings("\n");
+        string text = builder.ToString()
+            //.ReplaceLineEndings("\n")
+            ;
         Assert.True(true);
     }
     [Fact(Skip = "dont help me each time")]
     public void GenerateDescriptions() {
-        IEnumerable<UnitySystemLanguage> systemLanguages = Enum.GetValues(typeof(UnitySystemLanguage)).OfType<UnitySystemLanguage>();
+        IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         StringBuilder builder = new StringBuilder();
-        foreach (UnitySystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is UnitySystemLanguage.Unknown or UnitySystemLanguage.Chinese) {
+        foreach (SystemLanguage systemLanguage in systemLanguages) {
+            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
                 continue;
             }
             builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.Flavor{systemLanguage})), this.GetDescription(SystemLanguage.{systemLanguage}), true);");
         }
-        string text = builder.ToString().ReplaceLineEndings("\n");
+        string text = builder.ToString()
+            //.ReplaceLineEndings("\n")
+            ;
         Assert.True(true);
     }
 }

@@ -4,16 +4,18 @@ using System.Text.RegularExpressions;
 
 using TranslateCS2.Inf;
 
+using UnityEngine;
+
 
 namespace TranslateCS2.ZModDevHelper;
 
 public class HelpMeWithSupportedLanguages {
-    private readonly Dictionary<UnitySystemLanguage, List<CultureInfo>> Dict = [];
+    private readonly Dictionary<SystemLanguage, List<CultureInfo>> Dict = [];
     [Fact(Skip = "dont help me each time")]
     public void GenerateJsons() {
         this.FillDictionary();
         string directoryPath = PathHelper.TryToGetModsPath();
-        foreach (KeyValuePair<UnitySystemLanguage, List<CultureInfo>> entry in this.Dict) {
+        foreach (KeyValuePair<SystemLanguage, List<CultureInfo>> entry in this.Dict) {
             foreach (CultureInfo supportedLocale in entry.Value) {
                 string content = $"{{ \"Options.SECTION[General]\": \"General ({supportedLocale}.json)\" }}";
                 string filePath = Path.Combine(directoryPath, $"{supportedLocale}{ModConstants.JsonExtension}");
@@ -31,9 +33,9 @@ public class HelpMeWithSupportedLanguages {
     [Fact(Skip = "dont help me each time")]
     public void GenerateMarkdownList() {
         this.FillDictionary();
-        IOrderedEnumerable<KeyValuePair<UnitySystemLanguage, List<CultureInfo>>> ordered = this.Dict.OrderBy(item => item.Key.ToString());
+        IOrderedEnumerable<KeyValuePair<SystemLanguage, List<CultureInfo>>> ordered = this.Dict.OrderBy(item => item.Key.ToString());
         StringBuilder builder = new StringBuilder();
-        foreach (KeyValuePair<UnitySystemLanguage, List<CultureInfo>> entry in ordered) {
+        foreach (KeyValuePair<SystemLanguage, List<CultureInfo>> entry in ordered) {
             builder.AppendLine($"## {entry.Key.ToString()}");
             foreach (CultureInfo? cultureInfo in entry.Value) {
                 builder.AppendLine($"* {cultureInfo.Name} - {EaseLocaleName(cultureInfo)}");
@@ -41,7 +43,9 @@ public class HelpMeWithSupportedLanguages {
             builder.AppendLine();
             builder.AppendLine();
         }
-        string supportedLanguagesMarkDown = builder.ToString().Replace("&", "and").ReplaceLineEndings("\n");
+        string supportedLanguagesMarkDown = builder.ToString().Replace("&", "and")
+            //.ReplaceLineEndings("\n")
+            ;
         Assert.True(true);
 
     }
@@ -50,7 +54,7 @@ public class HelpMeWithSupportedLanguages {
     public void MappAbleLocalesSupported() {
         this.FillDictionary();
         List<CultureInfo> cis = [];
-        foreach (KeyValuePair<UnitySystemLanguage, List<CultureInfo>> entry in this.Dict) {
+        foreach (KeyValuePair<SystemLanguage, List<CultureInfo>> entry in this.Dict) {
             cis.AddRange(entry.Value);
         }
         string text = "\"";
@@ -60,26 +64,27 @@ public class HelpMeWithSupportedLanguages {
     }
 
     private void FillDictionary() {
-        IEnumerable<UnitySystemLanguage> languages = Enum.GetValues(typeof(UnitySystemLanguage)).OfType<UnitySystemLanguage>();
+        IEnumerable<SystemLanguage> languages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
-            .Where(culture => LocalesSupported.IsLocaleIdSupported(culture.Name)).ToArray();
+            .Where(culture => LocalesSupported.IsLocaleIdSupported(culture.Name))
+            .ToArray();
         foreach (CultureInfo culture in cultures) {
-            foreach (UnitySystemLanguage language in languages) {
+            foreach (SystemLanguage language in languages) {
                 string? comparator = null;
                 switch (language) {
-                    case UnitySystemLanguage.Chinese:
+                    case SystemLanguage.Chinese:
                         continue;
-                    case UnitySystemLanguage.SerboCroatian:
+                    case SystemLanguage.SerboCroatian:
                         if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
                             || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
                         ) {
                             this.AddToDictionary(culture, language);
                         }
                         continue;
-                    case UnitySystemLanguage.ChineseSimplified:
+                    case SystemLanguage.ChineseSimplified:
                         comparator = LangConstants.ChineseSimplified;
                         break;
-                    case UnitySystemLanguage.ChineseTraditional:
+                    case SystemLanguage.ChineseTraditional:
                         comparator = LangConstants.ChineseTraditional;
                         break;
                     default:
@@ -93,7 +98,7 @@ public class HelpMeWithSupportedLanguages {
         }
     }
 
-    private void AddToDictionary(CultureInfo culture, UnitySystemLanguage language) {
+    private void AddToDictionary(CultureInfo culture, SystemLanguage language) {
         if (this.Dict.TryGetValue(language, out List<CultureInfo>? cultureInfos) && cultureInfos != null) {
             cultureInfos.Add(culture);
         } else {

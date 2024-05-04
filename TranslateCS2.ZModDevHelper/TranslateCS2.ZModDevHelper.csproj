@@ -1,20 +1,99 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net472</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <CustomManagedPath>D:\Games\Steam\steamapps\common\Cities Skylines II\Cities2_Data\Managed</CustomManagedPath>
     </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="mscorlib">
+            <HintPath>$(CustomManagedPath)\mscorlib.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="netstandard">
+            <HintPath>$(CustomManagedPath)\netstandard.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Game">
+            <HintPath>$(CustomManagedPath)\Game.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Core">
+            <HintPath>$(CustomManagedPath)\Colossal.Core.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Logging">
+            <HintPath>$(CustomManagedPath)\Colossal.Logging.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.IO.AssetDatabase">
+            <HintPath>$(CustomManagedPath)\Colossal.IO.AssetDatabase.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.PSI.Common">
+            <HintPath>$(CustomManagedPath)\Colossal.PSI.Common.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.UI">
+            <HintPath>$(CustomManagedPath)\Colossal.UI.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.UI.Binding">
+            <HintPath>$(CustomManagedPath)\Colossal.UI.Binding.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Localization">
+            <HintPath>$(CustomManagedPath)\Colossal.Localization.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(CustomManagedPath)\UnityEngine.CoreModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Burst">
+            <HintPath>$(CustomManagedPath)\Unity.Burst.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Collections">
+            <HintPath>$(CustomManagedPath)\Unity.Collections.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Entities">
+            <HintPath>$(CustomManagedPath)\Unity.Entities.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+            <HintPath>$(CustomManagedPath)\Unity.Mathematics.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(CustomManagedPath)\Newtonsoft.Json.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+    </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="coverlet.collector" Version="6.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-        <PackageReference Include="xunit" Version="2.5.3" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+        <Reference Update="System">
+            <HintPath>$(CustomManagedPath)\System.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Update="System.Core">
+            <HintPath>$(CustomManagedPath)\System.Core.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Update="System.Data">
+            <HintPath>$(CustomManagedPath)\System.Data.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
     </ItemGroup>
 
     <ItemGroup>
