@@ -149,6 +149,7 @@ public static class LocalesSupported {
             "nb-NO",
             "nn",
             "nn-NO",
+            "no",
             "nl",
             "nl-BE",
             "nl-NL",
@@ -178,8 +179,15 @@ public static class LocalesSupported {
             "uk-UA",
             "vi",
             "vi-VN",
+            "zh-CN",
             "zh-Hans",
-            "zh-Hant"
+            "zh-SG",
+            "zh-CHS",
+            "zh-Hant",
+            "zh-HK",
+            "zh-MO",
+            "zh-TW",
+            "zh-CHT"
         ];
         Lowered = List.Select(item => item.ToLower()).ToList();
     }

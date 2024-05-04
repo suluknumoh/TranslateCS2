@@ -136,7 +136,7 @@
 
     <ItemGroup>
         <None Update="CHANGELOG.CURRENT.md">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
         <None Update="CHANGELOG.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -543,6 +543,9 @@
         <None Update="Examples\jsons\nn.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Examples\jsons\no.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Examples\jsons\pl-PL.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -648,10 +651,31 @@
         <None Update="Examples\jsons\vi.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Examples\jsons\zh-CHS.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\jsons\zh-CHT.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\jsons\zh-CN.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Examples\jsons\zh-Hans.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Examples\jsons\zh-Hant.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\jsons\zh-HK.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\jsons\zh-MO.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\jsons\zh-SG.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Examples\jsons\zh-TW.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Examples\nl-NL-0.png">
@@ -670,7 +694,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Examples\zzz_error_2_on_generate.png">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="README.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
