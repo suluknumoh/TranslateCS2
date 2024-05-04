@@ -28,13 +28,13 @@ internal partial class ModSettings {
         set => this._FlavorAfrikaans = this.GetValueToSet(SystemLanguage.Afrikaans, value);
     }
     public DropdownItem<string>[] GetFlavorsAfrikaans() {
-        return GetFlavors(SystemLanguage.Afrikaans);
+        return this.GetFlavors(SystemLanguage.Afrikaans);
     }
     public bool IsFlavorAfrikaansHidden() {
-        return IsHidden(SystemLanguage.Afrikaans);
+        return this.IsHidden(SystemLanguage.Afrikaans);
     }
     public bool IsFlavorAfrikaansDisabled() {
-        return IsDisabled(SystemLanguage.Afrikaans);
+        return this.IsDisabled(SystemLanguage.Afrikaans);
     }
 
 
@@ -50,13 +50,13 @@ internal partial class ModSettings {
         set => this._FlavorArabic = this.GetValueToSet(SystemLanguage.Arabic, value);
     }
     public DropdownItem<string>[] GetFlavorsArabic() {
-        return GetFlavors(SystemLanguage.Arabic);
+        return this.GetFlavors(SystemLanguage.Arabic);
     }
     public bool IsFlavorArabicHidden() {
-        return IsHidden(SystemLanguage.Arabic);
+        return this.IsHidden(SystemLanguage.Arabic);
     }
     public bool IsFlavorArabicDisabled() {
-        return IsDisabled(SystemLanguage.Arabic);
+        return this.IsDisabled(SystemLanguage.Arabic);
     }
 
 
@@ -72,13 +72,13 @@ internal partial class ModSettings {
         set => this._FlavorBasque = this.GetValueToSet(SystemLanguage.Basque, value);
     }
     public DropdownItem<string>[] GetFlavorsBasque() {
-        return GetFlavors(SystemLanguage.Basque);
+        return this.GetFlavors(SystemLanguage.Basque);
     }
     public bool IsFlavorBasqueHidden() {
-        return IsHidden(SystemLanguage.Basque);
+        return this.IsHidden(SystemLanguage.Basque);
     }
     public bool IsFlavorBasqueDisabled() {
-        return IsDisabled(SystemLanguage.Basque);
+        return this.IsDisabled(SystemLanguage.Basque);
     }
 
 
@@ -94,13 +94,13 @@ internal partial class ModSettings {
         set => this._FlavorBelarusian = this.GetValueToSet(SystemLanguage.Belarusian, value);
     }
     public DropdownItem<string>[] GetFlavorsBelarusian() {
-        return GetFlavors(SystemLanguage.Belarusian);
+        return this.GetFlavors(SystemLanguage.Belarusian);
     }
     public bool IsFlavorBelarusianHidden() {
-        return IsHidden(SystemLanguage.Belarusian);
+        return this.IsHidden(SystemLanguage.Belarusian);
     }
     public bool IsFlavorBelarusianDisabled() {
-        return IsDisabled(SystemLanguage.Belarusian);
+        return this.IsDisabled(SystemLanguage.Belarusian);
     }
 
 
@@ -116,13 +116,13 @@ internal partial class ModSettings {
         set => this._FlavorBulgarian = this.GetValueToSet(SystemLanguage.Bulgarian, value);
     }
     public DropdownItem<string>[] GetFlavorsBulgarian() {
-        return GetFlavors(SystemLanguage.Bulgarian);
+        return this.GetFlavors(SystemLanguage.Bulgarian);
     }
     public bool IsFlavorBulgarianHidden() {
-        return IsHidden(SystemLanguage.Bulgarian);
+        return this.IsHidden(SystemLanguage.Bulgarian);
     }
     public bool IsFlavorBulgarianDisabled() {
-        return IsDisabled(SystemLanguage.Bulgarian);
+        return this.IsDisabled(SystemLanguage.Bulgarian);
     }
 
 
@@ -138,13 +138,13 @@ internal partial class ModSettings {
         set => this._FlavorCatalan = this.GetValueToSet(SystemLanguage.Catalan, value);
     }
     public DropdownItem<string>[] GetFlavorsCatalan() {
-        return GetFlavors(SystemLanguage.Catalan);
+        return this.GetFlavors(SystemLanguage.Catalan);
     }
     public bool IsFlavorCatalanHidden() {
-        return IsHidden(SystemLanguage.Catalan);
+        return this.IsHidden(SystemLanguage.Catalan);
     }
     public bool IsFlavorCatalanDisabled() {
-        return IsDisabled(SystemLanguage.Catalan);
+        return this.IsDisabled(SystemLanguage.Catalan);
     }
 
 
@@ -160,13 +160,13 @@ internal partial class ModSettings {
         set => this._FlavorCzech = this.GetValueToSet(SystemLanguage.Czech, value);
     }
     public DropdownItem<string>[] GetFlavorsCzech() {
-        return GetFlavors(SystemLanguage.Czech);
+        return this.GetFlavors(SystemLanguage.Czech);
     }
     public bool IsFlavorCzechHidden() {
-        return IsHidden(SystemLanguage.Czech);
+        return this.IsHidden(SystemLanguage.Czech);
     }
     public bool IsFlavorCzechDisabled() {
-        return IsDisabled(SystemLanguage.Czech);
+        return this.IsDisabled(SystemLanguage.Czech);
     }
 
 
@@ -182,13 +182,13 @@ internal partial class ModSettings {
         set => this._FlavorDanish = this.GetValueToSet(SystemLanguage.Danish, value);
     }
     public DropdownItem<string>[] GetFlavorsDanish() {
-        return GetFlavors(SystemLanguage.Danish);
+        return this.GetFlavors(SystemLanguage.Danish);
     }
     public bool IsFlavorDanishHidden() {
-        return IsHidden(SystemLanguage.Danish);
+        return this.IsHidden(SystemLanguage.Danish);
     }
     public bool IsFlavorDanishDisabled() {
-        return IsDisabled(SystemLanguage.Danish);
+        return this.IsDisabled(SystemLanguage.Danish);
     }
 
 
@@ -204,13 +204,13 @@ internal partial class ModSettings {
         set => this._FlavorDutch = this.GetValueToSet(SystemLanguage.Dutch, value);
     }
     public DropdownItem<string>[] GetFlavorsDutch() {
-        return GetFlavors(SystemLanguage.Dutch);
+        return this.GetFlavors(SystemLanguage.Dutch);
     }
     public bool IsFlavorDutchHidden() {
-        return IsHidden(SystemLanguage.Dutch);
+        return this.IsHidden(SystemLanguage.Dutch);
     }
     public bool IsFlavorDutchDisabled() {
-        return IsDisabled(SystemLanguage.Dutch);
+        return this.IsDisabled(SystemLanguage.Dutch);
     }
 
 
@@ -226,13 +226,13 @@ internal partial class ModSettings {
         set => this._FlavorEnglish = this.GetValueToSet(SystemLanguage.English, value);
     }
     public DropdownItem<string>[] GetFlavorsEnglish() {
-        return GetFlavors(SystemLanguage.English);
+        return this.GetFlavors(SystemLanguage.English);
     }
     public bool IsFlavorEnglishHidden() {
-        return IsHidden(SystemLanguage.English);
+        return this.IsHidden(SystemLanguage.English);
     }
     public bool IsFlavorEnglishDisabled() {
-        return IsDisabled(SystemLanguage.English);
+        return this.IsDisabled(SystemLanguage.English);
     }
 
 
@@ -248,13 +248,13 @@ internal partial class ModSettings {
         set => this._FlavorEstonian = this.GetValueToSet(SystemLanguage.Estonian, value);
     }
     public DropdownItem<string>[] GetFlavorsEstonian() {
-        return GetFlavors(SystemLanguage.Estonian);
+        return this.GetFlavors(SystemLanguage.Estonian);
     }
     public bool IsFlavorEstonianHidden() {
-        return IsHidden(SystemLanguage.Estonian);
+        return this.IsHidden(SystemLanguage.Estonian);
     }
     public bool IsFlavorEstonianDisabled() {
-        return IsDisabled(SystemLanguage.Estonian);
+        return this.IsDisabled(SystemLanguage.Estonian);
     }
 
 
@@ -270,13 +270,13 @@ internal partial class ModSettings {
         set => this._FlavorFaroese = this.GetValueToSet(SystemLanguage.Faroese, value);
     }
     public DropdownItem<string>[] GetFlavorsFaroese() {
-        return GetFlavors(SystemLanguage.Faroese);
+        return this.GetFlavors(SystemLanguage.Faroese);
     }
     public bool IsFlavorFaroeseHidden() {
-        return IsHidden(SystemLanguage.Faroese);
+        return this.IsHidden(SystemLanguage.Faroese);
     }
     public bool IsFlavorFaroeseDisabled() {
-        return IsDisabled(SystemLanguage.Faroese);
+        return this.IsDisabled(SystemLanguage.Faroese);
     }
 
 
@@ -292,13 +292,13 @@ internal partial class ModSettings {
         set => this._FlavorFinnish = this.GetValueToSet(SystemLanguage.Finnish, value);
     }
     public DropdownItem<string>[] GetFlavorsFinnish() {
-        return GetFlavors(SystemLanguage.Finnish);
+        return this.GetFlavors(SystemLanguage.Finnish);
     }
     public bool IsFlavorFinnishHidden() {
-        return IsHidden(SystemLanguage.Finnish);
+        return this.IsHidden(SystemLanguage.Finnish);
     }
     public bool IsFlavorFinnishDisabled() {
-        return IsDisabled(SystemLanguage.Finnish);
+        return this.IsDisabled(SystemLanguage.Finnish);
     }
 
 
@@ -314,13 +314,13 @@ internal partial class ModSettings {
         set => this._FlavorFrench = this.GetValueToSet(SystemLanguage.French, value);
     }
     public DropdownItem<string>[] GetFlavorsFrench() {
-        return GetFlavors(SystemLanguage.French);
+        return this.GetFlavors(SystemLanguage.French);
     }
     public bool IsFlavorFrenchHidden() {
-        return IsHidden(SystemLanguage.French);
+        return this.IsHidden(SystemLanguage.French);
     }
     public bool IsFlavorFrenchDisabled() {
-        return IsDisabled(SystemLanguage.French);
+        return this.IsDisabled(SystemLanguage.French);
     }
 
 
@@ -336,13 +336,13 @@ internal partial class ModSettings {
         set => this._FlavorGerman = this.GetValueToSet(SystemLanguage.German, value);
     }
     public DropdownItem<string>[] GetFlavorsGerman() {
-        return GetFlavors(SystemLanguage.German);
+        return this.GetFlavors(SystemLanguage.German);
     }
     public bool IsFlavorGermanHidden() {
-        return IsHidden(SystemLanguage.German);
+        return this.IsHidden(SystemLanguage.German);
     }
     public bool IsFlavorGermanDisabled() {
-        return IsDisabled(SystemLanguage.German);
+        return this.IsDisabled(SystemLanguage.German);
     }
 
 
@@ -358,13 +358,13 @@ internal partial class ModSettings {
         set => this._FlavorGreek = this.GetValueToSet(SystemLanguage.Greek, value);
     }
     public DropdownItem<string>[] GetFlavorsGreek() {
-        return GetFlavors(SystemLanguage.Greek);
+        return this.GetFlavors(SystemLanguage.Greek);
     }
     public bool IsFlavorGreekHidden() {
-        return IsHidden(SystemLanguage.Greek);
+        return this.IsHidden(SystemLanguage.Greek);
     }
     public bool IsFlavorGreekDisabled() {
-        return IsDisabled(SystemLanguage.Greek);
+        return this.IsDisabled(SystemLanguage.Greek);
     }
 
 
@@ -380,13 +380,13 @@ internal partial class ModSettings {
         set => this._FlavorHebrew = this.GetValueToSet(SystemLanguage.Hebrew, value);
     }
     public DropdownItem<string>[] GetFlavorsHebrew() {
-        return GetFlavors(SystemLanguage.Hebrew);
+        return this.GetFlavors(SystemLanguage.Hebrew);
     }
     public bool IsFlavorHebrewHidden() {
-        return IsHidden(SystemLanguage.Hebrew);
+        return this.IsHidden(SystemLanguage.Hebrew);
     }
     public bool IsFlavorHebrewDisabled() {
-        return IsDisabled(SystemLanguage.Hebrew);
+        return this.IsDisabled(SystemLanguage.Hebrew);
     }
 
 
@@ -402,13 +402,13 @@ internal partial class ModSettings {
         set => this._FlavorHungarian = this.GetValueToSet(SystemLanguage.Hungarian, value);
     }
     public DropdownItem<string>[] GetFlavorsHungarian() {
-        return GetFlavors(SystemLanguage.Hungarian);
+        return this.GetFlavors(SystemLanguage.Hungarian);
     }
     public bool IsFlavorHungarianHidden() {
-        return IsHidden(SystemLanguage.Hungarian);
+        return this.IsHidden(SystemLanguage.Hungarian);
     }
     public bool IsFlavorHungarianDisabled() {
-        return IsDisabled(SystemLanguage.Hungarian);
+        return this.IsDisabled(SystemLanguage.Hungarian);
     }
 
 
@@ -424,13 +424,13 @@ internal partial class ModSettings {
         set => this._FlavorIcelandic = this.GetValueToSet(SystemLanguage.Icelandic, value);
     }
     public DropdownItem<string>[] GetFlavorsIcelandic() {
-        return GetFlavors(SystemLanguage.Icelandic);
+        return this.GetFlavors(SystemLanguage.Icelandic);
     }
     public bool IsFlavorIcelandicHidden() {
-        return IsHidden(SystemLanguage.Icelandic);
+        return this.IsHidden(SystemLanguage.Icelandic);
     }
     public bool IsFlavorIcelandicDisabled() {
-        return IsDisabled(SystemLanguage.Icelandic);
+        return this.IsDisabled(SystemLanguage.Icelandic);
     }
 
 
@@ -446,13 +446,13 @@ internal partial class ModSettings {
         set => this._FlavorIndonesian = this.GetValueToSet(SystemLanguage.Indonesian, value);
     }
     public DropdownItem<string>[] GetFlavorsIndonesian() {
-        return GetFlavors(SystemLanguage.Indonesian);
+        return this.GetFlavors(SystemLanguage.Indonesian);
     }
     public bool IsFlavorIndonesianHidden() {
-        return IsHidden(SystemLanguage.Indonesian);
+        return this.IsHidden(SystemLanguage.Indonesian);
     }
     public bool IsFlavorIndonesianDisabled() {
-        return IsDisabled(SystemLanguage.Indonesian);
+        return this.IsDisabled(SystemLanguage.Indonesian);
     }
 
 
@@ -468,13 +468,13 @@ internal partial class ModSettings {
         set => this._FlavorItalian = this.GetValueToSet(SystemLanguage.Italian, value);
     }
     public DropdownItem<string>[] GetFlavorsItalian() {
-        return GetFlavors(SystemLanguage.Italian);
+        return this.GetFlavors(SystemLanguage.Italian);
     }
     public bool IsFlavorItalianHidden() {
-        return IsHidden(SystemLanguage.Italian);
+        return this.IsHidden(SystemLanguage.Italian);
     }
     public bool IsFlavorItalianDisabled() {
-        return IsDisabled(SystemLanguage.Italian);
+        return this.IsDisabled(SystemLanguage.Italian);
     }
 
 
@@ -490,13 +490,13 @@ internal partial class ModSettings {
         set => this._FlavorJapanese = this.GetValueToSet(SystemLanguage.Japanese, value);
     }
     public DropdownItem<string>[] GetFlavorsJapanese() {
-        return GetFlavors(SystemLanguage.Japanese);
+        return this.GetFlavors(SystemLanguage.Japanese);
     }
     public bool IsFlavorJapaneseHidden() {
-        return IsHidden(SystemLanguage.Japanese);
+        return this.IsHidden(SystemLanguage.Japanese);
     }
     public bool IsFlavorJapaneseDisabled() {
-        return IsDisabled(SystemLanguage.Japanese);
+        return this.IsDisabled(SystemLanguage.Japanese);
     }
 
 
@@ -512,13 +512,13 @@ internal partial class ModSettings {
         set => this._FlavorKorean = this.GetValueToSet(SystemLanguage.Korean, value);
     }
     public DropdownItem<string>[] GetFlavorsKorean() {
-        return GetFlavors(SystemLanguage.Korean);
+        return this.GetFlavors(SystemLanguage.Korean);
     }
     public bool IsFlavorKoreanHidden() {
-        return IsHidden(SystemLanguage.Korean);
+        return this.IsHidden(SystemLanguage.Korean);
     }
     public bool IsFlavorKoreanDisabled() {
-        return IsDisabled(SystemLanguage.Korean);
+        return this.IsDisabled(SystemLanguage.Korean);
     }
 
 
@@ -534,13 +534,13 @@ internal partial class ModSettings {
         set => this._FlavorLatvian = this.GetValueToSet(SystemLanguage.Latvian, value);
     }
     public DropdownItem<string>[] GetFlavorsLatvian() {
-        return GetFlavors(SystemLanguage.Latvian);
+        return this.GetFlavors(SystemLanguage.Latvian);
     }
     public bool IsFlavorLatvianHidden() {
-        return IsHidden(SystemLanguage.Latvian);
+        return this.IsHidden(SystemLanguage.Latvian);
     }
     public bool IsFlavorLatvianDisabled() {
-        return IsDisabled(SystemLanguage.Latvian);
+        return this.IsDisabled(SystemLanguage.Latvian);
     }
 
 
@@ -556,13 +556,13 @@ internal partial class ModSettings {
         set => this._FlavorLithuanian = this.GetValueToSet(SystemLanguage.Lithuanian, value);
     }
     public DropdownItem<string>[] GetFlavorsLithuanian() {
-        return GetFlavors(SystemLanguage.Lithuanian);
+        return this.GetFlavors(SystemLanguage.Lithuanian);
     }
     public bool IsFlavorLithuanianHidden() {
-        return IsHidden(SystemLanguage.Lithuanian);
+        return this.IsHidden(SystemLanguage.Lithuanian);
     }
     public bool IsFlavorLithuanianDisabled() {
-        return IsDisabled(SystemLanguage.Lithuanian);
+        return this.IsDisabled(SystemLanguage.Lithuanian);
     }
 
 
@@ -578,13 +578,13 @@ internal partial class ModSettings {
         set => this._FlavorNorwegian = this.GetValueToSet(SystemLanguage.Norwegian, value);
     }
     public DropdownItem<string>[] GetFlavorsNorwegian() {
-        return GetFlavors(SystemLanguage.Norwegian);
+        return this.GetFlavors(SystemLanguage.Norwegian);
     }
     public bool IsFlavorNorwegianHidden() {
-        return IsHidden(SystemLanguage.Norwegian);
+        return this.IsHidden(SystemLanguage.Norwegian);
     }
     public bool IsFlavorNorwegianDisabled() {
-        return IsDisabled(SystemLanguage.Norwegian);
+        return this.IsDisabled(SystemLanguage.Norwegian);
     }
 
 
@@ -600,13 +600,13 @@ internal partial class ModSettings {
         set => this._FlavorPolish = this.GetValueToSet(SystemLanguage.Polish, value);
     }
     public DropdownItem<string>[] GetFlavorsPolish() {
-        return GetFlavors(SystemLanguage.Polish);
+        return this.GetFlavors(SystemLanguage.Polish);
     }
     public bool IsFlavorPolishHidden() {
-        return IsHidden(SystemLanguage.Polish);
+        return this.IsHidden(SystemLanguage.Polish);
     }
     public bool IsFlavorPolishDisabled() {
-        return IsDisabled(SystemLanguage.Polish);
+        return this.IsDisabled(SystemLanguage.Polish);
     }
 
 
@@ -622,13 +622,13 @@ internal partial class ModSettings {
         set => this._FlavorPortuguese = this.GetValueToSet(SystemLanguage.Portuguese, value);
     }
     public DropdownItem<string>[] GetFlavorsPortuguese() {
-        return GetFlavors(SystemLanguage.Portuguese);
+        return this.GetFlavors(SystemLanguage.Portuguese);
     }
     public bool IsFlavorPortugueseHidden() {
-        return IsHidden(SystemLanguage.Portuguese);
+        return this.IsHidden(SystemLanguage.Portuguese);
     }
     public bool IsFlavorPortugueseDisabled() {
-        return IsDisabled(SystemLanguage.Portuguese);
+        return this.IsDisabled(SystemLanguage.Portuguese);
     }
 
 
@@ -644,13 +644,13 @@ internal partial class ModSettings {
         set => this._FlavorRomanian = this.GetValueToSet(SystemLanguage.Romanian, value);
     }
     public DropdownItem<string>[] GetFlavorsRomanian() {
-        return GetFlavors(SystemLanguage.Romanian);
+        return this.GetFlavors(SystemLanguage.Romanian);
     }
     public bool IsFlavorRomanianHidden() {
-        return IsHidden(SystemLanguage.Romanian);
+        return this.IsHidden(SystemLanguage.Romanian);
     }
     public bool IsFlavorRomanianDisabled() {
-        return IsDisabled(SystemLanguage.Romanian);
+        return this.IsDisabled(SystemLanguage.Romanian);
     }
 
 
@@ -666,13 +666,13 @@ internal partial class ModSettings {
         set => this._FlavorRussian = this.GetValueToSet(SystemLanguage.Russian, value);
     }
     public DropdownItem<string>[] GetFlavorsRussian() {
-        return GetFlavors(SystemLanguage.Russian);
+        return this.GetFlavors(SystemLanguage.Russian);
     }
     public bool IsFlavorRussianHidden() {
-        return IsHidden(SystemLanguage.Russian);
+        return this.IsHidden(SystemLanguage.Russian);
     }
     public bool IsFlavorRussianDisabled() {
-        return IsDisabled(SystemLanguage.Russian);
+        return this.IsDisabled(SystemLanguage.Russian);
     }
 
 
@@ -688,13 +688,13 @@ internal partial class ModSettings {
         set => this._FlavorSerboCroatian = this.GetValueToSet(SystemLanguage.SerboCroatian, value);
     }
     public DropdownItem<string>[] GetFlavorsSerboCroatian() {
-        return GetFlavors(SystemLanguage.SerboCroatian);
+        return this.GetFlavors(SystemLanguage.SerboCroatian);
     }
     public bool IsFlavorSerboCroatianHidden() {
-        return IsHidden(SystemLanguage.SerboCroatian);
+        return this.IsHidden(SystemLanguage.SerboCroatian);
     }
     public bool IsFlavorSerboCroatianDisabled() {
-        return IsDisabled(SystemLanguage.SerboCroatian);
+        return this.IsDisabled(SystemLanguage.SerboCroatian);
     }
 
 
@@ -710,13 +710,13 @@ internal partial class ModSettings {
         set => this._FlavorSlovak = this.GetValueToSet(SystemLanguage.Slovak, value);
     }
     public DropdownItem<string>[] GetFlavorsSlovak() {
-        return GetFlavors(SystemLanguage.Slovak);
+        return this.GetFlavors(SystemLanguage.Slovak);
     }
     public bool IsFlavorSlovakHidden() {
-        return IsHidden(SystemLanguage.Slovak);
+        return this.IsHidden(SystemLanguage.Slovak);
     }
     public bool IsFlavorSlovakDisabled() {
-        return IsDisabled(SystemLanguage.Slovak);
+        return this.IsDisabled(SystemLanguage.Slovak);
     }
 
 
@@ -732,13 +732,13 @@ internal partial class ModSettings {
         set => this._FlavorSlovenian = this.GetValueToSet(SystemLanguage.Slovenian, value);
     }
     public DropdownItem<string>[] GetFlavorsSlovenian() {
-        return GetFlavors(SystemLanguage.Slovenian);
+        return this.GetFlavors(SystemLanguage.Slovenian);
     }
     public bool IsFlavorSlovenianHidden() {
-        return IsHidden(SystemLanguage.Slovenian);
+        return this.IsHidden(SystemLanguage.Slovenian);
     }
     public bool IsFlavorSlovenianDisabled() {
-        return IsDisabled(SystemLanguage.Slovenian);
+        return this.IsDisabled(SystemLanguage.Slovenian);
     }
 
 
@@ -754,13 +754,13 @@ internal partial class ModSettings {
         set => this._FlavorSpanish = this.GetValueToSet(SystemLanguage.Spanish, value);
     }
     public DropdownItem<string>[] GetFlavorsSpanish() {
-        return GetFlavors(SystemLanguage.Spanish);
+        return this.GetFlavors(SystemLanguage.Spanish);
     }
     public bool IsFlavorSpanishHidden() {
-        return IsHidden(SystemLanguage.Spanish);
+        return this.IsHidden(SystemLanguage.Spanish);
     }
     public bool IsFlavorSpanishDisabled() {
-        return IsDisabled(SystemLanguage.Spanish);
+        return this.IsDisabled(SystemLanguage.Spanish);
     }
 
 
@@ -776,13 +776,13 @@ internal partial class ModSettings {
         set => this._FlavorSwedish = this.GetValueToSet(SystemLanguage.Swedish, value);
     }
     public DropdownItem<string>[] GetFlavorsSwedish() {
-        return GetFlavors(SystemLanguage.Swedish);
+        return this.GetFlavors(SystemLanguage.Swedish);
     }
     public bool IsFlavorSwedishHidden() {
-        return IsHidden(SystemLanguage.Swedish);
+        return this.IsHidden(SystemLanguage.Swedish);
     }
     public bool IsFlavorSwedishDisabled() {
-        return IsDisabled(SystemLanguage.Swedish);
+        return this.IsDisabled(SystemLanguage.Swedish);
     }
 
 
@@ -798,13 +798,13 @@ internal partial class ModSettings {
         set => this._FlavorThai = this.GetValueToSet(SystemLanguage.Thai, value);
     }
     public DropdownItem<string>[] GetFlavorsThai() {
-        return GetFlavors(SystemLanguage.Thai);
+        return this.GetFlavors(SystemLanguage.Thai);
     }
     public bool IsFlavorThaiHidden() {
-        return IsHidden(SystemLanguage.Thai);
+        return this.IsHidden(SystemLanguage.Thai);
     }
     public bool IsFlavorThaiDisabled() {
-        return IsDisabled(SystemLanguage.Thai);
+        return this.IsDisabled(SystemLanguage.Thai);
     }
 
 
@@ -820,13 +820,13 @@ internal partial class ModSettings {
         set => this._FlavorTurkish = this.GetValueToSet(SystemLanguage.Turkish, value);
     }
     public DropdownItem<string>[] GetFlavorsTurkish() {
-        return GetFlavors(SystemLanguage.Turkish);
+        return this.GetFlavors(SystemLanguage.Turkish);
     }
     public bool IsFlavorTurkishHidden() {
-        return IsHidden(SystemLanguage.Turkish);
+        return this.IsHidden(SystemLanguage.Turkish);
     }
     public bool IsFlavorTurkishDisabled() {
-        return IsDisabled(SystemLanguage.Turkish);
+        return this.IsDisabled(SystemLanguage.Turkish);
     }
 
 
@@ -842,13 +842,13 @@ internal partial class ModSettings {
         set => this._FlavorUkrainian = this.GetValueToSet(SystemLanguage.Ukrainian, value);
     }
     public DropdownItem<string>[] GetFlavorsUkrainian() {
-        return GetFlavors(SystemLanguage.Ukrainian);
+        return this.GetFlavors(SystemLanguage.Ukrainian);
     }
     public bool IsFlavorUkrainianHidden() {
-        return IsHidden(SystemLanguage.Ukrainian);
+        return this.IsHidden(SystemLanguage.Ukrainian);
     }
     public bool IsFlavorUkrainianDisabled() {
-        return IsDisabled(SystemLanguage.Ukrainian);
+        return this.IsDisabled(SystemLanguage.Ukrainian);
     }
 
 
@@ -864,13 +864,13 @@ internal partial class ModSettings {
         set => this._FlavorVietnamese = this.GetValueToSet(SystemLanguage.Vietnamese, value);
     }
     public DropdownItem<string>[] GetFlavorsVietnamese() {
-        return GetFlavors(SystemLanguage.Vietnamese);
+        return this.GetFlavors(SystemLanguage.Vietnamese);
     }
     public bool IsFlavorVietnameseHidden() {
-        return IsHidden(SystemLanguage.Vietnamese);
+        return this.IsHidden(SystemLanguage.Vietnamese);
     }
     public bool IsFlavorVietnameseDisabled() {
-        return IsDisabled(SystemLanguage.Vietnamese);
+        return this.IsDisabled(SystemLanguage.Vietnamese);
     }
 
 
@@ -886,13 +886,13 @@ internal partial class ModSettings {
         set => this._FlavorChineseSimplified = this.GetValueToSet(SystemLanguage.ChineseSimplified, value);
     }
     public DropdownItem<string>[] GetFlavorsChineseSimplified() {
-        return GetFlavors(SystemLanguage.ChineseSimplified);
+        return this.GetFlavors(SystemLanguage.ChineseSimplified);
     }
     public bool IsFlavorChineseSimplifiedHidden() {
-        return IsHidden(SystemLanguage.ChineseSimplified);
+        return this.IsHidden(SystemLanguage.ChineseSimplified);
     }
     public bool IsFlavorChineseSimplifiedDisabled() {
-        return IsDisabled(SystemLanguage.ChineseSimplified);
+        return this.IsDisabled(SystemLanguage.ChineseSimplified);
     }
 
 
@@ -908,13 +908,13 @@ internal partial class ModSettings {
         set => this._FlavorChineseTraditional = this.GetValueToSet(SystemLanguage.ChineseTraditional, value);
     }
     public DropdownItem<string>[] GetFlavorsChineseTraditional() {
-        return GetFlavors(SystemLanguage.ChineseTraditional);
+        return this.GetFlavors(SystemLanguage.ChineseTraditional);
     }
     public bool IsFlavorChineseTraditionalHidden() {
-        return IsHidden(SystemLanguage.ChineseTraditional);
+        return this.IsHidden(SystemLanguage.ChineseTraditional);
     }
     public bool IsFlavorChineseTraditionalDisabled() {
-        return IsDisabled(SystemLanguage.ChineseTraditional);
+        return this.IsDisabled(SystemLanguage.ChineseTraditional);
     }
 
 
@@ -930,13 +930,13 @@ internal partial class ModSettings {
         set => this._FlavorHindi = this.GetValueToSet(SystemLanguage.Hindi, value);
     }
     public DropdownItem<string>[] GetFlavorsHindi() {
-        return GetFlavors(SystemLanguage.Hindi);
+        return this.GetFlavors(SystemLanguage.Hindi);
     }
     public bool IsFlavorHindiHidden() {
-        return IsHidden(SystemLanguage.Hindi);
+        return this.IsHidden(SystemLanguage.Hindi);
     }
     public bool IsFlavorHindiDisabled() {
-        return IsDisabled(SystemLanguage.Hindi);
+        return this.IsDisabled(SystemLanguage.Hindi);
     }
 
 
@@ -945,8 +945,8 @@ internal partial class ModSettings {
 
 
 
-    private static DropdownItem<string>[] GetFlavors(SystemLanguage systemLanguage) {
-        MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
+    private DropdownItem<string>[] GetFlavors(SystemLanguage systemLanguage) {
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         List<DropdownItem<string>> flavors = DropDownItemsHelper.GetDefault(true);
         if (language != null) {
             // only builtin and those without flavors may have 'none'
@@ -957,18 +957,19 @@ internal partial class ModSettings {
         return flavors.ToArray();
     }
 
-    private static bool IsHidden(SystemLanguage systemLanguage) {
-        MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
-        return language == null || (language != null && (!language.ID.Equals(InterfaceSettings.locale, StringComparison.OrdinalIgnoreCase)));
+    private bool IsHidden(SystemLanguage systemLanguage) {
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
+        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.locale, StringComparison.OrdinalIgnoreCase)));
     }
 
-    private static bool IsDisabled(SystemLanguage systemLanguage) {
-        MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
-        return language == null || (language != null && (!language.ID.Equals(InterfaceSettings.locale, StringComparison.OrdinalIgnoreCase) || !language.HasFlavors));
+    private bool IsDisabled(SystemLanguage systemLanguage) {
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
+        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.locale, StringComparison.OrdinalIgnoreCase) || !language.HasFlavors));
     }
 
     private static string InitFlavor(SystemLanguage systemLanguage) {
-        MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
+        // we need an instance
+        MyLanguage? language = MyLanguages.GetInstance(null).GetLanguage(systemLanguage);
         if (language == null || language.IsBuiltIn || !language.HasFlavors) {
             return DropDownItemsHelper.None;
         }
@@ -977,7 +978,7 @@ internal partial class ModSettings {
 
     private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter) {
         string localeId = localeIdParameter;
-        MyLanguage? language = MyLanguages.Instance.GetLanguage(systemLanguage);
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         if (language == null) {
             // if localeId is none: language has no flavor with such a locale id
             localeId = DropDownItemsHelper.None;

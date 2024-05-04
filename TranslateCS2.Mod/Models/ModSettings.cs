@@ -7,13 +7,12 @@ using Colossal.Json;
 using Colossal.Localization;
 
 using Game.Modding;
-using Game.SceneFlow;
 using Game.Settings;
 
 using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Helpers;
+using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Models;
@@ -22,9 +21,11 @@ namespace TranslateCS2.Mod.Models;
 [SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
 [SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
 internal partial class ModSettings : ModSetting {
-    private static GameManager GameManager { get; } = GameManager.instance;
-    private static InterfaceSettings InterfaceSettings { get; } = ModSettings.GameManager.settings.userInterface;
-    private static LocalizationManager LocalizationManager { get; } = ModSettings.GameManager.localizationManager;
+    [Exclude]
+    private readonly IModRuntimeContainer runtimeContainer;
+    [Exclude]
+    private readonly MyLanguages languages;
+
     [Exclude]
     public ModSettingsLocale? SettingsLocale { get; set; }
 
@@ -41,7 +42,10 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIHidden]
     public string? PreviousLocale { get; set; }
 
-    public ModSettings(IMod mod) : base(mod) { }
+    public ModSettings(IModRuntimeContainer runtimeContainer, MyLanguages languages, IMod mod) : base(mod) {
+        this.runtimeContainer = runtimeContainer;
+        this.languages = languages;
+    }
 
     [Exclude]
     [SettingsUIButton]
@@ -54,21 +58,20 @@ internal partial class ModSettings : ModSetting {
 
     private void ReloadLangs() {
         try {
-            MyLanguages languages = MyLanguages.Instance;
-            ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            ModSettings.LocalizationManager.SetActiveLocale(ModSettings.InterfaceSettings.locale);
-            languages.ReLoad();
-            ModSettings.InterfaceSettings.currentLocale = this.Locale;
-            ModSettings.InterfaceSettings.locale = this.Locale;
-            ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
-            if (languages.HasErroneous) {
-                ErrorMessageHelper.DisplayErrorMessageForErroneous(languages.Erroneous, true);
+            this.runtimeContainer.IntSetting.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+            this.runtimeContainer.IntSetting.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+            this.runtimeContainer.LocManager.SetActiveLocale(this.runtimeContainer.IntSetting.locale);
+            this.languages.ReLoad();
+            this.runtimeContainer.IntSetting.currentLocale = this.Locale;
+            this.runtimeContainer.IntSetting.locale = this.Locale;
+            this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
+            if (this.languages.HasErroneous) {
+                this.runtimeContainer.ErrorMessageHelper.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
             }
         } catch (Exception ex) {
-            Mod.Logger.LogCritical(this.GetType(),
-                                   LoggingConstants.FailedTo,
-                                   [nameof(ReloadLangs), ex]);
+            this.runtimeContainer.Logger.LogCritical(this.GetType(),
+                                                     LoggingConstants.FailedTo,
+                                                     [nameof(ReloadLangs), ex]);
         }
     }
 
@@ -91,18 +94,18 @@ internal partial class ModSettings : ModSetting {
         try {
             try {
                 string json = JsonConvert.SerializeObject(this.SettingsLocale.Dictionary, Formatting.Indented);
-                string path = Path.Combine(FileSystemHelper.DataFolder, ModConstants.ModExportKeyValueJsonName);
+                string path = Path.Combine(this.runtimeContainer.FileSystemHelper.DataFolder, ModConstants.ModExportKeyValueJsonName);
                 File.WriteAllText(path, json, Encoding.UTF8);
             } catch (Exception ex) {
-                ErrorMessageHelper.DisplayErrorMessageFailedToGenerateJson();
-                Mod.Logger.LogError(this.GetType(),
-                                    LoggingConstants.FailedTo,
-                                    [nameof(this.GenerateLocalizationJson), ex]);
+                this.runtimeContainer.ErrorMessageHelper.DisplayErrorMessageFailedToGenerateJson();
+                this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                      LoggingConstants.FailedTo,
+                                                      [nameof(this.GenerateLocalizationJson), ex]);
             }
         } catch (Exception ex) {
-            Mod.Logger.LogCritical(this.GetType(),
-                                   LoggingConstants.FailedTo,
-                                   [nameof(this.GenerateLocalizationJson), ex]);
+            this.runtimeContainer.Logger.LogCritical(this.GetType(),
+                                                     LoggingConstants.FailedTo,
+                                                     [nameof(this.GenerateLocalizationJson), ex]);
         }
     }
 
@@ -116,17 +119,17 @@ internal partial class ModSettings : ModSetting {
 
     public void HandleLocaleOnLoad() {
         try {
-            this.PreviousLocale = ModSettings.InterfaceSettings.locale;
-            if (ModSettings.LocalizationManager.SupportsLocale(this.Locale)) {
-                ModSettings.LocalizationManager.SetActiveLocale(this.Locale);
-                ModSettings.InterfaceSettings.currentLocale = this.Locale;
-                ModSettings.InterfaceSettings.locale = this.Locale;
+            this.PreviousLocale = this.runtimeContainer.IntSetting.locale;
+            if (this.runtimeContainer.LocManager.SupportsLocale(this.Locale)) {
+                this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
+                this.runtimeContainer.IntSetting.currentLocale = this.Locale;
+                this.runtimeContainer.IntSetting.locale = this.Locale;
             }
-            ModSettings.InterfaceSettings.onSettingsApplied += this.ApplyAndSaveAlso;
+            this.runtimeContainer.IntSetting.onSettingsApplied += this.ApplyAndSaveAlso;
         } catch (Exception ex) {
-            Mod.Logger.LogCritical(this.GetType(),
-                                   LoggingConstants.FailedTo,
-                                   [nameof(HandleLocaleOnLoad), ex]);
+            this.runtimeContainer.Logger.LogCritical(this.GetType(),
+                                                     LoggingConstants.FailedTo,
+                                                     [nameof(HandleLocaleOnLoad), ex]);
         }
     }
 
@@ -137,29 +140,29 @@ internal partial class ModSettings : ModSetting {
                 this.ApplyAndSave();
             }
         } catch (Exception ex) {
-            Mod.Logger.LogCritical(this.GetType(),
-                                   LoggingConstants.FailedTo,
-                                   [nameof(ApplyAndSaveAlso), ex]);
+            this.runtimeContainer.Logger.LogCritical(this.GetType(),
+                                                     LoggingConstants.FailedTo,
+                                                     [nameof(ApplyAndSaveAlso), ex]);
         }
     }
 
     public void HandleLocaleOnUnLoad() {
         try {
             // dont replicate os lang into this mods settings
-            ModSettings.InterfaceSettings.onSettingsApplied -= this.ApplyAndSaveAlso;
+            this.runtimeContainer.IntSetting.onSettingsApplied -= this.ApplyAndSaveAlso;
             // reset to os-language, if the mod is not used next time the game starts
-            if (this.Locale != null && LocaleHelper.IsBuiltIn(this.Locale)) {
-                ModSettings.InterfaceSettings.currentLocale = this.Locale;
-                ModSettings.InterfaceSettings.locale = this.Locale;
+            if (this.Locale != null && this.runtimeContainer.LocaleHelper.IsBuiltIn(this.Locale)) {
+                this.runtimeContainer.IntSetting.currentLocale = this.Locale;
+                this.runtimeContainer.IntSetting.locale = this.Locale;
             } else {
-                ModSettings.InterfaceSettings.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-                ModSettings.InterfaceSettings.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                this.runtimeContainer.IntSetting.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                this.runtimeContainer.IntSetting.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             }
-            ModSettings.InterfaceSettings.ApplyAndSave();
+            this.runtimeContainer.IntSetting.ApplyAndSave();
         } catch (Exception ex) {
-            Mod.Logger.LogCritical(this.GetType(),
-                                   LoggingConstants.FailedTo,
-                                   [nameof(HandleLocaleOnUnLoad), ex]);
+            this.runtimeContainer.Logger.LogCritical(this.GetType(),
+                                                     LoggingConstants.FailedTo,
+                                                     [nameof(HandleLocaleOnUnLoad), ex]);
         }
     }
 }

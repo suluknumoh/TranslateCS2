@@ -1,15 +1,19 @@
 using System.IO;
 
-using Colossal.PSI.Environment;
-
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Containers;
 
 namespace TranslateCS2.Mod.Helpers;
 /// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
-internal static class FileSystemHelper {
+public class FileSystemHelper {
+    private readonly IModRuntimeContainer runtimeContainer;
     // has to end with a forward-slash!
-    public static string DataFolder { get; } = $"{EnvPath.kUserDataPath}/{ModConstants.ModsData}/{ModConstants.Name}/";
-    public static void CreateIfNotExists() {
-        Directory.CreateDirectory(DataFolder);
+    public string DataFolder => $"{this.runtimeContainer.UserDataPath}/{ModConstants.ModsData}/{ModConstants.Name}/";
+    public FileSystemHelper(IModRuntimeContainer runtimeContainer) {
+        this.runtimeContainer = runtimeContainer;
+        this.CreateIfNotExists();
+    }
+    private void CreateIfNotExists() {
+        Directory.CreateDirectory(this.DataFolder);
     }
 }

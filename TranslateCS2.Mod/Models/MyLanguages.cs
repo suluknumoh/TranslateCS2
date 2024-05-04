@@ -4,13 +4,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using Colossal.IO.AssetDatabase.Internal;
-using Colossal.Localization;
-
-using Game.SceneFlow;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
 
@@ -18,16 +17,16 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 internal class MyLanguages {
-    private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
-    public static MyLanguages Instance { get; } = new MyLanguages();
-
-    private readonly Dictionary<SystemLanguage, MyLanguage> Dict = [];
-    public int LanguageCount => this.Dict.Count;
+    private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+    private static MyLanguages? INSTANCE;
+    private readonly IModRuntimeContainer runtimeContainer;
+    public Dictionary<SystemLanguage, MyLanguage> LanguageDictionary { get; } = [];
+    public int LanguageCount => this.LanguageDictionary.Count;
     public int FlavorCountOfAllLanguages {
         get {
             int count = 0;
             if (this.LanguageCount > 0) {
-                this.Dict.Values.ForEach(item => count += item.FlavorCount);
+                this.LanguageDictionary.Values.ForEach(item => count += item.FlavorCount);
             }
             return count;
         }
@@ -36,7 +35,7 @@ internal class MyLanguages {
         get {
             long count = 0;
             if (this.LanguageCount > 0) {
-                this.Dict.Values.ForEach(item => count += item.EntryCountOfAllFlavors);
+                this.LanguageDictionary.Values.ForEach(item => count += item.EntryCountOfAllFlavors);
             }
             return count;
         }
@@ -44,74 +43,38 @@ internal class MyLanguages {
     public IList<TranslationFile> Erroneous { get; } = [];
     public bool HasErroneous => this.Erroneous.Count > 0;
     private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
-    private MyLanguages() {
+    private MyLanguages(IModRuntimeContainer runtimeContainer) {
+        this.runtimeContainer = runtimeContainer;
         this.Init();
     }
 
     private void Init() {
-        IEnumerable<SystemLanguage> languages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-        foreach (CultureInfo culture in cultures) {
-            foreach (SystemLanguage language in languages) {
-                string? comparator = null;
-                switch (language) {
-                    case SystemLanguage.Chinese:
-                        // i think i cant handle it, because chinese simplified and chinese traditional are present
-                        continue;
-                    case SystemLanguage.SerboCroatian:
-                        if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
-                            || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
-                        ) {
-                            this.AddToDictionary(culture, language);
-                        }
-                        continue;
-                    case SystemLanguage.ChineseSimplified:
-                        comparator = LangConstants.ChineseSimplified;
-                        break;
-                    case SystemLanguage.ChineseTraditional:
-                        comparator = LangConstants.ChineseTraditional;
-                        break;
-                    default:
-                        comparator = language.ToString();
-                        break;
-                }
-                if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
-                    this.AddToDictionary(culture, language);
-                }
-            }
-        }
-        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.Dict) {
-            entry.Value.Init();
-        }
-    }
-
-    private void AddToDictionary(CultureInfo culture, SystemLanguage language) {
-        if (this.Dict.TryGetValue(language, out MyLanguage? country) && country != null) {
-            country.CultureInfos.Add(culture);
-        } else {
-            country = new MyLanguage(language);
-            country.CultureInfos.Add(culture);
-            this.Dict.Add(language, country);
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.LocaleHelper.GetSystemLanguageCulturesMapping(false);
+        foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
+            MyLanguage language = new MyLanguage(entry.Key, this.runtimeContainer);
+            language.CultureInfos.AddRange(entry.Value);
+            language.Init();
+            this.LanguageDictionary.Add(entry.Key, language);
         }
     }
 
     public void ReadFiles() {
-        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(FileSystemHelper.DataFolder, ModConstants.JsonSearchPattern);
+        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(this.runtimeContainer.FileSystemHelper.DataFolder, ModConstants.JsonSearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
             try {
                 string localeIdPre = translationFilePath
-                    .Replace(FileSystemHelper.DataFolder, String.Empty)
+                    .Replace(this.runtimeContainer.FileSystemHelper.DataFolder, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
-                string localeId = LocaleHelper.CorrectLocaleId(localeIdPre);
+                string localeId = this.runtimeContainer.LocaleHelper.CorrectLocaleId(localeIdPre);
                 MyLanguage? language = this.GetLanguage(localeId);
                 if (language == null) {
                     continue;
                 }
                 CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
                 if (cultureInfo == null) {
-                    Mod.Logger.LogError(this.GetType(),
-                                    LoggingConstants.NoCultureInfo,
-                                    [translationFilePath, localeId, language]);
+                    this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                           LoggingConstants.NoCultureInfo,
+                                                           [translationFilePath, localeId, language]);
                     continue;
                 }
                 string localeName = cultureInfo.NativeName;
@@ -122,20 +85,20 @@ internal class MyLanguages {
                         localeName += $" ({LangConstants.Cyrillic})";
                     }
                 }
-                TranslationFile translationFile = new TranslationFile(localeId, localeName, translationFilePath);
+                TranslationFile translationFile = new TranslationFile(this.runtimeContainer, localeId, localeName, translationFilePath);
                 if (!translationFile.IsOK) {
                     this.Erroneous.Add(translationFile);
                 }
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {
-                Mod.Logger.LogError(this.GetType(),
-                                    LoggingConstants.FailedTo,
-                                    [nameof(ReadFiles), translationFilePath, ex]);
+                this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                       LoggingConstants.FailedTo,
+                                                       [nameof(ReadFiles), translationFilePath, ex]);
             }
         }
     }
     private MyLanguage? GetLanguage(string localeId) {
-        foreach (MyLanguage country in this.Dict.Values) {
+        foreach (MyLanguage country in this.LanguageDictionary.Values) {
             IEnumerable<CultureInfo> cis = country.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
                 return country;
@@ -144,14 +107,14 @@ internal class MyLanguages {
         return null;
     }
     public MyLanguage? GetLanguage(SystemLanguage systemLanguage) {
-        if (this.Dict.TryGetValue(systemLanguage, out MyLanguage? language) && language != null) {
+        if (this.LanguageDictionary.TryGetValue(systemLanguage, out MyLanguage? language) && language != null) {
             return language;
         }
         return null;
     }
 
     public void Load() {
-        foreach (MyLanguage language in this.Dict.Values) {
+        foreach (MyLanguage language in this.LanguageDictionary.Values) {
             if (language.IsBuiltIn || !language.HasFlavors) {
                 continue;
             }
@@ -161,9 +124,9 @@ internal class MyLanguages {
                 this.TryToAddSource(language, flavor, true);
                 this.AddToFlavorMapping(language.SystemLanguage, flavor.LocaleId);
             } catch (Exception ex) {
-                Mod.Logger.LogError(this.GetType(),
-                                    LoggingConstants.FailedTo,
-                                    [nameof(Load), ex, language]);
+                this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                       LoggingConstants.FailedTo,
+                                                       [nameof(Load), ex, language]);
             }
         }
     }
@@ -171,7 +134,7 @@ internal class MyLanguages {
     public void ReLoad() {
         try {
             this.Erroneous.Clear();
-            foreach (MyLanguage language in this.Dict.Values) {
+            foreach (MyLanguage language in this.LanguageDictionary.Values) {
                 this.FlavorMapping.TryGetValue(language.SystemLanguage, out string? localeId);
                 localeId ??= DropDownItemsHelper.None;
                 foreach (TranslationFile translationFile in language.Flavors) {
@@ -185,23 +148,23 @@ internal class MyLanguages {
                             this.TryToAddSource(language, translationFile);
                         }
                     } catch (Exception ex) {
-                        Mod.Logger.LogError(this.GetType(),
-                                            LoggingConstants.FailedTo,
-                                            [nameof(ReLoad), ex, localeId, language, translationFile]);
+                        this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                               LoggingConstants.FailedTo,
+                                                               [nameof(ReLoad), ex, localeId, language, translationFile]);
                     }
                 }
             }
         } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(),
-                                LoggingConstants.FailedTo,
-                                [nameof(ReLoad), ex]);
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(ReLoad), ex]);
         }
     }
 
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine($"{nameof(MyLanguages)}: {this.Dict.Count}");
-        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.Dict) {
+        builder.AppendLine($"{nameof(MyLanguages)}: {this.LanguageDictionary.Count}");
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.LanguageDictionary) {
             builder.AppendLine($"{entry.Key}: {entry.Value}");
         }
         return builder.ToString();
@@ -221,33 +184,33 @@ internal class MyLanguages {
                 this.TryToAddSource(language, flavor);
             }
         } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(),
-                                LoggingConstants.FailedTo,
-                                [nameof(FlavorChanged), ex, language]);
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(FlavorChanged), ex, language]);
         }
     }
     private void TryToAddLocale(MyLanguage language) {
         try {
-            LocManager.AddLocale(language.ID,
-                                 language.SystemLanguage,
-                                 language.Name);
+            this.runtimeContainer.LocManager?.AddLocale(language.ID,
+                                                        language.SystemLanguage,
+                                                        language.Name);
         } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(),
-                                LoggingConstants.FailedTo,
-                                [nameof(TryToAddLocale), ex, language]);
-            LocManager.RemoveLocale(language.ID);
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(TryToAddLocale), ex, language]);
+            this.runtimeContainer.LocManager?.RemoveLocale(language.ID);
             throw;
         }
     }
     private void TryToAddSource(MyLanguage language, TranslationFile translationFile, bool reThrow = false) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            LocManager.AddSource(language.ID,
-                                 translationFile);
+            this.runtimeContainer.LocManager?.AddSource(language.ID,
+                                                        translationFile);
         } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(),
-                                LoggingConstants.FailedTo,
-                                [nameof(TryToAddSource), ex, translationFile]);
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(TryToAddSource), ex, translationFile]);
             this.TryToRemoveSource(language, translationFile);
             if (reThrow) {
                 throw;
@@ -257,16 +220,28 @@ internal class MyLanguages {
     private void TryToRemoveSource(MyLanguage language, TranslationFile translationFile) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            LocManager.RemoveSource(language.ID,
-                                    translationFile);
+            this.runtimeContainer.LocManager?.RemoveSource(language.ID,
+                                                           translationFile);
         } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(),
-                                LoggingConstants.FailedTo,
-                                [nameof(TryToRemoveSource), ex, translationFile]);
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(TryToRemoveSource), ex, translationFile]);
         }
     }
     private void AddToFlavorMapping(SystemLanguage systemLanguage, string localeId) {
         this.FlavorMapping.Remove(systemLanguage);
         this.FlavorMapping.Add(systemLanguage, localeId);
+    }
+
+    public static MyLanguages GetInstance(IModRuntimeContainer runtimeContainer) {
+        if (INSTANCE == null) {
+            semaphore.Wait();
+            try {
+                INSTANCE ??= new MyLanguages(runtimeContainer);
+            } finally {
+                semaphore.Release();
+            }
+        }
+        return INSTANCE;
     }
 }

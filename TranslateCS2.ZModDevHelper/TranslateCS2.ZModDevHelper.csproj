@@ -2,7 +2,7 @@
 
 
     <!-- has to be the very first import -->
-    <Import Project="..\TranslateCS2.Inf\Properties\ModAndModDevHelper.props"/>
+    <Import Project="..\TranslateCS2.Inf\Properties\ModAndModDevHelper.props" />
 
 
     <PropertyGroup>
@@ -105,8 +105,9 @@
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0" />
     </ItemGroup>
 
+
     <ItemGroup>
-      <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
+      <ProjectReference Include="..\TranslateCS2.Mod\TranslateCS2.Mod.csproj" />
     </ItemGroup>
 
     <ItemGroup>

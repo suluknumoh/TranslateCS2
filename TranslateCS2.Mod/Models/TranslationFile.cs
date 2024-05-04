@@ -9,10 +9,12 @@ using Colossal;
 using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Models;
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
+    private readonly IModRuntimeContainer runtimeContainer;
     private string Uniquer { get; } = ModConstants.Name;
     private Dictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
@@ -28,7 +30,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     }
     public int EntryCount => this.dictionary == null ? 0 : this.dictionary.Count;
     public string Path { get; }
-    public TranslationFile(string localeId, string localeName, string path) {
+    public TranslationFile(IModRuntimeContainer runtimeContainer, string localeId, string localeName, string path) {
+        this.runtimeContainer = runtimeContainer;
         this.LocaleId = localeId;
         this.Path = path;
         this.ReadJson();
@@ -51,7 +54,9 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
                 return true;
             }
         } catch (Exception ex) {
-            Mod.Logger.LogError(this.GetType(), LoggingConstants.FailedTo, [nameof(ReadJson), ex, this]);
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(ReadJson), ex, this]);
         }
         return false;
     }

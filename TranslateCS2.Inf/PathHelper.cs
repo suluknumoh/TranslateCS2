@@ -3,10 +3,11 @@ using System.IO;
 
 namespace TranslateCS2.Inf;
 public static class PathHelper {
+    public static string UserDataPath { get; } = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low",
+                                                              "Colossal Order",
+                                                              "Cities Skylines II");
     public static string? TryToGetModsPath() {
-        string general = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low",
-                                      "Colossal Order",
-                                      "Cities Skylines II",
+        string general = Path.Combine(UserDataPath,
                                       ModConstants.ModsData);
         if (Directory.Exists(general)) {
             string specific = Path.Combine(general, ModConstants.Name);

@@ -4,17 +4,18 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-using Colossal.PSI.Environment;
-
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Containers;
+
+using UnityEngine;
 
 namespace TranslateCS2.Mod.Helpers;
-internal static class LocaleHelper {
-    private static IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
-    static LocaleHelper() {
+public class LocaleHelper {
+    private IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
+    public LocaleHelper(IModRuntimeContainer runtimeContainer) {
         Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash
-        string path = $"{EnvPath.kStreamingDataPath}/Data~/";
+        string path = $"{runtimeContainer.StreamingDataPath}/Data~/";
         IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);
         foreach (string? locFile in locFiles) {
             string locale =
@@ -23,10 +24,10 @@ internal static class LocaleHelper {
                 .Replace(ModConstants.LocExtension, String.Empty);
             dictionary.Add(locale.ToLower(), locale);
         }
-        LowerCaseToBuiltIn = dictionary;
+        this.LowerCaseToBuiltIn = dictionary;
     }
-    public static string CorrectLocaleId(string localeId) {
-        if (LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
+    public string CorrectLocaleId(string localeId) {
+        if (this.LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
             return ret;
         }
         IEnumerable<CultureInfo> cis = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
@@ -35,7 +36,63 @@ internal static class LocaleHelper {
         }
         return localeId;
     }
-    public static bool IsBuiltIn(string localeId) {
-        return LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
+    public bool IsBuiltIn(string localeId) {
+        return this.LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
+    }
+    public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping(bool doubleCheck) {
+        Dictionary<SystemLanguage, IList<CultureInfo>> systemLanguageCulturesMapping = [];
+        IEnumerable<SystemLanguage> languages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
+        CultureInfo[] cultures =
+            CultureInfo
+                .GetCultures(CultureTypes.AllCultures)
+                .ToArray();
+        if (doubleCheck) {
+            cultures =
+                cultures
+                    .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
+                    .ToArray();
+        }
+        foreach (CultureInfo culture in cultures) {
+            foreach (SystemLanguage language in languages) {
+                string? comparator = null;
+                switch (language) {
+                    case SystemLanguage.Chinese:
+                        // i think i cant handle it, because chinese simplified and chinese traditional are present
+                        continue;
+                    case SystemLanguage.SerboCroatian:
+                        if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
+                            || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
+                        ) {
+                            this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                        }
+                        continue;
+                    case SystemLanguage.ChineseSimplified:
+                        comparator = LangConstants.ChineseSimplified;
+                        break;
+                    case SystemLanguage.ChineseTraditional:
+                        comparator = LangConstants.ChineseTraditional;
+                        break;
+                    default:
+                        comparator = language.ToString();
+                        break;
+                }
+                if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
+                    this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                }
+            }
+        }
+
+
+
+        return systemLanguageCulturesMapping;
+    }
+    private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary, CultureInfo culture, SystemLanguage language) {
+        if (dictionary.TryGetValue(language, out IList<CultureInfo>? cultureInfos) && cultureInfos != null) {
+            cultureInfos.Add(culture);
+        } else {
+            cultureInfos = [];
+            cultureInfos.Add(culture);
+            dictionary.Add(language, cultureInfos);
+        }
     }
 }

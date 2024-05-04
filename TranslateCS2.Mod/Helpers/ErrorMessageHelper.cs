@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Colossal.Localization;
-
-using Game.SceneFlow;
-
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Helpers;
-internal static class ErrorMessageHelper {
-    private static readonly LocalizationManager LocManager = GameManager.instance.localizationManager;
-    private static string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
-    public static void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
+public class ErrorMessageHelper {
+    private readonly IModRuntimeContainer runtimeContainer;
+    public ErrorMessageHelper(IModRuntimeContainer runtimeContainer) {
+        this.runtimeContainer = runtimeContainer;
+    }
+    private string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
+    internal void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(Intro);
+        builder.AppendLine(this.Intro);
         builder.Append($"the following provided translationfiles are corrupt");
         if (missing) {
             builder.Append($" or got deleted");
@@ -35,24 +35,24 @@ internal static class ErrorMessageHelper {
         if (missing) {
             builder.AppendLine($"you should be able to continue with the caveat that the previous loaded translations will be used");
         } else {
-            builder.AppendLine($"you should be able to continue with the caveat that the affected translations will use the fallback-language '{LocManager.fallbackLocaleId}'");
+            builder.AppendLine($"you should be able to continue with the caveat that the affected translations will use the fallback-language '{this.runtimeContainer?.LocManager?.fallbackLocaleId}'");
         }
-        SwitchAndDisplay(builder);
-        Mod.Logger.LogError(typeof(ErrorMessageHelper), builder.ToString());
+        this.SwitchAndDisplay(builder);
+        this.runtimeContainer.Logger?.LogError(typeof(ErrorMessageHelper), builder.ToString());
     }
-    public static void DisplayErrorMessageFailedToGenerateJson() {
+    public void DisplayErrorMessageFailedToGenerateJson() {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(Intro);
+        builder.AppendLine(this.Intro);
         builder.AppendLine($"could not write");
         builder.AppendLine($"'{ModConstants.ModExportKeyValueJsonName}'");
         builder.AppendLine($"into");
-        builder.AppendLine($"'{FileSystemHelper.DataFolder}'");
+        builder.AppendLine($"'{this.runtimeContainer.UserDataPath}'");
         builder.AppendLine("you should be able to continue");
-        SwitchAndDisplay(builder);
+        this.SwitchAndDisplay(builder);
     }
-    private static void SwitchAndDisplay(object obj) {
-        Mod.Logger.SetShowsErrorsInUI(true);
-        Mod.Logger.Error(obj);
-        Mod.Logger.SetShowsErrorsInUI(false);
+    private void SwitchAndDisplay(object obj) {
+        this.runtimeContainer.Logger?.SetShowsErrorsInUI(true);
+        this.runtimeContainer.Logger?.Error(obj);
+        this.runtimeContainer.Logger?.SetShowsErrorsInUI(false);
     }
 }

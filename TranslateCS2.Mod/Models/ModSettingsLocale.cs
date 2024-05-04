@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using Colossal;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Helpers;
+using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Properties.I18N;
 
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 internal class ModSettingsLocale : IDictionarySource {
+    private readonly IModRuntimeContainer runtimeContainer;
     private readonly Dictionary<string, string> readEntriesDictionary = [];
     public Dictionary<string, string> Dictionary = [];
-    private static MyLanguages Languages { get; } = MyLanguages.Instance;
+    private readonly MyLanguages languages;
     private readonly ModSettings modSettings;
-    public ModSettingsLocale(ModSettings setting) {
+    public ModSettingsLocale(ModSettings setting, IModRuntimeContainer runtimeContainer, MyLanguages languages) {
         this.modSettings = setting;
+        this.runtimeContainer = runtimeContainer;
         this.modSettings.SettingsLocale = this;
+        this.languages = languages;
         this.InitDictionary();
     }
 
@@ -29,13 +32,13 @@ internal class ModSettingsLocale : IDictionarySource {
         // reload-group
         this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.ReloadGroup), I18NMod.GroupReloadTitle, true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.ReloadLanguages)), I18NMod.GroupReloadButtonReloadLabel, true);
-        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ReloadLanguages)), String.Format(I18NMod.GroupReloadButtonReloadDescription, FileSystemHelper.DataFolder), true);
+        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ReloadLanguages)), String.Format(I18NMod.GroupReloadButtonReloadDescription, this.runtimeContainer.FileSystemHelper.DataFolder), true);
         this.AddToDictionary(this.modSettings.GetOptionWarningLocaleID(nameof(ModSettings.ReloadLanguages)), I18NMod.GroupReloadButtonReloadWarning, true);
 
         // generate-group
         this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.GenerateGroup), I18NMod.GroupGenerateTitle, true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)), I18NMod.GroupGenerateButtonGenerateLabel, true);
-        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)), String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, FileSystemHelper.DataFolder), true);
+        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)), String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.FileSystemHelper.DataFolder), true);
 
         // flavor-group
         this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.FlavorGroup), I18NMod.GroupFlavorTitle, true);
@@ -159,7 +162,7 @@ internal class ModSettingsLocale : IDictionarySource {
         return $"{messagePre} {param}";
     }
     private string GetLanguageName(SystemLanguage systemLanguage) {
-        MyLanguage? language = Languages.GetLanguage(systemLanguage);
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         if (language == null) {
             return systemLanguage.ToString();
         }
