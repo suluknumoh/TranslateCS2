@@ -1,0 +1,23 @@
+<Project>
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <NeutralLanguage>en</NeutralLanguage>
+        <!--
+            AppendTargetFrameworkToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+        -->
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+        <!--
+            AppendRuntimeIdentifierToOutputPath has to be 'false'
+            the output directory structures are as follows
+            \bin\Debug
+            \bin\Release
+        -->
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+</Project>

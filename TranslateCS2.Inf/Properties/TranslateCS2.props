@@ -1,26 +1,11 @@
 <Project>
+
+
+    <Import Project="General.props"/>
+
+
     <PropertyGroup>
-        <ImplicitUsings>disable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <NeutralLanguage>en</NeutralLanguage>
-        <LangVersion>latest</LangVersion>
         <ProjectAssetsDir>$(ProjectDir)Assets</ProjectAssetsDir>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
-        <!--
-            AppendTargetFrameworkToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-        -->
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-
-        <!--
-            AppendRuntimeIdentifierToOutputPath has to be 'false'
-            the output directory structures are as follows
-            \bin\Debug
-            \bin\Release
-        -->
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-
     </PropertyGroup>
 </Project>

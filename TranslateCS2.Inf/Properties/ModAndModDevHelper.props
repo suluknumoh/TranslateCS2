@@ -1,0 +1,23 @@
+<Project>
+
+
+    <Import Project="General.props"/>
+
+
+    <PropertyGroup>
+
+        <TargetFramework>net472</TargetFramework>
+
+        <!--
+            INFO: to publish this mod,
+                fill/change README.md if needed
+                fill/change CHANGELOG.CURRENT.md
+                set this projects AssemblyVersion to the desired ones
+        -->
+        <!-- assemblyversion is set to the publishconfigurations ModVersion via MyMod.targets-->
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+
+        <!--The folder where Game.dll is located. Set it only if the game is not installed in the default location, otherwise keep it empty-->
+        <CustomManagedPath>D:\Games\Steam\steamapps\common\Cities Skylines II\Cities2_Data\Managed</CustomManagedPath>
+    </PropertyGroup>
+</Project>

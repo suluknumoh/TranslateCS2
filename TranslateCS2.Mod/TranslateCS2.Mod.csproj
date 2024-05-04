@@ -1,25 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
+    <!-- has to be the very first import -->
+    <Import Project="..\TranslateCS2.Inf\Properties\ModAndModDevHelper.props"/>
+
+
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFramework>net472</TargetFramework>
         <Configurations>Debug;Release</Configurations>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>disable</ImplicitUsings>
+
 
         <!--
-            INFO: to publish this mod,
-                fill/change README.md if needed
-                fill/change CHANGELOG.CURRENT.md
-                set this projects AssemblyVersion to the desired ones
+            INFO: Very Important:
+            for
+                AssemblyVersion
+                and
+                CustomManagedPath
+            see imported
+                'ModAndModDevHelper.props'
         -->
-        <!-- assemblyversion is set to the publishconfigurations ModVersion via MyMod.targets-->
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
 
-        <!--The folder where Game.dll is located. Set it only if the game is not installed in the default location, otherwise keep it empty-->
-        <CustomManagedPath>D:\Games\Steam\steamapps\common\Cities Skylines II\Cities2_Data\Managed</CustomManagedPath>
-        
+
         <!--Path to the text file where PDX account data is stored which is required to publish the mod-->
         <!--Keep it outside of project in order to not commit it or share accidentally-->
         <!--The file should contain 2 lines:-->

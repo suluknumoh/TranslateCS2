@@ -1,15 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
 
+    <!-- has to be the very first import -->
+    <Import Project="..\TranslateCS2.Inf\Properties\ModAndModDevHelper.props"/>
+
+
+    <PropertyGroup>
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <CustomManagedPath>D:\Games\Steam\steamapps\common\Cities Skylines II\Cities2_Data\Managed</CustomManagedPath>
     </PropertyGroup>
+
+
     <ItemGroup>
         <Reference Include="mscorlib">
             <HintPath>$(CustomManagedPath)\mscorlib.dll</HintPath>
@@ -20,6 +21,8 @@
             <Private>true</Private>
         </Reference>
     </ItemGroup>
+
+
     <ItemGroup>
         <Reference Include="Game">
             <HintPath>$(CustomManagedPath)\Game.dll</HintPath>
@@ -93,6 +96,8 @@
             <Private>true</Private>
         </Reference>
     </ItemGroup>
+
+
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.2" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
