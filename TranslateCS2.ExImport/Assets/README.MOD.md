@@ -75,32 +75,32 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 ## Afrikaans
 * af - Afrikaans
-* af-ZA - Afrikaans (Suid-Afrika)
+* af-ZA - Afrikaans (South Africa)
 
 
 ## Arabic
 * ar - Arabic
-* ar-SA - Arabic (Saudi Arabia)
-* ar-IQ - Arabic (Iraq)
-* ar-EG - Arabic (Egypt)
-* ar-LY - Arabic (Libya)
-* ar-DZ - Arabic (Algeria)
-* ar-MA - Arabic (Morocco)
-* ar-TN - Arabic (Tunisia)
-* ar-OM - Arabic (Oman)
-* ar-YE - Arabic (Yemen)
-* ar-SY - Arabic (Syria)
-* ar-JO - Arabic (Jordan)
-* ar-LB - Arabic (Lebanon)
-* ar-KW - Arabic (Kuwait)
 * ar-AE - Arabic (United Arab Emirates)
 * ar-BH - Arabic (Bahrain)
+* ar-DZ - Arabic (Algeria)
+* ar-EG - Arabic (Egypt)
+* ar-IQ - Arabic (Iraq)
+* ar-JO - Arabic (Jordan)
+* ar-KW - Arabic (Kuwait)
+* ar-LB - Arabic (Lebanon)
+* ar-LY - Arabic (Libya)
+* ar-MA - Arabic (Morocco)
+* ar-OM - Arabic (Oman)
 * ar-QA - Arabic (Qatar)
+* ar-SA - Arabic (Saudi Arabia)
+* ar-SY - Arabic (Syria)
+* ar-TN - Arabic (Tunisia)
+* ar-YE - Arabic (Yemen)
 
 
 ## Basque
-* eu - euskara
-* eu-ES - euskara (Espainia)
+* eu - Basque
+* eu-ES - Basque (Basque)
 
 
 ## Belarusian
@@ -115,65 +115,63 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 ## Catalan
 * ca - Catalan
-* ca-ES - Catalan (Spain)
-* ca-ES-valencia - Catalan (Spain)
+* ca-ES - Catalan (Catalan)
 
 
 ## ChineseSimplified
+* zh-CN - Chinese (Simplified, China)
 * zh-Hans - Chinese (Simplified)
-* zh-CHS - Chinese (Simplified) Legacy
-* zh-CN - Chinese (Simplified)
 * zh-SG - Chinese (Simplified, Singapore)
-* zh - Chinese (Simplified)
+* zh-CHS - Chinese (Simplified) Legacy
 
 
 ## ChineseTraditional
-* zh-TW - Chinese (Traditional)
-* zh-HK - Chinese (Traditional, Hong Kong SAR China)
-* zh-MO - Chinese (Traditional, Macau SAR China)
 * zh-Hant - Chinese (Traditional)
+* zh-HK - Chinese (Traditional, Hong Kong SAR)
+* zh-MO - Chinese (Traditional, Macao SAR)
+* zh-TW - Chinese (Traditional, Taiwan)
 * zh-CHT - Chinese (Traditional) Legacy
 
 
 ## Czech
 * cs - Czech
-* cs-CZ - Czech (Czech Republic)
+* cs-CZ - Czech (Czechia)
 
 
 ## Danish
-* da - dansk
-* da-DK - dansk (Danmark)
+* da - Danish
+* da-DK - Danish (Denmark)
 
 
 ## Dutch
-* nl - Nederlands
-* nl-NL - Nederlands (Nederland)
+* nl - Dutch
 * nl-BE - Dutch (Belgium)
+* nl-NL - Dutch (Netherlands)
 
 
 ## English
 * en - English
-* en-US - English (United States)
-* en-GB - English (United Kingdom)
 * en-AU - English (Australia)
-* en-CA - English (Canada)
-* en-NZ - English (New Zealand)
-* en-IE - English (Ireland)
-* en-ZA - English (South Africa)
-* en-JM - English (Jamaica)
 * en-BZ - English (Belize)
-* en-TT - English (Trinidad and Tobago)
-* en-ZW - English (Zimbabwe)
-* en-PH - English (Philippines)
-* en-HK - English (Hong Kong SAR China)
+* en-CA - English (Canada)
+* en-GB - English (United Kingdom)
+* en-HK - English (Hong Kong SAR)
+* en-IE - English (Ireland)
 * en-IN - English (India)
+* en-JM - English (Jamaica)
 * en-MY - English (Malaysia)
+* en-NZ - English (New Zealand)
+* en-PH - English (Philippines)
 * en-SG - English (Singapore)
+* en-TT - English (Trinidad and Tobago)
+* en-US - English (United States)
+* en-ZA - English (South Africa)
+* en-ZW - English (Zimbabwe)
 
 
 ## Estonian
-* et - eesti
-* et-EE - eesti (Eesti)
+* et - Estonian
+* et-EE - Estonian (Estonia)
 
 
 ## Faroese
@@ -182,35 +180,35 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 
 ## Finnish
-* fi - suomi
-* fi-FI - suomi (Suomi)
+* fi - Finnish
+* fi-FI - Finnish (Finland)
 
 
 ## French
 * fr - French
-* fr-FR - French (France)
 * fr-BE - French (Belgium)
 * fr-CA - French (Canada)
+* fr-CD - French Congo (DRC)
 * fr-CH - French (Switzerland)
-* fr-LU - French (Luxembourg)
-* fr-MC - French (Monaco)
-* fr-RE - French
-* fr-CD - French (Congo - Kinshasa)
-* fr-SN - French (Senegal)
+* fr-CI - French (Côte d’Ivoire)
 * fr-CM - French (Cameroon)
-* fr-CI - French
-* fr-ML - French (Mali)
-* fr-MA - French (Morocco)
+* fr-FR - French (France)
 * fr-HT - French (Haiti)
+* fr-LU - French (Luxembourg)
+* fr-MA - French (Morocco)
+* fr-MC - French (Monaco)
+* fr-ML - French (Mali)
+* fr-RE - French (Réunion)
+* fr-SN - French (Senegal)
 
 
 ## German
-* de - Deutsch
-* de-DE - Deutsch (Deutschland)
-* de-CH - Deutsch (Schweiz)
+* de - German
 * de-AT - German (Austria)
-* de-LU - Deutsch (Luxemburg)
-* de-LI - Deutsch (Liechtenstein)
+* de-CH - German (Switzerland)
+* de-DE - German (Germany)
+* de-LI - German (Liechtenstein)
+* de-LU - German (Luxembourg)
 
 
 ## Greek
@@ -229,7 +227,7 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 
 ## Hungarian
-* hu - magyar
+* hu - Hungarian
 * hu-HU - Hungarian (Hungary)
 
 
@@ -239,14 +237,14 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 
 ## Indonesian
-* id - Indonesia
-* id-ID - Indonesia (Indonesia)
+* id - Indonesian
+* id-ID - Indonesian (Indonesia)
 
 
 ## Italian
-* it - italiano
-* it-IT - italiano (Italia)
-* it-CH - italiano (Svizzera)
+* it - Italian
+* it-CH - Italian (Switzerland)
+* it-IT - Italian (Italy)
 
 
 ## Japanese
@@ -256,7 +254,7 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 ## Korean
 * ko - Korean
-* ko-KR - Korean (South Korea)
+* ko-KR - Korean (Korea)
 
 
 ## Latvian
@@ -270,16 +268,16 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 
 ## Norwegian
-* no - norsk
-* nb-NO - nb
-* nn-NO - nynorsk (Noreg)
-* nn - nynorsk
-* nb - Norwegian
+* nb - Norwegian Bokmål
+* nb-NO - Norwegian Bokmål (Norway)
+* nn - Norwegian Nynorsk
+* nn-NO - Norwegian Nynorsk (Norway)
+* no - Norwegian
 
 
 ## Polish
-* pl - polski
-* pl-PL - polski (Polska)
+* pl - Polish
+* pl-PL - Polish (Poland)
 
 
 ## Portuguese
@@ -290,29 +288,29 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 ## Romanian
 * ro - Romanian
-* ro-RO - Romanian (Romania)
 * ro-MD - Romanian (Moldova)
+* ro-RO - Romanian (Romania)
 
 
 ## Russian
 * ru - Russian
-* ru-RU - Russian (Russia)
 * ru-MD - Russian (Moldova)
+* ru-RU - Russian (Russia)
 
 
 ## SerboCroatian
-* hr - hrvatski
-* hr-HR - hrvatski (Hrvatska)
-* hr-BA - hrvatski (Bosna i Hercegovina)
-* sr-Latn-BA - Serbian (Latin, Bosnia and Herzegovina)
-* sr-Cyrl-BA - Serbian (Cyrillic, Bosnia and Herzegovina)
-* sr-Latn-RS - Serbian (Latin, Serbia)
-* sr-Cyrl-RS - Serbian (Cyrillic, Serbia)
-* sr-Latn-ME - Serbian (Latin, Montenegro)
-* sr-Cyrl-ME - Serbian (Cyrillic, Montenegro)
-* sr-Cyrl - Serbian (Cyrillic)
-* sr-Latn - Serbian (Latin)
+* hr - Croatian
+* hr-BA - Croatian (Bosnia and Herzegovina)
+* hr-HR - Croatian (Croatia)
 * sr - Serbian
+* sr-Cyrl - Serbian (Cyrillic)
+* sr-Cyrl-BA - Serbian (Cyrillic, Bosnia and Herzegovina)
+* sr-Cyrl-ME - Serbian (Cyrillic, Montenegro)
+* sr-Cyrl-RS - Serbian (Cyrillic, Serbia)
+* sr-Latn - Serbian (Latin)
+* sr-Latn-BA - Serbian (Latin, Bosnia and Herzegovina)
+* sr-Latn-ME - Serbian (Latin, Montenegro)
+* sr-Latn-RS - Serbian (Latin, Serbia)
 
 
 ## Slovak
@@ -327,33 +325,33 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 ## Spanish
 * es - Spanish
-* es-MX - Spanish (Mexico)
-* es-ES - Spanish (Spain)
-* es-GT - Spanish (Guatemala)
-* es-CR - Spanish (Costa Rica)
-* es-PA - Spanish (Panama)
-* es-DO - Spanish (Dominican Republic)
-* es-VE - Spanish (Venezuela)
-* es-CO - Spanish (Colombia)
-* es-PE - Spanish (Peru)
 * es-AR - Spanish (Argentina)
-* es-EC - Spanish (Ecuador)
-* es-CL - Spanish (Chile)
-* es-UY - Spanish (Uruguay)
-* es-PY - Spanish (Paraguay)
 * es-BO - Spanish (Bolivia)
-* es-SV - Spanish (El Salvador)
-* es-HN - Spanish (Honduras)
-* es-NI - Spanish (Nicaragua)
-* es-PR - Spanish (Puerto Rico)
-* es-US - Spanish (United States)
+* es-CL - Spanish (Chile)
+* es-CO - Spanish (Colombia)
+* es-CR - Spanish (Costa Rica)
 * es-CU - Spanish (Cuba)
+* es-DO - Spanish (Dominican Republic)
+* es-EC - Spanish (Ecuador)
+* es-ES - Spanish (Spain, International Sort)
+* es-GT - Spanish (Guatemala)
+* es-HN - Spanish (Honduras)
+* es-MX - Spanish (Mexico)
+* es-NI - Spanish (Nicaragua)
+* es-PA - Spanish (Panama)
+* es-PE - Spanish (Peru)
+* es-PR - Spanish (Puerto Rico)
+* es-PY - Spanish (Paraguay)
+* es-SV - Spanish (El Salvador)
+* es-US - Spanish (United States)
+* es-UY - Spanish (Uruguay)
+* es-VE - Spanish (Venezuela)
 
 
 ## Swedish
-* sv - svenska
-* sv-SE - svenska (Sverige)
-* sv-FI - svenska (Finland)
+* sv - Swedish
+* sv-FI - Swedish (Finland)
+* sv-SE - Swedish (Sweden)
 
 
 ## Thai
@@ -363,7 +361,7 @@ As long as no other mod is loaded after this one and overwrites the values and a
 
 ## Turkish
 * tr - Turkish
-* tr-TR - Turkish (Turkey)
+* tr-TR - Turkish (Türkiye)
 
 
 ## Ukrainian
