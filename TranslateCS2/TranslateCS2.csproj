@@ -60,14 +60,13 @@
         <WriteLinesToFile File="@(ReadMeFile)" Lines="@(ReadMeContent)" Overwrite="true" />
     </Target>
 
-    <!-- TODO: -->
-    <!--
-    <Target Name="WriteLatest" AfterTargets="WriteReadMe">
+
+
+    <Target Name="WriteLatest" AfterTargets="Publish">
         <ItemGroup>
             <FileToWriteTo Include="$(SolutionDir)latest" />
             <ContentToWrite Include="$(AssemblyVersion)" />
         </ItemGroup>
         <WriteLinesToFile File="@(FileToWriteTo)" Lines="@(ContentToWrite)" Overwrite="true" />
     </Target>
-    -->
 </Project>
