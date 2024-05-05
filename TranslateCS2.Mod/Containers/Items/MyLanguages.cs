@@ -4,21 +4,18 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 
 using Colossal.IO.AssetDatabase.Internal;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers;
-using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Loggers;
+using TranslateCS2.Mod.Models;
 
 using UnityEngine;
 
-namespace TranslateCS2.Mod.Models;
-internal class MyLanguages {
-    private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
-    private static MyLanguages? INSTANCE;
+namespace TranslateCS2.Mod.Containers.Items;
+public class MyLanguages {
+    private static readonly MyLanguages? INSTANCE;
     private readonly IModRuntimeContainer runtimeContainer;
     public Dictionary<SystemLanguage, MyLanguage> LanguageDictionary { get; } = [];
     public int LanguageCount => this.LanguageDictionary.Count;
@@ -40,16 +37,16 @@ internal class MyLanguages {
             return count;
         }
     }
-    public IList<TranslationFile> Erroneous { get; } = [];
+    internal IList<TranslationFile> Erroneous { get; } = [];
     public bool HasErroneous => this.Erroneous.Count > 0;
     private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
-    private MyLanguages(IModRuntimeContainer runtimeContainer) {
+    internal MyLanguages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
         this.Init();
     }
 
     private void Init() {
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.LocaleHelper.GetSystemLanguageCulturesMapping(false);
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping(this.runtimeContainer.DoubleCheck);
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
             MyLanguage language = new MyLanguage(entry.Key, this.runtimeContainer);
             language.CultureInfos.AddRange(entry.Value);
@@ -59,13 +56,13 @@ internal class MyLanguages {
     }
 
     public void ReadFiles() {
-        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(this.runtimeContainer.FileSystemHelper.DataFolder, ModConstants.JsonSearchPattern);
+        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.JsonSearchPattern);
         foreach (string translationFilePath in translationFilePaths) {
             try {
                 string localeIdPre = translationFilePath
-                    .Replace(this.runtimeContainer.FileSystemHelper.DataFolder, String.Empty)
+                    .Replace(this.runtimeContainer.Paths.ModsDataPathSpecific, String.Empty)
                     .Replace(ModConstants.JsonExtension, String.Empty);
-                string localeId = this.runtimeContainer.LocaleHelper.CorrectLocaleId(localeIdPre);
+                string localeId = this.runtimeContainer.Locales.CorrectLocaleId(localeIdPre);
                 MyLanguage? language = this.GetLanguage(localeId);
                 if (language == null) {
                     continue;
@@ -136,7 +133,7 @@ internal class MyLanguages {
             this.Erroneous.Clear();
             foreach (MyLanguage language in this.LanguageDictionary.Values) {
                 this.FlavorMapping.TryGetValue(language.SystemLanguage, out string? localeId);
-                localeId ??= DropDownItemsHelper.None;
+                localeId ??= DropDownItems.None;
                 foreach (TranslationFile translationFile in language.Flavors) {
                     try {
                         this.TryToRemoveSource(language, translationFile);
@@ -231,17 +228,5 @@ internal class MyLanguages {
     private void AddToFlavorMapping(SystemLanguage systemLanguage, string localeId) {
         this.FlavorMapping.Remove(systemLanguage);
         this.FlavorMapping.Add(systemLanguage, localeId);
-    }
-
-    public static MyLanguages GetInstance(IModRuntimeContainer runtimeContainer) {
-        if (INSTANCE == null) {
-            semaphore.Wait();
-            try {
-                INSTANCE ??= new MyLanguages(runtimeContainer);
-            } finally {
-                semaphore.Release();
-            }
-        }
-        return INSTANCE;
     }
 }

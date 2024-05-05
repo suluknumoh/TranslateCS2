@@ -1,25 +1,55 @@
-using Colossal.Localization;
-using Colossal.Logging;
-
-using Game.Settings;
+using System;
+using System.IO;
+using System.Xml;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers;
-using TranslateCS2.Mod.Helpers;
 
 namespace TranslateCS2.ZModDevHelper;
-internal class ModTestRuntimeContainer : IModRuntimeContainer {
-    public ILog? Logger { get; }
-    public LocalizationManager? LocManager { get; }
-    public InterfaceSettings? IntSetting { get; }
-    public string UserDataPath => PathHelper.UserDataPath;
-    public string StreamingDataPath => "D:\\Games\\Steam\\steamapps\\common\\Cities Skylines II\\Cities2_Data\\StreamingAssets";
-    public LocaleHelper LocaleHelper { get; }
-    public FileSystemHelper FileSystemHelper { get; }
-    public ErrorMessageHelper ErrorMessageHelper { get; }
-    public ModTestRuntimeContainer() {
-        this.LocaleHelper = new LocaleHelper(this);
-        this.FileSystemHelper = new FileSystemHelper(this);
-        this.ErrorMessageHelper = new ErrorMessageHelper(this);
+internal class ModTestRuntimeContainer : AModRuntimeContainer {
+    private static string ModAndModDevHelperPropsPath { get; } = "..\\..\\..\\TranslateCS2.Inf\\Properties\\ModAndModDevHelper.props";
+    private static string EnvVariableNameManagedPath { get; } = "CSII_MANAGEDPATH";
+    private static string EnvVariableNameToolPath { get; } = "CSII_TOOLPATH";
+    private static string GameDll { get; } = "Game.dll";
+    private static string ModProps { get; } = "Mod.props";
+
+
+    public ModTestRuntimeContainer() : base(true, new Paths(true,
+                                                                             GetStreamingDataPathFromProps())) { }
+
+
+    private static string GetStreamingDataPathFromProps() {
+        string managedPath = Environment.GetEnvironmentVariable(EnvVariableNameManagedPath, EnvironmentVariableTarget.User);
+        if (ExistsFileInPath(managedPath, GameDll)) {
+            return JustifyPath(managedPath);
+        }
+        string toolPath = Environment.GetEnvironmentVariable(EnvVariableNameToolPath, EnvironmentVariableTarget.User);
+        if (ExistsFileInPath(toolPath, ModProps)) {
+            string modProps = Path.Combine(toolPath, ModProps);
+            string steamDefaultManagedPath = GetPropertyValueFromXml(modProps, ".//SteamDefaultManagedPath");
+            if (ExistsFileInPath(steamDefaultManagedPath, GameDll)) {
+                return JustifyPath(steamDefaultManagedPath);
+            }
+        }
+        string customManagedPath = GetPropertyValueFromXml(ModAndModDevHelperPropsPath, ".//CustomManagedPath");
+        return JustifyPath(customManagedPath);
+    }
+
+    private static string GetPropertyValueFromXml(string path, string query) {
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.Load(path);
+        return xmlDoc.DocumentElement.SelectSingleNode(query).InnerText;
+    }
+    private static bool ExistsFileInPath(string path, string file) {
+        string gameDll = Path.Combine(path, file);
+        return File.Exists(gameDll);
+    }
+    public static string JustifyPath(string path) {
+        return
+            Path
+                .Combine(path,
+                         "..",
+                         "StreamingAssets")
+                .Replace("\\", "/");
     }
 }

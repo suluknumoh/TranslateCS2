@@ -2,10 +2,11 @@ using System.Collections.Generic;
 
 using Game.UI.Widgets;
 
-namespace TranslateCS2.Mod.Helpers;
-internal static class DropDownItemsHelper {
+namespace TranslateCS2.Mod.Containers.Items;
+public class DropDownItems {
     public static string None { get; } = nameof(None).ToLower();
-    public static List<DropdownItem<string>> GetDefault(bool addNone) {
+    internal DropDownItems() { }
+    public List<DropdownItem<string>> GetDefault(bool addNone) {
         List<DropdownItem<string>> flavors = [];
         if (addNone) {
             flavors.Add(new DropdownItem<string>() {

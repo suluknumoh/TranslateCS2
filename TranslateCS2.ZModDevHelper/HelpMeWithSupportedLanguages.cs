@@ -13,14 +13,13 @@ using UnityEngine;
 namespace TranslateCS2.ZModDevHelper;
 
 public class HelpMeWithSupportedLanguages {
-    private readonly ModTestRuntimeContainer runtimeContainer;
     public HelpMeWithSupportedLanguages() {
-        this.runtimeContainer = new ModTestRuntimeContainer();
     }
     [Fact(Skip = "dont help me each time")]
     public void GenerateJsons() {
-        string directoryPath = PathHelper.TryToGetModsPath();
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.LocaleHelper.GetSystemLanguageCulturesMapping(true);
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer();
+        string directoryPath = runtimeContainer.Paths.TryToGetModsPath();
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = runtimeContainer.Locales.GetSystemLanguageCulturesMapping(true);
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
             foreach (CultureInfo supportedLocale in entry.Value) {
                 string content = $"{{ \"Options.SECTION[General]\": \"General ({supportedLocale}.json)\" }}";
@@ -38,7 +37,8 @@ public class HelpMeWithSupportedLanguages {
     /// </summary>
     [Fact(Skip = "dont help me each time")]
     public void GenerateMarkdownList() {
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.LocaleHelper.GetSystemLanguageCulturesMapping(true);
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer();
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = runtimeContainer.Locales.GetSystemLanguageCulturesMapping(true);
         IOrderedEnumerable<KeyValuePair<SystemLanguage, IList<CultureInfo>>> ordered = mapping.OrderBy(item => item.Key.ToString());
         StringBuilder builder = new StringBuilder();
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in ordered) {
@@ -58,8 +58,9 @@ public class HelpMeWithSupportedLanguages {
 
     [Fact(Skip = "dont help me each time")]
     public void MappAbleLocalesSupported() {
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer();
         List<CultureInfo> cis = [];
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.LocaleHelper.GetSystemLanguageCulturesMapping(true);
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = runtimeContainer.Locales.GetSystemLanguageCulturesMapping(true);
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
             cis.AddRange(entry.Value);
         }
@@ -68,5 +69,4 @@ public class HelpMeWithSupportedLanguages {
         text += "\"";
         Assert.NotNull(text);
     }
-
 }

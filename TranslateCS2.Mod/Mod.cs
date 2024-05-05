@@ -9,49 +9,49 @@ using Game.SceneFlow;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers;
+using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod;
 public class Mod : IMod {
     private static ILog Logger { get; } = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
-    private IModRuntimeContainer runtimeContainer;
-    private MyLanguages languages;
-
+    private ModRuntimeContainerHandler runtimeContainerHandler;
     private ModSettings? _modSettings;
     public Mod() { }
     public void OnLoad(UpdateSystem updateSystem) {
         try {
             Logger.LogInfo(this.GetType(), nameof(OnLoad));
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out ExecutableAsset asset)) {
-                this.runtimeContainer = new ModRuntimeContainer(GameManager.instance, Logger);
-                this.languages = MyLanguages.GetInstance(this.runtimeContainer);
+                ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(GameManager.instance, Logger);
+                ModRuntimeContainerHandler.Init(runtimeContainer);
+                this.runtimeContainerHandler = ModRuntimeContainerHandler.Instance;
+                MyLanguages languages = runtimeContainer.Languages;
                 //
                 //
                 // cant be controlled via settings,
                 // cause they have to be loaded after files are read and loaded
-                PerformanceMeasurement performanceMeasurement = new PerformanceMeasurement(this.runtimeContainer, this.languages, false);
+                PerformanceMeasurement performanceMeasurement = new PerformanceMeasurement(this.runtimeContainerHandler, false);
                 performanceMeasurement.Start();
                 //
-                this.languages.ReadFiles();
-                this.languages.Load();
+                languages.ReadFiles();
+                languages.Load();
                 //
                 performanceMeasurement.Stop();
                 //
                 //
-                if (this.languages.HasErroneous) {
-                    this.runtimeContainer.ErrorMessageHelper.DisplayErrorMessageForErroneous(this.languages.Erroneous, false);
+                if (languages.HasErroneous) {
+                    runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(languages.Erroneous, false);
                 }
-                this._modSettings = new ModSettings(this.runtimeContainer, this.languages, this);
+                this._modSettings = new ModSettings(this.runtimeContainerHandler, this);
                 ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this._modSettings,
-                                                                            this.runtimeContainer,
-                                                                            this.languages);
-                this._modSettings.OnFlavorChanged += this.languages.FlavorChanged;
+                                                                            this.runtimeContainerHandler);
+                this._modSettings.OnFlavorChanged += languages.FlavorChanged;
                 this._modSettings.RegisterInOptionsUI();
                 // settings have to be loaded after files are read and loaded
                 AssetDatabase.global.LoadSettings(ModConstants.Name, this._modSettings);
-                this.runtimeContainer.LocManager?.AddSource(this.runtimeContainer.LocManager.fallbackLocaleId,
-                                                            modSettingsLocale);
+                runtimeContainer.LocManager?.AddSource(runtimeContainer.LocManager.fallbackLocaleId,
+                                                       modSettingsLocale);
                 this._modSettings.HandleLocaleOnLoad();
             }
         } catch (Exception ex) {

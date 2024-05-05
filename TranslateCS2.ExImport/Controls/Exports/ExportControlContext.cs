@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -20,6 +21,8 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Controls.Exports;
 internal class ExportControlContext : ABaseViewModel {
+    // here we dont need a streamingDataPath, so its String.Empty
+    private readonly Paths _pathHelper = new Paths(false, String.Empty);
     private readonly IViewConfigurations _viewConfigurations;
     private readonly ExImportService _exportService;
     private readonly string _dialogtitle = I18NExport.DialogTitle;
@@ -141,7 +144,7 @@ internal class ExportControlContext : ABaseViewModel {
 
     private void SelectPathCommandAction() {
         string? path = this.SelectedPath;
-        path ??= PathHelper.TryToGetModsPath();
+        path ??= this._pathHelper.TryToGetModsPath();
         string? selected = ImExportDialogHelper.ShowSaveFileDialog(path,
                                                                    this._dialogtitle,
                                                                    StringHelper.GetNullForEmpty(this.SelectedFileNameProposal),

@@ -1,18 +1,19 @@
 using System.Diagnostics;
 
 using TranslateCS2.Mod.Containers;
+using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Models;
 internal class PerformanceMeasurement {
-    private readonly IModRuntimeContainer runtimeContainer;
+    private readonly ModRuntimeContainerHandler runtimeContainerHandler;
     private readonly bool _measure;
     private readonly MyLanguages _languages;
     private readonly Stopwatch _stopwatch = new Stopwatch();
-    public PerformanceMeasurement(IModRuntimeContainer runtimeContainer, MyLanguages languages, bool measure) {
-        this.runtimeContainer = runtimeContainer;
+    public PerformanceMeasurement(ModRuntimeContainerHandler runtimeContainerHandler, bool measure) {
+        this.runtimeContainerHandler = runtimeContainerHandler;
         this._measure = measure;
-        this._languages = languages;
+        this._languages = runtimeContainerHandler.RuntimeContainer.Languages;
     }
     public void Start() {
         if (this._measure) {
@@ -33,9 +34,9 @@ internal class PerformanceMeasurement {
                 this._languages.EntryCountOfAllFlavorsOfAllLanguages.ToString("N0"),
                 "entries"
             ];
-            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
-                                                  "performance measurement",
-                                                  messageParameters);
+            this.runtimeContainerHandler.RuntimeContainer.Logger?.LogInfo(this.GetType(),
+                                                                          "performance measurement",
+                                                                          messageParameters);
         }
     }
 }

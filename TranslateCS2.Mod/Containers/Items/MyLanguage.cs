@@ -9,17 +9,17 @@ using Colossal.IO.AssetDatabase.Internal;
 using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers;
+using TranslateCS2.Mod.Models;
 
 using UnityEngine;
 
-namespace TranslateCS2.Mod.Models;
-internal class MyLanguage {
+namespace TranslateCS2.Mod.Containers.Items;
+public class MyLanguage {
     private readonly IModRuntimeContainer runtimeContainer;
     public string ID { get; private set; }
     public string Name { get; private set; }
     public string NameEnglish { get; private set; }
-    public IList<TranslationFile> Flavors { get; } = [];
+    internal IList<TranslationFile> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
     public int EntryCountOfAllFlavors {
         get {
@@ -34,15 +34,15 @@ internal class MyLanguage {
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
     public bool HasFlavors => this.Flavors.Any();
-    public MyLanguage(SystemLanguage systemLanguage, IModRuntimeContainer runtimeContainer) {
+    internal MyLanguage(SystemLanguage systemLanguage, IModRuntimeContainer runtimeContainer) {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
     }
     public void Init() {
-        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => this.runtimeContainer.LocaleHelper.IsBuiltIn(ci.Name));
+        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
-            this.ID = this.runtimeContainer.LocaleHelper.CorrectLocaleId(ci.Name);
+            this.ID = this.runtimeContainer.Locales.CorrectLocaleId(ci.Name);
             if (this.SystemLanguage == SystemLanguage.Portuguese) {
                 this.Name = ci.NativeName;
                 this.NameEnglish = ci.EnglishName;
@@ -55,7 +55,7 @@ internal class MyLanguage {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
             if (remaining.Any()) {
                 CultureInfo ci = remaining.First();
-                this.ID = this.runtimeContainer.LocaleHelper.CorrectLocaleId(ci.Name);
+                this.ID = this.runtimeContainer.Locales.CorrectLocaleId(ci.Name);
                 if (SystemLanguage.SerboCroatian == this.SystemLanguage) {
                     this.ID = this.SystemLanguage.ToString();
                     this.Name = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
@@ -113,7 +113,7 @@ internal class MyLanguage {
         return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).Any();
     }
 
-    public TranslationFile GetFlavor(string localeId) {
+    internal TranslationFile GetFlavor(string localeId) {
         return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
     }
 }

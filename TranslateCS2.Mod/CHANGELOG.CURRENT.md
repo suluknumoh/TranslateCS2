@@ -2,3 +2,15 @@
 - display languages english name within this mods settings for labels and descriptions
 - button to reload languages is only visible for developers
 - developers have the ability to generate a .json-file with this mods Keys and Values/Texts/Translations
+- updated supported languages
+- added supported languages:
+    - no - Norwegian
+    - ChineseSimplified
+        - zh-CN - Chinese (Simplified, China)
+        - zh-SG - Chinese (Simplified, Singapore)
+        - zh-CHS - Chinese (Simplified) Legacy
+    - ChineseTraditional
+        - zh-HK - Chinese (Traditional, Hong Kong SAR)
+        - zh-MO - Chinese (Traditional, Macao SAR)
+        - zh-TW - Chinese (Traditional, Taiwan)
+        - zh-CHT - Chinese (Traditional) Legacy

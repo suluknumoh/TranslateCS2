@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.Text;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 
-namespace TranslateCS2.Mod.Helpers;
-public class ErrorMessageHelper {
+namespace TranslateCS2.Mod.Containers.Items;
+public class ErrorMessages {
     private readonly IModRuntimeContainer runtimeContainer;
-    public ErrorMessageHelper(IModRuntimeContainer runtimeContainer) {
+    internal ErrorMessages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
     }
     private string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
@@ -38,7 +37,7 @@ public class ErrorMessageHelper {
             builder.AppendLine($"you should be able to continue with the caveat that the affected translations will use the fallback-language '{this.runtimeContainer?.LocManager?.fallbackLocaleId}'");
         }
         this.SwitchAndDisplay(builder);
-        this.runtimeContainer.Logger?.LogError(typeof(ErrorMessageHelper), builder.ToString());
+        this.runtimeContainer.Logger?.LogError(typeof(ErrorMessages), builder.ToString());
     }
     public void DisplayErrorMessageFailedToGenerateJson() {
         StringBuilder builder = new StringBuilder();
@@ -46,7 +45,7 @@ public class ErrorMessageHelper {
         builder.AppendLine($"could not write");
         builder.AppendLine($"'{ModConstants.ModExportKeyValueJsonName}'");
         builder.AppendLine($"into");
-        builder.AppendLine($"'{this.runtimeContainer.UserDataPath}'");
+        builder.AppendLine($"'{this.runtimeContainer.Paths.UserDataPath}'");
         builder.AppendLine("you should be able to continue");
         this.SwitchAndDisplay(builder);
     }

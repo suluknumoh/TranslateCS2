@@ -5,24 +5,22 @@ using Colossal.PSI.Environment;
 using Game.SceneFlow;
 using Game.Settings;
 
-using TranslateCS2.Mod.Helpers;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Mod.Containers;
-internal class ModRuntimeContainer : IModRuntimeContainer {
+internal class ModRuntimeContainer : AModRuntimeContainer {
     private readonly GameManager gameManager;
-    public ILog? Logger { get; }
-    public LocalizationManager? LocManager => this.gameManager.localizationManager;
-    public InterfaceSettings? IntSetting => this.gameManager.settings.userInterface;
-    public LocaleHelper LocaleHelper { get; }
-    public FileSystemHelper FileSystemHelper { get; }
-    public ErrorMessageHelper ErrorMessageHelper { get; }
-    public string UserDataPath => EnvPath.kUserDataPath;
-    public string StreamingDataPath => EnvPath.kStreamingDataPath;
-    public ModRuntimeContainer(GameManager gameManager, ILog logger) {
+
+
+    public override LocalizationManager? LocManager => this.gameManager.localizationManager;
+    public override InterfaceSettings? IntSetting => this.gameManager.settings.userInterface;
+
+
+    public ModRuntimeContainer(GameManager gameManager, ILog logger) : base(true,
+                                                                            logger,
+                                                                            new Paths(true,
+                                                                                            EnvPath.kStreamingDataPath,
+                                                                                            EnvPath.kUserDataPath)) {
         this.gameManager = gameManager;
-        this.Logger = logger;
-        this.LocaleHelper = new LocaleHelper(this);
-        this.FileSystemHelper = new FileSystemHelper(this);
-        this.ErrorMessageHelper = new ErrorMessageHelper(this);
     }
 }

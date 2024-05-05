@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers;
+using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Models;
@@ -21,6 +22,8 @@ namespace TranslateCS2.Mod.Models;
 [SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
 [SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
 internal partial class ModSettings : ModSetting {
+    [Exclude]
+    private readonly ModRuntimeContainerHandler runtimeContainerHandler;
     [Exclude]
     private readonly IModRuntimeContainer runtimeContainer;
     [Exclude]
@@ -42,9 +45,10 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIHidden]
     public string? PreviousLocale { get; set; }
 
-    public ModSettings(IModRuntimeContainer runtimeContainer, MyLanguages languages, IMod mod) : base(mod) {
-        this.runtimeContainer = runtimeContainer;
-        this.languages = languages;
+    public ModSettings(ModRuntimeContainerHandler runtimeContainerHandler, IMod mod) : base(mod) {
+        this.runtimeContainerHandler = runtimeContainerHandler;
+        this.runtimeContainer = runtimeContainerHandler.RuntimeContainer;
+        this.languages = this.runtimeContainer.Languages;
     }
 
     [Exclude]
@@ -66,7 +70,7 @@ internal partial class ModSettings : ModSetting {
             this.runtimeContainer.IntSetting.locale = this.Locale;
             this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
             if (this.languages.HasErroneous) {
-                this.runtimeContainer.ErrorMessageHelper.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
+                this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
             }
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
@@ -94,10 +98,10 @@ internal partial class ModSettings : ModSetting {
         try {
             try {
                 string json = JsonConvert.SerializeObject(this.SettingsLocale.Dictionary, Formatting.Indented);
-                string path = Path.Combine(this.runtimeContainer.FileSystemHelper.DataFolder, ModConstants.ModExportKeyValueJsonName);
+                string path = Path.Combine(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.ModExportKeyValueJsonName);
                 File.WriteAllText(path, json, Encoding.UTF8);
             } catch (Exception ex) {
-                this.runtimeContainer.ErrorMessageHelper.DisplayErrorMessageFailedToGenerateJson();
+                this.runtimeContainer.ErrorMessages.DisplayErrorMessageFailedToGenerateJson();
                 this.runtimeContainer.Logger.LogError(this.GetType(),
                                                       LoggingConstants.FailedTo,
                                                       [nameof(this.GenerateLocalizationJson), ex]);
@@ -151,7 +155,7 @@ internal partial class ModSettings : ModSetting {
             // dont replicate os lang into this mods settings
             this.runtimeContainer.IntSetting.onSettingsApplied -= this.ApplyAndSaveAlso;
             // reset to os-language, if the mod is not used next time the game starts
-            if (this.Locale != null && this.runtimeContainer.LocaleHelper.IsBuiltIn(this.Locale)) {
+            if (this.Locale != null && this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
                 this.runtimeContainer.IntSetting.currentLocale = this.Locale;
                 this.runtimeContainer.IntSetting.locale = this.Locale;
             } else {

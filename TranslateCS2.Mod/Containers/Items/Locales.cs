@@ -5,17 +5,16 @@ using System.IO;
 using System.Linq;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers;
 
 using UnityEngine;
 
-namespace TranslateCS2.Mod.Helpers;
-public class LocaleHelper {
+namespace TranslateCS2.Mod.Containers.Items;
+public class Locales {
     private IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
-    public LocaleHelper(IModRuntimeContainer runtimeContainer) {
+    internal Locales(IModRuntimeContainer runtimeContainer) {
         Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash
-        string path = $"{runtimeContainer.StreamingDataPath}/Data~/";
+        string path = $"{runtimeContainer.Paths.StreamingDataPath}Data~/";
         IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);
         foreach (string? locFile in locFiles) {
             string locale =

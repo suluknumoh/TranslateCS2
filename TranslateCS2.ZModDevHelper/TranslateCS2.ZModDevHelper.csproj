@@ -10,14 +10,16 @@
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
+    <!--Imports must be after PropertyGroup block-->
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
 
     <ItemGroup>
         <Reference Include="mscorlib">
-            <HintPath>$(CustomManagedPath)\mscorlib.dll</HintPath>
+            <HintPath>$(ManagedPath)\mscorlib.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="netstandard">
-            <HintPath>$(CustomManagedPath)\netstandard.dll</HintPath>
+            <HintPath>$(ManagedPath)\netstandard.dll</HintPath>
             <Private>true</Private>
         </Reference>
     </ItemGroup>
@@ -25,74 +27,74 @@
 
     <ItemGroup>
         <Reference Include="Game">
-            <HintPath>$(CustomManagedPath)\Game.dll</HintPath>
+            <HintPath>$(ManagedPath)\Game.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.Core">
-            <HintPath>$(CustomManagedPath)\Colossal.Core.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.Core.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.Logging">
-            <HintPath>$(CustomManagedPath)\Colossal.Logging.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.Logging.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.IO.AssetDatabase">
-            <HintPath>$(CustomManagedPath)\Colossal.IO.AssetDatabase.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.IO.AssetDatabase.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.PSI.Common">
-            <HintPath>$(CustomManagedPath)\Colossal.PSI.Common.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.PSI.Common.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.UI">
-            <HintPath>$(CustomManagedPath)\Colossal.UI.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.UI.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.UI.Binding">
-            <HintPath>$(CustomManagedPath)\Colossal.UI.Binding.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.UI.Binding.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Colossal.Localization">
-            <HintPath>$(CustomManagedPath)\Colossal.Localization.dll</HintPath>
+            <HintPath>$(ManagedPath)\Colossal.Localization.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-            <HintPath>$(CustomManagedPath)\UnityEngine.CoreModule.dll</HintPath>
+            <HintPath>$(ManagedPath)\UnityEngine.CoreModule.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Unity.Burst">
-            <HintPath>$(CustomManagedPath)\Unity.Burst.dll</HintPath>
+            <HintPath>$(ManagedPath)\Unity.Burst.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Unity.Collections">
-            <HintPath>$(CustomManagedPath)\Unity.Collections.dll</HintPath>
+            <HintPath>$(ManagedPath)\Unity.Collections.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Unity.Entities">
-            <HintPath>$(CustomManagedPath)\Unity.Entities.dll</HintPath>
+            <HintPath>$(ManagedPath)\Unity.Entities.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Unity.Mathematics">
-            <HintPath>$(CustomManagedPath)\Unity.Mathematics.dll</HintPath>
+            <HintPath>$(ManagedPath)\Unity.Mathematics.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json">
-            <HintPath>$(CustomManagedPath)\Newtonsoft.Json.dll</HintPath>
+            <HintPath>$(ManagedPath)\Newtonsoft.Json.dll</HintPath>
             <Private>true</Private>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
         <Reference Update="System">
-            <HintPath>$(CustomManagedPath)\System.dll</HintPath>
+            <HintPath>$(ManagedPath)\System.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Update="System.Core">
-            <HintPath>$(CustomManagedPath)\System.Core.dll</HintPath>
+            <HintPath>$(ManagedPath)\System.Core.dll</HintPath>
             <Private>true</Private>
         </Reference>
         <Reference Update="System.Data">
-            <HintPath>$(CustomManagedPath)\System.Data.dll</HintPath>
+            <HintPath>$(ManagedPath)\System.Data.dll</HintPath>
             <Private>true</Private>
         </Reference>
     </ItemGroup>
