@@ -24,7 +24,7 @@ internal static class ImExportDialogHelper {
             DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             DefaultExt = ModConstants.JsonExtension,
             ValidateNames = true,
-            DereferenceLinks = false,
+            DereferenceLinks = true,
             InitialDirectory = pathWork ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
         };
 
@@ -46,7 +46,7 @@ internal static class ImExportDialogHelper {
             DefaultDirectory = pathWork ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             DefaultExt = ModConstants.JsonExtension,
             ValidateNames = true,
-            DereferenceLinks = false
+            DereferenceLinks = true
         };
         return Display(dialog, dialogWarningCaption, dialogWarningText);
     }
