@@ -1,4 +1,4 @@
-# early adopters (currently)
+# adopting/implementing/realizing
 - project TranslateCS2 can not be published as single-file anymore
 - what ever you do, be very careful with your API-Key(s), it/they can be gatherd by reverse-engineering!!!
 - if you plan to share your Translator-Module or a rebuild of this App that includes your Translator-Module, you should ensure the Auth-Key is read from an external file, so each user is able to enter his/her personal Auth-Key
