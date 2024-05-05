@@ -206,6 +206,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - Open/Save-File-Dialogs follow Links instead of treating them as selected
 - fixed an error for multiple read file while importing (enable/disable buttons)
 - fixed an error where the current translation session isnt reset on cancel editig it within the session management
+- if it was an error, its fixed: dont replicate translations into entries with empty Values in certain circumstances
 
 ## Version 1.5.2
 - ModBridge is not needed for translators
