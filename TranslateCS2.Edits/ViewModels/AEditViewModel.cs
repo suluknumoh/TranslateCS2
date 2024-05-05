@@ -229,8 +229,8 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected static void SetNewValue(ObservableCollection<ILocalizationDictionaryEntry> list, string? translation, ILocalizationDictionaryEntry edited) {
         foreach (ILocalizationDictionaryEntry entry in list) {
-            if (entry.Value == edited.Value
-                || entry.Key == edited.Key) {
+            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
+                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;
             }
         }

@@ -8,6 +8,7 @@ using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Sessions;
+using TranslateCS2.Inf;
 
 namespace TranslateCS2.Edits.ViewModels;
 
@@ -98,8 +99,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
     private void SetNewValue(string? translation, ILocalizationDictionaryEntry edited) {
         foreach (ILocalizationDictionaryEntry entry in this._entries) {
-            if (entry.Value == edited.Value
-                || entry.Key == edited.Key) {
+            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
+                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;
             }
         }

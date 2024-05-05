@@ -258,6 +258,9 @@ internal class TranslationsDB : ITranslationsDatabaseService {
         );
         if (newEntries.Any()) {
             foreach (ILocalizationDictionaryEntry entry in newEntries) {
+                if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)) {
+                    continue;
+                }
                 bool got = valueTranslationMapping.TryGetValue(entry.Value, out string? translation);
                 if (got && !StringHelper.IsNullOrWhiteSpaceOrEmpty(translation)) {
                     entry.Translation = translation;
