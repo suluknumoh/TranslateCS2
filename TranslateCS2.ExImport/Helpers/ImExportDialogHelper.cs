@@ -14,15 +14,18 @@ internal static class ImExportDialogHelper {
                                              string? fileName,
                                              string dialogWarningCaption,
                                              string dialogWarningText) {
+        string? pathWork = NormalizeForWindows(path);
         SaveFileDialog dialog = new SaveFileDialog {
             Title = title,
             CheckPathExists = true,
             RestoreDirectory = true,
             FileName = fileName ?? AppConfigurationManager.ImExportDefaultFileName,
             Filter = AppConfigurationManager.ImExportFilter,
+            DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            DefaultExt = ModConstants.JsonExtension,
             ValidateNames = true,
             DereferenceLinks = false,
-            InitialDirectory = path ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            InitialDirectory = pathWork ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
         };
 
         return Display(dialog, dialogWarningCaption, dialogWarningText);
@@ -31,6 +34,7 @@ internal static class ImExportDialogHelper {
                                              string title,
                                              string dialogWarningCaption,
                                              string dialogWarningText) {
+        string? pathWork = NormalizeForWindows(path);
         OpenFileDialog dialog = new OpenFileDialog {
             Title = title,
             Multiselect = false,
@@ -39,12 +43,11 @@ internal static class ImExportDialogHelper {
             RestoreDirectory = true,
             FileName = AppConfigurationManager.ImExportDefaultFileName,
             Filter = AppConfigurationManager.ImExportFilter,
+            DefaultDirectory = pathWork ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            DefaultExt = ModConstants.JsonExtension,
             ValidateNames = true,
             DereferenceLinks = false
         };
-        if (path is null) {
-            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        }
         return Display(dialog, dialogWarningCaption, dialogWarningText);
     }
 
@@ -70,5 +73,12 @@ internal static class ImExportDialogHelper {
             return dialog.FileName;
         }
         return null;
+    }
+
+    private static string? NormalizeForWindows(string? path) {
+        if (path == null) {
+            return path;
+        }
+        return path.Replace("/", "\\");
     }
 }
