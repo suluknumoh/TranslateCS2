@@ -203,6 +203,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
     - now, complete new key-value-pairs can be imported
 - moved changelog from start view to a new tab
 - ribbon bar is disabled under certain circumstances
+- Open/Save-File-Dialogs follow Links instead of treating them as selected
 - fixed an error for multiple read file while importing (enable/disable buttons)
 - fixed an error where the current translation session isnt reset on cancel editig it within the session management
 
