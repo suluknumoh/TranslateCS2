@@ -55,12 +55,13 @@ public class MyLanguages {
     }
 
     public void ReadFiles() {
-        IEnumerable<string> translationFilePaths = Directory.EnumerateFiles(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.JsonSearchPattern);
+        IEnumerable<string> translationFilePaths =
+            Directory
+                .EnumerateFiles(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.JsonSearchPattern)
+                .OrderBy(this.runtimeContainer.Paths.ExtractLocaleIdFromPath);
         foreach (string translationFilePath in translationFilePaths) {
             try {
-                string localeIdPre = translationFilePath
-                    .Replace(this.runtimeContainer.Paths.ModsDataPathSpecific, String.Empty)
-                    .Replace(ModConstants.JsonExtension, String.Empty);
+                string localeIdPre = this.runtimeContainer.Paths.ExtractLocaleIdFromPath(translationFilePath);
                 string localeId = this.runtimeContainer.Locales.CorrectLocaleId(localeIdPre);
                 MyLanguage? language = this.GetLanguage(localeId);
                 if (language == null) {
