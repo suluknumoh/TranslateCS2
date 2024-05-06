@@ -50,6 +50,8 @@
         <FilesToDelete Include="System.Drawing.Common.dll"/>
         <FilesToDelete Include="TranslateCS2.Core.dll"/>
         <FilesToDelete Include="TranslateCS2.Core.pdb"/>
+        <FilesToDelete Include="TranslateCS2.Inf.dll"/>
+        <FilesToDelete Include="TranslateCS2.Inf.pdb"/>
         <FilesToDelete Include="TranslateCS2.ModBridge.dll"/>
         <FilesToDelete Include="TranslateCS2.ModBridge.pdb"/>
         <FilesToDelete Include="Unity.Abstractions.dll"/>
