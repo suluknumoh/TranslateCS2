@@ -7,7 +7,7 @@ using TranslateCS2.Mod.Containers;
 
 namespace TranslateCS2.ZModDevHelper;
 internal class ModTestRuntimeContainer : AModRuntimeContainer {
-    private static string ModAndModDevHelperPropsPath { get; } = "..\\..\\..\\TranslateCS2.Inf\\Properties\\ModAndModDevHelper.props";
+    private static string TranslateCS2ModPropsPath { get; } = "..\\..\\..\\TranslateCS2.Inf\\Properties\\TranslateCS2.Mod.props";
     private static string EnvVariableNameManagedPath { get; } = "CSII_MANAGEDPATH";
     private static string EnvVariableNameToolPath { get; } = "CSII_TOOLPATH";
     private static string GameDll { get; } = "Game.dll";
@@ -31,7 +31,7 @@ internal class ModTestRuntimeContainer : AModRuntimeContainer {
                 return JustifyPath(steamDefaultManagedPath);
             }
         }
-        string customManagedPath = GetPropertyValueFromXml(ModAndModDevHelperPropsPath, ".//CustomManagedPath");
+        string customManagedPath = GetPropertyValueFromXml(TranslateCS2ModPropsPath, ".//CustomManagedPath");
         return JustifyPath(customManagedPath);
     }
 

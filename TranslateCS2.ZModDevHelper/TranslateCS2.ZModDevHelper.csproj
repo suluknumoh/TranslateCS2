@@ -2,7 +2,7 @@
 
 
     <!-- has to be the very first import -->
-    <Import Project="..\TranslateCS2.Inf\Properties\ModAndModDevHelper.props" />
+    <Import Project="..\TranslateCS2.Inf\Properties\TranslateCS2.Mod.props" />
 
 
     <PropertyGroup>
