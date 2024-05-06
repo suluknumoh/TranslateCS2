@@ -1,7 +1,7 @@
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
-## Version 2.0 (work-in-progress)
+## Version 2.0
 - sessions view
     - edit/create new session
         - the inputs are separated with a separator for better readability
