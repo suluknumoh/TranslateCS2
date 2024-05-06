@@ -17,7 +17,7 @@ public interface ITranslationSessionManager {
     string? DatabaseError { get; set; }
     bool HasDatabaseError => !this.HasNoDatabaseError;
     bool HasNoDatabaseError => StringHelper.IsNullOrWhiteSpaceOrEmpty(this.DatabaseError);
-    ILocalizationFile GetForExport();
+    ILocalizationFile GetForExport(bool json);
     void Insert(ITranslationSession? session);
     void Update(ITranslationSession? session);
     void UpdateCurrentWith(ITranslationSession? session);

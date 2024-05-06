@@ -33,6 +33,7 @@
 - Open/Save-File-Dialogs follow Links instead of treating them as selected
 - fixed an error for multiple read file while importing (enable/disable buttons)
 - fixed an error where the current translation session isnt reset on cancel editig it within the session management
+- fixed an error where manually added entries didnt got exported to json-files
 - if it was an error, its fixed: dont replicate translations into entries with empty Values in certain circumstances
 
 ## Version 1.5.2

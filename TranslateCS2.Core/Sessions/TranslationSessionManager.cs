@@ -113,7 +113,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
     }
 
-    public ILocalizationFile GetForExport() {
+    public ILocalizationFile GetForExport(bool json) {
         ILocalizationFile mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
         ILocalizationFile merged = new LocalizationFile(this.CurrentTranslationSession.OverwriteLocalizationFileName,
                                                         mergeLocalizationFile.FileHeader,
@@ -123,7 +123,17 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         merged.Indizes.Clear();
         merged.Indizes.AddRange(mergeLocalizationFile.Indizes);
         merged.LocalizationDictionary.Clear();
-        List<ILocalizationDictionaryEntry> dic = this.CurrentTranslationSession.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
+        List<ILocalizationDictionaryEntry>? dic = null;
+        if (json) {
+            dic =
+                this.CurrentTranslationSession.LocalizationDictionary
+                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key) && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToList();
+        } else {
+            dic =
+                this.CurrentTranslationSession.LocalizationDictionary
+                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
+        }
+
         merged.LocalizationDictionary.AddRange(dic);
         return merged;
     }
