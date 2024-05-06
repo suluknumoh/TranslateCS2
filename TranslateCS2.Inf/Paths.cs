@@ -35,4 +35,10 @@ public class Paths {
         }
         return null;
     }
+    public string ExtractLocaleIdFromPath(string path) {
+        return
+            path
+                .Replace(this.ModsDataPathSpecific, String.Empty)
+                .Replace(ModConstants.JsonExtension, String.Empty);
+    }
 }
