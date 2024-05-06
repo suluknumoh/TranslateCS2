@@ -3,7 +3,6 @@ using System.Text;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Loggers;
-using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Containers.Items;
 public class ErrorMessages {

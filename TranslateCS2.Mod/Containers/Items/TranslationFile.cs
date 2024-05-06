@@ -9,10 +9,9 @@ using Colossal;
 using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Loggers;
 
-namespace TranslateCS2.Mod.Models;
+namespace TranslateCS2.Mod.Containers.Items;
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
     private readonly IModRuntimeContainer runtimeContainer;
     private string Uniquer { get; } = ModConstants.Name;

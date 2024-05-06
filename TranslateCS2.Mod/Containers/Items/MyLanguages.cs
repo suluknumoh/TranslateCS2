@@ -9,7 +9,6 @@ using Colossal.IO.AssetDatabase.Internal;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Loggers;
-using TranslateCS2.Mod.Models;
 
 using UnityEngine;
 
