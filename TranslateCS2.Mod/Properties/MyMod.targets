@@ -50,31 +50,41 @@
 
     <Target
         Name="WriteNewChangeLog"
-        AfterTargets="RunModPublisher"
+        BeforeTargets="Publish"
         DependsOnTargets="PokeInfosToPublishConfiguration">
-        <!-- aftertarget 'RunModPublisher' indicates final publish -->
+        <!-- beforetarget 'Publish' indicates final publish -->
         <!-- prepend changelog-history with current changelogs lines -->
         <!-- uses items from depend-target -->
+        <PropertyGroup>
+            <ModChangeLog>$(ProjectDir)CHANGELOG.md</ModChangeLog>
+        </PropertyGroup>
         <ReadLinesFromFile
-            File="$(ProjectDir)\CHANGELOG.md">
+            File="$(ModChangeLog)">
             <Output
                 TaskParameter="Lines"
                 ItemName="ModChangeLogLines" />
         </ReadLinesFromFile>
         <ItemGroup>
-            <ModChangeLog
-                Include="$(ProjectDir)CHANGELOG.md" />
             <ChangeLogContent
                 Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))" />
             <ChangeLogContent
-                Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.md'))" />
+                Include="$([System.IO.File]::ReadAllText('$(ModChangeLog)'))" />
         </ItemGroup>
         <WriteLinesToFile
-            File="@(ModChangeLog)"
+            File="$(ModChangeLog)"
             Lines="@(ChangeLogContent)"
             Overwrite="true"
             />
+        <Copy
+            SourceFiles="$(ModChangeLog)"
+            DestinationFiles="$(OutDir)\CHANGELOG.md"
+            OverwriteReadOnlyFiles="true"/>
+        <Copy
+            SourceFiles="$(ModChangeLog)"
+            DestinationFiles="$(DeployDir)\CHANGELOG.md"
+            OverwriteReadOnlyFiles="true"/>
     </Target>
+
 
     <!-- not quiet sure if i want to delete it automatically... -->
     <!-- aftertarget 'RunModPublisher' indicates final publish -->
