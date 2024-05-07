@@ -10,12 +10,14 @@ internal class ModTestRuntimeContainer : AModRuntimeContainer {
     private static string TranslateCS2ModPropsPath { get; } = "..\\..\\..\\TranslateCS2.Inf\\Properties\\TranslateCS2.Mod.props";
     private static string EnvVariableNameManagedPath { get; } = "CSII_MANAGEDPATH";
     private static string EnvVariableNameToolPath { get; } = "CSII_TOOLPATH";
+    private static string EnvVariableNameUserDataPath { get; } = "CSII_USERDATAPATH";
     private static string GameDll { get; } = "Game.dll";
     private static string ModProps { get; } = "Mod.props";
 
 
     public ModTestRuntimeContainer() : base(true, new Paths(true,
-                                                                             GetStreamingDataPathFromProps())) { }
+                                                                            GetStreamingDataPathFromProps(),
+                                                                            GetUserDataPathFromEnvironment())) { }
 
 
     private static string? GetStreamingDataPathFromProps() {
@@ -50,7 +52,10 @@ internal class ModTestRuntimeContainer : AModRuntimeContainer {
         string gameDll = Path.Combine(path, file);
         return File.Exists(gameDll);
     }
-    public static string JustifyPath(string path) {
+    private static string? GetUserDataPathFromEnvironment() {
+        return Environment.GetEnvironmentVariable(EnvVariableNameUserDataPath, EnvironmentVariableTarget.User);
+    }
+    private static string JustifyPath(string path) {
         return
             Path
                 .Combine(path,
