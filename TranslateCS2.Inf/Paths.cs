@@ -19,7 +19,7 @@ public class Paths {
         if (!this.StreamingDataPath.EndsWith(forwardSlash)) {
             this.StreamingDataPath += forwardSlash;
         }
-        this.UserDataPath = userDataPath ?? $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).Replace("\\", forwardSlash)}Low/Colossal Order/Cities Skylines II";
+        this.UserDataPath = userDataPath ?? GetFallbackUserDataPathUnixFormat();
         this.UserDataPath += forwardSlash;
         this.ModsDataPathGeneral = $"{this.UserDataPath}{ModConstants.ModsData}{forwardSlash}";
         this.ModsDataPathSpecific = $"{this.ModsDataPathGeneral}{ModConstants.Name}{forwardSlash}";
@@ -56,5 +56,8 @@ public class Paths {
             return path;
         }
         return path.Replace(forwardSlash, backSlash);
+    }
+    public static string GetFallbackUserDataPathUnixFormat() {
+        return $"{NormalizeUnix(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData))}Low/Colossal Order/Cities Skylines II";
     }
 }
