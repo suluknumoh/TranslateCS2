@@ -14,7 +14,7 @@ internal static class ImExportDialogHelper {
                                              string? fileName,
                                              string dialogWarningCaption,
                                              string dialogWarningText) {
-        string? pathWork = NormalizeForWindows(path);
+        string? pathWork = Paths.NormalizeWindows(path);
         SaveFileDialog dialog = new SaveFileDialog {
             Title = title,
             CheckPathExists = true,
@@ -34,7 +34,7 @@ internal static class ImExportDialogHelper {
                                              string title,
                                              string dialogWarningCaption,
                                              string dialogWarningText) {
-        string? pathWork = NormalizeForWindows(path);
+        string? pathWork = Paths.NormalizeWindows(path);
         OpenFileDialog dialog = new OpenFileDialog {
             Title = title,
             Multiselect = false,
@@ -73,12 +73,5 @@ internal static class ImExportDialogHelper {
             return dialog.FileName;
         }
         return null;
-    }
-
-    private static string? NormalizeForWindows(string? path) {
-        if (path == null) {
-            return path;
-        }
-        return path.Replace("/", "\\");
     }
 }

@@ -5,6 +5,7 @@ namespace TranslateCS2.Inf;
 /// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 public class Paths {
     private const string forwardSlash = "/";
+    private const string backSlash = "\\";
     public string UserDataPath { get; }
     public string ModsDataPathGeneral { get; }
     public string ModsDataPathSpecific { get; }
@@ -40,5 +41,17 @@ public class Paths {
             path
                 .Replace(this.ModsDataPathSpecific, String.Empty)
                 .Replace(ModConstants.JsonExtension, String.Empty);
+    }
+    public static string? NormalizeUnix(string path) {
+        if (path == null) {
+            return path;
+        }
+        return path.Replace(backSlash, forwardSlash);
+    }
+    public static string? NormalizeWindows(string? path) {
+        if (path == null) {
+            return path;
+        }
+        return path.Replace(forwardSlash, backSlash);
     }
 }
