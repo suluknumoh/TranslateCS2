@@ -18,24 +18,30 @@ internal class ModTestRuntimeContainer : AModRuntimeContainer {
                                                                              GetStreamingDataPathFromProps())) { }
 
 
-    private static string GetStreamingDataPathFromProps() {
-        string managedPath = Environment.GetEnvironmentVariable(EnvVariableNameManagedPath, EnvironmentVariableTarget.User);
-        if (ExistsFileInPath(managedPath, GameDll)) {
-            return JustifyPath(managedPath);
+    private static string? GetStreamingDataPathFromProps() {
+        string? managedPath = Environment.GetEnvironmentVariable(EnvVariableNameManagedPath, EnvironmentVariableTarget.User);
+        if (managedPath != null
+            && ExistsFileInPath(managedPath, GameDll)) {
+            string managedPathJustified = JustifyPath(managedPath);
+            return Paths.NormalizeUnix(managedPathJustified);
         }
-        string toolPath = Environment.GetEnvironmentVariable(EnvVariableNameToolPath, EnvironmentVariableTarget.User);
-        if (ExistsFileInPath(toolPath, ModProps)) {
+        string? toolPath = Environment.GetEnvironmentVariable(EnvVariableNameToolPath, EnvironmentVariableTarget.User);
+        if (toolPath != null
+            && ExistsFileInPath(toolPath, ModProps)) {
             string modProps = Path.Combine(toolPath, ModProps);
-            string steamDefaultManagedPath = GetPropertyValueFromXml(modProps, ".//SteamDefaultManagedPath");
-            if (ExistsFileInPath(steamDefaultManagedPath, GameDll)) {
-                return JustifyPath(steamDefaultManagedPath);
+            string? steamDefaultManagedPath = GetPropertyValueFromXml(modProps, ".//SteamDefaultManagedPath");
+            if (steamDefaultManagedPath != null
+                && ExistsFileInPath(steamDefaultManagedPath, GameDll)) {
+                string steamDefaultManagedPathJustified = JustifyPath(steamDefaultManagedPath);
+                return Paths.NormalizeUnix(steamDefaultManagedPathJustified);
             }
         }
-        string customManagedPath = GetPropertyValueFromXml(TranslateCS2ModPropsPath, ".//CustomManagedPath");
-        return JustifyPath(customManagedPath);
+        string? customManagedPath = GetPropertyValueFromXml(TranslateCS2ModPropsPath, ".//CustomManagedPath");
+        string customManagedPathJustified = JustifyPath(customManagedPath);
+        return Paths.NormalizeUnix(customManagedPathJustified);
     }
 
-    private static string GetPropertyValueFromXml(string path, string query) {
+    private static string? GetPropertyValueFromXml(string path, string query) {
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.Load(path);
         return xmlDoc.DocumentElement.SelectSingleNode(query).InnerText;
@@ -49,7 +55,6 @@ internal class ModTestRuntimeContainer : AModRuntimeContainer {
             Path
                 .Combine(path,
                          "..",
-                         "StreamingAssets")
-                .Replace("\\", "/");
+                         "StreamingAssets");
     }
 }
