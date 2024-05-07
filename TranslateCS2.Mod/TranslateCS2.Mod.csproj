@@ -138,13 +138,12 @@
         <Content Include="*.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Examples\**">
+        <Content Include="_Examples\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Examples\jsons\**">
+        <Content Include="_Previews\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-
 
 </Project>

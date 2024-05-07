@@ -12,14 +12,14 @@
   <!--Thumbnail-->
   <Thumbnail Value="Properties/Thumbnail.png" />
   <!--Screenshot, can be set multiple times-->
-  <Screenshot Value="Examples/en-GB-0.png" />
-  <Screenshot Value="Examples/en-GB-1.png" />
-  <Screenshot Value="Examples/nl-NL-0.png" />
-  <Screenshot Value="Examples/nl-NL-1.png" />
-  <Screenshot Value="Examples/directory.png" />
-  <Screenshot Value="Examples/zzz_error_0_on_load.png" />
-  <Screenshot Value="Examples/zzz_error_1_on_reload.png" />
-  <Screenshot Value="Examples/zzz_error_2_on_generate.png" />
+  <Screenshot Value="_Previews/directory.png" />
+  <Screenshot Value="_Previews/en-GB-0.png" />
+  <Screenshot Value="_Previews/en-GB-1.png" />
+  <Screenshot Value="_Previews/nl-NL-0.png" />
+  <Screenshot Value="_Previews/nl-NL-1.png" />
+  <Screenshot Value="_Previews/zzz_error_0_on_load.png" />
+  <Screenshot Value="_Previews/zzz_error_1_on_reload.png" />
+  <Screenshot Value="_Previews/zzz_error_2_on_generate.png" />
   <!--Tag, can be set multiple times-->
   <Tag Value="Code Mod" />
   <!--Link to the forum post where the mod can be discussed-->
