@@ -49,6 +49,7 @@ internal partial class ModSettings : ModSetting {
         this.runtimeContainerHandler = runtimeContainerHandler;
         this.runtimeContainer = runtimeContainerHandler.RuntimeContainer;
         this.languages = this.runtimeContainer.Languages;
+        this.OnFlavorChanged += this.languages.FlavorChanged;
     }
 
     [Exclude]
