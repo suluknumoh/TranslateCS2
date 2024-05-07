@@ -46,7 +46,6 @@ public class Mod : IMod {
                 this._modSettings = new ModSettings(this.runtimeContainerHandler, this);
                 ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this._modSettings,
                                                                             this.runtimeContainerHandler);
-                this._modSettings.OnFlavorChanged += languages.FlavorChanged;
                 this._modSettings.RegisterInOptionsUI();
                 // settings have to be loaded after files are read and loaded
                 AssetDatabase.global.LoadSettings(ModConstants.Name, this._modSettings);
