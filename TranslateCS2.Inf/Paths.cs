@@ -12,6 +12,9 @@ public class Paths {
     public string StreamingDataPath { get; }
     public Paths(bool createIfNotExists, string streamingDataPath, string? userDataPath = null) {
         // paths have to end with a forwardslash!
+        if (streamingDataPath == null) {
+            throw new ArgumentNullException(nameof(streamingDataPath));
+        }
         this.StreamingDataPath = streamingDataPath;
         if (!this.StreamingDataPath.EndsWith(forwardSlash)) {
             this.StreamingDataPath += forwardSlash;
