@@ -51,7 +51,7 @@ public class HelpMeWithModSettingsFlavors {
             if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
                 continue;
             }
-            builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(\"Flavor{systemLanguage}\"), this.GetLabel(SystemLanguage.{systemLanguage}), true);");
+            builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($\"{{ModSettings.Flavor}}{{SystemLanguage.{systemLanguage}}}\"), this.GetLabel(SystemLanguage.{systemLanguage}), true);");
         }
         string text = builder.ToString()
             //.ReplaceLineEndings("\n")
@@ -66,7 +66,7 @@ public class HelpMeWithModSettingsFlavors {
             if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
                 continue;
             }
-            builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(\"Flavor{systemLanguage}\"), this.GetDescription(SystemLanguage.{systemLanguage}), true);");
+            builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($\"{{ModSettings.Flavor}}{{SystemLanguage.{systemLanguage}}}\"), this.GetDescription(SystemLanguage.{systemLanguage}), true);");
         }
         string text = builder.ToString()
             //.ReplaceLineEndings("\n")

@@ -14,6 +14,9 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 internal partial class ModSettings {
+
+    public static string Flavor { get; } = nameof(Flavor);
+
     public delegate void OnFlavorChangedHandler(MyLanguage? language, SystemLanguage systemLanguage, string localeId);
 
     public event OnFlavorChangedHandler? OnFlavorChanged;
@@ -40,12 +43,12 @@ internal partial class ModSettings {
             if (systemLanguage is SystemLanguage.Chinese or SystemLanguage.Unknown) {
                 continue;
             }
-            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), $"Flavor{systemLanguage}") {
+            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), $"{Flavor}{systemLanguage}") {
                 canRead = true,
                 canWrite = true,
                 attributes =
                 {
-                    (Attribute)new SettingsUIDropdownAttribute(this.GetType(), $"GetFlavors{systemLanguage}")
+                    (Attribute)new SettingsUIDropdownAttribute(this.GetType(), $"{nameof(GetFlavors)}{systemLanguage}")
                 },
                 setter = (modSettings, localeId) => this.Setter(systemLanguage, localeId),
                 getter = (modSettings) => this.Getter(systemLanguage)
