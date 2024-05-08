@@ -242,7 +242,7 @@ internal partial class ModSettings {
     public DropdownItem<string>[] GetFlavorsUkrainian() {
         return this.GetFlavors(SystemLanguage.Ukrainian);
     }
-    public DropdownItem<string>[] GetFlavorsUnkown() {
+    public DropdownItem<string>[] GetFlavorsUnknown() {
         return this.GetFlavors(SystemLanguage.Unknown);
     }
     public DropdownItem<string>[] GetFlavorsVietnamese() {

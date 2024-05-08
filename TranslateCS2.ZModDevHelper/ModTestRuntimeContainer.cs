@@ -15,9 +15,9 @@ internal class ModTestRuntimeContainer : AModRuntimeContainer {
     private static string ModProps { get; } = "Mod.props";
 
 
-    public ModTestRuntimeContainer() : base(true, new Paths(true,
-                                                                            GetStreamingDataPathFromProps(),
-                                                                            GetUserDataPathFromEnvironment())) { }
+    public ModTestRuntimeContainer() : base(new Paths(true,
+                                                            GetStreamingDataPathFromProps(),
+                                                            GetUserDataPathFromEnvironment())) { }
 
 
     private static string? GetStreamingDataPathFromProps() {
