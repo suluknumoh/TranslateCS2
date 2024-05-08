@@ -15,7 +15,7 @@ public class HelpMeWithModSettingsFlavors {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         StringBuilder builder = new StringBuilder();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
+            if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
             //builder.AppendLine($"private string _Flavor{systemLanguage} = InitFlavor(SystemLanguage.{systemLanguage});");
@@ -48,7 +48,7 @@ public class HelpMeWithModSettingsFlavors {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         StringBuilder builder = new StringBuilder();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
+            if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
             builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($\"{{ModSettings.Flavor}}{{SystemLanguage.{systemLanguage}}}\"), this.GetLabel(SystemLanguage.{systemLanguage}), true);");
@@ -63,7 +63,7 @@ public class HelpMeWithModSettingsFlavors {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         StringBuilder builder = new StringBuilder();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.Chinese) {
+            if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
             builder.AppendLine($"this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($\"{{ModSettings.Flavor}}{{SystemLanguage.{systemLanguage}}}\"), this.GetDescription(SystemLanguage.{systemLanguage}), true);");

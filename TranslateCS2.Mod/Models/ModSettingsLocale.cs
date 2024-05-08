@@ -40,6 +40,9 @@ internal class ModSettingsLocale : IDictionarySource {
 
         // generate-group
         this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.GenerateGroup), I18NMod.GroupGenerateTitle, true);
+        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)), I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel, true);
+        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)), I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription, true);
+        //
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)), I18NMod.GroupGenerateButtonGenerateLabel, true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)), String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.Paths.ModsDataPathSpecific), true);
 
@@ -94,7 +97,6 @@ internal class ModSettingsLocale : IDictionarySource {
 
 
 
-
         // flavor-group-descriptions: test
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Afrikaans}"), this.GetDescription(SystemLanguage.Afrikaans), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Arabic}"), this.GetDescription(SystemLanguage.Arabic), true);
@@ -138,8 +140,6 @@ internal class ModSettingsLocale : IDictionarySource {
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.ChineseSimplified}"), this.GetDescription(SystemLanguage.ChineseSimplified), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.ChineseTraditional}"), this.GetDescription(SystemLanguage.ChineseTraditional), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Hindi}"), this.GetDescription(SystemLanguage.Hindi), true);
-
-
 
 
     }
