@@ -146,4 +146,9 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Remove="_Examples\**\*.*" />
+      <Content Remove="_Previews\**\*.*" />
+    </ItemGroup>
+
 </Project>
