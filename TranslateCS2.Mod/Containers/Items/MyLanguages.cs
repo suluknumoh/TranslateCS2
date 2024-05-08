@@ -45,7 +45,7 @@ public class MyLanguages {
     }
 
     private void Init() {
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping(this.runtimeContainer.DoubleCheck);
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
             MyLanguage language = new MyLanguage(entry.Key, this.runtimeContainer);
             language.CultureInfos.AddRange(entry.Value);

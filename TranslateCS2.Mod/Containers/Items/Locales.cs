@@ -42,19 +42,14 @@ public class Locales {
     public bool IsBuiltIn(string localeId) {
         return this.LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
     }
-    public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping(bool doubleCheck) {
+    public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping() {
         Dictionary<SystemLanguage, IList<CultureInfo>> systemLanguageCulturesMapping = [];
         IEnumerable<SystemLanguage> languages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         List<CultureInfo> cultures =
             CultureInfo
                 .GetCultures(CultureTypes.AllCultures)
+                .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
                 .ToList();
-        if (doubleCheck) {
-            cultures =
-                cultures
-                    .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
-                    .ToList();
-        }
         for (int i = cultures.Count - 1; i >= 0; i--) {
             CultureInfo culture = cultures[i];
             foreach (SystemLanguage language in languages) {
@@ -89,15 +84,9 @@ public class Locales {
                 }
             }
         }
-        if (false) {
-            // does not work as expected
-            // there are several cultures,
-            // at least the native name can not be displayed within flavor dropdown,
-            // so i guess translations would not work either
-            // for now, i dont know how to filter those cultures
-            foreach (CultureInfo culture in cultures) {
-                this.AddToDictionary(systemLanguageCulturesMapping, culture, SystemLanguage.Unknown);
-            }
+        foreach (CultureInfo culture in cultures) {
+            // i want to use the existing logic...
+            this.AddToDictionary(systemLanguageCulturesMapping, culture, SystemLanguage.Unknown);
         }
 
 
@@ -117,8 +106,7 @@ public class Locales {
     }
     public void LogMarkdownAndCultureInfoNames() {
         try {
-
-            IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping(false);
+            IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
             IOrderedEnumerable<KeyValuePair<SystemLanguage, IList<CultureInfo>>> ordered = mapping.OrderBy(item => item.Key.ToString());
             StringBuilder cultureInfoBuilder = new StringBuilder();
             StringBuilder markdownBuilder = new StringBuilder();

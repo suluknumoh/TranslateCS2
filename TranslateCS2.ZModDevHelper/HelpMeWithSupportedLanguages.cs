@@ -10,6 +10,7 @@ public class HelpMeWithSupportedLanguages {
     public HelpMeWithSupportedLanguages() {
     }
     [Fact(Skip = "dont help me each time")]
+    //[Fact()]
     public void GenerateJsons() {
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer();
         string directoryPath = runtimeContainer.Paths.TryToGetModsPath();
