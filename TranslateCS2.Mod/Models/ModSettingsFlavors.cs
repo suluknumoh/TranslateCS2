@@ -854,6 +854,28 @@ internal partial class ModSettings {
 
 
 
+    private string _FlavorUnknown = InitFlavor(SystemLanguage.Unknown);
+    [Include]
+    [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsUnknown))]
+    [SettingsUISection(Section, FlavorGroup)]
+    [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsFlavorUnknownHidden))]
+    [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsFlavorUnknownDisabled))]
+    public string FlavorUnknown {
+        get => this._FlavorUnknown;
+        set => this._FlavorUnknown = this.GetValueToSet(SystemLanguage.Unknown, value);
+    }
+    public DropdownItem<string>[] GetFlavorsUnknown() {
+        return this.GetFlavors(SystemLanguage.Unknown);
+    }
+    public bool IsFlavorUnknownHidden() {
+        return this.IsHidden(SystemLanguage.Unknown);
+    }
+    public bool IsFlavorUnknownDisabled() {
+        return this.IsDisabled(SystemLanguage.Unknown);
+    }
+
+
+
     private string _FlavorVietnamese = InitFlavor(SystemLanguage.Vietnamese);
     [Include]
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorsVietnamese))]

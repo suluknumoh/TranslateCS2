@@ -130,10 +130,16 @@
     <value>Generates a .json-file named '{0}' with all Key-Value-Pairs for this Mod that can be found in this mods data-directory '{1}' after a click on this button. The .json-file named '{0}' is NOT read by this Mod. It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod.</value>
   </data>
   <data name="GroupGenerateButtonGenerateLabel" xml:space="preserve">
-    <value>generate</value>
+    <value>generate localization json</value>
+  </data>
+  <data name="GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription" xml:space="preserve">
+    <value>generates two log entries. one with the markdown for readme.md and one for an internal list</value>
+  </data>
+  <data name="GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel" xml:space="preserve">
+    <value>log Markdown and CultureInfo-Names</value>
   </data>
   <data name="GroupGenerateTitle" xml:space="preserve">
-    <value>generate localization json</value>
+    <value>log and generate</value>
   </data>
   <data name="GroupReloadButtonReloadDescription" xml:space="preserve">
     <value>Reloads the language file(s) that existed at startup. Does not unload language files. Does not load new language files. Files have to be located within this directory '{0}'</value>

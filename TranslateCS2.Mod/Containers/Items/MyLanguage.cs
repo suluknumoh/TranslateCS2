@@ -42,12 +42,15 @@ public class MyLanguage {
         if (builtin.Any()) {
             CultureInfo ci = builtin.First();
             this.ID = this.runtimeContainer.Locales.CorrectLocaleId(ci.Name);
-            if (this.SystemLanguage == SystemLanguage.Portuguese) {
-                this.Name = ci.NativeName;
-                this.NameEnglish = ci.EnglishName;
-            } else {
-                this.Name = ci.Parent.NativeName;
-                this.NameEnglish = ci.Parent.EnglishName;
+            switch (this.SystemLanguage) {
+                case SystemLanguage.Portuguese:
+                    this.Name = ci.NativeName;
+                    this.NameEnglish = ci.EnglishName;
+                    break;
+                default:
+                    this.Name = ci.Parent.NativeName;
+                    this.NameEnglish = ci.Parent.EnglishName;
+                    break;
             }
             this.IsBuiltIn = true;
         } else {
@@ -55,13 +58,21 @@ public class MyLanguage {
             if (remaining.Any()) {
                 CultureInfo ci = remaining.First();
                 this.ID = this.runtimeContainer.Locales.CorrectLocaleId(ci.Name);
-                if (SystemLanguage.SerboCroatian == this.SystemLanguage) {
-                    this.ID = this.SystemLanguage.ToString();
-                    this.Name = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
-                    this.NameEnglish = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
-                } else {
-                    this.Name = ci.NativeName;
-                    this.NameEnglish = ci.EnglishName;
+                switch (this.SystemLanguage) {
+                    case SystemLanguage.SerboCroatian:
+                        this.ID = this.SystemLanguage.ToString();
+                        this.Name = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
+                        this.NameEnglish = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
+                        break;
+                    case SystemLanguage.Unknown:
+                        this.ID = this.SystemLanguage.ToString();
+                        this.Name = LangConstants.Others;
+                        this.NameEnglish = LangConstants.Others;
+                        break;
+                    default:
+                        this.Name = ci.NativeName;
+                        this.NameEnglish = ci.EnglishName;
+                        break;
                 }
                 this.IsBuiltIn = false;
             }

@@ -40,6 +40,9 @@ internal class ModSettingsLocale : IDictionarySource {
 
         // generate-group
         this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.GenerateGroup), I18NMod.GroupGenerateTitle, true);
+        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)), I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel, true);
+        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)), I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription, true);
+        //
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)), I18NMod.GroupGenerateButtonGenerateLabel, true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)), String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.Paths.ModsDataPathSpecific), true);
 
@@ -86,6 +89,7 @@ internal class ModSettingsLocale : IDictionarySource {
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorThai)), this.GetLabel(SystemLanguage.Thai), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorTurkish)), this.GetLabel(SystemLanguage.Turkish), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorUkrainian)), this.GetLabel(SystemLanguage.Ukrainian), true);
+        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorUnknown)), this.GetLabel(SystemLanguage.Unknown), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetLabel(SystemLanguage.Vietnamese), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetLabel(SystemLanguage.ChineseSimplified), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetLabel(SystemLanguage.ChineseTraditional), true);
@@ -133,6 +137,7 @@ internal class ModSettingsLocale : IDictionarySource {
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorThai)), this.GetDescription(SystemLanguage.Thai), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorTurkish)), this.GetDescription(SystemLanguage.Turkish), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorUkrainian)), this.GetDescription(SystemLanguage.Ukrainian), true);
+        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorUnknown)), this.GetDescription(SystemLanguage.Unknown), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorVietnamese)), this.GetDescription(SystemLanguage.Vietnamese), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseSimplified)), this.GetDescription(SystemLanguage.ChineseSimplified), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.FlavorChineseTraditional)), this.GetDescription(SystemLanguage.ChineseTraditional), true);

@@ -84,6 +84,14 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIButton]
     [SettingsUIDeveloper]
     [SettingsUISection(Section, GenerateGroup)]
+    public bool LogMarkdownAndCultureInfoNames {
+        set => this.runtimeContainer.Locales.LogMarkdownAndCultureInfoNames();
+    }
+
+    [Exclude]
+    [SettingsUIButton]
+    [SettingsUIDeveloper]
+    [SettingsUISection(Section, GenerateGroup)]
     [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsGenerateLocalizationJsonHiddenDisabled))]
     [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsGenerateLocalizationJsonHiddenDisabled))]
     public bool GenerateLocalizationJson {
