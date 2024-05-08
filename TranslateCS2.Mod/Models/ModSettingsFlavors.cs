@@ -40,7 +40,7 @@ internal partial class ModSettings {
         AutomaticSettings.SettingPageData pageData = base.GetPageData(id, addPrefix);
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is SystemLanguage.Chinese or SystemLanguage.Unknown) {
+            if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
             AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), $"{Flavor}{systemLanguage}") {
@@ -241,6 +241,9 @@ internal partial class ModSettings {
     }
     public DropdownItem<string>[] GetFlavorsUkrainian() {
         return this.GetFlavors(SystemLanguage.Ukrainian);
+    }
+    public DropdownItem<string>[] GetFlavorsUnkown() {
+        return this.GetFlavors(SystemLanguage.Unknown);
     }
     public DropdownItem<string>[] GetFlavorsVietnamese() {
         return this.GetFlavors(SystemLanguage.Vietnamese);
