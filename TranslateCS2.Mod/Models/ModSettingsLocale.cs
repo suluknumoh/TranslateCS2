@@ -89,12 +89,13 @@ internal class ModSettingsLocale : IDictionarySource {
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Thai}"), this.GetLabel(SystemLanguage.Thai), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Turkish}"), this.GetLabel(SystemLanguage.Turkish), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Ukrainian}"), this.GetLabel(SystemLanguage.Ukrainian), true);
-        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Unknown}"), this.GetLabel(SystemLanguage.Unknown), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Vietnamese}"), this.GetLabel(SystemLanguage.Vietnamese), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.ChineseSimplified}"), this.GetLabel(SystemLanguage.ChineseSimplified), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.ChineseTraditional}"), this.GetLabel(SystemLanguage.ChineseTraditional), true);
         this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Hindi}"), this.GetLabel(SystemLanguage.Hindi), true);
-
+        //
+        // should be different to other langs logic
+        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{SystemLanguage.Unknown}"), LangConstants.OtherLanguages, true);
 
 
 
@@ -137,12 +138,13 @@ internal class ModSettingsLocale : IDictionarySource {
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Thai}"), this.GetDescription(SystemLanguage.Thai), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Turkish}"), this.GetDescription(SystemLanguage.Turkish), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Ukrainian}"), this.GetDescription(SystemLanguage.Ukrainian), true);
-        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Unknown}"), this.GetDescription(SystemLanguage.Unknown), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Vietnamese}"), this.GetDescription(SystemLanguage.Vietnamese), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.ChineseSimplified}"), this.GetDescription(SystemLanguage.ChineseSimplified), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.ChineseTraditional}"), this.GetDescription(SystemLanguage.ChineseTraditional), true);
         this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Hindi}"), this.GetDescription(SystemLanguage.Hindi), true);
-
+        //
+        // should be different to other langs logic
+        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{SystemLanguage.Unknown}"), LangConstants.OtherLanguagesSelect, true);
 
     }
 
