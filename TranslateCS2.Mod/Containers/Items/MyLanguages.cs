@@ -233,21 +233,18 @@ public class MyLanguages {
             StringBuilder cultureInfoBuilder = new StringBuilder();
             StringBuilder markdownBuilder = new StringBuilder();
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in ordered) {
-                markdownBuilder.AppendLine($"## {entry.Value.NameEnglish} - {entry.Value.Name}");
+                markdownBuilder.AppendLine($"## {ReplaceAmpersandsAndPadRight(entry.Value.NameEnglish, 0)} - {ReplaceAmpersandsAndPadRight(entry.Value.Name, 0)}");
                 IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
                 foreach (CultureInfo? cultureInfo in orderedCultures) {
-                    markdownBuilder.AppendLine($"* {cultureInfo.Name.PadRight(10)} - {cultureInfo.EnglishName.PadRight(50)} - {cultureInfo.NativeName}");
+                    markdownBuilder.AppendLine($"* {ReplaceAmpersandsAndPadRight(cultureInfo.Name, 15)} - {ReplaceAmpersandsAndPadRight(cultureInfo.EnglishName, 45)} - {ReplaceAmpersandsAndPadRight(cultureInfo.NativeName, 0)}");
                     cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
                 }
                 markdownBuilder.AppendLine();
                 markdownBuilder.AppendLine();
             }
-            string supportedLanguagesMarkDown = markdownBuilder.ToString().Replace("&", "and")
-                //.ReplaceLineEndings("\n")
-                ;
             this.runtimeContainer.Logger?.LogInfo(this.GetType(),
                                                   "languages markdown:",
-                                                  [supportedLanguagesMarkDown]);
+                                                  [markdownBuilder]);
             this.runtimeContainer.Logger?.LogInfo(this.GetType(),
                                                   "culture-infos:",
                                                   [cultureInfoBuilder]);
@@ -256,5 +253,8 @@ public class MyLanguages {
                                                    LoggingConstants.FailedTo,
                                                    [nameof(LogMarkdownAndCultureInfoNames), ex]);
         }
+    }
+    private static string ReplaceAmpersandsAndPadRight(string s, int amount) {
+        return s.Replace("&", "and").PadRight(amount);
     }
 }
