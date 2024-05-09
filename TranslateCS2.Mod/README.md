@@ -73,12 +73,12 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * the following languages are supported with the listed country and/or country-region code
 * due to technical limitations, country and/or country-region codes are limited
 
-## Afrikaans
+## Afrikaans - Afrikaans
 * af         - Afrikaans                                          - Afrikaans
 * af-ZA      - Afrikaans (South Africa)                           - Afrikaans (Suid-Afrika)
 
 
-## Arabic
+## Arabic - العربية
 * ar         - Arabic                                             - العربية
 * ar-AE      - Arabic (United Arab Emirates)                      - العربية (الإمارات العربية المتحدة)
 * ar-BH      - Arabic (Bahrain)                                   - العربية (البحرين)
@@ -98,28 +98,28 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * ar-YE      - Arabic (Yemen)                                     - العربية (اليمن)
 
 
-## Basque
+## Basque - euskara
 * eu         - Basque                                             - euskara
 * eu-ES      - Basque (Spain)                                     - euskara (Espainia)
 
 
-## Belarusian
+## Belarusian - беларуская
 * be         - Belarusian                                         - беларуская
 * be-BY      - Belarusian (Belarus)                               - беларуская (Беларусь)
 
 
-## Bulgarian
+## Bulgarian - български
 * bg         - Bulgarian                                          - български
 * bg-BG      - Bulgarian (Bulgaria)                               - български (България)
 
 
-## Catalan
+## Catalan - català
 * ca         - Catalan                                            - català
 * ca-ES      - Catalan (Spain)                                    - català (Espanya)
 * ca-ES-valencia - Catalan (Spain)                                    - català (Espanya)
 
 
-## ChineseSimplified
+## Chinese (Simplified) - 中文
 * zh         - Chinese (Simplified)                               - 中文
 * zh-CHS     - Chinese (Simplified) Legacy                        - 中文
 * zh-CN      - Chinese (Simplified)                               - 中文 (中国)
@@ -127,7 +127,7 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * zh-SG      - Chinese (Simplified, Singapore)                    - 中文 (新加坡)
 
 
-## ChineseTraditional
+## Chinese (Simplified) - 中文
 * zh-CHT     - Chinese (Traditional) Legacy                       - 中文
 * zh-Hant    - Chinese (Traditional)                              - 中文
 * zh-HK      - Chinese (Traditional, Hong Kong SAR China)         - 中文 (中国香港特别行政区)
@@ -135,23 +135,23 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * zh-TW      - Chinese (Traditional)                              - 中文 (台湾)
 
 
-## Czech
+## Czech - čeština
 * cs         - Czech                                              - čeština
 * cs-CZ      - Czech (Czech Republic)                             - čeština (Česká republika)
 
 
-## Danish
+## Danish - dansk
 * da         - Danish                                             - dansk
 * da-DK      - Danish (Denmark)                                   - dansk (Danmark)
 
 
-## Dutch
+## Dutch - Nederlands
 * nl         - Dutch                                              - Nederlands
 * nl-BE      - Dutch (Belgium)                                    - Nederlands (België)
 * nl-NL      - Dutch (Netherlands)                                - Nederlands (Nederland)
 
 
-## English
+## English - English
 * en         - English                                            - English
 * en-AU      - English (Australia)                                - English (Australia)
 * en-BZ      - English (Belize)                                   - English (Belize)
@@ -171,22 +171,22 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * en-ZW      - English (Zimbabwe)                                 - English (Zimbabwe)
 
 
-## Estonian
+## Estonian - eesti
 * et         - Estonian                                           - eesti
 * et-EE      - Estonian (Estonia)                                 - eesti (Eesti)
 
 
-## Faroese
+## Faroese - føroyskt
 * fo         - Faroese                                            - føroyskt
 * fo-FO      - Faroese (Faroe Islands)                            - føroyskt (Føroyar)
 
 
-## Finnish
+## Finnish - suomi
 * fi         - Finnish                                            - suomi
 * fi-FI      - Finnish (Finland)                                  - suomi (Suomi)
 
 
-## French
+## French - français
 * fr         - French                                             - français
 * fr-BE      - French (Belgium)                                   - français (Belgique)
 * fr-CA      - French (Canada)                                    - français (Canada)
@@ -204,7 +204,7 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * fr-SN      - French (Senegal)                                   - français (Sénégal)
 
 
-## German
+## German - Deutsch
 * de         - German                                             - Deutsch
 * de-AT      - German (Austria)                                   - Deutsch (Österreich)
 * de-CH      - German (Switzerland)                               - Deutsch (Schweiz)
@@ -213,63 +213,63 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * de-LU      - German (Luxembourg)                                - Deutsch (Luxemburg)
 
 
-## Greek
+## Greek - Ελληνικά
 * el         - Greek                                              - Ελληνικά
 * el-GR      - Greek (Greece)                                     - Ελληνικά (Ελλάδα)
 
 
-## Hebrew
+## Hebrew - עברית
 * he         - Hebrew                                             - עברית
 * he-IL      - Hebrew (Israel)                                    - עברית (ישראל)
 
 
-## Hindi
+## Hindi - हिन्दी
 * hi         - Hindi                                              - हिन्दी
 * hi-IN      - Hindi (India)                                      - हिन्दी (भारत)
 
 
-## Hungarian
+## Hungarian - magyar
 * hu         - Hungarian                                          - magyar
 * hu-HU      - Hungarian (Hungary)                                - magyar (Magyarország)
 
 
-## Icelandic
+## Icelandic - íslenska
 * is         - Icelandic                                          - íslenska
 * is-IS      - Icelandic (Iceland)                                - íslenska (Ísland)
 
 
-## Indonesian
+## Indonesian - Indonesia
 * id         - Indonesian                                         - Indonesia
 * id-ID      - Indonesian (Indonesia)                             - Indonesia (Indonesia)
 
 
-## Italian
+## Italian - italiano
 * it         - Italian                                            - italiano
 * it-CH      - Italian (Switzerland)                              - italiano (Svizzera)
 * it-IT      - Italian (Italy)                                    - italiano (Italia)
 
 
-## Japanese
+## Japanese - 日本語
 * ja         - Japanese                                           - 日本語
 * ja-JP      - Japanese (Japan)                                   - 日本語 (日本)
 
 
-## Korean
+## Korean - 한국어
 * ko         - Korean                                             - 한국어
 * ko-KR      - Korean (South Korea)                               - 한국어 (대한민국)
 
 
-## Latvian
+## Latvian - latviešu
 * lv         - Latvian                                            - latviešu
 * lv-LV      - Latvian (Latvia)                                   - latviešu (Latvija)
 
 
-## Lithuanian
+## Lithuanian - lietuvių
 * lt         - Lithuanian                                         - lietuvių
 * lt-LT      - Lithuanian (Lithuania)                             - lietuvių (Lietuva)
 
 
-## Norwegian
+## Norwegian Bokmål - norsk bokmål
 * nb         - Norwegian Bokmål                                   - norsk bokmål
 * nb-NO      - Norwegian Bokmål (Norway)                          - norsk bokmål (Norge)
 * nn         - Norwegian Nynorsk                                  - nynorsk
@@ -277,30 +277,30 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * no         - Norwegian                                          - norsk
 
 
-## Polish
+## Polish - polski
 * pl         - Polish                                             - polski
 * pl-PL      - Polish (Poland)                                    - polski (Polska)
 
 
-## Portuguese
+## Portuguese (Brazil) - português (Brasil)
 * pt         - Portuguese                                         - português
 * pt-BR      - Portuguese (Brazil)                                - português (Brasil)
 * pt-PT      - Portuguese (Portugal)                              - português (Portugal)
 
 
-## Romanian
+## Romanian - română
 * ro         - Romanian                                           - română
 * ro-MD      - Romanian (Moldova)                                 - română (Republica Moldova)
 * ro-RO      - Romanian (Romania)                                 - română (România)
 
 
-## Russian
+## Russian - русский
 * ru         - Russian                                            - русский
 * ru-MD      - Russian (Moldova)                                  - русский (Молдова)
 * ru-RU      - Russian (Russia)                                   - русский (Россия)
 
 
-## Serbian/Croatian
+## Serbian/Croatian - српски/hrvatski
 * hr         - Croatian                                           - hrvatski
 * hr-BA      - Croatian (Bosnia and Herzegovina)                    - hrvatski (Bosna i Hercegovina)
 * hr-HR      - Croatian (Croatia)                                 - hrvatski (Hrvatska)
@@ -315,17 +315,17 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * sr-Latn-RS - Serbian (Latin, Serbia)                            - српски (Србија)
 
 
-## Slovak
+## Slovak - slovenčina
 * sk         - Slovak                                             - slovenčina
 * sk-SK      - Slovak (Slovakia)                                  - slovenčina (Slovensko)
 
 
-## Slovenian
+## Slovenian - slovenščina
 * sl         - Slovenian                                          - slovenščina
 * sl-SI      - Slovenian (Slovenia)                               - slovenščina (Slovenija)
 
 
-## Spanish
+## Spanish - español
 * es         - Spanish                                            - español
 * es-AR      - Spanish (Argentina)                                - español (Argentina)
 * es-BO      - Spanish (Bolivia)                                  - español (Bolivia)
@@ -350,28 +350,28 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * es-VE      - Spanish (Venezuela)                                - español (Venezuela)
 
 
-## Swedish
+## Swedish - svenska
 * sv         - Swedish                                            - svenska
 * sv-FI      - Swedish (Finland)                                  - svenska (Finland)
 * sv-SE      - Swedish (Sweden)                                   - svenska (Sverige)
 
 
-## Thai
+## Thai - ไทย
 * th         - Thai                                               - ไทย
 * th-TH      - Thai (Thailand)                                    - ไทย (ไทย)
 
 
-## Turkish
+## Turkish - Türkçe
 * tr         - Turkish                                            - Türkçe
 * tr-TR      - Turkish (Turkey)                                   - Türkçe (Türkiye)
 
 
-## Ukrainian
+## Ukrainian - українська
 * uk         - Ukrainian                                          - українська
 * uk-UA      - Ukrainian (Ukraine)                                - українська (Україна)
 
 
-## Others
+## other languages - other languages
 * as         - Assamese                                           - অসমীয়া
 * as-IN      - Assamese (India)                                   - অসমীয়া (ভাৰত)
 * az         - Azerbaijani                                        - azərbaycan
@@ -500,7 +500,7 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * zu-ZA      - Zulu (South Africa)                                - isiZulu (i-South Africa)
 
 
-## Vietnamese
+## Vietnamese - Tiếng Việt
 * vi         - Vietnamese                                         - Tiếng Việt
 * vi-VN      - Vietnamese (Vietnam)                               - Tiếng Việt (Việt Nam)
 
