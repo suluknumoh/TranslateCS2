@@ -174,6 +174,11 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
+## Version 2.0.1.0
+- export merge-values
+- languages
+- monospace font for mod-readme and mod-changelog
+
 ## Version 2.0
 - sessions view
     - edit/create new session
