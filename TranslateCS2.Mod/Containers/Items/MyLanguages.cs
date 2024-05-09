@@ -45,11 +45,9 @@ public class MyLanguages {
     }
 
     private void Init() {
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping(this.runtimeContainer.DoubleCheck);
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
-            MyLanguage language = new MyLanguage(entry.Key, this.runtimeContainer);
-            language.CultureInfos.AddRange(entry.Value);
-            language.Init();
+            MyLanguage language = new MyLanguage(entry.Key, this.runtimeContainer, entry.Value);
             this.LanguageDictionary.Add(entry.Key, language);
         }
     }
@@ -94,11 +92,11 @@ public class MyLanguages {
             }
         }
     }
-    private MyLanguage? GetLanguage(string localeId) {
-        foreach (MyLanguage country in this.LanguageDictionary.Values) {
-            IEnumerable<CultureInfo> cis = country.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+    public MyLanguage? GetLanguage(string localeId) {
+        foreach (MyLanguage language in this.LanguageDictionary.Values) {
+            IEnumerable<CultureInfo> cis = language.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
-                return country;
+                return language;
             }
         }
         return null;
@@ -228,5 +226,35 @@ public class MyLanguages {
     private void AddToFlavorMapping(SystemLanguage systemLanguage, string localeId) {
         this.FlavorMapping.Remove(systemLanguage);
         this.FlavorMapping.Add(systemLanguage, localeId);
+    }
+    public void LogMarkdownAndCultureInfoNames() {
+        try {
+            IOrderedEnumerable<KeyValuePair<SystemLanguage, MyLanguage>> ordered = this.LanguageDictionary.OrderBy(item => item.Key.ToString());
+            StringBuilder cultureInfoBuilder = new StringBuilder();
+            StringBuilder markdownBuilder = new StringBuilder();
+            foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in ordered) {
+                markdownBuilder.AppendLine($"## {ReplaceAmpersandsAndPadRight(entry.Value.NameEnglish, 0)} - {ReplaceAmpersandsAndPadRight(entry.Value.Name, 0)}");
+                IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
+                foreach (CultureInfo? cultureInfo in orderedCultures) {
+                    markdownBuilder.AppendLine($"* {ReplaceAmpersandsAndPadRight(cultureInfo.Name, 15)} - {ReplaceAmpersandsAndPadRight(cultureInfo.EnglishName, 45)} - {ReplaceAmpersandsAndPadRight(cultureInfo.NativeName, 0)}");
+                    cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
+                }
+                markdownBuilder.AppendLine();
+                markdownBuilder.AppendLine();
+            }
+            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
+                                                  "languages markdown:",
+                                                  [markdownBuilder]);
+            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
+                                                  "culture-infos:",
+                                                  [cultureInfoBuilder]);
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(LogMarkdownAndCultureInfoNames), ex]);
+        }
+    }
+    private static string ReplaceAmpersandsAndPadRight(string s, int amount) {
+        return s.Replace("&", "and").PadRight(amount);
     }
 }

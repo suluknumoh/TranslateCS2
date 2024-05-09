@@ -11,7 +11,6 @@ public interface IModRuntimeContainer {
     ILog? Logger { get; }
     LocalizationManager? LocManager { get; }
     InterfaceSettings? IntSetting { get; }
-    bool DoubleCheck { get; }
 
 
 

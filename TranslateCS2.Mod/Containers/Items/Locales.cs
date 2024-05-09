@@ -10,8 +10,10 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
 public class Locales {
+    private readonly IModRuntimeContainer runtimeContainer;
     private IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
     internal Locales(IModRuntimeContainer runtimeContainer) {
+        this.runtimeContainer = runtimeContainer;
         Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash
         string path = $"{runtimeContainer.Paths.StreamingDataPath}Data~/";
@@ -38,31 +40,30 @@ public class Locales {
     public bool IsBuiltIn(string localeId) {
         return this.LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
     }
-    public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping(bool doubleCheck) {
+    public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping() {
         Dictionary<SystemLanguage, IList<CultureInfo>> systemLanguageCulturesMapping = [];
         IEnumerable<SystemLanguage> languages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        CultureInfo[] cultures =
+        List<CultureInfo> cultures =
             CultureInfo
                 .GetCultures(CultureTypes.AllCultures)
-                .ToArray();
-        if (doubleCheck) {
-            cultures =
-                cultures
-                    .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
-                    .ToArray();
-        }
-        foreach (CultureInfo culture in cultures) {
+                .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
+                .ToList();
+        for (int i = cultures.Count - 1; i >= 0; i--) {
+            CultureInfo culture = cultures[i];
             foreach (SystemLanguage language in languages) {
                 string? comparator = null;
                 switch (language) {
                     case SystemLanguage.Chinese:
-                        // i think i cant handle it, because chinese simplified and chinese traditional are present
+                    // i think i cant handle it, because chinese simplified and chinese traditional are present
+                    case SystemLanguage.Unknown:
+                        // no need to check for unknown
                         continue;
                     case SystemLanguage.SerboCroatian:
                         if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
                             || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
                         ) {
                             this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                            cultures.Remove(culture);
                         }
                         continue;
                     case SystemLanguage.ChineseSimplified:
@@ -77,15 +78,22 @@ public class Locales {
                 }
                 if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
                     this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                    cultures.Remove(culture);
                 }
             }
         }
-
+        foreach (CultureInfo culture in cultures) {
+            // i want to use the existing logic...
+            this.AddToDictionary(systemLanguageCulturesMapping, culture, SystemLanguage.Unknown);
+        }
 
 
         return systemLanguageCulturesMapping;
     }
     private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary, CultureInfo culture, SystemLanguage language) {
+        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(culture.Name)) {
+            return;
+        }
         if (dictionary.TryGetValue(language, out IList<CultureInfo>? cultureInfos) && cultureInfos != null) {
             cultureInfos.Add(culture);
         } else {

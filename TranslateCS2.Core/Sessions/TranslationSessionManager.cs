@@ -127,7 +127,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         if (json) {
             dic =
                 this.CurrentTranslationSession.LocalizationDictionary
-                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key) && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)).ToList();
+                    .Where(item => (!StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key) && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)) || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
         } else {
             dic =
                 this.CurrentTranslationSession.LocalizationDictionary

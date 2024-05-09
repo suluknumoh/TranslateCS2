@@ -16,8 +16,7 @@ internal class ModRuntimeContainer : AModRuntimeContainer {
     public override InterfaceSettings? IntSetting => this.gameManager.settings.userInterface;
 
 
-    public ModRuntimeContainer(GameManager gameManager, ILog logger) : base(true,
-                                                                            logger,
+    public ModRuntimeContainer(GameManager gameManager, ILog logger) : base(logger,
                                                                             new Paths(true,
                                                                                             EnvPath.kStreamingDataPath,
                                                                                             EnvPath.kUserDataPath)) {

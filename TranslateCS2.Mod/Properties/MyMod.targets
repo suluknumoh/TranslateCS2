@@ -12,7 +12,7 @@
             to prepend the changelog-history (project-dir/CHANGELOG.md) with CHANGELOG.CURRENT.md
         
     -->
-    <Target Name="CopyPublishConfiguration" AfterTargets="BeforeBuild">
+    <Target Name="CopyPublishConfiguration" BeforeTargets="BeforeBuild">
         <!-- copy template publishconfiguration to the publishconfiguration path used within Mod.targets -->
         <Copy SourceFiles="$(PublishConfigurationPathFrom)" DestinationFiles="$(PublishConfigurationPath)" />
     </Target>
@@ -50,39 +50,35 @@
 
     <Target
         Name="WriteNewChangeLog"
-        AfterTargets="RunModPublisher"
+        BeforeTargets="BeforeBuild"
         DependsOnTargets="PokeInfosToPublishConfiguration">
-        <!-- aftertarget 'RunModPublisher' indicates final publish -->
+        <!-- beforetarget 'Publish' indicates final publish -->
         <!-- prepend changelog-history with current changelogs lines -->
         <!-- uses items from depend-target -->
-        <ReadLinesFromFile
-            File="$(ProjectDir)\CHANGELOG.md">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModChangeLogLines" />
-        </ReadLinesFromFile>
+        <PropertyGroup>
+            <ModChangeLogHistory>$(ProjectDir)\Properties\CHANGELOG.HISTORY.md</ModChangeLogHistory>
+            <ModChangeLog>$(ProjectDir)\CHANGELOG.md</ModChangeLog>
+        </PropertyGroup>
         <ItemGroup>
-            <ModChangeLog
-                Include="$(ProjectDir)CHANGELOG.md" />
             <ChangeLogContent
                 Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))" />
             <ChangeLogContent
-                Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.md'))" />
+                Include="$([System.IO.File]::ReadAllText('$(ModChangeLogHistory)'))" />
         </ItemGroup>
         <WriteLinesToFile
-            File="@(ModChangeLog)"
+            File="$(ModChangeLog)"
             Lines="@(ChangeLogContent)"
             Overwrite="true"
             />
     </Target>
 
-    <!-- not quiet sure if i want to delete it automatically... -->
-    <!-- aftertarget 'RunModPublisher' indicates final publish -->
-    <!--
+
     <Target
-        Name="DeleteCopiedAndPokedPublishConfiguration"
+        Name="CopyChangeLogToHistory"
         AfterTargets="RunModPublisher">
-        <Delete Files="$(PublishConfigurationPath)"/>
+        <!-- aftertarget 'RunModPublisher' indicates final publish -->
+        <Copy
+            SourceFiles="$(ModChangeLog)"
+            DestinationFiles="$(ModChangeLogHistory)"/>
     </Target>
-    -->
 </Project>

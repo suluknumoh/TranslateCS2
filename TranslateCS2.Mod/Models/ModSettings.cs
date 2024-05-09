@@ -49,6 +49,7 @@ internal partial class ModSettings : ModSetting {
         this.runtimeContainerHandler = runtimeContainerHandler;
         this.runtimeContainer = runtimeContainerHandler.RuntimeContainer;
         this.languages = this.runtimeContainer.Languages;
+        this.OnFlavorChanged += this.languages.FlavorChanged;
     }
 
     [Exclude]
@@ -77,6 +78,14 @@ internal partial class ModSettings : ModSetting {
                                                      LoggingConstants.FailedTo,
                                                      [nameof(ReloadLangs), ex]);
         }
+    }
+
+    [Exclude]
+    [SettingsUIButton]
+    [SettingsUIDeveloper]
+    [SettingsUISection(Section, GenerateGroup)]
+    public bool LogMarkdownAndCultureInfoNames {
+        set => this.languages.LogMarkdownAndCultureInfoNames();
     }
 
     [Exclude]
@@ -128,6 +137,7 @@ internal partial class ModSettings : ModSetting {
                 this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
                 this.runtimeContainer.IntSetting.currentLocale = this.Locale;
                 this.runtimeContainer.IntSetting.locale = this.Locale;
+                this.OnLocaleChanged();
             }
             this.runtimeContainer.IntSetting.onSettingsApplied += this.ApplyAndSaveAlso;
         } catch (Exception ex) {
@@ -141,6 +151,7 @@ internal partial class ModSettings : ModSetting {
         try {
             if (setting is InterfaceSettings interfaceSettings) {
                 this.Locale = interfaceSettings.locale;
+                this.OnLocaleChanged();
                 this.ApplyAndSave();
             }
         } catch (Exception ex) {
@@ -148,6 +159,18 @@ internal partial class ModSettings : ModSetting {
                                                      LoggingConstants.FailedTo,
                                                      [nameof(ApplyAndSaveAlso), ex]);
         }
+    }
+
+    private void OnLocaleChanged() {
+        if (this.Locale is null) {
+            return;
+        }
+        MyLanguage? language = this.languages.GetLanguage(this.Locale);
+        if (language is null) {
+            return;
+        }
+        string localeId = this.Getter(language.SystemLanguage);
+        this.Setter(language.SystemLanguage, localeId);
     }
 
     public void HandleLocaleOnUnLoad() {

@@ -6,4 +6,6 @@ public static class LangConstants {
     public static string Serbian { get; } = nameof(Serbian);
     public static string Latin { get; } = nameof(Latin);
     public static string Cyrillic { get; } = nameof(Cyrillic);
+    public static string OtherLanguages { get; } = "other languages";
+    public static string OtherLanguagesSelect { get; } = "Select a language.";
 }

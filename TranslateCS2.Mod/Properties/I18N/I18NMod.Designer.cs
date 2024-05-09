@@ -97,7 +97,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to generate.
+        ///   Looks up a localized string similar to generate localization json.
         /// </summary>
         internal static string GroupGenerateButtonGenerateLabel {
             get {
@@ -106,7 +106,25 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to generate localization json.
+        ///   Looks up a localized string similar to generates two log entries. one with the markdown for readme.md and one for an internal list.
+        /// </summary>
+        internal static string GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription {
+            get {
+                return ResourceManager.GetString("GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to log Markdown and CultureInfo-Names.
+        /// </summary>
+        internal static string GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel {
+            get {
+                return ResourceManager.GetString("GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to log and generate.
         /// </summary>
         internal static string GroupGenerateTitle {
             get {
