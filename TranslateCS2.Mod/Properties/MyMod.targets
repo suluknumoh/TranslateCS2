@@ -58,12 +58,6 @@
         <PropertyGroup>
             <ModChangeLog>$(ProjectDir)CHANGELOG.md</ModChangeLog>
         </PropertyGroup>
-        <ReadLinesFromFile
-            File="$(ModChangeLog)">
-            <Output
-                TaskParameter="Lines"
-                ItemName="ModChangeLogLines" />
-        </ReadLinesFromFile>
         <ItemGroup>
             <ChangeLogContent
                 Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))" />
