@@ -50,33 +50,26 @@
 
     <Target
         Name="WriteNewChangeLog"
-        BeforeTargets="Publish"
+        BeforeTargets="BeforeBuild"
         DependsOnTargets="PokeInfosToPublishConfiguration">
         <!-- beforetarget 'Publish' indicates final publish -->
         <!-- prepend changelog-history with current changelogs lines -->
         <!-- uses items from depend-target -->
         <PropertyGroup>
-            <ModChangeLog>$(ProjectDir)CHANGELOG.md</ModChangeLog>
+            <ModChangeLogHistory>$(ProjectDir)\Properties\CHANGELOG.HISTORY.md</ModChangeLogHistory>
+            <ModChangeLog>$(ProjectDir)\CHANGELOG.md</ModChangeLog>
         </PropertyGroup>
         <ItemGroup>
             <ChangeLogContent
                 Include="$([System.IO.File]::ReadAllText('$(ProjectDir)\CHANGELOG.CURRENT.md'))" />
             <ChangeLogContent
-                Include="$([System.IO.File]::ReadAllText('$(ModChangeLog)'))" />
+                Include="$([System.IO.File]::ReadAllText('$(ModChangeLogHistory)'))" />
         </ItemGroup>
         <WriteLinesToFile
             File="$(ModChangeLog)"
             Lines="@(ChangeLogContent)"
             Overwrite="true"
             />
-        <Copy
-            SourceFiles="$(ModChangeLog)"
-            DestinationFiles="$(OutDir)\CHANGELOG.md"
-            OverwriteReadOnlyFiles="true"/>
-        <Copy
-            SourceFiles="$(ModChangeLog)"
-            DestinationFiles="$(DeployDir)\CHANGELOG.md"
-            OverwriteReadOnlyFiles="true"/>
     </Target>
 
 
