@@ -15,12 +15,18 @@ public class HelpMeWithSupportedLanguages {
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer();
         string directoryPath = runtimeContainer.Paths.TryToGetModsPath();
         foreach (string supportedLocale in LocalesSupported.Lowered) {
-            string content = $"{{ \"Options.SECTION[General]\": \"General ({supportedLocale}.json)\" }}";
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("{");
+            // to see, if changes are applied on startup
+            builder.AppendLine($"\"Menu.OPTIONS\": \"Options ({supportedLocale}.json)\",");
+            // to see, if changes are applied on flavor changed
+            builder.AppendLine($"\"Options.SECTION[General]\": \"General ({supportedLocale}.json)\",");
+            builder.AppendLine("}");
             string filePath = Path.Combine(directoryPath, $"{supportedLocale}{ModConstants.JsonExtension}");
             if (File.Exists(filePath)) {
                 File.Delete(filePath);
             }
-            File.WriteAllText(filePath, content, Encoding.UTF8);
+            File.WriteAllText(filePath, builder.ToString(), Encoding.UTF8);
         }
     }
 }
