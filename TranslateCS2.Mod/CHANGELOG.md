@@ -1,4 +1,4 @@
-# Version 2.0.1.0 (work in progress)
+# Version 2.0.1.0
 - added support for the following languages that are grouped as 'other languages' within the interface settings language drop down:
     - as         - Assamese                                           - অসমীয়া
     - as-IN      - Assamese (India)                                   - অসমীয়া (ভাৰত)
@@ -14,9 +14,9 @@
     - br-FR      - Breton (France)                                    - brezhoneg (Frañs)
     - bs         - Bosnian                                            - bosanski
     - bs-Cyrl    - Bosnian (Cyrillic)                                 - bosanski
-    - bs-Cyrl-BA - Bosnian (Cyrillic, Bosnia and Herzegovina)           - bosanski (Bosna i Hercegovina)
+    - bs-Cyrl-BA - Bosnian (Cyrillic, Bosnia and Herzegovina)         - bosanski (Bosna i Hercegovina)
     - bs-Latn    - Bosnian (Latin)                                    - bosanski
-    - bs-Latn-BA - Bosnian (Latin, Bosnia and Herzegovina)              - bosanski (Bosna i Hercegovina)
+    - bs-Latn-BA - Bosnian (Latin, Bosnia and Herzegovina)            - bosanski (Bosna i Hercegovina)
     - cy         - Welsh                                              - Cymraeg
     - cy-GB      - Welsh (United Kingdom)                             - Cymraeg (Y Deyrnas Unedig)
     - dsb        - Lower Sorbian                                      - dolnoserbšćina
