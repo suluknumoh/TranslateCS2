@@ -61,7 +61,16 @@
             Markdown="{Binding Doc}"
             Pipeline="{Binding Pipeline}">
             <markdig:MarkdownViewer.Resources>
-                <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
+                <ResourceDictionary>
+                    <Style
+                        TargetType="{x:Type FlowDocument}"
+                        x:Key="{x:Static markdig:Styles.DocumentStyleKey}">
+                        <Setter Property="FontFamily" Value="Cascadia Mono" />
+                    </Style>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/TranslateCS2.Core;component/Properties/markdig.wpf.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </markdig:MarkdownViewer.Resources>
             <FrameworkElement.CommandBindings>
                 <CommandBinding
