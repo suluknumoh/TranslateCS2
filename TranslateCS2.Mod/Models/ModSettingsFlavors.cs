@@ -62,13 +62,13 @@ internal partial class ModSettings {
         }
         return pageData;
     }
-    private void Setter(SystemLanguage systemLanguage, object localeIdObject) {
+    public void Setter(SystemLanguage systemLanguage, object localeIdObject) {
         if (localeIdObject is string localeId) {
             localeId = this.GetValueToSet(systemLanguage, localeId, true);
             this.FlavorsSetted[systemLanguage] = localeId;
         }
     }
-    private string Getter(SystemLanguage systemLanguage) {
+    public string Getter(SystemLanguage systemLanguage) {
         this.FlavorsSetted.TryGetValue(systemLanguage, out string? val);
         val ??= DropDownItems.None;
         return this.GetValueToSet(systemLanguage, val, false);

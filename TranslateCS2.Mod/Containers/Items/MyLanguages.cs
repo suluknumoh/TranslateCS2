@@ -92,7 +92,7 @@ public class MyLanguages {
             }
         }
     }
-    private MyLanguage? GetLanguage(string localeId) {
+    public MyLanguage? GetLanguage(string localeId) {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
             IEnumerable<CultureInfo> cis = language.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
