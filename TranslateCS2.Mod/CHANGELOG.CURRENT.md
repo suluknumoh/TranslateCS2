@@ -1,5 +1,5 @@
 # Version 2.0.1.0 (work in progress)
-- add support for the following languages:
+- added support for the following languages that are grouped as 'other languages' within the interface settings language drop down:
     - as         - Assamese                                           - অসমীয়া
     - as-IN      - Assamese (India)                                   - অসমীয়া (ভাৰত)
     - az         - Azerbaijani                                        - azərbaycan
