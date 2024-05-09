@@ -73,13 +73,12 @@
     </Target>
 
 
-    <!-- not quiet sure if i want to delete it automatically... -->
-    <!-- aftertarget 'RunModPublisher' indicates final publish -->
-    <!--
     <Target
-        Name="DeleteCopiedAndPokedPublishConfiguration"
+        Name="CopyChangeLogToHistory"
         AfterTargets="RunModPublisher">
-        <Delete Files="$(PublishConfigurationPath)"/>
+        <!-- aftertarget 'RunModPublisher' indicates final publish -->
+        <Copy
+            SourceFiles="$(ModChangeLog)"
+            DestinationFiles="$(ModChangeLogHistory)"/>
     </Target>
-    -->
 </Project>
