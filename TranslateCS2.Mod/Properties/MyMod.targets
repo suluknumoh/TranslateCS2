@@ -12,7 +12,7 @@
             to prepend the changelog-history (project-dir/CHANGELOG.md) with CHANGELOG.CURRENT.md
         
     -->
-    <Target Name="CopyPublishConfiguration" AfterTargets="BeforeBuild">
+    <Target Name="CopyPublishConfiguration" BeforeTargets="BeforeBuild">
         <!-- copy template publishconfiguration to the publishconfiguration path used within Mod.targets -->
         <Copy SourceFiles="$(PublishConfigurationPathFrom)" DestinationFiles="$(PublishConfigurationPath)" />
     </Target>
