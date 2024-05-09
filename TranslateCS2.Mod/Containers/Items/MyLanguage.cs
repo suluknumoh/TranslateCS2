@@ -9,15 +9,18 @@ using Colossal.IO.AssetDatabase.Internal;
 using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Interfaces;
+using TranslateCS2.Mod.Models;
 
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class MyLanguage {
+public class MyLanguage : IIdNameNameEnglishGetAble {
     private readonly IModRuntimeContainer runtimeContainer;
-    public string ID { get; private set; }
-    public string Name { get; private set; }
-    public string NameEnglish { get; private set; }
+    private readonly IIdNameNameEnglishGetAble idNameNameEnglishGetAble;
+    public string ID => this.idNameNameEnglishGetAble.ID;
+    public string Name => this.idNameNameEnglishGetAble.Name;
+    public string NameEnglish => this.idNameNameEnglishGetAble.NameEnglish;
     internal IList<TranslationFile> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
     public int EntryCountOfAllFlavors {
@@ -33,47 +36,24 @@ public class MyLanguage {
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
     public bool HasFlavors => this.Flavors.Any();
-    internal MyLanguage(SystemLanguage systemLanguage, IModRuntimeContainer runtimeContainer) {
+    internal MyLanguage(SystemLanguage systemLanguage, IModRuntimeContainer runtimeContainer, IList<CultureInfo> cultureInfos) {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
-    }
-    public void Init() {
+        this.CultureInfos.AddRange(cultureInfos);
         IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
         if (builtin.Any()) {
-            CultureInfo ci = builtin.First();
-            this.ID = this.runtimeContainer.Locales.CorrectLocaleId(ci.Name);
-            switch (this.SystemLanguage) {
-                case SystemLanguage.Portuguese:
-                    this.Name = ci.NativeName;
-                    this.NameEnglish = ci.EnglishName;
-                    break;
-                default:
-                    this.Name = ci.Parent.NativeName;
-                    this.NameEnglish = ci.Parent.EnglishName;
-                    break;
-            }
+            this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
+                                                                              this.SystemLanguage,
+                                                                              builtin,
+                                                                              true);
             this.IsBuiltIn = true;
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
             if (remaining.Any()) {
-                CultureInfo ci = remaining.First();
-                this.ID = this.runtimeContainer.Locales.CorrectLocaleId(ci.Name);
-                switch (this.SystemLanguage) {
-                    case SystemLanguage.SerboCroatian:
-                        this.ID = this.SystemLanguage.ToString();
-                        this.Name = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
-                        this.NameEnglish = String.Join("/", remaining.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
-                        break;
-                    case SystemLanguage.Unknown:
-                        this.ID = this.SystemLanguage.ToString();
-                        this.Name = LangConstants.Others;
-                        this.NameEnglish = LangConstants.Others;
-                        break;
-                    default:
-                        this.Name = ci.NativeName;
-                        this.NameEnglish = ci.EnglishName;
-                        break;
-                }
+                this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
+                                                                                  this.SystemLanguage,
+                                                                                  remaining,
+                                                                                  false);
                 this.IsBuiltIn = false;
             }
         }
