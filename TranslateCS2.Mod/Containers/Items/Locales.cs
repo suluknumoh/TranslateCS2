@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Loggers;
 
 using UnityEngine;
 
@@ -102,37 +100,6 @@ public class Locales {
             cultureInfos = [];
             cultureInfos.Add(culture);
             dictionary.Add(language, cultureInfos);
-        }
-    }
-    public void LogMarkdownAndCultureInfoNames() {
-        try {
-            IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
-            IOrderedEnumerable<KeyValuePair<SystemLanguage, IList<CultureInfo>>> ordered = mapping.OrderBy(item => item.Key.ToString());
-            StringBuilder cultureInfoBuilder = new StringBuilder();
-            StringBuilder markdownBuilder = new StringBuilder();
-            foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in ordered) {
-                markdownBuilder.AppendLine($"## {entry.Key}");
-                IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.OrderBy(item => item.Name);
-                foreach (CultureInfo? cultureInfo in orderedCultures) {
-                    markdownBuilder.AppendLine($"* {cultureInfo.Name.PadRight(10)} - {cultureInfo.EnglishName.PadRight(50)} - {cultureInfo.NativeName}");
-                    cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
-                }
-                markdownBuilder.AppendLine();
-                markdownBuilder.AppendLine();
-            }
-            string supportedLanguagesMarkDown = markdownBuilder.ToString().Replace("&", "and")
-                //.ReplaceLineEndings("\n")
-                ;
-            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
-                                                  "languages markdown:",
-                                                  [supportedLanguagesMarkDown]);
-            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
-                                                  "culture-infos:",
-                                                  [cultureInfoBuilder]);
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(LogMarkdownAndCultureInfoNames), ex]);
         }
     }
 }

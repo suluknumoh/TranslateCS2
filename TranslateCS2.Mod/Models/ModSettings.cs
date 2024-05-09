@@ -85,7 +85,7 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIDeveloper]
     [SettingsUISection(Section, GenerateGroup)]
     public bool LogMarkdownAndCultureInfoNames {
-        set => this.runtimeContainer.Locales.LogMarkdownAndCultureInfoNames();
+        set => this.languages.LogMarkdownAndCultureInfoNames();
     }
 
     [Exclude]

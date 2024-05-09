@@ -95,10 +95,10 @@ public class MyLanguages {
         }
     }
     private MyLanguage? GetLanguage(string localeId) {
-        foreach (MyLanguage country in this.LanguageDictionary.Values) {
-            IEnumerable<CultureInfo> cis = country.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        foreach (MyLanguage language in this.LanguageDictionary.Values) {
+            IEnumerable<CultureInfo> cis = language.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
-                return country;
+                return language;
             }
         }
         return null;
@@ -228,5 +228,35 @@ public class MyLanguages {
     private void AddToFlavorMapping(SystemLanguage systemLanguage, string localeId) {
         this.FlavorMapping.Remove(systemLanguage);
         this.FlavorMapping.Add(systemLanguage, localeId);
+    }
+    public void LogMarkdownAndCultureInfoNames() {
+        try {
+            IOrderedEnumerable<KeyValuePair<SystemLanguage, MyLanguage>> ordered = this.LanguageDictionary.OrderBy(item => item.Key.ToString());
+            StringBuilder cultureInfoBuilder = new StringBuilder();
+            StringBuilder markdownBuilder = new StringBuilder();
+            foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in ordered) {
+                markdownBuilder.AppendLine($"## {entry.Value.NameEnglish} - {entry.Value.Name}");
+                IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
+                foreach (CultureInfo? cultureInfo in orderedCultures) {
+                    markdownBuilder.AppendLine($"* {cultureInfo.Name.PadRight(10)} - {cultureInfo.EnglishName.PadRight(50)} - {cultureInfo.NativeName}");
+                    cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
+                }
+                markdownBuilder.AppendLine();
+                markdownBuilder.AppendLine();
+            }
+            string supportedLanguagesMarkDown = markdownBuilder.ToString().Replace("&", "and")
+                //.ReplaceLineEndings("\n")
+                ;
+            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
+                                                  "languages markdown:",
+                                                  [supportedLanguagesMarkDown]);
+            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
+                                                  "culture-infos:",
+                                                  [cultureInfoBuilder]);
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                                   LoggingConstants.FailedTo,
+                                                   [nameof(LogMarkdownAndCultureInfoNames), ex]);
+        }
     }
 }
