@@ -135,20 +135,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="*.md">
+        <None Include="*.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="_Examples\**\*.*">
+        </None>
+        <None Include="_Examples\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="_Previews\**\*.*">
+        </None>
+        <None Include="_Previews\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Remove="_Examples\**\*.*" />
-      <Content Remove="_Previews\**\*.*" />
+        </None>
     </ItemGroup>
 
 </Project>
