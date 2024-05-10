@@ -9,11 +9,13 @@
 
     <ItemGroup>
         <None Remove="Assets\CHANGELOG.MOD.md" />
+        <None Remove="Assets\LANGUAGES.SUPPORTED.MOD.md" />
         <None Remove="Assets\README.MOD.md" />
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="Assets\CHANGELOG.MOD.md" />
+        <EmbeddedResource Include="Assets\LANGUAGES.SUPPORTED.MOD.md" />
         <EmbeddedResource Include="Assets\README.MOD.md" />
     </ItemGroup>
     <ItemGroup>
@@ -47,16 +49,9 @@
     </ItemGroup>
 
 
-    <Target Name="CopyReadMeMod" BeforeTargets="BeforeBuild">
-        <ItemGroup>
-            <ModReadMe Include="..\TranslateCS2.Mod\README.md" />
-        </ItemGroup>
-        <Copy SourceFiles="@(ModReadMe)" DestinationFiles="$(ProjectAssetsDir)\README.MOD.md" />
-    </Target>
-    <Target Name="CopyChangeLogMod" AfterTargets="CopyReadMeMod">
-        <ItemGroup>
-            <ModChangeLog Include="..\TranslateCS2.Mod\CHANGELOG.md" />
-        </ItemGroup>
-        <Copy SourceFiles="@(ModChangeLog)" DestinationFiles="$(ProjectAssetsDir)\CHANGELOG.MOD.md" />
+    <Target Name="CopyCrap" BeforeTargets="BeforeBuild">
+        <Copy SourceFiles="..\TranslateCS2.Mod\README.md" DestinationFiles="$(ProjectAssetsDir)\README.MOD.md" />
+        <Copy SourceFiles="..\TranslateCS2.Mod\CHANGELOG.md" DestinationFiles="$(ProjectAssetsDir)\CHANGELOG.MOD.md" />
+        <Copy SourceFiles="..\TranslateCS2.Mod\LANGUAGES.SUPPORTED.md" DestinationFiles="$(ProjectAssetsDir)\LANGUAGES.SUPPORTED.MOD.md" />
     </Target>
 </Project>

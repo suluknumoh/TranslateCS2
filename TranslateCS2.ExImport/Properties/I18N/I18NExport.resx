@@ -120,6 +120,9 @@
   <data name="ButtonLabelModChangeLog" xml:space="preserve">
     <value>changelog</value>
   </data>
+  <data name="ButtonLabelModLanguagesSupported" xml:space="preserve">
+    <value>supp.-lang.</value>
+  </data>
   <data name="ButtonLabelModReadMe" xml:space="preserve">
     <value>readme</value>
   </data>

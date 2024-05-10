@@ -68,13 +68,22 @@ internal class ExImPortViewModel : ABaseViewModel {
         {
             RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModReadMe,
                                                                   ImageResources.open,
-                                                                  this.OpenModReadMeAction);
+                                                                  this.OpenModReadMeAction,
+                                                                  70);
+            this._modInfo.Items.Add(button);
+        }
+        {
+            RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModLanguagesSupported,
+                                                                  ImageResources.open,
+                                                                  this.OpenModLanguagesSupportedAction,
+                                                                  70);
             this._modInfo.Items.Add(button);
         }
         {
             RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModChangeLog,
                                                                   ImageResources.open,
-                                                                  this.OpenModChangeLogAction);
+                                                                  this.OpenModChangeLogAction,
+                                                                  70);
             this._modInfo.Items.Add(button);
         }
         //
@@ -84,6 +93,10 @@ internal class ExImPortViewModel : ABaseViewModel {
 
     private void OpenModReadMeAction(object sender, RoutedEventArgs e) {
         string title = "README";
+        this.OpenModMarkDown(title);
+    }
+    private void OpenModLanguagesSupportedAction(object sender, RoutedEventArgs e) {
+        string title = "LANGUAGES.SUPPORTED";
         this.OpenModMarkDown(title);
     }
     private void OpenModChangeLogAction(object sender, RoutedEventArgs e) {

@@ -233,10 +233,12 @@ public class MyLanguages {
             StringBuilder cultureInfoBuilder = new StringBuilder();
             StringBuilder markdownBuilder = new StringBuilder();
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in ordered) {
-                markdownBuilder.AppendLine($"## {ReplaceAmpersandsAndPadRight(entry.Value.NameEnglish, 0)} - {ReplaceAmpersandsAndPadRight(entry.Value.Name, 0)}");
+                markdownBuilder.AppendLine($"## {entry.Value.NameEnglish} - {entry.Value.Name}");
                 IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
+                markdownBuilder.AppendLine("| Language-(Region)-Code | English Name | Native Name |");
+                markdownBuilder.AppendLine($"| {new string('-', 10)} | {new string('-', 10)} | {new string('-', 10)} |");
                 foreach (CultureInfo? cultureInfo in orderedCultures) {
-                    markdownBuilder.AppendLine($"* {ReplaceAmpersandsAndPadRight(cultureInfo.Name, 15)} - {ReplaceAmpersandsAndPadRight(cultureInfo.EnglishName, 45)} - {ReplaceAmpersandsAndPadRight(cultureInfo.NativeName, 0)}");
+                    markdownBuilder.AppendLine($"| {cultureInfo.Name} | {cultureInfo.EnglishName} | {cultureInfo.NativeName} |");
                     cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
                 }
                 markdownBuilder.AppendLine();
@@ -253,8 +255,5 @@ public class MyLanguages {
                                                    LoggingConstants.FailedTo,
                                                    [nameof(LogMarkdownAndCultureInfoNames), ex]);
         }
-    }
-    private static string ReplaceAmpersandsAndPadRight(string s, int amount) {
-        return s.Replace("&", "and").PadRight(amount);
     }
 }
