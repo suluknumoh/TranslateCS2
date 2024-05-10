@@ -1,6 +1,7 @@
 using Colossal.Localization;
 using Colossal.Logging;
 
+using Game.SceneFlow;
 using Game.Settings;
 
 using TranslateCS2.Inf;
@@ -8,6 +9,7 @@ using TranslateCS2.Mod.Containers.Items;
 
 namespace TranslateCS2.Mod.Containers;
 public abstract class AModRuntimeContainer : IModRuntimeContainer {
+    private readonly GameManager? gameManager;
     public ILog? Logger { get; }
     public Paths Paths { get; }
     public ErrorMessages ErrorMessages { get; }
@@ -16,11 +18,12 @@ public abstract class AModRuntimeContainer : IModRuntimeContainer {
     public DropDownItems DropDownItems { get; }
 
 
-    public virtual LocalizationManager? LocManager { get; }
-    public virtual InterfaceSettings? IntSetting { get; }
+    public virtual LocalizationManager? LocManager => this.gameManager?.localizationManager;
+    public virtual InterfaceSettings? IntSetting => this.gameManager?.settings.userInterface;
 
 
-    protected AModRuntimeContainer(ILog? logger, Paths paths) {
+    protected AModRuntimeContainer(GameManager gameManager, ILog? logger, Paths paths) {
+        this.gameManager = gameManager;
         this.Logger = logger;
         this.DropDownItems = new DropDownItems();
         this.Paths = paths;
