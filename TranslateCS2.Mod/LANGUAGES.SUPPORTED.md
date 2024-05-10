@@ -68,7 +68,7 @@
 | zh-SG | Chinese (Simplified, Singapore) | 中文 (新加坡) |
 
 
-## Chinese (Simplified) - 中文
+## Chinese (Traditional) - 中文
 | Language-(Region)-Code | English Name | Native Name |
 | ---------- | ---------- | ---------- |
 | zh-CHT | Chinese (Traditional) Legacy | 中文 |

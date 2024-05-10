@@ -36,6 +36,8 @@ public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
                 nameEnglish = String.Join("/", cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
                 break;
             case SystemLanguage.Portuguese:
+            case SystemLanguage.ChineseSimplified:
+            case SystemLanguage.ChineseTraditional:
                 // take care: cultureInfo itself is used!
                 name = cultureInfo.NativeName;
                 nameEnglish = cultureInfo.EnglishName;
