@@ -130,16 +130,17 @@ public class RibbonHelper {
 
     public static RibbonButton CreateRibbonButton(string label,
                                                   Bitmap largeImageSource,
-                                                  RoutedEventHandler? clickAction = null) {
+                                                  RoutedEventHandler? clickAction = null,
+                                                  int width = 75) {
         RibbonButton button = new RibbonButton {
             Label = label,
             LargeImageSource = ImageHelper.GetBitmapImage(largeImageSource),
             Cursor = Cursors.Hand,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Center,
-            MinWidth = 75,
-            MaxWidth = 75,
-            Width = 75,
+            MinWidth = width,
+            MaxWidth = width,
+            Width = width,
         };
         if (clickAction is not null) {
             button.Click += clickAction;
