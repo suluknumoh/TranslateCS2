@@ -19,7 +19,10 @@ public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
         this.Name = name;
         this.NameEnglish = nameEnglish;
     }
-    public static IIdNameNameEnglishGetAble Create(Locales locales, SystemLanguage systemLanguage, IEnumerable<CultureInfo> cultureInfos, bool isBuiltIn) {
+    public static IIdNameNameEnglishGetAble Create(Locales locales,
+                                                   SystemLanguage systemLanguage,
+                                                   IEnumerable<CultureInfo> cultureInfos,
+                                                   bool isBuiltIn) {
         CultureInfo cultureInfo = cultureInfos.First();
         string ID = locales.CorrectLocaleId(cultureInfo.Name);
         string? name = null;
