@@ -54,17 +54,18 @@ internal class ModSettingsLocale : IDictionarySource {
         // flavor-group-labels: test
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
+            string optionName = $"{ModSettings.Flavor}{systemLanguage}";
             if (systemLanguage is SystemLanguage.Unknown) {
                 // should be different to other langs logic
-                this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{systemLanguage}"), LangConstants.OtherLanguages, true);
-                this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{systemLanguage}"), LangConstants.OtherLanguagesSelect, true);
+                this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(optionName), LangConstants.OtherLanguages, true);
+                this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(optionName), LangConstants.OtherLanguagesSelect, true);
                 continue;
             } else if (systemLanguage is SystemLanguage.Chinese) {
                 // chinese simplified and traditional are already present
                 continue;
             }
-            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID($"{ModSettings.Flavor}{systemLanguage}"), this.GetLabel(systemLanguage), true);
-            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID($"{ModSettings.Flavor}{systemLanguage}"), this.GetDescription(systemLanguage), true);
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(optionName), this.GetLabel(systemLanguage), true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(optionName), this.GetDescription(systemLanguage), true);
         }
     }
 
