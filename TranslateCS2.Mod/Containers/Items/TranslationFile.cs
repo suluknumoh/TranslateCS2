@@ -15,6 +15,7 @@ namespace TranslateCS2.Mod.Containers.Items;
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
     private readonly IModRuntimeContainer runtimeContainer;
     private string Uniquer { get; } = ModConstants.Name;
+    private MyLanguage Language { get; }
     private Dictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
     public string LocaleName { get; private set; }
@@ -29,10 +30,15 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     }
     public int EntryCount => this.dictionary == null ? 0 : this.dictionary.Count;
     public string Path { get; }
-    public TranslationFile(IModRuntimeContainer runtimeContainer, string localeId, string localeName, string path) {
+    public TranslationFile(IModRuntimeContainer runtimeContainer,
+                           string localeId,
+                           string localeName,
+                           string path,
+                           MyLanguage language) {
         this.runtimeContainer = runtimeContainer;
         this.LocaleId = localeId;
         this.Path = path;
+        this.Language = language;
         this.ReadJson();
         if (this.dictionary != null && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null

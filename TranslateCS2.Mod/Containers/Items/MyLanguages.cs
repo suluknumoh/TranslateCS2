@@ -80,7 +80,11 @@ public class MyLanguages {
                         localeName += $" ({LangConstants.Cyrillic})";
                     }
                 }
-                TranslationFile translationFile = new TranslationFile(this.runtimeContainer, localeId, localeName, translationFilePath);
+                TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
+                                                                      localeId,
+                                                                      localeName,
+                                                                      translationFilePath,
+                                                                      language);
                 if (!translationFile.IsOK) {
                     this.Erroneous.Add(translationFile);
                 }
