@@ -29,24 +29,47 @@ internal class ModSettingsLocale : IDictionarySource {
     }
 
     private void InitDictionary() {
-        this.AddToDictionary(this.modSettings.GetSettingsLocaleID(), ModConstants.NameSimple, false);
+        this.AddToDictionary(this.modSettings.GetSettingsLocaleID(),
+                             ModConstants.NameSimple,
+                             false);
         // INFO: what is it for?
-        this.AddToDictionary(this.modSettings.GetOptionTabLocaleID(ModSettings.Section), ModSettings.Section, false);
-
+        this.AddToDictionary(this.modSettings.GetOptionTabLocaleID(ModSettings.Section),
+                             ModSettings.Section,
+                             false);
+        {
         // reload-group
-        this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.ReloadGroup), I18NMod.GroupReloadTitle, true);
-        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.ReloadLanguages)), I18NMod.GroupReloadButtonReloadLabel, true);
-        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ReloadLanguages)), String.Format(I18NMod.GroupReloadButtonReloadDescription, this.runtimeContainer.Paths.ModsDataPathSpecific), true);
-        this.AddToDictionary(this.modSettings.GetOptionWarningLocaleID(nameof(ModSettings.ReloadLanguages)), I18NMod.GroupReloadButtonReloadWarning, true);
-
+            this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.ReloadGroup),
+                                 I18NMod.GroupReloadTitle,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.ReloadLanguages)),
+                                 I18NMod.GroupReloadButtonReloadLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ReloadLanguages)),
+                                 String.Format(I18NMod.GroupReloadButtonReloadDescription, this.runtimeContainer.Paths.ModsDataPathSpecific),
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionWarningLocaleID(nameof(ModSettings.ReloadLanguages)),
+                                 I18NMod.GroupReloadButtonReloadWarning,
+                                 true);
+        }
+        {
         // generate-group
-        this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.GenerateGroup), I18NMod.GroupGenerateTitle, true);
-        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)), I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel, true);
-        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)), I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription, true);
+            this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.GenerateGroup),
+                                 I18NMod.GroupGenerateTitle,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)),
+                                 I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)),
+                                 I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription,
+                                 true);
         //
-        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)), I18NMod.GroupGenerateButtonGenerateLabel, true);
-        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)), String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.Paths.ModsDataPathSpecific), true);
-
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)),
+                                 I18NMod.GroupGenerateButtonGenerateLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)),
+                                 String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.Paths.ModsDataPathSpecific),
+                                 true);
+        }
         // flavor-group
         this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.FlavorGroup), I18NMod.GroupFlavorTitle, true);
 

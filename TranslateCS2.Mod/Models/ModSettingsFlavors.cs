@@ -35,9 +35,7 @@ internal partial class ModSettings {
             }
         }
     }
-
-    public override AutomaticSettings.SettingPageData GetPageData(string id, bool addPrefix) {
-        AutomaticSettings.SettingPageData pageData = base.GetPageData(id, addPrefix);
+    private void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
             if (systemLanguage is SystemLanguage.Chinese) {
