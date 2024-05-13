@@ -177,7 +177,7 @@
   <data name="ToolTipExportAddKey" xml:space="preserve">
     <value>adds a Key-Value-Pair that controls the displayed language-name within the game
 
-does not affect built in languages where flavors are 'added'</value>
+</value>
   </data>
   <data name="ToolTipExportAddMergeValues" xml:space="preserve">
     <value>add merge-values checked:

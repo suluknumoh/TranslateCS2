@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
+using Colossal.IO.AssetDatabase;
+
 using TranslateCS2.Inf;
 
 using UnityEngine;
@@ -31,7 +33,9 @@ public class Locales {
         if (this.LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
             return ret;
         }
-        IEnumerable<CultureInfo> cis = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        IEnumerable<CultureInfo> cis =
+            CultureInfo.GetCultures(CultureTypes.AllCultures)
+            .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (cis.Any()) {
             return cis.First().Name;
         }
@@ -77,20 +81,26 @@ public class Locales {
                         break;
                 }
                 if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
-                    this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                    this.AddToDictionary(systemLanguageCulturesMapping,
+                                         culture,
+                                         language);
                     cultures.Remove(culture);
                 }
             }
         }
         foreach (CultureInfo culture in cultures) {
             // i want to use the existing logic...
-            this.AddToDictionary(systemLanguageCulturesMapping, culture, SystemLanguage.Unknown);
+            this.AddToDictionary(systemLanguageCulturesMapping,
+                                 culture,
+                                 SystemLanguage.Unknown);
         }
 
 
         return systemLanguageCulturesMapping;
     }
-    private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary, CultureInfo culture, SystemLanguage language) {
+    private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary,
+                                 CultureInfo culture,
+                                 SystemLanguage language) {
         if (StringHelper.IsNullOrWhiteSpaceOrEmpty(culture.Name)) {
             return;
         }
@@ -101,5 +111,28 @@ public class Locales {
             cultureInfos.Add(culture);
             dictionary.Add(language, cultureInfos);
         }
+    }
+    internal Dictionary<string, int> GetIndexCounts(string localeId, bool isBuiltIn) {
+        if (this.runtimeContainer.LocManager is null) {
+            return [];
+        }
+        if (isBuiltIn) {
+            return this.GetIndexCountsP(localeId);
+        }
+        return this.GetIndexCountsP(this.runtimeContainer.LocManager.fallbackLocaleId);
+    }
+
+    private Dictionary<string, int> GetIndexCountsP(string localeId) {
+        Dictionary<string, int> indexCounts = [];
+        IEnumerable<LocaleAsset> localeAssets =
+            AssetDatabase.global.GetAssets(default(SearchFilter<LocaleAsset>))
+                .Where(item => item.localeId == localeId);
+        if (localeAssets.Any()) {
+            LocaleAsset asset = localeAssets.First();
+            foreach (KeyValuePair<string, int> entry in asset.data.indexCounts) {
+                indexCounts.Add(entry.Key, entry.Value);
+            }
+        }
+        return indexCounts;
     }
 }

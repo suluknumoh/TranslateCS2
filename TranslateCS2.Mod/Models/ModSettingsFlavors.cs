@@ -35,20 +35,18 @@ internal partial class ModSettings {
             }
         }
     }
-
-    public override AutomaticSettings.SettingPageData GetPageData(string id, bool addPrefix) {
-        AutomaticSettings.SettingPageData pageData = base.GetPageData(id, addPrefix);
+    private void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
             if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
-            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), $"{Flavor}{systemLanguage}") {
+            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), ModSettings.GetFlavorLangPropertyName(systemLanguage)) {
                 canRead = true,
                 canWrite = true,
                 attributes =
                 {
-                    (Attribute)new SettingsUIDropdownAttribute(this.GetType(), $"{nameof(GetFlavors)}{systemLanguage}")
+                    (Attribute)new SettingsUIDropdownAttribute(this.GetType(), ModSettings.GetFlavorsLangMethodName(systemLanguage))
                 },
                 setter = (modSettings, localeId) => this.Setter(systemLanguage, localeId),
                 getter = (modSettings) => this.Getter(systemLanguage)
@@ -60,7 +58,39 @@ internal partial class ModSettings {
             };
             pageData[Section].AddItem(item);
         }
-        return pageData;
+    }
+    /// <returns>
+    ///     the name of the language-specific property
+    ///     <br/>
+    ///     that is generetad by <see cref="AddFlavorsToPageData(AutomaticSettings.SettingPageData)"/>
+    ///     <br/>
+    ///     <br/>
+    ///     "FlavorUnknown", for example
+    /// </returns>
+    public static string GetFlavorLangPropertyName(SystemLanguage systemLanguage) {
+        return $"{Flavor}{systemLanguage}";
+    }
+    /// <returns>
+    ///     the name of the language-specific method,
+    ///     <br/>
+    ///     to get the flavors for the respective drop-down-property
+    ///     <br/>
+    ///     that is generetad by <see cref="AddFlavorsToPageData(AutomaticSettings.SettingPageData)"/>
+    ///     <br/>
+    ///     <br/>
+    ///     "GetFlavorsUnknown", for example
+    /// </returns>
+    public static string GetFlavorsLangMethodName(SystemLanguage systemLanguage) {
+        return $"{ModSettings.GetFlavorsMethodName()}{systemLanguage}";
+    }
+    /// <returns>
+    ///     the name of the general method, to get the flavors for drop-downs
+    ///     <br/>
+    ///     <br/>
+    ///     "GetFlavors", for example
+    /// </returns>
+    public static string GetFlavorsMethodName() {
+        return nameof(GetFlavors);
     }
     public void Setter(SystemLanguage systemLanguage, object localeIdObject) {
         if (localeIdObject is string localeId) {
@@ -127,7 +157,7 @@ internal partial class ModSettings {
         return flavors.ToArray();
     }
 
-    #region new codeblocks
+    #region language-specific get-methods
     public DropdownItem<string>[] GetFlavorsAfrikaans() {
         return this.GetFlavors(SystemLanguage.Afrikaans);
     }
@@ -145,6 +175,12 @@ internal partial class ModSettings {
     }
     public DropdownItem<string>[] GetFlavorsCatalan() {
         return this.GetFlavors(SystemLanguage.Catalan);
+    }
+    public DropdownItem<string>[] GetFlavorsChineseSimplified() {
+        return this.GetFlavors(SystemLanguage.ChineseSimplified);
+    }
+    public DropdownItem<string>[] GetFlavorsChineseTraditional() {
+        return this.GetFlavors(SystemLanguage.ChineseTraditional);
     }
     public DropdownItem<string>[] GetFlavorsCzech() {
         return this.GetFlavors(SystemLanguage.Czech);
@@ -178,6 +214,9 @@ internal partial class ModSettings {
     }
     public DropdownItem<string>[] GetFlavorsHebrew() {
         return this.GetFlavors(SystemLanguage.Hebrew);
+    }
+    public DropdownItem<string>[] GetFlavorsHindi() {
+        return this.GetFlavors(SystemLanguage.Hindi);
     }
     public DropdownItem<string>[] GetFlavorsHungarian() {
         return this.GetFlavors(SystemLanguage.Hungarian);
@@ -248,15 +287,5 @@ internal partial class ModSettings {
     public DropdownItem<string>[] GetFlavorsVietnamese() {
         return this.GetFlavors(SystemLanguage.Vietnamese);
     }
-    public DropdownItem<string>[] GetFlavorsChineseSimplified() {
-        return this.GetFlavors(SystemLanguage.ChineseSimplified);
-    }
-    public DropdownItem<string>[] GetFlavorsChineseTraditional() {
-        return this.GetFlavors(SystemLanguage.ChineseTraditional);
-    }
-    public DropdownItem<string>[] GetFlavorsHindi() {
-        return this.GetFlavors(SystemLanguage.Hindi);
-    }
-
-    #endregion new codeblocks
+    #endregion language-specific get-methods
 }

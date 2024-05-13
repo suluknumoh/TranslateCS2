@@ -234,7 +234,7 @@ namespace TranslateCS2.ExImport.Properties.I18N {
         /// <summary>
         ///   Looks up a localized string similar to adds a Key-Value-Pair that controls the displayed language-name within the game
         ///
-        ///does not affect built in languages where flavors are &apos;added&apos;.
+        ///.
         /// </summary>
         public static string ToolTipExportAddKey {
             get {

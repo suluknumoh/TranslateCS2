@@ -8,6 +8,7 @@ using Colossal.Localization;
 
 using Game.Modding;
 using Game.Settings;
+using Game.UI.Menu;
 
 using Newtonsoft.Json;
 
@@ -126,10 +127,14 @@ internal partial class ModSettings : ModSetting {
 
 
 
+    public override AutomaticSettings.SettingPageData GetPageData(string id, bool addPrefix) {
+        AutomaticSettings.SettingPageData pageData = base.GetPageData(id, addPrefix);
+        this.AddFlavorsToPageData(pageData);
+        return pageData;
+    }
     public override void SetDefaults() {
         //
     }
-
     public void HandleLocaleOnLoad() {
         try {
             this.PreviousLocale = this.runtimeContainer.IntSetting.locale;
@@ -146,33 +151,6 @@ internal partial class ModSettings : ModSetting {
                                                      [nameof(HandleLocaleOnLoad), ex]);
         }
     }
-
-    private void ApplyAndSaveAlso(Setting setting) {
-        try {
-            if (setting is InterfaceSettings interfaceSettings) {
-                this.Locale = interfaceSettings.locale;
-                this.OnLocaleChanged();
-                this.ApplyAndSave();
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogCritical(this.GetType(),
-                                                     LoggingConstants.FailedTo,
-                                                     [nameof(ApplyAndSaveAlso), ex]);
-        }
-    }
-
-    private void OnLocaleChanged() {
-        if (this.Locale is null) {
-            return;
-        }
-        MyLanguage? language = this.languages.GetLanguage(this.Locale);
-        if (language is null) {
-            return;
-        }
-        string localeId = this.Getter(language.SystemLanguage);
-        this.Setter(language.SystemLanguage, localeId);
-    }
-
     public void HandleLocaleOnUnLoad() {
         try {
             // dont replicate os lang into this mods settings
@@ -192,4 +170,29 @@ internal partial class ModSettings : ModSetting {
                                                      [nameof(HandleLocaleOnUnLoad), ex]);
         }
     }
+    private void ApplyAndSaveAlso(Setting setting) {
+        try {
+            if (setting is InterfaceSettings interfaceSettings) {
+                this.Locale = interfaceSettings.locale;
+                this.OnLocaleChanged();
+                this.ApplyAndSave();
+            }
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger.LogCritical(this.GetType(),
+                                                     LoggingConstants.FailedTo,
+                                                     [nameof(ApplyAndSaveAlso), ex]);
+        }
+    }
+    private void OnLocaleChanged() {
+        if (this.Locale is null) {
+            return;
+        }
+        MyLanguage? language = this.languages.GetLanguage(this.Locale);
+        if (language is null) {
+            return;
+        }
+        string localeId = this.Getter(language.SystemLanguage);
+        this.Setter(language.SystemLanguage, localeId);
+    }
+
 }
