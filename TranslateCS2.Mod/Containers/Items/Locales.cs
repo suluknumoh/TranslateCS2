@@ -31,7 +31,9 @@ public class Locales {
         if (this.LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
             return ret;
         }
-        IEnumerable<CultureInfo> cis = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        IEnumerable<CultureInfo> cis =
+            CultureInfo.GetCultures(CultureTypes.AllCultures)
+            .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (cis.Any()) {
             return cis.First().Name;
         }
@@ -77,20 +79,26 @@ public class Locales {
                         break;
                 }
                 if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
-                    this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                    this.AddToDictionary(systemLanguageCulturesMapping,
+                                         culture,
+                                         language);
                     cultures.Remove(culture);
                 }
             }
         }
         foreach (CultureInfo culture in cultures) {
             // i want to use the existing logic...
-            this.AddToDictionary(systemLanguageCulturesMapping, culture, SystemLanguage.Unknown);
+            this.AddToDictionary(systemLanguageCulturesMapping,
+                                 culture,
+                                 SystemLanguage.Unknown);
         }
 
 
         return systemLanguageCulturesMapping;
     }
-    private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary, CultureInfo culture, SystemLanguage language) {
+    private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary,
+                                 CultureInfo culture,
+                                 SystemLanguage language) {
         if (StringHelper.IsNullOrWhiteSpaceOrEmpty(culture.Name)) {
             return;
         }
