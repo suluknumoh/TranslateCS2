@@ -30,6 +30,10 @@
             <HintPath>$(ManagedPath)\Game.dll</HintPath>
             <Private>true</Private>
         </Reference>
+        <Reference Include="Colossal.AssetPipeline">
+            <HintPath>$(ManagedPath)\Colossal.AssetPipeline.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
         <Reference Include="Colossal.Core">
             <HintPath>$(ManagedPath)\Colossal.Core.dll</HintPath>
             <Private>true</Private>

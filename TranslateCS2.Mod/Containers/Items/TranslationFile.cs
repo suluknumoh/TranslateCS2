@@ -65,7 +65,9 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         }
         return false;
     }
-    public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
+    public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
+                                                                 Dictionary<string, int> indexCounts) {
+        this.Language.AddIndexCounts(indexCounts);
         if (this.dictionary == null) {
             return [];
         }

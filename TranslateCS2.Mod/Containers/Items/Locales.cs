@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
+using Colossal.IO.AssetDatabase;
+
 using TranslateCS2.Inf;
 
 using UnityEngine;
@@ -109,5 +111,28 @@ public class Locales {
             cultureInfos.Add(culture);
             dictionary.Add(language, cultureInfos);
         }
+    }
+    internal Dictionary<string, int> GetIndexCounts(string localeId, bool isBuiltIn) {
+        if (this.runtimeContainer.LocManager is null) {
+            return [];
+        }
+        if (isBuiltIn) {
+            return this.GetIndexCountsP(localeId);
+        }
+        return this.GetIndexCountsP(this.runtimeContainer.LocManager.fallbackLocaleId);
+    }
+
+    private Dictionary<string, int> GetIndexCountsP(string localeId) {
+        Dictionary<string, int> indexCounts = [];
+        IEnumerable<LocaleAsset> localeAssets =
+            AssetDatabase.global.GetAssets(default(SearchFilter<LocaleAsset>))
+                .Where(item => item.localeId == localeId);
+        if (localeAssets.Any()) {
+            LocaleAsset asset = localeAssets.First();
+            foreach (KeyValuePair<string, int> entry in asset.data.indexCounts) {
+                indexCounts.Add(entry.Key, entry.Value);
+            }
+        }
+        return indexCounts;
     }
 }

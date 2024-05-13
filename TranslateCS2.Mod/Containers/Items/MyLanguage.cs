@@ -36,25 +36,26 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
     public bool HasFlavors => this.Flavors.Any();
+    private Dictionary<string, int> IndexCounts { get; set; } = [];
     internal MyLanguage(SystemLanguage systemLanguage, IModRuntimeContainer runtimeContainer, IList<CultureInfo> cultureInfos) {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
         this.CultureInfos.AddRange(cultureInfos);
         IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
         if (builtin.Any()) {
+            this.IsBuiltIn = true;
             this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
                                                                               this.SystemLanguage,
                                                                               builtin,
-                                                                              true);
-            this.IsBuiltIn = true;
+                                                                              this.IsBuiltIn);
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
             if (remaining.Any()) {
+                this.IsBuiltIn = false;
                 this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
                                                                                   this.SystemLanguage,
                                                                                   remaining,
-                                                                                  false);
-                this.IsBuiltIn = false;
+                                                                                  this.IsBuiltIn);
             }
         }
     }
@@ -105,5 +106,14 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
 
     internal TranslationFile GetFlavor(string localeId) {
         return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
+    }
+    internal void AddIndexCounts(Dictionary<string, int> indexCounts) {
+        if (this.IndexCounts.Count == 0) {
+            this.IndexCounts = this.runtimeContainer.Locales.GetIndexCounts(this.ID, this.IsBuiltIn);
+        }
+        indexCounts.Clear();
+        foreach (KeyValuePair<string, int> entry in this.IndexCounts) {
+            indexCounts.Add(entry.Key, entry.Value);
+        }
     }
 }
