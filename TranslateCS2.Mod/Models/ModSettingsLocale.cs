@@ -37,7 +37,7 @@ internal class ModSettingsLocale : IDictionarySource {
                              ModSettings.Section,
                              false);
         {
-        // reload-group
+            // reload-group
             this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.ReloadGroup),
                                  I18NMod.GroupReloadTitle,
                                  true);
@@ -52,7 +52,7 @@ internal class ModSettingsLocale : IDictionarySource {
                                  true);
         }
         {
-        // generate-group
+            // generate-group
             this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.GenerateGroup),
                                  I18NMod.GroupGenerateTitle,
                                  true);
@@ -62,7 +62,7 @@ internal class ModSettingsLocale : IDictionarySource {
             this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.LogMarkdownAndCultureInfoNames)),
                                  I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription,
                                  true);
-        //
+            //
             this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)),
                                  I18NMod.GroupGenerateButtonGenerateLabel,
                                  true);
@@ -70,25 +70,39 @@ internal class ModSettingsLocale : IDictionarySource {
                                  String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.Paths.ModsDataPathSpecific),
                                  true);
         }
-        // flavor-group
-        this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.FlavorGroup), I18NMod.GroupFlavorTitle, true);
+        {
+            // flavor-group
+            this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.FlavorGroup),
+                                 I18NMod.GroupFlavorTitle,
+                                 true);
 
 
-        // flavor-group-labels: test
-        IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        foreach (SystemLanguage systemLanguage in systemLanguages) {
-            string optionName = $"{ModSettings.Flavor}{systemLanguage}";
-            if (systemLanguage is SystemLanguage.Unknown) {
-                // should be different to other langs logic
-                this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(optionName), LangConstants.OtherLanguages, true);
-                this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(optionName), LangConstants.OtherLanguagesSelect, true);
-                continue;
-            } else if (systemLanguage is SystemLanguage.Chinese) {
-                // chinese simplified and traditional are already present
-                continue;
+            IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
+            foreach (SystemLanguage systemLanguage in systemLanguages) {
+                string optionName = ModSettings.GetFlavorPropertyName(systemLanguage);
+                switch (systemLanguage) {
+                    case SystemLanguage.Chinese:
+                        // chinese simplified and traditional are already present
+                        break;
+                    case SystemLanguage.Unknown:
+                        // should be different to other langs logic
+                        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(optionName),
+                                             LangConstants.OtherLanguages,
+                                             true);
+                        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(optionName),
+                                             LangConstants.OtherLanguagesSelect,
+                                             true);
+                        break;
+                    default:
+                        this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(optionName),
+                                             this.GetLabel(systemLanguage),
+                                             true);
+                        this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(optionName),
+                                             this.GetDescription(systemLanguage),
+                                             true);
+                        break;
+                }
             }
-            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(optionName), this.GetLabel(systemLanguage), true);
-            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(optionName), this.GetDescription(systemLanguage), true);
         }
     }
 

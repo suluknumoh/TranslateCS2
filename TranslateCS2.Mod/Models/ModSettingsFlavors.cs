@@ -41,7 +41,7 @@ internal partial class ModSettings {
             if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
-            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), $"{Flavor}{systemLanguage}") {
+            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), ModSettings.GetFlavorPropertyName(systemLanguage)) {
                 canRead = true,
                 canWrite = true,
                 attributes =
@@ -58,7 +58,9 @@ internal partial class ModSettings {
             };
             pageData[Section].AddItem(item);
         }
-        return pageData;
+    }
+    public static string GetFlavorPropertyName(SystemLanguage systemLanguage) {
+        return $"{Flavor}{systemLanguage}";
     }
     public void Setter(SystemLanguage systemLanguage, object localeIdObject) {
         if (localeIdObject is string localeId) {
