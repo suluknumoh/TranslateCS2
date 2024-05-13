@@ -79,7 +79,7 @@ internal class ModSettingsLocale : IDictionarySource {
 
             IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
             foreach (SystemLanguage systemLanguage in systemLanguages) {
-                string optionName = ModSettings.GetFlavorPropertyName(systemLanguage);
+                string optionName = ModSettings.GetFlavorLangPropertyName(systemLanguage);
                 switch (systemLanguage) {
                     case SystemLanguage.Chinese:
                         // chinese simplified and traditional are already present
