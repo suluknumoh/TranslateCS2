@@ -126,10 +126,11 @@ public class Locales {
         Dictionary<string, int> indexCounts = [];
         IEnumerable<LocaleAsset> localeAssets =
             AssetDatabase.global.GetAssets(default(SearchFilter<LocaleAsset>))
-                .Where(item => item.localeId == localeId);
+                .Where(item => item.localeId.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (localeAssets.Any()) {
             LocaleAsset asset = localeAssets.First();
-            foreach (KeyValuePair<string, int> entry in asset.data.indexCounts) {
+            LocaleData data = asset.data;
+            foreach (KeyValuePair<string, int> entry in data.indexCounts) {
                 indexCounts.Add(entry.Key, entry.Value);
             }
         }
