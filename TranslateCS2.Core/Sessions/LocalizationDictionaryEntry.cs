@@ -101,11 +101,14 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
                 case nameof(this.Key):
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Key)) {
                         return I18NEdits.InputWarningKeyEmpty;
-                    } else if (this.Key.Contains(" ")) {
+                    } else if (this.Key.Contains(' ')) {
                         return I18NEdits.InputWarningSpaces;
-                    } else if (this.Key != this.KeyOrigin && this.ExistsKeyInCurrentTranslationSession != null) {
-                        if (this.ExistsKeyInCurrentTranslationSession(this.Key)) {
+                    } else if (this.Key != this.KeyOrigin) {
+                        if (this.ExistsKeyInCurrentTranslationSession?.Invoke(this.Key) ?? false) {
                             return I18NEdits.InputWarningKeyDuplicate;
+                        } else if (this.Key.Contains(':')) {
+                            // TODO: indexed value; how to handle???
+                            // autocorrect or message with the correct next value to use?
                         }
                     }
                     break;

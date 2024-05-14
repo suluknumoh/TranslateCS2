@@ -66,10 +66,24 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         if (this.dictionary == null) {
             return [];
         }
-        return this.dictionary
+        IEnumerable<KeyValuePair<string, string>> localDictionary = this.dictionary
             .Where(item =>
                 !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key)
                 && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
+        // TODO: indexed values???
+        // what if it is incorrect?
+        // for example:
+        // Key: "Chirper.BIRTH_RATE_DOWN:0"
+        // Chirper.BIRTH_RATE_DOWN has only this one indexed value
+        // someone added
+        // "Chirper.BIRTH_RATE_DOWN:2"
+        // but the correct next indexed value would be
+        // "Chirper.BIRTH_RATE_DOWN:1"
+        // is the file incorrect?
+        /// <see cref="IsOK"/>
+        // autocorrect? - how and when? property IndexCounts for this class that is initialized after json is read?
+        /// <see cref="ReadJson"/>
+        return localDictionary;
     }
 
     public void Unload() {
