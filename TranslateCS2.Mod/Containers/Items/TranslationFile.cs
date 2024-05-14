@@ -19,16 +19,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     private Dictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
     public string LocaleName { get; private set; }
-    public bool IsOK {
-        get {
-            if (this.dictionary == null
-                || this.dictionary.Count == 0) {
-                return false;
-            }
-            return true;
-        }
-    }
-    public int EntryCount => this.dictionary == null ? 0 : this.dictionary.Count;
+    public bool IsOK => this.EntryCount > 0;
+    public int EntryCount => this.dictionary?.Count ?? 0;
     public string Path { get; }
     public TranslationFile(IModRuntimeContainer runtimeContainer,
                            string localeId,
