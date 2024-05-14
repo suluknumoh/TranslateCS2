@@ -111,7 +111,6 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
         if (this.IndexCounts.Count == 0) {
             this.IndexCounts = this.runtimeContainer.Locales.GetIndexCounts(this.ID, this.IsBuiltIn);
         }
-        indexCounts.Clear();
         foreach (KeyValuePair<string, int> entry in this.IndexCounts) {
             indexCounts.Add(entry.Key, entry.Value);
         }

@@ -40,7 +40,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         this.Path = path;
         this.Language = language;
         this.ReadJson();
-        if (this.dictionary != null && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
+        if (this.dictionary != null
+            && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null
             && !StringHelper.IsNullOrWhiteSpaceOrEmpty(outLocaleName)) {
             this.LocaleName = outLocaleName;
@@ -67,6 +68,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     }
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
                                                                  Dictionary<string, int> indexCounts) {
+        indexCounts.Clear();
+        // has to be added!!! if dictionary is null, fallback-language is used!!!
         this.Language.AddIndexCounts(indexCounts);
         if (this.dictionary == null) {
             return [];
