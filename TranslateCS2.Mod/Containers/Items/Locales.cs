@@ -112,28 +112,36 @@ public class Locales {
             dictionary.Add(language, cultureInfos);
         }
     }
-    internal Dictionary<string, int> GetIndexCounts(string localeId, bool isBuiltIn) {
+    /// <summary>
+    ///     never ever change content!!!
+    ///     <br/>
+    ///     <br/>
+    ///     returns a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
+    /// </summary>
+    internal IReadOnlyDictionary<string, int>? GetIndexCounts(string localeId, bool isBuiltIn) {
         if (this.runtimeContainer.LocManager is null) {
-            return [];
+            return null;
         }
         if (isBuiltIn) {
             return this.GetIndexCountsP(localeId);
         }
         return this.GetIndexCountsP(this.runtimeContainer.LocManager.fallbackLocaleId);
     }
-
-    private Dictionary<string, int> GetIndexCountsP(string localeId) {
-        Dictionary<string, int> indexCounts = [];
+    /// <summary>
+    ///     never ever change content!!!
+    ///     <br/>
+    ///     <br/>
+    ///     returns a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
+    /// </summary>
+    private IReadOnlyDictionary<string, int>? GetIndexCountsP(string localeId) {
         IEnumerable<LocaleAsset> localeAssets =
             AssetDatabase.global.GetAssets(default(SearchFilter<LocaleAsset>))
                 .Where(item => item.localeId.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (localeAssets.Any()) {
             LocaleAsset asset = localeAssets.First();
             LocaleData data = asset.data;
-            foreach (KeyValuePair<string, int> entry in data.indexCounts) {
-                indexCounts.Add(entry.Key, entry.Value);
-            }
+            return data.indexCounts;
         }
-        return indexCounts;
+        return null;
     }
 }
