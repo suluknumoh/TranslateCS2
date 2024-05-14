@@ -16,7 +16,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     private readonly IModRuntimeContainer runtimeContainer;
     private string Uniquer { get; } = ModConstants.Name;
     private MyLanguage Language { get; }
-    private Dictionary<string, string>? dictionary;
+    private IDictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
     public string LocaleName { get; private set; }
     public bool IsOK => this.EntryCount > 0;
@@ -48,7 +48,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
             string json = File.ReadAllText(this.Path, Encoding.UTF8);
             Dictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             if (temporary != null) {
-                this.dictionary = temporary;
+                this.dictionary = DictionaryHelper.GetNonEmpty(temporary);
                 return true;
             }
         } catch (Exception ex) {
@@ -58,32 +58,29 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         }
         return false;
     }
+
+    private void LogCorruptIndexedValue(IGrouping<string, KeyValuePair<string, string>> group,
+                                        KeyValuePair<string, string> groupItem) {
+        // TODO: group?
+        this.runtimeContainer.Logger?.LogError(this.GetType(),
+                                               LoggingConstants.CorruptIndexedKeyValue,
+                                               [groupItem]);
+    }
+
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
-                                                                 Dictionary<string, int> indexCounts) {
-        indexCounts.Clear();
-        // has to be added!!! if dictionary is null, fallback-language is used!!!
-        this.Language.AddIndexCounts(indexCounts);
-        if (this.dictionary == null) {
+                                                                 Dictionary<string, int> indexCountsToFill) {
+        indexCountsToFill.Clear();
+        // has to be added!!! if dictionary is null, fallback/builtin-language is used!!!
+        // prefill with this languages index counts
+        this.Language.AddIndexCounts(indexCountsToFill);
+        if (this.dictionary is null) {
             return [];
         }
-        IEnumerable<KeyValuePair<string, string>> localDictionary = this.dictionary
-            .Where(item =>
-                !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key)
-                && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
-        // TODO: indexed values???
-        // what if it is incorrect?
-        // for example:
-        // Key: "Chirper.BIRTH_RATE_DOWN:0"
-        // Chirper.BIRTH_RATE_DOWN has only this one indexed value
-        // someone added
-        // "Chirper.BIRTH_RATE_DOWN:2"
-        // but the correct next indexed value would be
-        // "Chirper.BIRTH_RATE_DOWN:1"
-        // is the file incorrect?
-        /// <see cref="IsOK"/>
-        // autocorrect? - how and when? property IndexCounts for this class that is initialized after json is read?
-        /// <see cref="ReadJson"/>
-        return localDictionary;
+        // TODO: have to test it
+        IndexCountHelper.FillIndexCountsFromLocalizationDictionary(this.dictionary,
+                                                                   indexCountsToFill,
+                                                                   this.LogCorruptIndexedValue);
+        return this.dictionary;
     }
 
     public void Unload() {
