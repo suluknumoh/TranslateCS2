@@ -59,9 +59,12 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         return false;
     }
 
-    private void LogCorruptIndexedValue(IGrouping<string, KeyValuePair<string, string>> group,
-                                        KeyValuePair<string, string> groupItem) {
-        // TODO: group?
+    private void LogCorruptIndexedValue(Exception exception,
+                                        IGrouping<(string key, int idx), KeyValuePair<string, string>>? group,
+                                        KeyValuePair<string, string>? groupItem) {
+        // TODO: exception
+        // TODO: group
+        // TODO: nulls
         this.runtimeContainer.Logger?.LogError(this.GetType(),
                                                LoggingConstants.CorruptIndexedKeyValue,
                                                [groupItem]);
