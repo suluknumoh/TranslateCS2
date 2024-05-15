@@ -1,4 +1,5 @@
 {
+  "description": "assume the first five already exist (preinit) expect indexcounts contains a single entry with the numeric value ten",
   "Chirper.DIRTY_WATER:5": "5",
   "Chirper.DIRTY_WATER:6": "6",
   "Chirper.DIRTY_WATER:7": "7",

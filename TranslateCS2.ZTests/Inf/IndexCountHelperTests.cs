@@ -15,6 +15,7 @@ public class IndexCountHelperTests {
     [InlineData("existing_and_new_error.json", 5, 7, 1)]
     [InlineData("complete_new.json", 0, 5, 0)]
     [InlineData("complete_new_error.json", 0, 3, 1)]
+    [InlineData("complete_new_mixed.json", 0, 5, 0)]
     public async Task FillIndexCountsFromLocalizationDictionaryTest(string fileName,
                                                                     int preInitCounts,
                                                                     int expectedCounts,
@@ -33,6 +34,7 @@ public class IndexCountHelperTests {
                                                                    indexCounts,
                                                                    errors);
         Assert.Equal(expectedErrorCount, errors.Count);
+        Assert.Single(indexCounts);
         Assert.Contains(key, indexCounts.Keys);
         int actual = indexCounts[key];
         Assert.Equal(expectedCounts, actual);
