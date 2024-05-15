@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 using Colossal;
@@ -59,15 +58,10 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         return false;
     }
 
-    private void LogCorruptIndexedValue(Exception exception,
-                                        IGrouping<(string key, int idx), KeyValuePair<string, string>>? group,
-                                        KeyValuePair<string, string>? groupItem) {
-        // TODO: exception
-        // TODO: group
-        // TODO: nulls
+    private void LogCorruptIndexedValue(IList<string> errors) {
         this.runtimeContainer.Logger?.LogError(this.GetType(),
                                                LoggingConstants.CorruptIndexedKeyValue,
-                                               [groupItem]);
+                                               [errors]);
     }
 
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
@@ -79,10 +73,13 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         if (this.dictionary is null) {
             return [];
         }
-        // TODO: have to test it
+        IList<string> myErrors = [];
         IndexCountHelper.FillIndexCountsFromLocalizationDictionary(this.dictionary,
                                                                    indexCountsToFill,
-                                                                   this.LogCorruptIndexedValue);
+                                                                   myErrors);
+        if (myErrors.Count > 0) {
+            this.LogCorruptIndexedValue(myErrors);
+        }
         return this.dictionary;
     }
 

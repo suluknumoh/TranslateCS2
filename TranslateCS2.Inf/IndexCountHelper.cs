@@ -1,123 +1,71 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TranslateCS2.Inf;
 public static class IndexCountHelper {
-    public delegate void OnCorruptIndexedKeyValue(Exception exception,
-                                                  IGrouping<(string, int), KeyValuePair<string, string>>? group,
-                                                  KeyValuePair<string, string>? groupItem);
+    private static Regex IndexMatcher { get; } = new Regex("\\:\\d+$");
+
     public static void FillIndexCountsFromLocalizationDictionary(IDictionary<string, string> localizationDictionary,
                                                                  IDictionary<string, int> indexCounts,
-                                                                 OnCorruptIndexedKeyValue? onCorruptIndexedKeyValue) {
-        // TODO: have to test it
+                                                                 IList<string> errors) {
         IEnumerable<KeyValuePair<string, string>> indexedValues =
-            localizationDictionary.Where(item => item.Key.Contains(":"));
+            localizationDictionary.Where(item => IndexMatcher.IsMatch(item.Key));
 
         if (!indexedValues.Any()) {
             return;
         }
-        try {
-
-            // need to parse it to be able to order it by idx ascending
-            IEnumerable<IGrouping<(string key, int idx), KeyValuePair<string, string>>> grouped =
-                indexedValues
-                    .GroupBy(item =>
-                        (item.Key.Split(':')[0], Int32.Parse(item.Key.Split(':')[1]))
-                    );
-
-            if (!grouped.Any()) {
-                return;
-            }
-            IOrderedEnumerable<IGrouping<(string key, int idx), KeyValuePair<string, string>>> ordered =
-                grouped.OrderBy(item => item.Key.idx);
-
-
-            // TODO: due to a lack of time, i have to write it in german
-            // die aktuelle logik geht davon aus, dass das localizationDictionary alle eintraege beinhaltet
-            // aber das ist bloedsinn
-            // es kann durchaus sein, dass jemand beispielsweise nur weitere staedtenamen hinzufuegt
-            // dann umfasst countNew nur die neu hinzugefuegten eintraege
-            // diese waeren aber gueltig, solange die indizes der reihe nach, nach dem entsprechend letzten index liegen
-            // bsp.:
-            // staedtenamen hat 10 indizes
-            // dann ist der letzte index 9
-            // fuegt jemand einen staedtenamen im localizationDictionary hinzu: staedtenamen:10
-            // dann ist der eintrag gueltig, indexCount muss aber von 10 auf 11 erhoeht werden
-            foreach (IGrouping<(string key, int idx), KeyValuePair<string, string>> group in ordered) {
-                int countNew = group.Count();
-                string key = group.Key.key;
-
-                bool isExisting = indexCounts.TryGetValue(key, out int countExisting);
-
-                foreach (KeyValuePair<string, string> groupItem in group) {
-                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(groupItem.Value)) {
-                        //
-                        //
-                        --countNew;
-                        // TODO: Exception
-                        onCorruptIndexedKeyValue?.Invoke(new Exception(), group, groupItem);
-                        continue;
-                        //
-                        //
-                    }
-                    if (group.Key.idx < 0) {
-                        //
-                        //
-                        --countNew;
-                        // TODO: Exception
-                        onCorruptIndexedKeyValue?.Invoke(new Exception(), group, groupItem);
-                        continue;
-                        //
-                        //
-                    }
-                    if (isExisting) {
-                        if (group.Key.idx >= countExisting
-                            && group.Key.idx >= countNew) {
-                            //
-                            //
-                            --countNew;
-                            // TODO: Exception
-                            onCorruptIndexedKeyValue?.Invoke(new Exception(), group, groupItem);
-                            continue;
-                            //
-                            //
-                        }
-                    } else if (group.Key.idx >= countNew) {
-                        //
-                        //
-                        --countNew;
-                        // TODO: Exception
-                        onCorruptIndexedKeyValue?.Invoke(new Exception(), group, groupItem);
-                        continue;
-                        //
-                        //
-                    }
-                }
-
-                if (countNew > 0) {
-                    if (
-                    //
-                    // is 'new' indexed value
-                    !isExisting
-                    //
-                    // localizationDictionary has more valid indexed values
-                    || countExisting < countNew
-                    //
-                    ) {
-                        // set new indexcount for key
-                        indexCounts[key] = countNew;
-                        //
-                        // just to clarify:
-                        // if localizationDictionary has less valid indexed values
-                        // it does not matter,
-                        // those that are present within this translation file are used
-                        // others are taken from fallback/builtin
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            onCorruptIndexedKeyValue?.Invoke(ex, null, null);
+        IEnumerable<IGrouping<string, KeyValuePair<string, string>>> groupedForIndexCountKeys =
+            indexedValues
+                .GroupBy(item => IndexMatcher.Replace(item.Key, String.Empty));
+        if (!groupedForIndexCountKeys.Any()) {
+            return;
         }
+        foreach (IGrouping<string, KeyValuePair<string, string>> indexCountGroupItem in groupedForIndexCountKeys) {
+            bool exists = indexCounts.TryGetValue(indexCountGroupItem.Key, out int existingCount);
+            if (!exists) {
+                //continue;
+            }
+
+
+            // one group per KeyValuePair
+            IEnumerable<IGrouping<(string IndexCountKey, int Index), KeyValuePair<string, string>>> groupForOrder =
+                indexCountGroupItem.GroupBy(SelectKey);
+
+            // order by
+            IOrderedEnumerable<IGrouping<(string IndexCountKey, int Index), KeyValuePair<string, string>>> orderedIndexValues =
+                groupForOrder.OrderBy(item => item.Key.Index);
+
+            bool groupError = false;
+            int newIndexCount = existingCount;
+            foreach (IGrouping<(string IndexCountKey, int Index), KeyValuePair<string, string>> indexedValue in orderedIndexValues) {
+                if (indexedValue.Key.Index < existingCount) {
+                    continue;
+                }
+                // no need to iterate over indexedValue - its one group per KeyValuePair
+                if (indexedValue.Key.Index == newIndexCount) {
+                    newIndexCount++;
+                    continue;
+                }
+                errors.Add(indexCountGroupItem.Key);
+                groupError = true;
+                break;
+            }
+            if (groupError) {
+                continue;
+            }
+            indexCounts[indexCountGroupItem.Key] = newIndexCount;
+        }
+    }
+
+    private static (string IndexCountKey, int Index) SelectKey(KeyValuePair<string, string> pair) {
+        string indexCountString = IndexMatcher.Replace(pair.Key, String.Empty);
+        string indexString =
+                    pair.Key
+                        .Replace(indexCountString, String.Empty)
+                        .Substring(1);
+        int index = Int32.Parse(indexString);
+        return (indexCountString, index);
     }
 }

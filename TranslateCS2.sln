@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZModDevHelper"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Inf", "TranslateCS2.Inf\TranslateCS2.Inf.csproj", "{9C666368-C8E2-4B19-976D-182EA352DE12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateCS2.ZTests", "TranslateCS2.ZTests\TranslateCS2.ZTests.csproj", "{A2C813BC-3DC1-4279-9B11-838789108585}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ClientApp|Any CPU = ClientApp|Any CPU
@@ -119,6 +121,14 @@ Global
 		{9C666368-C8E2-4B19-976D-182EA352DE12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C666368-C8E2-4B19-976D-182EA352DE12}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C666368-C8E2-4B19-976D-182EA352DE12}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.ClientApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.ClientApp|Any CPU.Build.0 = Debug|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C813BC-3DC1-4279-9B11-838789108585}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
