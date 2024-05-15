@@ -56,7 +56,7 @@ public static class IndexCountHelper {
                 groupError = true;
                 break;
             }
-            if (!DismissGroupOnError) {
+            if (!groupError || !DismissGroupOnError) {
                 // TODO: dismiss complete group or use those that are ok?
                 indexCounts[indexCountGroupItem.Key] = newIndexCount;
             }
