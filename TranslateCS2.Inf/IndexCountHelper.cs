@@ -5,8 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace TranslateCS2.Inf;
 public static class IndexCountHelper {
-    private static bool DismissGroupOnError { get; } = true;
-    private static bool SkipNonBuiltIn { get; } = false;
     public static Regex IndexMatcher { get; } = new Regex("\\:\\d+$");
 
     public static void FillIndexCountsFromLocalizationDictionary(IDictionary<string, string> localizationDictionary,
@@ -27,10 +25,7 @@ public static class IndexCountHelper {
         }
         foreach (IGrouping<string, KeyValuePair<string, string>> indexCountGroupItem in groupedForIndexCountKeys) {
             bool exists = indexCounts.TryGetValue(indexCountGroupItem.Key, out int existingCount);
-            if (!exists
-                && SkipNonBuiltIn) {
-                continue;
-            }
+
 
 
             // one group per KeyValuePair
@@ -41,7 +36,7 @@ public static class IndexCountHelper {
             IOrderedEnumerable<IGrouping<(string IndexCountKey, int Index), KeyValuePair<string, string>>> orderedIndexValues =
                 groupForOrder.OrderBy(item => item.Key.Index);
 
-            bool groupError = false;
+
             int newIndexCount = existingCount;
             foreach (IGrouping<(string IndexCountKey, int Index), KeyValuePair<string, string>> indexedValue in orderedIndexValues) {
                 if (indexedValue.Key.Index < existingCount) {
@@ -53,11 +48,9 @@ public static class IndexCountHelper {
                     continue;
                 }
                 errors.Add(indexCountGroupItem.Key);
-                groupError = true;
                 break;
             }
-            if (!groupError || !DismissGroupOnError) {
-                // TODO: dismiss complete group or use those that are ok?
+            if (newIndexCount > 0) {
                 indexCounts[indexCountGroupItem.Key] = newIndexCount;
             }
         }

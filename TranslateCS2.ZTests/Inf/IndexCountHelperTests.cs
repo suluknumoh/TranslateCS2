@@ -12,7 +12,9 @@ public class IndexCountHelperTests {
     [InlineData("existing_only.json", 0, 5, 0)]
     [InlineData("new_only.json", 5, 10, 0)]
     [InlineData("existing_and_new.json", 5, 10, 0)]
-    [InlineData("existing_and_new_error.json", 5, 5, 1)]
+    [InlineData("existing_and_new_error.json", 5, 7, 1)]
+    [InlineData("complete_new.json", 0, 5, 0)]
+    [InlineData("complete_new_error.json", 0, 3, 1)]
     public async Task FillIndexCountsFromLocalizationDictionaryTest(string fileName,
                                                                     int preInitCounts,
                                                                     int expectedCounts,
@@ -22,9 +24,10 @@ public class IndexCountHelperTests {
         using FileStream stream = File.OpenRead(path);
         Dictionary<string, string>? localizationDictionary = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(stream);
         Assert.NotNull(localizationDictionary);
-        Dictionary<string, int> indexCounts = new Dictionary<string, int> {
-            { key, preInitCounts }
-        };
+        Dictionary<string, int> indexCounts = [];
+        if (preInitCounts > 0) {
+            indexCounts.Add(key, preInitCounts);
+        }
         IList<string> errors = [];
         IndexCountHelper.FillIndexCountsFromLocalizationDictionary(localizationDictionary,
                                                                    indexCounts,
