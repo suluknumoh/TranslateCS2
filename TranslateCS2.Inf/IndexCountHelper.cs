@@ -5,11 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace TranslateCS2.Inf;
 public static class IndexCountHelper {
-    private static Regex IndexMatcher { get; } = new Regex("\\:\\d+$");
+    private static bool DismissGroupOnError { get; } = true;
+    private static bool SkipNonBuiltIn { get; } = false;
+    public static Regex IndexMatcher { get; } = new Regex("\\:\\d+$");
 
     public static void FillIndexCountsFromLocalizationDictionary(IDictionary<string, string> localizationDictionary,
                                                                  IDictionary<string, int> indexCounts,
                                                                  IList<string> errors) {
+        // only those, that end with a colon and at least one digit
         IEnumerable<KeyValuePair<string, string>> indexedValues =
             localizationDictionary.Where(item => IndexMatcher.IsMatch(item.Key));
 
@@ -24,8 +27,9 @@ public static class IndexCountHelper {
         }
         foreach (IGrouping<string, KeyValuePair<string, string>> indexCountGroupItem in groupedForIndexCountKeys) {
             bool exists = indexCounts.TryGetValue(indexCountGroupItem.Key, out int existingCount);
-            if (!exists) {
-                //continue;
+            if (!exists
+                && SkipNonBuiltIn) {
+                continue;
             }
 
 
@@ -52,10 +56,13 @@ public static class IndexCountHelper {
                 groupError = true;
                 break;
             }
+            if (!DismissGroupOnError) {
+                // TODO: dismiss complete group or use those that are ok?
+                indexCounts[indexCountGroupItem.Key] = newIndexCount;
+            }
             if (groupError) {
                 continue;
             }
-            indexCounts[indexCountGroupItem.Key] = newIndexCount;
         }
     }
 

@@ -106,7 +106,7 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
                     } else if (this.Key != this.KeyOrigin) {
                         if (this.ExistsKeyInCurrentTranslationSession?.Invoke(this.Key) ?? false) {
                             return I18NEdits.InputWarningKeyDuplicate;
-                        } else if (this.Key.Contains(':')) {
+                        } else if (IndexCountHelper.IndexMatcher.IsMatch(this.Key)) {
                             // TODO: indexed value; how to handle???
                             // autocorrect or message with the correct next value to use?
                         }
