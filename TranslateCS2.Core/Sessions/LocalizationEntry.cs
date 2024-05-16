@@ -9,7 +9,7 @@ using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Sessions;
-public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionaryEntry, IEquatable<LocalizationDictionaryEntry?> {
+public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<LocalizationEntry?> {
     [JsonIgnore]
     public List<string> Keys { get; } = [];
     [JsonIgnore]
@@ -42,8 +42,9 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     public string Error => String.Empty;
 
     public Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
+    public Func<string, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
 
-    public LocalizationDictionaryEntry(string key,
+    public LocalizationEntry(string key,
                                        string value,
                                        string? translation,
                                        bool isDeleteAble) {
@@ -65,10 +66,10 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     }
 
     public override bool Equals(object? obj) {
-        return this.Equals(obj as LocalizationDictionaryEntry);
+        return this.Equals(obj as LocalizationEntry);
     }
 
-    public bool Equals(LocalizationDictionaryEntry? other) {
+    public bool Equals(LocalizationEntry? other) {
         return other is not null &&
                this._Key == other._Key;
     }
@@ -78,18 +79,18 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     }
 
     [JsonConstructor]
-    public LocalizationDictionaryEntry(string key, string? translation) : this(key, null, translation, false) { }
-    public LocalizationDictionaryEntry(string key, string? translation, bool isDeleteAble) : this(key, null, translation, isDeleteAble) { }
-    public LocalizationDictionaryEntry(ILocalizationDictionaryEntry other) : this(other.Key, other.Value, other.Translation, other.IsDeleteAble) {
+    public LocalizationEntry(string key, string? translation) : this(key, null, translation, false) { }
+    public LocalizationEntry(string key, string? translation, bool isDeleteAble) : this(key, null, translation, isDeleteAble) { }
+    public LocalizationEntry(ILocalizationEntry other) : this(other.Key, other.Value, other.Translation, other.IsDeleteAble) {
         this.ValueMerge = other.ValueMerge;
         this.ValueMergeLanguageCode = other.ValueMergeLanguageCode;
     }
 
-    public static bool operator ==(LocalizationDictionaryEntry? left, LocalizationDictionaryEntry? right) {
-        return EqualityComparer<LocalizationDictionaryEntry>.Default.Equals(left, right);
+    public static bool operator ==(LocalizationEntry? left, LocalizationEntry? right) {
+        return EqualityComparer<LocalizationEntry>.Default.Equals(left, right);
     }
 
-    public static bool operator !=(LocalizationDictionaryEntry? left, LocalizationDictionaryEntry? right) {
+    public static bool operator !=(LocalizationEntry? left, LocalizationEntry? right) {
         return !(left == right);
     }
     public string this[string columnName] {
@@ -107,8 +108,10 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
                         if (this.ExistsKeyInCurrentTranslationSession?.Invoke(this.Key) ?? false) {
                             return I18NEdits.InputWarningKeyDuplicate;
                         } else if (IndexCountHelper.IndexMatcher.IsMatch(this.Key)) {
-                            // TODO: indexed value; how to handle???
-                            // autocorrect or message with the correct next value to use?
+                            (bool, KeyValuePair<string, int>?)? result = this.IsIndexKeyValid?.Invoke(this.Key);
+                            if (result != null && !result.Value.Item1) {
+                                return String.Format(I18NEdits.InputWarningKeyIndex, result.Value.Item2?.Value);
+                            }
                         }
                     }
                     break;

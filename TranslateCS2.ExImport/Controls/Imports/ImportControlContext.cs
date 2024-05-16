@@ -177,8 +177,8 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this._viewConfigurations.DeActivateRibbon?.Invoke(false);
                 this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
                 this._exportImportService.HandleRead(this.CDGContext.GetItems(),
-                                                         this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
-                                                         this.CDGContext.ImportMode);
+                                                     this.SessionManager.CurrentTranslationSession.Localizations,
+                                                     this.CDGContext.ImportMode);
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NImport.MessageImport;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();

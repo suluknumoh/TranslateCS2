@@ -38,7 +38,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         string localeNameID = ReadString(stream);
         string localeNameLocalized = ReadString(stream);
         LocalizationFile localizationFile = new LocalizationFile(fileInfo.Name, fileHeader, localeNameEN, localeNameID, localeNameLocalized);
-        ReadLocalizationFilesLocalizationDictionary(stream, localizationFile);
+        ReadLocalizationFilesLocalizations(stream, localizationFile);
         ReadLocalizationFilesIndizes(stream, localizationFile);
         return localizationFile;
     }
@@ -52,13 +52,13 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         }
     }
 
-    private static void ReadLocalizationFilesLocalizationDictionary(Stream stream, ILocalizationFile localizationFile) {
+    private static void ReadLocalizationFilesLocalizations(Stream stream, ILocalizationFile localizationFile) {
         int localizationCount = ReadInt32(stream);
         for (int i = 0; i < localizationCount; i++) {
             string key = ReadString(stream);
             string value = ReadString(stream);
-            ILocalizationDictionaryEntry originLocalizationKey = new LocalizationDictionaryEntry(key, value, null, false);
-            localizationFile.LocalizationDictionary.Add(originLocalizationKey);
+            ILocalizationEntry originLocalizationKey = new LocalizationEntry(key, value, null, false);
+            localizationFile.Localizations.Add(originLocalizationKey);
         }
     }
 
@@ -75,7 +75,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
             WriteString(stream, localizationFile.LocaleNameEN);
             WriteString(stream, localizationFile.LocaleNameID);
             WriteString(stream, localizationFile.LocaleNameLocalized);
-            WriteLocalizationFilesLocalizationDictionary(localizationFile, stream);
+            WriteLocalizationFilesLocalizations(localizationFile, stream);
             WriteLocalizationFilesIndizes(localizationFile, stream);
             workAround.Stop(stream);
             stream.Flush();
@@ -90,9 +90,9 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         }
     }
 
-    private static void WriteLocalizationFilesLocalizationDictionary(ILocalizationFile localizationFile, Stream stream) {
-        WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
-        foreach (ILocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
+    private static void WriteLocalizationFilesLocalizations(ILocalizationFile localizationFile, Stream stream) {
+        WriteInt32(stream, localizationFile.Localizations.Count);
+        foreach (ILocalizationEntry entry in localizationFile.Localizations) {
             WriteString(stream, entry.Key);
             if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)) {
                 if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.ValueMerge)) {

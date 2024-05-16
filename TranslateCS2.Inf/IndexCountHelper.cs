@@ -9,7 +9,7 @@ public static class IndexCountHelper {
 
     public static void FillIndexCountsFromLocalizationDictionary(IDictionary<string, string> localizationDictionary,
                                                                  IDictionary<string, int> indexCounts,
-                                                                 IList<string> errors) {
+                                                                 IList<KeyValuePair<string, int>> errors) {
         // only those, that end with a colon and at least one digit
         IEnumerable<KeyValuePair<string, string>> indexedValues =
             localizationDictionary.Where(item => IndexMatcher.IsMatch(item.Key));
@@ -47,7 +47,7 @@ public static class IndexCountHelper {
                     newIndexCount++;
                     continue;
                 }
-                errors.Add(indexCountGroupItem.Key);
+                errors.Add(new KeyValuePair<string, int>(indexCountGroupItem.Key, newIndexCount));
                 break;
             }
             if (newIndexCount > 0) {

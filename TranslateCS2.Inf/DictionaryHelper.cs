@@ -11,4 +11,9 @@ public static class DictionaryHelper {
                     && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value))
                 .ToDictionary(item => item.Key, item => item.Value);
     }
+    public static void AddAll<K, V>(IDictionary<K, V> source, IDictionary<K, V> destination) {
+        foreach (KeyValuePair<K, V> entry in source) {
+            destination[entry.Key] = entry.Value;
+        }
+    }
 }

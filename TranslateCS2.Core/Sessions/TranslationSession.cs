@@ -74,7 +74,7 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
 
 
     public bool AreBaseAndMergeLocalizationFilesDifferent => this.OverwriteLocalizationFileName != this.MergeLocalizationFileName;
-    public ObservableCollection<ILocalizationDictionaryEntry> LocalizationDictionary { get; } = [];
+    public ObservableCollection<ILocalizationEntry> Localizations { get; } = [];
 
 
     private string? _DisplayName;
@@ -92,8 +92,8 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
         this.ID = other.ID;
         this.UpdateWith(other);
         if (includeDictionary) {
-            foreach (ILocalizationDictionaryEntry otherEntry in other.LocalizationDictionary) {
-                this.LocalizationDictionary.Add(new LocalizationDictionaryEntry(otherEntry));
+            foreach (ILocalizationEntry otherEntry in other.Localizations) {
+                this.Localizations.Add(new LocalizationEntry(otherEntry));
             }
         }
     }

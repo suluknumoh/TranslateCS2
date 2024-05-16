@@ -48,7 +48,7 @@ internal class FiltersService : IFiltersService {
             return filters;
         }
         List<string> filterValues = [];
-        foreach (ILocalizationDictionaryEntry entry in this._translationSessionManager.BaseLocalizationFile.LocalizationDictionary) {
+        foreach (ILocalizationEntry entry in this._translationSessionManager.BaseLocalizationFile.Localizations) {
             if (entry.Key.Contains(".")) {
                 string val = entry.Key.Split(".")[0];
                 if (filterValues.Contains(val)) {

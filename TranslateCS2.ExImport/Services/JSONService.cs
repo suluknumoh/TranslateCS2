@@ -21,49 +21,31 @@ internal class JSONService {
                                                 string file,
                                                 bool addKey,
                                                 bool addMergeValues) {
-        await Task.Factory.StartNew(() => {
-            Func<ILocalizationDictionaryEntry, bool> predicate = item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation);
-            Func<ILocalizationDictionaryEntry, string> keySelector = (item) => item.Key;
-            Func<ILocalizationDictionaryEntry, string> valueSelector = (item) => item.Translation;
-            if (addMergeValues) {
-                predicate = item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation) || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge);
 
-                valueSelector = (item) => {
-                    if (StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)) {
-                        return item.ValueMerge;
-                    };
-                    return item.Translation;
-                };
-            }
-
-            Dictionary<string, string> exp =
-                localizationFile.LocalizationDictionary
-                .Where(predicate)
-                .ToDictionary(keySelector, valueSelector);
-            if (addKey) {
-                exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.LocaleNameLocalized);
-            }
-            byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
-            File.WriteAllBytes(file, bytes);
-        });
+        IDictionary<string, string> exp = localizationFile.GetLocalizationsAsDictionary(addMergeValues);
+        if (addKey) {
+            exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.LocaleNameLocalized);
+        }
+        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
+        File.WriteAllBytes(file, bytes);
     }
 
-    public async Task<List<ILocalizationDictionaryEntry>?> ReadLocalizationFileJson(string file) {
+    public async Task<List<ILocalizationEntry>?> ReadLocalizationFileJson(string file) {
         try {
             using Stream stream = File.OpenRead(file);
-            List<LocalizationDictionaryEntry>? deserialized = await JsonSerializer.DeserializeAsync<List<LocalizationDictionaryEntry>?>(stream, this._jsonSerializerOptions);
-            return deserialized?.ToList<ILocalizationDictionaryEntry>();
+            List<LocalizationEntry>? deserialized = await JsonSerializer.DeserializeAsync<List<LocalizationEntry>?>(stream, this._jsonSerializerOptions);
+            return deserialized?.ToList<ILocalizationEntry>();
         } catch {
             using Stream stream = File.OpenRead(file);
             Dictionary<string, string>? deserialized = await JsonSerializer.DeserializeAsync<Dictionary<string, string>?>(stream, this._jsonSerializerOptions);
             ArgumentNullException.ThrowIfNull(deserialized);
-            List<ILocalizationDictionaryEntry> localizationDictionaryEntries = [];
+            List<ILocalizationEntry> localizationDictionaryEntries = [];
             foreach (KeyValuePair<string, string> entry in deserialized) {
                 if (entry.Key == ModConstants.LocaleNameLocalizedKey
                     || StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key)) {
                     continue;
                 }
-                localizationDictionaryEntries.Add(new LocalizationDictionaryEntry(entry.Key, entry.Value, false));
+                localizationDictionaryEntries.Add(new LocalizationEntry(entry.Key, entry.Value, false));
             }
             return localizationDictionaryEntries;
         }

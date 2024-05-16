@@ -29,7 +29,7 @@ public class IndexCountHelperTests {
         if (preInitCounts > 0) {
             indexCounts.Add(key, preInitCounts);
         }
-        IList<string> errors = [];
+        IList<KeyValuePair<string, int>> errors = [];
         IndexCountHelper.FillIndexCountsFromLocalizationDictionary(localizationDictionary,
                                                                    indexCounts,
                                                                    errors);

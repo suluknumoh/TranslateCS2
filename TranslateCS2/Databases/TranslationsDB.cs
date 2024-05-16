@@ -229,7 +229,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                 }
                 string key = reader.GetString(0);
                 string translation = reader.GetString(1);
-                this.EnrichSavedTranslation(session.LocalizationDictionary, key, translation, valueTranslationMapping);
+                this.EnrichSavedTranslation(session.Localizations, key, translation, valueTranslationMapping);
             }
             this.EnrichNewWithTranslatedValue(session, valueTranslationMapping, onError);
         } catch {
@@ -252,12 +252,12 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     private void EnrichNewWithTranslatedValue(ITranslationSession session,
                                               Dictionary<string, string> valueTranslationMapping,
                                               ITranslationsDatabaseService.OnErrorCallBack? onError) {
-        IEnumerable<ILocalizationDictionaryEntry> newEntries =
-            session.LocalizationDictionary.Where(
+        IEnumerable<ILocalizationEntry> newEntries =
+            session.Localizations.Where(
                 entry => !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && valueTranslationMapping.ContainsKey(entry.Value) && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)
         );
         if (newEntries.Any()) {
-            foreach (ILocalizationDictionaryEntry entry in newEntries) {
+            foreach (ILocalizationEntry entry in newEntries) {
                 if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)) {
                     continue;
                 }
@@ -270,11 +270,11 @@ internal class TranslationsDB : ITranslationsDatabaseService {
         }
     }
 
-    private void EnrichSavedTranslation(ObservableCollection<ILocalizationDictionaryEntry> localizationDictionary,
+    private void EnrichSavedTranslation(ObservableCollection<ILocalizationEntry> localizationDictionary,
                                         string key,
                                         string translation,
                                         Dictionary<string, string> valueTranslationMapping) {
-        foreach (ILocalizationDictionaryEntry entry in localizationDictionary) {
+        foreach (ILocalizationEntry entry in localizationDictionary) {
             if (entry.Key == key) {
                 entry.Translation = translation;
                 if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)) {
@@ -284,7 +284,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             }
         }
         // manually added key-translation-pair
-        localizationDictionary.Add(new LocalizationDictionaryEntry(key, translation, true));
+        localizationDictionary.Add(new LocalizationEntry(key, translation, true));
     }
 
     public void SaveTranslations(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack? onError) {
@@ -293,7 +293,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
                 this.UpdateLastEdited(connection, transaction, translationSession);
-                IEnumerable<ILocalizationDictionaryEntry> deletes = translationSession.LocalizationDictionary.Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
+                IEnumerable<ILocalizationEntry> deletes = translationSession.Localizations.Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
                 if (deletes.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
                     command.Transaction = transaction;
@@ -309,13 +309,13 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     command.Prepare();
-                    foreach (ILocalizationDictionaryEntry delete in deletes) {
+                    foreach (ILocalizationEntry delete in deletes) {
                         idParameter.Value = translationSession.ID;
                         keyParameter.Value = delete.Key;
                         command.ExecuteNonQuery();
                     }
                 }
-                IEnumerable<ILocalizationDictionaryEntry> upserts = translationSession.LocalizationDictionary.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
+                IEnumerable<ILocalizationEntry> upserts = translationSession.Localizations.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
                 if (upserts.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
                     command.Transaction = transaction;
@@ -347,7 +347,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     SqliteParameter translationParameter = command.Parameters.Add("@translation", SqliteType.Text);
                     command.Prepare();
-                    foreach (ILocalizationDictionaryEntry upsert in upserts) {
+                    foreach (ILocalizationEntry upsert in upserts) {
                         idParameter.Value = translationSession.ID;
                         keyParameter.Value = upsert.Key;
                         translationParameter.Value = upsert.Translation;

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 
 namespace TranslateCS2.Core.Sessions;
-public interface ITranslationSession : IDataErrorInfo {
+public interface ITranslationSession : IDataErrorInfo, ILocalizationsGetAble<ObservableCollection<ILocalizationEntry>> {
     long ID { get; set; }
     string? Name { get; set; }
     /// <summary>
@@ -27,11 +27,9 @@ public interface ITranslationSession : IDataErrorInfo {
     string? OverwriteLocalizationNameLocalized { get; set; }
     bool IsAutoSave => true;
     bool AreBaseAndMergeLocalizationFilesDifferent => this.OverwriteLocalizationFileName != this.MergeLocalizationFileName;
-    ObservableCollection<ILocalizationDictionaryEntry> LocalizationDictionary { get; }
     string? DisplayName { get; set; }
     bool HasTranslationForKey(string key) {
-        return this.LocalizationDictionary.Where(item => item.Key == key && item.IsTranslated).Any();
+        return this.Localizations.Where(item => item.Key == key && item.IsTranslated).Any();
     }
-
     void UpdateWith(ITranslationSession session);
 }

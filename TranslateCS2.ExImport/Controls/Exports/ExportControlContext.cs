@@ -188,7 +188,13 @@ internal class ExportControlContext : ABaseViewModel {
             this._viewConfigurations.DeActivateRibbon?.Invoke(false);
             this.IsEnabled = false;
             this.IsExportButtonEnabled = false;
-            this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
+            IList<KeyValuePair<string, int>> errors = [];
+            this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON, errors);
+            if (errors.Count > 0) {
+                this.InfoMessageColor = Brushes.DarkRed;
+                this.InfoMessage = I18NExport.MessageFail;
+                return;
+            }
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessagePrepareSuccess;
             this.InfoMessageColor = Brushes.DarkGreen;

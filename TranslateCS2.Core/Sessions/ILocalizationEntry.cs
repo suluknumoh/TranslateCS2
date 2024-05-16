@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Sessions;
-public interface ILocalizationDictionaryEntry : IDataErrorInfo {
+public interface ILocalizationEntry : IDataErrorInfo {
     [JsonIgnore]
     List<string> Keys { get; }
     [JsonIgnore]
@@ -28,5 +28,6 @@ public interface ILocalizationDictionaryEntry : IDataErrorInfo {
     [JsonIgnore]
     bool IsTranslated => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation);
     Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
+    Func<string, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
     void AddKey(string keyParameter);
 }
