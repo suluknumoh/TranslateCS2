@@ -42,7 +42,7 @@ public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<Lo
     public string Error => String.Empty;
 
     public Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
-    public Func<string, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
+    public Func<string, string?, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
 
     public LocalizationEntry(string key,
                                        string value,
@@ -108,7 +108,7 @@ public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<Lo
                         if (this.ExistsKeyInCurrentTranslationSession?.Invoke(this.Key) ?? false) {
                             return I18NEdits.InputWarningKeyDuplicate;
                         } else if (IndexCountHelper.IndexMatcher.IsMatch(this.Key)) {
-                            (bool, KeyValuePair<string, int>?)? result = this.IsIndexKeyValid?.Invoke(this.Key);
+                            (bool, KeyValuePair<string, int>?)? result = this.IsIndexKeyValid?.Invoke(this.Key, this.KeyOrigin);
                             if (result != null && !result.Value.Item1) {
                                 return String.Format(I18NEdits.InputWarningKeyIndex, result.Value.Item2?.Value);
                             }

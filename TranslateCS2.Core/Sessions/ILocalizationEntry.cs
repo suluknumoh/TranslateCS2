@@ -28,6 +28,6 @@ public interface ILocalizationEntry : IDataErrorInfo {
     [JsonIgnore]
     bool IsTranslated => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation);
     Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
-    Func<string, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
+    Func<string, string?, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
     void AddKey(string keyParameter);
 }

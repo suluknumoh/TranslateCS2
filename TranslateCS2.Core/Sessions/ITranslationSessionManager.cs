@@ -26,6 +26,6 @@ public interface ITranslationSessionManager {
     void CurrentTranslationSessionChanged();
     ITranslationSession GetNewTranslationSession();
     bool ExistsKeyInCurrentTranslationSession(string key);
-    (bool, KeyValuePair<string, int>?) IsIndexKeyValid(string key);
+    (bool, KeyValuePair<string, int>?) IsIndexKeyValid(string key, string? keyOrigin);
     ITranslationSession? CloneCurrent(bool includeDictionary);
 }
