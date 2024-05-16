@@ -205,11 +205,13 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public (bool, KeyValuePair<string, int>?) IsIndexKeyValid(string key, string? keyOrigin) {
         List<KeyValuePair<string, int>> errors = [];
         IDictionary<string, string> localizationDictionary = this.CurrentTranslationSession.GetLocalizationsAsDictionary(true);
-        // value is irrelevant
-        // the key needs to be checked
         if (keyOrigin != null) {
+            // keyOrigin is null on add entry
+            // keyOrigin is NOT null on edit entry and it has to be removed to validate the correct order
             localizationDictionary.Remove(keyOrigin);
         }
+        // value is irrelevant
+        // the key needs to be checked
         localizationDictionary.Add(key, String.Empty);
         Dictionary<string, int> indexCounts = [];
         IndexCountHelper.FillIndexCountsFromLocalizationDictionary(localizationDictionary,
