@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 public interface ITranslationSessionManager {
@@ -26,5 +27,6 @@ public interface ITranslationSessionManager {
     void CurrentTranslationSessionChanged();
     ITranslationSession GetNewTranslationSession();
     bool ExistsKeyInCurrentTranslationSession(string key);
+    IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin);
     ITranslationSession? CloneCurrent(bool includeDictionary);
 }

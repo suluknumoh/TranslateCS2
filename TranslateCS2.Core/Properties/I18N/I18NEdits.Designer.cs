@@ -79,6 +79,15 @@ namespace TranslateCS2.Core.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Index is inconsistent. To add an indexed value the next free index &apos;{0}&apos; should be used..
+        /// </summary>
+        public static string InputWarningKeyIndex {
+            get {
+                return ResourceManager.GetString("InputWarningKeyIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Key must not contain spaces!.
         /// </summary>
         public static string InputWarningSpaces {

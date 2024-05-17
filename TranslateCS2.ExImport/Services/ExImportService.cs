@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,17 +51,15 @@ internal class ExImportService {
         }
     }
 
-    public async Task<List<CompareExistingReadTranslation>?> ReadToReview(ITranslationSession translationSession,
-                                                                          string selectedPath) {
-        List<ILocalizationDictionaryEntry>? imports = await this._jsonService.ReadLocalizationFileJson(selectedPath);
-        if (imports == null) {
-            return null;
-        }
+    public async Task<List<CompareExistingReadTranslation>> ReadToReview(ITranslationSession translationSession,
+                                                                         string selectedPath) {
+        List<ILocalizationEntry>? imports = await this._jsonService.ReadLocalizationFileJson(selectedPath);
+        ArgumentNullException.ThrowIfNull(imports);
         List<CompareExistingReadTranslation> preview = [];
         {
             // read keys used by colossal order
-            foreach (ILocalizationDictionaryEntry existing in translationSession.LocalizationDictionary) {
-                IEnumerable<ILocalizationDictionaryEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
+            foreach (ILocalizationEntry existing in translationSession.Localizations) {
+                IEnumerable<ILocalizationEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
                 string key = existing.Key;
                 string? translationExisting = existing.Translation;
                 string? translationRead = null;
@@ -79,9 +78,9 @@ internal class ExImportService {
         }
         {
             // read entries other than those used by colossal order (key-value-pairs for mods)
-            IEnumerable<ILocalizationDictionaryEntry> remaining = imports.Where(import => !translationSession.LocalizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+            IEnumerable<ILocalizationEntry> remaining = imports.Where(import => !translationSession.Localizations.Select(existing => existing.Key).Contains(import.Key));
             if (remaining.Any()) {
-                foreach (ILocalizationDictionaryEntry remain in remaining) {
+                foreach (ILocalizationEntry remain in remaining) {
                     string? key = StringHelper.GetNullForEmpty(remain.Key);
                     string? translationExisting = null;
                     string? translationRead = StringHelper.GetNullForEmpty(remain.Translation);
@@ -100,11 +99,12 @@ internal class ExImportService {
     }
 
     public void HandleRead(IList<CompareExistingReadTranslation> preview,
-                           IList<ILocalizationDictionaryEntry> localizationDictionary,
+                           ITranslationSession translationSession,
                            ImportModes importMode) {
+        IList<ILocalizationEntry> localizationDictionary = translationSession.Localizations;
         {
             // handle key-value-pairs used by colossal order
-            foreach (ILocalizationDictionaryEntry currentEntry in localizationDictionary) {
+            foreach (ILocalizationEntry currentEntry in localizationDictionary) {
                 foreach (CompareExistingReadTranslation compareItem in preview) {
                     if (compareItem.Key == currentEntry.Key) {
                         switch (importMode) {
@@ -146,19 +146,22 @@ internal class ExImportService {
         }
         {
             // handle other key-value-pairs that are not used by colossal order (key-value-pairs for mods)
-            IEnumerable<CompareExistingReadTranslation> remaining = preview.Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+            IEnumerable<CompareExistingReadTranslation> remaining =
+                preview
+                    .Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
             foreach (CompareExistingReadTranslation remain in remaining) {
                 switch (importMode) {
                     case ImportModes.NEW:
                     case ImportModes.RightJoin:
                     case ImportModes.LeftJoin:
-                        // remaining do not existing within the given localizationDictionary
+                        // remaining do not exist within the given localizationDictionary
                         // they should be added always (i think)
-                        ILocalizationDictionaryEntry newItem = new LocalizationDictionaryEntry(remain.Key, remain.TranslationRead);
+                        ILocalizationEntry newItem = new LocalizationEntry(remain.Key, remain.TranslationRead);
                         localizationDictionary.Add(newItem);
                         break;
                 }
             }
         }
+        IndexCountHelper.AutoCorrect(localizationDictionary);
     }
 }

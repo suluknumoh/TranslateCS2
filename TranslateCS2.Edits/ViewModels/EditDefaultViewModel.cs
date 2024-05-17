@@ -46,7 +46,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not ILocalizationDictionaryEntry edited) {
+        if (args.Row.Item is not ILocalizationEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -55,25 +55,25 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, ILocalizationDictionaryEntry edited) {
+    protected override void Save(string? translation, ILocalizationEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
         if (edited.KeyOrigin != null && edited.KeyOrigin != edited.Key) {
             // key has changed
             // set translation to null to delete from database
-            IEnumerable<ILocalizationDictionaryEntry> existings = this.CurrentSession.LocalizationDictionary.Where(item => item.Key == edited.KeyOrigin);
+            IEnumerable<ILocalizationEntry> existings = this.CurrentSession.Localizations.Where(item => item.Key == edited.KeyOrigin);
             if (existings.Any()) {
-                ILocalizationDictionaryEntry existing = existings.First();
+                ILocalizationEntry existing = existings.First();
                 existing.Translation = null;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();
-                this.CurrentSession.LocalizationDictionary.Remove(existing);
+                this.CurrentSession.Localizations.Remove(existing);
             }
         }
-        if (!this.CurrentSession.LocalizationDictionary.Contains(edited)) {
-            this.CurrentSession.LocalizationDictionary.Add(edited);
+        if (!this.CurrentSession.Localizations.Contains(edited)) {
+            this.CurrentSession.Localizations.Add(edited);
         }
-        SetNewValue(this.CurrentSession.LocalizationDictionary, translation, edited);
+        SetNewValue(this.CurrentSession.Localizations, translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
             // see xaml-code
@@ -83,10 +83,10 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
 
     protected override void RefreshViewList() {
         this.Mapping.Clear();
-        if (this.CurrentSession == null || this.CurrentSession.LocalizationDictionary == null) {
+        if (this.CurrentSession == null || this.CurrentSession.Localizations == null) {
             return;
         }
-        foreach (ILocalizationDictionaryEntry entry in this.CurrentSession.LocalizationDictionary) {
+        foreach (ILocalizationEntry entry in this.CurrentSession.Localizations) {
             if (this._selectedFilter.Matches(entry)) {
                 bool add = false;
                 if (this.OnlyTranslated
@@ -147,9 +147,9 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     private void AddEntry(object sender, RoutedEventArgs e) {
-        ILocalizationDictionaryEntry entry = new LocalizationDictionaryEntry(null, null, true);
+        ILocalizationEntry entry = new LocalizationEntry(null, null, true);
         IDialogParameters parameters = new DialogParameters {
-            { nameof(ILocalizationDictionaryEntry), entry },
+            { nameof(ILocalizationEntry), entry },
             { nameof(EditEntryLargeViewModel.IsCount), false }
         };
         this.OpenEditEntryLarge(parameters);

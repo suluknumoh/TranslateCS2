@@ -27,8 +27,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
 
     private string? _backUpTranslation;
-    private ILocalizationDictionaryEntry? _Entry;
-    public ILocalizationDictionaryEntry? Entry {
+    private ILocalizationEntry? _Entry;
+    public ILocalizationEntry? Entry {
         get => this._Entry;
         set => this.SetProperty(ref this._Entry, value, this.OnEntryChanged);
     }
@@ -151,8 +151,9 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         if (this._bindingGroup != null && this._bindingGroup.CommitEdit()) {
             this._canCloseDialog = true;
             this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
+            this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
             IDialogResult result = new DialogResult(ButtonResult.OK);
-            result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
+            result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
             RequestClose?.Invoke(result);
             this.Entry = null;
             this._backUpTranslation = null;
@@ -173,8 +174,9 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this._canCloseDialog = true;
         this.Entry.Translation = null;
         this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
+        this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Yes);
-        result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
+        result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
         this._backUpTranslation = null;
@@ -193,8 +195,9 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this._canCloseDialog = true;
         this.Entry.Translation = this._backUpTranslation;
         this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
+        this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Cancel);
-        result.Parameters.Add(nameof(ILocalizationDictionaryEntry), this.Entry);
+        result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
         this._backUpTranslation = null;
@@ -241,13 +244,14 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
     public void OnDialogOpened(IDialogParameters parameters) {
         this._canCloseDialog = false;
-        bool gotEntry = parameters.TryGetValue<ILocalizationDictionaryEntry>(nameof(ILocalizationDictionaryEntry), out ILocalizationDictionaryEntry entry);
+        bool gotEntry = parameters.TryGetValue<ILocalizationEntry>(nameof(ILocalizationEntry), out ILocalizationEntry entry);
         if (!gotEntry) {
             this.Entry = null;
             return;
         }
-        entry.ExistsKeyInCurrentTranslationSession += this.SessionManager.ExistsKeyInCurrentTranslationSession;
         this.Entry = entry;
+        this.Entry.ExistsKeyInCurrentTranslationSession += this.SessionManager.ExistsKeyInCurrentTranslationSession;
+        this.Entry.IsIndexKeyValid += this.SessionManager.IsIndexKeyValid;
         //
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
         this.IsCount = gotIsCount && isCount;

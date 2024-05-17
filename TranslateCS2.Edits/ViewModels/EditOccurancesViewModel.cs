@@ -13,7 +13,7 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.Edits.ViewModels;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
-    private readonly List<ILocalizationDictionaryEntry> _entries = [];
+    private readonly List<ILocalizationEntry> _entries = [];
     public EditOccurancesViewModel(IContainerProvider containerProvider,
                                    IViewConfigurations viewConfigurations,
                                    ITranslationSessionManager translationSessionManager,
@@ -29,7 +29,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not ILocalizationDictionaryEntry edited) {
+        if (args.Row.Item is not ILocalizationEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -38,11 +38,11 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, ILocalizationDictionaryEntry edited) {
+    protected override void Save(string? translation, ILocalizationEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
-        SetNewValue(this.CurrentSession.LocalizationDictionary, translation, edited);
+        SetNewValue(this.CurrentSession.Localizations, translation, edited);
         this.SetNewValue(translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
@@ -58,14 +58,14 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     protected override void RefreshViewList() {
         this.Mapping.Clear();
         this._entries.Clear();
-        if (this.CurrentSession == null || this.CurrentSession.LocalizationDictionary == null) {
+        if (this.CurrentSession == null || this.CurrentSession.Localizations == null) {
             return;
         }
-        IEnumerable<IGrouping<string, ILocalizationDictionaryEntry>> groups = this.CurrentSession.LocalizationDictionary.GroupBy(entry => entry.Value);
-        foreach (IGrouping<string, ILocalizationDictionaryEntry> group in groups) {
-            ILocalizationDictionaryEntry entry = new LocalizationDictionaryEntry(null, group.First().Value, null, false);
+        IEnumerable<IGrouping<string, ILocalizationEntry>> groups = this.CurrentSession.Localizations.GroupBy(entry => entry.Value);
+        foreach (IGrouping<string, ILocalizationEntry> group in groups) {
+            ILocalizationEntry entry = new LocalizationEntry(null, group.First().Value, null, false);
             this._entries.Add(entry);
-            foreach (ILocalizationDictionaryEntry groupItem in group) {
+            foreach (ILocalizationEntry groupItem in group) {
                 entry.AddKey(groupItem.Key);
                 entry.ValueMerge = groupItem.ValueMerge;
                 entry.ValueMergeLanguageCode = groupItem.ValueMergeLanguageCode;
@@ -73,7 +73,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             }
         }
 
-        foreach (ILocalizationDictionaryEntry entry in this._entries) {
+        foreach (ILocalizationEntry entry in this._entries) {
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
@@ -97,8 +97,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         }
         base.RefreshViewList();
     }
-    private void SetNewValue(string? translation, ILocalizationDictionaryEntry edited) {
-        foreach (ILocalizationDictionaryEntry entry in this._entries) {
+    private void SetNewValue(string? translation, ILocalizationEntry edited) {
+        foreach (ILocalizationEntry entry in this._entries) {
             if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
                 || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;

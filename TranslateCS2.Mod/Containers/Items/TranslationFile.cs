@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 using Colossal;
@@ -16,19 +15,11 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     private readonly IModRuntimeContainer runtimeContainer;
     private string Uniquer { get; } = ModConstants.Name;
     private MyLanguage Language { get; }
-    private Dictionary<string, string>? dictionary;
+    private IDictionary<string, string>? dictionary;
     public string LocaleId { get; private set; }
     public string LocaleName { get; private set; }
-    public bool IsOK {
-        get {
-            if (this.dictionary == null
-                || this.dictionary.Count == 0) {
-                return false;
-            }
-            return true;
-        }
-    }
-    public int EntryCount => this.dictionary == null ? 0 : this.dictionary.Count;
+    public bool IsOK => this.EntryCount > 0;
+    public int EntryCount => this.dictionary?.Count ?? 0;
     public string Path { get; }
     public TranslationFile(IModRuntimeContainer runtimeContainer,
                            string localeId,
@@ -40,7 +31,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         this.Path = path;
         this.Language = language;
         this.ReadJson();
-        if (this.dictionary != null && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
+        if (this.dictionary != null
+            && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
             && outLocaleName != null
             && !StringHelper.IsNullOrWhiteSpaceOrEmpty(outLocaleName)) {
             this.LocaleName = outLocaleName;
@@ -55,7 +47,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
             string json = File.ReadAllText(this.Path, Encoding.UTF8);
             Dictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             if (temporary != null) {
-                this.dictionary = temporary;
+                this.dictionary = DictionaryHelper.GetNonEmpty(temporary);
                 return true;
             }
         } catch (Exception ex) {
@@ -65,16 +57,19 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         }
         return false;
     }
+
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
-                                                                 Dictionary<string, int> indexCounts) {
-        this.Language.AddIndexCounts(indexCounts);
-        if (this.dictionary == null) {
+                                                                 Dictionary<string, int> indexCountsToFill) {
+        indexCountsToFill.Clear();
+        // has to be added!!! if dictionary is null, fallback/builtin-language is used!!!
+        // prefill with this languages index counts
+        this.Language.AddIndexCounts(indexCountsToFill);
+        if (this.dictionary is null) {
             return [];
         }
-        return this.dictionary
-            .Where(item =>
-                !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key)
-                && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
+        IndexCountHelper.FillIndexCountsAndAutocorrect(this.dictionary,
+                                                       indexCountsToFill);
+        return this.dictionary;
     }
 
     public void Unload() {

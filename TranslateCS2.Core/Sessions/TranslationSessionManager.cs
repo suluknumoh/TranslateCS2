@@ -12,6 +12,7 @@ using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 internal class TranslationSessionManager : BindableBase, ITranslationSessionManager {
@@ -89,14 +90,14 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         // always raise!!!
         this.RaisePropertyChanged(nameof(this.HasTranslationSessions));
         foreach (ITranslationSession translationSession in this.TranslationSessions) {
-            translationSession.LocalizationDictionary.Clear();
+            translationSession.Localizations.Clear();
         }
         if (this.CurrentTranslationSession == null) {
             return;
         }
-        foreach (ILocalizationDictionaryEntry item in this.BaseLocalizationFile.LocalizationDictionary) {
-            // copy item, otherwise changes are reflected into BaseLocalizationFile.LocalizationDictionary
-            this.CurrentTranslationSession.LocalizationDictionary.Add(new LocalizationDictionaryEntry(item));
+        foreach (ILocalizationEntry item in this.BaseLocalizationFile.Localizations) {
+            // copy item, otherwise changes are reflected into BaseLocalizationFile.Localizations
+            this.CurrentTranslationSession.Localizations.Add(new LocalizationEntry(item));
         }
         this._db.EnrichSavedTranslations(this.CurrentTranslationSession, this._onError);
         if (this.HasDatabaseError) {
@@ -106,8 +107,8 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
         LocalizationFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
-        foreach (ILocalizationDictionaryEntry mergeEntry in mergeFile.LocalizationDictionary) {
-            ILocalizationDictionaryEntry item = this.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == mergeEntry.Key).First();
+        foreach (ILocalizationEntry mergeEntry in mergeFile.Localizations) {
+            ILocalizationEntry item = this.CurrentTranslationSession.Localizations.Where(item => item.Key == mergeEntry.Key).First();
             item.ValueMerge = mergeEntry.Value;
             item.ValueMergeLanguageCode = this.CurrentTranslationSession.MergeLanguageCode;
         }
@@ -120,21 +121,24 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
                                                         this.CurrentTranslationSession.OverwriteLocalizationNameEN,
                                                         this.CurrentTranslationSession.OverwriteLocalizationLocaleID,
                                                         this.CurrentTranslationSession.OverwriteLocalizationNameLocalized);
-        merged.Indizes.Clear();
-        merged.Indizes.AddRange(mergeLocalizationFile.Indizes);
-        merged.LocalizationDictionary.Clear();
-        List<ILocalizationDictionaryEntry>? dic = null;
+        merged.Indices.Clear();
+        merged.Localizations.Clear();
+        DictionaryHelper.AddAll(mergeLocalizationFile.Indices, merged.Indices);
+        List<ILocalizationEntry>? localizations = null;
         if (json) {
-            dic =
-                this.CurrentTranslationSession.LocalizationDictionary
-                    .Where(item => (!StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key) && !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)) || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
+            localizations =
+                this.CurrentTranslationSession.Localizations
+                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key) && (!StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation) || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge))).ToList();
         } else {
-            dic =
-                this.CurrentTranslationSession.LocalizationDictionary
+            localizations =
+                this.CurrentTranslationSession.Localizations
                     .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
         }
-
-        merged.LocalizationDictionary.AddRange(dic);
+        merged.Localizations.AddRange(localizations);
+        // addMergeValues has to be true!!!
+        IDictionary<string, string> dictionary = merged.GetLocalizationsAsDictionary(true);
+        IndexCountHelper.FillIndexCountsAndAutocorrect(dictionary,
+                                                       merged.Indices);
         return merged;
     }
 
@@ -194,7 +198,12 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public bool ExistsKeyInCurrentTranslationSession(string key) {
-        return this.CurrentTranslationSession.LocalizationDictionary.Where(item => item.Key == key).Any();
+        return this.CurrentTranslationSession.Localizations.Where(item => item.Key == key).Any();
+    }
+
+    public IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin) {
+        ObservableCollection<ILocalizationEntry> localizationDictionary = this.CurrentTranslationSession.Localizations;
+        return IndexCountHelper.ValidateForKey(localizationDictionary, key);
     }
 
     public ITranslationSession? CloneCurrent(bool includeDictionary) {

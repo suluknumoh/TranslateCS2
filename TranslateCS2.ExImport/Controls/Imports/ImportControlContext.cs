@@ -135,14 +135,9 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         this.RaisePropertyChanged(nameof(this.CDGContext));
         this.InfoMessageColor = Brushes.Black;
         this.InfoMessage = I18NImport.MessageRead;
-        List<CompareExistingReadTranslation>? preview = null;
         try {
-            preview = await this._exportImportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
-                                                                   this.SelectedPath);
-        } catch {
-            // nix
-        }
-        if (preview is not null) {
+            List<CompareExistingReadTranslation> preview = await this._exportImportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
+                                                                                                        this.SelectedPath);
             if (false) {
                 preview.RemoveAll(i => i.IsEqual());
             }
@@ -154,7 +149,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             this.RaisePropertyChanged(nameof(this.CDGContext));
             this.CDGContext.Raiser();
             this.Enable(true);
-        } else {
+        } catch {
             this.InfoMessageColor = Brushes.DarkRed;
             this.InfoMessage = I18NImport.MessageReadFail;
             this.Disable(false);
@@ -177,8 +172,8 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this._viewConfigurations.DeActivateRibbon?.Invoke(false);
                 this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
                 this._exportImportService.HandleRead(this.CDGContext.GetItems(),
-                                                         this.SessionManager.CurrentTranslationSession.LocalizationDictionary,
-                                                         this.CDGContext.ImportMode);
+                                                     this.SessionManager.CurrentTranslationSession,
+                                                     this.CDGContext.ImportMode);
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NImport.MessageImport;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();

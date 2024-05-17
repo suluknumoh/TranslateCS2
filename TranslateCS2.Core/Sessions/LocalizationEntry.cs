@@ -7,9 +7,10 @@ using Prism.Mvvm;
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
-public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionaryEntry, IEquatable<LocalizationDictionaryEntry?> {
+public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<LocalizationEntry?> {
     [JsonIgnore]
     public List<string> Keys { get; } = [];
     [JsonIgnore]
@@ -19,6 +20,12 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
         get => this._Key;
         set => this.SetProperty(ref this._Key, value);
     }
+    [JsonIgnore]
+    public bool IsIndexed => IndexCountHelper.IndexMatcher.IsMatch(this.Key);
+    [JsonIgnore]
+    public string CountKey => IndexCountHelper.GetCountKeyFromKey(this.Key);
+    [JsonIgnore]
+    public int Index => IndexCountHelper.GetIndexFromKey(this.Key);
     [JsonIgnore]
     public int Count => this.Keys.Count;
     [JsonIgnore]
@@ -42,8 +49,9 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     public string Error => String.Empty;
 
     public Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
+    public Func<string, string?, IndexCountHelperValidationResult>? IsIndexKeyValid { get; set; }
 
-    public LocalizationDictionaryEntry(string key,
+    public LocalizationEntry(string key,
                                        string value,
                                        string? translation,
                                        bool isDeleteAble) {
@@ -65,10 +73,10 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     }
 
     public override bool Equals(object? obj) {
-        return this.Equals(obj as LocalizationDictionaryEntry);
+        return this.Equals(obj as LocalizationEntry);
     }
 
-    public bool Equals(LocalizationDictionaryEntry? other) {
+    public bool Equals(LocalizationEntry? other) {
         return other is not null &&
                this._Key == other._Key;
     }
@@ -78,18 +86,18 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
     }
 
     [JsonConstructor]
-    public LocalizationDictionaryEntry(string key, string? translation) : this(key, null, translation, false) { }
-    public LocalizationDictionaryEntry(string key, string? translation, bool isDeleteAble) : this(key, null, translation, isDeleteAble) { }
-    public LocalizationDictionaryEntry(ILocalizationDictionaryEntry other) : this(other.Key, other.Value, other.Translation, other.IsDeleteAble) {
+    public LocalizationEntry(string key, string? translation) : this(key, null, translation, false) { }
+    public LocalizationEntry(string key, string? translation, bool isDeleteAble) : this(key, null, translation, isDeleteAble) { }
+    public LocalizationEntry(ILocalizationEntry other) : this(other.Key, other.Value, other.Translation, other.IsDeleteAble) {
         this.ValueMerge = other.ValueMerge;
         this.ValueMergeLanguageCode = other.ValueMergeLanguageCode;
     }
 
-    public static bool operator ==(LocalizationDictionaryEntry? left, LocalizationDictionaryEntry? right) {
-        return EqualityComparer<LocalizationDictionaryEntry>.Default.Equals(left, right);
+    public static bool operator ==(LocalizationEntry? left, LocalizationEntry? right) {
+        return EqualityComparer<LocalizationEntry>.Default.Equals(left, right);
     }
 
-    public static bool operator !=(LocalizationDictionaryEntry? left, LocalizationDictionaryEntry? right) {
+    public static bool operator !=(LocalizationEntry? left, LocalizationEntry? right) {
         return !(left == right);
     }
     public string this[string columnName] {
@@ -101,11 +109,16 @@ public class LocalizationDictionaryEntry : BindableBase, ILocalizationDictionary
                 case nameof(this.Key):
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Key)) {
                         return I18NEdits.InputWarningKeyEmpty;
-                    } else if (this.Key.Contains(" ")) {
+                    } else if (this.Key.Contains(' ')) {
                         return I18NEdits.InputWarningSpaces;
-                    } else if (this.Key != this.KeyOrigin && this.ExistsKeyInCurrentTranslationSession != null) {
-                        if (this.ExistsKeyInCurrentTranslationSession(this.Key)) {
+                    } else if (this.Key != this.KeyOrigin) {
+                        if (this.ExistsKeyInCurrentTranslationSession?.Invoke(this.Key) ?? false) {
                             return I18NEdits.InputWarningKeyDuplicate;
+                        } else if (IndexCountHelper.IndexMatcher.IsMatch(this.Key)) {
+                            IndexCountHelperValidationResult? result = this.IsIndexKeyValid?.Invoke(this.Key, this.KeyOrigin);
+                            if (result != null && !result.IsValid) {
+                                return String.Format(I18NEdits.InputWarningKeyIndex, result.NextFreeIndex);
+                            }
                         }
                     }
                     break;

@@ -88,6 +88,8 @@ public class MyLanguages {
                 if (!translationFile.IsOK) {
                     this.Erroneous.Add(translationFile);
                 }
+                // yes, add even though the file is not ok
+                // this way it can be reloaded without the need to restart the game
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {
                 this.runtimeContainer.Logger?.LogError(this.GetType(),

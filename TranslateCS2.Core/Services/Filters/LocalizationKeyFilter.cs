@@ -14,7 +14,7 @@ internal class LocalizationKeyFilter : ILocalizationKeyFilter {
         this.Values = values;
         this.FilterType = filterType;
     }
-    public bool Matches(ILocalizationDictionaryEntry entry) {
+    public bool Matches(ILocalizationEntry entry) {
         if (this.Values == null) {
             return true;
         }

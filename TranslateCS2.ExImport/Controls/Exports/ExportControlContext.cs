@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -191,6 +192,7 @@ internal class ExportControlContext : ABaseViewModel {
             this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessagePrepareSuccess;
+            await Task.Delay(TimeSpan.FromSeconds(2));
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessageDo;
             try {

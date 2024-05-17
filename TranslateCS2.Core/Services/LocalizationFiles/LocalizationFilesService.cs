@@ -38,27 +38,27 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         string localeNameID = ReadString(stream);
         string localeNameLocalized = ReadString(stream);
         LocalizationFile localizationFile = new LocalizationFile(fileInfo.Name, fileHeader, localeNameEN, localeNameID, localeNameLocalized);
-        ReadLocalizationFilesLocalizationDictionary(stream, localizationFile);
-        ReadLocalizationFilesIndizes(stream, localizationFile);
+        ReadLocalizationFilesLocalizations(stream, localizationFile);
+        ReadLocalizationFilesIndices(stream, localizationFile);
         return localizationFile;
     }
 
-    private static void ReadLocalizationFilesIndizes(Stream stream, ILocalizationFile localizationFile) {
+    private static void ReadLocalizationFilesIndices(Stream stream, ILocalizationFile localizationFile) {
         int indexCount = ReadInt32(stream);
         for (int i = 0; i < indexCount; i++) {
             string key = ReadString(stream);
             int val = ReadInt32(stream);
-            localizationFile.Indizes.Add(new KeyValuePair<string, int>(key, val));
+            localizationFile.Indices.Add(new KeyValuePair<string, int>(key, val));
         }
     }
 
-    private static void ReadLocalizationFilesLocalizationDictionary(Stream stream, ILocalizationFile localizationFile) {
+    private static void ReadLocalizationFilesLocalizations(Stream stream, ILocalizationFile localizationFile) {
         int localizationCount = ReadInt32(stream);
         for (int i = 0; i < localizationCount; i++) {
             string key = ReadString(stream);
             string value = ReadString(stream);
-            ILocalizationDictionaryEntry originLocalizationKey = new LocalizationDictionaryEntry(key, value, null, false);
-            localizationFile.LocalizationDictionary.Add(originLocalizationKey);
+            ILocalizationEntry originLocalizationKey = new LocalizationEntry(key, value, null, false);
+            localizationFile.Localizations.Add(originLocalizationKey);
         }
     }
 
@@ -75,24 +75,24 @@ internal class LocalizationFilesService : ILocalizationFilesService {
             WriteString(stream, localizationFile.LocaleNameEN);
             WriteString(stream, localizationFile.LocaleNameID);
             WriteString(stream, localizationFile.LocaleNameLocalized);
-            WriteLocalizationFilesLocalizationDictionary(localizationFile, stream);
-            WriteLocalizationFilesIndizes(localizationFile, stream);
+            WriteLocalizationFilesLocalizations(localizationFile, stream);
+            WriteLocalizationFilesIndices(localizationFile, stream);
             workAround.Stop(stream);
             stream.Flush();
         });
     }
 
-    private static void WriteLocalizationFilesIndizes(ILocalizationFile localizationFile, Stream stream) {
-        WriteInt32(stream, localizationFile.Indizes.Count);
-        foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
+    private static void WriteLocalizationFilesIndices(ILocalizationFile localizationFile, Stream stream) {
+        WriteInt32(stream, localizationFile.Indices.Count);
+        foreach (KeyValuePair<string, int> entry in localizationFile.Indices) {
             WriteString(stream, entry.Key);
             WriteInt32(stream, entry.Value);
         }
     }
 
-    private static void WriteLocalizationFilesLocalizationDictionary(ILocalizationFile localizationFile, Stream stream) {
-        WriteInt32(stream, localizationFile.LocalizationDictionary.Count);
-        foreach (ILocalizationDictionaryEntry entry in localizationFile.LocalizationDictionary) {
+    private static void WriteLocalizationFilesLocalizations(ILocalizationFile localizationFile, Stream stream) {
+        WriteInt32(stream, localizationFile.Localizations.Count);
+        foreach (ILocalizationEntry entry in localizationFile.Localizations) {
             WriteString(stream, entry.Key);
             if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)) {
                 if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.ValueMerge)) {
@@ -146,7 +146,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
 
 
     /// <summary>
-    ///     workaround - "pl-PL.loc", "zh-HANS.loc" and "zh-HANT.loc" have more content after indizes
+    ///     workaround - "pl-PL.loc", "zh-HANS.loc" and "zh-HANT.loc" have more content after indices
     /// </summary>
     private class WorkAround {
         private byte[] _extraContent = Array.Empty<byte>();

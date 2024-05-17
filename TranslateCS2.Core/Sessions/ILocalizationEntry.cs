@@ -4,14 +4,15 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Keyz;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
-public interface ILocalizationDictionaryEntry : IDataErrorInfo {
+public interface ILocalizationEntry : IMyKey, IDataErrorInfo {
     [JsonIgnore]
     List<string> Keys { get; }
     [JsonIgnore]
     string? KeyOrigin { get; }
-    string Key { get; set; }
     [JsonIgnore]
     int Count => this.Keys.Count;
     [JsonIgnore]
@@ -28,5 +29,6 @@ public interface ILocalizationDictionaryEntry : IDataErrorInfo {
     [JsonIgnore]
     bool IsTranslated => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation);
     Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
+    Func<string, string?, IndexCountHelperValidationResult>? IsIndexKeyValid { get; set; }
     void AddKey(string keyParameter);
 }
