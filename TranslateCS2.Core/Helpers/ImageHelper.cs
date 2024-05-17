@@ -55,17 +55,17 @@ public static class ImageHelper {
         using (Graphics graphics = GetGraphics(splashScreen)) {
             DirectoryInfo directoryInfo = new DirectoryInfo(pathToFolderWithSmallImages);
             FileInfo[] fileInfos = directoryInfo.GetFiles();
-            IList<int> indizes = [];
+            IList<int> indices = [];
             Random random = new Random();
             for (int x = 0; x < width; x += tileSize) {
                 for (int y = 0; y < height; y += tileSize) {
                     int index = random.Next(0,
                                             fileInfos.Length);
-                    while (indizes.Contains(index)) {
+                    while (indices.Contains(index)) {
                         index = random.Next(0,
                                             fileInfos.Length);
                     }
-                    indizes.Add(index);
+                    indices.Add(index);
                     Bitmap image = new Bitmap(fileInfos[index].FullName);
                     image = ResizeImage(image,
                                         tileSize,
@@ -73,8 +73,8 @@ public static class ImageHelper {
                     graphics.DrawImageUnscaled(image,
                                                x,
                                                y);
-                    if (indizes.Count == fileInfos.Length) {
-                        indizes.Clear();
+                    if (indices.Count == fileInfos.Length) {
+                        indices.Clear();
                     }
                 }
             }

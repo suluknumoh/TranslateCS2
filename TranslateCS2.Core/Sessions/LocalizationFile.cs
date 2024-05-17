@@ -8,7 +8,7 @@ public class LocalizationFile : ILocalizationFile {
     public string LocaleNameID { get; }
     public string LocaleNameLocalized { get; }
     public List<ILocalizationEntry> Localizations { get; } = [];
-    public IDictionary<string, int> Indizes { get; } = new Dictionary<string, int>();
+    public IDictionary<string, int> Indices { get; } = new Dictionary<string, int>();
     public LocalizationFile(string fileName,
                             short fileHeader,
                             string localeNameEN,

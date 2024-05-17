@@ -7,5 +7,5 @@ public interface ILocalizationFile : ILocalizationsGetAble<List<ILocalizationEnt
     string LocaleNameEN { get; }
     string LocaleNameID { get; }
     string LocaleNameLocalized { get; }
-    IDictionary<string, int> Indizes { get; }
+    IDictionary<string, int> Indices { get; }
 }

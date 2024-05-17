@@ -39,16 +39,16 @@ internal class LocalizationFilesService : ILocalizationFilesService {
         string localeNameLocalized = ReadString(stream);
         LocalizationFile localizationFile = new LocalizationFile(fileInfo.Name, fileHeader, localeNameEN, localeNameID, localeNameLocalized);
         ReadLocalizationFilesLocalizations(stream, localizationFile);
-        ReadLocalizationFilesIndizes(stream, localizationFile);
+        ReadLocalizationFilesIndices(stream, localizationFile);
         return localizationFile;
     }
 
-    private static void ReadLocalizationFilesIndizes(Stream stream, ILocalizationFile localizationFile) {
+    private static void ReadLocalizationFilesIndices(Stream stream, ILocalizationFile localizationFile) {
         int indexCount = ReadInt32(stream);
         for (int i = 0; i < indexCount; i++) {
             string key = ReadString(stream);
             int val = ReadInt32(stream);
-            localizationFile.Indizes.Add(new KeyValuePair<string, int>(key, val));
+            localizationFile.Indices.Add(new KeyValuePair<string, int>(key, val));
         }
     }
 
@@ -76,15 +76,15 @@ internal class LocalizationFilesService : ILocalizationFilesService {
             WriteString(stream, localizationFile.LocaleNameID);
             WriteString(stream, localizationFile.LocaleNameLocalized);
             WriteLocalizationFilesLocalizations(localizationFile, stream);
-            WriteLocalizationFilesIndizes(localizationFile, stream);
+            WriteLocalizationFilesIndices(localizationFile, stream);
             workAround.Stop(stream);
             stream.Flush();
         });
     }
 
-    private static void WriteLocalizationFilesIndizes(ILocalizationFile localizationFile, Stream stream) {
-        WriteInt32(stream, localizationFile.Indizes.Count);
-        foreach (KeyValuePair<string, int> entry in localizationFile.Indizes) {
+    private static void WriteLocalizationFilesIndices(ILocalizationFile localizationFile, Stream stream) {
+        WriteInt32(stream, localizationFile.Indices.Count);
+        foreach (KeyValuePair<string, int> entry in localizationFile.Indices) {
             WriteString(stream, entry.Key);
             WriteInt32(stream, entry.Value);
         }
@@ -146,7 +146,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
 
 
     /// <summary>
-    ///     workaround - "pl-PL.loc", "zh-HANS.loc" and "zh-HANT.loc" have more content after indizes
+    ///     workaround - "pl-PL.loc", "zh-HANS.loc" and "zh-HANT.loc" have more content after indices
     /// </summary>
     private class WorkAround {
         private byte[] _extraContent = Array.Empty<byte>();

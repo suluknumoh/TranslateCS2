@@ -152,7 +152,7 @@ internal class ExImportService {
                     case ImportModes.NEW:
                     case ImportModes.RightJoin:
                     case ImportModes.LeftJoin:
-                        // remaining do not existing within the given localizationDictionary
+                        // remaining do not exist within the given localizationDictionary
                         // they should be added always (i think)
                         ILocalizationEntry newItem = new LocalizationEntry(remain.Key, remain.TranslationRead);
                         localizationDictionary.Add(newItem);

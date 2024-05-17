@@ -121,9 +121,9 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
                                                         this.CurrentTranslationSession.OverwriteLocalizationNameEN,
                                                         this.CurrentTranslationSession.OverwriteLocalizationLocaleID,
                                                         this.CurrentTranslationSession.OverwriteLocalizationNameLocalized);
-        merged.Indizes.Clear();
+        merged.Indices.Clear();
         merged.Localizations.Clear();
-        DictionaryHelper.AddAll(mergeLocalizationFile.Indizes, merged.Indizes);
+        DictionaryHelper.AddAll(mergeLocalizationFile.Indices, merged.Indices);
         List<ILocalizationEntry>? localizations = null;
         if (json) {
             localizations =
@@ -138,7 +138,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         // addMergeValues has to be true!!!
         IDictionary<string, string> dictionary = merged.GetLocalizationsAsDictionary(true);
         IndexCountHelper.FillIndexCountsFromLocalizationDictionary(dictionary,
-                                                                   merged.Indizes,
+                                                                   merged.Indices,
                                                                    errors);
         return merged;
     }
