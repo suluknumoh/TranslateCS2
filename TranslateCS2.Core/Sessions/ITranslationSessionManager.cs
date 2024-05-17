@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 public interface ITranslationSessionManager {
@@ -17,7 +18,7 @@ public interface ITranslationSessionManager {
     string? DatabaseError { get; set; }
     bool HasDatabaseError => !this.HasNoDatabaseError;
     bool HasNoDatabaseError => StringHelper.IsNullOrWhiteSpaceOrEmpty(this.DatabaseError);
-    ILocalizationFile GetForExport(bool json, IList<KeyValuePair<string, int>> errors);
+    ILocalizationFile GetForExport(bool json);
     void Insert(ITranslationSession? session);
     void Update(ITranslationSession? session);
     void UpdateCurrentWith(ITranslationSession? session);
@@ -26,6 +27,6 @@ public interface ITranslationSessionManager {
     void CurrentTranslationSessionChanged();
     ITranslationSession GetNewTranslationSession();
     bool ExistsKeyInCurrentTranslationSession(string key);
-    (bool, KeyValuePair<string, int>?) IsIndexKeyValid(string key, string? keyOrigin);
+    IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin);
     ITranslationSession? CloneCurrent(bool includeDictionary);
 }

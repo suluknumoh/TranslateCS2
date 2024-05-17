@@ -58,12 +58,6 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         return false;
     }
 
-    private void LogCorruptIndexedValue(IList<KeyValuePair<string, int>> errors) {
-        this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                               LoggingConstants.CorruptIndexedKeyValue,
-                                               [errors]);
-    }
-
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
                                                                  Dictionary<string, int> indexCountsToFill) {
         indexCountsToFill.Clear();
@@ -73,13 +67,8 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         if (this.dictionary is null) {
             return [];
         }
-        IList<KeyValuePair<string, int>> myErrors = [];
-        IndexCountHelper.FillIndexCountsFromLocalizationDictionary(this.dictionary,
-                                                                   indexCountsToFill,
-                                                                   myErrors);
-        if (myErrors.Count > 0) {
-            this.LogCorruptIndexedValue(myErrors);
-        }
+        IndexCountHelper.FillIndexCountsAndAutocorrect(this.dictionary,
+                                                       indexCountsToFill);
         return this.dictionary;
     }
 

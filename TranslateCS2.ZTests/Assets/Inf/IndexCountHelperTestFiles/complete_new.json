@@ -1,8 +1,8 @@
 {
   "description": "assume new indexed values are added to localization dictionary and expect indexcounts contains a single entry with a numeric five as value",
   "Chirper.DIRTY_WATER:0": "0",
+  "Chirper.DIRTY_WATER:3": "3",
   "Chirper.DIRTY_WATER:1": "1",
   "Chirper.DIRTY_WATER:2": "2",
-  "Chirper.DIRTY_WATER:3": "3",
   "Chirper.DIRTY_WATER:4": "4"
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -13,6 +12,7 @@ using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 internal class TranslationSessionManager : BindableBase, ITranslationSessionManager {
@@ -114,7 +114,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
     }
 
-    public ILocalizationFile GetForExport(bool json, IList<KeyValuePair<string, int>> errors) {
+    public ILocalizationFile GetForExport(bool json) {
         ILocalizationFile mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
         ILocalizationFile merged = new LocalizationFile(this.CurrentTranslationSession.OverwriteLocalizationFileName,
                                                         mergeLocalizationFile.FileHeader,
@@ -137,9 +137,8 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         merged.Localizations.AddRange(localizations);
         // addMergeValues has to be true!!!
         IDictionary<string, string> dictionary = merged.GetLocalizationsAsDictionary(true);
-        IndexCountHelper.FillIndexCountsFromLocalizationDictionary(dictionary,
-                                                                   merged.Indices,
-                                                                   errors);
+        IndexCountHelper.FillIndexCountsAndAutocorrect(dictionary,
+                                                       merged.Indices);
         return merged;
     }
 
@@ -202,22 +201,9 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         return this.CurrentTranslationSession.Localizations.Where(item => item.Key == key).Any();
     }
 
-    public (bool, KeyValuePair<string, int>?) IsIndexKeyValid(string key, string? keyOrigin) {
-        List<KeyValuePair<string, int>> errors = [];
-        IDictionary<string, string> localizationDictionary = this.CurrentTranslationSession.GetLocalizationsAsDictionary(true);
-        if (keyOrigin != null) {
-            // keyOrigin is null on add entry
-            // keyOrigin is NOT null on edit entry and it has to be removed to validate the correct order
-            localizationDictionary.Remove(keyOrigin);
-        }
-        // value is irrelevant
-        // the key needs to be checked
-        localizationDictionary.Add(key, String.Empty);
-        Dictionary<string, int> indexCounts = [];
-        IndexCountHelper.FillIndexCountsFromLocalizationDictionary(localizationDictionary,
-                                                                   indexCounts,
-                                                                   errors);
-        return (errors.Count == 0, errors.Count == 0 ? null : errors[0]);
+    public IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin) {
+        ObservableCollection<ILocalizationEntry> localizationDictionary = this.CurrentTranslationSession.Localizations;
+        return IndexCountHelper.ValidateForKey(localizationDictionary, key);
     }
 
     public ITranslationSession? CloneCurrent(bool includeDictionary) {

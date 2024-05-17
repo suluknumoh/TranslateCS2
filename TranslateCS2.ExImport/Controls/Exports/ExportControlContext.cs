@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -188,15 +189,10 @@ internal class ExportControlContext : ABaseViewModel {
             this._viewConfigurations.DeActivateRibbon?.Invoke(false);
             this.IsEnabled = false;
             this.IsExportButtonEnabled = false;
-            IList<KeyValuePair<string, int>> errors = [];
-            this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON, errors);
-            if (errors.Count > 0) {
-                this.InfoMessageColor = Brushes.DarkRed;
-                this.InfoMessage = I18NExport.MessageFail;
-                return;
-            }
+            this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessagePrepareSuccess;
+            await Task.Delay(TimeSpan.FromSeconds(2));
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessageDo;
             try {

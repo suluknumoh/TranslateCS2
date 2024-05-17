@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,12 +51,10 @@ internal class ExImportService {
         }
     }
 
-    public async Task<List<CompareExistingReadTranslation>?> ReadToReview(ITranslationSession translationSession,
-                                                                          string selectedPath) {
+    public async Task<List<CompareExistingReadTranslation>> ReadToReview(ITranslationSession translationSession,
+                                                                         string selectedPath) {
         List<ILocalizationEntry>? imports = await this._jsonService.ReadLocalizationFileJson(selectedPath);
-        if (imports == null) {
-            return null;
-        }
+        ArgumentNullException.ThrowIfNull(imports);
         List<CompareExistingReadTranslation> preview = [];
         {
             // read keys used by colossal order
@@ -100,8 +99,9 @@ internal class ExImportService {
     }
 
     public void HandleRead(IList<CompareExistingReadTranslation> preview,
-                           IList<ILocalizationEntry> localizationDictionary,
+                           ITranslationSession translationSession,
                            ImportModes importMode) {
+        IList<ILocalizationEntry> localizationDictionary = translationSession.Localizations;
         {
             // handle key-value-pairs used by colossal order
             foreach (ILocalizationEntry currentEntry in localizationDictionary) {
@@ -146,7 +146,9 @@ internal class ExImportService {
         }
         {
             // handle other key-value-pairs that are not used by colossal order (key-value-pairs for mods)
-            IEnumerable<CompareExistingReadTranslation> remaining = preview.Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+            IEnumerable<CompareExistingReadTranslation> remaining =
+                preview
+                    .Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
             foreach (CompareExistingReadTranslation remain in remaining) {
                 switch (importMode) {
                     case ImportModes.NEW:
@@ -160,5 +162,6 @@ internal class ExImportService {
                 }
             }
         }
+        IndexCountHelper.AutoCorrect(localizationDictionary);
     }
 }

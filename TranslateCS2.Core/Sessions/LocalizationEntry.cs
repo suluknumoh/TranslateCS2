@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<LocalizationEntry?> {
@@ -19,6 +20,12 @@ public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<Lo
         get => this._Key;
         set => this.SetProperty(ref this._Key, value);
     }
+    [JsonIgnore]
+    public bool IsIndexed => IndexCountHelper.IndexMatcher.IsMatch(this.Key);
+    [JsonIgnore]
+    public string CountKey => IndexCountHelper.GetCountKeyFromKey(this.Key);
+    [JsonIgnore]
+    public int Index => IndexCountHelper.GetIndexFromKey(this.Key);
     [JsonIgnore]
     public int Count => this.Keys.Count;
     [JsonIgnore]
@@ -42,7 +49,7 @@ public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<Lo
     public string Error => String.Empty;
 
     public Func<string, bool>? ExistsKeyInCurrentTranslationSession { get; set; }
-    public Func<string, string?, (bool, KeyValuePair<string, int>?)>? IsIndexKeyValid { get; set; }
+    public Func<string, string?, IndexCountHelperValidationResult>? IsIndexKeyValid { get; set; }
 
     public LocalizationEntry(string key,
                                        string value,
@@ -108,9 +115,9 @@ public class LocalizationEntry : BindableBase, ILocalizationEntry, IEquatable<Lo
                         if (this.ExistsKeyInCurrentTranslationSession?.Invoke(this.Key) ?? false) {
                             return I18NEdits.InputWarningKeyDuplicate;
                         } else if (IndexCountHelper.IndexMatcher.IsMatch(this.Key)) {
-                            (bool, KeyValuePair<string, int>?)? result = this.IsIndexKeyValid?.Invoke(this.Key, this.KeyOrigin);
-                            if (result != null && !result.Value.Item1) {
-                                return String.Format(I18NEdits.InputWarningKeyIndex, result.Value.Item2?.Value);
+                            IndexCountHelperValidationResult? result = this.IsIndexKeyValid?.Invoke(this.Key, this.KeyOrigin);
+                            if (result != null && !result.IsValid) {
+                                return String.Format(I18NEdits.InputWarningKeyIndex, result.NextFreeIndex);
                             }
                         }
                     }
