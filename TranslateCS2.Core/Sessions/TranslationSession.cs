@@ -61,7 +61,7 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
         get => this._LocName;
         set => this.SetProperty(ref this._LocName, value);
     }
-    public ObservableCollection<KeyValuePair<string, AppLocFileEntry>> Localizations { get; } = [];
+    public ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> Localizations { get; } = [];
 
 
     private string? _DisplayName;

@@ -49,7 +49,7 @@ internal class FiltersService : IFiltersService {
             return filters;
         }
         List<string> filterValues = [];
-        foreach (KeyValuePair<string, AppLocFileEntry> entry in this.translationSessionManager.BaseLocalizationFile.Source.Localizations) {
+        foreach (KeyValuePair<string, IAppLocFileEntry> entry in this.translationSessionManager.BaseLocalizationFile.Source.Localizations) {
             if (entry.Key.Contains(".")) {
                 string val = entry.Key.Split(".")[0];
                 if (filterValues.Contains(val)) {

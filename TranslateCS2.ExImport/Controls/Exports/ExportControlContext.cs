@@ -232,8 +232,8 @@ internal class ExportControlContext : ABaseViewModel {
             && !StringHelper.IsNullOrWhiteSpaceOrEmpty(session.Name)) {
             dictionary.Add(ModConstants.LocaleNameLocalizedKey, session.Name);
         }
-        ObservableCollection<KeyValuePair<string, AppLocFileEntry>> localizations = session.Localizations;
-        foreach (KeyValuePair<string, AppLocFileEntry> localization in localizations) {
+        ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> localizations = session.Localizations;
+        foreach (KeyValuePair<string, IAppLocFileEntry> localization in localizations) {
             if (localization.Key is null) {
                 continue;
             }

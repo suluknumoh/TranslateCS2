@@ -53,8 +53,8 @@ internal class LocFileService : IAppLocaFileService {
         for (int i = 0; i < localizationCount; i++) {
             string key = reader.ReadString();
             string value = reader.ReadString();
-            AppLocFileEntry entry = new AppLocFileEntry(key, value);
-            source.Localizations.Add(new KeyValuePair<string, AppLocFileEntry>(entry.Key.Key, entry));
+            IAppLocFileEntry entry = new AppLocFileEntry(key, value);
+            source.Localizations.Add(new KeyValuePair<string, IAppLocFileEntry>(entry.Key.Key, entry));
         }
     }
 }

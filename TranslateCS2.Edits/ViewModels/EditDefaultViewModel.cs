@@ -47,7 +47,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not AppLocFileEntry edited) {
+        if (args.Row.Item is not IAppLocFileEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -56,7 +56,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, AppLocFileEntry edited) {
+    protected override void Save(string? translation, IAppLocFileEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
@@ -64,15 +64,15 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
             && edited.KeyOrigin != edited.Key.Key) {
             // key has changed
             // set translation to null to delete from database
-            IEnumerable<KeyValuePair<string, AppLocFileEntry>> existings = this.CurrentSession.Localizations.Where(item => item.Key == edited.KeyOrigin);
+            IEnumerable<KeyValuePair<string, IAppLocFileEntry>> existings = this.CurrentSession.Localizations.Where(item => item.Key == edited.KeyOrigin);
             if (existings.Any()) {
-                KeyValuePair<string, AppLocFileEntry> existing = existings.First();
+                KeyValuePair<string, IAppLocFileEntry> existing = existings.First();
                 existing.Value.Translation = null;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                 this.CurrentSession.Localizations.Remove(existing);
             }
         }
-        KeyValuePair<string, AppLocFileEntry> editedKeyValuePair = new KeyValuePair<string, AppLocFileEntry>(edited.Key.Key, edited);
+        KeyValuePair<string, IAppLocFileEntry> editedKeyValuePair = new KeyValuePair<string, IAppLocFileEntry>(edited.Key.Key, edited);
         if (!this.CurrentSession.Localizations.Contains(editedKeyValuePair)) {
             this.CurrentSession.Localizations.Add(editedKeyValuePair);
         }
@@ -90,7 +90,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
             || this.CurrentSession.Localizations == null) {
             return;
         }
-        foreach (KeyValuePair<string, AppLocFileEntry> entry in this.CurrentSession.Localizations) {
+        foreach (KeyValuePair<string, IAppLocFileEntry> entry in this.CurrentSession.Localizations) {
             if (this.selectedFilter.Matches(entry.Value)) {
                 bool add = false;
                 if (this.OnlyTranslated
@@ -151,13 +151,8 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     private void AddEntry(object sender, RoutedEventArgs e) {
-        AppLocFileEntry entry = new AppLocFileEntry(null,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    true);
         IDialogParameters parameters = new DialogParameters {
-            { nameof(AppLocFileEntry), entry },
+            { nameof(IAppLocFileEntry), null },
             { nameof(EditEntryLargeViewModel.IsCount), false }
         };
         this.OpenEditEntryLarge(parameters);

@@ -14,7 +14,7 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.Edits.ViewModels;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
-    private readonly List<AppLocFileEntry> entries = [];
+    private readonly List<IAppLocFileEntry> entries = [];
     public EditOccurancesViewModel(IContainerProvider containerProvider,
                                    IViewConfigurations viewConfigurations,
                                    ITranslationSessionManager translationSessionManager,
@@ -30,7 +30,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not AppLocFileEntry edited) {
+        if (args.Row.Item is not IAppLocFileEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -39,7 +39,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, AppLocFileEntry edited) {
+    protected override void Save(string? translation, IAppLocFileEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
@@ -63,25 +63,25 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             || this.CurrentSession.Localizations == null) {
             return;
         }
-        IEnumerable<IGrouping<string, AppLocFileEntry>> groups =
+        IEnumerable<IGrouping<string, IAppLocFileEntry>> groups =
             this.CurrentSession.Localizations
                 .Select(item => item.Value)
                 .GroupBy(entry => entry.Value);
-        foreach (IGrouping<string, AppLocFileEntry> group in groups) {
-            AppLocFileEntry entry = new AppLocFileEntry(null,
-                                                        group.Key,
-                                                        null,
-                                                        null,
-                                                        false);
+        foreach (IGrouping<string, IAppLocFileEntry> group in groups) {
+            IAppLocFileEntry entry = AppLocFileEntryFactory.Create(null,
+                                                                   group.Key,
+                                                                   null,
+                                                                   null,
+                                                                   false);
             this.entries.Add(entry);
-            foreach (AppLocFileEntry groupItem in group) {
+            foreach (IAppLocFileEntry groupItem in group) {
                 entry.AddKey(groupItem.Key.Key);
                 entry.ValueMerge = groupItem.ValueMerge;
                 entry.Translation = groupItem.Translation;
             }
         }
 
-        foreach (AppLocFileEntry entry in this.entries) {
+        foreach (IAppLocFileEntry entry in this.entries) {
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
@@ -105,8 +105,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         }
         base.RefreshViewList();
     }
-    private void SetNewValue(string? translation, AppLocFileEntry edited) {
-        foreach (AppLocFileEntry entry in this.entries) {
+    private void SetNewValue(string? translation, IAppLocFileEntry edited) {
+        foreach (IAppLocFileEntry entry in this.entries) {
             if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key) && entry.Key == edited.Key)
                 || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;

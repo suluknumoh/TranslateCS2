@@ -254,14 +254,14 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     private void EnrichNewWithTranslatedValue(ITranslationSession session,
                                               Dictionary<string, string> valueTranslationMapping,
                                               ITranslationsDatabaseService.OnErrorCallBack? onError) {
-        IEnumerable<KeyValuePair<string, AppLocFileEntry>> newEntries =
+        IEnumerable<KeyValuePair<string, IAppLocFileEntry>> newEntries =
             session.Localizations.Where(
                 entry => !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value)
                                                       && valueTranslationMapping.ContainsKey(entry.Value.Value)
                                                       && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Translation)
         );
         if (newEntries.Any()) {
-            foreach (KeyValuePair<string, AppLocFileEntry> entry in newEntries) {
+            foreach (KeyValuePair<string, IAppLocFileEntry> entry in newEntries) {
                 if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value)) {
                     continue;
                 }
@@ -274,11 +274,11 @@ internal class TranslationsDB : ITranslationsDatabaseService {
         }
     }
 
-    private void EnrichSavedTranslation(ICollection<KeyValuePair<string, AppLocFileEntry>> localizationDictionary,
+    private void EnrichSavedTranslation(ICollection<KeyValuePair<string, IAppLocFileEntry>> localizationDictionary,
                                         string key,
                                         string translation,
                                         Dictionary<string, string> valueTranslationMapping) {
-        foreach (KeyValuePair<string, AppLocFileEntry> entry in localizationDictionary) {
+        foreach (KeyValuePair<string, IAppLocFileEntry> entry in localizationDictionary) {
             if (entry.Key == key) {
                 entry.Value.Translation = translation;
                 if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value)) {
@@ -288,8 +288,8 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             }
         }
         // manually added key-translation-pair
-        AppLocFileEntry add = new AppLocFileEntry(key, null, null, translation, true);
-        localizationDictionary.Add(new KeyValuePair<string, AppLocFileEntry>(add.Key.Key, add));
+        IAppLocFileEntry add = AppLocFileEntryFactory.Create(key, null, null, translation, true);
+        localizationDictionary.Add(new KeyValuePair<string, IAppLocFileEntry>(add.Key.Key, add));
     }
 
     public void SaveTranslations(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack? onError) {
@@ -298,7 +298,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
                 this.UpdateLastEdited(connection, transaction, translationSession);
-                IEnumerable<KeyValuePair<string, AppLocFileEntry>> deletes =
+                IEnumerable<KeyValuePair<string, IAppLocFileEntry>> deletes =
                     translationSession
                         .Localizations
                             .Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value.Translation));
@@ -317,13 +317,13 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     command.Prepare();
-                    foreach (KeyValuePair<string, AppLocFileEntry> delete in deletes) {
+                    foreach (KeyValuePair<string, IAppLocFileEntry> delete in deletes) {
                         idParameter.Value = translationSession.ID;
                         keyParameter.Value = delete.Key;
                         command.ExecuteNonQuery();
                     }
                 }
-                IEnumerable<KeyValuePair<string, AppLocFileEntry>> upserts =
+                IEnumerable<KeyValuePair<string, IAppLocFileEntry>> upserts =
                         translationSession
                             .Localizations
                                 .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value.Translation));
@@ -358,7 +358,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     SqliteParameter translationParameter = command.Parameters.Add("@translation", SqliteType.Text);
                     command.Prepare();
-                    foreach (KeyValuePair<string, AppLocFileEntry> upsert in upserts) {
+                    foreach (KeyValuePair<string, IAppLocFileEntry> upsert in upserts) {
                         idParameter.Value = translationSession.ID;
                         keyParameter.Value = upsert.Key;
                         translationParameter.Value = upsert.Value.Translation;

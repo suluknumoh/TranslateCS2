@@ -5,7 +5,7 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Core.Models.Localizations;
-public class AppLocFileEntry : MyLocalizationEntry {
+internal class AppLocFileEntry : MyLocalizationEntry, IAppLocFileEntry {
     public HashSet<string> Keys { get; } = [];
     public string? KeyOrigin { get; }
     public int Count => this.Keys.Count;
@@ -36,13 +36,13 @@ public class AppLocFileEntry : MyLocalizationEntry {
         this.Keys.Add(key);
     }
 
-    public static AppLocFileEntry Clone(AppLocFileEntry item) {
-        AppLocFileEntry copy = new AppLocFileEntry(item.Key.Key,
-                                                   item.Value,
-                                                   item.ValueMerge,
-                                                   item.Translation,
-                                                   item.IsDeleteAble);
-        foreach (string key in item.Keys) {
+    public IAppLocFileEntry Clone() {
+        AppLocFileEntry copy = new AppLocFileEntry(this.Key.Key,
+                                                   this.Value,
+                                                   this.ValueMerge,
+                                                   this.Translation,
+                                                   this.IsDeleteAble);
+        foreach (string key in this.Keys) {
             copy.AddKey(key);
         }
         return copy;

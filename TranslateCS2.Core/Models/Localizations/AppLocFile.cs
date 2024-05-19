@@ -5,8 +5,8 @@ using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Core.Models.Localizations;
 public class AppLocFile : AMyLocalization<AppLocFileSource,
-                                          ObservableCollection<KeyValuePair<string, AppLocFileEntry>>,
-                                          AppLocFileEntry> {
+                                          ObservableCollection<KeyValuePair<string, IAppLocFileEntry>>,
+                                          IAppLocFileEntry> {
     public AppLocFile(string id,
                            string nameEnglish,
                            string name,

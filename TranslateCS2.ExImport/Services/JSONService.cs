@@ -22,21 +22,22 @@ internal class JSONService {
         await File.WriteAllBytesAsync(file, bytes);
     }
 
-    public async Task<List<AppLocFileEntry>?> ReadLocalizationFileJson(string file) {
+    public async Task<List<IAppLocFileEntry>?> ReadLocalizationFileJson(string file) {
         using Stream stream = File.OpenRead(file);
         Dictionary<string, string>? deserialized = await JsonSerializer.DeserializeAsync<Dictionary<string, string>?>(stream, this.jsonSerializerOptions);
         ArgumentNullException.ThrowIfNull(deserialized);
-        List<AppLocFileEntry> localizationDictionaryEntries = [];
+        List<IAppLocFileEntry> localizationDictionaryEntries = [];
         foreach (KeyValuePair<string, string> entry in deserialized) {
             if (entry.Key == ModConstants.LocaleNameLocalizedKey
                 || StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key)) {
                 continue;
             }
-            localizationDictionaryEntries.Add(new AppLocFileEntry(entry.Key,
-                                                                  null,
-                                                                  null,
-                                                                  entry.Value,
-                                                                  false));
+            IAppLocFileEntry newEntry = AppLocFileEntryFactory.Create(entry.Key,
+                                                                      null,
+                                                                      null,
+                                                                      entry.Value,
+                                                                      false);
+            localizationDictionaryEntries.Add(newEntry);
         }
         return localizationDictionaryEntries;
     }

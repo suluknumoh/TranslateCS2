@@ -96,10 +96,10 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         if (this.CurrentTranslationSession == null) {
             return;
         }
-        foreach (KeyValuePair<string, AppLocFileEntry> item in this.BaseLocalizationFile.Source.Localizations) {
+        foreach (KeyValuePair<string, IAppLocFileEntry> item in this.BaseLocalizationFile.Source.Localizations) {
             // copy item, otherwise changes are reflected into BaseLocalizationFile.Localizations
-            AppLocFileEntry clone = AppLocFileEntry.Clone(item.Value);
-            this.CurrentTranslationSession.Localizations.Add(new KeyValuePair<string, AppLocFileEntry>(clone.Key.Key, clone));
+            IAppLocFileEntry clone = item.Value.Clone();
+            this.CurrentTranslationSession.Localizations.Add(new KeyValuePair<string, IAppLocFileEntry>(clone.Key.Key, clone));
         }
         this.db.EnrichSavedTranslations(this.CurrentTranslationSession, this.onError);
         if (this.HasDatabaseError) {
@@ -109,10 +109,10 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
         AppLocFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
-        foreach (KeyValuePair<string, AppLocFileEntry> mergeEntry in mergeFile.Source.Localizations) {
-            IEnumerable<KeyValuePair<string, AppLocFileEntry>> entries = this.CurrentTranslationSession.Localizations.Where(item => item.Key.Equals(mergeEntry.Key));
+        foreach (KeyValuePair<string, IAppLocFileEntry> mergeEntry in mergeFile.Source.Localizations) {
+            IEnumerable<KeyValuePair<string, IAppLocFileEntry>> entries = this.CurrentTranslationSession.Localizations.Where(item => item.Key.Equals(mergeEntry.Key));
             if (entries.Any()) {
-                AppLocFileEntry item = entries.First().Value;
+                IAppLocFileEntry item = entries.First().Value;
                 item.ValueMerge = mergeEntry.Value.Value;
             }
         }
@@ -178,7 +178,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin) {
-        ObservableCollection<KeyValuePair<string, AppLocFileEntry>> localizationDictionary = this.CurrentTranslationSession.Localizations;
+        ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> localizationDictionary = this.CurrentTranslationSession.Localizations;
         return IndexCountHelper.ValidateForKey(localizationDictionary, key);
     }
 

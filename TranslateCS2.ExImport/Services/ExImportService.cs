@@ -45,13 +45,13 @@ internal class ExImportService {
 
     public async Task<List<CompareExistingReadTranslation>> ReadToReview(ITranslationSession translationSession,
                                                                          string selectedPath) {
-        List<AppLocFileEntry>? imports = await this.jsonService.ReadLocalizationFileJson(selectedPath);
+        List<IAppLocFileEntry>? imports = await this.jsonService.ReadLocalizationFileJson(selectedPath);
         ArgumentNullException.ThrowIfNull(imports);
         List<CompareExistingReadTranslation> preview = [];
         {
             // read keys used by colossal order
-            foreach (KeyValuePair<string, AppLocFileEntry> existing in translationSession.Localizations) {
-                IEnumerable<AppLocFileEntry> importsForKey = imports.Where(item => item.Key.Key == existing.Key);
+            foreach (KeyValuePair<string, IAppLocFileEntry> existing in translationSession.Localizations) {
+                IEnumerable<IAppLocFileEntry> importsForKey = imports.Where(item => item.Key.Key == existing.Key);
                 string key = existing.Key;
                 string? translationExisting = existing.Value.Translation;
                 string? translationRead = null;
@@ -70,11 +70,11 @@ internal class ExImportService {
         }
         {
             // read entries other than those used by colossal order (key-value-pairs for mods)
-            IEnumerable<AppLocFileEntry> remaining =
+            IEnumerable<IAppLocFileEntry> remaining =
                 imports
                     .Where(import => !translationSession.Localizations.Select(existing => existing.Key).Contains(import.Key.Key));
             if (remaining.Any()) {
-                foreach (AppLocFileEntry remain in remaining) {
+                foreach (IAppLocFileEntry remain in remaining) {
                     string? key = StringHelper.GetNullForEmpty(remain.Key.Key);
                     string? translationExisting = null;
                     string? translationRead = StringHelper.GetNullForEmpty(remain.Translation);
@@ -95,10 +95,10 @@ internal class ExImportService {
     public void HandleRead(IList<CompareExistingReadTranslation> preview,
                            ITranslationSession translationSession,
                            ImportModes importMode) {
-        IList<KeyValuePair<string, AppLocFileEntry>> localizationDictionary = translationSession.Localizations;
+        IList<KeyValuePair<string, IAppLocFileEntry>> localizationDictionary = translationSession.Localizations;
         {
             // handle key-value-pairs used by colossal order
-            foreach (KeyValuePair<string, AppLocFileEntry> currentEntry in localizationDictionary) {
+            foreach (KeyValuePair<string, IAppLocFileEntry> currentEntry in localizationDictionary) {
                 foreach (CompareExistingReadTranslation compareItem in preview) {
                     if (compareItem.Key == currentEntry.Key) {
                         switch (importMode) {
@@ -151,12 +151,12 @@ internal class ExImportService {
                     case ImportModes.LeftJoin:
                         // remaining do not exist within the given localizationDictionary
                         // they should be added always (i think)
-                        AppLocFileEntry newItem = new AppLocFileEntry(remain.Key,
-                                                                      null,
-                                                                      null,
-                                                                      remain.TranslationRead,
-                                                                      true);
-                        localizationDictionary.Add(new KeyValuePair<string, AppLocFileEntry>(newItem.Key.Key, newItem));
+                        IAppLocFileEntry newItem = AppLocFileEntryFactory.Create(remain.Key,
+                                                                                 null,
+                                                                                 null,
+                                                                                 remain.TranslationRead,
+                                                                                 true);
+                        localizationDictionary.Add(new KeyValuePair<string, IAppLocFileEntry>(newItem.Key.Key, newItem));
                         break;
                 }
             }

@@ -5,7 +5,7 @@ public interface ILocalizationKeyFilter {
     string Name { get; }
     string[]? Values { get; }
     FilterTypes FilterType { get; }
-    bool Matches(AppLocFileEntry entry);
+    bool Matches(IAppLocFileEntry entry);
     public static ILocalizationKeyFilter Create(string name,
                                                 string[]? values,
                                                 FilterTypes filterType) {

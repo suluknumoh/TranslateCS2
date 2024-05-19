@@ -27,7 +27,7 @@ public interface ITranslationSession {
     string? LocName { get; set; }
     bool IsAutoSave => true;
     string? DisplayName { get; set; }
-    ObservableCollection<KeyValuePair<string, AppLocFileEntry>> Localizations { get; }
+    ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> Localizations { get; }
     bool HasTranslationForKey(string key) {
         return this.Localizations.Where(item => item.Value.Key.Key == key && item.Value.IsTranslated).Any();
     }

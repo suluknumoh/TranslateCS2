@@ -28,8 +28,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
 
     private string? backUpTranslation;
-    private AppLocFileEntry? _Entry;
-    public AppLocFileEntry? Entry {
+    private IAppLocFileEntry? _Entry;
+    public IAppLocFileEntry? Entry {
         get => this._Entry;
         set => this.SetProperty(ref this._Entry, value, this.OnEntryChanged);
     }
@@ -155,7 +155,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
             //this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
             //this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
             IDialogResult result = new DialogResult(ButtonResult.OK);
-            result.Parameters.Add(nameof(AppLocFileEntry), this.Entry);
+            result.Parameters.Add(nameof(IAppLocFileEntry), this.Entry);
             RequestClose?.Invoke(result);
             this.Entry = null;
             this.backUpTranslation = null;
@@ -179,7 +179,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         //this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
         //this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Yes);
-        result.Parameters.Add(nameof(AppLocFileEntry), this.Entry);
+        result.Parameters.Add(nameof(IAppLocFileEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
         this.backUpTranslation = null;
@@ -201,7 +201,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         //this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
         //this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Cancel);
-        result.Parameters.Add(nameof(AppLocFileEntry), this.Entry);
+        result.Parameters.Add(nameof(IAppLocFileEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
         this.backUpTranslation = null;
@@ -249,7 +249,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
     public void OnDialogOpened(IDialogParameters parameters) {
         this.canCloseDialog = false;
-        bool gotEntry = parameters.TryGetValue<AppLocFileEntry>(nameof(AppLocFileEntry), out AppLocFileEntry entry);
+        bool gotEntry = parameters.TryGetValue<IAppLocFileEntry>(nameof(IAppLocFileEntry), out IAppLocFileEntry entry);
         if (!gotEntry) {
             this.Entry = null;
             return;
