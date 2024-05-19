@@ -181,7 +181,8 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                 } else {
                     mergeLocFileParameter.Value = translationSession.MergeLocalizationFileName;
                 }
-                overwriteFileParameter.Value = DBNull.Value;
+                // must not be null
+                overwriteFileParameter.Value = "DBNull";
                 localizationNameEnParameter.Value = translationSession.LocNameEnglish;
                 localizationNameLocalizedParameter.Value = translationSession.LocName;
                 autosaveParameter.Value = translationSession.IsAutoSave ? 1 : 0;
