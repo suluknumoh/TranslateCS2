@@ -163,7 +163,6 @@ internal class ExImportService {
                 }
             }
         }
-        // TODO:
-        //IndexCountHelper.AutoCorrect(localizationDictionary);
+        IndexCountHelper.AutoCorrect(localizationDictionary);
     }
 }

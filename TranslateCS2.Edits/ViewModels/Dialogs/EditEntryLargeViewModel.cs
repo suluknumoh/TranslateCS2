@@ -211,6 +211,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private void OnLoadedAction(RoutedEventArgs e) {
         if (e.Source is Grid grid) {
             this.bindingGroup = grid.BindingGroup;
+            // TODO: ValidationRules!
             this.InitBindingGroup();
             this.isLoaded = true;
         }

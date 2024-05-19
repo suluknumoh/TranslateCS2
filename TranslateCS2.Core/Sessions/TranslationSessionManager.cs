@@ -133,7 +133,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
                                                             || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value.ValueMerge)));
         merged.Source.Localizations.AddRange(localizations);
         // addMergeValues has to be true!!!
-        // TODO:
+        // TODO: A
         IDictionary<string, string> dictionary = null;
         IndexCountHelper.FillIndexCountsAndAutocorrect(dictionary,
                                                        merged.Source.Indices);

@@ -103,18 +103,18 @@ public static class IndexCountHelper {
         return IndexCountHelperValidationResult.Valid();
     }
 
-    public static void AutoCorrect<T>(IList<T> localizationDictionary) where T : IMyKeyProvider {
-        IEnumerable<T> indexed =
+    public static void AutoCorrect<T>(IList<KeyValuePair<string, T>> localizationDictionary) where T : IMyKeyProvider {
+        IEnumerable<KeyValuePair<string, T>> indexed =
             localizationDictionary
-                .Where(item => item.Key.IsIndexed);
-        IEnumerable<IGrouping<string, T>> grouped = indexed.GroupBy(item => item.Key.CountKey);
-        foreach (IGrouping<string, T> group in grouped) {
+                .Where(item => item.Value.Key.IsIndexed);
+        IEnumerable<IGrouping<string, KeyValuePair<string, T>>> grouped = indexed.GroupBy(item => item.Value.Key.CountKey);
+        foreach (IGrouping<string, KeyValuePair<string, T>> group in grouped) {
             int newIndex = 0;
-            IOrderedEnumerable<T> ordered = group.OrderBy(item => item.Key.Index);
-            foreach (T item in ordered) {
+            IOrderedEnumerable<KeyValuePair<string, T>> ordered = group.OrderBy(item => item.Value.Key.Index);
+            foreach (KeyValuePair<string, T> item in ordered) {
                 int itemIndex = localizationDictionary.IndexOf(item);
-                string newKey = BuildNewKey(item.Key.CountKey, newIndex);
-                localizationDictionary[itemIndex].Key.Key = newKey;
+                string newKey = BuildNewKey(item.Value.Key.CountKey, newIndex);
+                localizationDictionary[itemIndex].Value.Key.Key = newKey;
                 newIndex++;
             }
         }
