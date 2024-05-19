@@ -64,7 +64,9 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             return;
         }
         IEnumerable<IGrouping<string, AppLocFileEntry>> groups =
-            this.CurrentSession.Localizations.GroupBy(entry => entry.Value);
+            this.CurrentSession.Localizations
+                .Select(item => item.Value)
+                .GroupBy(entry => entry.Value);
         foreach (IGrouping<string, AppLocFileEntry> group in groups) {
             AppLocFileEntry entry = new AppLocFileEntry(null,
                                                         group.Key,

@@ -129,7 +129,7 @@ internal partial class ModSettings {
                 && localeId == DropDownItems.None
                 && language.HasFlavors) {
                 // non built-in languages should be pre initialized with their first flavor
-                localeId = language.Flavors.First().LocaleId;
+                localeId = language.Flavors.First().Id;
             }
         }
         if (invoke) {

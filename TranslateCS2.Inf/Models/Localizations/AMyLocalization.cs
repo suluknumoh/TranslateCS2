@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace TranslateCS2.Inf.Models.Localizations;
 public abstract class AMyLocalization<S, L, E> : IEquatable<AMyLocalization<S, L, E>?> where S : IMyLocalizationSource<L, E>
-                                                                                       where L : ICollection<E>
-                                                                                       where E : MyLocalizationEntry {
+                                                                                       where L : ICollection<KeyValuePair<string, E>> {
     private string uniquer { get; } = ModConstants.Name;
-    public string Id { get; private set; }
-    public string Name { get; private set; }
-    public string NameEnglish { get; private set; }
+    public string Id { get; }
+    public virtual string Name { get; }
+    public string NameEnglish { get; }
     public bool IsOK => this.EntryCount > 0;
     public int EntryCount => this.Source.Localizations?.Count ?? 0;
     public S Source { get; }
@@ -20,6 +20,18 @@ public abstract class AMyLocalization<S, L, E> : IEquatable<AMyLocalization<S, L
         this.NameEnglish = nameEnglish;
         this.Name = name;
         this.Source = source;
+    }
+
+    public override string ToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(this.GetType().ToString());
+        builder.AppendLine($"{nameof(this.Id)}: {this.Id}");
+        builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
+        builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
+        builder.AppendLine($"{nameof(this.IsOK)}: {this.IsOK}");
+        builder.AppendLine($"{nameof(this.EntryCount)}: {this.EntryCount}");
+        builder.AppendLine($"{nameof(this.Source)}: {this.Source}");
+        return builder.ToString();
     }
 
     public override bool Equals(object? obj) {

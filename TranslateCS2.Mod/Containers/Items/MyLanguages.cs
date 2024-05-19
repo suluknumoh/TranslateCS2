@@ -83,11 +83,12 @@ public class MyLanguages {
                         localeName += $" ({LangConstants.Cyrillic})";
                     }
                 }
-                TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
-                                                                      localeId,
+                TranslationFileSource source = new TranslationFileSource(this.runtimeContainer, language, translationFilePath);
+                source.Load();
+                TranslationFile translationFile = new TranslationFile(localeId,
+                                                                      null,
                                                                       localeName,
-                                                                      translationFilePath,
-                                                                      language);
+                                                                      source);
                 if (!translationFile.IsOK) {
                     this.Erroneous.Add(translationFile);
                 }
@@ -130,7 +131,7 @@ public class MyLanguages {
                 this.TryToAddLocale(language);
                 TranslationFile flavor = language.Flavors.First();
                 this.TryToAddSource(language, flavor, true);
-                this.AddToFlavorMapping(language.SystemLanguage, flavor.LocaleId);
+                this.AddToFlavorMapping(language.SystemLanguage, flavor.Id);
             } catch (Exception ex) {
                 this.runtimeContainer.Logger?.LogError(this.GetType(),
                                                        LoggingConstants.FailedTo,
@@ -148,11 +149,11 @@ public class MyLanguages {
                 foreach (TranslationFile translationFile in language.Flavors) {
                     try {
                         this.TryToRemoveSource(language, translationFile);
-                        bool reInitialized = translationFile.ReInit();
+                        bool reInitialized = translationFile.Source.Load();
                         if (!translationFile.IsOK || !reInitialized) {
                             this.Erroneous.Add(translationFile);
                         }
-                        if (localeId == translationFile.LocaleId) {
+                        if (localeId == translationFile.Id) {
                             this.TryToAddSource(language, translationFile);
                         }
                     } catch (Exception ex) {
@@ -218,7 +219,7 @@ public class MyLanguages {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager?.AddSource(language.ID,
-                                                        translationFile);
+                                                        translationFile.Source);
         } catch (Exception ex) {
             this.runtimeContainer.Logger?.LogError(this.GetType(),
                                                    LoggingConstants.FailedTo,
@@ -234,7 +235,7 @@ public class MyLanguages {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager?.RemoveSource(language.ID,
-                                                           translationFile);
+                                                           translationFile.Source);
         } catch (Exception ex) {
             this.runtimeContainer.Logger?.LogError(this.GetType(),
                                                    LoggingConstants.FailedTo,

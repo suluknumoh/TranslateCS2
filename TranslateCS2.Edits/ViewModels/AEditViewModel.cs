@@ -116,13 +116,13 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
                 break;
             case ButtonResult.Yes:
                 // delete
-                IEnumerable<AppLocFileEntry> existings =
+                IEnumerable<KeyValuePair<string, AppLocFileEntry>> existings =
                     this.SessionManager.CurrentTranslationSession.Localizations
-                    .Where(item => item.Key == edited.Key)
-                    .Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
+                    .Where(item => item.Key == edited.Key.Key)
+                    .Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value.Value));
                 if (existings.Any()) {
-                    AppLocFileEntry existing = existings.First();
-                    existing.Translation = null;
+                    KeyValuePair<string, AppLocFileEntry> existing = existings.First();
+                    existing.Value.Translation = null;
                     this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                     this.SessionManager.CurrentTranslationSession.Localizations.Remove(existing);
                 }
@@ -228,11 +228,11 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected abstract IEnumerable<object> CreateToolsGroupItems();
 
-    protected static void SetNewValue(ObservableCollection<AppLocFileEntry> list, string? translation, AppLocFileEntry edited) {
-        foreach (AppLocFileEntry entry in list) {
-            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key) && entry.Key == edited.Key)
-                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
-                entry.Translation = translation;
+    protected static void SetNewValue(ObservableCollection<KeyValuePair<string, AppLocFileEntry>> list, string? translation, AppLocFileEntry edited) {
+        foreach (KeyValuePair<string, AppLocFileEntry> entry in list) {
+            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key.Key)
+                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value) && entry.Value.Value == edited.Value)) {
+                entry.Value.Translation = translation;
             }
         }
     }

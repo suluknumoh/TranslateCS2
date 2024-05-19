@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Core.Models.Localizations;
 public class AppLocFile : AMyLocalization<AppLocFileSource,
-                                          ObservableCollection<AppLocFileEntry>,
+                                          ObservableCollection<KeyValuePair<string, AppLocFileEntry>>,
                                           AppLocFileEntry> {
     public AppLocFile(string id,
                            string nameEnglish,

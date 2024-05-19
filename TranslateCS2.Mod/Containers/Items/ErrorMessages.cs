@@ -24,7 +24,7 @@ public class ErrorMessages {
             builder.AppendLine($"{erroneous.Count:N0} files are affected; only the first {counter:N0} are listed");
         }
         foreach (TranslationFile error in erroneous) {
-            builder.AppendLine($"- {error.LocaleId}{ModConstants.JsonExtension} - {error.LocaleName}");
+            builder.AppendLine($"- {error.Id}{ModConstants.JsonExtension} - {error.Name}");
             --counter;
             if (counter <= 0) {
                 break;

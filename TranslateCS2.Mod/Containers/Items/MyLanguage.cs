@@ -93,17 +93,17 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
         foreach (TranslationFile translationFile in this.Flavors) {
-            if (translationFile.LocaleId == null
-                || translationFile.LocaleName == null) {
+            if (translationFile.Id == null
+                || translationFile.Name == null) {
                 continue;
             }
-            string displayName = translationFile.LocaleName;
+            string displayName = translationFile.Name;
             if (displayName.Length > ModConstants.MaxDisplayNameLength) {
                 displayName = displayName.Substring(0, ModConstants.MaxDisplayNameLength);
                 displayName += "...";
             }
             DropdownItem<string> item = new DropdownItem<string>() {
-                value = translationFile.LocaleId,
+                value = translationFile.Id,
                 displayName = displayName
             };
             dropdownItems.Add(item);
@@ -112,11 +112,11 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     }
 
     public bool HasFlavor(string localeId) {
-        return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).Any();
+        return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).Any();
     }
 
     internal TranslationFile GetFlavor(string localeId) {
-        return this.Flavors.Where(item => item.LocaleId.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
+        return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
     }
     internal void AddIndexCounts(Dictionary<string, int> indexCounts) {
         /// WARNING: a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>

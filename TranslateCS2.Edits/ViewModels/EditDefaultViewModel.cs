@@ -64,16 +64,17 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
             && edited.KeyOrigin != edited.Key.Key) {
             // key has changed
             // set translation to null to delete from database
-            IEnumerable<AppLocFileEntry> existings = this.CurrentSession.Localizations.Where(item => item.Key.Key == edited.KeyOrigin);
+            IEnumerable<KeyValuePair<string, AppLocFileEntry>> existings = this.CurrentSession.Localizations.Where(item => item.Key == edited.KeyOrigin);
             if (existings.Any()) {
-                AppLocFileEntry existing = existings.First();
-                existing.Translation = null;
+                KeyValuePair<string, AppLocFileEntry> existing = existings.First();
+                existing.Value.Translation = null;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                 this.CurrentSession.Localizations.Remove(existing);
             }
         }
-        if (!this.CurrentSession.Localizations.Contains(edited)) {
-            this.CurrentSession.Localizations.Add(edited);
+        KeyValuePair<string, AppLocFileEntry> editedKeyValuePair = new KeyValuePair<string, AppLocFileEntry>(edited.Key.Key, edited);
+        if (!this.CurrentSession.Localizations.Contains(editedKeyValuePair)) {
+            this.CurrentSession.Localizations.Add(editedKeyValuePair);
         }
         SetNewValue(this.CurrentSession.Localizations, translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
@@ -89,28 +90,28 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
             || this.CurrentSession.Localizations == null) {
             return;
         }
-        foreach (AppLocFileEntry entry in this.CurrentSession.Localizations) {
-            if (this.selectedFilter.Matches(entry)) {
+        foreach (KeyValuePair<string, AppLocFileEntry> entry in this.CurrentSession.Localizations) {
+            if (this.selectedFilter.Matches(entry.Value)) {
                 bool add = false;
                 if (this.OnlyTranslated
                     && !this.HideTranslated
-                    && entry.IsTranslated
+                    && entry.Value.IsTranslated
                     ) {
                     add = true;
                 } else if (!this.OnlyTranslated
                     && !this.HideTranslated
                     ) {
                     add = true;
-                } else if (this.HideTranslated && !this.OnlyTranslated && !entry.IsTranslated) {
+                } else if (this.HideTranslated && !this.OnlyTranslated && !entry.Value.IsTranslated) {
                     add = true;
                 }
                 if (!add) {
                     continue;
                 }
-                if (!this.TextSearchContext.IsTextSearchMatch(entry)) {
+                if (!this.TextSearchContext.IsTextSearchMatch(entry.Value)) {
                     continue;
                 }
-                this.Mapping.Add(entry);
+                this.Mapping.Add(entry.Value);
             }
         }
         base.RefreshViewList();

@@ -84,10 +84,11 @@ public static class IndexCountHelper {
         return IndexMatcher.Replace(key, String.Empty);
     }
 
-    public static IndexCountHelperValidationResult ValidateForKey<T>(ICollection<T> localizationDictionary, string key) where T : IMyKeyProvider {
+    public static IndexCountHelperValidationResult ValidateForKey<T>(ICollection<KeyValuePair<string, T>> localizationDictionary, string key) where T : IMyKeyProvider {
         IMyKey newKey = new MyKey(key);
         IOrderedEnumerable<T> ordered =
             localizationDictionary
+                .Select(x => x.Value)
                 .Where(item => item.Key.CountKey == newKey.CountKey)
                 .OrderBy(item => item.Key.Index);
         if (ordered.Any()) {
