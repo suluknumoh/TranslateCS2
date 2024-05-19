@@ -151,8 +151,9 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     private void AddEntry(object sender, RoutedEventArgs e) {
+        var newEntry = AppLocFileEntryFactory.CreateEmpty();
         IDialogParameters parameters = new DialogParameters {
-            { nameof(IAppLocFileEntry), null },
+            { nameof(IAppLocFileEntry), newEntry },
             { nameof(EditEntryLargeViewModel.IsCount), false }
         };
         this.OpenEditEntryLarge(parameters);

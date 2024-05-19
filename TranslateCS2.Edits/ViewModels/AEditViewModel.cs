@@ -107,6 +107,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     private void EditEntryLargeCallBack(IDialogResult dialogResult) {
         bool gotEdited = dialogResult.Parameters.TryGetValue(nameof(IAppLocFileEntry), out IAppLocFileEntry edited);
         if (!gotEdited) {
+            // cancel, for example
             return;
         }
         switch (dialogResult.Result) {

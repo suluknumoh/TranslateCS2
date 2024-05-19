@@ -26,10 +26,9 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
     private ITranslationSessionManager SessionManager { get; }
 
-
-    private string? backUpTranslation;
-    private IAppLocFileEntry? _Entry;
-    public IAppLocFileEntry? Entry {
+    private IAppLocFileEntry? original;
+    private EditEntry? _Entry;
+    public EditEntry? Entry {
         get => this._Entry;
         set => this.SetProperty(ref this._Entry, value, this.OnEntryChanged);
     }
@@ -151,14 +150,11 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private void SaveCommandAction() {
         if (this.bindingGroup != null && this.bindingGroup.CommitEdit()) {
             this.canCloseDialog = true;
-            // TODO:
-            //this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
-            //this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
             IDialogResult result = new DialogResult(ButtonResult.OK);
-            result.Parameters.Add(nameof(IAppLocFileEntry), this.Entry);
+            this.Entry.ApplyChangesTo(this.original);
+            result.Parameters.Add(nameof(IAppLocFileEntry), this.original);
             RequestClose?.Invoke(result);
-            this.Entry = null;
-            this.backUpTranslation = null;
+            this.SetEntriesToNull();
         }
     }
 
@@ -175,14 +171,11 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         }
         this.canCloseDialog = true;
         this.Entry.Translation = null;
-        // TODO:
-        //this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
-        //this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Yes);
-        result.Parameters.Add(nameof(IAppLocFileEntry), this.Entry);
+        this.Entry.ApplyChangesTo(this.original);
+        result.Parameters.Add(nameof(IAppLocFileEntry), this.original);
         RequestClose?.Invoke(result);
-        this.Entry = null;
-        this.backUpTranslation = null;
+        this.SetEntriesToNull();
     }
 
     private void CancelCommandAction() {
@@ -196,21 +189,20 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
             }
         }
         this.canCloseDialog = true;
-        this.Entry.Translation = this.backUpTranslation;
-        // TODO:
-        //this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
-        //this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Cancel);
-        result.Parameters.Add(nameof(IAppLocFileEntry), this.Entry);
+        result.Parameters.Add(nameof(IAppLocFileEntry), null);
         RequestClose?.Invoke(result);
+        this.SetEntriesToNull();
+    }
+
+    private void SetEntriesToNull() {
+        this.original = null;
         this.Entry = null;
-        this.backUpTranslation = null;
     }
 
     private void OnLoadedAction(RoutedEventArgs e) {
         if (e.Source is Grid grid) {
             this.bindingGroup = grid.BindingGroup;
-            // TODO: ValidationRules!
             this.InitBindingGroup();
             this.isLoaded = true;
         }
@@ -235,7 +227,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private bool IsCancelInterruptable() {
-        return !Equals(this.Entry?.Translation, this.backUpTranslation);
+        return !Equals(this.Entry?.Translation, this.original.Translation);
     }
 
     public bool CanCloseDialog() {
@@ -254,11 +246,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
             this.Entry = null;
             return;
         }
-        this.Entry = entry;
-        // TODO:
-        //this.Entry.ExistsKeyInCurrentTranslationSession += this.SessionManager.ExistsKeyInCurrentTranslationSession;
-        //this.Entry.IsIndexKeyValid += this.SessionManager.IsIndexKeyValid;
-        //
+        this.original = entry;
+        this.Entry = new EditEntry(this.SessionManager, entry);
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
         this.IsCount = gotIsCount && isCount;
         if (!this.isLoaded) {
@@ -270,7 +259,6 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private void OnEntryChanged() {
         int lines = 3;
         if (this.Entry != null) {
-            this.backUpTranslation = this.Entry.Translation;
             if (this.Entry.Value != null) {
                 int valueLines = this.Entry.Value.Split("\n").Length;
                 if (valueLines > lines) {

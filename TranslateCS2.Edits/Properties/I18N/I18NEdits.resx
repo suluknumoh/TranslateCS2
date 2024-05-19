@@ -188,6 +188,21 @@ Do you really want to cancel without saving?</value>
   <data name="DoTranslate" xml:space="preserve">
     <value>translate</value>
   </data>
+  <data name="InputWarningKeyDuplicate" xml:space="preserve">
+    <value>Key already exists!</value>
+  </data>
+  <data name="InputWarningKeyEmpty" xml:space="preserve">
+    <value>Key must not be empty!</value>
+  </data>
+  <data name="InputWarningKeyIndex" xml:space="preserve">
+    <value>Index is inconsistent. To add an indexed value the next free index '{0}' should be used.</value>
+  </data>
+  <data name="InputWarningSpaces" xml:space="preserve">
+    <value>Key must not contain spaces!</value>
+  </data>
+  <data name="InputWarningTranslationEmpty" xml:space="preserve">
+    <value>Translation must not be empty!</value>
+  </data>
   <data name="MessageSomethingWentWrong" xml:space="preserve">
     <value>something went wrong</value>
   </data>

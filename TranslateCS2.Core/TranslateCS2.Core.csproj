@@ -64,11 +64,6 @@
       <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Update="Properties\I18N\I18NEdits.Designer.cs">
-            <DependentUpon>I18NEdits.resx</DependentUpon>
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-        </Compile>
         <Compile Update="Properties\I18N\I18NGlobal.Designer.cs">
             <DependentUpon>I18NGlobal.resx</DependentUpon>
             <DesignTime>True</DesignTime>
@@ -94,11 +89,6 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Update="Properties\I18N\I18NEdits.resx">
-            <SubType>Designer</SubType>
-            <LastGenOutput>I18NEdits.Designer.cs</LastGenOutput>
-            <Generator>PublicResXFileCodeGenerator</Generator>
-        </EmbeddedResource>
         <EmbeddedResource Update="Properties\I18N\I18NGlobal.resx">
             <LastGenOutput>I18NGlobal.Designer.cs</LastGenOutput>
             <Generator>PublicResXFileCodeGenerator</Generator>

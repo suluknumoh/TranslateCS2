@@ -11,4 +11,12 @@ public static class AppLocFileEntryFactory {
                                    translation,
                                    isDeleteAble);
     }
+
+    public static IAppLocFileEntry CreateEmpty() {
+        return new AppLocFileEntry(null,
+                                   null,
+                                   null,
+                                   null,
+                                   true);
+    }
 }
