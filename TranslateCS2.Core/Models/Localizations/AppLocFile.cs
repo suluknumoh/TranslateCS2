@@ -11,7 +11,7 @@ public class AppLocFile : AMyLocalization<AppLocFileSource,
                            string nameEnglish,
                            string name,
                            AppLocFileSource source) : base(id,
-                                                                nameEnglish,
-                                                                name,
-                                                                source) { }
+                                                           nameEnglish,
+                                                           name,
+                                                           source) { }
 }
