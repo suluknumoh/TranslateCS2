@@ -17,8 +17,8 @@ namespace TranslateCS2.Sessions.ViewModels;
 
 internal class SessionManagementViewModel : ABaseViewModel {
 
-    private readonly IRegionManager _regionManager;
-    private readonly IViewConfigurations _viewConfigurations;
+    private readonly IRegionManager regionManager;
+    private readonly IViewConfigurations viewConfigurations;
     public DelegateCommand DeleteSessionCommand { get; }
 
     public DelegateCommand<SessionActions?> CreateEditSessionCommand { get; }
@@ -56,9 +56,9 @@ internal class SessionManagementViewModel : ABaseViewModel {
     public SessionManagementViewModel(IRegionManager regionManager,
                                       ITranslationSessionManager translationSessionManager,
                                       IViewConfigurations viewConfigurations) {
-        this._regionManager = regionManager;
+        this.regionManager = regionManager;
         this.SessionManager = translationSessionManager;
-        this._viewConfigurations = viewConfigurations;
+        this.viewConfigurations = viewConfigurations;
         this.CreateEditSessionCommand = new DelegateCommand<SessionActions?>(this.CreateEditSessionCommandAction);
         this.DeleteSessionCommand = new DelegateCommand(this.DeleteSessionCommandAction);
     }
@@ -73,15 +73,15 @@ internal class SessionManagementViewModel : ABaseViewModel {
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
         this.IsEnabled = false;
         this.IsEditEnabled = false;
-        this._viewConfigurations.DeActivateRibbon?.Invoke(false);
-        this._regionManager.RequestNavigate(regionName, nameof(NewEditSessionControl), parameters);
+        this.viewConfigurations.DeActivateRibbon?.Invoke(false);
+        this.regionManager.RequestNavigate(regionName, nameof(NewEditSessionControl), parameters);
     }
 
     private void CallbackAfter() {
         this.IsEnabled = true;
         this.IsEditEnabled = this.SessionManager.HasTranslationSessions;
         this.SessionAction = null;
-        this._viewConfigurations.DeActivateRibbon?.Invoke(true);
+        this.viewConfigurations.DeActivateRibbon?.Invoke(true);
     }
     private void DeleteSessionCommandAction() {
         MessageBoxResult result = MessageBox.Show(I18NSessions.DialogDeleteText,

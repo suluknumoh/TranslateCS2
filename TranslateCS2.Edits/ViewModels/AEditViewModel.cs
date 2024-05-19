@@ -27,10 +27,10 @@ using TranslateCS2.TextSearch.ViewModels;
 
 namespace TranslateCS2.Edits.ViewModels;
 internal abstract class AEditViewModel<T> : ABaseViewModel {
-    private readonly IContainerProvider _containerProvider;
-    private readonly IViewConfigurations _viewConfigurations;
-    private readonly IDialogService _dialogService;
-    protected readonly List<ColumnSearchAble<ILocalizationEntry>> _columnsSearchAble = [];
+    private readonly IContainerProvider containerProvider;
+    private readonly IViewConfigurations viewConfigurations;
+    private readonly IDialogService dialogService;
+    protected readonly List<ColumnSearchAble<ILocalizationEntry>> columnsSearchAble = [];
 
 
     public ITranslationSessionManager SessionManager { get; }
@@ -67,10 +67,10 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
                              IViewConfigurations viewConfigurations,
                              ITranslationSessionManager translationSessionManager,
                              IDialogService dialogService) {
-        this._containerProvider = containerProvider;
-        this._viewConfigurations = viewConfigurations;
+        this.containerProvider = containerProvider;
+        this.viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
-        this._dialogService = dialogService;
+        this.dialogService = dialogService;
         this.InitColumnsSearchAble();
         this.TextSearchContext = new TextSearchControlContext<ILocalizationEntry>();
         this.CellEditEndingCommand = new DelegateCommand<DataGridCellEditEndingEventArgs>(this.CellEditEndingCommandAction);
@@ -100,7 +100,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     }
 
     protected void OpenEditEntryLarge(IDialogParameters parameters) {
-        this._dialogService.ShowDialog(nameof(EditEntryLargeView), parameters, this.EditEntryLargeCallBack);
+        this.dialogService.ShowDialog(nameof(EditEntryLargeView), parameters, this.EditEntryLargeCallBack);
     }
 
     private void EditEntryLargeCallBack(IDialogResult dialogResult) {
@@ -131,32 +131,32 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     }
 
     private void InitColumnsSearchAble() {
-        this._columnsSearchAble.Add(
+        this.columnsSearchAble.Add(
         new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnKey, Properties.I18N.I18NEdits.ColumnKeyTip) {
             IsChecked = true,
             Matcher = this.MatchesKeyColumn
         });
-        this._columnsSearchAble.Add(
+        this.columnsSearchAble.Add(
         new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnEnglish, Properties.I18N.I18NEdits.ColumnEnglishTip) {
             IsChecked = true,
             Matcher = this.MatchesEnglishColumn
         });
-        this._columnsSearchAble.Add(
+        this.columnsSearchAble.Add(
         new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnMerge, Properties.I18N.I18NEdits.ColumnMergeTip) {
             IsChecked = true,
             Matcher = this.MatchesMergeColumn
         });
-        this._columnsSearchAble.Add(
+        this.columnsSearchAble.Add(
         new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnTranslation, Properties.I18N.I18NEdits.ColumnTranslationTip) {
             Matcher = this.MatchesTranslationColumn
         });
-        foreach (ColumnSearchAble<ILocalizationEntry> columnSearchAble in this._columnsSearchAble) {
+        foreach (ColumnSearchAble<ILocalizationEntry> columnSearchAble in this.columnsSearchAble) {
             columnSearchAble.OnIsCheckedChange += this.RefreshViewList;
         }
     }
 
     protected void AddToolsGroup() {
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<T>();
         if (viewConfiguration != null) {
             RibbonGroup ribbonGroup = RibbonHelper.CreateRibbonGroup(I18NRibbon.Tools, false);
             IEnumerable<object> toolsGroupItems = this.CreateToolsGroupItems();
@@ -179,7 +179,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     }
 
     protected void AddCountGroup() {
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<T>();
         if (viewConfiguration != null) {
             RibbonGroup ribbonGroup = RibbonHelper.CreateRibbonGroup(I18NRibbon.RowsShown, false);
             {
@@ -193,9 +193,9 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     }
 
     protected void AddAffectedSessionGroup() {
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<T>();
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<T>();
         if (viewConfiguration != null) {
-            CurrentSessionInfo selectedSessionInfoGroup = this._containerProvider.Resolve<CurrentSessionInfo>();
+            CurrentSessionInfo selectedSessionInfoGroup = this.containerProvider.Resolve<CurrentSessionInfo>();
             viewConfiguration.Tab.Items.Add(selectedSessionInfoGroup);
         }
     }

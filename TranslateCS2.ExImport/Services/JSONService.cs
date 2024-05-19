@@ -10,7 +10,7 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class JSONService {
-    private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions {
+    private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions {
         WriteIndented = true,
         IgnoreReadOnlyProperties = false,
         IgnoreReadOnlyFields = false,
@@ -26,18 +26,18 @@ internal class JSONService {
         if (addKey) {
             exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.LocaleNameLocalized);
         }
-        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this._jsonSerializerOptions);
+        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this.jsonSerializerOptions);
         File.WriteAllBytes(file, bytes);
     }
 
     public async Task<List<ILocalizationEntry>?> ReadLocalizationFileJson(string file) {
         try {
             using Stream stream = File.OpenRead(file);
-            List<LocalizationEntry>? deserialized = await JsonSerializer.DeserializeAsync<List<LocalizationEntry>?>(stream, this._jsonSerializerOptions);
+            List<LocalizationEntry>? deserialized = await JsonSerializer.DeserializeAsync<List<LocalizationEntry>?>(stream, this.jsonSerializerOptions);
             return deserialized?.ToList<ILocalizationEntry>();
         } catch {
             using Stream stream = File.OpenRead(file);
-            Dictionary<string, string>? deserialized = await JsonSerializer.DeserializeAsync<Dictionary<string, string>?>(stream, this._jsonSerializerOptions);
+            Dictionary<string, string>? deserialized = await JsonSerializer.DeserializeAsync<Dictionary<string, string>?>(stream, this.jsonSerializerOptions);
             ArgumentNullException.ThrowIfNull(deserialized);
             List<ILocalizationEntry> localizationDictionaryEntries = [];
             foreach (KeyValuePair<string, string> entry in deserialized) {

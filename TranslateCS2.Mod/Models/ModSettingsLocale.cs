@@ -107,7 +107,9 @@ internal class ModSettingsLocale : IDictionarySource {
     }
 
 
-    private void AddToDictionary(string key, string value, bool isExportable) {
+    private void AddToDictionary(string key,
+                                 string value,
+                                 bool isExportable) {
         this.readEntriesDictionary.Add(key, value);
         if (isExportable) {
             this.Dictionary.Add(key, value);

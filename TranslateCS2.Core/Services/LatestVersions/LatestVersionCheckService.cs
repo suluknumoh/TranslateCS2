@@ -8,11 +8,11 @@ using TranslateCS2.Core.Configurations;
 
 namespace TranslateCS2.Core.Services.LatestVersions;
 internal class LatestVersionCheckService : ILatestVersionCheckService {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient httpClient;
     public Version Latest { get; private set; }
     public Version Current { get; private set; }
     public LatestVersionCheckService(HttpClient httpClient) {
-        this._httpClient = httpClient;
+        this.httpClient = httpClient;
         this.Current = new Version("0.0.0.0");
         this.Latest = this.Current;
     }
@@ -25,7 +25,7 @@ internal class LatestVersionCheckService : ILatestVersionCheckService {
             request.Headers.Add(HttpRequestHeader.Accept.ToString(), "text/plain");
             request.Headers.Add("Upgrade-Insecure-Requests", "1");
             request.Headers.Add("Sec-GPC", "1");
-            HttpResponseMessage response = await this._httpClient.SendAsync(request);
+            HttpResponseMessage response = await this.httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             HttpContent content = response.Content;
             string contentString = await content.ReadAsStringAsync();

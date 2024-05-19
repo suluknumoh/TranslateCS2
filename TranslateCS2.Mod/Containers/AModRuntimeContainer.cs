@@ -22,7 +22,9 @@ public abstract class AModRuntimeContainer : IModRuntimeContainer {
     public virtual InterfaceSettings? IntSetting => this.gameManager?.settings.userInterface;
 
 
-    protected AModRuntimeContainer(GameManager gameManager, ILog? logger, Paths paths) {
+    protected AModRuntimeContainer(GameManager gameManager,
+                                   ILog? logger,
+                                   Paths paths) {
         this.gameManager = gameManager;
         this.Logger = logger;
         this.DropDownItems = new DropDownItems();

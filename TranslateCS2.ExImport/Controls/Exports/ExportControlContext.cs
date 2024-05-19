@@ -10,7 +10,6 @@ using System.Windows.Media;
 using Prism.Commands;
 using Prism.Regions;
 
-using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
@@ -23,12 +22,12 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.ExImport.Controls.Exports;
 internal class ExportControlContext : ABaseViewModel {
     // here we dont need a streamingDataPath, so its String.Empty
-    private readonly Paths _pathHelper = new Paths(false, String.Empty);
-    private readonly IViewConfigurations _viewConfigurations;
-    private readonly ExImportService _exportService;
-    private readonly string _dialogtitle = I18NExport.DialogTitle;
-    private readonly string _dialogWarningCaption = I18NExport.DialogWarningCaption;
-    private readonly string _dialogWarningText = I18NExport.DialogWarningText;
+    private readonly Paths pathHelper = new Paths(false, String.Empty);
+    private readonly IViewConfigurations viewConfigurations;
+    private readonly ExImportService exportService;
+    private readonly string dialogtitle = I18NExport.DialogTitle;
+    private readonly string dialogWarningCaption = I18NExport.DialogWarningCaption;
+    private readonly string dialogWarningText = I18NExport.DialogWarningText;
 
 
     public ITranslationSessionManager SessionManager { get; }
@@ -131,9 +130,9 @@ internal class ExportControlContext : ABaseViewModel {
     public ExportControlContext(IViewConfigurations viewConfigurations,
                                 ITranslationSessionManager translationSessionManager,
                                 ExImportService exportService) {
-        this._viewConfigurations = viewConfigurations;
+        this.viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
-        this._exportService = exportService;
+        this.exportService = exportService;
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ExportCommand = new DelegateCommand(this.ExportCommandAction);
         this._IsEnabled = true;
@@ -145,12 +144,12 @@ internal class ExportControlContext : ABaseViewModel {
 
     private void SelectPathCommandAction() {
         string? path = this.SelectedPath;
-        path ??= this._pathHelper.TryToGetModsPath();
+        path ??= this.pathHelper.TryToGetModsPath();
         string? selected = ImExportDialogHelper.ShowSaveFileDialog(path,
-                                                                   this._dialogtitle,
+                                                                   this.dialogtitle,
                                                                    StringHelper.GetNullForEmpty(this.SelectedFileNameProposal),
-                                                                   this._dialogWarningCaption,
-                                                                   this._dialogWarningText);
+                                                                   this.dialogWarningCaption,
+                                                                   this.dialogWarningText);
         if (selected != null) {
             this.SelectedPath = selected;
         }
@@ -162,11 +161,6 @@ internal class ExportControlContext : ABaseViewModel {
             return;
         }
         switch (this.SelectedExportFormat.Format) {
-            case Models.ExportFormats.Direct:
-                this.IsExportButtonEnabled = true;
-                this.IsAddKeyEnabled = false;
-                this.IsAddMergeValuesEnabled = false;
-                break;
             case Models.ExportFormats.JSON:
                 this.IsExportButtonEnabled = this.SelectedPath != null;
                 this.IsAddKeyEnabled = true;
@@ -186,7 +180,7 @@ internal class ExportControlContext : ABaseViewModel {
         if (result == MessageBoxResult.Yes) {
             this.InfoMessageColor = Brushes.Black;
             this.InfoMessage = I18NExport.MessagePrepareDo;
-            this._viewConfigurations.DeActivateRibbon?.Invoke(false);
+            this.viewConfigurations.DeActivateRibbon?.Invoke(false);
             this.IsEnabled = false;
             this.IsExportButtonEnabled = false;
             this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
@@ -196,7 +190,7 @@ internal class ExportControlContext : ABaseViewModel {
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessageDo;
             try {
-                await this._exportService.Export(this.SelectedExportFormat,
+                await this.exportService.Export(this.SelectedExportFormat,
                                                  this.ExportLocalizationFile,
                                                  this.IsAddKey,
                                                  this.IsAddMergeValues,
@@ -209,16 +203,13 @@ internal class ExportControlContext : ABaseViewModel {
             }
             this.IsEnabled = true;
             this.IsExportButtonEnabled = true;
-            this._viewConfigurations.DeActivateRibbon?.Invoke(true);
+            this.viewConfigurations.DeActivateRibbon?.Invoke(true);
         }
     }
 
     public override void OnNavigatedTo(NavigationContext navigationContext) {
         this.ExportFormats.Clear();
-        List<ExportFormat> formats = this._exportService.GetExportFormats();
-        if (this.SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName == AppConfigurationManager.NoneOverwrite) {
-            formats.Remove(ExportFormat.DirectOverwrite());
-        }
+        List<ExportFormat> formats = this.exportService.GetExportFormats();
         this.ExportFormats.AddRange(formats);
         this.SelectedExportFormat = this.ExportFormats.First();
 

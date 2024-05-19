@@ -10,7 +10,7 @@ namespace TranslateCS2.Inf;
 public static class IndexCountHelper {
     public static Regex IndexMatcher { get; } = new Regex("\\:\\d+$");
     public static void FillIndexCountsAndAutocorrect(IDictionary<string, string> localizationDictionary,
-                                                                 IDictionary<string, int> indexCounts) {
+                                                     IDictionary<string, int> indexCounts) {
         // only those, that end with a colon and at least one digit
         IEnumerable<KeyValuePair<string, string>> indexedValues =
             localizationDictionary.Where(item => IndexMatcher.IsMatch(item.Key));

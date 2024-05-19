@@ -18,8 +18,8 @@ using TranslateCS2.Sessions.Properties.I18N;
 
 namespace TranslateCS2.Sessions.Controls;
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
-    private readonly IRegionManager _regionManager;
-    private bool _isLoaded = false;
+    private readonly IRegionManager regionManager;
+    private bool isLoaded = false;
 
 
     private bool _isEdit = false;
@@ -31,7 +31,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public delegate void CallBackAfter();
 
-    private CallBackAfter? _callbackEnd;
+    private CallBackAfter? callbackAfter;
 
 
     private string? _ActionString;
@@ -48,7 +48,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     public ObservableCollection<CultureInfo> CultureInfos { get; } = [];
 
 
-    private BindingGroup? _newSessionBindingGroup;
+    private BindingGroup? newSessionBindingGroup;
 
 
     private ITranslationSession? _NewSession;
@@ -68,7 +68,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public NewEditSessionControlContext(IRegionManager regionManager,
                                         ITranslationSessionManager translationSessionManager) {
-        this._regionManager = regionManager;
+        this.regionManager = regionManager;
         this.CreateNewTranslationSessionGridLoaded = new DelegateCommand<RoutedEventArgs>(this.CreateNewTranslationSessionGridLoadedAction);
         this.LocaleENChanged = new DelegateCommand<SelectionChangedEventArgs>(this.LocaleENChangedAction);
         this.LocaleNativeChanged = new DelegateCommand<SelectionChangedEventArgs>(this.LocaleNativeChangedAction);
@@ -86,16 +86,16 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     private void FileComboBoxSelectionChangedCommandAction() {
-        this._newSessionBindingGroup?.UpdateSources();
+        this.newSessionBindingGroup?.UpdateSources();
     }
 
     private void CancelAction() {
-        this._callbackEnd?.Invoke();
-        if (this._newSessionBindingGroup != null) {
-            this._newSessionBindingGroup.CancelEdit();
+        this.callbackAfter?.Invoke();
+        if (this.newSessionBindingGroup != null) {
+            this.newSessionBindingGroup.CancelEdit();
         }
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
-        this._regionManager.Regions[regionName].RemoveAll();
+        this.regionManager.Regions[regionName].RemoveAll();
     }
 
     private void InitMergesOverwrites() {
@@ -111,13 +111,13 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void CreateNewTranslationSessionGridLoadedAction(RoutedEventArgs e) {
         if (e.Source is Grid grid) {
-            this._newSessionBindingGroup = grid.BindingGroup;
+            this.newSessionBindingGroup = grid.BindingGroup;
             this.InitNewSession();
-            this._isLoaded = true;
+            this.isLoaded = true;
         }
     }
     private void SaveAction() {
-        if (this._newSessionBindingGroup != null && this._newSessionBindingGroup.CommitEdit()) {
+        if (this.newSessionBindingGroup != null && this.newSessionBindingGroup.CommitEdit()) {
             if (this.IsEdit) {
                 this.SessionManager.UpdateCurrentWith(this.Session);
             } else {
@@ -141,16 +141,16 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     public void OnNavigatedTo(NavigationContext navigationContext) {
         SessionActions? action = navigationContext.Parameters.GetValue<SessionActions?>(nameof(SessionActions));
         this.IsEdit = SessionActions.Edit == action;
-        this._callbackEnd = navigationContext.Parameters.GetValue<CallBackAfter>(nameof(CallBackAfter));
-        if (!this._isLoaded) {
+        this.callbackAfter = navigationContext.Parameters.GetValue<CallBackAfter>(nameof(CallBackAfter));
+        if (!this.isLoaded) {
             return;
         }
         this.InitNewSession();
     }
 
     private void InitNewSession() {
-        if (this._newSessionBindingGroup != null) {
-            this._newSessionBindingGroup.CancelEdit();
+        if (this.newSessionBindingGroup != null) {
+            this.newSessionBindingGroup.CancelEdit();
             if (this.IsEdit) {
                 this.Session = this.SessionManager.CloneCurrent(false);
                 this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
@@ -159,7 +159,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
                 this.Session.OverwriteLocalizationFileName = AppConfigurationManager.NoneOverwrite;
                 this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
             }
-            this._newSessionBindingGroup.BeginEdit();
+            this.newSessionBindingGroup.BeginEdit();
         }
     }
 

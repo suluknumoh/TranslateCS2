@@ -11,22 +11,22 @@ using TranslateCS2.Core.Configurations.Views;
 namespace TranslateCS2.Controls.Ribbons;
 
 internal class AppRibbonControlContext : BindableBase {
-    private readonly IRegionManager _regionManager;
-    private readonly IViewConfigurations _viewConfigurations;
+    private readonly IRegionManager regionManager;
+    private readonly IViewConfigurations viewConfigurations;
     private Ribbon? RibbonBar { get; set; }
     public DelegateCommand<RoutedEventArgs> LoadedCommand { get; }
     public AppRibbonControlContext(IRegionManager regionManager,
                                    IViewConfigurations viewConfigurations) {
-        this._regionManager = regionManager;
-        this._viewConfigurations = viewConfigurations;
+        this.regionManager = regionManager;
+        this.viewConfigurations = viewConfigurations;
         this.LoadedCommand = new DelegateCommand<RoutedEventArgs>(this.LoadedCommandAction);
     }
 
     private void LoadedCommandAction(RoutedEventArgs args) {
         if (args.Source is Ribbon ribbon) {
             this.RibbonBar = ribbon;
-            this._viewConfigurations.DeActivateRibbon = this.DeActivateRibbon;
-            foreach (IViewConfiguration viewConfiguration in this._viewConfigurations.ViewConfigurationList) {
+            this.viewConfigurations.DeActivateRibbon = this.DeActivateRibbon;
+            foreach (IViewConfiguration viewConfiguration in this.viewConfigurations.ViewConfigurationList) {
                 viewConfiguration.NavToggleButton.Click += this.RibbonNavToggleButtonClicked;
                 this.RibbonBar.Items.Add(viewConfiguration.Tab);
             }
@@ -43,7 +43,7 @@ internal class AppRibbonControlContext : BindableBase {
                                              RoutedEventArgs routedEventArgs) {
         if (routedEventArgs.Source is RibbonToggleButton clickedButton) {
             string? target = null;
-            foreach (IViewConfiguration viewConfiguration in this._viewConfigurations.ViewConfigurationList) {
+            foreach (IViewConfiguration viewConfiguration in this.viewConfigurations.ViewConfigurationList) {
                 if (viewConfiguration.NavToggleButton == null) {
                     continue;
                 }
@@ -55,7 +55,7 @@ internal class AppRibbonControlContext : BindableBase {
                     DeActivateRibbonGroups(viewConfiguration, false);
                 }
             }
-            this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion,
+            this.regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion,
                                                target);
         }
     }

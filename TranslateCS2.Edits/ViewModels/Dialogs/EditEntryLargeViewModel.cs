@@ -16,17 +16,17 @@ using TranslateCS2.Edits.Properties.I18N;
 
 namespace TranslateCS2.Edits.ViewModels.Dialogs;
 internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
-    private readonly int _translationTextBoxHeightLineMultiplier = 3;
-    private readonly int _translationTextBoxHeightLine = 20;
-    private readonly int _translationTextBoxHeightMax = 360;
-    private bool _canCloseDialog = false;
-    private bool _isLoaded = false;
-    private BindingGroup? _bindingGroup;
+    private readonly int translationTextBoxHeightLineMultiplier = 3;
+    private readonly int translationTextBoxHeightLine = 20;
+    private readonly int translationTextBoxHeightMax = 360;
+    private bool canCloseDialog = false;
+    private bool isLoaded = false;
+    private BindingGroup? bindingGroup;
 
     private ITranslationSessionManager SessionManager { get; }
 
 
-    private string? _backUpTranslation;
+    private string? backUpTranslation;
     private ILocalizationEntry? _Entry;
     public ILocalizationEntry? Entry {
         get => this._Entry;
@@ -148,15 +148,15 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void SaveCommandAction() {
-        if (this._bindingGroup != null && this._bindingGroup.CommitEdit()) {
-            this._canCloseDialog = true;
+        if (this.bindingGroup != null && this.bindingGroup.CommitEdit()) {
+            this.canCloseDialog = true;
             this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
             this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
             IDialogResult result = new DialogResult(ButtonResult.OK);
             result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
             RequestClose?.Invoke(result);
             this.Entry = null;
-            this._backUpTranslation = null;
+            this.backUpTranslation = null;
         }
     }
 
@@ -171,7 +171,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                                 I18NEdits.DialogDeleteText)) {
             return;
         }
-        this._canCloseDialog = true;
+        this.canCloseDialog = true;
         this.Entry.Translation = null;
         this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
         this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
@@ -179,7 +179,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
-        this._backUpTranslation = null;
+        this.backUpTranslation = null;
     }
 
     private void CancelCommandAction() {
@@ -192,29 +192,29 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                 return;
             }
         }
-        this._canCloseDialog = true;
-        this.Entry.Translation = this._backUpTranslation;
+        this.canCloseDialog = true;
+        this.Entry.Translation = this.backUpTranslation;
         this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
         this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Cancel);
         result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
         RequestClose?.Invoke(result);
         this.Entry = null;
-        this._backUpTranslation = null;
+        this.backUpTranslation = null;
     }
 
     private void OnLoadedAction(RoutedEventArgs e) {
         if (e.Source is Grid grid) {
-            this._bindingGroup = grid.BindingGroup;
+            this.bindingGroup = grid.BindingGroup;
             this.InitBindingGroup();
-            this._isLoaded = true;
+            this.isLoaded = true;
         }
     }
 
     private void InitBindingGroup() {
-        if (this._bindingGroup != null) {
-            this._bindingGroup.CancelEdit();
-            this._bindingGroup.BeginEdit();
+        if (this.bindingGroup != null) {
+            this.bindingGroup.CancelEdit();
+            this.bindingGroup.BeginEdit();
         }
     }
 
@@ -230,11 +230,11 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private bool IsCancelInterruptable() {
-        return !Equals(this.Entry?.Translation, this._backUpTranslation);
+        return !Equals(this.Entry?.Translation, this.backUpTranslation);
     }
 
     public bool CanCloseDialog() {
-        return this._canCloseDialog;
+        return this.canCloseDialog;
     }
 
     public void OnDialogClosed() {
@@ -243,7 +243,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     public void OnDialogOpened(IDialogParameters parameters) {
-        this._canCloseDialog = false;
+        this.canCloseDialog = false;
         bool gotEntry = parameters.TryGetValue<ILocalizationEntry>(nameof(ILocalizationEntry), out ILocalizationEntry entry);
         if (!gotEntry) {
             this.Entry = null;
@@ -255,7 +255,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         //
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
         this.IsCount = gotIsCount && isCount;
-        if (!this._isLoaded) {
+        if (!this.isLoaded) {
             return;
         }
         this.InitBindingGroup();
@@ -264,7 +264,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     private void OnEntryChanged() {
         int lines = 3;
         if (this.Entry != null) {
-            this._backUpTranslation = this.Entry.Translation;
+            this.backUpTranslation = this.Entry.Translation;
             if (this.Entry.Value != null) {
                 int valueLines = this.Entry.Value.Split("\n").Length;
                 if (valueLines > lines) {
@@ -272,9 +272,9 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                 }
             }
         }
-        int height = this._translationTextBoxHeightLine * this._translationTextBoxHeightLineMultiplier * lines;
-        if (height > this._translationTextBoxHeightMax) {
-            height = this._translationTextBoxHeightMax;
+        int height = this.translationTextBoxHeightLine * this.translationTextBoxHeightLineMultiplier * lines;
+        if (height > this.translationTextBoxHeightMax) {
+            height = this.translationTextBoxHeightMax;
         }
         this.TranslationTextBoxHeight = height;
     }

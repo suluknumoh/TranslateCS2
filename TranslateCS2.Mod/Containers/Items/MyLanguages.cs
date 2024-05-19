@@ -45,9 +45,12 @@ public class MyLanguages {
     }
 
     private void Init() {
-        IDictionary<SystemLanguage, IList<CultureInfo>> mapping = this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
+        IDictionary<SystemLanguage, IList<CultureInfo>> mapping =
+            this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
-            MyLanguage language = new MyLanguage(entry.Key, this.runtimeContainer, entry.Value);
+            MyLanguage language = new MyLanguage(entry.Key,
+                                                 this.runtimeContainer,
+                                                 entry.Value);
             this.LanguageDictionary.Add(entry.Key, language);
         }
     }
@@ -100,7 +103,10 @@ public class MyLanguages {
     }
     public MyLanguage? GetLanguage(string localeId) {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            IEnumerable<CultureInfo> cis = language.CultureInfos.Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+            IEnumerable<CultureInfo> cis =
+                language
+                    .CultureInfos
+                        .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
             if (cis.Any()) {
                 return language;
             }
@@ -116,7 +122,8 @@ public class MyLanguages {
 
     public void Load() {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            if (language.IsBuiltIn || !language.HasFlavors) {
+            if (language.IsBuiltIn
+                || !language.HasFlavors) {
                 continue;
             }
             try {
@@ -171,7 +178,9 @@ public class MyLanguages {
         return builder.ToString();
     }
 
-    public void FlavorChanged(MyLanguage? language, SystemLanguage systemLanguage, string localeId) {
+    public void FlavorChanged(MyLanguage? language,
+                              SystemLanguage systemLanguage,
+                              string localeId) {
         try {
             this.AddToFlavorMapping(systemLanguage, localeId);
             if (language == null) {
@@ -203,7 +212,9 @@ public class MyLanguages {
             throw;
         }
     }
-    private void TryToAddSource(MyLanguage language, TranslationFile translationFile, bool reThrow = false) {
+    private void TryToAddSource(MyLanguage language,
+                                TranslationFile translationFile,
+                                bool reThrow = false) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager?.AddSource(language.ID,
@@ -218,7 +229,8 @@ public class MyLanguages {
             }
         }
     }
-    private void TryToRemoveSource(MyLanguage language, TranslationFile translationFile) {
+    private void TryToRemoveSource(MyLanguage language,
+                                   TranslationFile translationFile) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager?.RemoveSource(language.ID,
@@ -229,13 +241,15 @@ public class MyLanguages {
                                                    [nameof(TryToRemoveSource), ex, translationFile]);
         }
     }
-    private void AddToFlavorMapping(SystemLanguage systemLanguage, string localeId) {
+    private void AddToFlavorMapping(SystemLanguage systemLanguage,
+                                    string localeId) {
         this.FlavorMapping.Remove(systemLanguage);
         this.FlavorMapping.Add(systemLanguage, localeId);
     }
     public void LogMarkdownAndCultureInfoNames() {
         try {
-            IOrderedEnumerable<KeyValuePair<SystemLanguage, MyLanguage>> ordered = this.LanguageDictionary.OrderBy(item => item.Key.ToString());
+            IOrderedEnumerable<KeyValuePair<SystemLanguage, MyLanguage>> ordered =
+                this.LanguageDictionary.OrderBy(item => item.Key.ToString());
             StringBuilder cultureInfoBuilder = new StringBuilder();
             StringBuilder markdownBuilder = new StringBuilder();
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in ordered) {

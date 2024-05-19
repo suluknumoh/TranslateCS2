@@ -106,12 +106,12 @@ internal partial class ModSettings {
 
     private bool IsHidden(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.locale, StringComparison.OrdinalIgnoreCase)));
+        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase)));
     }
 
     private bool IsDisabled(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.locale, StringComparison.OrdinalIgnoreCase) || !language.HasFlavors));
+        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase) || !language.HasFlavors));
     }
 
     private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter, bool invoke) {

@@ -13,7 +13,7 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.Edits.ViewModels;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
-    private readonly List<ILocalizationEntry> _entries = [];
+    private readonly List<ILocalizationEntry> entries = [];
     public EditOccurancesViewModel(IContainerProvider containerProvider,
                                    IViewConfigurations viewConfigurations,
                                    ITranslationSessionManager translationSessionManager,
@@ -24,7 +24,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         this.AddToolsGroup();
         this.AddCountGroup();
         this.AddAffectedSessionGroup();
-        this.TextSearchContext.Columns.AddRange(this._columnsSearchAble.Skip(1));
+        this.TextSearchContext.Columns.AddRange(this.columnsSearchAble.Skip(1));
         this.TextSearchContext.OnSearch += this.RefreshViewList;
     }
 
@@ -57,14 +57,14 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
 
     protected override void RefreshViewList() {
         this.Mapping.Clear();
-        this._entries.Clear();
+        this.entries.Clear();
         if (this.CurrentSession == null || this.CurrentSession.Localizations == null) {
             return;
         }
         IEnumerable<IGrouping<string, ILocalizationEntry>> groups = this.CurrentSession.Localizations.GroupBy(entry => entry.Value);
         foreach (IGrouping<string, ILocalizationEntry> group in groups) {
             ILocalizationEntry entry = new LocalizationEntry(null, group.First().Value, null, false);
-            this._entries.Add(entry);
+            this.entries.Add(entry);
             foreach (ILocalizationEntry groupItem in group) {
                 entry.AddKey(groupItem.Key);
                 entry.ValueMerge = groupItem.ValueMerge;
@@ -73,7 +73,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             }
         }
 
-        foreach (ILocalizationEntry entry in this._entries) {
+        foreach (ILocalizationEntry entry in this.entries) {
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
@@ -98,7 +98,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         base.RefreshViewList();
     }
     private void SetNewValue(string? translation, ILocalizationEntry edited) {
-        foreach (ILocalizationEntry entry in this._entries) {
+        foreach (ILocalizationEntry entry in this.entries) {
             if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
                 || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;

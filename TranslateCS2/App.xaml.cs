@@ -41,8 +41,8 @@ namespace TranslateCS2;
 public partial class App : PrismApplication {
     private readonly int resizeBorderThickness = 12;
     private Thickness defaultResizeBorderThickness;
-    private IViewConfigurations _viewConfigurations;
-    private readonly ITranslationsDatabaseService _translationsDatabaseService;
+    private IViewConfigurations viewConfigurations;
+    private readonly ITranslationsDatabaseService translationsDatabaseService;
 
 
     public App() : base() {
@@ -54,7 +54,7 @@ public partial class App : PrismApplication {
                     )
                 )
             );
-        this._translationsDatabaseService = new TranslationsDB();
+        this.translationsDatabaseService = new TranslationsDB();
         this.Exit += this.AppExit;
     }
 
@@ -86,8 +86,8 @@ public partial class App : PrismApplication {
     /// </summary>
     protected override void OnStartup(StartupEventArgs e) {
         // backup first; no need to backup newly created database
-        this._translationsDatabaseService.BackUpIfExists(DatabaseBackUpIndicators.APP_STARTED);
-        this._translationsDatabaseService.CreateIfNotExists();
+        this.translationsDatabaseService.BackUpIfExists(DatabaseBackUpIndicators.APP_STARTED);
+        this.translationsDatabaseService.CreateIfNotExists();
         if (e.Args is not null && e.Args.Length > 0) {
             string arg = e.Args[0];
             // ability to add start parameters
@@ -100,10 +100,10 @@ public partial class App : PrismApplication {
     ///     Step: 2
     /// </summary>
     protected override void RegisterTypes(IContainerRegistry containerRegistry) {
-        this._viewConfigurations = new ViewConfigurations(containerRegistry);
-        containerRegistry.RegisterSingleton<ITranslationsDatabaseService>(() => this._translationsDatabaseService);
+        this.viewConfigurations = new ViewConfigurations(containerRegistry);
+        containerRegistry.RegisterSingleton<ITranslationsDatabaseService>(() => this.translationsDatabaseService);
         containerRegistry.RegisterSingleton<IAppCloseBrokers>(AppCloseBrokers.GetInstance);
-        containerRegistry.RegisterSingleton<IViewConfigurations>(() => this._viewConfigurations);
+        containerRegistry.RegisterSingleton<IViewConfigurations>(() => this.viewConfigurations);
 
         ViewModelLocationProvider.Register<AppRibbonControl, AppRibbonControlContext>();
     }

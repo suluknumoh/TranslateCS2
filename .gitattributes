@@ -1,31 +1,33 @@
 ###############################################################################
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
-*           text        =   auto
-*.config    encoding    =   utf-8
-*.config    eol         =   lf
-*.cs        encoding    =   utf-8
-*.cs        eol         =   lf
-*.csproj    encoding    =   utf-8
-*.csproj    eol         =   lf
-*.json      encoding    =   utf-8
-*.json      eol         =   lf
-*.md        encoding    =   utf-8
-*.md        eol         =   lf
-*.props     encoding    =   utf-8
-*.props     eol         =   lf
-*.pubxml    encoding    =   utf-8
-*.pubxml    eol         =   lf
-*.resx      encoding    =   utf-8
-*.resx      eol         =   lf
-*.sln       encoding    =   utf-8
-*.sln       eol         =   lf
-*.targets   encoding    =   utf-8
-*.targets   eol         =   lf
-*.xaml      encoding    =   utf-8
-*.xaml      eol         =   lf
-*.xml       encoding    =   utf-8
-*.xml       eol         =   lf
+*           text=auto
+*.config    encoding=utf-8
+*.config    eol=lf
+*.cs        encoding=utf-8
+*.cs        eol=lf
+*.csproj    encoding=utf-8
+*.csproj    eol=lf
+*.json      encoding=utf-8
+*.json      eol=lf
+*.md        encoding=utf-8
+*.md        eol=lf
+*.props     encoding=utf-8
+*.props     eol=lf
+*.pubxml    encoding=utf-8
+*.pubxml    eol=lf
+*.resx      encoding=utf-8
+*.resx      eol=lf
+*.sln       encoding=utf-8
+*.sln       eol=lf
+*.targets   encoding=utf-8
+*.targets   eol=lf
+*.txt       encoding=utf-8
+*.txt       eol=lf
+*.xaml      encoding=utf-8
+*.xaml      eol=lf
+*.xml       encoding=utf-8
+*.xml       eol=lf
 
 
 ###############################################################################

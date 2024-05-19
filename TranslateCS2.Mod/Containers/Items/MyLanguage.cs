@@ -43,11 +43,15 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     ///     holds a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
     /// </summary>
     private IReadOnlyDictionary<string, int>? IndexCounts { get; set; }
-    internal MyLanguage(SystemLanguage systemLanguage, IModRuntimeContainer runtimeContainer, IList<CultureInfo> cultureInfos) {
+    internal MyLanguage(SystemLanguage systemLanguage,
+                        IModRuntimeContainer runtimeContainer,
+                        IList<CultureInfo> cultureInfos) {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
         this.CultureInfos.AddRange(cultureInfos);
-        IEnumerable<CultureInfo> builtin = this.CultureInfos.Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
+        IEnumerable<CultureInfo> builtin =
+            this.CultureInfos
+                .Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
         if (builtin.Any()) {
             this.IsBuiltIn = true;
             this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
@@ -89,7 +93,8 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
         foreach (TranslationFile translationFile in this.Flavors) {
-            if (translationFile.LocaleId == null || translationFile.LocaleName == null) {
+            if (translationFile.LocaleId == null
+                || translationFile.LocaleName == null) {
                 continue;
             }
             string displayName = translationFile.LocaleName;

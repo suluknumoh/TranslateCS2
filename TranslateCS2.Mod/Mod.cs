@@ -15,9 +15,9 @@ using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod;
 public class Mod : IMod {
-    private static ILog Logger { get; } = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
+    private static readonly ILog Logger = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
     private ModRuntimeContainerHandler runtimeContainerHandler;
-    private ModSettings? _modSettings;
+    private ModSettings? modSettings;
     public Mod() { }
     public void OnLoad(UpdateSystem updateSystem) {
         try {
@@ -43,15 +43,15 @@ public class Mod : IMod {
                 if (languages.HasErroneous) {
                     runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(languages.Erroneous, false);
                 }
-                this._modSettings = new ModSettings(this.runtimeContainerHandler, this);
-                ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this._modSettings,
+                this.modSettings = new ModSettings(this.runtimeContainerHandler, this);
+                ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this.modSettings,
                                                                             this.runtimeContainerHandler);
-                this._modSettings.RegisterInOptionsUI();
+                this.modSettings.RegisterInOptionsUI();
                 // settings have to be loaded after files are read and loaded
-                AssetDatabase.global.LoadSettings(ModConstants.Name, this._modSettings);
+                AssetDatabase.global.LoadSettings(ModConstants.Name, this.modSettings);
                 runtimeContainer.LocManager?.AddSource(runtimeContainer.LocManager.fallbackLocaleId,
                                                        modSettingsLocale);
-                this._modSettings.HandleLocaleOnLoad();
+                this.modSettings.HandleLocaleOnLoad();
             }
         } catch (Exception ex) {
             Logger.LogCritical(this.GetType(),
@@ -63,8 +63,8 @@ public class Mod : IMod {
     public void OnDispose() {
         try {
             Logger.LogInfo(this.GetType(), nameof(OnDispose));
-            this._modSettings?.UnregisterInOptionsUI();
-            this._modSettings?.HandleLocaleOnUnLoad();
+            this.modSettings?.UnregisterInOptionsUI();
+            this.modSettings?.HandleLocaleOnUnLoad();
         } catch (Exception ex) {
             Logger.LogCritical(this.GetType(),
                                LoggingConstants.StrangerThingsDispose,

@@ -7,20 +7,20 @@ using TranslateCS2.Core.Brokers;
 
 namespace TranslateCS2.ViewModels;
 internal class MainWindowViewModel {
-    private readonly IAppCloseBrokers _appCloseBrokers;
+    private readonly IAppCloseBrokers appCloseBrokers;
     public DelegateCommand<RoutedEventArgs> WindowLoadedCommand { get; }
     public DelegateCommand<CancelEventArgs> WindowClosingCommand { get; }
     public MainWindowViewModel(IAppCloseBrokers appCloseBrokers) {
-        this._appCloseBrokers = appCloseBrokers;
+        this.appCloseBrokers = appCloseBrokers;
         this.WindowLoadedCommand = new DelegateCommand<RoutedEventArgs>(this.WindowLoadedCommandAction);
         this.WindowClosingCommand = new DelegateCommand<CancelEventArgs>(this.WindowClosingCommandAction);
     }
 
     private void WindowClosingCommandAction(CancelEventArgs args) {
-        if (this._appCloseBrokers == null) {
+        if (this.appCloseBrokers == null) {
             return;
         }
-        foreach (IAppCloseBroker appCloseBroker in this._appCloseBrokers.Items) {
+        foreach (IAppCloseBroker appCloseBroker in this.appCloseBrokers.Items) {
             if (appCloseBroker.IsCancelClose) {
                 args.Cancel = true;
                 // INFO: MessageBox if there is no autosave - but autosave is default

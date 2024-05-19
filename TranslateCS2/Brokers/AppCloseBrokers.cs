@@ -6,18 +6,18 @@ using TranslateCS2.Core.Brokers;
 
 namespace TranslateCS2.Brokers;
 internal class AppCloseBrokers : IAppCloseBrokers {
-    private static AppCloseBrokers? _instance;
-    private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+    private static AppCloseBrokers? instance;
+    private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
     private List<IAppCloseBroker> CloseBrokers { get; } = [];
     public IImmutableList<IAppCloseBroker> Items => this.CloseBrokers.ToImmutableArray();
     private AppCloseBrokers() { }
     public static AppCloseBrokers GetInstance() {
-        if (_instance == null) {
-            _semaphoreSlim.Wait();
-            _instance ??= new AppCloseBrokers();
-            _semaphoreSlim.Release();
+        if (instance == null) {
+            semaphoreSlim.Wait();
+            instance ??= new AppCloseBrokers();
+            semaphoreSlim.Release();
         }
-        return _instance;
+        return instance;
     }
     public void Add<T>(T appCloseBroker) where T : IAppCloseBroker {
         this.CloseBrokers.Add(appCloseBroker);

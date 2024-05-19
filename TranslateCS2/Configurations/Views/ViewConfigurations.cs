@@ -11,22 +11,22 @@ using TranslateCS2.Core.Configurations.Views;
 namespace TranslateCS2.Configurations.Views;
 internal class ViewConfigurations : IViewConfigurations {
     private List<IViewConfiguration> viewConfigurations = [];
-    private readonly IContainerRegistry _containerRegistry;
-    private IViewConfiguration? _startViewConfiguration;
+    private readonly IContainerRegistry containerRegistry;
+    private IViewConfiguration? startViewConfiguration;
 
     public IReadOnlyList<IViewConfiguration> ViewConfigurationList => this.viewConfigurations.AsReadOnly();
 
     public Action<bool>? DeActivateRibbon { get; set; }
 
     public ViewConfigurations(IContainerRegistry containerRegistry) {
-        this._containerRegistry = containerRegistry;
+        this.containerRegistry = containerRegistry;
     }
     public void Add(IViewConfiguration configuration) {
         this.viewConfigurations.Add(configuration);
     }
     public void AddStartViewConfiguration(IViewConfiguration configuration) {
         this.viewConfigurations = this.viewConfigurations.Prepend(configuration).ToList();
-        this._startViewConfiguration = configuration;
+        this.startViewConfiguration = configuration;
     }
     public void Register(IRegionManager regionManager) {
         foreach (IViewConfiguration viewConfiguration in this.ViewConfigurationList.Reverse()) {
@@ -34,7 +34,7 @@ internal class ViewConfigurations : IViewConfigurations {
             regionManager.RegisterViewWithRegion(AppConfigurationManager.AppMainRegion, viewConfiguration.View);
         }
         foreach (IViewConfiguration configuration in this.viewConfigurations) {
-            configuration.RegisterForNavigation(this._containerRegistry);
+            configuration.RegisterForNavigation(this.containerRegistry);
         }
     }
     public IViewConfiguration? GetViewConfiguration<VM>() {
@@ -47,6 +47,6 @@ internal class ViewConfigurations : IViewConfigurations {
     }
 
     public IViewConfiguration? GetStartViewConfiguration() {
-        return this._startViewConfiguration;
+        return this.startViewConfiguration;
     }
 }

@@ -20,11 +20,11 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.Databases;
 internal class TranslationsDB : ITranslationsDatabaseService {
-    private static readonly string _sqliteExtension = $"{AppConfigurationManager.DatabaseExtension}";
-    private static readonly string _searchPattern = $"*{_sqliteExtension}";
-    private static readonly string _underscore = "_";
-    private static readonly string _dateTimeFormatString = "yyyy-MM-dd_HH-mm-ss";
-    private static readonly uint _backUpsToKeep = AppConfigurationManager.DatabaseMaxBackUpCount;
+    private static readonly string sqliteExtension = $"{AppConfigurationManager.DatabaseExtension}";
+    private static readonly string searchPattern = $"*{sqliteExtension}";
+    private static readonly string underscore = "_";
+    private static readonly string dateTimeFormatString = "yyyy-MM-dd_HH-mm-ss";
+    private static readonly uint backUpsToKeep = AppConfigurationManager.DatabaseMaxBackUpCount;
     private static string ConnectionString { get; } = AppConfigurationManager.DatabaseConnectionString;
 
     public void EnrichTranslationSessions(ITranslationSessionManager translationSessionManager, ITranslationsDatabaseService.OnErrorCallBack? onError) {
@@ -450,19 +450,19 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     }
 
     public void BackUpIfExists(DatabaseBackUpIndicators backUpIndicator) {
-        if (_backUpsToKeep == 0) {
+        if (backUpsToKeep == 0) {
             return;
         }
-        string dateTimeString = DateTime.Now.ToString(_dateTimeFormatString);
+        string dateTimeString = DateTime.Now.ToString(dateTimeFormatString);
         string? assetPath = AppConfigurationManager.AssetPath;
         ArgumentNullException.ThrowIfNull(nameof(assetPath));
         if (this.DatabaseExists()) {
             string backUpFileName = String.Concat(AppConfigurationManager.DatabaseNameRaw,
-                                                    _underscore,
+                                                    underscore,
                                                     dateTimeString,
-                                                    _underscore,
+                                                    underscore,
                                                     backUpIndicator.ToString(),
-                                                    _sqliteExtension);
+                                                    sqliteExtension);
             string databaseName = AppConfigurationManager.DatabaseName;
             File.Copy(databaseName, backUpFileName);
             this.RemoveEldestBackUps(databaseName);
@@ -472,9 +472,9 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     private void RemoveEldestBackUps(string databaseName) {
         string directory = Directory.GetCurrentDirectory();
         DirectoryInfo directoryInfo = new DirectoryInfo(directory);
-        IEnumerable<FileInfo> backUps = directoryInfo.EnumerateFiles(_searchPattern).Where(f => f.Name != databaseName);
+        IEnumerable<FileInfo> backUps = directoryInfo.EnumerateFiles(searchPattern).Where(f => f.Name != databaseName);
         IOrderedEnumerable<FileInfo> sqlitesOrdered = backUps.OrderByDescending(f => f.CreationTimeUtc);
-        IEnumerable<FileInfo> deletes = sqlitesOrdered.Skip((int) _backUpsToKeep);
+        IEnumerable<FileInfo> deletes = sqlitesOrdered.Skip((int) backUpsToKeep);
         foreach (FileInfo delete in deletes) {
             try {
                 delete.Delete();

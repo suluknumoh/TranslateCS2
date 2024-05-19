@@ -16,13 +16,13 @@ using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 internal class TranslationSessionManager : BindableBase, ITranslationSessionManager {
-    private readonly IRegionManager _regionManager;
-    private readonly IViewConfigurations _viewConfigurations;
-    private readonly ITranslationsDatabaseService.OnErrorCallBack _onError;
-    private readonly ITranslationsDatabaseService _db;
+    private readonly IRegionManager regionManager;
+    private readonly IViewConfigurations viewConfigurations;
+    private readonly ITranslationsDatabaseService.OnErrorCallBack onError;
+    private readonly ITranslationsDatabaseService db;
     public ILocalizationFile BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
-    public LocalizationFilesService LocalizationFilesService { get; }
+    public ILocalizationFileService LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
     public ObservableCollection<ITranslationSession> TranslationSessions { get; } = [];
     private ITranslationSession? _CurrentTranslationSession;
@@ -52,12 +52,12 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public TranslationSessionManager(IRegionManager regionManager,
                                      IViewConfigurations viewConfigurations,
                                      InstallPathDetector installPathDetector,
-                                     LocalizationFilesService localizationFilesService,
+                                     ILocalizationFileService localizationFilesService,
                                      ITranslationsDatabaseService db) {
-        this._regionManager = regionManager;
-        this._viewConfigurations = viewConfigurations;
+        this.regionManager = regionManager;
+        this.viewConfigurations = viewConfigurations;
         this.InstallPathDetector = installPathDetector;
-        this._onError = (error) => this.DatabaseError = error;
+        this.onError = (error) => this.DatabaseError = error;
         try {
             this.InstallPath = this.InstallPathDetector.DetectInstallPath();
             this.IsAppUseAble = true;
@@ -66,10 +66,10 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
             return;
         }
         this.LocalizationFilesService = localizationFilesService;
-        this._db = db;
+        this.db = db;
         this.LocalizationFiles = this.LocalizationFilesService.GetLocalizationFiles();
         this.BaseLocalizationFile = this.GetLocalizationFile(AppConfigurationManager.LeadingLocFileName);
-        this._db.EnrichTranslationSessions(this, this._onError);
+        this.db.EnrichTranslationSessions(this, this.onError);
         if (this.HasDatabaseError) {
             // see StartView-xaml-code
             // see OnDatabaseErrorChange
@@ -99,7 +99,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
             // copy item, otherwise changes are reflected into BaseLocalizationFile.Localizations
             this.CurrentTranslationSession.Localizations.Add(new LocalizationEntry(item));
         }
-        this._db.EnrichSavedTranslations(this.CurrentTranslationSession, this._onError);
+        this.db.EnrichSavedTranslations(this.CurrentTranslationSession, this.onError);
         if (this.HasDatabaseError) {
             // see SessionManagementView-xaml-code
             // see OnDatabaseErrorChange
@@ -146,7 +146,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         if (session == null) {
             return;
         }
-        this._db.UpsertTranslationSession(session, this._onError);
+        this.db.UpsertTranslationSession(session, this.onError);
         if (!this.HasDatabaseError) {
             this.AddTranslationSession(session);
         }
@@ -156,7 +156,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         if (session == null) {
             return;
         }
-        this._db.UpsertTranslationSession(session, this._onError);
+        this.db.UpsertTranslationSession(session, this.onError);
         if (!this.HasDatabaseError) {
             this.CurrentTranslationSessionChanged();
         }
@@ -166,8 +166,8 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         if (session == null) {
             return;
         }
-        this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_DELETE_SESSION);
-        this._db.DeleteTranslationSession(session, this._onError);
+        this.db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_DELETE_SESSION);
+        this.db.DeleteTranslationSession(session, this.onError);
         if (!this.HasDatabaseError) {
             this.TranslationSessions.Remove(session);
             if (this.TranslationSessions.Any()) {
@@ -180,16 +180,16 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public void SaveCurrentTranslationSessionsTranslations() {
-        this._db.SaveTranslations(this.CurrentTranslationSession, this._onError);
+        this.db.SaveTranslations(this.CurrentTranslationSession, this.onError);
     }
 
     private void OnDatabaseErrorChange() {
         this.IsAppUseAble = false;
         this.RaisePropertyChanged(nameof(this.HasDatabaseError));
         this.RaisePropertyChanged(nameof(this.HasNoDatabaseError));
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetStartViewConfiguration();
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetStartViewConfiguration();
         if (viewConfiguration != null) {
-            this._regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
+            this.regionManager.RequestNavigate(AppConfigurationManager.AppMainRegion, viewConfiguration.Name);
         }
     }
 

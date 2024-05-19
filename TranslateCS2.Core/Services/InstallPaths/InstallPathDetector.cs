@@ -6,22 +6,22 @@ using Microsoft.Win32;
 
 namespace TranslateCS2.Core.Services.InstallPaths;
 internal class InstallPathDetector : IInstallPathDetector {
-    private readonly uint _appid = 949230;
-    private readonly string _registryKeyName = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Valve\\Steam";
-    private readonly string _registryValueName = "InstallPath";
-    private readonly string _steamappsFolderName = "steamapps";
-    private readonly string _commonFolderName = "common";
+    private readonly uint appid = 949230;
+    private readonly string registryKeyName = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Valve\\Steam";
+    private readonly string registryValueName = "InstallPath";
+    private readonly string steamappsFolderName = "steamapps";
+    private readonly string commonFolderName = "common";
     public InstallPathDetector() { }
 
     public string DetectInstallPath() {
         string libraryFoldersVDF = this.GetLibraryFoldersVDFPath();
         string baseInstallPath = this.GetBaseInstallPath(libraryFoldersVDF);
         string installDir = this.GetInstallDirFromAppManifestACF(baseInstallPath);
-        return Path.Combine(baseInstallPath, this._steamappsFolderName, this._commonFolderName, installDir);
+        return Path.Combine(baseInstallPath, this.steamappsFolderName, this.commonFolderName, installDir);
     }
 
     private string GetInstallDirFromAppManifestACF(string baseInstallPath) {
-        string acf = Path.Combine(baseInstallPath, this._steamappsFolderName, $"appmanifest_{this._appid}.acf");
+        string acf = Path.Combine(baseInstallPath, this.steamappsFolderName, $"appmanifest_{this.appid}.acf");
         string[] lines = File.ReadAllLines(acf);
         foreach (string line in lines) {
             if (line.Contains("\"installdir\"", StringComparison.OrdinalIgnoreCase)) {
@@ -35,7 +35,7 @@ internal class InstallPathDetector : IInstallPathDetector {
         string[] lines = File.ReadAllLines(libraryFoldersVDF);
         bool start = false;
         foreach (string line in lines.Reverse()) {
-            if (line.Contains($"\"{this._appid}\"")) {
+            if (line.Contains($"\"{this.appid}\"")) {
                 start = true;
             }
             if (start && line.Contains("\"Path\"", StringComparison.OrdinalIgnoreCase)) {
@@ -53,9 +53,9 @@ internal class InstallPathDetector : IInstallPathDetector {
     }
 
     private string GetLibraryFoldersVDFPath() {
-        object? obj = Registry.GetValue(this._registryKeyName, this._registryValueName, null);
+        object? obj = Registry.GetValue(this.registryKeyName, this.registryValueName, null);
         if (obj is string installPath) {
-            return Path.Combine(installPath, this._steamappsFolderName, "libraryfolders.vdf");
+            return Path.Combine(installPath, this.steamappsFolderName, "libraryfolders.vdf");
         }
         throw new ArgumentException();
     }

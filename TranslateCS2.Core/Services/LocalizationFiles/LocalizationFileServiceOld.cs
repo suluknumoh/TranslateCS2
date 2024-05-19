@@ -13,15 +13,15 @@ using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
-internal class LocalizationFilesService : ILocalizationFilesService {
-    private readonly bool _skipWorkAround = AppConfigurationManager.SkipWorkAround;
-    private readonly InstallPathDetector _installPathDetector;
+internal class LocalizationFileServiceOld : ILocalizationFileService {
+    private readonly bool skipWorkAround = AppConfigurationManager.SkipWorkAround;
+    private readonly InstallPathDetector installPathDetector;
 
-    public LocalizationFilesService(InstallPathDetector installPathDetector) {
-        this._installPathDetector = installPathDetector;
+    public LocalizationFileServiceOld(InstallPathDetector installPathDetector) {
+        this.installPathDetector = installPathDetector;
     }
     public IEnumerable<FileInfo> GetLocalizationFiles() {
-        string installPath = this._installPathDetector.DetectInstallPath();
+        string installPath = this.installPathDetector.DetectInstallPath();
         string locLocation = Path.Combine(installPath, "Cities2_Data", "StreamingAssets", "Data~");
         DirectoryInfo loc = new DirectoryInfo(locLocation);
         return loc.EnumerateFiles(ModConstants.LocSearchPattern);
@@ -66,7 +66,7 @@ internal class LocalizationFilesService : ILocalizationFilesService {
                                                   Stream? streamParameter = null) {
         await Task.Factory.StartNew(() => {
             FileInfo fileInfo = this.GetLocalizationFileInfo(localizationFile.FileName);
-            WorkAround workAround = new WorkAround(this._skipWorkAround);
+            WorkAround workAround = new WorkAround(this.skipWorkAround);
             workAround.Start(fileInfo);
             //
             // write new file with this apps logic
@@ -149,13 +149,13 @@ internal class LocalizationFilesService : ILocalizationFilesService {
     ///     workaround - "pl-PL.loc", "zh-HANS.loc" and "zh-HANT.loc" have more content after indices
     /// </summary>
     private class WorkAround {
-        private byte[] _extraContent = Array.Empty<byte>();
-        private readonly bool _skip;
+        private byte[] extraContent = Array.Empty<byte>();
+        private readonly bool skip;
         public WorkAround(bool skip) {
-            this._skip = skip;
+            this.skip = skip;
         }
         public void Start(FileInfo fileInfo) {
-            if (this._skip) {
+            if (this.skip) {
                 return;
             }
             //
@@ -166,13 +166,13 @@ internal class LocalizationFilesService : ILocalizationFilesService {
             // copy remaining bytes (extra content)
             using MemoryStream memoryStream = new MemoryStream();
             workaround.CopyTo(memoryStream);
-            this._extraContent = memoryStream.ToArray();
+            this.extraContent = memoryStream.ToArray();
         }
         public void Stop(Stream stream) {
-            if (this._skip) {
+            if (this.skip) {
                 return;
             }
-            stream.Write(this._extraContent);
+            stream.Write(this.extraContent);
         }
     }
 }

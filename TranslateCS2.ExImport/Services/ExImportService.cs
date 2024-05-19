@@ -11,21 +11,17 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {
-    private readonly ILocalizationFilesService _localizationFilesService;
-    private readonly JSONService _jsonService;
+    private readonly ILocalizationFileService localizationFilesService;
+    private readonly JSONService jsonService;
 
-    public ExImportService(ILocalizationFilesService localizationFilesService,
+    public ExImportService(ILocalizationFileService localizationFilesService,
                            JSONService jsonService) {
-        this._localizationFilesService = localizationFilesService;
-        this._jsonService = jsonService;
+        this.localizationFilesService = localizationFilesService;
+        this.jsonService = jsonService;
     }
 
     public List<ExportFormat> GetExportFormats() {
         List<ExportFormat> exportFormats = [];
-        {
-            ExportFormat exportFormat = ExportFormat.DirectOverwrite();
-            exportFormats.Add(exportFormat);
-        }
         {
             ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.JSON),
                                                          ExportFormats.JSON,
@@ -42,18 +38,15 @@ internal class ExImportService {
                              bool addMergeValues,
                              string? file) {
         switch (exportFormat.Format) {
-            case ExportFormats.Direct:
-                await this._localizationFilesService.WriteLocalizationFileDirect(localizationFile);
-                break;
             case ExportFormats.JSON:
-                await this._jsonService.WriteLocalizationFileJson(localizationFile, file, addKey, addMergeValues);
+                await this.jsonService.WriteLocalizationFileJson(localizationFile, file, addKey, addMergeValues);
                 break;
         }
     }
 
     public async Task<List<CompareExistingReadTranslation>> ReadToReview(ITranslationSession translationSession,
                                                                          string selectedPath) {
-        List<ILocalizationEntry>? imports = await this._jsonService.ReadLocalizationFileJson(selectedPath);
+        List<ILocalizationEntry>? imports = await this.jsonService.ReadLocalizationFileJson(selectedPath);
         ArgumentNullException.ThrowIfNull(imports);
         List<CompareExistingReadTranslation> preview = [];
         {

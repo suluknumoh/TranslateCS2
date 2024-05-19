@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using TranslateCS2.ExImport.Properties.I18N;
-
 namespace TranslateCS2.ExImport.Models;
 internal class ExportFormat : IEquatable<ExportFormat?> {
     public ExportFormats Format { get; }
@@ -38,12 +36,5 @@ internal class ExportFormat : IEquatable<ExportFormat?> {
 
     public static bool operator !=(ExportFormat? left, ExportFormat? right) {
         return !(left == right);
-    }
-
-    public static ExportFormat DirectOverwrite() {
-        return new ExportFormat("direct-overwrite",
-                                ExportFormats.Direct,
-                                false,
-                                I18NExport.ToolTipExportFormatDirectOverwrite);
     }
 }

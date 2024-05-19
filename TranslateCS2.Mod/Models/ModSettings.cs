@@ -65,11 +65,9 @@ internal partial class ModSettings : ModSetting {
     private void ReloadLangs() {
         try {
             this.runtimeContainer.IntSetting.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            this.runtimeContainer.IntSetting.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             this.runtimeContainer.LocManager.SetActiveLocale(this.runtimeContainer.IntSetting.locale);
             this.languages.ReLoad();
             this.runtimeContainer.IntSetting.currentLocale = this.Locale;
-            this.runtimeContainer.IntSetting.locale = this.Locale;
             this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
             if (this.languages.HasErroneous) {
                 this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
@@ -141,7 +139,6 @@ internal partial class ModSettings : ModSetting {
             if (this.runtimeContainer.LocManager.SupportsLocale(this.Locale)) {
                 this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
                 this.runtimeContainer.IntSetting.currentLocale = this.Locale;
-                this.runtimeContainer.IntSetting.locale = this.Locale;
                 this.OnLocaleChanged();
             }
             this.runtimeContainer.IntSetting.onSettingsApplied += this.ApplyAndSaveAlso;
@@ -158,10 +155,8 @@ internal partial class ModSettings : ModSetting {
             // reset to os-language, if the mod is not used next time the game starts
             if (this.Locale != null && this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
                 this.runtimeContainer.IntSetting.currentLocale = this.Locale;
-                this.runtimeContainer.IntSetting.locale = this.Locale;
             } else {
                 this.runtimeContainer.IntSetting.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-                this.runtimeContainer.IntSetting.locale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             }
             this.runtimeContainer.IntSetting.ApplyAndSave();
         } catch (Exception ex) {

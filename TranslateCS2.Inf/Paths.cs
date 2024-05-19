@@ -10,7 +10,9 @@ public class Paths {
     public string ModsDataPathGeneral { get; }
     public string ModsDataPathSpecific { get; }
     public string StreamingDataPath { get; }
-    public Paths(bool createIfNotExists, string streamingDataPath, string? userDataPath = null) {
+    public Paths(bool createIfNotExists,
+                 string streamingDataPath,
+                 string? userDataPath = null) {
         // paths have to end with a forwardslash!
         if (streamingDataPath == null) {
             throw new ArgumentNullException(nameof(streamingDataPath));
