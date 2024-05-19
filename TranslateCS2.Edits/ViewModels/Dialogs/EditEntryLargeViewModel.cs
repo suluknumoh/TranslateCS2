@@ -127,8 +127,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                 result = await this.Translators.TranslateAsync(this.SessionManager.BaseLocalizationFile.Id, this.Entry?.Value);
                 break;
             case ValueToUse.ValueMerge:
-                // TODO:
-                //result = await this.Translators.TranslateAsync(this.Entry.ValueMergeLanguageCode, this.Entry?.ValueMerge);
+                result = await this.Translators.TranslateAsync(this.SessionManager.CurrentTranslationSession.MergeLocalizationId, this.Entry?.ValueMerge);
                 break;
             case ValueToUse.ValueTranslation:
                 // dont translate a translation :D

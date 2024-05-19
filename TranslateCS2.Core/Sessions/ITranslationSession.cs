@@ -22,6 +22,7 @@ public interface ITranslationSession {
     /// </summary>
     DateTime LastEdited { get; set; }
     string? MergeLocalizationFileName { get; set; }
+    string? MergeLocalizationId => this.MergeLocalizationFileName?.Split('.')[0];
     string? LocNameEnglish { get; set; }
     string? LocName { get; set; }
     bool IsAutoSave => true;
