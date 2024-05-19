@@ -16,19 +16,10 @@ internal class JSONService {
         AllowTrailingCommas = true,
     };
 
-    public async Task WriteLocalizationFileJson(AppLocFile localizationFile,
-                                                string file,
-                                                bool addKey,
-                                                bool addMergeValues) {
-
-        // TODO: A
-        //IDictionary<string, string> exp = localizationFile.GetLocalizationsAsDictionary(addMergeValues);
-        IDictionary<string, string> exp = null;
-        if (addKey) {
-            exp.Add(ModConstants.LocaleNameLocalizedKey, localizationFile.Name);
-        }
-        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(exp, this.jsonSerializerOptions);
-        File.WriteAllBytes(file, bytes);
+    public async Task WriteLocalizationFileJson(IDictionary<string, string> localizationDictionary,
+                                                string file) {
+        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(localizationDictionary, this.jsonSerializerOptions);
+        await File.WriteAllBytesAsync(file, bytes);
     }
 
     public async Task<List<AppLocFileEntry>?> ReadLocalizationFileJson(string file) {

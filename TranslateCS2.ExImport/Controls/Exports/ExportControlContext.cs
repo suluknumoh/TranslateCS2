@@ -11,6 +11,7 @@ using Prism.Commands;
 using Prism.Regions;
 
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Helpers;
@@ -171,24 +172,20 @@ internal class ExportControlContext : ABaseViewModel {
                                                   MessageBoxResult.No,
                                                   MessageBoxOptions.None);
         if (result == MessageBoxResult.Yes) {
-            this.InfoMessageColor = Brushes.Black;
-            this.InfoMessage = I18NExport.MessagePrepareDo;
-            this.viewConfigurations.DeActivateRibbon?.Invoke(false);
-            this.IsEnabled = false;
-            this.IsExportButtonEnabled = false;
-            // TODO: A
-            //this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
-            this.InfoMessageColor = Brushes.DarkGreen;
-            this.InfoMessage = I18NExport.MessagePrepareSuccess;
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            this.InfoMessageColor = Brushes.DarkGreen;
-            this.InfoMessage = I18NExport.MessageDo;
             try {
+                this.InfoMessageColor = Brushes.Black;
+                this.InfoMessage = I18NExport.MessagePrepareDo;
+                this.viewConfigurations.DeActivateRibbon?.Invoke(false);
+                this.IsEnabled = false;
+                this.IsExportButtonEnabled = false;
+                IDictionary<string, string> localizationDictionary = this.PrepareForExport();
+                this.InfoMessageColor = Brushes.DarkGreen;
+                this.InfoMessage = I18NExport.MessagePrepareSuccess;
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                this.InfoMessageColor = Brushes.DarkGreen;
+                this.InfoMessage = I18NExport.MessageDo;
                 await this.exportService.Export(this.SelectedExportFormat,
-                                                // TODO: A
-                                                null,
-                                                this.IsAddKey,
-                                                this.IsAddMergeValues,
+                                                localizationDictionary,
                                                 this.SelectedPath);
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NExport.MessageSuccess;
@@ -224,5 +221,35 @@ internal class ExportControlContext : ABaseViewModel {
                 this.SelectedFileNameProposal = this.FileNameProposals.First();
             }
         }
+    }
+
+    public IDictionary<string, string> PrepareForExport() {
+        ITranslationSession? session = this.SessionManager.CurrentTranslationSession;
+        ArgumentNullException.ThrowIfNull(session);
+        Dictionary<string, string> dictionary = [];
+        if (this.IsAddKey
+            && session.Name != null
+            && !StringHelper.IsNullOrWhiteSpaceOrEmpty(session.Name)) {
+            dictionary.Add(ModConstants.LocaleNameLocalizedKey, session.Name);
+        }
+        ObservableCollection<KeyValuePair<string, AppLocFileEntry>> localizations = session.Localizations;
+        foreach (KeyValuePair<string, AppLocFileEntry> localization in localizations) {
+            if (localization.Key is null) {
+                continue;
+            }
+            string? val = null;
+            if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(localization.Value.Translation)) {
+                val = localization.Value.Translation;
+            }
+            if (val is null
+                && this.IsAddMergeValues) {
+                val = localization.Value.ValueMerge;
+            }
+            if (val is null) {
+                continue;
+            }
+            dictionary.Add(localization.Key, val);
+        }
+        return dictionary;
     }
 }

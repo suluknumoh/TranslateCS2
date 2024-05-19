@@ -118,28 +118,6 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
     }
 
-    public AppLocFile GetForExport() {
-        AppLocFile mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
-        AppLocFileSource source = new AppLocFileSource();
-        AppLocFile merged = new AppLocFile(mergeLocalizationFile.Id,
-                                           this.CurrentTranslationSession.LocNameEnglish,
-                                           this.CurrentTranslationSession.LocName,
-                                           source);
-        DictionaryHelper.AddAll(mergeLocalizationFile.Source.Indices, merged.Source.Indices);
-        IEnumerable<KeyValuePair<string, AppLocFileEntry>> localizations =
-                this.CurrentTranslationSession.Localizations
-                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key)
-                                                        && (!StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value.Translation)
-                                                            || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value.ValueMerge)));
-        merged.Source.Localizations.AddRange(localizations);
-        // addMergeValues has to be true!!!
-        // TODO: A
-        IDictionary<string, string> dictionary = null;
-        IndexCountHelper.FillIndexCountsAndAutocorrect(dictionary,
-                                                       merged.Source.Indices);
-        return merged;
-    }
-
     public void Insert(ITranslationSession? session) {
         if (session == null) {
             return;

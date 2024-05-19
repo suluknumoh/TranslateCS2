@@ -34,13 +34,11 @@ internal class ExImportService {
     }
 
     public async Task Export(ExportFormat exportFormat,
-                             AppLocFile localizationFile,
-                             bool addKey,
-                             bool addMergeValues,
-                             string? file) {
+                             IDictionary<string, string> localizationDictionary,
+                             string file) {
         switch (exportFormat.Format) {
             case ExportFormats.JSON:
-                await this.jsonService.WriteLocalizationFileJson(localizationFile, file, addKey, addMergeValues);
+                await this.jsonService.WriteLocalizationFileJson(localizationDictionary, file);
                 break;
         }
     }
