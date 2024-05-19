@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.ExImport.Models;
@@ -11,10 +12,10 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {
-    private readonly ILocalizationFileService localizationFilesService;
+    private readonly IAppLocaFileService localizationFilesService;
     private readonly JSONService jsonService;
 
-    public ExImportService(ILocalizationFileService localizationFilesService,
+    public ExImportService(IAppLocaFileService localizationFilesService,
                            JSONService jsonService) {
         this.localizationFilesService = localizationFilesService;
         this.jsonService = jsonService;
@@ -33,7 +34,7 @@ internal class ExImportService {
     }
 
     public async Task Export(ExportFormat exportFormat,
-                             ILocalizationFile localizationFile,
+                             AppLocFile localizationFile,
                              bool addKey,
                              bool addMergeValues,
                              string? file) {
@@ -46,14 +47,14 @@ internal class ExImportService {
 
     public async Task<List<CompareExistingReadTranslation>> ReadToReview(ITranslationSession translationSession,
                                                                          string selectedPath) {
-        List<ILocalizationEntry>? imports = await this.jsonService.ReadLocalizationFileJson(selectedPath);
+        List<AppLocFileEntry>? imports = await this.jsonService.ReadLocalizationFileJson(selectedPath);
         ArgumentNullException.ThrowIfNull(imports);
         List<CompareExistingReadTranslation> preview = [];
         {
             // read keys used by colossal order
-            foreach (ILocalizationEntry existing in translationSession.Localizations) {
-                IEnumerable<ILocalizationEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
-                string key = existing.Key;
+            foreach (AppLocFileEntry existing in translationSession.Localizations) {
+                IEnumerable<AppLocFileEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
+                string key = existing.Key.Key;
                 string? translationExisting = existing.Translation;
                 string? translationRead = null;
                 if (importsForKey.Any()) {
@@ -71,10 +72,10 @@ internal class ExImportService {
         }
         {
             // read entries other than those used by colossal order (key-value-pairs for mods)
-            IEnumerable<ILocalizationEntry> remaining = imports.Where(import => !translationSession.Localizations.Select(existing => existing.Key).Contains(import.Key));
+            IEnumerable<AppLocFileEntry> remaining = imports.Where(import => !translationSession.Localizations.Select(existing => existing.Key).Contains(import.Key));
             if (remaining.Any()) {
-                foreach (ILocalizationEntry remain in remaining) {
-                    string? key = StringHelper.GetNullForEmpty(remain.Key);
+                foreach (AppLocFileEntry remain in remaining) {
+                    string? key = StringHelper.GetNullForEmpty(remain.Key.Key);
                     string? translationExisting = null;
                     string? translationRead = StringHelper.GetNullForEmpty(remain.Translation);
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(key)
@@ -94,12 +95,12 @@ internal class ExImportService {
     public void HandleRead(IList<CompareExistingReadTranslation> preview,
                            ITranslationSession translationSession,
                            ImportModes importMode) {
-        IList<ILocalizationEntry> localizationDictionary = translationSession.Localizations;
+        IList<AppLocFileEntry> localizationDictionary = translationSession.Localizations;
         {
             // handle key-value-pairs used by colossal order
-            foreach (ILocalizationEntry currentEntry in localizationDictionary) {
+            foreach (AppLocFileEntry currentEntry in localizationDictionary) {
                 foreach (CompareExistingReadTranslation compareItem in preview) {
-                    if (compareItem.Key == currentEntry.Key) {
+                    if (compareItem.Key == currentEntry.Key.Key) {
                         switch (importMode) {
                             case ImportModes.NEW:
                                 // set all read
@@ -141,7 +142,7 @@ internal class ExImportService {
             // handle other key-value-pairs that are not used by colossal order (key-value-pairs for mods)
             IEnumerable<CompareExistingReadTranslation> remaining =
                 preview
-                    .Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+                    .Where(import => !localizationDictionary.Select(existing => existing.Key.Key).Contains(import.Key));
             foreach (CompareExistingReadTranslation remain in remaining) {
                 switch (importMode) {
                     case ImportModes.NEW:
@@ -149,12 +150,17 @@ internal class ExImportService {
                     case ImportModes.LeftJoin:
                         // remaining do not exist within the given localizationDictionary
                         // they should be added always (i think)
-                        ILocalizationEntry newItem = new LocalizationEntry(remain.Key, remain.TranslationRead);
+                        AppLocFileEntry newItem = new AppLocFileEntry(remain.Key,
+                                                                      null,
+                                                                      null,
+                                                                      remain.TranslationRead,
+                                                                      true);
                         localizationDictionary.Add(newItem);
                         break;
                 }
             }
         }
-        IndexCountHelper.AutoCorrect(localizationDictionary);
+        // TODO:
+        //IndexCountHelper.AutoCorrect(localizationDictionary);
     }
 }

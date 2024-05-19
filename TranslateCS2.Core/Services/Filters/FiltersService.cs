@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 
 using TranslateCS2.Core.Configurations.CustomFilters;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 
@@ -48,9 +49,9 @@ internal class FiltersService : IFiltersService {
             return filters;
         }
         List<string> filterValues = [];
-        foreach (ILocalizationEntry entry in this.translationSessionManager.BaseLocalizationFile.Localizations) {
-            if (entry.Key.Contains(".")) {
-                string val = entry.Key.Split(".")[0];
+        foreach (AppLocFileEntry entry in this.translationSessionManager.BaseLocalizationFile.Source.Localizations) {
+            if (entry.Key.Key.Contains(".")) {
+                string val = entry.Key.Key.Split(".")[0];
                 if (filterValues.Contains(val)) {
                     continue;
                 }

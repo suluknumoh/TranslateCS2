@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 
-using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.Models.Localizations;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
-public interface ILocalizationFileService {
+public interface IAppLocaFileService {
     IEnumerable<FileInfo> GetLocalizationFiles();
-    LocalizationFile GetLocalizationFile(FileInfo fileInfo);
+    AppLocFile GetLocalizationFile(FileInfo fileInfo);
 }

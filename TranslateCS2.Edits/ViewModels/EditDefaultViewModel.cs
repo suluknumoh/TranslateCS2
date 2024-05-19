@@ -12,6 +12,7 @@ using Prism.Services.Dialogs;
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Helpers;
 using TranslateCS2.Core.Helpers.Ribbons;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Properties;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Services.Filters;
@@ -46,7 +47,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not ILocalizationEntry edited) {
+        if (args.Row.Item is not AppLocFileEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -55,16 +56,17 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, ILocalizationEntry edited) {
+    protected override void Save(string? translation, AppLocFileEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
-        if (edited.KeyOrigin != null && edited.KeyOrigin != edited.Key) {
+        if (edited.KeyOrigin != null
+            && edited.KeyOrigin != edited.Key.Key) {
             // key has changed
             // set translation to null to delete from database
-            IEnumerable<ILocalizationEntry> existings = this.CurrentSession.Localizations.Where(item => item.Key == edited.KeyOrigin);
+            IEnumerable<AppLocFileEntry> existings = this.CurrentSession.Localizations.Where(item => item.Key.Key == edited.KeyOrigin);
             if (existings.Any()) {
-                ILocalizationEntry existing = existings.First();
+                AppLocFileEntry existing = existings.First();
                 existing.Translation = null;
                 this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                 this.CurrentSession.Localizations.Remove(existing);
@@ -83,10 +85,11 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
 
     protected override void RefreshViewList() {
         this.Mapping.Clear();
-        if (this.CurrentSession == null || this.CurrentSession.Localizations == null) {
+        if (this.CurrentSession == null
+            || this.CurrentSession.Localizations == null) {
             return;
         }
-        foreach (ILocalizationEntry entry in this.CurrentSession.Localizations) {
+        foreach (AppLocFileEntry entry in this.CurrentSession.Localizations) {
             if (this.selectedFilter.Matches(entry)) {
                 bool add = false;
                 if (this.OnlyTranslated
@@ -147,9 +150,13 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     private void AddEntry(object sender, RoutedEventArgs e) {
-        ILocalizationEntry entry = new LocalizationEntry(null, null, true);
+        AppLocFileEntry entry = new AppLocFileEntry(null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    true);
         IDialogParameters parameters = new DialogParameters {
-            { nameof(ILocalizationEntry), entry },
+            { nameof(AppLocFileEntry), entry },
             { nameof(EditEntryLargeViewModel.IsCount), false }
         };
         this.OpenEditEntryLarge(parameters);

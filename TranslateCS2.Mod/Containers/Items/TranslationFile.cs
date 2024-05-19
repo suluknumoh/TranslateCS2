@@ -11,6 +11,7 @@ using TranslateCS2.Inf;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers.Items;
+// TODO: use new MyLocalization
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
     private readonly IModRuntimeContainer runtimeContainer;
     private string Uniquer { get; } = ModConstants.Name;

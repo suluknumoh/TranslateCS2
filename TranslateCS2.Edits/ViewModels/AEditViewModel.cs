@@ -15,6 +15,7 @@ using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Helpers;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Sessions;
@@ -30,7 +31,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     private readonly IContainerProvider containerProvider;
     private readonly IViewConfigurations viewConfigurations;
     private readonly IDialogService dialogService;
-    protected readonly List<ColumnSearchAble<ILocalizationEntry>> columnsSearchAble = [];
+    protected readonly List<ColumnSearchAble<AppLocFileEntry>> columnsSearchAble = [];
 
 
     public ITranslationSessionManager SessionManager { get; }
@@ -57,10 +58,10 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     }
 
 
-    public TextSearchControlContext<ILocalizationEntry> TextSearchContext { get; protected set; }
+    public TextSearchControlContext<AppLocFileEntry> TextSearchContext { get; protected set; }
 
     public ITranslationSession? CurrentSession => this.SessionManager.CurrentTranslationSession;
-    public ObservableCollection<ILocalizationEntry> Mapping { get; } = [];
+    public ObservableCollection<AppLocFileEntry> Mapping { get; } = [];
     public DelegateCommand<DataGridCellEditEndingEventArgs> CellEditEndingCommand { get; }
     public DelegateCommand<RoutedEventArgs> EditInNewWindowCommand { get; }
     protected AEditViewModel(IContainerProvider containerProvider,
@@ -72,7 +73,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
         this.SessionManager = translationSessionManager;
         this.dialogService = dialogService;
         this.InitColumnsSearchAble();
-        this.TextSearchContext = new TextSearchControlContext<ILocalizationEntry>();
+        this.TextSearchContext = new TextSearchControlContext<AppLocFileEntry>();
         this.CellEditEndingCommand = new DelegateCommand<DataGridCellEditEndingEventArgs>(this.CellEditEndingCommandAction);
         this.EditInNewWindowCommand = new DelegateCommand<RoutedEventArgs>(this.EditInNewWindowCommandAction);
     }
@@ -87,13 +88,13 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
         if (contextMenu.PlacementTarget is not DataGrid dataGrid) {
             return;
         }
-        if (dataGrid.SelectedCells[0].Item is not ILocalizationEntry entry) {
+        if (dataGrid.SelectedCells[0].Item is not AppLocFileEntry entry) {
             return;
         }
-        ILocalizationEntry copy = new LocalizationEntry(entry);
+        AppLocFileEntry clone = AppLocFileEntry.Clone(entry);
         bool isCount = typeof(T) == typeof(EditOccurancesViewModel);
         IDialogParameters parameters = new DialogParameters {
-            { nameof(ILocalizationEntry), copy },
+            { nameof(AppLocFileEntry), clone },
             { nameof(EditEntryLargeViewModel.IsCount), isCount }
         };
         this.OpenEditEntryLarge(parameters);
@@ -104,7 +105,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
     }
 
     private void EditEntryLargeCallBack(IDialogResult dialogResult) {
-        bool gotEdited = dialogResult.Parameters.TryGetValue(nameof(ILocalizationEntry), out ILocalizationEntry edited);
+        bool gotEdited = dialogResult.Parameters.TryGetValue(nameof(AppLocFileEntry), out AppLocFileEntry edited);
         if (!gotEdited) {
             return;
         }
@@ -115,12 +116,12 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
                 break;
             case ButtonResult.Yes:
                 // delete
-                IEnumerable<ILocalizationEntry> existings =
+                IEnumerable<AppLocFileEntry> existings =
                     this.SessionManager.CurrentTranslationSession.Localizations
                     .Where(item => item.Key == edited.Key)
                     .Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Value));
                 if (existings.Any()) {
-                    ILocalizationEntry existing = existings.First();
+                    AppLocFileEntry existing = existings.First();
                     existing.Translation = null;
                     this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                     this.SessionManager.CurrentTranslationSession.Localizations.Remove(existing);
@@ -132,25 +133,25 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     private void InitColumnsSearchAble() {
         this.columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnKey, Properties.I18N.I18NEdits.ColumnKeyTip) {
+        new ColumnSearchAble<AppLocFileEntry>(Properties.I18N.I18NEdits.ColumnKey, Properties.I18N.I18NEdits.ColumnKeyTip) {
             IsChecked = true,
             Matcher = this.MatchesKeyColumn
         });
         this.columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnEnglish, Properties.I18N.I18NEdits.ColumnEnglishTip) {
+        new ColumnSearchAble<AppLocFileEntry>(Properties.I18N.I18NEdits.ColumnEnglish, Properties.I18N.I18NEdits.ColumnEnglishTip) {
             IsChecked = true,
             Matcher = this.MatchesEnglishColumn
         });
         this.columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnMerge, Properties.I18N.I18NEdits.ColumnMergeTip) {
+        new ColumnSearchAble<AppLocFileEntry>(Properties.I18N.I18NEdits.ColumnMerge, Properties.I18N.I18NEdits.ColumnMergeTip) {
             IsChecked = true,
             Matcher = this.MatchesMergeColumn
         });
         this.columnsSearchAble.Add(
-        new ColumnSearchAble<ILocalizationEntry>(Properties.I18N.I18NEdits.ColumnTranslation, Properties.I18N.I18NEdits.ColumnTranslationTip) {
+        new ColumnSearchAble<AppLocFileEntry>(Properties.I18N.I18NEdits.ColumnTranslation, Properties.I18N.I18NEdits.ColumnTranslationTip) {
             Matcher = this.MatchesTranslationColumn
         });
-        foreach (ColumnSearchAble<ILocalizationEntry> columnSearchAble in this.columnsSearchAble) {
+        foreach (ColumnSearchAble<AppLocFileEntry> columnSearchAble in this.columnsSearchAble) {
             columnSearchAble.OnIsCheckedChange += this.RefreshViewList;
         }
     }
@@ -200,16 +201,16 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
         }
     }
 
-    protected bool MatchesKeyColumn(ILocalizationEntry parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.Key != null && parameter.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+    protected bool MatchesKeyColumn(AppLocFileEntry parameter) {
+        return this.TextSearchContext.SearchString != null && parameter.Key != null && parameter.Key.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
-    protected bool MatchesEnglishColumn(ILocalizationEntry parameter) {
+    protected bool MatchesEnglishColumn(AppLocFileEntry parameter) {
         return this.TextSearchContext.SearchString != null && parameter.Value != null && parameter.Value.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
-    protected bool MatchesMergeColumn(ILocalizationEntry parameter) {
+    protected bool MatchesMergeColumn(AppLocFileEntry parameter) {
         return this.TextSearchContext.SearchString != null && parameter.ValueMerge != null && parameter.ValueMerge.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
-    protected bool MatchesTranslationColumn(ILocalizationEntry parameter) {
+    protected bool MatchesTranslationColumn(AppLocFileEntry parameter) {
         return this.TextSearchContext.SearchString != null && parameter.Translation != null && parameter.Translation.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -223,13 +224,13 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected abstract void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args);
 
-    protected abstract void Save(string? translation, ILocalizationEntry edited);
+    protected abstract void Save(string? translation, AppLocFileEntry edited);
 
     protected abstract IEnumerable<object> CreateToolsGroupItems();
 
-    protected static void SetNewValue(ObservableCollection<ILocalizationEntry> list, string? translation, ILocalizationEntry edited) {
-        foreach (ILocalizationEntry entry in list) {
-            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
+    protected static void SetNewValue(ObservableCollection<AppLocFileEntry> list, string? translation, AppLocFileEntry edited) {
+        foreach (AppLocFileEntry entry in list) {
+            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key) && entry.Key == edited.Key)
                 || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;
             }

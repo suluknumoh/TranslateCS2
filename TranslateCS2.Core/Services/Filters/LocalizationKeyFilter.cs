@@ -1,6 +1,6 @@
 using System;
 
-using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.Models.Localizations;
 
 namespace TranslateCS2.Core.Services.Filters;
 internal class LocalizationKeyFilter : ILocalizationKeyFilter {
@@ -14,19 +14,19 @@ internal class LocalizationKeyFilter : ILocalizationKeyFilter {
         this.Values = values;
         this.FilterType = filterType;
     }
-    public bool Matches(ILocalizationEntry entry) {
+    public bool Matches(AppLocFileEntry entry) {
         if (this.Values == null) {
             return true;
         }
         foreach (string valueToMatch in this.Values) {
             switch (this.FilterType) {
                 case FilterTypes.StartsWith:
-                    if (entry.Key.StartsWith(valueToMatch, StringComparison.OrdinalIgnoreCase)) {
+                    if (entry.Key.Key.StartsWith(valueToMatch, StringComparison.OrdinalIgnoreCase)) {
                         return true;
                     }
                     break;
                 case FilterTypes.Contains:
-                    if (entry.Key.Contains(valueToMatch, StringComparison.OrdinalIgnoreCase)) {
+                    if (entry.Key.Key.Contains(valueToMatch, StringComparison.OrdinalIgnoreCase)) {
                         return true;
                     }
                     break;

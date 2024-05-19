@@ -49,8 +49,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -143,51 +141,9 @@
             Grid.Row="5"
             Grid.Column="0"
             Style="{StaticResource StyleTextBlockAlginedRight}"
-            Text="{Binding Source={x:Static i18n:I18NSessions.InputOverwriteFile}, StringFormat={}{0}*:, Mode=OneWay}" />
-        <ComboBox
-            Grid.Row="5"
-            Grid.Column="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Margin="10 10 10 10"
-            Cursor="Hand"
-            ItemsSource="{Binding Overwrites}"
-            Style="{StaticResource ControlInputError}">
-            <bhv:Interaction.Triggers>
-                <bhv:EventTrigger
-                    EventName="SelectionChanged">
-                    <bhv:InvokeCommandAction
-                        Command="{Binding FileComboBoxSelectionChangedCommand}"
-                        PassEventArgsToCommand="False"/>
-                </bhv:EventTrigger>
-            </bhv:Interaction.Triggers>
-            <ComboBox.SelectedItem>
-                <Binding
-                    Path="Session.OverwriteLocalizationFileName"
-                    UpdateSourceTrigger="PropertyChanged"
-                    ValidatesOnDataErrors="True"/>
-            </ComboBox.SelectedItem>
-        </ComboBox>
-        <TextBlock
-            Grid.Row="5"
-            Grid.Column="2"
-            Style="{StaticResource StyleTextBlockAlginedLeft}"
-            Text="{Binding Source={x:Static i18n:I18NSessions.InputOverwriteFileTip}, Mode=OneWay}" />
-
-
-        <Separator
-            Grid.Row="6"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"/>
-
-
-        <TextBlock
-            Grid.Row="7"
-            Grid.Column="0"
-            Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleEnglish}, StringFormat={}{0}*:, Mode=OneWay}" />
         <StackPanel
-            Grid.Row="7"
+            Grid.Row="5"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center">
@@ -213,7 +169,7 @@
                 </bhv:Interaction.Triggers>
                 <ComboBox.SelectedValue>
                     <Binding
-                        Path="Session.OverwriteLocalizationNameEN"
+                        Path="Session.LocNameEnglish"
                         UpdateSourceTrigger="PropertyChanged"
                         ValidatesOnDataErrors="True"/>
                 </ComboBox.SelectedValue>
@@ -230,32 +186,32 @@
                 Style="{StaticResource ControlInputError}">
                 <TextBox.Text>
                     <Binding
-                        Path="Session.OverwriteLocalizationNameEN"
+                        Path="Session.LocNameEnglish"
                         UpdateSourceTrigger="PropertyChanged"
                         ValidatesOnDataErrors="True"/>
                 </TextBox.Text>
             </TextBox>
         </StackPanel>
         <TextBlock
-            Grid.Row="7"
+            Grid.Row="5"
             Grid.Column="2"
             Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleEnglishTip}, Mode=OneWay}" />
 
 
         <Separator
-            Grid.Row="8"
+            Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="3"/>
 
 
         <TextBlock
-            Grid.Row="9"
+            Grid.Row="7"
             Grid.Column="0"
             Style="{StaticResource StyleTextBlockAlginedRight}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleLocalized}, StringFormat={}{0}*:, Mode=OneWay}" />
         <StackPanel
-            Grid.Row="9"
+            Grid.Row="7"
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center">
@@ -281,7 +237,7 @@
                 </bhv:Interaction.Triggers>
                 <ComboBox.SelectedValue>
                     <Binding
-                        Path="Session.OverwriteLocalizationNameLocalized"
+                        Path="Session.LocName"
                         UpdateSourceTrigger="PropertyChanged"
                         ValidatesOnDataErrors="True"/>
                 </ComboBox.SelectedValue>
@@ -295,14 +251,14 @@
                 Style="{StaticResource ControlInputError}">
                 <TextBox.Text>
                     <Binding
-                        Path="Session.OverwriteLocalizationNameLocalized"
+                        Path="Session.LocName"
                         UpdateSourceTrigger="PropertyChanged"
                         ValidatesOnDataErrors="True"/>
                 </TextBox.Text>
             </TextBox>
         </StackPanel>
         <TextBlock
-            Grid.Row="9"
+            Grid.Row="7"
             Grid.Column="2"
             Style="{StaticResource StyleTextBlockAlginedLeft}"
             Text="{Binding Source={x:Static i18n:I18NSessions.InputLocaleLocalizedTip}, Mode=OneWay}" />
@@ -310,7 +266,7 @@
 
 
         <StackPanel
-            Grid.Row="10"
+            Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Orientation="Horizontal"

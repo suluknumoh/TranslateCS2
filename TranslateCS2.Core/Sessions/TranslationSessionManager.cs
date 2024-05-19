@@ -8,6 +8,7 @@ using Prism.Regions;
 
 using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LocalizationFiles;
@@ -20,9 +21,9 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     private readonly IViewConfigurations viewConfigurations;
     private readonly ITranslationsDatabaseService.OnErrorCallBack onError;
     private readonly ITranslationsDatabaseService db;
-    public ILocalizationFile BaseLocalizationFile { get; }
+    public AppLocFile BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
-    public ILocalizationFileService LocalizationFilesService { get; }
+    public IAppLocaFileService LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
     public ObservableCollection<ITranslationSession> TranslationSessions { get; } = [];
     private ITranslationSession? _CurrentTranslationSession;
@@ -52,7 +53,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public TranslationSessionManager(IRegionManager regionManager,
                                      IViewConfigurations viewConfigurations,
                                      InstallPathDetector installPathDetector,
-                                     ILocalizationFileService localizationFilesService,
+                                     IAppLocaFileService localizationFilesService,
                                      ITranslationsDatabaseService db) {
         this.regionManager = regionManager;
         this.viewConfigurations = viewConfigurations;
@@ -76,7 +77,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
     }
 
-    private LocalizationFile GetLocalizationFile(string fileName) {
+    private AppLocFile GetLocalizationFile(string fileName) {
         FileInfo baseLocalizationFileInfo = this.LocalizationFiles.Where(item => item.Name == fileName).First();
         return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo);
     }
@@ -95,9 +96,9 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         if (this.CurrentTranslationSession == null) {
             return;
         }
-        foreach (ILocalizationEntry item in this.BaseLocalizationFile.Localizations) {
+        foreach (AppLocFileEntry item in this.BaseLocalizationFile.Source.Localizations) {
             // copy item, otherwise changes are reflected into BaseLocalizationFile.Localizations
-            this.CurrentTranslationSession.Localizations.Add(new LocalizationEntry(item));
+            this.CurrentTranslationSession.Localizations.Add(AppLocFileEntry.Clone(item));
         }
         this.db.EnrichSavedTranslations(this.CurrentTranslationSession, this.onError);
         if (this.HasDatabaseError) {
@@ -106,39 +107,36 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
             return;
         }
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
-        LocalizationFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
-        foreach (ILocalizationEntry mergeEntry in mergeFile.Localizations) {
-            ILocalizationEntry item = this.CurrentTranslationSession.Localizations.Where(item => item.Key == mergeEntry.Key).First();
-            item.ValueMerge = mergeEntry.Value;
-            item.ValueMergeLanguageCode = this.CurrentTranslationSession.MergeLanguageCode;
+        AppLocFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
+        foreach (AppLocFileEntry mergeEntry in mergeFile.Source.Localizations) {
+            IEnumerable<AppLocFileEntry> entries = this.CurrentTranslationSession.Localizations.Where(item => item.Key.Equals(mergeEntry.Key));
+            if (entries.Any()) {
+                AppLocFileEntry item = entries.First();
+                item.ValueMerge = mergeEntry.Value;
+            }
         }
     }
 
-    public ILocalizationFile GetForExport(bool json) {
-        ILocalizationFile mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
-        ILocalizationFile merged = new LocalizationFile(this.CurrentTranslationSession.OverwriteLocalizationFileName,
-                                                        mergeLocalizationFile.FileHeader,
-                                                        this.CurrentTranslationSession.OverwriteLocalizationNameEN,
-                                                        this.CurrentTranslationSession.OverwriteLocalizationLocaleID,
-                                                        this.CurrentTranslationSession.OverwriteLocalizationNameLocalized);
-        merged.Indices.Clear();
-        merged.Localizations.Clear();
-        DictionaryHelper.AddAll(mergeLocalizationFile.Indices, merged.Indices);
-        List<ILocalizationEntry>? localizations = null;
-        if (json) {
-            localizations =
+    public AppLocFile GetForExport() {
+        AppLocFile mergeLocalizationFile = this.GetLocalizationFile(this.CurrentTranslationSession.MergeLocalizationFileName);
+        AppLocFileSource source = new AppLocFileSource();
+        AppLocFile merged = new AppLocFile(mergeLocalizationFile.Id,
+                                           this.CurrentTranslationSession.LocNameEnglish,
+                                           this.CurrentTranslationSession.LocName,
+                                           source);
+        DictionaryHelper.AddAll(mergeLocalizationFile.Source.Indices, merged.Source.Indices);
+        List<AppLocFileEntry> localizations =
                 this.CurrentTranslationSession.Localizations
-                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key) && (!StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation) || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge))).ToList();
-        } else {
-            localizations =
-                this.CurrentTranslationSession.Localizations
-                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)).ToList();
-        }
-        merged.Localizations.AddRange(localizations);
+                    .Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Key.Key)
+                                                        && (!StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation)
+                                                            || !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.ValueMerge)))
+                    .ToList();
+        merged.Source.Localizations.AddRange(localizations);
         // addMergeValues has to be true!!!
-        IDictionary<string, string> dictionary = merged.GetLocalizationsAsDictionary(true);
+        // TODO:
+        IDictionary<string, string> dictionary = null;
         IndexCountHelper.FillIndexCountsAndAutocorrect(dictionary,
-                                                       merged.Indices);
+                                                       merged.Source.Indices);
         return merged;
     }
 
@@ -198,16 +196,18 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public bool ExistsKeyInCurrentTranslationSession(string key) {
-        return this.CurrentTranslationSession.Localizations.Where(item => item.Key == key).Any();
+        return this.CurrentTranslationSession.Localizations.Where(item => item.Key.Key == key).Any();
     }
 
     public IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin) {
-        ObservableCollection<ILocalizationEntry> localizationDictionary = this.CurrentTranslationSession.Localizations;
+        ObservableCollection<AppLocFileEntry> localizationDictionary = this.CurrentTranslationSession.Localizations;
         return IndexCountHelper.ValidateForKey(localizationDictionary, key);
     }
 
-    public ITranslationSession? CloneCurrent(bool includeDictionary) {
-        return new TranslationSession(this.CurrentTranslationSession, includeDictionary);
+    public ITranslationSession? CloneCurrent() {
+        ITranslationSession clone = new TranslationSession();
+        clone.UpdateWith(this.CurrentTranslationSession);
+        return clone;
     }
 
     public void UpdateCurrentWith(ITranslationSession? session) {

@@ -92,7 +92,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Header="{Binding Source={x:Static i18n:I18NEdits.ColumnKey}, Mode=OneWay}"
-                    Binding="{Binding Key, Mode=OneWay}"
+                    Binding="{Binding Key.Key, Mode=OneWay}"
                     MinWidth="200"
                     Width="200"
                     MaxWidth="300"

@@ -3,16 +3,16 @@ using System.IO;
 using System.Text;
 
 using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Services.InstallPaths;
-using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
-internal class LocalizationFileService : ILocalizationFileService {
+internal class LocFileService : IAppLocaFileService {
     private readonly bool skipWorkAround = AppConfigurationManager.SkipWorkAround;
     private readonly InstallPathDetector installPathDetector;
 
-    public LocalizationFileService(InstallPathDetector installPathDetector) {
+    public LocFileService(InstallPathDetector installPathDetector) {
         this.installPathDetector = installPathDetector;
     }
     public IEnumerable<FileInfo> GetLocalizationFiles() {
@@ -22,39 +22,39 @@ internal class LocalizationFileService : ILocalizationFileService {
         return loc.EnumerateFiles(ModConstants.LocSearchPattern);
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
-    public LocalizationFile GetLocalizationFile(FileInfo fileInfo) {
+    public AppLocFile GetLocalizationFile(FileInfo fileInfo) {
         using Stream stream = File.OpenRead(fileInfo.FullName);
         BinaryReader reader = new BinaryReader(stream, Encoding.UTF8);
         short fileHeader = reader.ReadInt16();
-        string localeNameEN = reader.ReadString();
-        string localeNameID = reader.ReadString();
-        string localeNameLocalized = reader.ReadString();
-        LocalizationFile localizationFile = new LocalizationFile(fileInfo.Name,
-                                                                 fileHeader,
-                                                                 localeNameEN,
-                                                                 localeNameID,
-                                                                 localeNameLocalized);
-        ReadLocalizationFilesLocalizations(reader, localizationFile);
-        ReadLocalizationFilesIndices(reader, localizationFile);
+        string nameEnglish = reader.ReadString();
+        string id = reader.ReadString();
+        string name = reader.ReadString();
+        AppLocFileSource source = new AppLocFileSource();
+        AppLocFile localizationFile = new AppLocFile(id,
+                                                     nameEnglish,
+                                                     name,
+                                                     source);
+        ReadLocalizationFilesLocalizations(reader, source);
+        ReadLocalizationFilesIndices(reader, source);
         return localizationFile;
     }
 
-    private static void ReadLocalizationFilesIndices(BinaryReader reader, ILocalizationFile localizationFile) {
+    private static void ReadLocalizationFilesIndices(BinaryReader reader, AppLocFileSource source) {
         int indexCount = reader.ReadInt32();
         for (int i = 0; i < indexCount; i++) {
             string key = reader.ReadString();
             int val = reader.ReadInt32();
-            localizationFile.Indices.Add(new KeyValuePair<string, int>(key, val));
+            source.Indices.Add(new KeyValuePair<string, int>(key, val));
         }
     }
 
-    private static void ReadLocalizationFilesLocalizations(BinaryReader reader, ILocalizationFile localizationFile) {
+    private static void ReadLocalizationFilesLocalizations(BinaryReader reader, AppLocFileSource source) {
         int localizationCount = reader.ReadInt32();
         for (int i = 0; i < localizationCount; i++) {
             string key = reader.ReadString();
             string value = reader.ReadString();
-            ILocalizationEntry originLocalizationKey = new LocalizationEntry(key, value, null, false);
-            localizationFile.Localizations.Add(originLocalizationKey);
+            AppLocFileEntry entry = new AppLocFileEntry(key, value);
+            source.Localizations.Add(entry);
         }
     }
 }

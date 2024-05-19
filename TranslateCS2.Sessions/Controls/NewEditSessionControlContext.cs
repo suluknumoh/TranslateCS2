@@ -43,8 +43,6 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public ObservableCollection<string> Merges { get; } = [];
 
-    public ObservableCollection<string> Overwrites { get; } = [];
-
     public ObservableCollection<CultureInfo> CultureInfos { get; } = [];
 
 
@@ -76,7 +74,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         this.Save = new DelegateCommand(this.SaveAction);
         this.Cancel = new DelegateCommand(this.CancelAction);
         this.SessionManager = translationSessionManager;
-        this.InitMergesOverwrites();
+        this.InitMerges();
         this.InitCultureInfos();
     }
 
@@ -98,14 +96,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         this.regionManager.Regions[regionName].RemoveAll();
     }
 
-    private void InitMergesOverwrites() {
+    private void InitMerges() {
         IEnumerable<FileInfo> localizationFiles = this.SessionManager.LocalizationFiles;
-        this.Overwrites.Add(AppConfigurationManager.NoneOverwrite);
         foreach (FileInfo file in localizationFiles) {
             this.Merges.Add(file.Name);
-            if (file.Name != AppConfigurationManager.LeadingLocFileName) {
-                this.Overwrites.Add(file.Name);
-            }
         }
     }
 
@@ -152,11 +146,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         if (this.newSessionBindingGroup != null) {
             this.newSessionBindingGroup.CancelEdit();
             if (this.IsEdit) {
-                this.Session = this.SessionManager.CloneCurrent(false);
+                this.Session = this.SessionManager.CloneCurrent();
                 this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
             } else {
                 this.Session = this.SessionManager.GetNewTranslationSession();
-                this.Session.OverwriteLocalizationFileName = AppConfigurationManager.NoneOverwrite;
                 this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
             }
             this.newSessionBindingGroup.BeginEdit();
@@ -171,7 +164,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
             return;
         }
         if (args.AddedItems[0] is CultureInfo cultureInfo) {
-            this.Session.OverwriteLocalizationNameLocalized = cultureInfo.NativeName;
+            this.Session.LocName = cultureInfo.NativeName;
         }
     }
     private void LocaleNativeChangedAction(SelectionChangedEventArgs args) {
@@ -181,9 +174,9 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         if (args.AddedItems == null || args.AddedItems.Count == 0) {
             return;
         }
-        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Session.OverwriteLocalizationNameEN)
+        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Session.LocNameEnglish)
             && args.AddedItems[0] is CultureInfo cultureInfo) {
-            this.Session.OverwriteLocalizationNameEN = cultureInfo.EnglishName;
+            this.Session.LocNameEnglish = cultureInfo.EnglishName;
         }
     }
 }

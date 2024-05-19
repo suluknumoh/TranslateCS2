@@ -10,6 +10,7 @@ using System.Reflection;
 using Microsoft.Data.Sqlite;
 
 using TranslateCS2.Core.Configurations;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Properties.I18N;
 using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Sessions;
@@ -76,13 +77,13 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                             }
                             break;
                         case "overwrite_loc_file":
-                            session.OverwriteLocalizationFileName = reader.GetString(ordinal);
+                            // gibts nicht mehr
                             break;
                         case "localizationnameen":
-                            session.OverwriteLocalizationNameEN = reader.GetString(ordinal);
+                            session.LocNameEnglish = reader.GetString(ordinal);
                             break;
                         case "localizationnamelocalized":
-                            session.OverwriteLocalizationNameLocalized = reader.GetString(ordinal);
+                            session.LocName = reader.GetString(ordinal);
                             break;
                         case "autosave":
                             // INFO: is always true
@@ -180,9 +181,9 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                 } else {
                     mergeLocFileParameter.Value = translationSession.MergeLocalizationFileName;
                 }
-                overwriteFileParameter.Value = translationSession.OverwriteLocalizationFileName;
-                localizationNameEnParameter.Value = translationSession.OverwriteLocalizationNameEN;
-                localizationNameLocalizedParameter.Value = translationSession.OverwriteLocalizationNameLocalized;
+                overwriteFileParameter.Value = DBNull.Value;
+                localizationNameEnParameter.Value = translationSession.LocNameEnglish;
+                localizationNameLocalizedParameter.Value = translationSession.LocName;
                 autosaveParameter.Value = translationSession.IsAutoSave ? 1 : 0;
                 command.ExecuteNonQuery();
                 if (translationSession.ID == 0) {
@@ -252,12 +253,12 @@ internal class TranslationsDB : ITranslationsDatabaseService {
     private void EnrichNewWithTranslatedValue(ITranslationSession session,
                                               Dictionary<string, string> valueTranslationMapping,
                                               ITranslationsDatabaseService.OnErrorCallBack? onError) {
-        IEnumerable<ILocalizationEntry> newEntries =
+        IEnumerable<AppLocFileEntry> newEntries =
             session.Localizations.Where(
                 entry => !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && valueTranslationMapping.ContainsKey(entry.Value) && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Translation)
         );
         if (newEntries.Any()) {
-            foreach (ILocalizationEntry entry in newEntries) {
+            foreach (AppLocFileEntry entry in newEntries) {
                 if (StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)) {
                     continue;
                 }
@@ -270,12 +271,12 @@ internal class TranslationsDB : ITranslationsDatabaseService {
         }
     }
 
-    private void EnrichSavedTranslation(ObservableCollection<ILocalizationEntry> localizationDictionary,
+    private void EnrichSavedTranslation(ICollection<AppLocFileEntry> localizationDictionary,
                                         string key,
                                         string translation,
                                         Dictionary<string, string> valueTranslationMapping) {
-        foreach (ILocalizationEntry entry in localizationDictionary) {
-            if (entry.Key == key) {
+        foreach (AppLocFileEntry entry in localizationDictionary) {
+            if (entry.Key.Key == key) {
                 entry.Translation = translation;
                 if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)) {
                     valueTranslationMapping.TryAdd(entry.Value, entry.Translation);
@@ -284,7 +285,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             }
         }
         // manually added key-translation-pair
-        localizationDictionary.Add(new LocalizationEntry(key, translation, true));
+        localizationDictionary.Add(new AppLocFileEntry(key, null, null, translation, true));
     }
 
     public void SaveTranslations(ITranslationSession translationSession, ITranslationsDatabaseService.OnErrorCallBack? onError) {
@@ -293,7 +294,7 @@ internal class TranslationsDB : ITranslationsDatabaseService {
             using SqliteTransaction transaction = connection.BeginTransaction();
             try {
                 this.UpdateLastEdited(connection, transaction, translationSession);
-                IEnumerable<ILocalizationEntry> deletes = translationSession.Localizations.Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
+                IEnumerable<AppLocFileEntry> deletes = translationSession.Localizations.Where(item => StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
                 if (deletes.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
                     command.Transaction = transaction;
@@ -309,13 +310,13 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     SqliteParameter idParameter = command.Parameters.Add("@id", SqliteType.Integer);
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     command.Prepare();
-                    foreach (ILocalizationEntry delete in deletes) {
+                    foreach (AppLocFileEntry delete in deletes) {
                         idParameter.Value = translationSession.ID;
-                        keyParameter.Value = delete.Key;
+                        keyParameter.Value = delete.Key.Key;
                         command.ExecuteNonQuery();
                     }
                 }
-                IEnumerable<ILocalizationEntry> upserts = translationSession.Localizations.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
+                IEnumerable<AppLocFileEntry> upserts = translationSession.Localizations.Where(item => !StringHelper.IsNullOrWhiteSpaceOrEmpty(item.Translation));
                 if (upserts.Any()) {
                     using SqliteCommand command = connection.CreateCommand();
                     command.Transaction = transaction;
@@ -347,9 +348,9 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     SqliteParameter keyParameter = command.Parameters.Add("@key", SqliteType.Text);
                     SqliteParameter translationParameter = command.Parameters.Add("@translation", SqliteType.Text);
                     command.Prepare();
-                    foreach (ILocalizationEntry upsert in upserts) {
+                    foreach (AppLocFileEntry upsert in upserts) {
                         idParameter.Value = translationSession.ID;
-                        keyParameter.Value = upsert.Key;
+                        keyParameter.Value = upsert.Key.Key;
                         translationParameter.Value = upsert.Translation;
                         command.ExecuteNonQuery();
                     }

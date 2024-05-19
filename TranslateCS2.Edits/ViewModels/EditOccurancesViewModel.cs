@@ -7,13 +7,14 @@ using Prism.Ioc;
 using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Edits.ViewModels;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
-    private readonly List<ILocalizationEntry> entries = [];
+    private readonly List<AppLocFileEntry> entries = [];
     public EditOccurancesViewModel(IContainerProvider containerProvider,
                                    IViewConfigurations viewConfigurations,
                                    ITranslationSessionManager translationSessionManager,
@@ -29,7 +30,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not ILocalizationEntry edited) {
+        if (args.Row.Item is not AppLocFileEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -38,7 +39,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, ILocalizationEntry edited) {
+    protected override void Save(string? translation, AppLocFileEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
@@ -58,22 +59,27 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     protected override void RefreshViewList() {
         this.Mapping.Clear();
         this.entries.Clear();
-        if (this.CurrentSession == null || this.CurrentSession.Localizations == null) {
+        if (this.CurrentSession == null
+            || this.CurrentSession.Localizations == null) {
             return;
         }
-        IEnumerable<IGrouping<string, ILocalizationEntry>> groups = this.CurrentSession.Localizations.GroupBy(entry => entry.Value);
-        foreach (IGrouping<string, ILocalizationEntry> group in groups) {
-            ILocalizationEntry entry = new LocalizationEntry(null, group.First().Value, null, false);
+        IEnumerable<IGrouping<string, AppLocFileEntry>> groups =
+            this.CurrentSession.Localizations.GroupBy(entry => entry.Value);
+        foreach (IGrouping<string, AppLocFileEntry> group in groups) {
+            AppLocFileEntry entry = new AppLocFileEntry(null,
+                                                        group.Key,
+                                                        null,
+                                                        null,
+                                                        false);
             this.entries.Add(entry);
-            foreach (ILocalizationEntry groupItem in group) {
-                entry.AddKey(groupItem.Key);
+            foreach (AppLocFileEntry groupItem in group) {
+                entry.AddKey(groupItem.Key.Key);
                 entry.ValueMerge = groupItem.ValueMerge;
-                entry.ValueMergeLanguageCode = groupItem.ValueMergeLanguageCode;
                 entry.Translation = groupItem.Translation;
             }
         }
 
-        foreach (ILocalizationEntry entry in this.entries) {
+        foreach (AppLocFileEntry entry in this.entries) {
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
@@ -97,9 +103,9 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         }
         base.RefreshViewList();
     }
-    private void SetNewValue(string? translation, ILocalizationEntry edited) {
-        foreach (ILocalizationEntry entry in this.entries) {
-            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
+    private void SetNewValue(string? translation, AppLocFileEntry edited) {
+        foreach (AppLocFileEntry entry in this.entries) {
+            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key) && entry.Key == edited.Key)
                 || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
                 entry.Translation = translation;
             }

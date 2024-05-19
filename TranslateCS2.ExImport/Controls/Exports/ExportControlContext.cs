@@ -106,13 +106,6 @@ internal class ExportControlContext : ABaseViewModel {
     }
 
 
-    private ILocalizationFile? _ExportLocalizationFile;
-    public ILocalizationFile? ExportLocalizationFile {
-        get => this._ExportLocalizationFile;
-        set => this.SetProperty(ref this._ExportLocalizationFile, value);
-    }
-
-
     public ObservableCollection<ExportFormat> ExportFormats { get; } = [];
 
 
@@ -183,7 +176,8 @@ internal class ExportControlContext : ABaseViewModel {
             this.viewConfigurations.DeActivateRibbon?.Invoke(false);
             this.IsEnabled = false;
             this.IsExportButtonEnabled = false;
-            this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
+            // TODO: A
+            //this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
             this.InfoMessageColor = Brushes.DarkGreen;
             this.InfoMessage = I18NExport.MessagePrepareSuccess;
             await Task.Delay(TimeSpan.FromSeconds(2));
@@ -191,10 +185,11 @@ internal class ExportControlContext : ABaseViewModel {
             this.InfoMessage = I18NExport.MessageDo;
             try {
                 await this.exportService.Export(this.SelectedExportFormat,
-                                                 this.ExportLocalizationFile,
-                                                 this.IsAddKey,
-                                                 this.IsAddMergeValues,
-                                                 this.SelectedPath);
+                                                // TODO: A
+                                                null,
+                                                this.IsAddKey,
+                                                this.IsAddMergeValues,
+                                                this.SelectedPath);
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NExport.MessageSuccess;
             } catch {
@@ -215,7 +210,7 @@ internal class ExportControlContext : ABaseViewModel {
 
         string? selectedFileNameProposal = this.SelectedFileNameProposal;
         this.FileNameProposals.Clear();
-        IEnumerable<CultureInfo>? guessedCultures = CultureInfoHelper.GatherCulturesFromEnglishName(this.SessionManager.CurrentTranslationSession?.OverwriteLocalizationNameEN);
+        IEnumerable<CultureInfo>? guessedCultures = CultureInfoHelper.GatherCulturesFromEnglishName(this.SessionManager.CurrentTranslationSession?.LocNameEnglish);
         if (guessedCultures != null) {
             foreach (CultureInfo guessedCulture in guessedCultures) {
                 this.FileNameProposals.Add($"{guessedCulture.Name}{ModConstants.JsonExtension}");

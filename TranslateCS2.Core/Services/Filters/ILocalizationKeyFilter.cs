@@ -1,11 +1,11 @@
-using TranslateCS2.Core.Sessions;
+using TranslateCS2.Core.Models.Localizations;
 
 namespace TranslateCS2.Core.Services.Filters;
 public interface ILocalizationKeyFilter {
     string Name { get; }
     string[]? Values { get; }
     FilterTypes FilterType { get; }
-    bool Matches(ILocalizationEntry entry);
+    bool Matches(AppLocFileEntry entry);
     public static ILocalizationKeyFilter Create(string name,
                                                 string[]? values,
                                                 FilterTypes filterType) {

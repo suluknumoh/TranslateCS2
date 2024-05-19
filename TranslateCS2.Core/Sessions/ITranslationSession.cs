@@ -1,10 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
+using TranslateCS2.Core.Models.Localizations;
+
 namespace TranslateCS2.Core.Sessions;
-public interface ITranslationSession : IDataErrorInfo, ILocalizationsGetAble<ObservableCollection<ILocalizationEntry>> {
+public interface ITranslationSession {
     long ID { get; set; }
     string? Name { get; set; }
     /// <summary>
@@ -20,16 +21,13 @@ public interface ITranslationSession : IDataErrorInfo, ILocalizationsGetAble<Obs
     /// </summary>
     DateTime LastEdited { get; set; }
     string? MergeLocalizationFileName { get; set; }
-    string? MergeLanguageCode { get; }
-    string? OverwriteLocalizationFileName { get; set; }
-    string? OverwriteLocalizationLocaleID => this.OverwriteLocalizationFileName?.Split(".")[0];
-    string? OverwriteLocalizationNameEN { get; set; }
-    string? OverwriteLocalizationNameLocalized { get; set; }
+    string? LocNameEnglish { get; set; }
+    string? LocName { get; set; }
     bool IsAutoSave => true;
-    bool AreBaseAndMergeLocalizationFilesDifferent => this.OverwriteLocalizationFileName != this.MergeLocalizationFileName;
     string? DisplayName { get; set; }
+    ObservableCollection<AppLocFileEntry> Localizations { get; }
     bool HasTranslationForKey(string key) {
-        return this.Localizations.Where(item => item.Key == key && item.IsTranslated).Any();
+        return this.Localizations.Where(item => item.Key.Key == key && item.IsTranslated).Any();
     }
     void UpdateWith(ITranslationSession session);
 }

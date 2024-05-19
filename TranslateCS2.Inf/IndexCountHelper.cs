@@ -84,14 +84,14 @@ public static class IndexCountHelper {
         return IndexMatcher.Replace(key, String.Empty);
     }
 
-    public static IndexCountHelperValidationResult ValidateForKey<T>(ICollection<T> localizationDictionary, string key) where T : IMyKey {
+    public static IndexCountHelperValidationResult ValidateForKey<T>(ICollection<T> localizationDictionary, string key) where T : IMyKeyProvider {
         IMyKey newKey = new MyKey(key);
         IOrderedEnumerable<T> ordered =
             localizationDictionary
-                .Where(item => item.CountKey == newKey.CountKey)
-                .OrderBy(item => item.Index);
+                .Where(item => item.Key.CountKey == newKey.CountKey)
+                .OrderBy(item => item.Key.Index);
         if (ordered.Any()) {
-            IMyKey last = ordered.Last();
+            IMyKey last = ordered.Last().Key;
             int nextFreeIndex = last.Index + 1;
             if (newKey.Index > nextFreeIndex) {
                 return IndexCountHelperValidationResult.InValid(key, nextFreeIndex);
@@ -102,18 +102,18 @@ public static class IndexCountHelper {
         return IndexCountHelperValidationResult.Valid();
     }
 
-    public static void AutoCorrect<T>(IList<T> localizationDictionary) where T : IMyKey {
+    public static void AutoCorrect<T>(IList<T> localizationDictionary) where T : IMyKeyProvider {
         IEnumerable<T> indexed =
             localizationDictionary
-                .Where(item => item.IsIndexed);
-        IEnumerable<IGrouping<string, T>> grouped = indexed.GroupBy(item => item.CountKey);
+                .Where(item => item.Key.IsIndexed);
+        IEnumerable<IGrouping<string, T>> grouped = indexed.GroupBy(item => item.Key.CountKey);
         foreach (IGrouping<string, T> group in grouped) {
             int newIndex = 0;
-            IOrderedEnumerable<T> ordered = group.OrderBy(item => item.Index);
+            IOrderedEnumerable<T> ordered = group.OrderBy(item => item.Key.Index);
             foreach (T item in ordered) {
                 int itemIndex = localizationDictionary.IndexOf(item);
-                string newKey = BuildNewKey(item.CountKey, newIndex);
-                localizationDictionary[itemIndex].Key = newKey;
+                string newKey = BuildNewKey(item.Key.CountKey, newIndex);
+                localizationDictionary[itemIndex].Key.Key = newKey;
                 newIndex++;
             }
         }

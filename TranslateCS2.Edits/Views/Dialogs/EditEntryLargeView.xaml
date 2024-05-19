@@ -199,7 +199,7 @@
                             FontSize="14"
                             AcceptsReturn="False"
                             HorizontalAlignment="Stretch"
-                            Text="{Binding Entry.Key,
+                            Text="{Binding Entry.Key.Key,
                                            Mode=TwoWay,
                                            UpdateSourceTrigger=PropertyChanged,
                                            ValidatesOnDataErrors=True}">

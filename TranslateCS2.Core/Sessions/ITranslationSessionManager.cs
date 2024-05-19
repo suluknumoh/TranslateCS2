@@ -3,12 +3,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Core.Sessions;
 public interface ITranslationSessionManager {
-    ILocalizationFile BaseLocalizationFile { get; }
+    AppLocFile BaseLocalizationFile { get; }
     IEnumerable<FileInfo> LocalizationFiles { get; }
     ObservableCollection<ITranslationSession> TranslationSessions { get; }
     ITranslationSession? CurrentTranslationSession { get; set; }
@@ -18,7 +19,6 @@ public interface ITranslationSessionManager {
     string? DatabaseError { get; set; }
     bool HasDatabaseError => !this.HasNoDatabaseError;
     bool HasNoDatabaseError => StringHelper.IsNullOrWhiteSpaceOrEmpty(this.DatabaseError);
-    ILocalizationFile GetForExport(bool json);
     void Insert(ITranslationSession? session);
     void Update(ITranslationSession? session);
     void UpdateCurrentWith(ITranslationSession? session);
@@ -28,5 +28,5 @@ public interface ITranslationSessionManager {
     ITranslationSession GetNewTranslationSession();
     bool ExistsKeyInCurrentTranslationSession(string key);
     IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin);
-    ITranslationSession? CloneCurrent(bool includeDictionary);
+    ITranslationSession? CloneCurrent();
 }
