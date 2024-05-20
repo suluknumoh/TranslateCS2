@@ -10,21 +10,16 @@
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
+
     <!--Imports must be after PropertyGroup block-->
     <Import Project="..\TranslateCS2.ZZZTestLib\Properties\CS2Paths.props" />
 
 
     <ItemGroup>
-        <PackageReference Include="coverlet.collector" Version="6.0.2">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-        <PackageReference Include="xunit" Version="2.8.0" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="coverlet.collector" Version="6.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="xunit" Version="2.5.3" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
     </ItemGroup>
 
 
@@ -37,9 +32,11 @@
         <Using Include="Xunit" />
     </ItemGroup>
 
+
     <ItemGroup>
-      <Folder Include="Logs\**\" />
-      <None Include="Logs\**\*.*" />
+        <Folder Include="Logs\**\" />
+        <None Include="Logs\**\*.*" />
     </ItemGroup>
+
 
 </Project>

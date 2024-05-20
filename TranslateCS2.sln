@@ -31,7 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZModDevHelper"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Inf", "TranslateCS2.Inf\TranslateCS2.Inf.csproj", "{9C666368-C8E2-4B19-976D-182EA352DE12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateCS2.ZTests", "TranslateCS2.ZTests\TranslateCS2.ZTests.csproj", "{A2C813BC-3DC1-4279-9B11-838789108585}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZTests", "TranslateCS2.ZTests\TranslateCS2.ZTests.csproj", "{A2C813BC-3DC1-4279-9B11-838789108585}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZZZTestLib", "TranslateCS2.ZZZTestLib\TranslateCS2.ZZZTestLib.csproj", "{0004269B-33DA-449C-9155-184917304B04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateCS2.ZModTests", "TranslateCS2.ZModTests\TranslateCS2.ZModTests.csproj", "{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +133,22 @@ Global
 		{A2C813BC-3DC1-4279-9B11-838789108585}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2C813BC-3DC1-4279-9B11-838789108585}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2C813BC-3DC1-4279-9B11-838789108585}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.ClientApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.ClientApp|Any CPU.Build.0 = Debug|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{0004269B-33DA-449C-9155-184917304B04}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.ClientApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.ClientApp|Any CPU.Build.0 = Debug|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.UpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}.UpdateApp|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

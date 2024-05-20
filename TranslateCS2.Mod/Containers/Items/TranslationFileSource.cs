@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
-using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers.Items;
 public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, string>, string>, IDictionarySource {
@@ -36,9 +35,9 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
                 return true;
             }
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(Load), ex, this]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(Load), ex, this]);
         }
         return false;
     }

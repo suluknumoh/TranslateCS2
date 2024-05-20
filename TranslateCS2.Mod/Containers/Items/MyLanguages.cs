@@ -8,7 +8,6 @@ using System.Text;
 using Colossal.IO.AssetDatabase.Internal;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Loggers;
 
 using UnityEngine;
 
@@ -70,9 +69,9 @@ public class MyLanguages {
                 }
                 CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
                 if (cultureInfo is null) {
-                    this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                           LoggingConstants.NoCultureInfo,
-                                                           [translationFilePath, localeId, language]);
+                    this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                          LoggingConstants.NoCultureInfo,
+                                                          [translationFilePath, localeId, language]);
                     continue;
                 }
                 string localeName = cultureInfo.NativeName;
@@ -96,9 +95,9 @@ public class MyLanguages {
                 // this way it can be reloaded without the need to restart the game
                 language.Flavors.Add(translationFile);
             } catch (Exception ex) {
-                this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                       LoggingConstants.FailedTo,
-                                                       [nameof(ReadFiles), translationFilePath, ex]);
+                this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                      LoggingConstants.FailedTo,
+                                                      [nameof(ReadFiles), translationFilePath, ex]);
             }
         }
     }
@@ -133,9 +132,9 @@ public class MyLanguages {
                 this.TryToAddSource(language, flavor, true);
                 this.AddToFlavorMapping(language.SystemLanguage, flavor.Id);
             } catch (Exception ex) {
-                this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                       LoggingConstants.FailedTo,
-                                                       [nameof(Load), ex, language]);
+                this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                      LoggingConstants.FailedTo,
+                                                      [nameof(Load), ex, language]);
             }
         }
     }
@@ -157,16 +156,16 @@ public class MyLanguages {
                             this.TryToAddSource(language, translationFile);
                         }
                     } catch (Exception ex) {
-                        this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                               LoggingConstants.FailedTo,
-                                                               [nameof(ReLoad), ex, localeId, language, translationFile]);
+                        this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                              LoggingConstants.FailedTo,
+                                                              [nameof(ReLoad), ex, localeId, language, translationFile]);
                     }
                 }
             }
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(ReLoad), ex]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(ReLoad), ex]);
         }
     }
 
@@ -195,9 +194,9 @@ public class MyLanguages {
                 this.TryToAddSource(language, flavor);
             }
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(FlavorChanged), ex, language]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(FlavorChanged), ex, language]);
         }
     }
     private void TryToAddLocale(MyLanguage language) {
@@ -206,9 +205,9 @@ public class MyLanguages {
                                                         language.SystemLanguage,
                                                         language.Name);
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(TryToAddLocale), ex, language]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(TryToAddLocale), ex, language]);
             this.runtimeContainer.LocManager?.RemoveLocale(language.ID);
             throw;
         }
@@ -221,9 +220,9 @@ public class MyLanguages {
             this.runtimeContainer.LocManager?.AddSource(language.ID,
                                                         translationFile.Source);
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(TryToAddSource), ex, translationFile]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(TryToAddSource), ex, translationFile]);
             this.TryToRemoveSource(language, translationFile);
             if (reThrow) {
                 throw;
@@ -237,9 +236,9 @@ public class MyLanguages {
             this.runtimeContainer.LocManager?.RemoveSource(language.ID,
                                                            translationFile.Source);
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(TryToRemoveSource), ex, translationFile]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(TryToRemoveSource), ex, translationFile]);
         }
     }
     private void AddToFlavorMapping(SystemLanguage systemLanguage,
@@ -265,16 +264,16 @@ public class MyLanguages {
                 markdownBuilder.AppendLine();
                 markdownBuilder.AppendLine();
             }
-            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
-                                                  "languages markdown:",
-                                                  [markdownBuilder]);
-            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
-                                                  "culture-infos:",
-                                                  [cultureInfoBuilder]);
+            this.runtimeContainer.Logger.LogInfo(this.GetType(),
+                                                 "languages markdown:",
+                                                 [markdownBuilder]);
+            this.runtimeContainer.Logger.LogInfo(this.GetType(),
+                                                 "culture-infos:",
+                                                 [cultureInfoBuilder]);
         } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(LogMarkdownAndCultureInfoNames), ex]);
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(LogMarkdownAndCultureInfoNames), ex]);
         }
     }
 }

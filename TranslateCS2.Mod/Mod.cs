@@ -8,6 +8,7 @@ using Game.Modding;
 using Game.SceneFlow;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Loggers;
@@ -21,9 +22,10 @@ public class Mod : IMod {
     public Mod() { }
     public void OnLoad(UpdateSystem updateSystem) {
         try {
-            Logger.LogInfo(this.GetType(), nameof(OnLoad));
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out ExecutableAsset asset)) {
-                ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(GameManager.instance, Logger);
+                IMyLogProvider logProvider = new ModLogProvider(Logger);
+                ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(GameManager.instance, logProvider);
+                runtimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
                 ModRuntimeContainerHandler.Init(runtimeContainer);
                 this.runtimeContainerHandler = ModRuntimeContainerHandler.Instance;
                 MyLanguages languages = runtimeContainer.Languages;
@@ -54,19 +56,20 @@ public class Mod : IMod {
                 this.modSettings.HandleLocaleOnLoad();
             }
         } catch (Exception ex) {
-            Logger.LogCritical(this.GetType(),
-                               LoggingConstants.StrangerThings,
-                               [ex]);
+            // user LogManagers Logger
+            // runtimeContainerHandler might not be initialized
+            Logger.Critical(ex);
         }
     }
 
     public void OnDispose() {
+        IMyLogger logger = this.runtimeContainerHandler.RuntimeContainer.Logger;
         try {
-            Logger.LogInfo(this.GetType(), nameof(OnDispose));
+            logger.LogInfo(this.GetType(), nameof(OnDispose));
             this.modSettings?.UnregisterInOptionsUI();
             this.modSettings?.HandleLocaleOnUnLoad();
         } catch (Exception ex) {
-            Logger.LogCritical(this.GetType(),
+            logger.LogCritical(this.GetType(),
                                LoggingConstants.StrangerThingsDispose,
                                [ex]);
         }

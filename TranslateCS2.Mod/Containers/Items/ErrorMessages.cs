@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Text;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers.Items;
 public class ErrorMessages {
@@ -35,7 +34,7 @@ public class ErrorMessages {
         } else {
             builder.AppendLine($"you should be able to continue with the caveat that the affected translations will use the fallback-language '{this.runtimeContainer?.LocManager?.fallbackLocaleId}'");
         }
-        this.SwitchAndDisplay(builder);
+        this.runtimeContainer.Logger.DisplayError(builder);
         this.runtimeContainer.Logger?.LogError(typeof(ErrorMessages), builder.ToString());
     }
     public void DisplayErrorMessageFailedToGenerateJson() {
@@ -46,11 +45,6 @@ public class ErrorMessages {
         builder.AppendLine($"into");
         builder.AppendLine($"'{this.runtimeContainer.Paths.UserDataPath}'");
         builder.AppendLine("you should be able to continue");
-        this.SwitchAndDisplay(builder);
-    }
-    private void SwitchAndDisplay(object obj) {
-        this.runtimeContainer.Logger?.SetShowsErrorsInUI(true);
-        this.runtimeContainer.Logger?.Error(obj);
-        this.runtimeContainer.Logger?.SetShowsErrorsInUI(false);
+        this.runtimeContainer.Logger.DisplayError(builder);
     }
 }
