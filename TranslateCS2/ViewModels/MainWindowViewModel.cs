@@ -17,7 +17,7 @@ internal class MainWindowViewModel {
     }
 
     private void WindowClosingCommandAction(CancelEventArgs args) {
-        if (this.appCloseBrokers == null) {
+        if (this.appCloseBrokers is null) {
             return;
         }
         foreach (IAppCloseBroker appCloseBroker in this.appCloseBrokers.Items) {

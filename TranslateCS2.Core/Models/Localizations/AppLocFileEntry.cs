@@ -25,7 +25,7 @@ internal class AppLocFileEntry : MyLocalizationEntry, IAppLocFileEntry {
         this.IsDeleteAble = isDeleteAble;
     }
     public void AddKey(string keyParameter) {
-        if (keyParameter == null) {
+        if (keyParameter is null) {
             return;
         }
         string key =
@@ -37,11 +37,11 @@ internal class AppLocFileEntry : MyLocalizationEntry, IAppLocFileEntry {
     }
 
     public IAppLocFileEntry Clone() {
-        AppLocFileEntry copy = new AppLocFileEntry(this.Key.Key,
-                                                   this.Value,
-                                                   this.ValueMerge,
-                                                   this.Translation,
-                                                   this.IsDeleteAble);
+        IAppLocFileEntry copy = AppLocFileEntryFactory.Create(this.Key.Key,
+                                                              this.Value,
+                                                              this.ValueMerge,
+                                                              this.Translation,
+                                                              this.IsDeleteAble);
         foreach (string key in this.Keys) {
             copy.AddKey(key);
         }

@@ -65,11 +65,11 @@ public class MyLanguages {
                 string localeIdPre = this.runtimeContainer.Paths.ExtractLocaleIdFromPath(translationFilePath);
                 string localeId = this.runtimeContainer.Locales.CorrectLocaleId(localeIdPre);
                 MyLanguage? language = this.GetLanguage(localeId);
-                if (language == null) {
+                if (language is null) {
                     continue;
                 }
                 CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
-                if (cultureInfo == null) {
+                if (cultureInfo is null) {
                     this.runtimeContainer.Logger?.LogError(this.GetType(),
                                                            LoggingConstants.NoCultureInfo,
                                                            [translationFilePath, localeId, language]);
@@ -86,7 +86,7 @@ public class MyLanguages {
                 TranslationFileSource source = new TranslationFileSource(this.runtimeContainer, language, translationFilePath);
                 source.Load();
                 TranslationFile translationFile = new TranslationFile(localeId,
-                                                                      null,
+                                                                      cultureInfo.EnglishName,
                                                                       localeName,
                                                                       source);
                 if (!translationFile.IsOK) {
@@ -153,7 +153,7 @@ public class MyLanguages {
                         if (!translationFile.IsOK || !reInitialized) {
                             this.Erroneous.Add(translationFile);
                         }
-                        if (localeId == translationFile.Id) {
+                        if (localeId.Equals(translationFile.Id, StringComparison.OrdinalIgnoreCase)) {
                             this.TryToAddSource(language, translationFile);
                         }
                     } catch (Exception ex) {
@@ -184,7 +184,7 @@ public class MyLanguages {
                               string localeId) {
         try {
             this.AddToFlavorMapping(systemLanguage, localeId);
-            if (language == null) {
+            if (language is null) {
                 return;
             }
             foreach (TranslationFile flavor in language.Flavors) {

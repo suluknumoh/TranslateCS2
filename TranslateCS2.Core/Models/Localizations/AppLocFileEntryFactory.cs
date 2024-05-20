@@ -13,10 +13,10 @@ public static class AppLocFileEntryFactory {
     }
 
     public static IAppLocFileEntry CreateEmpty() {
-        return new AppLocFileEntry(null,
-                                   null,
-                                   null,
-                                   null,
-                                   true);
+        return AppLocFileEntryFactory.Create(null,
+                                             null,
+                                             null,
+                                             null,
+                                             true);
     }
 }

@@ -106,18 +106,37 @@ internal partial class ModSettings {
 
     private bool IsHidden(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase)));
+        return
+            language is null
+            ||
+            (
+                language != null
+                &&
+                (
+                    !language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase)
+                )
+            );
     }
 
     private bool IsDisabled(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        return language == null || (language != null && (!language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase) || !language.HasFlavors));
+        return
+            language is null
+            ||
+            (
+                language != null
+                &&
+                (
+                    !language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase)
+                    || !language.HasFlavors
+                )
+            );
     }
 
     private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter, bool invoke) {
         string localeId = localeIdParameter;
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        if (language == null) {
+        if (language is null) {
             // if localeId is none: language has no flavor with such a locale id
             localeId = DropDownItems.None;
         } else {
@@ -126,7 +145,7 @@ internal partial class ModSettings {
                 localeId = DropDownItems.None;
             }
             if (!language.IsBuiltIn
-                && localeId == DropDownItems.None
+                && DropDownItems.None.Equals(localeId, StringComparison.OrdinalIgnoreCase)
                 && language.HasFlavors) {
                 // non built-in languages should be pre initialized with their first flavor
                 localeId = language.Flavors.First().Id;

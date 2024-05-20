@@ -83,7 +83,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     }
 
     public CultureInfo? GetCultureInfo(string localeId) {
-        IEnumerable<CultureInfo> matches = this.CultureInfos.Where(item => item.Name.ToLower() == localeId.ToLower());
+        IEnumerable<CultureInfo> matches = this.CultureInfos.Where(item => item.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (matches.Any()) {
             return matches.First();
         }
@@ -93,8 +93,8 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
         foreach (TranslationFile translationFile in this.Flavors) {
-            if (translationFile.Id == null
-                || translationFile.Name == null) {
+            if (translationFile.Id is null
+                || translationFile.Name is null) {
                 continue;
             }
             string displayName = translationFile.Name;

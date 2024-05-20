@@ -2,17 +2,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
-internal class LocFileService : IAppLocaFileService {
-    private readonly bool skipWorkAround = AppConfigurationManager.SkipWorkAround;
+internal class AppLocFileService : IAppLocaFileService {
     private readonly InstallPathDetector installPathDetector;
 
-    public LocFileService(InstallPathDetector installPathDetector) {
+    public AppLocFileService(InstallPathDetector installPathDetector) {
         this.installPathDetector = installPathDetector;
     }
     public IEnumerable<FileInfo> GetLocalizationFiles() {
@@ -22,10 +20,11 @@ internal class LocFileService : IAppLocaFileService {
         return loc.EnumerateFiles(ModConstants.LocSearchPattern);
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
+    /// <seealso cref="Colossal.IO.AssetDatabase.LocaleAsset.Load">
     public AppLocFile GetLocalizationFile(FileInfo fileInfo) {
         using Stream stream = File.OpenRead(fileInfo.FullName);
         BinaryReader reader = new BinaryReader(stream, Encoding.UTF8);
-        short fileHeader = reader.ReadInt16();
+        uint fileHeader = reader.ReadUInt16();
         string nameEnglish = reader.ReadString();
         string id = reader.ReadString();
         string name = reader.ReadString();

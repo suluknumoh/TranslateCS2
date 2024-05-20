@@ -54,12 +54,4 @@ public abstract class AMyLocalization<S, L, E> : IEquatable<AMyLocalization<S, L
         hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.NameEnglish);
         return hashCode;
     }
-
-    public static bool operator ==(AMyLocalization<S, L, E>? left, AMyLocalization<S, L, E>? right) {
-        return EqualityComparer<AMyLocalization<S, L, E>>.Default.Equals(left, right);
-    }
-
-    public static bool operator !=(AMyLocalization<S, L, E>? left, AMyLocalization<S, L, E>? right) {
-        return !(left == right);
-    }
 }

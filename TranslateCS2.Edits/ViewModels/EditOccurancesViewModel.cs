@@ -59,8 +59,8 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     protected override void RefreshViewList() {
         this.Mapping.Clear();
         this.entries.Clear();
-        if (this.CurrentSession == null
-            || this.CurrentSession.Localizations == null) {
+        if (this.CurrentSession is null
+            || this.CurrentSession.Localizations is null) {
             return;
         }
         IEnumerable<IGrouping<string, IAppLocFileEntry>> groups =
@@ -107,8 +107,16 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
     }
     private void SetNewValue(string? translation, IAppLocFileEntry edited) {
         foreach (IAppLocFileEntry entry in this.entries) {
-            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key) && entry.Key == edited.Key)
-                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
+            if ((
+                    !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key)
+                    && entry.Key.Key == edited.Key.Key
+                )
+                ||
+                (
+                    !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)
+                    && entry.Value == edited.Value
+                )
+            ) {
                 entry.Translation = translation;
             }
         }

@@ -12,7 +12,7 @@ internal class AppCloseBrokers : IAppCloseBrokers {
     public IImmutableList<IAppCloseBroker> Items => this.CloseBrokers.ToImmutableArray();
     private AppCloseBrokers() { }
     public static AppCloseBrokers GetInstance() {
-        if (instance == null) {
+        if (instance is null) {
             semaphoreSlim.Wait();
             instance ??= new AppCloseBrokers();
             semaphoreSlim.Release();

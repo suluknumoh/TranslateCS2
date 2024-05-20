@@ -133,7 +133,7 @@ internal class ModSettingsLocale : IDictionarySource {
     }
     private string GetLanguageName(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        if (language == null) {
+        if (language is null) {
             return systemLanguage.ToString();
         }
         return language.NameEnglish;

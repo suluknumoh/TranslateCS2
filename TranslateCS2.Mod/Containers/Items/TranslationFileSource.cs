@@ -12,7 +12,7 @@ using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers.Items;
-internal class TranslationFileSource : IMyLocalizationSource<IDictionary<string, string>, string>, IDictionarySource {
+public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, string>, string>, IDictionarySource {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
     public IDictionary<string, string> Localizations { get; } = new Dictionary<string, string>();
@@ -25,12 +25,13 @@ internal class TranslationFileSource : IMyLocalizationSource<IDictionary<string,
         this.language = language;
         this.Path = path;
     }
-    internal bool Load() {
+    public bool Load() {
         try {
             string json = File.ReadAllText(this.Path, Encoding.UTF8);
             IDictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             if (temporary != null) {
                 temporary = DictionaryHelper.GetNonEmpty(temporary);
+                this.Localizations.Clear();
                 DictionaryHelper.AddAll(temporary, this.Localizations);
                 return true;
             }

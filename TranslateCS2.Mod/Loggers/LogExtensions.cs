@@ -58,7 +58,7 @@ internal static class LogExtensions {
         messageBuilder.AppendLine(message);
         if (messageParameters != null) {
             foreach (object? parameter in messageParameters) {
-                if (parameter == null) {
+                if (parameter is null) {
                     continue;
                 }
                 messageBuilder.AppendLine(parameter.ToString());

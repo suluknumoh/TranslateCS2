@@ -9,7 +9,7 @@ public static class CultureInfoHelper {
         return CultureInfo.GetCultures(CultureTypes.AllCultures).Where(item => LocalesSupported.IsLocaleIdSupported(item.Name));
     }
     public static IEnumerable<CultureInfo>? GatherCulturesFromEnglishName(string? englishName) {
-        if (englishName == null) {
+        if (englishName is null) {
             return null;
         }
         // mscorlib used by co supports less cultureinfos

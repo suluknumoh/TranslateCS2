@@ -151,7 +151,7 @@ internal class ExportControlContext : ABaseViewModel {
 
 
     private void OnChange() {
-        if (this.SelectedExportFormat == null) {
+        if (this.SelectedExportFormat is null) {
             return;
         }
         switch (this.SelectedExportFormat.Format) {

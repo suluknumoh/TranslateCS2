@@ -86,8 +86,8 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
 
     protected override void RefreshViewList() {
         this.Mapping.Clear();
-        if (this.CurrentSession == null
-            || this.CurrentSession.Localizations == null) {
+        if (this.CurrentSession is null
+            || this.CurrentSession.Localizations is null) {
             return;
         }
         foreach (KeyValuePair<string, IAppLocFileEntry> entry in this.CurrentSession.Localizations) {

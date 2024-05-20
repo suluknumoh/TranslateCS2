@@ -102,12 +102,4 @@ internal class TranslationSession : BindableBase, ITranslationSession, IEquatabl
         this.LocName = session.LocName;
         this.DisplayName = session.DisplayName;
     }
-
-    public static bool operator ==(TranslationSession? left, TranslationSession? right) {
-        return EqualityComparer<TranslationSession>.Default.Equals(left, right);
-    }
-
-    public static bool operator !=(TranslationSession? left, TranslationSession? right) {
-        return !(left == right);
-    }
 }

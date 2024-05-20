@@ -93,7 +93,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         foreach (ITranslationSession translationSession in this.TranslationSessions) {
             translationSession.Localizations.Clear();
         }
-        if (this.CurrentTranslationSession == null) {
+        if (this.CurrentTranslationSession is null) {
             return;
         }
         foreach (KeyValuePair<string, IAppLocFileEntry> item in this.BaseLocalizationFile.Source.Localizations) {
@@ -119,7 +119,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public void Insert(ITranslationSession? session) {
-        if (session == null) {
+        if (session is null) {
             return;
         }
         this.db.UpsertTranslationSession(session, this.onError);
@@ -129,7 +129,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public void Update(ITranslationSession? session) {
-        if (session == null) {
+        if (session is null) {
             return;
         }
         this.db.UpsertTranslationSession(session, this.onError);
@@ -139,7 +139,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public void Delete(ITranslationSession? session) {
-        if (session == null) {
+        if (session is null) {
             return;
         }
         this.db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_DELETE_SESSION);
@@ -178,7 +178,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     }
 
     public IndexCountHelperValidationResult IsIndexKeyValid(string key, string? keyOrigin) {
-        ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> localizationDictionary = this.CurrentTranslationSession.Localizations;
+        ICollection<KeyValuePair<string, IAppLocFileEntry>> localizationDictionary = this.CurrentTranslationSession.Localizations;
         return IndexCountHelper.ValidateForKey(localizationDictionary, key);
     }
 

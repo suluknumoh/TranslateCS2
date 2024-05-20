@@ -4,7 +4,7 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
-internal class TranslationFile : AMyLocalization<TranslationFileSource, IDictionary<string, string>, string> {
+public class TranslationFile : AMyLocalization<TranslationFileSource, IDictionary<string, string>, string> {
     private readonly string name;
     public override string Name { get; }
     public TranslationFile(string id,

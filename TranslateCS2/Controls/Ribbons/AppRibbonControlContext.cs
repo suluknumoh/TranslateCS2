@@ -44,7 +44,7 @@ internal class AppRibbonControlContext : BindableBase {
         if (routedEventArgs.Source is RibbonToggleButton clickedButton) {
             string? target = null;
             foreach (IViewConfiguration viewConfiguration in this.viewConfigurations.ViewConfigurationList) {
-                if (viewConfiguration.NavToggleButton == null) {
+                if (viewConfiguration.NavToggleButton is null) {
                     continue;
                 }
                 viewConfiguration.NavToggleButton.IsChecked = clickedButton.Equals(viewConfiguration.NavToggleButton);

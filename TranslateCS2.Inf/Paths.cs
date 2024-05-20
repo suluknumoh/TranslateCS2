@@ -14,7 +14,7 @@ public class Paths {
                  string streamingDataPath,
                  string? userDataPath = null) {
         // paths have to end with a forwardslash!
-        if (streamingDataPath == null) {
+        if (streamingDataPath is null) {
             throw new ArgumentNullException(nameof(streamingDataPath));
         }
         this.StreamingDataPath = streamingDataPath;
@@ -48,13 +48,13 @@ public class Paths {
                 .Replace(ModConstants.JsonExtension, String.Empty);
     }
     public static string? NormalizeUnix(string path) {
-        if (path == null) {
+        if (path is null) {
             return path;
         }
         return path.Replace(backSlash, forwardSlash);
     }
     public static string? NormalizeWindows(string? path) {
-        if (path == null) {
+        if (path is null) {
             return path;
         }
         return path.Replace(forwardSlash, backSlash);

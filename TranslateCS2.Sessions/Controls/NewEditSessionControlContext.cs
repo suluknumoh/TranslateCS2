@@ -157,10 +157,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     private void LocaleENChangedAction(SelectionChangedEventArgs args) {
-        if (this.Session == null) {
+        if (this.Session is null) {
             return;
         }
-        if (args.AddedItems == null || args.AddedItems.Count == 0) {
+        if (args.AddedItems is null || args.AddedItems.Count == 0) {
             return;
         }
         if (args.AddedItems[0] is CultureInfo cultureInfo) {
@@ -168,10 +168,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         }
     }
     private void LocaleNativeChangedAction(SelectionChangedEventArgs args) {
-        if (this.Session == null) {
+        if (this.Session is null) {
             return;
         }
-        if (args.AddedItems == null || args.AddedItems.Count == 0) {
+        if (args.AddedItems is null || args.AddedItems.Count == 0) {
             return;
         }
         if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Session.LocNameEnglish)

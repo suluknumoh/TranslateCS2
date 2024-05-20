@@ -9,9 +9,9 @@ public class ModRuntimeContainerHandler {
         this.RuntimeContainer = runtimeContainer;
     }
     public static void Init(IModRuntimeContainer runtimeContainer) {
-        if (Instance == null) {
-            semaphoreSlim.Wait();
+        if (Instance is null) {
             try {
+                semaphoreSlim.Wait();
                 Instance ??= new ModRuntimeContainerHandler(runtimeContainer);
             } finally {
                 semaphoreSlim.Release();

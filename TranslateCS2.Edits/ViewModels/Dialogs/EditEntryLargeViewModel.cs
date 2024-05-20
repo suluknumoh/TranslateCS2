@@ -133,7 +133,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                 break;
         }
         this.IsEnabled = !this.IsEnabled;
-        if (result == null) {
+        if (result is null) {
             this.ActionText = I18NEdits.MessageSomethingWentWrong;
             this.ActionTextColor = Brushes.DarkRed;
             return;
@@ -159,7 +159,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void DeleteCommandAction() {
-        if (this.Entry == null) {
+        if (this.Entry is null) {
             return;
         }
         if (!this.Entry.IsDeleteAble) {
@@ -179,7 +179,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void CancelCommandAction() {
-        if (this.Entry == null) {
+        if (this.Entry is null) {
             return;
         }
         if (this.IsCancelInterruptable()) {
