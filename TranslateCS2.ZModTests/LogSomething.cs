@@ -1,7 +1,7 @@
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.ZZZTestLib;
 
-namespace TranslateCS2.ZModDevHelper;
+namespace TranslateCS2.ZModTests;
 public class LogSomething {
     [Fact]
     public void LogTest() {
