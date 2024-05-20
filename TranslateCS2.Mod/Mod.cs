@@ -11,7 +11,6 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod;
@@ -23,11 +22,10 @@ public class Mod : IMod {
     public void OnLoad(UpdateSystem updateSystem) {
         try {
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out ExecutableAsset asset)) {
-                IMyLogProvider logProvider = new ModLogProvider(Logger);
-                ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(GameManager.instance, logProvider);
-                runtimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
-                ModRuntimeContainerHandler.Init(runtimeContainer);
+                ModRuntimeContainerHandler.Init(Logger, GameManager.instance);
                 this.runtimeContainerHandler = ModRuntimeContainerHandler.Instance;
+                IModRuntimeContainer runtimeContainer = this.runtimeContainerHandler.RuntimeContainer;
+                runtimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
                 MyLanguages languages = runtimeContainer.Languages;
                 //
                 //
@@ -58,20 +56,20 @@ public class Mod : IMod {
         } catch (Exception ex) {
             // user LogManagers Logger
             // runtimeContainerHandler might not be initialized
-            Logger.Critical(ex);
+            Logger.Critical(ex, nameof(OnLoad));
         }
     }
 
     public void OnDispose() {
-        IMyLogger logger = this.runtimeContainerHandler.RuntimeContainer.Logger;
         try {
+            IMyLogger logger = this.runtimeContainerHandler.RuntimeContainer.Logger;
             logger.LogInfo(this.GetType(), nameof(OnDispose));
             this.modSettings?.UnregisterInOptionsUI();
             this.modSettings?.HandleLocaleOnUnLoad();
         } catch (Exception ex) {
-            logger.LogCritical(this.GetType(),
-                               LoggingConstants.StrangerThingsDispose,
-                               [ex]);
+            // user LogManagers Logger
+            // runtimeContainerHandler might not be initialized
+            Logger.Critical(ex, nameof(OnDispose));
         }
     }
 }
