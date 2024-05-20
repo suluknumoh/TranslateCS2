@@ -27,7 +27,9 @@ public static class TestLogger {
     /// <returns>
     ///     an <see cref="IMyLogProvider"/> to use with <see cref="IMyLogger"/>
     /// </returns>
-    public static IMyLogProvider GetTestLogProvider<T>([CallerMemberName] string callerMemberName = "") {
+    public static IMyLogProvider GetTestLogProvider<T>([CallerMemberName] string callerMemberName = "TestMethod") {
+        // parameter callerMemberName has to be preinitialized with TestMethod,
+        // just for the case something goes wrong with the CallerMemberNameAttribute
         Microsoft.Extensions.Logging.ILogger<T> logger = TestLoggerInternal.GetLogger<T>(callerMemberName: callerMemberName);
         return new TestLogProvider<T>(logger);
 

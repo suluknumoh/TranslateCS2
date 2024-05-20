@@ -25,7 +25,7 @@ internal static class TestLoggerInternal {
         NEW_TEST_RUN_INDICATOR = builder.ToString();
     }
     internal static ILogger<T> GetLogger<T>(LogEventLevel logEventLevel = LogEventLevel.Verbose,
-                                                                         [CallerMemberName] string callerMemberName = "TestMethod") {
+                                            [CallerMemberName] string callerMemberName = "TestMethod") {
         Serilog.ILogger logger = GetSerilogLogger<T>(typeof(T).Name,
                                                      callerMemberName,
                                                      logEventLevel);
@@ -38,16 +38,16 @@ internal static class TestLoggerInternal {
                                                        string callerMemberName,
                                                        LogEventLevel logEventLevel) {
         LoggerConfiguration loggerConfiguration = GetConfiguration(typeName,
-                                                                           callerMemberName,
-                                                                           logEventLevel);
+                                                                   callerMemberName,
+                                                                   logEventLevel);
         Serilog.ILogger logger = loggerConfiguration.CreateLogger().ForContext<T>();
         logger.Information(NEW_TEST_RUN_INDICATOR);
         return logger;
     }
 
     private static LoggerConfiguration GetConfiguration(string typeName,
-                                                                string callerMemberName,
-                                                                LogEventLevel logEventLevel) {
+                                                        string callerMemberName,
+                                                        LogEventLevel logEventLevel) {
         LoggerConfiguration loggerConfiguration = new LoggerConfiguration();
         loggerConfiguration.MinimumLevel.Verbose();
         string path = $"../../Logs/{typeName}/";
