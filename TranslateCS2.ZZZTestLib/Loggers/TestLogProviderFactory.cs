@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 
 using TranslateCS2.Inf.Loggers;
 
-namespace TranslateCS2.ZZZTestLib;
-public static class TestLogger {
+namespace TranslateCS2.ZZZTestLib.Loggers;
+public static class TestLogProviderFactory {
     /// <summary>
     ///     creates a subdirectory named "Logs"
     ///     <br/>
@@ -25,9 +25,9 @@ public static class TestLogger {
     ///     leave this parameter
     /// </param>
     /// <returns>
-    ///     an <see cref="IMyLogProvider"/> to use with <see cref="IMyLogger"/>
+    ///     an <see cref="ITestLogProvider"/> to use with <see cref="IMyLogger"/>
     /// </returns>
-    public static IMyLogProvider GetTestLogProvider<T>([CallerMemberName] string callerMemberName = "TestMethod") {
+    public static ITestLogProvider GetTestLogProvider<T>([CallerMemberName] string callerMemberName = "TestMethod") {
         // parameter callerMemberName has to be preinitialized with TestMethod,
         // just for the case something goes wrong with the CallerMemberNameAttribute
         Microsoft.Extensions.Logging.ILogger<T> logger = TestLoggerInternal.GetLogger<T>(callerMemberName: callerMemberName);

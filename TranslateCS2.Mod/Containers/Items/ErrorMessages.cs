@@ -32,10 +32,10 @@ public class ErrorMessages {
         if (missing) {
             builder.AppendLine($"you should be able to continue with the caveat that the previous loaded translations will be used");
         } else {
-            builder.AppendLine($"you should be able to continue with the caveat that the affected translations will use the fallback-language '{this.runtimeContainer?.LocManager?.fallbackLocaleId}'");
+            builder.AppendLine($"you should be able to continue with the caveat that the affected translations will use the fallback-language '{this.runtimeContainer.LocManager.FallbackLocaleId}'");
         }
         this.runtimeContainer.Logger.DisplayError(builder);
-        this.runtimeContainer.Logger?.LogError(typeof(ErrorMessages), builder.ToString());
+        this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
     }
     public void DisplayErrorMessageFailedToGenerateJson() {
         StringBuilder builder = new StringBuilder();

@@ -16,7 +16,7 @@ using TranslateCS2.Mod.Models;
 namespace TranslateCS2.Mod;
 public class Mod : IMod {
     private static readonly ILog Logger = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
-    private ModRuntimeContainerHandler runtimeContainerHandler;
+    private ModRuntimeContainerHandler? runtimeContainerHandler;
     private ModSettings? modSettings;
     public Mod() { }
     public void OnLoad(UpdateSystem updateSystem) {
@@ -49,8 +49,8 @@ public class Mod : IMod {
                 this.modSettings.RegisterInOptionsUI();
                 // settings have to be loaded after files are read and loaded
                 AssetDatabase.global.LoadSettings(ModConstants.Name, this.modSettings);
-                runtimeContainer.LocManager?.AddSource(runtimeContainer.LocManager.fallbackLocaleId,
-                                                       modSettingsLocale);
+                runtimeContainer.LocManager.AddSource(runtimeContainer.LocManager.FallbackLocaleId,
+                                                      modSettingsLocale);
                 this.modSettings.HandleLocaleOnLoad();
             }
         } catch (Exception ex) {
@@ -62,8 +62,8 @@ public class Mod : IMod {
 
     public void OnDispose() {
         try {
-            IMyLogger logger = this.runtimeContainerHandler.RuntimeContainer.Logger;
-            logger.LogInfo(this.GetType(), nameof(OnDispose));
+            IMyLogger? logger = this.runtimeContainerHandler?.RuntimeContainer.Logger;
+            logger?.LogInfo(this.GetType(), nameof(OnDispose));
             this.modSettings?.UnregisterInOptionsUI();
             this.modSettings?.HandleLocaleOnUnLoad();
         } catch (Exception ex) {

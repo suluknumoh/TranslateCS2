@@ -82,7 +82,9 @@ public class MyLanguages {
                         localeName += $" ({LangConstants.Cyrillic})";
                     }
                 }
-                TranslationFileSource source = new TranslationFileSource(this.runtimeContainer, language, translationFilePath);
+                TranslationFileSource source = new TranslationFileSource(this.runtimeContainer,
+                                                                         language,
+                                                                         translationFilePath);
                 source.Load();
                 TranslationFile translationFile = new TranslationFile(localeId,
                                                                       cultureInfo.EnglishName,
@@ -201,14 +203,14 @@ public class MyLanguages {
     }
     private void TryToAddLocale(MyLanguage language) {
         try {
-            this.runtimeContainer.LocManager?.AddLocale(language.ID,
-                                                        language.SystemLanguage,
-                                                        language.Name);
+            this.runtimeContainer.LocManager.AddLocale(language.ID,
+                                                       language.SystemLanguage,
+                                                       language.Name);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
                                                   [nameof(TryToAddLocale), ex, language]);
-            this.runtimeContainer.LocManager?.RemoveLocale(language.ID);
+            this.runtimeContainer.LocManager.RemoveLocale(language.ID);
             throw;
         }
     }
@@ -217,8 +219,8 @@ public class MyLanguages {
                                 bool reThrow = false) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            this.runtimeContainer.LocManager?.AddSource(language.ID,
-                                                        translationFile.Source);
+            this.runtimeContainer.LocManager.AddSource(language.ID,
+                                                       translationFile.Source);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
@@ -233,8 +235,8 @@ public class MyLanguages {
                                    TranslationFile translationFile) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            this.runtimeContainer.LocManager?.RemoveSource(language.ID,
-                                                           translationFile.Source);
+            this.runtimeContainer.LocManager.RemoveSource(language.ID,
+                                                          translationFile.Source);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,

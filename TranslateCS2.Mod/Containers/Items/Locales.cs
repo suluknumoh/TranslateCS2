@@ -125,7 +125,7 @@ public class Locales {
         if (isBuiltIn) {
             return this.GetIndexCountsP(localeId);
         }
-        return this.GetIndexCountsP(this.runtimeContainer.LocManager.fallbackLocaleId);
+        return this.GetIndexCountsP(this.runtimeContainer.LocManager.FallbackLocaleId);
     }
     /// <summary>
     ///     never ever change content!!!

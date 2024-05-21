@@ -113,7 +113,7 @@ internal partial class ModSettings {
                 language != null
                 &&
                 (
-                    !language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase)
+                    !language.ID.Equals(this.runtimeContainer.IntSettings.CurrentLocale, StringComparison.OrdinalIgnoreCase)
                 )
             );
     }
@@ -127,7 +127,7 @@ internal partial class ModSettings {
                 language != null
                 &&
                 (
-                    !language.ID.Equals(this.runtimeContainer.IntSetting.currentLocale, StringComparison.OrdinalIgnoreCase)
+                    !language.ID.Equals(this.runtimeContainer.IntSettings.CurrentLocale, StringComparison.OrdinalIgnoreCase)
                     || !language.HasFlavors
                 )
             );

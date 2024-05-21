@@ -2,8 +2,8 @@ using System.IO;
 using System.Text;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Inf.Loggers;
-using TranslateCS2.ZZZTestLib;
+using TranslateCS2.ZZZModTestLib.Containers;
+using TranslateCS2.ZZZTestLib.Loggers;
 
 
 namespace TranslateCS2.ZModDevHelper;
@@ -14,7 +14,7 @@ public class HelpMeWithSupportedLanguages {
     [Fact(Skip = "dont help me each time")]
     //[Fact()]
     public void GenerateJsons() {
-        IMyLogProvider logProvider = TestLogger.GetTestLogProvider<HelpMeWithSupportedLanguages>();
+        ITestLogProvider logProvider = TestLogProviderFactory.GetTestLogProvider<HelpMeWithSupportedLanguages>();
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(logProvider);
         string directoryPath = runtimeContainer.Paths.TryToGetModsPath();
         foreach (string supportedLocale in LocalesSupported.Lowered) {

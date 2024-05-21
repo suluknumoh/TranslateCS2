@@ -1,10 +1,14 @@
 using System.Threading;
 
 using Colossal.Logging;
+using Colossal.PSI.Environment;
 
 using Game.SceneFlow;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
+using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers;
@@ -21,7 +25,15 @@ internal class ModRuntimeContainerHandler {
                 semaphoreSlim.Wait();
                 if (Instance is null) {
                     IMyLogProvider logProvider = new ModLogProvider(logger);
-                    ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(gameManager, logProvider);
+                    Paths paths = new Paths(true,
+                                            EnvPath.kStreamingDataPath,
+                                            EnvPath.kUserDataPath);
+                    ILocManager locManager = new LocManager(gameManager.localizationManager);
+                    IIntSettings intSettings = new IntSettings(gameManager.settings.userInterface);
+                    ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(logProvider,
+                                                                                   locManager,
+                                                                                   intSettings,
+                                                                                   paths);
                     Instance = new ModRuntimeContainerHandler(runtimeContainer);
                 }
             } finally {

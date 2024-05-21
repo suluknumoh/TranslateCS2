@@ -8,7 +8,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 
-namespace TranslateCS2.ZZZTestLib;
+namespace TranslateCS2.ZZZTestLib.Loggers;
 internal static class TestLoggerInternal {
     private static readonly string OUTPUT_TEMPLATE =
     "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}]  [{Level:u}]  {Message:lj}{NewLine}{Exception}{NewLine}";

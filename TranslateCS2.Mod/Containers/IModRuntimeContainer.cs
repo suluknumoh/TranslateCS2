@@ -1,15 +1,12 @@
-using Colossal.Localization;
-
-using Game.Settings;
-
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Interfaces;
 
 namespace TranslateCS2.Mod.Containers;
 public interface IModRuntimeContainer {
-    LocalizationManager? LocManager { get; }
-    InterfaceSettings? IntSetting { get; }
+    ILocManager LocManager { get; }
+    IIntSettings IntSettings { get; }
 
 
 

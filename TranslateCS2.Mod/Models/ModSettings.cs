@@ -15,7 +15,6 @@ using Newtonsoft.Json;
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Models;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
@@ -41,15 +40,17 @@ internal partial class ModSettings : ModSetting {
 
     [Include]
     [SettingsUIHidden]
-    public string? Locale { get; set; }
+    public string Locale { get; set; }
     [Include]
     [SettingsUIHidden]
-    public string? PreviousLocale { get; set; }
+    public string PreviousLocale { get; set; }
 
     public ModSettings(ModRuntimeContainerHandler runtimeContainerHandler, IMod mod) : base(mod) {
         this.runtimeContainerHandler = runtimeContainerHandler;
         this.runtimeContainer = runtimeContainerHandler.RuntimeContainer;
         this.languages = this.runtimeContainer.Languages;
+        this.Locale = this.runtimeContainer.IntSettings.Locale;
+        this.PreviousLocale = this.Locale;
         this.OnFlavorChanged += this.languages.FlavorChanged;
     }
 
@@ -64,10 +65,10 @@ internal partial class ModSettings : ModSetting {
 
     private void ReloadLangs() {
         try {
-            this.runtimeContainer.IntSetting.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            this.runtimeContainer.LocManager.SetActiveLocale(this.runtimeContainer.IntSetting.locale);
+            this.runtimeContainer.IntSettings.CurrentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+            this.runtimeContainer.LocManager.SetActiveLocale(this.runtimeContainer.IntSettings.Locale);
             this.languages.ReLoad();
-            this.runtimeContainer.IntSetting.currentLocale = this.Locale;
+            this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
             this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
             if (this.languages.HasErroneous) {
                 this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
@@ -135,13 +136,16 @@ internal partial class ModSettings : ModSetting {
     }
     public void HandleLocaleOnLoad() {
         try {
-            this.PreviousLocale = this.runtimeContainer.IntSetting.locale;
+            this.PreviousLocale = this.runtimeContainer.IntSettings.Locale;
+            if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Locale)) {
+                this.Locale = this.PreviousLocale;
+            }
             if (this.runtimeContainer.LocManager.SupportsLocale(this.Locale)) {
                 this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
-                this.runtimeContainer.IntSetting.currentLocale = this.Locale;
+                this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
                 this.OnLocaleChanged();
             }
-            this.runtimeContainer.IntSetting.onSettingsApplied += this.ApplyAndSaveAlso;
+            this.runtimeContainer.IntSettings.SubscribeOnSettingsApplied(this.ApplyAndSaveAlso);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,
@@ -151,14 +155,14 @@ internal partial class ModSettings : ModSetting {
     public void HandleLocaleOnUnLoad() {
         try {
             // dont replicate os lang into this mods settings
-            this.runtimeContainer.IntSetting.onSettingsApplied -= this.ApplyAndSaveAlso;
+            this.runtimeContainer.IntSettings.UnSubscribeOnSettingsApplied(this.ApplyAndSaveAlso);
             // reset to os-language, if the mod is not used next time the game starts
             if (this.Locale != null && this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
-                this.runtimeContainer.IntSetting.currentLocale = this.Locale;
+                this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
             } else {
-                this.runtimeContainer.IntSetting.currentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                this.runtimeContainer.IntSettings.CurrentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
             }
-            this.runtimeContainer.IntSetting.ApplyAndSave();
+            this.runtimeContainer.IntSettings.ApplyAndSave();
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,
