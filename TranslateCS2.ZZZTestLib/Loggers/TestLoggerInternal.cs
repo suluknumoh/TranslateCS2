@@ -57,6 +57,8 @@ internal static class TestLoggerInternal {
         path += $"{callerMemberName}.log";
         loggerConfiguration.WriteTo.File(path: path,
                                          restrictedToMinimumLevel: logEventLevel,
+                                         shared: true,
+                                         buffered: false,
                                          outputTemplate: OUTPUT_TEMPLATE);
         loggerConfiguration.Enrich.WithExceptionDetails();
         loggerConfiguration.Enrich.FromLogContext();
