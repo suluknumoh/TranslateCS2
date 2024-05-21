@@ -2,9 +2,9 @@ using Game.Settings;
 
 using TranslateCS2.Mod.Interfaces;
 
-namespace TranslateCS2.ZZZModTestLib.Containers.Items;
+namespace TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
 /// <summary>
-///     imitates <see cref="Game.Settings.InterfaceSettings"/>' behaviour for testing purposes
+///     imitates <see cref="InterfaceSettings"/>' behaviour for testing purposes
 /// </summary>
 public class TestIntSettings : IIntSettings {
     public string CurrentLocale {

@@ -1,5 +1,6 @@
 using System.Threading;
 
+using Colossal.IO.AssetDatabase;
 using Colossal.Logging;
 using Colossal.PSI.Environment;
 
@@ -7,7 +8,8 @@ using Game.SceneFlow;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
-using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Inf.Models.Localizations;
+using TranslateCS2.Mod.Containers.Items.Unitys;
 using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Loggers;
 
@@ -30,9 +32,11 @@ internal class ModRuntimeContainerHandler {
                                             EnvPath.kUserDataPath);
                     ILocManager locManager = new LocManager(gameManager.localizationManager);
                     IIntSettings intSettings = new IntSettings(gameManager.settings.userInterface);
+                    IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(AssetDatabase.global);
                     ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(logProvider,
                                                                                    locManager,
                                                                                    intSettings,
+                                                                                   indexCountsProvider,
                                                                                    paths);
                     Instance = new ModRuntimeContainerHandler(runtimeContainer);
                 }

@@ -15,7 +15,6 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
     public IDictionary<string, string> Localizations { get; } = new Dictionary<string, string>();
-    public IDictionary<string, int> Indices { get; } = new Dictionary<string, int>();
     public string Path { get; }
     public TranslationFileSource(IModRuntimeContainer runtimeContainer,
                                  MyLanguage language,
@@ -47,7 +46,11 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
         indexCountsToFill.Clear();
         // has to be added!!! if dictionary is null, fallback/builtin-language is used!!!
         // prefill with this languages index counts
-        this.language.AddIndexCounts(indexCountsToFill);
+        string localeId = this.language.ID;
+        if (!this.language.IsBuiltIn) {
+            localeId = this.runtimeContainer.LocManager.FallbackLocaleId;
+        }
+        this.runtimeContainer.IndexCountsProvider.AddIndexCounts(indexCountsToFill, localeId);
         if (this.Localizations is null) {
             return [];
         }

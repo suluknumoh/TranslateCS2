@@ -40,6 +40,7 @@
 
 
     <ItemGroup>
+        <Folder Include="Containers\Items\" />
         <Folder Include="Logs\**\" />
         <None Include="Logs\**\*.*" />
     </ItemGroup>

@@ -4,8 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-using Colossal.IO.AssetDatabase;
-
 using TranslateCS2.Inf;
 
 using UnityEngine;
@@ -111,37 +109,5 @@ public class Locales {
             cultureInfos.Add(culture);
             dictionary.Add(language, cultureInfos);
         }
-    }
-    /// <summary>
-    ///     never ever change content!!!
-    ///     <br/>
-    ///     <br/>
-    ///     returns a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
-    /// </summary>
-    internal IReadOnlyDictionary<string, int>? GetIndexCounts(string localeId, bool isBuiltIn) {
-        if (this.runtimeContainer.LocManager is null) {
-            return null;
-        }
-        if (isBuiltIn) {
-            return this.GetIndexCountsP(localeId);
-        }
-        return this.GetIndexCountsP(this.runtimeContainer.LocManager.FallbackLocaleId);
-    }
-    /// <summary>
-    ///     never ever change content!!!
-    ///     <br/>
-    ///     <br/>
-    ///     returns a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
-    /// </summary>
-    private IReadOnlyDictionary<string, int>? GetIndexCountsP(string localeId) {
-        IEnumerable<LocaleAsset> localeAssets =
-            AssetDatabase.global.GetAssets(default(SearchFilter<LocaleAsset>))
-                .Where(item => item.localeId.Equals(localeId, StringComparison.OrdinalIgnoreCase));
-        if (localeAssets.Any()) {
-            LocaleAsset asset = localeAssets.First();
-            LocaleData data = asset.data;
-            return data.indexCounts;
-        }
-        return null;
     }
 }

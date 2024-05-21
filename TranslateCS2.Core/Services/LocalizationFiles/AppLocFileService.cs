@@ -39,11 +39,13 @@ internal class AppLocFileService : IAppLocaFileService {
     }
 
     private static void ReadLocalizationFilesIndices(BinaryReader reader, AppLocFileSource source) {
+        // INFO: currently not needed, so no need to read them
+        return;
         int indexCount = reader.ReadInt32();
         for (int i = 0; i < indexCount; i++) {
             string key = reader.ReadString();
             int val = reader.ReadInt32();
-            source.Indices.Add(new KeyValuePair<string, int>(key, val));
+            //source.IndexCounts.Add(new KeyValuePair<string, int>(key, val));
         }
     }
 

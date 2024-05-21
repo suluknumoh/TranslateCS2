@@ -7,7 +7,7 @@ using TranslateCS2.Mod.Interfaces;
 
 using UnityEngine;
 
-namespace TranslateCS2.ZZZModTestLib.Containers.Items;
+namespace TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
 /// <summary>
 ///     imitates <see cref="Colossal.Localization.LocalizationManager"/>s behaviour for testing purposes
 /// </summary>

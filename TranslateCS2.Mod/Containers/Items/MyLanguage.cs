@@ -36,13 +36,6 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
     public bool HasFlavors => this.Flavors.Any();
-    /// <summary>
-    ///     never ever change content!!!
-    ///     <br/>
-    ///     <br/>
-    ///     holds a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
-    /// </summary>
-    private IReadOnlyDictionary<string, int>? IndexCounts { get; set; }
     internal MyLanguage(SystemLanguage systemLanguage,
                         IModRuntimeContainer runtimeContainer,
                         IList<CultureInfo> cultureInfos) {
@@ -117,15 +110,5 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
 
     internal TranslationFile GetFlavor(string localeId) {
         return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
-    }
-    internal void AddIndexCounts(Dictionary<string, int> indexCounts) {
-        /// WARNING: a ref to <see cref="LocaleAsset.data"/>s <see cref="LocaleData.indexCounts"/>
-        this.IndexCounts ??= this.runtimeContainer.Locales.GetIndexCounts(this.ID, this.IsBuiltIn);
-        if (this.IndexCounts is null) {
-            return;
-        }
-        foreach (KeyValuePair<string, int> entry in this.IndexCounts) {
-            indexCounts.Add(entry.Key, entry.Value);
-        }
     }
 }

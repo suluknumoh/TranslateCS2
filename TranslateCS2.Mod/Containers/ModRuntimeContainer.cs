@@ -1,5 +1,6 @@
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
+using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Loggers;
@@ -14,15 +15,17 @@ public class ModRuntimeContainer : IModRuntimeContainer {
     public DropDownItems DropDownItems { get; }
     public ILocManager LocManager { get; }
     public IIntSettings IntSettings { get; }
-
+    public IIndexCountsProvider IndexCountsProvider { get; }
 
     public ModRuntimeContainer(IMyLogProvider logProvider,
                                ILocManager locManager,
                                IIntSettings intSettings,
+                               IIndexCountsProvider indexCountsProvider,
                                Paths paths) {
         this.Logger = new ModLogger(logProvider);
         this.LocManager = locManager;
         this.IntSettings = intSettings;
+        this.IndexCountsProvider = indexCountsProvider;
         this.DropDownItems = new DropDownItems();
         this.Paths = paths;
         // the following need the Paths to be initialized!
