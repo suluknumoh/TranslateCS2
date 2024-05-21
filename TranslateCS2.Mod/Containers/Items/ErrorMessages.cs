@@ -43,8 +43,9 @@ public class ErrorMessages {
         builder.AppendLine($"could not write");
         builder.AppendLine($"'{ModConstants.ModExportKeyValueJsonName}'");
         builder.AppendLine($"into");
-        builder.AppendLine($"'{this.runtimeContainer.Paths.UserDataPath}'");
+        builder.AppendLine($"'{this.runtimeContainer.Paths.ModsDataPathSpecific}'");
         builder.AppendLine("you should be able to continue");
         this.runtimeContainer.Logger.DisplayError(builder);
+        this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
     }
 }

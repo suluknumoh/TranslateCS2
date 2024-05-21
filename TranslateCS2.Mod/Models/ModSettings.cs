@@ -101,7 +101,7 @@ internal partial class ModSettings : ModSetting {
         return this.SettingsLocale is null;
     }
     private void GenerateLocJson() {
-        if (this.IsGenerateLocalizationJsonHiddenDisabled()) {
+        if (this.SettingsLocale is null) {
             return;
         }
         try {
