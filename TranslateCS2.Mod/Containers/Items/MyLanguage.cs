@@ -9,6 +9,7 @@ using Colossal.IO.AssetDatabase.Internal;
 using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Models;
 
@@ -63,6 +64,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
         }
     }
 
+    [MyExcludeMethodFromCoverage]
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine($"{nameof(MyLanguage)}");

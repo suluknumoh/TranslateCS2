@@ -1,4 +1,7 @@
+using TranslateCS2.Inf.Attributes;
+
 namespace TranslateCS2.Inf;
+[MyExcludeClassFromCoverage]
 public static class LoggingConstants {
     public static string FailedTo => "failed to:";
     public static string StrangerThings => $"{FailedTo} load the entire mod:";

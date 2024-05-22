@@ -1,5 +1,8 @@
+using TranslateCS2.Inf.Attributes;
+
 namespace TranslateCS2.Inf;
 
+[MyExcludeClassFromCoverage]
 public static class ModConstants {
 
     /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>

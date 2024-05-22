@@ -7,6 +7,7 @@ using Colossal.PSI.Environment;
 using Game.SceneFlow;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Containers.Items.Unitys;
@@ -14,6 +15,7 @@ using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers;
+[MyExcludeClassFromCoverage]
 internal class ModRuntimeContainerHandler {
     private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
     public static ModRuntimeContainerHandler Instance { get; private set; }

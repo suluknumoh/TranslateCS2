@@ -1,4 +1,7 @@
+using TranslateCS2.Inf.Attributes;
+
 namespace TranslateCS2.Inf;
+[MyExcludeClassFromCoverage]
 public static class LangConstants {
     public static string ChineseSimplified { get; } = "Chinese (Simplified";
     public static string ChineseTraditional { get; } = "Chinese (Traditional";

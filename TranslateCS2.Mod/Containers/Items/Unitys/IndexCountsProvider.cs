@@ -4,9 +4,11 @@ using System.Linq;
 
 using Colossal.IO.AssetDatabase;
 
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items.Unitys;
+[MyExcludeClassFromCoverage]
 internal class IndexCountsProvider : IIndexCountsProvider {
     private readonly IAssetDatabase global;
     public IndexCountsProvider(IAssetDatabase global) {

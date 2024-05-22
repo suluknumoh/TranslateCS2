@@ -1,6 +1,7 @@
 using Colossal;
 using Colossal.Localization;
 
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Mod.Interfaces;
 
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace TranslateCS2.Mod.Containers.Items.Unitys;
 /// <summary>
 ///     wrapper for <see cref="LocalizationManager"/>
 /// </summary>
+[MyExcludeClassFromCoverage]
 internal class LocManager : ILocManager {
     private readonly LocalizationManager localizationManager;
 

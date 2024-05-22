@@ -8,6 +8,7 @@ using System.Text;
 using Colossal.IO.AssetDatabase.Internal;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 
 using UnityEngine;
 
@@ -187,6 +188,7 @@ public class MyLanguages {
         }
     }
 
+    [MyExcludeMethodFromCoverage]
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine($"{nameof(MyLanguages)}: {this.LanguageDictionary.Count}");

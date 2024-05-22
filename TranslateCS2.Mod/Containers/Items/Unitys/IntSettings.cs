@@ -1,11 +1,13 @@
 using Game.Settings;
 
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Mod.Interfaces;
 
 namespace TranslateCS2.Mod.Containers.Items.Unitys;
 /// <summary>
 ///     wrapper for <see cref="InterfaceSettings"/>
 /// </summary>
+[MyExcludeClassFromCoverage]
 internal class IntSettings : IIntSettings {
     private readonly InterfaceSettings interfaceSettings;
 

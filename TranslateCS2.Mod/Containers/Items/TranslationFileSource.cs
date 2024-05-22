@@ -8,6 +8,7 @@ using Colossal;
 using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
@@ -63,10 +64,12 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
         //
     }
 
+    [MyExcludeMethodFromCoverage]
     public override bool Equals(object? obj) {
         return this.Equals(obj as TranslationFileSource);
     }
 
+    [MyExcludeMethodFromCoverage]
     public bool Equals(TranslationFileSource? other) {
         return other is not null &&
                EqualityComparer<IModRuntimeContainer>.Default.Equals(this.runtimeContainer, other.runtimeContainer) &&
@@ -75,6 +78,7 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
                this.Path == other.Path;
     }
 
+    [MyExcludeMethodFromCoverage]
     public override int GetHashCode() {
         int hashCode = 1658491880;
         hashCode = (hashCode * -1521134295) + EqualityComparer<IModRuntimeContainer>.Default.GetHashCode(this.runtimeContainer);

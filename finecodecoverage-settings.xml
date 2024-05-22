@@ -1,4 +1,10 @@
 <FineCodeCoverage>
     <Enabled>True</Enabled>
     <StickyCoverageTable>True</StickyCoverageTable>
+    <ExcludeByAttribute>
+        TranslateCS2.Inf.Attributes.MyExcludeClassFromCoverageAttribute
+    </ExcludeByAttribute>
+    <ExcludeByAttribute>
+        TranslateCS2.Inf.Attributes.MyExcludeMethodFromCoverageAttribute
+    </ExcludeByAttribute>
 </FineCodeCoverage>
