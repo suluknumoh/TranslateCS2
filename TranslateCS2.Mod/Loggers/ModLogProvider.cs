@@ -4,7 +4,7 @@ using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Loggers;
 
 namespace TranslateCS2.Mod.Loggers;
-[MyExcludeClassFromCoverage]
+[MyExcludeFromCoverage]
 internal class ModLogProvider : IMyLogProvider {
     private readonly ILog logger;
     public ModLogProvider(ILog logger) {

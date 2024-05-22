@@ -10,7 +10,7 @@ namespace TranslateCS2.Mod.Containers.Items.Unitys;
 /// <summary>
 ///     wrapper for <see cref="LocalizationManager"/>
 /// </summary>
-[MyExcludeClassFromCoverage]
+[MyExcludeFromCoverage]
 internal class LocManager : ILocManager {
     private readonly LocalizationManager localizationManager;
 

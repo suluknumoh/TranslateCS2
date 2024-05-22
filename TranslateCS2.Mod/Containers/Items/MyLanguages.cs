@@ -188,7 +188,7 @@ public class MyLanguages {
         }
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine($"{nameof(MyLanguages)}: {this.LanguageDictionary.Count}");

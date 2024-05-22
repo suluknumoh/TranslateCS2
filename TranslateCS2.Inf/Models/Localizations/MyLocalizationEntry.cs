@@ -13,18 +13,18 @@ public class MyLocalizationEntry : IMyKeyProvider, IEquatable<MyLocalizationEntr
         this.Value = value;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
         return this.Equals(obj as MyLocalizationEntry);
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public bool Equals(MyLocalizationEntry? other) {
         return other is not null &&
                EqualityComparer<IMyKey>.Default.Equals(this.Key, other.Key);
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override int GetHashCode() {
         return 990326508 + EqualityComparer<IMyKey>.Default.GetHashCode(this.Key);
     }

@@ -12,23 +12,23 @@ public class MyKey : IMyKey {
         this.Key = key;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override string ToString() {
         return this.Key;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
         return this.Equals(obj as IMyKey);
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public bool Equals(IMyKey? other) {
         return other is not null &&
                this.Key == other.Key;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override int GetHashCode() {
         return 990326508 + EqualityComparer<string>.Default.GetHashCode(this.Key);
     }

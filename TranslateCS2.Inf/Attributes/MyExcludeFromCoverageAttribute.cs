@@ -12,5 +12,5 @@ namespace TranslateCS2.Inf.Attributes;
 ///     <br/>
 ///     <see langword="class"/>es that only contain <see langword="const"/>ants
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-public class MyExcludeClassFromCoverageAttribute : Attribute { }
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+public class MyExcludeFromCoverageAttribute : Attribute { }

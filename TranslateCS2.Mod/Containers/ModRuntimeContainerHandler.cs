@@ -15,7 +15,7 @@ using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Loggers;
 
 namespace TranslateCS2.Mod.Containers;
-[MyExcludeClassFromCoverage]
+[MyExcludeFromCoverage]
 internal class ModRuntimeContainerHandler {
     private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
     public static ModRuntimeContainerHandler Instance { get; private set; }

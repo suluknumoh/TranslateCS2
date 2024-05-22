@@ -7,7 +7,7 @@ namespace TranslateCS2.Mod.Containers.Items.Unitys;
 /// <summary>
 ///     wrapper for <see cref="InterfaceSettings"/>
 /// </summary>
-[MyExcludeClassFromCoverage]
+[MyExcludeFromCoverage]
 internal class IntSettings : IIntSettings {
     private readonly InterfaceSettings interfaceSettings;
 

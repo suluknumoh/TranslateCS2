@@ -64,7 +64,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
         }
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine($"{nameof(MyLanguage)}");

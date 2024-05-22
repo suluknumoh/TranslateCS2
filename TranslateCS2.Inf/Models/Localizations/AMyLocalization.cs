@@ -24,7 +24,7 @@ public abstract class AMyLocalization<S, L, E> : IEquatable<AMyLocalization<S, L
         this.Source = source;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(this.GetType().ToString());
@@ -37,12 +37,12 @@ public abstract class AMyLocalization<S, L, E> : IEquatable<AMyLocalization<S, L
         return builder.ToString();
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
         return this.Equals(obj as AMyLocalization<S, L, E>);
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public bool Equals(AMyLocalization<S, L, E>? other) {
         return other is not null &&
                this.uniquer == other.uniquer &&
@@ -51,7 +51,7 @@ public abstract class AMyLocalization<S, L, E> : IEquatable<AMyLocalization<S, L
                this.NameEnglish == other.NameEnglish;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override int GetHashCode() {
         int hashCode = -329714928;
         hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.uniquer);

@@ -64,12 +64,12 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
         //
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
         return this.Equals(obj as TranslationFileSource);
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public bool Equals(TranslationFileSource? other) {
         return other is not null &&
                EqualityComparer<IModRuntimeContainer>.Default.Equals(this.runtimeContainer, other.runtimeContainer) &&
@@ -78,7 +78,7 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
                this.Path == other.Path;
     }
 
-    [MyExcludeMethodFromCoverage]
+    [MyExcludeFromCoverage]
     public override int GetHashCode() {
         int hashCode = 1658491880;
         hashCode = (hashCode * -1521134295) + EqualityComparer<IModRuntimeContainer>.Default.GetHashCode(this.runtimeContainer);

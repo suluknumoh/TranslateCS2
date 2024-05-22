@@ -8,12 +8,14 @@ using Game.Modding;
 using Game.SceneFlow;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod;
+[MyExcludeFromCoverage]
 public class Mod : IMod {
     private static readonly ILog Logger = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
     private ModRuntimeContainerHandler? runtimeContainerHandler;
