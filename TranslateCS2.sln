@@ -4,15 +4,6 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2", "TranslateCS2\TranslateCS2.csproj", "{49173AFD-1168-4846-BF7F-766BF7C45AF2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{8A64B3C1-4D2C-4210-9BE5-DD48545371BA}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		latest = latest
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Core", "TranslateCS2.Core\TranslateCS2.Core.csproj", "{02363F97-C05E-4C86-BE17-1B5B265FCE82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ExImport", "TranslateCS2.ExImport\TranslateCS2.ExImport.csproj", "{6292314F-4704-4F20-BB52-ECFAFC27F8A5}"
@@ -37,7 +28,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZZZTestLib", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZModTests", "TranslateCS2.ZModTests\TranslateCS2.ZModTests.csproj", "{80BBCEF3-8FA3-4132-AE2C-59025DA8E2C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateCS2.ZZZModTestLib", "TranslateCS2.ZZZModTestLib\TranslateCS2.ZZZModTestLib.csproj", "{36F3CC40-3E7F-413C-B0BB-AB1144687D2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZZZModTestLib", "TranslateCS2.ZZZModTestLib\TranslateCS2.ZZZModTestLib.csproj", "{36F3CC40-3E7F-413C-B0BB-AB1144687D2B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E97AAF59-9B53-45E5-B65E-601F69747144}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		finecodecoverage-settings.xml = finecodecoverage-settings.xml
+		latest = latest
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
