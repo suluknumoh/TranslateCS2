@@ -1,10 +1,17 @@
 <FineCodeCoverage>
     <Enabled>True</Enabled>
     <StickyCoverageTable>True</StickyCoverageTable>
+    <!-- ExcludeByAttribute: one tag per attribute -->
     <ExcludeByAttribute>
         TranslateCS2.Inf.Attributes.MyExcludeClassFromCoverageAttribute
     </ExcludeByAttribute>
     <ExcludeByAttribute>
         TranslateCS2.Inf.Attributes.MyExcludeMethodFromCoverageAttribute
     </ExcludeByAttribute>
+    <IncludeTestAssembly>False</IncludeTestAssembly>
+    <!-- ExcludeAssemblies: one line per assembly (not comma- or whatever separated - line-break-separated!) -->
+    <ExcludeAssemblies>
+        TranslateCS2.ZZZTestLib
+        TranslateCS2.ZZZModTestLib
+    </ExcludeAssemblies>
 </FineCodeCoverage>
