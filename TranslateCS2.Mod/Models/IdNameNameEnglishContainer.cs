@@ -11,11 +11,11 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
-    public string ID { get; }
+    public string Id { get; }
     public string Name { get; }
     public string NameEnglish { get; }
     private IdNameNameEnglishContainer(string id, string name, string nameEnglish) {
-        this.ID = id;
+        this.Id = id;
         this.Name = name;
         this.NameEnglish = nameEnglish;
     }
@@ -38,7 +38,7 @@ public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
                 name = String.Join("/", cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
                 nameEnglish = String.Join("/", cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
                 break;
-            case SystemLanguage.Portuguese:
+            //case SystemLanguage.Portuguese:
             case SystemLanguage.ChineseSimplified:
             case SystemLanguage.ChineseTraditional:
                 // take care: cultureInfo itself is used!

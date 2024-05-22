@@ -103,6 +103,17 @@ public class MyLanguages {
             }
         }
     }
+    /// <summary>
+    ///     gets a <see cref="MyLanguage"/> via a correct <paramref name="localeId"/>
+    ///     <br/>
+    ///     <br/>
+    /// </summary>
+    /// <param name="localeId">
+    ///     has to be a correct locale id
+    /// </param>
+    /// <returns>
+    ///     <see cref="MyLanguage"/>
+    /// </returns>
     public MyLanguage? GetLanguage(string localeId) {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
             IEnumerable<CultureInfo> cis =
@@ -126,6 +137,11 @@ public class MyLanguages {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
             if (language.IsBuiltIn
                 || !language.HasFlavors) {
+                // dont load built in by default,
+                // otherwise the first flavor is automatically applied
+                //
+                // dont load languages without flavors,
+                // otherwise they would be listed within the default interface settings language select
                 continue;
             }
             try {
@@ -203,14 +219,14 @@ public class MyLanguages {
     }
     private void TryToAddLocale(MyLanguage language) {
         try {
-            this.runtimeContainer.LocManager.AddLocale(language.ID,
+            this.runtimeContainer.LocManager.AddLocale(language.Id,
                                                        language.SystemLanguage,
                                                        language.Name);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
                                                   [nameof(TryToAddLocale), ex, language]);
-            this.runtimeContainer.LocManager.RemoveLocale(language.ID);
+            this.runtimeContainer.LocManager.RemoveLocale(language.Id);
             throw;
         }
     }
@@ -219,7 +235,7 @@ public class MyLanguages {
                                 bool reThrow = false) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            this.runtimeContainer.LocManager.AddSource(language.ID,
+            this.runtimeContainer.LocManager.AddSource(language.Id,
                                                        translationFile.Source);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
@@ -235,7 +251,7 @@ public class MyLanguages {
                                    TranslationFile translationFile) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            this.runtimeContainer.LocManager.RemoveSource(language.ID,
+            this.runtimeContainer.LocManager.RemoveSource(language.Id,
                                                           translationFile.Source);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),

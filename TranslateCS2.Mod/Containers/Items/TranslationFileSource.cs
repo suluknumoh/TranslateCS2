@@ -46,7 +46,7 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
         indexCountsToFill.Clear();
         // has to be added!!! if dictionary is null, fallback/builtin-language is used!!!
         // prefill with this languages index counts
-        string localeId = this.language.ID;
+        string localeId = this.language.Id;
         if (!this.language.IsBuiltIn) {
             localeId = this.runtimeContainer.LocManager.FallbackLocaleId;
         }

@@ -18,7 +18,7 @@ namespace TranslateCS2.Mod.Containers.Items;
 public class MyLanguage : IIdNameNameEnglishGetAble {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly IIdNameNameEnglishGetAble idNameNameEnglishGetAble;
-    public string ID => this.idNameNameEnglishGetAble.ID;
+    public string Id => this.idNameNameEnglishGetAble.Id;
     public string Name => this.idNameNameEnglishGetAble.Name;
     public string NameEnglish => this.idNameNameEnglishGetAble.NameEnglish;
     internal IList<TranslationFile> Flavors { get; } = [];
@@ -66,7 +66,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine($"{nameof(MyLanguage)}");
-        builder.AppendLine($"{nameof(this.ID)}: {this.ID}");
+        builder.AppendLine($"{nameof(this.Id)}: {this.Id}");
         builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
         builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
         builder.AppendLine($"{nameof(this.IsBuiltIn)}: {this.IsBuiltIn}");
