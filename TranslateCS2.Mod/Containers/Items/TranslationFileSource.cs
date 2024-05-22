@@ -11,7 +11,7 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, string>, string>, IDictionarySource {
+public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, string>, string>, IDictionarySource, IEquatable<TranslationFileSource?> {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
     public IDictionary<string, string> Localizations { get; } = new Dictionary<string, string>();
@@ -61,5 +61,26 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
 
     public void Unload() {
         //
+    }
+
+    public override bool Equals(object? obj) {
+        return this.Equals(obj as TranslationFileSource);
+    }
+
+    public bool Equals(TranslationFileSource? other) {
+        return other is not null &&
+               EqualityComparer<IModRuntimeContainer>.Default.Equals(this.runtimeContainer, other.runtimeContainer) &&
+               EqualityComparer<MyLanguage>.Default.Equals(this.language, other.language) &&
+               EqualityComparer<IDictionary<string, string>>.Default.Equals(this.Localizations, other.Localizations) &&
+               this.Path == other.Path;
+    }
+
+    public override int GetHashCode() {
+        int hashCode = 1658491880;
+        hashCode = (hashCode * -1521134295) + EqualityComparer<IModRuntimeContainer>.Default.GetHashCode(this.runtimeContainer);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<MyLanguage>.Default.GetHashCode(this.language);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<IDictionary<string, string>>.Default.GetHashCode(this.Localizations);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Path);
+        return hashCode;
     }
 }
