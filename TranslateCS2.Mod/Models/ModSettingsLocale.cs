@@ -13,16 +13,16 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
 internal class ModSettingsLocale : IDictionarySource {
-    private readonly ModRuntimeContainerHandler runtimeContainerHandler;
     private readonly IModRuntimeContainer runtimeContainer;
-    private readonly Dictionary<string, string> readEntriesDictionary = [];
-    public Dictionary<string, string> Dictionary = [];
     private readonly MyLanguages languages;
     private readonly ModSettings modSettings;
-    public ModSettingsLocale(ModSettings setting, ModRuntimeContainerHandler runtimeContainerHandler) {
+    private readonly Dictionary<string, string> _AllEntries = [];
+    public IReadOnlyDictionary<string, string> AllEntries => this._AllEntries;
+    private readonly Dictionary<string, string> _ExportableEntries = [];
+    public IReadOnlyDictionary<string, string> ExportableEntries => this._ExportableEntries;
+    public ModSettingsLocale(ModSettings setting, IModRuntimeContainer runtimeContainer) {
         this.modSettings = setting;
-        this.runtimeContainerHandler = runtimeContainerHandler;
-        this.runtimeContainer = runtimeContainerHandler.RuntimeContainer;
+        this.runtimeContainer = runtimeContainer;
         this.modSettings.SettingsLocale = this;
         this.languages = this.runtimeContainer.Languages;
         this.InitDictionary();
@@ -110,15 +110,15 @@ internal class ModSettingsLocale : IDictionarySource {
     private void AddToDictionary(string key,
                                  string value,
                                  bool isExportable) {
-        this.readEntriesDictionary.Add(key, value);
+        this._AllEntries.Add(key, value);
         if (isExportable) {
-            this.Dictionary.Add(key, value);
+            this._ExportableEntries.Add(key, value);
         }
     }
 
 
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
-        return this.readEntriesDictionary;
+        return this._AllEntries;
     }
 
     private string GetLabel(SystemLanguage systemLanguage) {

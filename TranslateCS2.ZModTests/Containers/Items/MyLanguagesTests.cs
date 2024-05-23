@@ -118,7 +118,7 @@ public class MyLanguagesTests {
     [InlineData(SystemLanguage.Portuguese, 3)]
     [InlineData(SystemLanguage.Russian, 3)]
     //
-    // INFO: counted 4 from game log, but test only recognizes 4
+    // INFO: counted 5 from game log, but test only recognizes 4
     //[InlineData(SystemLanguage.ChineseSimplified, 5)]
     [InlineData(SystemLanguage.ChineseSimplified, 4)]
     //

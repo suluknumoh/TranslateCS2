@@ -23,8 +23,6 @@ namespace TranslateCS2.Mod.Models;
 [SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
 internal partial class ModSettings : ModSetting {
     [Exclude]
-    private readonly ModRuntimeContainerHandler runtimeContainerHandler;
-    [Exclude]
     private readonly IModRuntimeContainer runtimeContainer;
     [Exclude]
     private readonly MyLanguages languages;
@@ -45,9 +43,8 @@ internal partial class ModSettings : ModSetting {
     [SettingsUIHidden]
     public string PreviousLocale { get; set; }
 
-    public ModSettings(ModRuntimeContainerHandler runtimeContainerHandler, IMod mod) : base(mod) {
-        this.runtimeContainerHandler = runtimeContainerHandler;
-        this.runtimeContainer = runtimeContainerHandler.RuntimeContainer;
+    public ModSettings(IModRuntimeContainer runtimeContainer) : base(runtimeContainer.Mod) {
+        this.runtimeContainer = runtimeContainer;
         this.languages = this.runtimeContainer.Languages;
         this.Locale = this.runtimeContainer.IntSettings.Locale;
         this.PreviousLocale = this.Locale;
@@ -106,7 +103,7 @@ internal partial class ModSettings : ModSetting {
         }
         try {
             try {
-                string json = JsonConvert.SerializeObject(this.SettingsLocale.Dictionary, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(this.SettingsLocale.ExportableEntries, Formatting.Indented);
                 string path = Path.Combine(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.ModExportKeyValueJsonName);
                 File.WriteAllText(path, json, Encoding.UTF8);
             } catch (Exception ex) {

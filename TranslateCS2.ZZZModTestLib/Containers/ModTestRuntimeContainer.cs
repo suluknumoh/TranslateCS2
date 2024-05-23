@@ -12,6 +12,7 @@ public class ModTestRuntimeContainer : ModRuntimeContainer {
     public ModTestRuntimeContainer(IMyLogProvider logProvider,
                                    IIndexCountsProvider? indexCountsProvider = null,
                                    string? userDataPath = null) : base(logProvider,
+                                                                      new TestMod(),
                                                                       new TestLocManager(),
                                                                       new TestIntSettings(),
                                                                       indexCountsProvider ?? TestIndexCountsProvider.WithEmptyContent(),

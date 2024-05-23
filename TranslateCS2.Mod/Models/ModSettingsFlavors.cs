@@ -104,7 +104,7 @@ internal partial class ModSettings {
         return this.GetValueToSet(systemLanguage, val, false);
     }
 
-    private bool IsHidden(SystemLanguage systemLanguage) {
+    public bool IsHidden(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         return
             language is null
@@ -118,7 +118,7 @@ internal partial class ModSettings {
             );
     }
 
-    private bool IsDisabled(SystemLanguage systemLanguage) {
+    public bool IsDisabled(SystemLanguage systemLanguage) {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         return
             language is null

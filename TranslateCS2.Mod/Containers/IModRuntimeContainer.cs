@@ -1,3 +1,5 @@
+using Game.Modding;
+
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Inf.Models.Localizations;
@@ -15,4 +17,5 @@ public interface IModRuntimeContainer {
     ErrorMessages ErrorMessages { get; }
     MyLanguages Languages { get; }
     DropDownItems DropDownItems { get; }
+    IMod Mod { get; }
 }
