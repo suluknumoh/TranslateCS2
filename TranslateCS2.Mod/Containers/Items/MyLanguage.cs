@@ -11,7 +11,6 @@ using Game.UI.Widgets;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Mod.Interfaces;
-using TranslateCS2.Mod.Models;
 
 using UnityEngine;
 

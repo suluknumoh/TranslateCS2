@@ -170,8 +170,7 @@ public class MyLanguagesTests {
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                userDataPath: userDataPath);
         MyLanguages languages = runtimeContainer.Languages;
-        languages.ReadFiles();
-        languages.Load();
+        languages.Init();
         Assert.False(languages.HasErroneous);
         Assert.Equal(43, languages.LanguageCount);
         MyLanguage? language = languages.GetLanguage(systemLanguage);
@@ -285,8 +284,7 @@ public class MyLanguagesTests {
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                userDataPath: userDataPath);
         MyLanguages languages = runtimeContainer.Languages;
-        languages.ReadFiles();
-        languages.Load();
+        languages.Init();
         Assert.True(languages.HasErroneous);
         Assert.Equal(43, languages.LanguageCount);
         MyLanguage? language = languages.GetLanguage(systemLanguage);

@@ -5,14 +5,13 @@ using System.Linq;
 using Colossal;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers;
-using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Models;
 using TranslateCS2.Mod.Properties.I18N;
 
 using UnityEngine;
 
-namespace TranslateCS2.Mod.Models;
-internal class ModSettingsLocale : IDictionarySource {
+namespace TranslateCS2.Mod.Containers.Items;
+public class ModSettingsLocale : IDictionarySource {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguages languages;
     private readonly ModSettings modSettings;
@@ -20,15 +19,14 @@ internal class ModSettingsLocale : IDictionarySource {
     public IReadOnlyDictionary<string, string> AllEntries => this._AllEntries;
     private readonly Dictionary<string, string> _ExportableEntries = [];
     public IReadOnlyDictionary<string, string> ExportableEntries => this._ExportableEntries;
-    public ModSettingsLocale(ModSettings setting, IModRuntimeContainer runtimeContainer) {
-        this.modSettings = setting;
+    public ModSettingsLocale(IModRuntimeContainer runtimeContainer) {
+        this.modSettings = runtimeContainer.Settings;
         this.runtimeContainer = runtimeContainer;
         this.modSettings.SettingsLocale = this;
         this.languages = this.runtimeContainer.Languages;
-        this.InitDictionary();
     }
 
-    private void InitDictionary() {
+    public void Init() {
         this.AddToDictionary(this.modSettings.GetSettingsLocaleID(),
                              ModConstants.NameSimple,
                              false);

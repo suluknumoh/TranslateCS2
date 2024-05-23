@@ -13,7 +13,7 @@ using TranslateCS2.Mod.Containers.Items;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
-internal partial class ModSettings {
+public partial class ModSettings {
 
     public static string Flavor { get; } = nameof(Flavor);
 

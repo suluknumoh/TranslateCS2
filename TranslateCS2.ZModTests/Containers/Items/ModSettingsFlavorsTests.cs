@@ -12,7 +12,7 @@ using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
 
-namespace TranslateCS2.ZModTests.Models;
+namespace TranslateCS2.ZModTests.Containers.Items;
 public class ModSettingsFlavorsTests {
     [Fact]
     public void GetFlavorsEmptyTest() {
@@ -126,8 +126,7 @@ public class ModSettingsFlavorsTests {
         // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
         runtimeContainer.IntSettings.CurrentLocale = String.Empty;
 
-        runtimeContainer.Languages.ReadFiles();
-        runtimeContainer.Languages.Load();
+        runtimeContainer.Languages.Init();
 
         ModSettings modSettings = new ModSettings(runtimeContainer);
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();

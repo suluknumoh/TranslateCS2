@@ -2,18 +2,20 @@ using System.Collections.Generic;
 
 using Colossal;
 
+using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Models;
 using TranslateCS2.ZZZModTestLib.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
-namespace TranslateCS2.ZModTests.Models;
+namespace TranslateCS2.ZModTests.Containers.Items;
 public class ModSettingsLocaleTests {
     [Fact]
     public void GeneralTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsLocaleTests>();
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider);
-        ModSettings modSettings = new ModSettings(runtimeContainer);
-        ModSettingsLocale settingsLocale = new ModSettingsLocale(modSettings, runtimeContainer);
+        runtimeContainer.Init();
+        ModSettings modSettings = runtimeContainer.Settings;
+        ModSettingsLocale settingsLocale = runtimeContainer.SettingsLocale;
         Assert.NotEmpty(settingsLocale.AllEntries);
         Assert.NotEmpty(settingsLocale.ExportableEntries);
         Assert.NotEqual(settingsLocale.AllEntries, settingsLocale.ExportableEntries);

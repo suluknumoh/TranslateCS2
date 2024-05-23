@@ -21,7 +21,7 @@ namespace TranslateCS2.Mod.Models;
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
 [SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
 [SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
-internal partial class ModSettings : ModSetting {
+public partial class ModSettings : ModSetting {
     [Exclude]
     private readonly IModRuntimeContainer runtimeContainer;
     [Exclude]

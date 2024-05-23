@@ -4,12 +4,11 @@ using System.Globalization;
 using System.Linq;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Interfaces;
 
 using UnityEngine;
 
-namespace TranslateCS2.Mod.Models;
+namespace TranslateCS2.Mod.Containers.Items;
 public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
     public string Id { get; }
     public string Name { get; }

@@ -41,10 +41,10 @@ public class MyLanguages {
     private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
     internal MyLanguages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
-        this.Init();
+        this.InitLanguages();
     }
 
-    private void Init() {
+    private void InitLanguages() {
         IDictionary<SystemLanguage, IList<CultureInfo>> mapping =
             this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
         foreach (KeyValuePair<SystemLanguage, IList<CultureInfo>> entry in mapping) {
@@ -55,7 +55,12 @@ public class MyLanguages {
         }
     }
 
-    public void ReadFiles() {
+    public void Init() {
+        this.ReadFiles();
+        this.Load();
+    }
+
+    private void ReadFiles() {
         IEnumerable<string> translationFilePaths =
             Directory
                 .EnumerateFiles(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.JsonSearchPattern)
@@ -134,7 +139,7 @@ public class MyLanguages {
         return null;
     }
 
-    public void Load() {
+    private void Load() {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
             if (language.IsBuiltIn
                 || !language.HasFlavors) {
