@@ -52,7 +52,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
                                                                               builtin,
                                                                               this.IsBuiltIn);
         } else {
-            IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains("-"));
+            IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains(StringConstants.Dash));
             if (remaining.Any()) {
                 this.IsBuiltIn = false;
                 this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
@@ -94,7 +94,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
             string displayName = translationFile.Name;
             if (displayName.Length > ModConstants.MaxDisplayNameLength) {
                 displayName = displayName.Substring(0, ModConstants.MaxDisplayNameLength);
-                displayName += "...";
+                displayName += StringConstants.ThreeDots;
             }
             DropdownItem<string> item = new DropdownItem<string>() {
                 value = translationFile.Id,

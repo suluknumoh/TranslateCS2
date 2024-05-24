@@ -34,8 +34,10 @@ public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
                 break;
             case SystemLanguage.SerboCroatian:
                 ID = systemLanguage.ToString();
-                name = String.Join("/", cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
-                nameEnglish = String.Join("/", cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
+                name = String.Join(StringConstants.ForwardSlash,
+                                   cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
+                nameEnglish = String.Join(StringConstants.ForwardSlash,
+                                          cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
                 break;
             //case SystemLanguage.Portuguese:
             case SystemLanguage.ChineseSimplified:

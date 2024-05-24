@@ -16,7 +16,7 @@ public class Locales {
         this.runtimeContainer = runtimeContainer;
         Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash
-        string path = $"{runtimeContainer.Paths.StreamingDataPath}Data~/";
+        string path = $"{runtimeContainer.Paths.StreamingDatasDataPath}";
         IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);
         foreach (string? locFile in locFiles) {
             string locale =

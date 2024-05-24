@@ -21,9 +21,6 @@ public static class IndexCountHelper {
         IEnumerable<IGrouping<string, KeyValuePair<string, string>>> groupedForIndexCountKeys =
             indexedValues
                 .GroupBy(item => GetCountKeyFromKey(item.Key));
-        if (!groupedForIndexCountKeys.Any()) {
-            return;
-        }
         foreach (IGrouping<string, KeyValuePair<string, string>> indexCountGroupItem in groupedForIndexCountKeys) {
             bool exists = indexCounts.TryGetValue(indexCountGroupItem.Key, out int existingCount);
 
