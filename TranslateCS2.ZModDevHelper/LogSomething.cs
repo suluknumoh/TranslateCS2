@@ -1,6 +1,8 @@
 using TranslateCS2.ZZZModTestLib.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
+using Xunit;
+
 namespace TranslateCS2.ZModDevHelper;
 public class LogSomething {
     [Fact]

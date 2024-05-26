@@ -7,6 +7,8 @@ using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.ZZZTestLib.Services.Localizations;
 
+using Xunit;
+
 namespace TranslateCS2.ZTests.Inf.Services.Localizations;
 public class LocFileServiceTests {
     private readonly ILocFileDirectoryProvider streamingDatasDataPathProvider;

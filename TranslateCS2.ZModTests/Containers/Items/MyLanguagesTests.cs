@@ -10,6 +10,8 @@ using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
 
+using Xunit;
+
 namespace TranslateCS2.ZModTests.Containers.Items;
 /// <summary>
 ///     some values/expectations differ from in-game-values

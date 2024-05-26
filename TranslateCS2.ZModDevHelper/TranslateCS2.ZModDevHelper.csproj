@@ -30,10 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="Xunit" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Logs\**\" />
       <None Include="Logs\**\*.*" />
     </ItemGroup>

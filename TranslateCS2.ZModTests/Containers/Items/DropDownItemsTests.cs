@@ -4,6 +4,8 @@ using Game.UI.Widgets;
 
 using TranslateCS2.Mod.Containers.Items;
 
+using Xunit;
+
 namespace TranslateCS2.ZModTests.Containers.Items;
 public class DropDownItemsTests {
     [Fact]

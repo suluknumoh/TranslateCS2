@@ -30,10 +30,6 @@
       <ProjectReference Include="..\TranslateCS2.ZZZTestLib\TranslateCS2.ZZZTestLib.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Using Include="Xunit" />
-    </ItemGroup>
-
 
     <ItemGroup>
         <Folder Include="Logs\**\" />

@@ -13,6 +13,8 @@ using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
 
+using Xunit;
+
 namespace TranslateCS2.ZModTests.Containers.Items;
 [Collection("TestDataOK")]
 public class ModSettingsFlavorsTests {

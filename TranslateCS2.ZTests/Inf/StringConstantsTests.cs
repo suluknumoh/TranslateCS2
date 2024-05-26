@@ -1,5 +1,7 @@
 using TranslateCS2.Inf;
 
+using Xunit;
+
 namespace TranslateCS2.ZTests.Inf;
 public class StringConstantsTests {
     [Fact]

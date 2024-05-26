@@ -9,6 +9,8 @@ using TranslateCS2.Mod.Models;
 
 using UnityEngine;
 
+using Xunit;
+
 namespace TranslateCS2.ZModDevHelper;
 public class HelpMeWithModSettingsFlavors {
     [Fact(Skip = "dont help me each time")]

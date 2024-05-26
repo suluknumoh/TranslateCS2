@@ -9,6 +9,8 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Keyz;
 using TranslateCS2.Inf.Models;
 
+using Xunit;
+
 namespace TranslateCS2.ZTests.Inf;
 public class IndexCountHelperTests {
     [Theory]
