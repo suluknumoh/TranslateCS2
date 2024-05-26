@@ -28,9 +28,9 @@ public class LocFileService {
         string name = reader.ReadString();
         MyLocalizationSource<E> source = strategy.CreateNewSource();
         MyLocalization<E> localizationFile = strategy.CreateNewFile(id,
-                                                     nameEnglish,
-                                                     name,
-                                                     source);
+                                                                    nameEnglish,
+                                                                    name,
+                                                                    source);
         ReadLocalizationFilesLocalizations<E>(reader,
                                               source,
                                               strategy);
