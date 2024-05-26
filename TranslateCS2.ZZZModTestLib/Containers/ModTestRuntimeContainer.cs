@@ -18,8 +18,5 @@ public class ModTestRuntimeContainer : ModRuntimeContainer {
                                                                       indexCountsProvider ?? TestIndexCountsProvider.WithEmptyContent(),
                                                                       new Paths(true,
                                                                                       CS2PathsHelper.GetStreamingDataPathFromProps(),
-                                                                                      userDataPath ?? CS2PathsHelper.GetUserDataPathFromEnvironment())) { }
-
-
-
+                                                                                      userDataPath)) { }
 }

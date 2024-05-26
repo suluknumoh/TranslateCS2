@@ -4,13 +4,19 @@ using System.Globalization;
 using System.Linq;
 
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.ZZZModTestLib;
 using TranslateCS2.ZZZModTestLib.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
 
 namespace TranslateCS2.ZModTests.Containers.Items;
+[Collection("TestDataOK")]
 public class LocalesTests {
+    private readonly TestDataProvider dataProvider;
+    public LocalesTests(TestDataProvider testDataProvider) {
+        this.dataProvider = testDataProvider;
+    }
     [Theory]
     [InlineData("de-DE", true)]
     [InlineData("en-US", true)]
@@ -50,7 +56,8 @@ public class LocalesTests {
 
     public void IsBuiltInTest(string localeId, bool expectedIsBuiltIn) {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<LocalesTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider);
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
+                                                                               userDataPath: this.dataProvider.DirectoryName);
         Locales locales = runtimeContainer.Locales;
         Assert.NotNull(locales);
         bool isBuiltIn = locales.IsBuiltIn(localeId);
@@ -82,7 +89,8 @@ public class LocalesTests {
     [InlineData("zh", "zh")]
     public void CorrectLocaleIdTest(string input, string expectedOutput) {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<LocalesTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider);
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
+                                                                               userDataPath: this.dataProvider.DirectoryName);
         Locales locales = runtimeContainer.Locales;
         Assert.NotNull(locales);
         string output = locales.CorrectLocaleId(input);
@@ -91,7 +99,8 @@ public class LocalesTests {
     [Fact]
     public void GetSystemLanguageCulturesMappingTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<LocalesTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider);
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
+                                                                               userDataPath: this.dataProvider.DirectoryName);
         Locales locales = runtimeContainer.Locales;
         Assert.NotNull(locales);
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
