@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Inf.Models.Localizations;
+using TranslateCS2.Inf.Keyz;
 
 namespace TranslateCS2.Core.Models.Localizations;
-internal class AppLocFileEntry : MyLocalizationEntry, IAppLocFileEntry {
+internal class AppLocFileEntry : IAppLocFileEntry {
+    public IMyKey Key { get; }
+    public string? Value { get; set; }
     public HashSet<string> Keys { get; } = [];
     public string? KeyOrigin { get; }
     public int Count => this.Keys.Count;
@@ -13,12 +15,15 @@ internal class AppLocFileEntry : MyLocalizationEntry, IAppLocFileEntry {
     public string? Translation { get; set; }
     public bool IsDeleteAble { get; }
     public bool IsTranslated => !StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation);
-    public AppLocFileEntry(string key, string value) : base(key, value) { }
+    public AppLocFileEntry(string key, string? value) {
+        this.Key = new MyKey(key);
+        this.Value = value;
+    }
     public AppLocFileEntry(string key,
                            string? value,
                            string? valueMerge,
                            string? translation,
-                           bool isDeleteAble) : base(key, value) {
+                           bool isDeleteAble) : this(key, value) {
         this.AddKey(key);
         this.ValueMerge = valueMerge;
         this.Translation = translation;
