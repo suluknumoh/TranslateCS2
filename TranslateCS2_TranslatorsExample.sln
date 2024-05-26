@@ -19,36 +19,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Inf", "Transla
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		TTVClientApp|Any CPU = TTVClientApp|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-		TTVUpdateApp|Any CPU = TTVUpdateApp|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.TTVClientApp|Any CPU.ActiveCfg = Debug|Any CPU
-		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.TTVClientApp|Any CPU.Build.0 = Debug|Any CPU
 		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.TTVUpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
-		{02363F97-C05E-4C86-BE17-1B5B265FCE82}.TTVUpdateApp|Any CPU.Build.0 = Debug|Any CPU
-		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.TTVClientApp|Any CPU.ActiveCfg = Debug|Any CPU
-		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.TTVClientApp|Any CPU.Build.0 = Debug|Any CPU
 		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.TTVUpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
-		{59BDEC92-D691-4FD5-9278-62F5A801F55A}.TTVUpdateApp|Any CPU.Build.0 = Debug|Any CPU
-		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.TTVClientApp|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.TTVClientApp|Any CPU.Build.0 = Debug|Any CPU
 		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.TTVUpdateApp|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B175208-3B61-4DD0-A89A-FEFD31B87B38}.TTVUpdateApp|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
