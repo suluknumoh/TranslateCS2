@@ -26,6 +26,8 @@ public class LocFileService {
         string nameEnglish = reader.ReadString();
         string id = reader.ReadString();
         string name = reader.ReadString();
+        // TODO: extract reader strategy? to make it also work for
+        /// <see cref="TranslateCS2.Mod.Containers.Items.TranslationFile" />
         MyLocalizationSource<E> source = strategy.CreateNewSource();
         MyLocalization<E> localizationFile = strategy.CreateNewFile(id,
                                                                     nameEnglish,
