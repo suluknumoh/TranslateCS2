@@ -7,7 +7,7 @@ using TranslateCS2.Inf.Interfaces;
 
 namespace TranslateCS2.Inf.Models.Localizations;
 public class MyLocalization<E> : IEquatable<MyLocalization<E>?>, IIdNameNameEnglishGetAble {
-    private string uniquer { get; } = ModConstants.Name;
+    private readonly string uniquer = ModConstants.Name;
     public string Id { get; }
     public virtual string Name { get; }
     public string NameEnglish { get; }

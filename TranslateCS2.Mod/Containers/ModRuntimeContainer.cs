@@ -12,6 +12,7 @@ using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Containers;
 public class ModRuntimeContainer : IModRuntimeContainer {
+    private readonly PerformanceMeasurement performanceMeasurement;
     public Paths Paths { get; }
     public IMyLogger Logger { get; }
     public ErrorMessages ErrorMessages { get; }
@@ -24,7 +25,6 @@ public class ModRuntimeContainer : IModRuntimeContainer {
     public IMod Mod { get; }
     public ModSettings Settings { get; }
     public ModSettingsLocale SettingsLocale { get; }
-    public PerformanceMeasurement PerformanceMeasurement { get; }
 
     public ModRuntimeContainer(IMyLogProvider logProvider,
                                IMod mod,
@@ -45,7 +45,7 @@ public class ModRuntimeContainer : IModRuntimeContainer {
         this.Locales = new Locales(this);
         this.ErrorMessages = new ErrorMessages(this);
         this.Languages = new MyLanguages(this);
-        this.PerformanceMeasurement = new PerformanceMeasurement(this,
+        this.performanceMeasurement = new PerformanceMeasurement(this,
                                                                  measurePerformance);
         this.Settings = new ModSettings(this);
         this.SettingsLocale = new ModSettingsLocale(this);
@@ -53,18 +53,20 @@ public class ModRuntimeContainer : IModRuntimeContainer {
 
     public void Init(Action<string, object, object?>? loadSettings = null,
                      bool register = false) {
-        this.PerformanceMeasurement.Start();
+        this.performanceMeasurement.Start();
         this.Languages.Init();
         this.SettingsLocale.Init();
         if (register) {
             this.Settings.RegisterInOptionsUI();
         }
         // settings have to be loaded after files are read and loaded
-        loadSettings?.Invoke(ModConstants.Name, this.Settings, null);
+        loadSettings?.Invoke(ModConstants.Name,
+                             this.Settings,
+                             null);
         this.LocManager.AddSource(this.LocManager.FallbackLocaleId,
                                   this.SettingsLocale);
         this.Settings.HandleLocaleOnLoad();
-        this.PerformanceMeasurement.Stop();
+        this.performanceMeasurement.Stop();
     }
 
     public void Dispose(bool unregister = false) {
