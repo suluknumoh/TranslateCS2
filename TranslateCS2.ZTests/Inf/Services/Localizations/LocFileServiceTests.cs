@@ -9,10 +9,10 @@ using TranslateCS2.ZZZTestLib.Services.Localizations;
 
 namespace TranslateCS2.ZTests.Inf.Services.Localizations;
 public class LocFileServiceTests {
-    private readonly IStreamingDatasDataPathProvider streamingDatasDataPathProvider;
+    private readonly ILocFileDirectoryProvider streamingDatasDataPathProvider;
     private readonly TestLocFileServiceStrategy strategy;
     public LocFileServiceTests() {
-        this.streamingDatasDataPathProvider = new TestStreamingDatasDataPathProvider();
+        this.streamingDatasDataPathProvider = new TestLocFileDirectoryProvider();
         this.strategy = new TestLocFileServiceStrategy();
     }
     [Fact]

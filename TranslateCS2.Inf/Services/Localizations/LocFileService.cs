@@ -7,13 +7,13 @@ using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Inf.Services.Localizations;
 public class LocFileService {
-    private readonly IStreamingDatasDataPathProvider streamingDatasDataPathProvider;
+    private readonly ILocFileDirectoryProvider locFileDirectoryProvider;
 
-    public LocFileService(IStreamingDatasDataPathProvider streamingDatasDataPathProvider) {
-        this.streamingDatasDataPathProvider = streamingDatasDataPathProvider;
+    public LocFileService(ILocFileDirectoryProvider locFileDirectoryProvider) {
+        this.locFileDirectoryProvider = locFileDirectoryProvider;
     }
     public IEnumerable<FileInfo> GetLocalizationFiles() {
-        DirectoryInfo loc = new DirectoryInfo(this.streamingDatasDataPathProvider.StreamingDatasDataPath);
+        DirectoryInfo loc = new DirectoryInfo(this.locFileDirectoryProvider.LocFileDirectory);
         return loc.EnumerateFiles(ModConstants.LocSearchPattern);
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">

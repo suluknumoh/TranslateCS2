@@ -17,14 +17,14 @@ internal class InstallPathDetector : IInstallPathDetector {
     private readonly string streamingAssetsFolderName = "StreamingAssets";
 
     public string InstallPath { get; }
-    public string StreamingDatasDataPath { get; }
+    public string LocFileDirectory { get; }
 
     public InstallPathDetector() {
         this.InstallPath = this.DetectInstallPath();
-        this.StreamingDatasDataPath = Path.Combine(this.InstallPath,
-                                                   this.cities2DataFolderName,
-                                                   this.streamingAssetsFolderName,
-                                                   StringConstants.DataTilde);
+        this.LocFileDirectory = Path.Combine(this.InstallPath,
+                                             this.cities2DataFolderName,
+                                             this.streamingAssetsFolderName,
+                                             StringConstants.DataTilde);
     }
 
     private string DetectInstallPath() {

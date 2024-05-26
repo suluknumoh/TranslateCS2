@@ -6,12 +6,13 @@ using TranslateCS2.Inf.Interfaces;
 
 namespace TranslateCS2.Inf;
 /// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
-public class Paths : IStreamingDatasDataPathProvider {
+public class Paths : ILocFileDirectoryProvider {
     public string UserDataPath { get; }
     public string ModsDataPathGeneral { get; }
     public string ModsDataPathSpecific { get; }
     public string StreamingDataPath { get; }
     public string StreamingDatasDataPath { get; }
+    public string LocFileDirectory => this.StreamingDatasDataPath;
     public Paths(bool createIfNotExists,
                  string streamingDataPath,
                  string? userDataPath = null) {
