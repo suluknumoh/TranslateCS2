@@ -23,7 +23,7 @@ public class CoreModule : IModule {
         containerRegistry.RegisterSingleton<IFiltersService, FiltersService>();
         containerRegistry.RegisterSingleton<ILatestVersionCheckService, LatestVersionCheckService>();
         containerRegistry.RegisterSingleton<IInstallPathDetector, InstallPathDetector>();
-        containerRegistry.RegisterSingleton<IAppLocaFileService, AppLocFileService>();
+        containerRegistry.RegisterSingleton<IAppLocFileService, AppLocFileService>();
         containerRegistry.RegisterSingleton<ITranslationSessionManager, TranslationSessionManager>();
         containerRegistry.RegisterSingleton<ITranslatorCollector, TranslatorCollector>();
         //

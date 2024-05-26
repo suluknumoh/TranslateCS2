@@ -23,7 +23,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     private readonly ITranslationsDatabaseService db;
     public AppLocFile BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
-    public IAppLocaFileService LocalizationFilesService { get; }
+    public IAppLocFileService LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
     public ObservableCollection<ITranslationSession> TranslationSessions { get; } = [];
     private ITranslationSession? _CurrentTranslationSession;
@@ -53,7 +53,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public TranslationSessionManager(IRegionManager regionManager,
                                      IViewConfigurations viewConfigurations,
                                      InstallPathDetector installPathDetector,
-                                     IAppLocaFileService localizationFilesService,
+                                     IAppLocFileService localizationFilesService,
                                      ITranslationsDatabaseService db) {
         this.regionManager = regionManager;
         this.viewConfigurations = viewConfigurations;

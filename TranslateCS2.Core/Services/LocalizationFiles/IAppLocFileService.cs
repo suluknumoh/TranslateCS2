@@ -4,7 +4,7 @@ using System.IO;
 using TranslateCS2.Core.Models.Localizations;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
-public interface IAppLocaFileService {
+public interface IAppLocFileService {
     IEnumerable<FileInfo> GetLocalizationFiles();
     AppLocFile GetLocalizationFile(FileInfo fileInfo);
 }

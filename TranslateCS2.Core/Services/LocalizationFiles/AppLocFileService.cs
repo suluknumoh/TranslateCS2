@@ -7,7 +7,7 @@ using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Core.Services.LocalizationFiles;
-internal class AppLocFileService : IAppLocaFileService {
+internal class AppLocFileService : IAppLocFileService {
     private readonly InstallPathDetector installPathDetector;
 
     public AppLocFileService(InstallPathDetector installPathDetector) {
@@ -15,7 +15,7 @@ internal class AppLocFileService : IAppLocaFileService {
     }
     public IEnumerable<FileInfo> GetLocalizationFiles() {
         string installPath = this.installPathDetector.DetectInstallPath();
-        string locLocation = Path.Combine(installPath, "Cities2_Data", "StreamingAssets", "Data~");
+        string locLocation = Path.Combine(installPath, "Cities2_Data", "StreamingAssets", StringConstants.DataTilde);
         DirectoryInfo loc = new DirectoryInfo(locLocation);
         return loc.EnumerateFiles(ModConstants.LocSearchPattern);
     }

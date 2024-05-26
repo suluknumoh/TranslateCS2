@@ -12,10 +12,10 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {
-    private readonly IAppLocaFileService localizationFilesService;
+    private readonly IAppLocFileService localizationFilesService;
     private readonly JSONService jsonService;
 
-    public ExImportService(IAppLocaFileService localizationFilesService,
+    public ExImportService(IAppLocFileService localizationFilesService,
                            JSONService jsonService) {
         this.localizationFilesService = localizationFilesService;
         this.jsonService = jsonService;
