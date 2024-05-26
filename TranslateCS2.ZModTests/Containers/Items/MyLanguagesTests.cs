@@ -183,8 +183,8 @@ public class MyLanguagesTests {
         Assert.NotNull(language);
         Assert.True(language.HasFlavors);
         Assert.Equal(expectedFlavorCount, language.FlavorCount);
-        // each translation file contains two entries
-        Assert.Equal(expectedFlavorCount * 2, language.EntryCountOfAllFlavors);
+        Assert.Equal(expectedFlavorCount * this.dataProvider.EntryCountPerFile,
+                     language.EntryCountOfAllFlavors);
 
         TestLocManager locManager = runtimeContainer.TestLocManager;
         if (language.IsBuiltIn) {
@@ -302,7 +302,8 @@ public class MyLanguagesTests {
             Assert.True(language.HasFlavors);
             Assert.Equal(expectedFlavorCount, language.FlavorCount);
             // first its ok, so we expect two times expectedFlavorCount
-            Assert.Equal(2 * expectedFlavorCount, language.EntryCountOfAllFlavors);
+            Assert.Equal(expectedFlavorCount * testDataProvider.EntryCountPerFile,
+                         language.EntryCountOfAllFlavors);
 
             TestLocManager locManager = runtimeContainer.TestLocManager;
             if (language.IsBuiltIn) {

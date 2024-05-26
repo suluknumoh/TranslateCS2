@@ -28,8 +28,8 @@ public class Paths {
         if (!this.UserDataPath.EndsWith(StringConstants.ForwardSlash)) {
             this.UserDataPath += StringConstants.ForwardSlash;
         }
-        this.ModsDataPathGeneral = $"{this.UserDataPath}{ModConstants.ModsData}{StringConstants.ForwardSlash}";
-        this.ModsDataPathSpecific = $"{this.ModsDataPathGeneral}{ModConstants.Name}{StringConstants.ForwardSlash}";
+        this.ModsDataPathGeneral = $"{this.UserDataPath}{ModConstants.DataPathRawGeneral}";
+        this.ModsDataPathSpecific = $"{this.UserDataPath}{ModConstants.DataPathRawSpecific}";
         if (createIfNotExists) {
             this.CreateIfNotExists();
         }

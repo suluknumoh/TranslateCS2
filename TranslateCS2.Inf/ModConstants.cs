@@ -29,4 +29,6 @@ public static class ModConstants {
     public static int MaxDisplayNameLength => 31;
     public static int MaxErroneous => 5;
     public static string ModExportKeyValueJsonName { get; } = $"_{Name}{JsonExtension}";
+    public static string DataPathRawGeneral { get; } = $"{ModConstants.ModsData}{StringConstants.ForwardSlash}";
+    public static string DataPathRawSpecific { get; } = $"{DataPathRawGeneral}{ModConstants.Name}{StringConstants.ForwardSlash}";
 }
