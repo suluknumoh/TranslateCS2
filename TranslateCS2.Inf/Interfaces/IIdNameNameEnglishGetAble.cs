@@ -1,4 +1,4 @@
-namespace TranslateCS2.Mod.Interfaces;
+namespace TranslateCS2.Inf.Interfaces;
 public interface IIdNameNameEnglishGetAble {
     string Id { get; }
     string Name { get; }

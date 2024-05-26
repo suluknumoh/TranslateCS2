@@ -13,4 +13,6 @@ public static class StringConstants {
     public static string DataTilde { get; } = "Data~";
     public static string None { get; } = nameof(None);
     public static string NoneLower { get; } = nameof(None).ToLower();
+    public static string CarriageReturn { get; } = "\r";
+    public static string LineFeed { get; } = "\n";
 }

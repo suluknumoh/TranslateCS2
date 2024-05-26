@@ -56,4 +56,12 @@ public class StringConstantsTests {
     public void NoneLowerTest() {
         Assert.Equal("none", StringConstants.NoneLower);
     }
+    [Fact]
+    public void CarriageReturnTest() {
+        Assert.Equal("\r", StringConstants.CarriageReturn);
+    }
+    [Fact]
+    public void LineFeedTest() {
+        Assert.Equal("\n", StringConstants.LineFeed);
+    }
 }

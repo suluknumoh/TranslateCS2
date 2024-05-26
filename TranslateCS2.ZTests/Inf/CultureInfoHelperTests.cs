@@ -8,10 +8,15 @@ using Xunit;
 namespace TranslateCS2.ZTests.Inf;
 public class CultureInfoHelperTests {
     [Theory]
+    [InlineData(null, false, false)]
     [InlineData("German", true, true)]
     [InlineData("English", true, true)]
-    public void GeneralTest(string nameEnglish, bool expectedHasNeutral, bool expectedHasSpecific) {
+    public void GeneralTest(string? nameEnglish, bool expectedHasNeutral, bool expectedHasSpecific) {
         IEnumerable<CultureInfo>? cultureInfos = CultureInfoHelper.GatherCulturesFromEnglishName(nameEnglish);
+        if (nameEnglish is null) {
+            Assert.Null(cultureInfos);
+            return;
+        }
         Assert.NotNull(cultureInfos);
         Assert.NotEmpty(cultureInfos);
 

@@ -35,8 +35,8 @@ internal class AppLocFileEntry : IAppLocFileEntry {
         }
         string key =
             keyParameter
-                .Replace("\r", String.Empty)
-                .Replace("\n", String.Empty)
+                .Replace(StringConstants.CarriageReturn, String.Empty)
+                .Replace(StringConstants.LineFeed, String.Empty)
                 .Trim();
         this.Keys.Add(key);
     }

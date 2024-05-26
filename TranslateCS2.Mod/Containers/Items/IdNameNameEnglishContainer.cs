@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Interfaces;
+using TranslateCS2.Inf.Interfaces;
 
 using UnityEngine;
 
