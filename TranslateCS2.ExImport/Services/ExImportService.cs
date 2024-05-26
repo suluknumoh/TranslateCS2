@@ -4,18 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using TranslateCS2.Core.Models.Localizations;
-using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Services.Localizations;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {
-    private readonly IAppLocFileService localizationFilesService;
+    private readonly LocFileService localizationFilesService;
     private readonly JSONService jsonService;
 
-    public ExImportService(IAppLocFileService localizationFilesService,
+    public ExImportService(LocFileService localizationFilesService,
                            JSONService jsonService) {
         this.localizationFilesService = localizationFilesService;
         this.jsonService = jsonService;

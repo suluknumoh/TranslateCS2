@@ -8,10 +8,10 @@ public class AppLocFile : AMyLocalization<AppLocFileSource,
                                           ObservableCollection<KeyValuePair<string, IAppLocFileEntry>>,
                                           IAppLocFileEntry> {
     public AppLocFile(string id,
-                           string nameEnglish,
-                           string name,
-                           AppLocFileSource source) : base(id,
-                                                           nameEnglish,
-                                                           name,
-                                                           source) { }
+                      string nameEnglish,
+                      string name,
+                      AppLocFileSource source) : base(id,
+                                                      nameEnglish,
+                                                      name,
+                                                      source) { }
 }

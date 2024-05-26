@@ -4,6 +4,8 @@ using System.Linq;
 
 using Microsoft.Win32;
 
+using TranslateCS2.Inf;
+
 namespace TranslateCS2.Core.Services.InstallPaths;
 internal class InstallPathDetector : IInstallPathDetector {
     private readonly uint appid = 949230;
@@ -11,9 +13,21 @@ internal class InstallPathDetector : IInstallPathDetector {
     private readonly string registryValueName = "InstallPath";
     private readonly string steamappsFolderName = "steamapps";
     private readonly string commonFolderName = "common";
-    public InstallPathDetector() { }
+    private readonly string cities2DataFolderName = "Cities2_Data";
+    private readonly string streamingAssetsFolderName = "StreamingAssets";
 
-    public string DetectInstallPath() {
+    public string InstallPath { get; }
+    public string StreamingDatasDataPath { get; }
+
+    public InstallPathDetector() {
+        this.InstallPath = this.DetectInstallPath();
+        this.StreamingDatasDataPath = Path.Combine(this.InstallPath,
+                                                   this.cities2DataFolderName,
+                                                   this.streamingAssetsFolderName,
+                                                   StringConstants.DataTilde);
+    }
+
+    private string DetectInstallPath() {
         string libraryFoldersVDF = this.GetLibraryFoldersVDFPath();
         string baseInstallPath = this.GetBaseInstallPath(libraryFoldersVDF);
         string installDir = this.GetInstallDirFromAppManifestACF(baseInstallPath);

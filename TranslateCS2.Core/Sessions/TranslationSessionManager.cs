@@ -14,6 +14,7 @@ using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models;
+using TranslateCS2.Inf.Services.Localizations;
 
 namespace TranslateCS2.Core.Sessions;
 internal class TranslationSessionManager : BindableBase, ITranslationSessionManager {
@@ -23,7 +24,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     private readonly ITranslationsDatabaseService db;
     public AppLocFile BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
-    public IAppLocFileService LocalizationFilesService { get; }
+    public LocFileService LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
     public ObservableCollection<ITranslationSession> TranslationSessions { get; } = [];
     private ITranslationSession? _CurrentTranslationSession;
@@ -53,14 +54,14 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public TranslationSessionManager(IRegionManager regionManager,
                                      IViewConfigurations viewConfigurations,
                                      InstallPathDetector installPathDetector,
-                                     IAppLocFileService localizationFilesService,
+                                     LocFileService localizationFilesService,
                                      ITranslationsDatabaseService db) {
         this.regionManager = regionManager;
         this.viewConfigurations = viewConfigurations;
         this.InstallPathDetector = installPathDetector;
         this.onError = (error) => this.DatabaseError = error;
         try {
-            this.InstallPath = this.InstallPathDetector.DetectInstallPath();
+            this.InstallPath = this.InstallPathDetector.InstallPath;
             this.IsAppUseAble = true;
         } catch {
             this.IsAppUseAble = false;
@@ -79,7 +80,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
 
     private AppLocFile GetLocalizationFile(string fileName) {
         FileInfo baseLocalizationFileInfo = this.LocalizationFiles.Where(item => item.Name == fileName).First();
-        return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo);
+        return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo, new AppLocFileServiceStrategy());
     }
 
     public void AddTranslationSession(ITranslationSession translationSession) {
@@ -108,7 +109,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
             return;
         }
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
-        AppLocFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
+        AppLocFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo, new AppLocFileServiceStrategy());
         foreach (KeyValuePair<string, IAppLocFileEntry> mergeEntry in mergeFile.Source.Localizations) {
             IEnumerable<KeyValuePair<string, IAppLocFileEntry>> entries = this.CurrentTranslationSession.Localizations.Where(item => item.Key.Equals(mergeEntry.Key));
             if (entries.Any()) {

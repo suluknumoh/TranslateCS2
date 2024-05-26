@@ -8,9 +8,10 @@ using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Services.Filters;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LatestVersions;
-using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.Translators.Collectors;
+using TranslateCS2.Inf.Interfaces;
+using TranslateCS2.Inf.Services.Localizations;
 
 namespace TranslateCS2.Core;
 public class CoreModule : IModule {
@@ -23,7 +24,9 @@ public class CoreModule : IModule {
         containerRegistry.RegisterSingleton<IFiltersService, FiltersService>();
         containerRegistry.RegisterSingleton<ILatestVersionCheckService, LatestVersionCheckService>();
         containerRegistry.RegisterSingleton<IInstallPathDetector, InstallPathDetector>();
-        containerRegistry.RegisterSingleton<IAppLocFileService, AppLocFileService>();
+        containerRegistry.RegisterSingleton<LocFileService>();
+        containerRegistry.RegisterSingleton<IStreamingDatasDataPathProvider>(containerProvider => containerProvider.Resolve<IInstallPathDetector>());
+
         containerRegistry.RegisterSingleton<ITranslationSessionManager, TranslationSessionManager>();
         containerRegistry.RegisterSingleton<ITranslatorCollector, TranslatorCollector>();
         //

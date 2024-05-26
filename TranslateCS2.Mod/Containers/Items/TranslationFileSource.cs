@@ -17,6 +17,9 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
     private readonly MyLanguage language;
     public IDictionary<string, string> Localizations { get; } = new Dictionary<string, string>();
     public string Path { get; }
+
+    public ICollection<KeyValuePair<string, int>> IndexCounts { get; } = [];
+
     public TranslationFileSource(IModRuntimeContainer runtimeContainer,
                                  MyLanguage language,
                                  string path) {

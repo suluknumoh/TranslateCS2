@@ -2,9 +2,11 @@ using System;
 using System.IO;
 using System.Text;
 
+using TranslateCS2.Inf.Interfaces;
+
 namespace TranslateCS2.Inf;
 /// <seealso cref="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
-public class Paths {
+public class Paths : IStreamingDatasDataPathProvider {
     public string UserDataPath { get; }
     public string ModsDataPathGeneral { get; }
     public string ModsDataPathSpecific { get; }
