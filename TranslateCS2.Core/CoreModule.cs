@@ -24,8 +24,8 @@ public class CoreModule : IModule {
         containerRegistry.RegisterSingleton<IFiltersService, FiltersService>();
         containerRegistry.RegisterSingleton<ILatestVersionCheckService, LatestVersionCheckService>();
         containerRegistry.RegisterSingleton<IInstallPathDetector, InstallPathDetector>();
-        containerRegistry.RegisterSingleton<LocFileService>();
         containerRegistry.RegisterSingleton<IStreamingDatasDataPathProvider>(containerProvider => containerProvider.Resolve<IInstallPathDetector>());
+        containerRegistry.RegisterSingleton<LocFileService>();
 
         containerRegistry.RegisterSingleton<ITranslationSessionManager, TranslationSessionManager>();
         containerRegistry.RegisterSingleton<ITranslatorCollector, TranslatorCollector>();
