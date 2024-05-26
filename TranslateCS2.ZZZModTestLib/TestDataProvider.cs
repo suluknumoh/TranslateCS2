@@ -23,10 +23,14 @@ public class TestDataProvider : IDisposable {
         this.GenerateData();
     }
     public void GenerateData() {
-        this.EntryCountPerFile = JSONGenerator.Generate(this.DataDirectorySpecific, true, true);
+        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific);
+        generator.Generate(true, true);
+        this.EntryCountPerFile = generator.EntryCountPerFile;
     }
     public void GenerateCorruptData() {
-        this.EntryCountPerFile = JSONGenerator.Generate(this.DataDirectorySpecific, false, true);
+        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific);
+        generator.Generate(false, true);
+        this.EntryCountPerFile = generator.EntryCountPerFile;
     }
     public void Dispose() {
         if (Directory.Exists(this.DirectoryName)) {

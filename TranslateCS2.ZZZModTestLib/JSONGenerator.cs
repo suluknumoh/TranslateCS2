@@ -4,16 +4,15 @@ using System.Text;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.ZZZModTestLib;
-public static class JSONGenerator {
+public class JSONGenerator {
+    public string Destination;
+    public int EntryCountPerFile { get; private set; }
+    public JSONGenerator(string destination) {
+        this.Destination = destination;
+    }
     /// <summary>
-    ///     generates localization JSONs in the given <paramref name="destination"/>
+    ///     generates localization JSONs in the given <see cref="Destination"/>
     /// </summary>
-    /// <param name="destination">
-    ///     path to where the JSONs are generated
-    ///     <br/>
-    ///     <br/>
-    ///     gets created if it does <see langword="not"/>exist
-    /// </param>
     /// <param name="ok">
     ///     <see langword="true"/> (<see langword="default"/>) - generates NON corrupt data
     ///     <br/>
@@ -24,47 +23,51 @@ public static class JSONGenerator {
     ///     <br/>
     ///     <see langword="false"/> (has to be set explicitly) - does not overwrite existing data
     /// </param>
-    /// <returns>
-    ///     the amount of entries in a single file
-    /// </returns>
-    public static int Generate(string destination,
-                               bool ok = true,
-                               bool overwrite = true) {
-        Directory.CreateDirectory(destination);
-        int entryCountPerFile = 0;
-        string colon = "";
-        if (ok) {
-            colon = ":";
-        }
+    public void Generate(bool ok = true,
+                         bool overwrite = true) {
+        Directory.CreateDirectory(this.Destination);
         foreach (string supportedLocale in LocalesSupported.Lowered) {
-            string filePath = Path.Combine(destination, $"{supportedLocale}{ModConstants.JsonExtension}");
+            string filePath = Path.Combine(this.Destination, $"{supportedLocale}{ModConstants.JsonExtension}");
             if (File.Exists(filePath)
                 && !overwrite) {
                 continue;
             }
-            int count = 0;
+            this.EntryCountPerFile = 0;
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("{");
             // to see, if changes are applied on startup
-            AppendEntry(builder,
-                        $"\"Menu.OPTIONS\"{colon} \"Options ({supportedLocale}.json)\",",
-                        ref count);
+            this.AppendEntry(builder,
+                             ok,
+                             "Menu.OPTIONS",
+                             $"Options ({supportedLocale}.json)");
             // to see, if changes are applied on flavor changed
-            AppendEntry(builder,
-                        $"\"Options.SECTION[General]\"{colon} \"General ({supportedLocale}.json)\",",
-                        ref count);
+            this.AppendEntry(builder,
+                             ok,
+                             "Options.SECTION[General]",
+                             $"General ({supportedLocale}.json)");
+            if (false) {
+                // just a template...
+                this.AppendEntry(builder,
+                                 ok,
+                                 "key",
+                                 $"value");
+            }
             builder.AppendLine("}");
             File.WriteAllText(filePath,
                               builder.ToString(),
                               Encoding.UTF8);
-            entryCountPerFile = count;
+
         }
-        return entryCountPerFile;
     }
-    private static void AppendEntry(StringBuilder builder,
-                                    string entry,
-                                    ref int count) {
-        builder.AppendLine(entry);
-        count++;
+    private void AppendEntry(StringBuilder builder,
+                             bool ok,
+                             string key,
+                             string value) {
+        string colon = "";
+        if (ok) {
+            colon = ":";
+        }
+        builder.AppendLine($"\"{key}\"{colon} \"{value}\",");
+        this.EntryCountPerFile++;
     }
 }
