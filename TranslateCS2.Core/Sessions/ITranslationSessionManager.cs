@@ -6,10 +6,11 @@ using System.Linq;
 using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models;
+using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Core.Sessions;
 public interface ITranslationSessionManager {
-    AppLocFile BaseLocalizationFile { get; }
+    MyLocalization<IAppLocFileEntry> BaseLocalizationFile { get; }
     IEnumerable<FileInfo> LocalizationFiles { get; }
     ObservableCollection<ITranslationSession> TranslationSessions { get; }
     ITranslationSession? CurrentTranslationSession { get; set; }

@@ -8,17 +8,13 @@ using Colossal;
 using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, string>, string>, IDictionarySource, IEquatable<TranslationFileSource?> {
+public class TranslationFileSource : MyLocalizationSource<string>, IDictionarySource {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
-    public IDictionary<string, string> Localizations { get; } = new Dictionary<string, string>();
     public string Path { get; }
-
-    public ICollection<KeyValuePair<string, int>> IndexCounts { get; } = [];
 
     public TranslationFileSource(IModRuntimeContainer runtimeContainer,
                                  MyLanguage language,
@@ -67,27 +63,20 @@ public class TranslationFileSource : IMyLocalizationSource<IDictionary<string, s
         //
     }
 
-    [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
-        return this.Equals(obj as TranslationFileSource);
+        return obj is TranslationFileSource source &&
+               this.Path == source.Path;
     }
 
-    [MyExcludeFromCoverage]
-    public bool Equals(TranslationFileSource? other) {
-        return other is not null &&
-               EqualityComparer<IModRuntimeContainer>.Default.Equals(this.runtimeContainer, other.runtimeContainer) &&
-               EqualityComparer<MyLanguage>.Default.Equals(this.language, other.language) &&
-               EqualityComparer<IDictionary<string, string>>.Default.Equals(this.Localizations, other.Localizations) &&
-               this.Path == other.Path;
-    }
-
-    [MyExcludeFromCoverage]
     public override int GetHashCode() {
-        int hashCode = 1658491880;
-        hashCode = (hashCode * -1521134295) + EqualityComparer<IModRuntimeContainer>.Default.GetHashCode(this.runtimeContainer);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<MyLanguage>.Default.GetHashCode(this.language);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<IDictionary<string, string>>.Default.GetHashCode(this.Localizations);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Path);
-        return hashCode;
+        return 467214278 + EqualityComparer<string>.Default.GetHashCode(this.Path);
+    }
+
+    public static bool operator ==(TranslationFileSource? left, TranslationFileSource? right) {
+        return EqualityComparer<TranslationFileSource>.Default.Equals(left, right);
+    }
+
+    public static bool operator !=(TranslationFileSource? left, TranslationFileSource? right) {
+        return !(left == right);
     }
 }

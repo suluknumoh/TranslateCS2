@@ -14,6 +14,7 @@ using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models;
+using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 
 namespace TranslateCS2.Core.Sessions;
@@ -22,7 +23,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     private readonly IViewConfigurations viewConfigurations;
     private readonly ITranslationsDatabaseService.OnErrorCallBack onError;
     private readonly ITranslationsDatabaseService db;
-    public AppLocFile BaseLocalizationFile { get; }
+    public MyLocalization<IAppLocFileEntry> BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
     public LocFileService LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
@@ -78,7 +79,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         }
     }
 
-    private AppLocFile GetLocalizationFile(string fileName) {
+    private MyLocalization<IAppLocFileEntry> GetLocalizationFile(string fileName) {
         FileInfo baseLocalizationFileInfo = this.LocalizationFiles.Where(item => item.Name == fileName).First();
         return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo, new AppLocFileServiceStrategy());
     }
@@ -109,7 +110,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
             return;
         }
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
-        AppLocFile mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo, new AppLocFileServiceStrategy());
+        MyLocalization<IAppLocFileEntry> mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo, new AppLocFileServiceStrategy());
         foreach (KeyValuePair<string, IAppLocFileEntry> mergeEntry in mergeFile.Source.Localizations) {
             IEnumerable<KeyValuePair<string, IAppLocFileEntry>> entries = this.CurrentTranslationSession.Localizations.Where(item => item.Key.Equals(mergeEntry.Key));
             if (entries.Any()) {

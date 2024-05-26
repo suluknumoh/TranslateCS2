@@ -18,32 +18,29 @@ public class LocFileService {
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
     /// <seealso cref="Colossal.IO.AssetDatabase.LocaleAsset.Load">
-    public LF GetLocalizationFile<LF, S, L, E>(FileInfo fileInfo,
-                                               ILocFileServiceStrategy<LF, S, L, E> strategy) where LF : AMyLocalization<S, L, E>
-                                                                                              where S : IMyLocalizationSource<L, E>
-                                                                                              where L : ICollection<KeyValuePair<string, E>> {
+    public MyLocalization<E> GetLocalizationFile<E>(FileInfo fileInfo,
+                                                    LocFileServiceStrategy<E> strategy) {
         using Stream stream = File.OpenRead(fileInfo.FullName);
         BinaryReader reader = new BinaryReader(stream, Encoding.UTF8);
         uint fileHeader = reader.ReadUInt16();
         string nameEnglish = reader.ReadString();
         string id = reader.ReadString();
         string name = reader.ReadString();
-        S source = strategy.CreateNewSource();
-        LF localizationFile = strategy.CreateNewFile(id,
+        MyLocalizationSource<E> source = strategy.CreateNewSource();
+        MyLocalization<E> localizationFile = strategy.CreateNewFile(id,
                                                      nameEnglish,
                                                      name,
                                                      source);
-        ReadLocalizationFilesLocalizations<LF, S, L, E>(reader,
-                                                        source,
-                                                        strategy);
-        ReadLocalizationFilesIndices<S, L, E>(reader,
-                                              source);
+        ReadLocalizationFilesLocalizations<E>(reader,
+                                              source,
+                                              strategy);
+        ReadLocalizationFilesIndices<E>(reader,
+                                        source);
         return localizationFile;
     }
 
-    private static void ReadLocalizationFilesIndices<S, L, E>(BinaryReader reader,
-                                                              S source) where S : IMyLocalizationSource<L, E>
-                                                                        where L : ICollection<KeyValuePair<string, E>> {
+    private static void ReadLocalizationFilesIndices<E>(BinaryReader reader,
+                                                        MyLocalizationSource<E> source) {
         int indexCount = reader.ReadInt32();
         for (int i = 0; i < indexCount; i++) {
             string key = reader.ReadString();
@@ -52,11 +49,9 @@ public class LocFileService {
         }
     }
 
-    private static void ReadLocalizationFilesLocalizations<LF, S, L, E>(BinaryReader reader,
-                                                                        S source,
-                                                                        ILocFileServiceStrategy<LF, S, L, E> strategy) where LF : AMyLocalization<S, L, E>
-                                                                                                                       where S : IMyLocalizationSource<L, E>
-                                                                                                                       where L : ICollection<KeyValuePair<string, E>> {
+    private static void ReadLocalizationFilesLocalizations<E>(BinaryReader reader,
+                                                              MyLocalizationSource<E> source,
+                                                              LocFileServiceStrategy<E> strategy) {
         int localizationCount = reader.ReadInt32();
         for (int i = 0; i < localizationCount; i++) {
             string key = reader.ReadString();

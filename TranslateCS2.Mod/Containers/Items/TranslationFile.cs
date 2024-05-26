@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class TranslationFile : AMyLocalization<TranslationFileSource, IDictionary<string, string>, string> {
+public class TranslationFile : MyLocalization<string> {
     private readonly string name;
     public override string Name { get; }
+    public TranslationFileSource TranslationFileSource => base.Source as TranslationFileSource;
     public TranslationFile(string id,
                            string nameEnglish,
                            string name,

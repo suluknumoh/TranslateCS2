@@ -172,7 +172,7 @@ public class MyLanguages {
                 foreach (TranslationFile translationFile in language.Flavors) {
                     try {
                         this.TryToRemoveSource(language, translationFile);
-                        bool reInitialized = translationFile.Source.Load();
+                        bool reInitialized = translationFile.TranslationFileSource.Load();
                         if (!translationFile.IsOK || !reInitialized) {
                             this.Erroneous.Add(translationFile);
                         }
@@ -243,7 +243,7 @@ public class MyLanguages {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager.AddSource(language.Id,
-                                                       translationFile.Source);
+                                                       translationFile.TranslationFileSource);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
@@ -259,7 +259,7 @@ public class MyLanguages {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager.RemoveSource(language.Id,
-                                                          translationFile.Source);
+                                                          translationFile.TranslationFileSource);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
