@@ -4,10 +4,12 @@ using Prism.Ioc;
 using Prism.Modularity;
 
 using TranslateCS2.Core.HttpClients;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Ribbons.Sessions;
 using TranslateCS2.Core.Services.Filters;
 using TranslateCS2.Core.Services.InstallPaths;
 using TranslateCS2.Core.Services.LatestVersions;
+using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.Translators.Collectors;
 using TranslateCS2.Inf.Interfaces;
@@ -25,7 +27,8 @@ public class CoreModule : IModule {
         containerRegistry.RegisterSingleton<ILatestVersionCheckService, LatestVersionCheckService>();
         containerRegistry.RegisterSingleton<IInstallPathDetector, InstallPathDetector>();
         containerRegistry.RegisterSingleton<ILocFileDirectoryProvider>(containerProvider => containerProvider.Resolve<IInstallPathDetector>());
-        containerRegistry.RegisterSingleton<LocFileService>();
+        containerRegistry.RegisterSingleton<LocFileServiceStrategy<IAppLocFileEntry>, AppLocFileServiceStrategy>();
+        containerRegistry.RegisterSingleton<LocFileService<IAppLocFileEntry>>();
 
         containerRegistry.RegisterSingleton<ITranslationSessionManager, TranslationSessionManager>();
         containerRegistry.RegisterSingleton<ITranslatorCollector, TranslatorCollector>();

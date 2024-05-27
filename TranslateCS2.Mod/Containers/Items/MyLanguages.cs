@@ -9,6 +9,9 @@ using Colossal.IO.AssetDatabase.Internal;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
+using TranslateCS2.Inf.Models.Localizations;
+using TranslateCS2.Inf.Services.Localizations;
+using TranslateCS2.Mod.Services.Localizations;
 
 using UnityEngine;
 
@@ -61,41 +64,19 @@ public class MyLanguages {
     }
 
     private void ReadFiles() {
-        IEnumerable<string> translationFilePaths =
-            Directory
-                .EnumerateFiles(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.JsonSearchPattern)
-                .OrderBy(this.runtimeContainer.Paths.ExtractLocaleIdFromPath);
-        foreach (string translationFilePath in translationFilePaths) {
+        LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
+        LocFileService<string> locFileService = new LocFileService<string>(strategy);
+        IEnumerable<FileInfo> fileInfos = locFileService.GetLocalizationFiles();
+        foreach (FileInfo fileInfo in fileInfos) {
             try {
-                string localeIdPre = this.runtimeContainer.Paths.ExtractLocaleIdFromPath(translationFilePath);
-                string localeId = this.runtimeContainer.Locales.CorrectLocaleId(localeIdPre);
-                MyLanguage? language = this.GetLanguage(localeId);
+                MyLocalization<string> locFile = locFileService.GetLocalizationFile(fileInfo);
+                MyLanguage? language = this.GetLanguage(locFile.Id);
                 if (language is null) {
                     continue;
                 }
-                CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
-                if (cultureInfo is null) {
-                    this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                          LoggingConstants.NoCultureInfo,
-                                                          [translationFilePath, localeId, language]);
-                    continue;
-                }
-                string localeName = cultureInfo.NativeName;
-                if (language.SystemLanguage == SystemLanguage.SerboCroatian) {
-                    if (cultureInfo.EnglishName.Contains(LangConstants.Latin)) {
-                        localeName += $" ({LangConstants.Latin})";
-                    } else if (cultureInfo.EnglishName.Contains(LangConstants.Cyrillic)) {
-                        localeName += $" ({LangConstants.Cyrillic})";
-                    }
-                }
-                TranslationFileSource source = new TranslationFileSource(this.runtimeContainer,
-                                                                         language,
-                                                                         translationFilePath);
-                source.Load();
-                TranslationFile translationFile = new TranslationFile(localeId,
-                                                                      cultureInfo.EnglishName,
-                                                                      localeName,
-                                                                      source);
+                TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
+                                                                      language,
+                                                                      locFile);
                 if (!translationFile.IsOK) {
                     this.Erroneous.Add(translationFile);
                 }
@@ -105,7 +86,7 @@ public class MyLanguages {
             } catch (Exception ex) {
                 this.runtimeContainer.Logger.LogError(this.GetType(),
                                                       LoggingConstants.FailedTo,
-                                                      [nameof(ReadFiles), translationFilePath, ex]);
+                                                      [nameof(ReadFiles), fileInfo, ex]);
             }
         }
     }
@@ -165,6 +146,8 @@ public class MyLanguages {
 
     public void ReLoad() {
         try {
+            LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
+            LocFileService<string> locFileService = new LocFileService<string>(strategy);
             this.Erroneous.Clear();
             foreach (MyLanguage language in this.LanguageDictionary.Values) {
                 this.FlavorMapping.TryGetValue(language.SystemLanguage, out string? localeId);
@@ -172,7 +155,7 @@ public class MyLanguages {
                 foreach (TranslationFile translationFile in language.Flavors) {
                     try {
                         this.TryToRemoveSource(language, translationFile);
-                        bool reInitialized = translationFile.TranslationFileSource.Load();
+                        bool reInitialized = locFileService.ReadContent(translationFile.Source);
                         if (!translationFile.IsOK || !reInitialized) {
                             this.Erroneous.Add(translationFile);
                         }
@@ -243,7 +226,7 @@ public class MyLanguages {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager.AddSource(language.Id,
-                                                       translationFile.TranslationFileSource);
+                                                       translationFile);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
@@ -259,7 +242,7 @@ public class MyLanguages {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.runtimeContainer.LocManager.RemoveSource(language.Id,
-                                                          translationFile.TranslationFileSource);
+                                                          translationFile);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,

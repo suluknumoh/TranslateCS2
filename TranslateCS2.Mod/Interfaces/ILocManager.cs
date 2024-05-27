@@ -28,7 +28,7 @@ public interface ILocManager {
     /// <summary>
     ///     <see cref="Colossal.Localization.LocalizationManager.RemoveSource(System.String, IDictionarySource)"/>
     /// </summary>
-    void RemoveSource(string localeId, TranslationFileSource source);
+    void RemoveSource(string localeId, TranslationFile source);
     /// <summary>
     ///     <see cref="Colossal.Localization.LocalizationManager.SetActiveLocale(System.String)"/>
     /// </summary>

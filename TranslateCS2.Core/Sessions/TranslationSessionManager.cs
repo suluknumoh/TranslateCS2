@@ -11,7 +11,6 @@ using TranslateCS2.Core.Configurations.Views;
 using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Services.Databases;
 using TranslateCS2.Core.Services.InstallPaths;
-using TranslateCS2.Core.Services.LocalizationFiles;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models;
 using TranslateCS2.Inf.Models.Localizations;
@@ -25,7 +24,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     private readonly ITranslationsDatabaseService db;
     public MyLocalization<IAppLocFileEntry> BaseLocalizationFile { get; }
     public InstallPathDetector InstallPathDetector { get; }
-    public LocFileService LocalizationFilesService { get; }
+    public LocFileService<IAppLocFileEntry> LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
     public ObservableCollection<ITranslationSession> TranslationSessions { get; } = [];
     private ITranslationSession? _CurrentTranslationSession;
@@ -55,7 +54,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     public TranslationSessionManager(IRegionManager regionManager,
                                      IViewConfigurations viewConfigurations,
                                      InstallPathDetector installPathDetector,
-                                     LocFileService localizationFilesService,
+                                     LocFileService<IAppLocFileEntry> localizationFilesService,
                                      ITranslationsDatabaseService db) {
         this.regionManager = regionManager;
         this.viewConfigurations = viewConfigurations;
@@ -81,7 +80,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
 
     private MyLocalization<IAppLocFileEntry> GetLocalizationFile(string fileName) {
         FileInfo baseLocalizationFileInfo = this.LocalizationFiles.Where(item => item.Name == fileName).First();
-        return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo, new AppLocFileServiceStrategy());
+        return this.LocalizationFilesService.GetLocalizationFile(baseLocalizationFileInfo);
     }
 
     public void AddTranslationSession(ITranslationSession translationSession) {
@@ -110,7 +109,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
             return;
         }
         FileInfo mergeFileInfo = this.LocalizationFiles.Where(item => item.Name == this.CurrentTranslationSession.MergeLocalizationFileName).First();
-        MyLocalization<IAppLocFileEntry> mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo, new AppLocFileServiceStrategy());
+        MyLocalization<IAppLocFileEntry> mergeFile = this.LocalizationFilesService.GetLocalizationFile(mergeFileInfo);
         foreach (KeyValuePair<string, IAppLocFileEntry> mergeEntry in mergeFile.Source.Localizations) {
             IEnumerable<KeyValuePair<string, IAppLocFileEntry>> entries = this.CurrentTranslationSession.Localizations.Where(item => item.Key.Equals(mergeEntry.Key));
             if (entries.Any()) {

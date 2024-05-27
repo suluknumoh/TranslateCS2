@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using TranslateCS2.Inf.Interfaces;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.ZZZTestLib.Services.Localizations;
@@ -11,25 +10,23 @@ using Xunit;
 
 namespace TranslateCS2.ZTests.Inf.Services.Localizations;
 public class LocFileServiceTests {
-    private readonly ILocFileDirectoryProvider streamingDatasDataPathProvider;
     private readonly TestLocFileServiceStrategy strategy;
     public LocFileServiceTests() {
-        this.streamingDatasDataPathProvider = new TestLocFileDirectoryProvider();
         this.strategy = new TestLocFileServiceStrategy();
     }
     [Fact]
     public void GetLocalizationFilesTest() {
-        LocFileService locFileService = new LocFileService(this.streamingDatasDataPathProvider);
+        LocFileService<string> locFileService = new LocFileService<string>(this.strategy);
         IEnumerable<FileInfo> locFiles = locFileService.GetLocalizationFiles();
         Assert.Equal(12, locFiles.Count());
     }
     [Fact]
     public void GetLocalizationFileTest() {
-        LocFileService locFileService = new LocFileService(this.streamingDatasDataPathProvider);
+        LocFileService<string> locFileService = new LocFileService<string>(this.strategy);
         IEnumerable<FileInfo> locFileInfos = locFileService.GetLocalizationFiles();
         Assert.Equal(12, locFileInfos.Count());
         foreach (FileInfo locFileInfo in locFileInfos) {
-            MyLocalization<string> locFile = locFileService.GetLocalizationFile(locFileInfo, this.strategy);
+            MyLocalization<string> locFile = locFileService.GetLocalizationFile(locFileInfo);
             Assert.NotNull(locFile);
             Assert.NotNull(locFile.Id);
             Assert.NotNull(locFile.Name);

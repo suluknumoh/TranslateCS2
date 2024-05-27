@@ -40,7 +40,7 @@ public class TestLocManager : ILocManager {
         this.Sources.Remove(localeId);
     }
 
-    public void RemoveSource(string localeId, TranslationFileSource source) {
+    public void RemoveSource(string localeId, TranslationFile source) {
         if (this.Sources.ContainsKey(localeId)) {
             this.Sources[localeId].Remove(source);
         }

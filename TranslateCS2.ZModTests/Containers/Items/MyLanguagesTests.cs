@@ -217,7 +217,7 @@ public class MyLanguagesTests {
                 bool gotSources = locManager.Sources.TryGetValue(language.Id, out IList<IDictionarySource> sources);
                 Assert.True(gotSources);
                 Assert.Single(sources);
-                Assert.IsType<TranslationFileSource>(sources[0]);
+                Assert.IsType<TranslationFile>(sources[0]);
                 Assert.False(testLogProvider.HasLoggedTrace);
                 Assert.False(testLogProvider.HasLoggedInfo);
                 Assert.False(testLogProvider.HasLoggedWarning);
