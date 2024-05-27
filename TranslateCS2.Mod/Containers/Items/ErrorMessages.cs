@@ -4,13 +4,13 @@ using System.Text;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class ErrorMessages {
+internal class ErrorMessages {
     private readonly IModRuntimeContainer runtimeContainer;
-    internal ErrorMessages(IModRuntimeContainer runtimeContainer) {
+    public ErrorMessages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
     }
     private string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
-    internal void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
+    public void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(this.Intro);
         builder.Append($"the following provided translationfiles are corrupt");

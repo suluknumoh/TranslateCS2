@@ -6,7 +6,7 @@ using TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
 using TranslateCS2.ZZZTestLib;
 
 namespace TranslateCS2.ZZZModTestLib.Containers;
-public class ModTestRuntimeContainer : ModRuntimeContainer {
+internal class ModTestRuntimeContainer : ModRuntimeContainer {
     public TestLocManager TestLocManager => (TestLocManager) this.LocManager;
     public TestIntSettings TestIntSettings => (TestIntSettings) this.IntSettings;
     public ModTestRuntimeContainer(IMyLogProvider logProvider,

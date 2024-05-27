@@ -9,7 +9,7 @@ using TranslateCS2.Inf.Interfaces;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
+internal class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
     public string Id { get; }
     public string Name { get; }
     public string NameEnglish { get; }

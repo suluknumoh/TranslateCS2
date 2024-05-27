@@ -15,13 +15,13 @@ using TranslateCS2.Inf.Interfaces;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class MyLanguage : IIdNameNameEnglishGetAble {
+internal class MyLanguage : IIdNameNameEnglishGetAble {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly IIdNameNameEnglishGetAble idNameNameEnglishGetAble;
     public string Id => this.idNameNameEnglishGetAble.Id;
     public string Name => this.idNameNameEnglishGetAble.Name;
     public string NameEnglish => this.idNameNameEnglishGetAble.NameEnglish;
-    internal IList<TranslationFile> Flavors { get; } = [];
+    public IList<TranslationFile> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
     public int EntryCountOfAllFlavors {
         get {
@@ -36,7 +36,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
     public bool HasFlavors => this.Flavors.Any();
-    internal MyLanguage(SystemLanguage systemLanguage,
+    public MyLanguage(SystemLanguage systemLanguage,
                         IModRuntimeContainer runtimeContainer,
                         IList<CultureInfo> cultureInfos) {
         this.SystemLanguage = systemLanguage;
@@ -109,7 +109,7 @@ public class MyLanguage : IIdNameNameEnglishGetAble {
         return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).Any();
     }
 
-    internal TranslationFile GetFlavor(string localeId) {
+    public TranslationFile GetFlavor(string localeId) {
         return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
     }
 }

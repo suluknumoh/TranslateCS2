@@ -16,7 +16,7 @@ using TranslateCS2.Mod.Services.Localizations;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class MyLanguages {
+internal class MyLanguages {
     private static readonly MyLanguages? INSTANCE;
     private readonly IModRuntimeContainer runtimeContainer;
     public Dictionary<SystemLanguage, MyLanguage> LanguageDictionary { get; } = [];
@@ -39,10 +39,10 @@ public class MyLanguages {
             return count;
         }
     }
-    internal IList<TranslationFile> Erroneous { get; } = [];
+    public IList<TranslationFile> Erroneous { get; } = [];
     public bool HasErroneous => this.Erroneous.Count > 0;
     private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
-    internal MyLanguages(IModRuntimeContainer runtimeContainer) {
+    public MyLanguages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
         this.InitLanguages();
     }

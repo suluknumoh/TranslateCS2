@@ -8,7 +8,7 @@ namespace TranslateCS2.Mod.Interfaces;
 /// <summary>
 ///     <see cref="Colossal.Localization.LocalizationManager"/>
 /// </summary>
-public interface ILocManager {
+internal interface ILocManager {
     /// <summary>
     ///     <see cref="Colossal.Localization.LocalizationManager.fallbackLocaleId"/>
     /// </summary>

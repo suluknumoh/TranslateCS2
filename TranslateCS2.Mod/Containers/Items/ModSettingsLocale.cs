@@ -11,7 +11,7 @@ using TranslateCS2.Mod.Properties.I18N;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class ModSettingsLocale : IDictionarySource {
+internal class ModSettingsLocale : IDictionarySource {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguages languages;
     private readonly ModSettings modSettings;

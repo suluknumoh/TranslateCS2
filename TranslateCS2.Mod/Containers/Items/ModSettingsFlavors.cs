@@ -14,7 +14,7 @@ using TranslateCS2.Mod.Containers.Items.Unitys;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Models;
-public partial class ModSettings {
+internal partial class ModSettings {
 
     public static string Flavor { get; } = nameof(Flavor);
 
@@ -36,7 +36,7 @@ public partial class ModSettings {
             }
         }
     }
-    internal void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
+    public void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         // TODO: XXX-0: iterate over runtimeContainers languages
         foreach (SystemLanguage systemLanguage in systemLanguages) {

@@ -130,7 +130,7 @@ public class ModSettingsFlavorsTests {
         // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
         runtimeContainer.IntSettings.CurrentLocale = String.Empty;
 
-        runtimeContainer.Languages.Init();
+        runtimeContainer.Init();
 
         ModSettings modSettings = new ModSettings(runtimeContainer);
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();

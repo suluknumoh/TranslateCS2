@@ -9,7 +9,7 @@ using TranslateCS2.Inf.Interfaces;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, IEquatable<TranslationFile?> {
+internal class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, IEquatable<TranslationFile?> {
 
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;

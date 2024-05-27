@@ -1,11 +1,10 @@
 using System.Diagnostics;
 
 using TranslateCS2.Inf.Attributes;
-using TranslateCS2.Mod.Containers;
 
 namespace TranslateCS2.Mod.Containers.Items;
 [MyExcludeFromCoverage]
-public class PerformanceMeasurement {
+internal class PerformanceMeasurement {
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly bool measure;
     private readonly MyLanguages languages;

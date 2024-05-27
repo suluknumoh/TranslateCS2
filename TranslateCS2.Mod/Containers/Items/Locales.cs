@@ -9,10 +9,10 @@ using TranslateCS2.Inf;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-public class Locales {
+internal class Locales {
     private readonly IModRuntimeContainer runtimeContainer;
     private IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
-    internal Locales(IModRuntimeContainer runtimeContainer) {
+    public Locales(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
         Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash

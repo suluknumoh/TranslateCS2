@@ -11,7 +11,7 @@ using TranslateCS2.Mod.Loggers;
 using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Containers;
-public class ModRuntimeContainer : IModRuntimeContainer {
+internal class ModRuntimeContainer : IModRuntimeContainer {
     private readonly PerformanceMeasurement performanceMeasurement;
     public Paths Paths { get; }
     public IMyLogger Logger { get; }

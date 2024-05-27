@@ -299,7 +299,7 @@ public class MyLanguagesTests {
             ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                    userDataPath: testDataProvider.DirectoryName);
             MyLanguages languages = runtimeContainer.Languages;
-            languages.Init();
+            runtimeContainer.Init();
             Assert.False(languages.HasErroneous);
             Assert.Equal(this.ExpectedLanguageCount, languages.LanguageCount);
             Assert.Equal(this.ExpectedFlavorCountOfAllLanguages, languages.FlavorCountOfAllLanguages);

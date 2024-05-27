@@ -11,7 +11,7 @@ namespace TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
 /// <summary>
 ///     imitates <see cref="Colossal.Localization.LocalizationManager"/>s behaviour for testing purposes
 /// </summary>
-public class TestLocManager : ILocManager {
+internal class TestLocManager : ILocManager {
     public IDictionary<string, SystemLanguage> Locales { get; } = new Dictionary<string, SystemLanguage>();
     public IDictionary<string, string> LocaleNames { get; } = new Dictionary<string, string>();
     public IDictionary<string, IList<IDictionarySource>> Sources { get; } = new Dictionary<string, IList<IDictionarySource>>();
