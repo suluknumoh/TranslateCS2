@@ -8,16 +8,12 @@ using TranslateCS2.Core.Sessions;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
 using TranslateCS2.Inf;
-using TranslateCS2.Inf.Services.Localizations;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {
-    private readonly LocFileService localizationFilesService;
     private readonly JSONService jsonService;
 
-    public ExImportService(LocFileService localizationFilesService,
-                           JSONService jsonService) {
-        this.localizationFilesService = localizationFilesService;
+    public ExImportService(JSONService jsonService) {
         this.jsonService = jsonService;
     }
 
