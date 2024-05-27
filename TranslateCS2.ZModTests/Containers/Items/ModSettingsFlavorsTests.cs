@@ -183,7 +183,7 @@ public class ModSettingsFlavorsTests {
         int expectedSize = systemLanguages.Count() - 1;
         Assert.Equal(expectedSize, items.Count());
         foreach (AutomaticSettings.SettingItemData item in items) {
-            MySettingItemData myItem = Assert.IsType<MySettingItemData>(item);
+            MyFlavorSettingItemData myItem = Assert.IsType<MyFlavorSettingItemData>(item);
             Assert.Equal(AutomaticSettings.WidgetType.StringDropdown, myItem.widgetType);
             Assert.Equal(ModSettings.FlavorGroup, myItem.simpleGroup);
             DropdownField<string> dropDown = Assert.IsType<DropdownField<string>>(myItem.widget);

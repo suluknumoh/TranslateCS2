@@ -56,7 +56,7 @@ public partial class ModSettings {
                 getter = (modSettings) => this.Getter(systemLanguage)
             };
             // TODO: XXX-0: pass the language into MySettingItemData
-            MySettingItemData item = new MySettingItemData(AutomaticSettings.WidgetType.StringDropdown, this, property, systemLanguage) {
+            MyFlavorSettingItemData item = new MyFlavorSettingItemData(AutomaticSettings.WidgetType.StringDropdown, this, property, systemLanguage) {
                 simpleGroup = FlavorGroup,
                 disableAction = () => this.IsDisabled(systemLanguage),
                 hideAction = () => this.IsHidden(systemLanguage)
