@@ -38,20 +38,24 @@ public partial class ModSettings {
     }
     internal void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
+        // TODO: XXX-0: iterate over runtimeContainers languages
         foreach (SystemLanguage systemLanguage in systemLanguages) {
             if (systemLanguage is SystemLanguage.Chinese) {
                 continue;
             }
+            // TODO: XXX-1: SettingItemData's GetWidget-Method is virtual, so it could be overwritten, to use a custom AddStringDropdownProperty-method???
             AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), ModSettings.GetFlavorLangPropertyName(systemLanguage)) {
                 canRead = true,
                 canWrite = true,
                 attributes =
                 {
+                    (Attribute)new ExcludeAttribute(),
                     (Attribute)new SettingsUIDropdownAttribute(this.GetType(), ModSettings.GetFlavorsLangMethodName(systemLanguage))
                 },
                 setter = (modSettings, localeId) => this.Setter(systemLanguage, localeId),
                 getter = (modSettings) => this.Getter(systemLanguage)
             };
+            // TODO: XXX-0: pass the language into MySettingItemData
             MySettingItemData item = new MySettingItemData(AutomaticSettings.WidgetType.StringDropdown, this, property, systemLanguage) {
                 simpleGroup = FlavorGroup,
                 disableAction = () => this.IsDisabled(systemLanguage),
@@ -106,6 +110,7 @@ public partial class ModSettings {
     }
 
     public bool IsHidden(SystemLanguage systemLanguage) {
+        // TODO: XXX-0: move to MySettingItemData
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         return
             language is null
@@ -120,6 +125,7 @@ public partial class ModSettings {
     }
 
     public bool IsDisabled(SystemLanguage systemLanguage) {
+        // TODO: XXX-0: move to MySettingItemData
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         return
             language is null
