@@ -68,28 +68,33 @@ public class MyLanguages {
         LocFileService<string> locFileService = new LocFileService<string>(strategy);
         IEnumerable<FileInfo> fileInfos = locFileService.GetLocalizationFiles();
         foreach (FileInfo fileInfo in fileInfos) {
-            try {
-                MyLocalization<string> locFile = locFileService.GetLocalizationFile(fileInfo);
-                MyLanguage? language = this.GetLanguage(locFile.Id);
-                if (language is null) {
-                    continue;
-                }
-                TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
-                                                                      language,
-                                                                      locFile);
-                if (!translationFile.IsOK) {
-                    this.Erroneous.Add(translationFile);
-                }
-                // yes, add even though the file is not ok
-                // this way it can be reloaded without the need to restart the game
-                language.Flavors.Add(translationFile);
-            } catch (Exception ex) {
-                this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                      LoggingConstants.FailedTo,
-                                                      [nameof(ReadFiles), fileInfo, ex]);
-            }
+            this.TryToReadFile(locFileService, fileInfo);
         }
     }
+
+    private void TryToReadFile(LocFileService<string> locFileService, FileInfo fileInfo) {
+        try {
+            MyLocalization<string> locFile = locFileService.GetLocalizationFile(fileInfo);
+            MyLanguage? language = this.GetLanguage(locFile.Id);
+            if (language is null) {
+                return;
+            }
+            TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
+                                                                  language,
+                                                                  locFile);
+            if (!translationFile.IsOK) {
+                this.Erroneous.Add(translationFile);
+            }
+            // yes, add even though the file is not ok
+            // this way it can be reloaded without the need to restart the game
+            language.Flavors.Add(translationFile);
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(TryToReadFile), fileInfo, ex]);
+        }
+    }
+
     /// <summary>
     ///     gets a <see cref="MyLanguage"/> via a correct <paramref name="localeId"/>
     ///     <br/>

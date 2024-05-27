@@ -55,6 +55,7 @@ public class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, IEq
                                                        indexCountsToFill);
         return this.locFile.Source.Localizations;
     }
+    [MyExcludeFromCoverage]
     public void Unload() {
         //
     }

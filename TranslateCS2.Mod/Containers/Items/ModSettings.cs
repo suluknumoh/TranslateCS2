@@ -13,6 +13,7 @@ using Game.UI.Menu;
 using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
 
@@ -122,12 +123,13 @@ public partial class ModSettings : ModSetting {
 
 
 
-
+    [MyExcludeFromCoverage]
     public override AutomaticSettings.SettingPageData GetPageData(string id, bool addPrefix) {
         AutomaticSettings.SettingPageData pageData = base.GetPageData(id, addPrefix);
         this.AddFlavorsToPageData(pageData);
         return pageData;
     }
+    [MyExcludeFromCoverage]
     public override void SetDefaults() {
         //
     }

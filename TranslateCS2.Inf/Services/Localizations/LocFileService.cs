@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using TranslateCS2.Inf.Models.Localizations;
 
@@ -12,7 +14,10 @@ public class LocFileService<E> {
     }
     public IEnumerable<FileInfo> GetLocalizationFiles() {
         DirectoryInfo loc = new DirectoryInfo(this.strategy.LocFileDirectory);
-        return loc.EnumerateFiles(this.strategy.SearchPattern);
+        return
+            loc
+                .EnumerateFiles(this.strategy.SearchPattern)
+                .OrderBy(item => item.Name.Replace(ModConstants.DllExtension, String.Empty));
     }
     /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
     /// <seealso cref="Colossal.IO.AssetDatabase.LocaleAsset.Load">

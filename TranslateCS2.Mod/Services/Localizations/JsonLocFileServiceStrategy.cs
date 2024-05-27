@@ -22,60 +22,77 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
         this.runtimeContainer = runtimeContainer;
     }
     public override MyLocalization<string> GetFile(FileInfo fileInfo) {
-        string localeIdPre = this.runtimeContainer.Paths.ExtractLocaleIdFromPath(fileInfo.Name);
-        string localeId = this.runtimeContainer.Locales.CorrectLocaleId(localeIdPre);
+        string localeId = this.GetLocaleIdFromFileInfo(fileInfo);
         MyLanguage? language = this.runtimeContainer.Languages.GetLanguage(localeId);
         if (language is null) {
             throw new ArgumentNullException(nameof(language));
         }
-        CultureInfo? cultureInfo = language.GetCultureInfo(localeId);
-        if (cultureInfo is null) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.NoCultureInfo,
-                                                  [fileInfo.FullName, localeId, language]);
-            throw new ArgumentNullException(nameof(cultureInfo));
-        }
+        // if language is not null,
+        // cultureInfo cannot be null
+        CultureInfo cultureInfo = language.GetCultureInfo(localeId);
+        string localeName = GetLocaleNameNative(language.SystemLanguage,
+                                                cultureInfo);
+
+        MyLocalizationSource<string> source = this.CreateNewSource(fileInfo);
+        MyLocalization<string> locFile = this.CreateNewFile(localeId,
+                                                            cultureInfo.EnglishName,
+                                                            localeName,
+                                                            source);
+        using Stream stream = File.OpenRead(fileInfo.FullName);
+        this.ReadContent(source, stream);
+        return locFile;
+    }
+
+    private static string GetLocaleNameNative(SystemLanguage systemLanguage,
+                                              CultureInfo cultureInfo) {
         string localeName = cultureInfo.NativeName;
-        if (language.SystemLanguage == SystemLanguage.SerboCroatian) {
+        if (systemLanguage == SystemLanguage.SerboCroatian) {
             if (cultureInfo.EnglishName.Contains(LangConstants.Latin)) {
                 localeName += $" ({LangConstants.Latin})";
             } else if (cultureInfo.EnglishName.Contains(LangConstants.Cyrillic)) {
                 localeName += $" ({LangConstants.Cyrillic})";
             }
         }
-
-        MyLocalizationSource<string> source = this.CreateNewSource(fileInfo);
-        MyLocalization<string> locFile = this.CreateNewFile(localeId, cultureInfo.EnglishName, localeName, source);
-        using Stream stream = File.OpenRead(fileInfo.FullName);
-        this.ReadContent(source, stream);
-        return locFile;
+        return localeName;
     }
+
+    private string GetLocaleIdFromFileInfo(FileInfo fileInfo) {
+        string localeIdPre = this.runtimeContainer.Paths.ExtractLocaleIdFromPath(fileInfo.Name);
+        string localeId = this.runtimeContainer.Locales.CorrectLocaleId(localeIdPre);
+        return localeId;
+    }
+
     protected override string CreateEntryValue(string key, string value) {
         return value;
     }
-    public override bool ReadContent(MyLocalizationSource<string> source, Stream? streamParameter = null) {
+    public override bool ReadContent(MyLocalizationSource<string> source,
+                                     Stream? streamParameter = null) {
         try {
             //string json = File.ReadAllText(source.File.FullName, Encoding.UTF8);
             //IDictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             //
             //
-            Stream? stream = streamParameter;
-            stream ??= source.File.OpenRead();
+            using Stream stream = streamParameter ?? source.File.OpenRead();
             JsonSerializer serializer = JsonSerializer.CreateDefault();
             using TextReader textReader = new StreamReader(stream);
             using JsonReader jsonReader = new JsonTextReader(textReader);
             IDictionary<string, string>? temporary = serializer.Deserialize<Dictionary<string, string>>(jsonReader);
-            if (temporary != null) {
-                temporary = DictionaryHelper.GetNonEmpty(temporary);
-                source.Localizations.Clear();
-                DictionaryHelper.AddAll(temporary, source.Localizations);
-                return true;
-            }
+            return HandleRead(source, temporary);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
                                                   [nameof(ReadContent), ex, this]);
         }
         return false;
+    }
+
+    private static bool HandleRead(MyLocalizationSource<string> source, IDictionary<string, string>? temporary) {
+        if (temporary is null) {
+            return false;
+        }
+        IDictionary<string, string> local = DictionaryHelper.GetNonEmpty(temporary);
+        source.Localizations.Clear();
+        DictionaryHelper.AddAll(local, source.Localizations);
+        return true;
     }
 }

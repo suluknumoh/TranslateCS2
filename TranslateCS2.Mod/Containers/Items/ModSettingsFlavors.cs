@@ -9,6 +9,7 @@ using Game.UI.Menu;
 using Game.UI.Widgets;
 
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Containers.Items.Unitys;
 
 using UnityEngine;
 
@@ -35,7 +36,7 @@ public partial class ModSettings {
             }
         }
     }
-    private void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
+    internal void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
         foreach (SystemLanguage systemLanguage in systemLanguages) {
             if (systemLanguage is SystemLanguage.Chinese) {
@@ -51,7 +52,7 @@ public partial class ModSettings {
                 setter = (modSettings, localeId) => this.Setter(systemLanguage, localeId),
                 getter = (modSettings) => this.Getter(systemLanguage)
             };
-            AutomaticSettings.SettingItemData item = new AutomaticSettings.SettingItemData(AutomaticSettings.WidgetType.StringDropdown, this, property) {
+            MySettingItemData item = new MySettingItemData(AutomaticSettings.WidgetType.StringDropdown, this, property, systemLanguage) {
                 simpleGroup = FlavorGroup,
                 disableAction = () => this.IsDisabled(systemLanguage),
                 hideAction = () => this.IsHidden(systemLanguage)
