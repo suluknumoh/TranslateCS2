@@ -16,7 +16,7 @@ public class MyLocalizationSource<E> {
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(nameof(MyLocalization<E>));
-        builder.AppendLine(this.File.ToString());
+        builder.Append(this.File.ToString());
         return builder.ToString();
     }
 }

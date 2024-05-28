@@ -33,7 +33,7 @@ public class MyLocalization<E> : IEquatable<MyLocalization<E>?>, IIdNameNameEngl
         builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
         builder.AppendLine($"{nameof(this.IsOK)}: {this.IsOK}");
         builder.AppendLine($"{nameof(this.EntryCount)}: {this.EntryCount}");
-        builder.AppendLine($"{nameof(this.Source)}: {this.Source}");
+        builder.Append($"{nameof(this.Source)}: {this.Source}");
         return builder.ToString();
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using Colossal;
 
@@ -15,7 +16,7 @@ internal class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, I
     private readonly MyLanguage language;
     private readonly MyLocalization<string> locFile;
     public string Id => this.locFile.Id;
-    public virtual string Name { get; }
+    public string Name { get; }
     public string NameEnglish => this.locFile.NameEnglish;
     public bool IsOK => this.EntryCount > 0;
     public int EntryCount => this.locFile.EntryCount;
@@ -79,5 +80,15 @@ internal class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, I
         hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Name);
         hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.NameEnglish);
         return hashCode;
+    }
+    [MyExcludeFromCoverage]
+    public override string ToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(this.GetType().ToString());
+        builder.AppendLine($"{nameof(this.Id)}: {this.Id}");
+        builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
+        builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
+        builder.Append($"{nameof(this.locFile)}: {this.locFile}");
+        return builder.ToString();
     }
 }
