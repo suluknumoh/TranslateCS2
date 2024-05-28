@@ -56,12 +56,6 @@ public class ModSettingsFlavorsTests {
             DropdownItem<string> single = Assert.Single(dropDownItems);
             Assert.Equal(DropDownItems.None, single.value);
             Assert.Equal(DropDownItems.None, single.displayName);
-
-            bool isHidden = modSettings.IsHidden(systemLanguage);
-            Assert.True(isHidden);
-
-            bool isDisabled = modSettings.IsDisabled(systemLanguage);
-            Assert.True(isDisabled);
         }
 
     }
@@ -155,13 +149,6 @@ public class ModSettingsFlavorsTests {
         }
         Assert.Equal(expectedSize, dropDownItems.Length);
 
-
-        bool isHidden = modSettings.IsHidden(systemLanguage);
-        Assert.True(isHidden);
-
-        bool isDisabled = modSettings.IsDisabled(systemLanguage);
-        Assert.True(isDisabled);
-
     }
     [Fact]
     public void AddFlavorsToPageDataTest() {
@@ -182,12 +169,14 @@ public class ModSettingsFlavorsTests {
         int expectedSize = systemLanguages.Count() - 1;
         Assert.Equal(expectedSize, items.Count());
         foreach (AutomaticSettings.SettingItemData item in items) {
-            MyFlavorSettingItemData myItem = Assert.IsType<MyFlavorSettingItemData>(item);
+            MyFlavorDropDownSettingItemData myItem = Assert.IsType<MyFlavorDropDownSettingItemData>(item);
             Assert.Equal(AutomaticSettings.WidgetType.StringDropdown, myItem.widgetType);
             Assert.Equal(ModSettings.FlavorGroup, myItem.simpleGroup);
+            Assert.True(myItem.IsHidden());
+            Assert.True(myItem.IsDisabled());
             DropdownField<string> dropDown = Assert.IsType<DropdownField<string>>(myItem.widget);
             Assert.NotNull(dropDown);
-            MyLanguage? language = runtimeContainer.Languages.GetLanguage(myItem.SystemLanguage);
+            MyLanguage language = myItem.Language;
             Assert.NotNull(language);
             // to make items hideAction return false;
             // its checked within the update method

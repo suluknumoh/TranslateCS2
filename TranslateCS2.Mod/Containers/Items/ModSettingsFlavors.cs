@@ -36,29 +36,24 @@ internal partial class ModSettings {
         }
     }
     public void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
-        IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        // TODO: XXX-0: iterate over runtimeContainers languages
-        foreach (SystemLanguage systemLanguage in systemLanguages) {
-            if (systemLanguage is SystemLanguage.Chinese) {
-                continue;
-            }
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> languageEntry in this.runtimeContainer.Languages.LanguageDictionary) {
             // TODO: XXX-1: SettingItemData's GetWidget-Method is virtual, so it could be overwritten, to use a custom AddStringDropdownProperty-method???
-            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), ModSettings.GetFlavorLangPropertyName(systemLanguage)) {
+            AutomaticSettings.ManualProperty property = new AutomaticSettings.ManualProperty(this.GetType(), typeof(string), ModSettings.GetFlavorLangPropertyName(languageEntry.Key)) {
                 canRead = true,
                 canWrite = true,
                 attributes =
                 {
                     (Attribute)new ExcludeAttribute(),
-                    (Attribute)new SettingsUIDropdownAttribute(this.GetType(), ModSettings.GetFlavorsLangMethodName(systemLanguage))
+                    (Attribute)new SettingsUIDropdownAttribute(this.GetType(), ModSettings.GetFlavorsLangMethodName(languageEntry.Key))
                 },
-                setter = (modSettings, localeId) => this.Setter(systemLanguage, localeId),
-                getter = (modSettings) => this.Getter(systemLanguage)
+                setter = (modSettings, localeId) => this.Setter(languageEntry.Key, localeId),
+                getter = (modSettings) => this.Getter(languageEntry.Key)
             };
-            // TODO: XXX-0: pass the language into MySettingItemData
-            MyFlavorSettingItemData item = new MyFlavorSettingItemData(AutomaticSettings.WidgetType.StringDropdown, this, property, systemLanguage) {
-                simpleGroup = FlavorGroup,
-                disableAction = () => this.IsDisabled(systemLanguage),
-                hideAction = () => this.IsHidden(systemLanguage)
+            MyFlavorDropDownSettingItemData item = new MyFlavorDropDownSettingItemData(this,
+                                                                                       property,
+                                                                                       this.runtimeContainer,
+                                                                                       languageEntry.Value) {
+                simpleGroup = FlavorGroup
             };
             pageData[Section].AddItem(item);
         }
@@ -106,37 +101,6 @@ internal partial class ModSettings {
         this.FlavorsSetted.TryGetValue(systemLanguage, out string? val);
         val ??= DropDownItems.None;
         return this.GetValueToSet(systemLanguage, val, false);
-    }
-
-    public bool IsHidden(SystemLanguage systemLanguage) {
-        // TODO: XXX-0: move to MySettingItemData
-        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        return
-            language is null
-            ||
-            (
-                language != null
-                &&
-                (
-                    !language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale, StringComparison.OrdinalIgnoreCase)
-                )
-            );
-    }
-
-    public bool IsDisabled(SystemLanguage systemLanguage) {
-        // TODO: XXX-0: move to MySettingItemData
-        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        return
-            language is null
-            ||
-            (
-                language != null
-                &&
-                (
-                    !language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale, StringComparison.OrdinalIgnoreCase)
-                    || !language.HasFlavors
-                )
-            );
     }
 
     private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter, bool invoke) {
