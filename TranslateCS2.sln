@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.TranslatorsExa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Mod", "TranslateCS2.Mod\TranslateCS2.Mod.csproj", "{8C68D9F4-A7F8-464D-9F17-FD0738154999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZModDevHelper", "TranslateCS2.ZModDevHelper\TranslateCS2.ZModDevHelper.csproj", "{79785B0B-9CEF-43E2-93D0-D9CB66392314}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.Inf", "TranslateCS2.Inf\TranslateCS2.Inf.csproj", "{9C666368-C8E2-4B19-976D-182EA352DE12}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateCS2.ZTests", "TranslateCS2.ZTests\TranslateCS2.ZTests.csproj", "{A2C813BC-3DC1-4279-9B11-838789108585}"
@@ -79,10 +77,6 @@ Global
 		{8C68D9F4-A7F8-464D-9F17-FD0738154999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C68D9F4-A7F8-464D-9F17-FD0738154999}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C68D9F4-A7F8-464D-9F17-FD0738154999}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79785B0B-9CEF-43E2-93D0-D9CB66392314}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C666368-C8E2-4B19-976D-182EA352DE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C666368-C8E2-4B19-976D-182EA352DE12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C666368-C8E2-4B19-976D-182EA352DE12}.Release|Any CPU.ActiveCfg = Release|Any CPU

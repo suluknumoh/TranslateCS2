@@ -5,7 +5,7 @@ using TranslateCS2.ZZZTestLib.Loggers;
 using Xunit;
 
 
-namespace TranslateCS2.ZModDevHelper;
+namespace TranslateCS2.ZModTests;
 
 public class HelpMeWithSupportedLanguages {
     public HelpMeWithSupportedLanguages() {
