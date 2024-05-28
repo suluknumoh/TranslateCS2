@@ -184,6 +184,8 @@ public class MyLanguagesTests {
         Assert.False(languages.HasErroneous);
         Assert.Equal(this.ExpectedLanguageCount, languages.LanguageCount);
         Assert.Equal(this.ExpectedFlavorCountOfAllLanguages, languages.FlavorCountOfAllLanguages);
+        Assert.Equal(this.ExpectedFlavorCountOfAllLanguages * this.dataProvider.EntryCountPerFile,
+                     languages.EntryCountOfAllFlavorsOfAllLanguages);
         MyLanguage? language = languages.GetLanguage(systemLanguage);
         Assert.NotNull(language);
         Assert.True(language.HasFlavors);
@@ -303,6 +305,8 @@ public class MyLanguagesTests {
             Assert.False(languages.HasErroneous);
             Assert.Equal(this.ExpectedLanguageCount, languages.LanguageCount);
             Assert.Equal(this.ExpectedFlavorCountOfAllLanguages, languages.FlavorCountOfAllLanguages);
+            Assert.Equal(this.ExpectedFlavorCountOfAllLanguages * testDataProvider.EntryCountPerFile,
+                         languages.EntryCountOfAllFlavorsOfAllLanguages);
             MyLanguage? language = languages.GetLanguage(systemLanguage);
             Assert.NotNull(language);
             Assert.True(language.HasFlavors);
