@@ -21,6 +21,18 @@ namespace TranslateCS2.Mod.Containers.Items;
 [SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
 [SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
 internal partial class ModSettings : ModSetting {
+
+
+
+
+    public const string Section = "Main";
+    public const string FlavorGroup = nameof(FlavorGroup);
+    public const string ReloadGroup = nameof(ReloadGroup);
+    public const string GenerateGroup = nameof(GenerateGroup);
+
+
+
+
     [Exclude]
     private readonly IModRuntimeContainer runtimeContainer;
     [Exclude]
@@ -28,11 +40,6 @@ internal partial class ModSettings : ModSetting {
 
     [Exclude]
     public ModSettingsLocale? SettingsLocale { get; set; }
-
-    public const string Section = "Main";
-    public const string FlavorGroup = nameof(FlavorGroup);
-    public const string ReloadGroup = nameof(ReloadGroup);
-    public const string GenerateGroup = nameof(GenerateGroup);
 
 
     [Include]
