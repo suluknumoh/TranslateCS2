@@ -8,12 +8,11 @@ using Game.Settings;
 using Game.UI.Menu;
 using Game.UI.Widgets;
 
-using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Containers.Items.Unitys;
 
 using UnityEngine;
 
-namespace TranslateCS2.Mod.Models;
+namespace TranslateCS2.Mod.Containers.Items;
 internal partial class ModSettings {
 
     public static string Flavor { get; } = nameof(Flavor);

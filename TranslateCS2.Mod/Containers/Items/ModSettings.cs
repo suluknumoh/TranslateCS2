@@ -14,10 +14,8 @@ using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
-using TranslateCS2.Mod.Containers;
-using TranslateCS2.Mod.Containers.Items;
 
-namespace TranslateCS2.Mod.Models;
+namespace TranslateCS2.Mod.Containers.Items;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
 [SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
