@@ -19,8 +19,6 @@ public class LocFileService<E> {
                 .EnumerateFiles(this.strategy.SearchPattern)
                 .OrderBy(item => item.Name.Replace(ModConstants.DllExtension, String.Empty));
     }
-    /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
-    /// <seealso cref="Colossal.IO.AssetDatabase.LocaleAsset.Load">
     public MyLocalization<E> GetLocalizationFile(FileInfo fileInfo) {
         return this.strategy.GetFile(fileInfo);
     }

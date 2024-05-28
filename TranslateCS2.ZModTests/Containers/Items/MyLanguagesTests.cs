@@ -26,8 +26,6 @@ namespace TranslateCS2.ZModTests.Containers.Items;
 /// </summary>
 [Collection("TestDataOK")]
 public class MyLanguagesTests {
-    private int ExpectedLanguageCount { get; } = 43;
-    private int ExpectedFlavorCountOfAllLanguages { get; } = 303;
     private readonly TestDataProvider dataProvider;
     public MyLanguagesTests(TestDataProvider testDataProvider) {
         this.dataProvider = testDataProvider;
@@ -93,7 +91,7 @@ public class MyLanguagesTests {
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                userDataPath: this.dataProvider.DirectoryName);
         MyLanguages languages = runtimeContainer.Languages;
-        Assert.Equal(this.ExpectedLanguageCount, languages.LanguageCount);
+        Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
         MyLanguage? language = languages.GetLanguage(systemLanguage);
         Assert.NotNull(language);
         Assert.Equal(expectedId, language.Id);
@@ -182,9 +180,9 @@ public class MyLanguagesTests {
         runtimeContainer.Init();
         MyLanguages languages = runtimeContainer.Languages;
         Assert.False(languages.HasErroneous);
-        Assert.Equal(this.ExpectedLanguageCount, languages.LanguageCount);
-        Assert.Equal(this.ExpectedFlavorCountOfAllLanguages, languages.FlavorCountOfAllLanguages);
-        Assert.Equal(this.ExpectedFlavorCountOfAllLanguages * this.dataProvider.EntryCountPerFile,
+        Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
+        Assert.Equal(ModTestConstants.ExpectedFlavorCount, languages.FlavorCountOfAllLanguages);
+        Assert.Equal(ModTestConstants.ExpectedFlavorCount * this.dataProvider.EntryCountPerFile,
                      languages.EntryCountOfAllFlavorsOfAllLanguages);
         MyLanguage? language = languages.GetLanguage(systemLanguage);
         Assert.NotNull(language);
@@ -296,16 +294,16 @@ public class MyLanguagesTests {
             DirectoryName = nameof(OkNotTests)
         };
         try {
-            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<MyLanguagesTests>();
             testDataProvider.GenerateData();
+            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<MyLanguagesTests>();
             ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                    userDataPath: testDataProvider.DirectoryName);
             MyLanguages languages = runtimeContainer.Languages;
             runtimeContainer.Init();
             Assert.False(languages.HasErroneous);
-            Assert.Equal(this.ExpectedLanguageCount, languages.LanguageCount);
-            Assert.Equal(this.ExpectedFlavorCountOfAllLanguages, languages.FlavorCountOfAllLanguages);
-            Assert.Equal(this.ExpectedFlavorCountOfAllLanguages * testDataProvider.EntryCountPerFile,
+            Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
+            Assert.Equal(ModTestConstants.ExpectedFlavorCount, languages.FlavorCountOfAllLanguages);
+            Assert.Equal(ModTestConstants.ExpectedFlavorCount * testDataProvider.EntryCountPerFile,
                          languages.EntryCountOfAllFlavorsOfAllLanguages);
             MyLanguage? language = languages.GetLanguage(systemLanguage);
             Assert.NotNull(language);

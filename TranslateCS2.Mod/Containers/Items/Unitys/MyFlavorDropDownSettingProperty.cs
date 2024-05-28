@@ -27,6 +27,11 @@ internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualPropert
         this.attributes.Add(new ExcludeAttribute());
         // instance methods are only allowed, if itemsGetterType is an instance of ModSettings
         /// <see cref="AutomaticSettings.SettingItemData.TryGetAction{T}(Setting, System.Type, System.String, out System.Func{T})"/>
+        // the attribute is added, cause there might be sideeffects, if its left
+        // it has to be added with this.GetType(), cause GetFlavors-method is within this class
+        // this is not an instance of ModSettings,
+        // therefore, it is handled over there:
+        /// <see cref="MyFlavorDropDownSettingItemData.GetWidget"/>
         this.attributes.Add(new SettingsUIDropdownAttribute(this.GetType(), nameof(GetFlavors)));
     }
     public DropdownItem<string>[] GetFlavors() {

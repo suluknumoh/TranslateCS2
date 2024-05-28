@@ -37,9 +37,7 @@ public class ModSettingsFlavorsTests {
         AutomaticSettings.SettingTabData tab = Assert.Single(pageData.tabs);
         IEnumerable<AutomaticSettings.SettingItemData> items = tab.items;
         IEnumerable<SystemLanguage> systemLanguages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        // due to SystemLanguage.Chinese
-        int expectedSize = systemLanguages.Count() - 1;
-        Assert.Equal(expectedSize, items.Count());
+        Assert.Equal(ModTestConstants.ExpectedLanguageCount, items.Count());
         foreach (AutomaticSettings.SettingItemData item in items) {
             MyFlavorDropDownSettingItemData myItem = Assert.IsType<MyFlavorDropDownSettingItemData>(item);
             Assert.Equal(AutomaticSettings.WidgetType.StringDropdown, myItem.widgetType);
@@ -63,5 +61,78 @@ public class ModSettingsFlavorsTests {
             }
             Assert.Equal(expectedDropDownItemCount, dropDown.items.Length);
         }
+    }
+    [Fact]
+    public void FlavorsSettedSetterGetterTest() {
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
+                                                                               userDataPath: this.dataProvider.DirectoryName);
+        // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
+        runtimeContainer.IntSettings.CurrentLocale = String.Empty;
+        runtimeContainer.Init();
+        ModSettings modSettings = runtimeContainer.Settings;
+        Dictionary<SystemLanguage, MyLanguage> languageDictionary = runtimeContainer.Languages.LanguageDictionary;
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languageDictionary) {
+            SystemLanguage systemLanguage = entry.Key;
+            MyLanguage language = entry.Value;
+            foreach (TranslationFile translation in language.Flavors) {
+                modSettings.Setter(systemLanguage, translation.Id);
+                Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
+                modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);
+                Assert.Equal(translation.Id, result);
+                string getterResult = modSettings.Getter(systemLanguage);
+                Assert.Equal(translation.Id, getterResult);
+            }
+        }
+        Assert.Equal(ModTestConstants.ExpectedLanguageCount, modSettings.FlavorsSetted.Count);
+    }
+    [Fact]
+    public void FlavorsSettedTest() {
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
+                                                                               userDataPath: this.dataProvider.DirectoryName);
+        // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
+        runtimeContainer.IntSettings.CurrentLocale = String.Empty;
+        runtimeContainer.Init();
+        ModSettings modSettings = runtimeContainer.Settings;
+        Dictionary<SystemLanguage, MyLanguage> languageDictionary = runtimeContainer.Languages.LanguageDictionary;
+        Dictionary<SystemLanguage, string> testData = [];
+        foreach (SystemLanguage entry in languageDictionary.Keys) {
+            // AAA: entry.ToString() to test the Getter with an incorrect value
+            testData.Add(entry, entry.ToString());
+        }
+        modSettings.FlavorsSetted = null;
+        Assert.NotNull(modSettings.FlavorsSetted);
+        Assert.Empty(modSettings.FlavorsSetted);
+        modSettings.FlavorsSetted = testData;
+        Assert.NotNull(modSettings.FlavorsSetted);
+        Assert.NotEmpty(modSettings.FlavorsSetted);
+        Assert.Equal(testData, modSettings.FlavorsSetted);
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languageDictionary) {
+            string result = modSettings.Getter(entry.Key);
+            if (entry.Value.IsBuiltIn) {
+                // see: AAA
+                Assert.Equal(DropDownItems.None, result);
+            } else {
+                Assert.Equal(entry.Value.Flavors.First().Id, result);
+            }
+        }
+    }
+    [Fact]
+    public void FlavorsSettedSetterGetterWithChineseTest() {
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
+                                                                               userDataPath: this.dataProvider.DirectoryName);
+        // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
+        runtimeContainer.IntSettings.CurrentLocale = String.Empty;
+        runtimeContainer.Init();
+        ModSettings modSettings = runtimeContainer.Settings;
+        SystemLanguage systemLanguage = SystemLanguage.Chinese;
+        modSettings.Setter(systemLanguage, systemLanguage.ToString());
+        Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
+        modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);
+        Assert.Equal(DropDownItems.None, result);
+        string getterResult = modSettings.Getter(systemLanguage);
+        Assert.Equal(DropDownItems.None, getterResult);
     }
 }

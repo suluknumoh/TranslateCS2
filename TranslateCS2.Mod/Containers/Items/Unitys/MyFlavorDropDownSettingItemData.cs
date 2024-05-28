@@ -41,7 +41,7 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
     }
     protected override IWidget GetWidget() {
         // instance methods are only allowed, if itemsGetterType is an instance of ModSettings
-        /// <see cref="AutomaticSettings.SettingItemData.TryGetAction{T}(Setting, System.Type, System.String, out System.Func{T})"/>
+        /// <see cref="AutomaticSettings.SettingItemData.TryGetAction{T}(Setting, Type, String, out Func{T})"/>
         //
         // first colossal orders defaults
         IWidget widget = base.GetWidget();

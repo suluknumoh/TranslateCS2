@@ -7,6 +7,8 @@ using TranslateCS2.Inf.Models.Localizations;
 namespace TranslateCS2.Inf.Services.Localizations;
 public abstract class LocFileServiceStrategyBuiltIn<E> : LocFileServiceStrategy<E> {
     public override string SearchPattern { get; } = ModConstants.LocSearchPattern;
+    /// <seealso href="https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py">
+    /// <seealso cref="Colossal.IO.AssetDatabase.LocaleAsset.Load">
     public override MyLocalization<E> GetFile(FileInfo fileInfo) {
         using Stream stream = File.OpenRead(fileInfo.FullName);
         using BinaryReader reader = new BinaryReader(stream, Encoding.UTF8);

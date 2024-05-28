@@ -100,7 +100,7 @@ internal partial class ModSettings : ModSetting {
     public bool GenerateLocalizationJson {
         set => this.GenerateLocJson();
     }
-    private bool IsGenerateLocalizationJsonHiddenDisabled() {
+    public bool IsGenerateLocalizationJsonHiddenDisabled() {
         return this.SettingsLocale is null;
     }
     private void GenerateLocJson() {

@@ -19,7 +19,8 @@ public class ErrorMessagesTests {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ErrorMessagesTests>();
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                userDataPath: this.dataProvider.DirectoryName);
-        ErrorMessages errorMessages = new ErrorMessages(runtimeContainer);
+        runtimeContainer.Init();
+        ErrorMessages errorMessages = runtimeContainer.ErrorMessages;
         errorMessages.DisplayErrorMessageFailedToGenerateJson();
         Assert.Equal(1, testLogProvider.LogErrorCount);
         Assert.Equal(1, testLogProvider.DisplayErrorCount);
@@ -31,7 +32,8 @@ public class ErrorMessagesTests {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ErrorMessagesTests>();
         ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
                                                                                userDataPath: this.dataProvider.DirectoryName);
-        ErrorMessages errorMessages = new ErrorMessages(runtimeContainer);
+        runtimeContainer.Init();
+        ErrorMessages errorMessages = runtimeContainer.ErrorMessages;
         IList<TranslationFile> erroneous = [];
         errorMessages.DisplayErrorMessageForErroneous(erroneous, missing);
         Assert.Equal(expectedLogCounts, testLogProvider.DisplayErrorCount);
