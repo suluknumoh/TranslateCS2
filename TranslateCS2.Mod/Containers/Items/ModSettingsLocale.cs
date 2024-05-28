@@ -5,7 +5,6 @@ using System.Linq;
 using Colossal;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Models;
 using TranslateCS2.Mod.Properties.I18N;
 
 using UnityEngine;

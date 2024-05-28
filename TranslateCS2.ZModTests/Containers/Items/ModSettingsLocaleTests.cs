@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Colossal;
 
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.Mod.Models;
 using TranslateCS2.ZZZModTestLib;
 using TranslateCS2.ZZZModTestLib.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;

@@ -5,7 +5,7 @@ using System.Text;
 
 using Game.UI.Widgets;
 
-using TranslateCS2.Mod.Models;
+using TranslateCS2.Mod.Containers.Items;
 
 using UnityEngine;
 
