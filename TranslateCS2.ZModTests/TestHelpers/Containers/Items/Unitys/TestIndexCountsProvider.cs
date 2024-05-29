@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 using TranslateCS2.Inf.Models.Localizations;
 
-namespace TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
-public class TestIndexCountsProvider : IIndexCountsProvider {
+namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+internal class TestIndexCountsProvider : IIndexCountsProvider {
     private readonly IDictionary<string, int> content;
     public TestIndexCountsProvider(IDictionary<string, int> content) {
         this.content = content;
     }
 
-    internal static IIndexCountsProvider WithEmptyContent() {
+    public static IIndexCountsProvider WithEmptyContent() {
         return new TestIndexCountsProvider(new Dictionary<string, int>());
     }
 

@@ -7,25 +7,21 @@ using Colossal;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.ZZZModTestLib;
-using TranslateCS2.ZZZModTestLib.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
+using TranslateCS2.ZZZModTestLib.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 using TranslateCS2.ZZZTestLib.Services.Localizations;
 
 using Xunit;
 
 namespace TranslateCS2.ZModTests.Containers.Items;
-[Collection("TestDataOK")]
-public class TranslationFileTests {
-    private readonly TestDataProvider dataProvider;
-    public TranslationFileTests(TestDataProvider testDataProvider) {
-        this.dataProvider = testDataProvider;
-    }
+public class TranslationFileTests : AProvidesTestDataOk {
+    public TranslationFileTests(TestDataProvider testDataProvider) : base(testDataProvider) { }
     [Fact]
     public void ReadEntriesTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
-                                                                               userDataPath: this.dataProvider.DirectoryName);
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                  userDataPath: this.dataProvider.DirectoryName);
 
         string fallbackLocaleId = runtimeContainer.LocManager.FallbackLocaleId;
 

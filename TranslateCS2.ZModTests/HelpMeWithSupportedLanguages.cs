@@ -1,5 +1,5 @@
-using TranslateCS2.ZZZModTestLib;
-using TranslateCS2.ZZZModTestLib.Containers;
+using TranslateCS2.ZZZModTestLib.TestHelpers;
+using TranslateCS2.ZZZModTestLib.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using Xunit;
@@ -14,7 +14,7 @@ public class HelpMeWithSupportedLanguages {
     //[Fact()]
     public void GenerateJsons() {
         ITestLogProvider logProvider = TestLogProviderFactory.GetTestLogProvider<HelpMeWithSupportedLanguages>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(logProvider);
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(logProvider);
         string directoryPath = runtimeContainer.Paths.TryToGetModsPath();
         JSONGenerator generator = new JSONGenerator(directoryPath);
         generator.Generate(true, false);

@@ -7,8 +7,9 @@ using Game.UI.Widgets;
 
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Containers.Items.Unitys;
-using TranslateCS2.ZZZModTestLib;
-using TranslateCS2.ZZZModTestLib.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
+using TranslateCS2.ZZZModTestLib.TestHelpers;
+using TranslateCS2.ZZZModTestLib.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
@@ -16,17 +17,13 @@ using UnityEngine;
 using Xunit;
 
 namespace TranslateCS2.ZModTests.Containers.Items;
-[Collection("TestDataOK")]
-public class ModSettingsFlavorsTests {
-    private readonly TestDataProvider dataProvider;
-    public ModSettingsFlavorsTests(TestDataProvider testDataProvider) {
-        this.dataProvider = testDataProvider;
-    }
+public class ModSettingsFlavorsTests : AProvidesTestDataOk {
+    public ModSettingsFlavorsTests(TestDataProvider testDataProvider) : base(testDataProvider) { }
     [Fact]
     public void AddFlavorsToPageDataTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
-                                                                               userDataPath: this.dataProvider.DirectoryName);
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                  userDataPath: this.dataProvider.DirectoryName);
         // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
         runtimeContainer.IntSettings.CurrentLocale = String.Empty;
         runtimeContainer.Init();
@@ -65,8 +62,8 @@ public class ModSettingsFlavorsTests {
     [Fact]
     public void FlavorsSettedSetterGetterTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
-                                                                               userDataPath: this.dataProvider.DirectoryName);
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                  userDataPath: this.dataProvider.DirectoryName);
         // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
         runtimeContainer.IntSettings.CurrentLocale = String.Empty;
         runtimeContainer.Init();
@@ -89,8 +86,8 @@ public class ModSettingsFlavorsTests {
     [Fact]
     public void FlavorsSettedTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
-                                                                               userDataPath: this.dataProvider.DirectoryName);
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                  userDataPath: this.dataProvider.DirectoryName);
         // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
         runtimeContainer.IntSettings.CurrentLocale = String.Empty;
         runtimeContainer.Init();
@@ -121,8 +118,8 @@ public class ModSettingsFlavorsTests {
     [Fact]
     public void FlavorsSettedSetterGetterWithChineseTest() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
-        ModTestRuntimeContainer runtimeContainer = new ModTestRuntimeContainer(testLogProvider,
-                                                                               userDataPath: this.dataProvider.DirectoryName);
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                  userDataPath: this.dataProvider.DirectoryName);
         // to disable/hide all drop-downs, cause TestIntSettings are initialized with 'en-US'
         runtimeContainer.IntSettings.CurrentLocale = String.Empty;
         runtimeContainer.Init();

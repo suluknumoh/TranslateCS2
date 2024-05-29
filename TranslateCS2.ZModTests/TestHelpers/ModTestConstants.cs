@@ -1,4 +1,4 @@
-namespace TranslateCS2.ZZZModTestLib;
+namespace TranslateCS2.ZZZModTestLib.TestHelpers;
 /// <summary>
 ///     <see langword="const"/>s/<see langword="value"/>s
 ///     <br/>
@@ -12,7 +12,7 @@ namespace TranslateCS2.ZZZModTestLib;
 ///     <br/>
 ///     it can be recognized
 /// </summary>
-public static class ModTestConstants {
+internal static class ModTestConstants {
     /// <summary>
     ///     for now <see cref="UnityEngine.SystemLanguage"/> has 44 <see langword="enum"/>-<see langword="value"/>s
     ///     <br/>

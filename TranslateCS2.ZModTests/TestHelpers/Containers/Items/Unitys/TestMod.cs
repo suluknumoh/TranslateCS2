@@ -1,8 +1,8 @@
 using Game;
 using Game.Modding;
 
-namespace TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
-public class TestMod : IMod {
+namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+internal class TestMod : IMod {
     public void OnDispose() {
         // no need to realize
     }

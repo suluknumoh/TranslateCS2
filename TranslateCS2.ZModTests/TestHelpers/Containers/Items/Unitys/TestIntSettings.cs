@@ -2,11 +2,11 @@ using Game.Settings;
 
 using TranslateCS2.Mod.Interfaces;
 
-namespace TranslateCS2.ZZZModTestLib.Containers.Items.Unitys;
+namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
 /// <summary>
 ///     imitates <see cref="InterfaceSettings"/>' behaviour for testing purposes
 /// </summary>
-public class TestIntSettings : IIntSettings {
+internal class TestIntSettings : IIntSettings {
     public string CurrentLocale {
         get => this.Locale;
         set => this.Locale = value;

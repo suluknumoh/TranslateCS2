@@ -2,9 +2,11 @@ using System;
 using System.IO;
 
 using TranslateCS2.Inf;
+using TranslateCS2.ZZZModTestLib.TestHelpers;
 
-namespace TranslateCS2.ZZZModTestLib;
+namespace TranslateCS2.ZModTests.TestHelpers.Models;
 public class TestDataProvider : IDisposable {
+    private bool generated;
     private string _DirectoryName;
     public string DirectoryName {
         get => this._DirectoryName;
@@ -20,17 +22,26 @@ public class TestDataProvider : IDisposable {
     public int EntryCountPerFile { get; private set; }
     public TestDataProvider() {
         this.DirectoryName = nameof(TestDataProvider);
-        this.GenerateData();
     }
-    public void GenerateData() {
+    public void GenerateData(bool force = false) {
+        if (this.generated
+            && !force) {
+            return;
+        }
         JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific);
         generator.Generate(true, true);
         this.EntryCountPerFile = generator.EntryCountPerFile;
+        this.generated = true;
     }
-    public void GenerateCorruptData() {
+    public void GenerateCorruptData(bool force = false) {
+        if (this.generated
+            && !force) {
+            return;
+        }
         JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific);
         generator.Generate(false, true);
         this.EntryCountPerFile = generator.EntryCountPerFile;
+        this.generated = true;
     }
     public void Dispose() {
         if (Directory.Exists(this.DirectoryName)) {

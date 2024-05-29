@@ -12,7 +12,7 @@
 
 
     <!--Imports must be after PropertyGroup block-->
-    <Import Project="..\TranslateCS2.ZZZModTestLib\Properties\CS2Paths.props" />
+    <Import Project="Properties\CS2Paths.props" />
 
 
     <ItemGroup>
@@ -26,7 +26,7 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\TranslateCS2.ZZZModTestLib\TranslateCS2.ZZZModTestLib.csproj" />
+      <ProjectReference Include="..\TranslateCS2.Mod\TranslateCS2.Mod.csproj" />
       <ProjectReference Include="..\TranslateCS2.ZZZTestLib\TranslateCS2.ZZZTestLib.csproj" />
     </ItemGroup>
 

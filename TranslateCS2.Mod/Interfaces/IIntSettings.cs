@@ -4,7 +4,7 @@ namespace TranslateCS2.Mod.Interfaces;
 /// <summary>
 ///     <see cref="InterfaceSettings"/>
 /// </summary>
-public interface IIntSettings {
+internal interface IIntSettings {
     /// <summary>
     ///     <see cref="InterfaceSettings.currentLocale"/>
     /// </summary>
