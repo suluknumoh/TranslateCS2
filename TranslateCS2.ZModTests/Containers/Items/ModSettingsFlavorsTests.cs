@@ -48,7 +48,8 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
             // to make items hideAction return false;
             // its checked within the update method
             runtimeContainer.IntSettings.CurrentLocale = language.Id;
-            WidgetChanges change = dropDown.Update();
+            //WidgetChanges change = dropDown.Update();
+            myItem.UpdateWidget();
             // after the dropdown is updated,
             // it has DropDownItem's we can check againts languages flavorcount
             int expectedDropDownItemCount = language.FlavorCount;
