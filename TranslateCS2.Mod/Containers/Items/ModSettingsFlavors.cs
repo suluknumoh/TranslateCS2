@@ -38,9 +38,6 @@ internal partial class ModSettings {
         set {
             if (value != null) {
                 this._FlavorsSetted = value;
-                foreach (KeyValuePair<SystemLanguage, string> entry in this._FlavorsSetted) {
-                    this.GetValueToSet(entry.Key, entry.Value, true);
-                }
             }
         }
     }
