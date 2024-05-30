@@ -142,6 +142,7 @@ internal partial class ModSettings : ModSetting {
         try {
             this.PreviousLocale = this.runtimeContainer.IntSettings.Locale;
             if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Locale)) {
+                // if this locale is null after it is loaded
                 this.Locale = this.PreviousLocale;
             }
             if (this.runtimeContainer.LocManager.SupportsLocale(this.Locale)) {
