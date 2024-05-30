@@ -106,10 +106,12 @@ public class ModSettingsTests : AProvidesTestDataOk {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
-        runtimeContainer.Init();
+        // only init languages, runtimeContainers init does to much for this test method
+        runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
         TestLocManager locManager = runtimeContainer.TestLocManager;
         // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
+        locManager.AddBuiltIn();
 
         // TODO:
     }
@@ -118,10 +120,12 @@ public class ModSettingsTests : AProvidesTestDataOk {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
-        runtimeContainer.Init();
+        // only init languages, runtimeContainers init does to much for this test method
+        runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
         TestLocManager locManager = runtimeContainer.TestLocManager;
         // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
+        locManager.AddBuiltIn();
 
         // TODO:
     }
