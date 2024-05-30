@@ -1,4 +1,4 @@
-namespace TranslateCS2.ZZZModTestLib.TestHelpers;
+namespace TranslateCS2.ZModTests.TestHelpers;
 /// <summary>
 ///     <see langword="const"/>s/<see langword="value"/>s
 ///     <br/>
@@ -31,4 +31,5 @@ internal static class ModTestConstants {
     public static int ExpectedLanguageCount { get; } = 43;
 
     public static int ExpectedFlavorCount { get; } = 303;
+    public static int ExpectedBuiltInLocFileCount { get; } = 12;
 }

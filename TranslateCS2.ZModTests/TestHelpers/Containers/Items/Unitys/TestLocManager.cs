@@ -1,13 +1,22 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 using Colossal;
 
+using TranslateCS2.Inf.Models.Localizations;
+using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Interfaces;
+using TranslateCS2.ZModTests.TestHelpers.Models;
+using TranslateCS2.ZZZTestLib.Services.Localizations;
 
 using UnityEngine;
 
-namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+using Xunit;
+
+namespace TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 /// <summary>
 ///     imitates <see cref="Colossal.Localization.LocalizationManager"/>s behaviour for testing purposes
 /// </summary>
@@ -54,5 +63,22 @@ internal class TestLocManager : ILocManager {
         return
             this.Locales.ContainsKey(localeId)
             && this.LocaleNames.ContainsKey(localeId);
+    }
+
+    public void AddBuiltIn() {
+        TestLocFileServiceStrategy strategy = new TestLocFileServiceStrategy();
+        LocFileService<string> locFileService = new LocFileService<string>(strategy);
+        IEnumerable<FileInfo> builtInLocFiles = locFileService.GetLocalizationFiles();
+        Assert.Equal(ModTestConstants.ExpectedBuiltInLocFileCount, builtInLocFiles.Count());
+        foreach (FileInfo builtInLocFile in builtInLocFiles) {
+            MyLocalization<string> locFile = locFileService.GetLocalizationFile(builtInLocFile);
+            bool parsed = Enum.TryParse<SystemLanguage>(locFile.NameEnglish, out SystemLanguage systemLanguage);
+            Assert.True(parsed);
+            if (parsed) {
+                this.AddLocale(locFile.Id, systemLanguage, locFile.Name);
+                IDictionarySource source = TestDictionarySource.FromMyLocalization(locFile);
+                this.AddSource(locFile.Id, source);
+            }
+        }
     }
 }

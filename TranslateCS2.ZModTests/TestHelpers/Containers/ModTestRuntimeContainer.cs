@@ -5,10 +5,10 @@ using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Interfaces;
-using TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+using TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 using TranslateCS2.ZZZTestLib;
 
-namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers;
+namespace TranslateCS2.ZModTests.TestHelpers.Containers;
 internal class ModTestRuntimeContainer : ModRuntimeContainer {
     public TestLocManager TestLocManager => (TestLocManager) this.LocManager;
     public TestIntSettings TestIntSettings => (TestIntSettings) this.IntSettings;

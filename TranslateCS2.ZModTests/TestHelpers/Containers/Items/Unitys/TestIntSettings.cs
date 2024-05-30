@@ -2,7 +2,7 @@ using Game.Settings;
 
 using TranslateCS2.Mod.Interfaces;
 
-namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+namespace TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 /// <summary>
 ///     imitates <see cref="InterfaceSettings"/>' behaviour for testing purposes
 /// </summary>

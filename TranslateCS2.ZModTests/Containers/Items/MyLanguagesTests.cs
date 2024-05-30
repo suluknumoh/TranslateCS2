@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Colossal;
 
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.ZModTests.TestHelpers;
+using TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 using TranslateCS2.ZModTests.TestHelpers.Models;
-using TranslateCS2.ZZZModTestLib.TestHelpers;
-using TranslateCS2.ZZZModTestLib.TestHelpers.Containers;
-using TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
@@ -76,7 +76,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
     //
     // INFO: when it's generated via log out of the game
     //[InlineData(SystemLanguage.SerboCroatian, "SerboCroatian", "српски/hrvatski", "Serbian/Croatian", false)]
-    // 
+    //
     // INFO: when it's the test is run
     [InlineData(SystemLanguage.SerboCroatian, "SerboCroatian", "srpski/hrvatski", "Serbian/Croatian", false)]
     public void GeneralTests(SystemLanguage systemLanguage,

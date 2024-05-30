@@ -8,6 +8,5 @@
     <!-- ExcludeAssemblies: one line per assembly (not comma- or whatever separated - line-break-separated!) -->
     <ExcludeAssemblies>
         TranslateCS2.ZZZTestLib
-        TranslateCS2.ZZZModTestLib
     </ExcludeAssemblies>
 </FineCodeCoverage>

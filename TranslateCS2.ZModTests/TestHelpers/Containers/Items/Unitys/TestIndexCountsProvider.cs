@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using TranslateCS2.Inf.Models.Localizations;
 
-namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+namespace TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 internal class TestIndexCountsProvider : IIndexCountsProvider {
     private readonly IDictionary<string, int> content;
     public TestIndexCountsProvider(IDictionary<string, int> content) {

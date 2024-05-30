@@ -3,7 +3,7 @@ using System.Text;
 
 using TranslateCS2.Inf;
 
-namespace TranslateCS2.ZZZModTestLib.TestHelpers;
+namespace TranslateCS2.ZModTests.TestHelpers;
 internal class JSONGenerator {
     public string Destination;
     public int EntryCountPerFile { get; private set; }

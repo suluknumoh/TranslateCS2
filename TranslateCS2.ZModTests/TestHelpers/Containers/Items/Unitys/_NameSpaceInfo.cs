@@ -1,4 +1,4 @@
 /// <summary>
 ///     this namespace contains wrappers for unity related stuff that got detached
 /// </summary>
-namespace TranslateCS2.ZZZModTestLib.TestHelpers.Containers.Items.Unitys;
+namespace TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;

@@ -10,6 +10,7 @@ using Xunit;
 
 namespace TranslateCS2.ZTests.Inf.Services.Localizations;
 public class LocFileServiceTests {
+    private readonly int expectedLocFileCount = 12;
     private readonly TestLocFileServiceStrategy strategy;
     public LocFileServiceTests() {
         this.strategy = new TestLocFileServiceStrategy();
@@ -18,13 +19,13 @@ public class LocFileServiceTests {
     public void GetLocalizationFilesTest() {
         LocFileService<string> locFileService = new LocFileService<string>(this.strategy);
         IEnumerable<FileInfo> locFiles = locFileService.GetLocalizationFiles();
-        Assert.Equal(12, locFiles.Count());
+        Assert.Equal(this.expectedLocFileCount, locFiles.Count());
     }
     [Fact]
     public void GetLocalizationFileTest() {
         LocFileService<string> locFileService = new LocFileService<string>(this.strategy);
         IEnumerable<FileInfo> locFileInfos = locFileService.GetLocalizationFiles();
-        Assert.Equal(12, locFileInfos.Count());
+        Assert.Equal(this.expectedLocFileCount, locFileInfos.Count());
         foreach (FileInfo locFileInfo in locFileInfos) {
             MyLocalization<string> locFile = locFileService.GetLocalizationFile(locFileInfo);
             Assert.NotNull(locFile);

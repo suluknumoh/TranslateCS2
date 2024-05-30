@@ -1,5 +1,5 @@
-using TranslateCS2.ZZZModTestLib.TestHelpers;
-using TranslateCS2.ZZZModTestLib.TestHelpers.Containers;
+using TranslateCS2.ZModTests.TestHelpers;
+using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using Xunit;

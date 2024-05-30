@@ -2,7 +2,6 @@ using System;
 using System.IO;
 
 using TranslateCS2.Inf;
-using TranslateCS2.ZZZModTestLib.TestHelpers;
 
 namespace TranslateCS2.ZModTests.TestHelpers.Models;
 public class TestDataProvider : IDisposable {
