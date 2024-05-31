@@ -54,6 +54,37 @@ internal class LocManager {
                                                   [nameof(TryToAddLanguageInitially), ex, language]);
         }
     }
+    /// <summary>
+    ///     this <see langword="method"/> looks weird
+    ///     <br/>
+    ///     BUT:
+    ///     <br/>
+    ///     <see cref="Colossal.Localization.LocalizationManager"/>
+    ///     <br/>
+    ///     has an <see langword="event"/>
+    ///     <br/>
+    ///     <see cref="Colossal.Localization.LocalizationManager.onActiveDictionaryChanged"/>
+    ///     <br/>
+    ///     that can not be raised from outside
+    ///     <br/>
+    ///     and <see cref="Colossal.Localization.LocalizationManager.NotifyActiveDictionaryChanged"/> is <see langword="private"/>
+    ///     <br/>
+    ///     <br/>
+    ///     what this <see langword="method"/> does,
+    ///     <br/>
+    ///     it removes the <see cref="TranslationFile"/> and readds it to make <see cref="Colossal.Localization.LocalizationManager"/> call
+    ///     <br/>
+    ///     <see cref="Colossal.Localization.LocalizationManager.NotifyActiveDictionaryChanged"/>
+    ///     <br/>
+    ///     and raise
+    ///     <see cref="Colossal.Localization.LocalizationManager.onActiveDictionaryChanged"/>
+    /// </summary>
+    /// <param name="language">
+    ///     <see cref="MyLanguage"/>
+    /// </param>
+    /// <param name="translationFile">
+    ///     <see cref="TranslationFile"/>
+    /// </param>
     public void ReplaceSource(MyLanguage language,
                               TranslationFile translationFile) {
         this.TryToRemoveSource(language,
