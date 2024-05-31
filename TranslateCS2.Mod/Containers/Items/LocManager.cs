@@ -87,6 +87,7 @@ internal class LocManager {
     /// </param>
     public void ReplaceSource(MyLanguage language,
                               TranslationFile translationFile) {
+        // INFO: its about hashcode and equals...
         this.TryToRemoveSource(language,
                                translationFile);
         this.TryToAddSource(language,

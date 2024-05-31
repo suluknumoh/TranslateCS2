@@ -10,6 +10,7 @@ using TranslateCS2.Inf.Interfaces;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
+// INFO: its about hashcode and equals...
 internal class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, IEquatable<TranslationFile?> {
 
     private readonly IModRuntimeContainer runtimeContainer;
