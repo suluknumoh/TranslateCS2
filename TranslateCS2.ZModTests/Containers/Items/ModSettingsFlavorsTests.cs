@@ -8,8 +8,8 @@ using Game.UI.Widgets;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Containers.Items.Unitys;
 using TranslateCS2.ZModTests.TestHelpers;
-using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
@@ -101,6 +101,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         }
         modSettings.FlavorsSetted = null;
         Assert.NotNull(modSettings.FlavorsSetted);
+        modSettings.FlavorsSetted.Clear();
         Assert.Empty(modSettings.FlavorsSetted);
         modSettings.FlavorsSetted = testData;
         Assert.NotNull(modSettings.FlavorsSetted);

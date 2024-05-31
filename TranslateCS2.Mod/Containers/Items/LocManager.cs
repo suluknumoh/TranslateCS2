@@ -37,7 +37,31 @@ internal class LocManager {
                                  [nameof(FlavorChanged), ex, language]);
         }
     }
-    public void TryToAddLocale(MyLanguage language) {
+    public void SetActiveLocale(string locale) {
+        this.Provider.SetActiveLocale(locale);
+    }
+
+    public bool SupportsLocale(string locale) {
+        return this.Provider.SupportsLocale(locale);
+    }
+
+    public void TryToAddLanguageInitially(MyLanguage language) {
+        try {
+            this.TryToAddLocale(language);
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(TryToAddLanguageInitially), ex, language]);
+        }
+    }
+    public void ReplaceSource(MyLanguage language,
+                              TranslationFile translationFile) {
+        this.TryToRemoveSource(language,
+                               translationFile);
+        this.TryToAddSource(language,
+                            translationFile);
+    }
+    private void TryToAddLocale(MyLanguage language) {
         try {
             this.Provider.AddLocale(language.Id,
                                     language.SystemLanguage,
@@ -50,9 +74,9 @@ internal class LocManager {
             throw;
         }
     }
-    public void TryToAddSource(MyLanguage language,
-                               TranslationFile translationFile,
-                               bool reThrow = false) {
+    private void TryToAddSource(MyLanguage language,
+                                TranslationFile translationFile,
+                                bool reThrow = false) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.Provider.AddSource(language.Id,
@@ -67,8 +91,8 @@ internal class LocManager {
             }
         }
     }
-    public void TryToRemoveSource(MyLanguage language,
-                                  TranslationFile translationFile) {
+    private void TryToRemoveSource(MyLanguage language,
+                                   TranslationFile translationFile) {
         try {
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
             this.Provider.RemoveSource(language.Id,
@@ -78,12 +102,5 @@ internal class LocManager {
                                  LoggingConstants.FailedTo,
                                  [nameof(TryToRemoveSource), ex, translationFile]);
         }
-    }
-    public void SetActiveLocale(string locale) {
-        this.Provider.SetActiveLocale(locale);
-    }
-
-    public bool SupportsLocale(string locale) {
-        return this.Provider.SupportsLocale(locale);
     }
 }

@@ -43,20 +43,24 @@ public class Mod : IMod {
             ModManager modManager = gameManager.modManager;
             if (modManager.TryGetExecutableAsset(this,
                                                  out ExecutableAsset asset)) {
-                this.RuntimeContainer = this.CreateRuntimeContainer(gameManager);
-                this.RuntimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
-
-                this.RuntimeContainer.Init(AssetDatabase.global.LoadSettings, true);
-
-                if (this.RuntimeContainer.Languages.HasErroneous) {
-                    this.RuntimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.RuntimeContainer.Languages.Erroneous,
-                                                                                        false);
-                }
+                this.Init(gameManager);
             }
         } catch (Exception ex) {
             // user LogManagers Logger
             // runtimeContainerHandler might not be initialized
             Logger.Critical(ex, nameof(OnLoad));
+        }
+    }
+
+    private void Init(GameManager gameManager) {
+        this.RuntimeContainer = this.CreateRuntimeContainer(gameManager);
+        this.RuntimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
+
+        this.RuntimeContainer.Init(AssetDatabase.global.LoadSettings, true);
+
+        if (this.RuntimeContainer.Languages.HasErroneous) {
+            this.RuntimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.RuntimeContainer.Languages.Erroneous,
+                                                                                false);
         }
     }
 

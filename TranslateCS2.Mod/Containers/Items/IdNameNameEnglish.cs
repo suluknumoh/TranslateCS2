@@ -9,11 +9,11 @@ using TranslateCS2.Inf.Interfaces;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-internal class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
+internal class IdNameNameEnglish : IIdNameNameEnglishGetAble {
     public string Id { get; }
     public string Name { get; }
     public string NameEnglish { get; }
-    private IdNameNameEnglishContainer(string id, string name, string nameEnglish) {
+    private IdNameNameEnglish(string id, string name, string nameEnglish) {
         this.Id = id;
         this.Name = name;
         this.NameEnglish = nameEnglish;
@@ -58,6 +58,6 @@ internal class IdNameNameEnglishContainer : IIdNameNameEnglishGetAble {
                 }
                 break;
         }
-        return new IdNameNameEnglishContainer(ID, name, nameEnglish);
+        return new IdNameNameEnglish(ID, name, nameEnglish);
     }
 }

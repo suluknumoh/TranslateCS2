@@ -27,8 +27,13 @@ internal partial class ModSettings {
     }
 
     public delegate void OnFlavorChangedHandler(MyLanguage? language, SystemLanguage systemLanguage, string localeId);
-
-    public event OnFlavorChangedHandler? OnFlavorChanged;
+    /// <summary>
+    ///     do not subscribe directly
+    ///     <br/>
+    ///     <br/>
+    ///     use <see cref="SubscribeOnFlavorChanged(OnFlavorChangedHandler)"/> to subscribe this <see langword="event"/>
+    /// </summary>
+    private event OnFlavorChangedHandler? OnFlavorChanged;
 
     private Dictionary<SystemLanguage, string> _FlavorsSetted = [];
     [Include]
@@ -96,5 +101,9 @@ internal partial class ModSettings {
     public string GetSettedFlavor(SystemLanguage systemLanguage) {
         this.FlavorsSetted.TryGetValue(systemLanguage, out string? localeId);
         return localeId ??= DropDownItems.None;
+    }
+
+    public void SubscribeOnFlavorChanged(OnFlavorChangedHandler handler) {
+        this.OnFlavorChanged += handler;
     }
 }

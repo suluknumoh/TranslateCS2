@@ -47,18 +47,18 @@ internal class MyLanguage : IIdNameNameEnglishGetAble {
                 .Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
         if (builtin.Any()) {
             this.IsBuiltIn = true;
-            this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
-                                                                              this.SystemLanguage,
-                                                                              builtin,
-                                                                              this.IsBuiltIn);
+            this.idNameNameEnglishGetAble = IdNameNameEnglish.Create(this.runtimeContainer.Locales,
+                                                                     this.SystemLanguage,
+                                                                     builtin,
+                                                                     this.IsBuiltIn);
         } else {
             IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains(StringConstants.Dash));
             if (remaining.Any()) {
                 this.IsBuiltIn = false;
-                this.idNameNameEnglishGetAble = IdNameNameEnglishContainer.Create(this.runtimeContainer.Locales,
-                                                                                  this.SystemLanguage,
-                                                                                  remaining,
-                                                                                  this.IsBuiltIn);
+                this.idNameNameEnglishGetAble = IdNameNameEnglish.Create(this.runtimeContainer.Locales,
+                                                                         this.SystemLanguage,
+                                                                         remaining,
+                                                                         this.IsBuiltIn);
             }
         }
     }
@@ -77,7 +77,9 @@ internal class MyLanguage : IIdNameNameEnglishGetAble {
     }
 
     public CultureInfo? GetCultureInfo(string localeId) {
-        IEnumerable<CultureInfo> matches = this.CultureInfos.Where(item => item.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        IEnumerable<CultureInfo> matches =
+            this.CultureInfos
+                .Where(item => item.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (matches.Any()) {
             return matches.First();
         }
@@ -87,15 +89,10 @@ internal class MyLanguage : IIdNameNameEnglishGetAble {
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
         foreach (TranslationFile translationFile in this.Flavors) {
-            if (translationFile.Id is null
-                || translationFile.Name is null) {
+            if (this.IsSkipTranslationFile(translationFile)) {
                 continue;
             }
-            string displayName = translationFile.Name;
-            if (displayName.Length > ModConstants.MaxDisplayNameLength) {
-                displayName = displayName.Substring(0, ModConstants.MaxDisplayNameLength);
-                displayName += StringConstants.ThreeDots;
-            }
+            string displayName = this.GetFlavorDropDownDisplayName(translationFile);
             DropdownItem<string> item = new DropdownItem<string>() {
                 value = translationFile.Id,
                 displayName = displayName
@@ -105,11 +102,32 @@ internal class MyLanguage : IIdNameNameEnglishGetAble {
         return dropdownItems;
     }
 
+    private string GetFlavorDropDownDisplayName(TranslationFile translationFile) {
+        string displayName = translationFile.Name;
+        if (displayName.Length > ModConstants.MaxDisplayNameLength) {
+            displayName = displayName.Substring(0, ModConstants.MaxDisplayNameLength);
+            displayName += StringConstants.ThreeDots;
+        }
+        return displayName;
+    }
+
+    private bool IsSkipTranslationFile(TranslationFile translationFile) {
+        return
+            translationFile.Id is null
+            || translationFile.Name is null;
+    }
+
     public bool HasFlavor(string localeId) {
-        return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).Any();
+        return
+            this.Flavors
+                .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase))
+                .Any();
     }
 
     public TranslationFile GetFlavor(string localeId) {
-        return this.Flavors.Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase)).First();
+        return
+            this.Flavors
+                .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase))
+                .First();
     }
 }

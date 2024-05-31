@@ -62,7 +62,7 @@ internal class MyLanguages {
 
     public void Init() {
         this.ReadFiles();
-        this.Load();
+        this.LoadInitial();
     }
 
     private void ReadFiles() {
@@ -102,10 +102,9 @@ internal class MyLanguages {
         }
     }
 
-    private void Load() {
+    private void LoadInitial() {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            if (language.IsBuiltIn
-                || !language.HasFlavors) {
+            if (!this.IsLanguageInitiallyLoadAble(language)) {
                 // dont load built in by default,
                 // otherwise the first flavor is automatically applied
                 //
@@ -113,18 +112,14 @@ internal class MyLanguages {
                 // otherwise they would be listed within the default interface settings language select
                 continue;
             }
-            try {
-                this.locManager.TryToAddLocale(language);
-                TranslationFile flavor = language.Flavors.First();
-                this.locManager.TryToAddSource(language,
-                                               flavor,
-                                               true);
-            } catch (Exception ex) {
-                this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                      LoggingConstants.FailedTo,
-                                                      [nameof(Load), ex, language]);
-            }
+            this.locManager.TryToAddLanguageInitially(language);
         }
+    }
+
+    private bool IsLanguageInitiallyLoadAble(MyLanguage language) {
+        return
+            !language.IsBuiltIn
+            && language.HasFlavors;
     }
 
     public void ReLoad() {
@@ -133,32 +128,56 @@ internal class MyLanguages {
             LocFileService<string> locFileService = new LocFileService<string>(strategy);
             this.Erroneous.Clear();
             foreach (MyLanguage language in this.LanguageDictionary.Values) {
-                string localeId = this.runtimeContainer.Settings.GetSettedFlavor(language.SystemLanguage);
-                foreach (TranslationFile translationFile in language.Flavors) {
-                    try {
-                        bool reInitialized = locFileService.ReadContent(translationFile.Source);
-                        if (!translationFile.IsOK
-                            || !reInitialized) {
-                            this.Erroneous.Add(translationFile);
-                        }
-                        if (localeId.Equals(translationFile.Id, StringComparison.OrdinalIgnoreCase)) {
-                            this.locManager.TryToRemoveSource(language,
-                                                              translationFile);
-                            this.locManager.TryToAddSource(language,
-                                                           translationFile);
-                        }
-                    } catch (Exception ex) {
-                        this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                              LoggingConstants.FailedTo,
-                                                                          [nameof(ReLoad), ex, localeId, language, translationFile]);
-                    }
-                }
+                this.ReLoadLanguage(locFileService, language);
             }
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
                                                   [nameof(ReLoad), ex]);
         }
+    }
+
+    private void ReLoadLanguage(LocFileService<string> locFileService, MyLanguage language) {
+        string localeId = this.runtimeContainer.Settings.GetSettedFlavor(language.SystemLanguage);
+        foreach (TranslationFile translationFile in language.Flavors) {
+            this.ReLoadTranslationFile(locFileService,
+                                       language,
+                                       localeId,
+                                       translationFile);
+        }
+    }
+
+    private void ReLoadTranslationFile(LocFileService<string> locFileService,
+                                       MyLanguage language,
+                                       string localeId,
+                                       TranslationFile translationFile) {
+        try {
+            bool reRead = this.ReReadTranslationFile(locFileService,
+                                                     translationFile);
+            if (!reRead) {
+                return;
+            }
+            if (localeId.Equals(translationFile.Id,
+                                StringComparison.OrdinalIgnoreCase)) {
+                this.locManager.ReplaceSource(language,
+                                              translationFile);
+            }
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                              [nameof(ReLoad), ex, localeId, language, translationFile]);
+        }
+    }
+
+    private bool ReReadTranslationFile(LocFileService<string> locFileService,
+                                       TranslationFile translationFile) {
+        bool reInitialized = locFileService.ReadContent(translationFile.Source);
+        if (reInitialized
+            && translationFile.IsOK) {
+            return true;
+        }
+        this.Erroneous.Add(translationFile);
+        return false;
     }
 
     /// <summary>

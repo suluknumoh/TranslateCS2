@@ -77,9 +77,6 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
             using TextReader textReader = new StreamReader(stream);
             using JsonReader jsonReader = new JsonTextReader(textReader);
             IDictionary<string, string>? temporary = serializer.Deserialize<Dictionary<string, string>>(jsonReader);
-            if (temporary is null) {
-                return false;
-            }
             HandleRead(temporary, source);
             return true;
         } catch (Exception ex) {

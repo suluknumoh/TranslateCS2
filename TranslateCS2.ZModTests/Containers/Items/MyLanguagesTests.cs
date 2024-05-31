@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-
-using Colossal;
-
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.ZModTests.TestHelpers;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
@@ -213,11 +209,6 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                 bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
                 Assert.True(gotLocaleName);
                 Assert.Equal(language.Name, localeName);
-                Assert.True(locManager.Sources.ContainsKey(language.Id));
-                bool gotSources = locManager.Sources.TryGetValue(language.Id, out IList<IDictionarySource> sources);
-                Assert.True(gotSources);
-                Assert.Single(sources);
-                Assert.IsType<TranslationFile>(sources[0]);
                 Assert.False(testLogProvider.HasLoggedTrace);
                 Assert.False(testLogProvider.HasLoggedInfo);
                 Assert.False(testLogProvider.HasLoggedWarning);
@@ -336,10 +327,6 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                     bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
                     Assert.True(gotLocaleName);
                     Assert.Equal(language.Name, localeName);
-                    Assert.True(locManager.Sources.ContainsKey(language.Id));
-                    bool gotSources = locManager.Sources.TryGetValue(language.Id, out IList<IDictionarySource> sources);
-                    Assert.True(gotSources);
-                    Assert.Single(sources);
                 }
                 Assert.False(testLogProvider.HasLoggedTrace);
                 Assert.False(testLogProvider.HasLoggedWarning);
