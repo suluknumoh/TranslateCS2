@@ -131,18 +131,40 @@ public class ModSettingsTests : AProvidesTestDataOk {
             Assert.Single(locManager.Sources[language.Value.Id]);
         }
     }
-    [Fact]
-    public void HandleLocaleOnUnLoadTest() {
+    [Theory]
+    [InlineData(null, "os")]
+    [InlineData("de-DE", "de-DE")]
+    [InlineData("en-US", "en-US")]
+    [InlineData("es-ES", "es-ES")]
+    [InlineData("fr-FR", "fr-FR")]
+    [InlineData("it-IT", "it-IT")]
+    [InlineData("ja-JP", "ja-JP")]
+    [InlineData("ko-KR", "ko-KR")]
+    [InlineData("pl-PL", "pl-PL")]
+    [InlineData("pt-BR", "pt-BR")]
+    [InlineData("ru-RU", "ru-RU")]
+    [InlineData("zh-HANS", "zh-HANS")]
+    [InlineData("zh-HANT", "zh-HANT")]
+    public void HandleLocaleOnUnLoadTest(string? previousLocale, string expectedLocale) {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         // only init languages, runtimeContainers init does to much for this test method
         runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
-        // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
-        locManager.AddBuiltIn();
+        IIntSettings intSettings = runtimeContainer.IntSettings;
 
-        // TODO:
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> language in runtimeContainer.Languages.LanguageDictionary) {
+            modSettings.PreviousLocale = previousLocale;
+            modSettings.Locale = language.Value.Id;
+            modSettings.HandleLocaleOnUnLoad();
+            if (language.Value.IsBuiltIn) {
+                Assert.Equal(language.Value.Id, intSettings.CurrentLocale);
+                Assert.Equal(language.Value.Id, intSettings.Locale);
+            } else {
+                Assert.Equal(expectedLocale, intSettings.CurrentLocale);
+                Assert.Equal(expectedLocale, intSettings.Locale);
+            }
+        }
     }
 }
