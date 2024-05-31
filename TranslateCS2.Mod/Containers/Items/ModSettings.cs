@@ -68,11 +68,17 @@ internal partial class ModSettings : ModSetting {
 
     private void ReloadLangs() {
         try {
-            this.runtimeContainer.IntSettings.CurrentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
-            this.runtimeContainer.LocManager.SetActiveLocale(this.runtimeContainer.IntSettings.Locale);
+            {
+                // TODO: it should be unnecessary and it should be better to use LocManager.ReplaceSource
+                //this.runtimeContainer.IntSettings.CurrentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                //this.runtimeContainer.LocManager.SetActiveLocale(this.runtimeContainer.IntSettings.Locale);
+            }
             this.languages.ReLoad();
-            this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
-            this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
+            {
+                // TODO: it should be unnecessary and it should be better to use LocManager.ReplaceSource
+                //this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
+                //this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
+            }
             if (this.languages.HasErroneous) {
                 this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
             }
