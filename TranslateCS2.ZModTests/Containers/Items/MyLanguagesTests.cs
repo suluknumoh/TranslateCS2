@@ -159,37 +159,34 @@ public class MyLanguagesTests : AProvidesTestDataOk {
     [InlineData(SystemLanguage.Vietnamese, 2)]
     public void OkTests(SystemLanguage systemLanguage,
                         int expectedFlavorCount) {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<MyLanguagesTests>();
-        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
-                                                                                  userDataPath: this.dataProvider.DirectoryName);
-        runtimeContainer.Init();
-        MyLanguages languages = runtimeContainer.Languages;
-        Assert.False(languages.HasErroneous);
-        Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
-        Assert.Equal(ModTestConstants.ExpectedFlavorCount, languages.FlavorCountOfAllLanguages);
-        Assert.Equal(ModTestConstants.ExpectedFlavorCount * this.dataProvider.EntryCountPerFile,
-                     languages.EntryCountOfAllFlavorsOfAllLanguages);
-        MyLanguage? language = languages.GetLanguage(systemLanguage);
-        Assert.NotNull(language);
-        Assert.True(language.HasFlavors);
-        Assert.Equal(expectedFlavorCount, language.FlavorCount);
-        Assert.Equal(expectedFlavorCount * this.dataProvider.EntryCountPerFile,
-                     language.EntryCountOfAllFlavors);
+        TestDataProvider dataProviderLocal = new TestDataProvider {
+            DirectoryName = nameof(OkTests)
+        };
+        try {
+            dataProviderLocal.GenerateData(true);
+            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<MyLanguagesTests>();
+            ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                      userDataPath: dataProviderLocal.DirectoryName);
+            runtimeContainer.Init();
+            MyLanguages languages = runtimeContainer.Languages;
+            Assert.False(languages.HasErroneous);
+            Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
+            Assert.Equal(ModTestConstants.ExpectedFlavorCount, languages.FlavorCountOfAllLanguages);
+            Assert.Equal(ModTestConstants.ExpectedFlavorCount * dataProviderLocal.EntryCountPerFile,
+                         languages.EntryCountOfAllFlavorsOfAllLanguages);
+            MyLanguage? language = languages.GetLanguage(systemLanguage);
+            Assert.NotNull(language);
+            Assert.True(language.HasFlavors);
+            Assert.Equal(expectedFlavorCount, language.FlavorCount);
+            Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
+                         language.EntryCountOfAllFlavors);
 
-        TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
-        if (language.IsBuiltIn) {
-            // built in are loaded by the game itself
-            // and are skipped within MyLanguages.Load(), cause they are loaded by the game itself
-            Assert.False(locManager.SupportsLocale(language.Id));
-            Assert.False(testLogProvider.HasLoggedTrace);
-            Assert.False(testLogProvider.HasLoggedInfo);
-            Assert.False(testLogProvider.HasLoggedWarning);
-            Assert.False(testLogProvider.HasLoggedError);
-            Assert.False(testLogProvider.HasLoggedCritical);
-            Assert.False(testLogProvider.HasDisplayedError);
-        } else {
+            TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
+            locManager.AddBuiltIn();
+
             for (int i = 0; i < 2; i++) {
                 if (i == 1) {
+                    dataProviderLocal.GenerateData(true);
                     languages.ReLoad();
                 }
                 Assert.True(locManager.SupportsLocale(language.Id));
@@ -200,7 +197,10 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                 Assert.True(locManager.LocaleNames.ContainsKey(language.Id));
                 bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
                 Assert.True(gotLocaleName);
-                Assert.Equal(language.Name, localeName);
+                if (!language.IsBuiltIn) {
+                    // due to name-differences...
+                    Assert.Equal(language.Name, localeName);
+                }
                 Assert.False(testLogProvider.HasLoggedTrace);
                 Assert.False(testLogProvider.HasLoggedInfo);
                 Assert.False(testLogProvider.HasLoggedWarning);
@@ -208,6 +208,8 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                 Assert.False(testLogProvider.HasLoggedCritical);
                 Assert.False(testLogProvider.HasDisplayedError);
             }
+        } finally {
+            dataProviderLocal.Dispose();
         }
     }
 
@@ -294,40 +296,34 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                          language.EntryCountOfAllFlavors);
 
             TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
-            if (language.IsBuiltIn) {
-                // built in are loaded by the game itself
-                // and are skipped within MyLanguages.Load(), cause they are loaded by the game itself
-                Assert.False(locManager.SupportsLocale(language.Id));
-                Assert.False(testLogProvider.HasLoggedTrace);
-                Assert.False(testLogProvider.HasLoggedInfo);
-                Assert.False(testLogProvider.HasLoggedWarning);
-                Assert.False(testLogProvider.HasLoggedCritical);
-                Assert.False(testLogProvider.HasDisplayedError);
-                Assert.False(testLogProvider.HasLoggedError);
-            } else {
-                for (int i = 0; i < 2; i++) {
-                    if (i == 1) {
-                        dataProviderLocal.GenerateCorruptData(true);
-                        languages.ReLoad();
-                    }
-                    Assert.True(locManager.SupportsLocale(language.Id));
-                    Assert.True(locManager.Locales.ContainsKey(language.Id));
-                    bool gotLocale = locManager.Locales.TryGetValue(language.Id, out SystemLanguage locale);
-                    Assert.True(gotLocale);
-                    Assert.Equal(language.SystemLanguage, locale);
-                    Assert.True(locManager.LocaleNames.ContainsKey(language.Id));
-                    bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
-                    Assert.True(gotLocaleName);
+            locManager.AddBuiltIn();
+
+            for (int i = 0; i < 2; i++) {
+                if (i == 1) {
+                    dataProviderLocal.GenerateCorruptData(true);
+                    languages.ReLoad();
+                }
+                Assert.True(locManager.SupportsLocale(language.Id));
+                Assert.True(locManager.Locales.ContainsKey(language.Id));
+                bool gotLocale = locManager.Locales.TryGetValue(language.Id, out SystemLanguage locale);
+                Assert.True(gotLocale);
+                Assert.Equal(language.SystemLanguage, locale);
+                Assert.True(locManager.LocaleNames.ContainsKey(language.Id));
+                bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
+                Assert.True(gotLocaleName);
+                if (!language.IsBuiltIn) {
+                    // due to name-differences...
                     Assert.Equal(language.Name, localeName);
                 }
-                Assert.False(testLogProvider.HasLoggedTrace);
-                Assert.False(testLogProvider.HasLoggedWarning);
-                Assert.False(testLogProvider.HasLoggedInfo);
-                Assert.False(testLogProvider.HasLoggedCritical);
-                Assert.False(testLogProvider.HasDisplayedError);
-                //
-                Assert.True(testLogProvider.HasLoggedError);
             }
+            Assert.False(testLogProvider.HasLoggedTrace);
+            Assert.False(testLogProvider.HasLoggedWarning);
+            Assert.False(testLogProvider.HasLoggedInfo);
+            Assert.False(testLogProvider.HasLoggedCritical);
+            Assert.False(testLogProvider.HasDisplayedError);
+            //
+            Assert.True(testLogProvider.HasLoggedError);
+
         } finally {
             dataProviderLocal.Dispose();
         }
