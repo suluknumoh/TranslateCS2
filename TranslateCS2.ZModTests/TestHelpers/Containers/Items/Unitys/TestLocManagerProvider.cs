@@ -72,7 +72,7 @@ internal class TestLocManagerProvider : ILocManagerProvider {
         Assert.Equal(ModTestConstants.ExpectedBuiltInLocFileCount, builtInLocFiles.Count());
         foreach (FileInfo builtInLocFile in builtInLocFiles) {
             MyLocalization<string> locFile = locFileService.GetLocalizationFile(builtInLocFile);
-            bool parsed = Enum.TryParse<SystemLanguage>(locFile.NameEnglish, out SystemLanguage systemLanguage);
+            bool parsed = Enum.TryParse(locFile.NameEnglish, true, out SystemLanguage systemLanguage);
             Assert.True(parsed);
             if (parsed) {
                 this.AddLocale(locFile.Id, systemLanguage, locFile.Name);

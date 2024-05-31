@@ -93,15 +93,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         Assert.Equal(expectedIsBuiltIn, language.IsBuiltIn);
         Assert.NotEmpty(language.CultureInfos);
         {
-            // the following method i´s intended to get a language via a correct locale-id
-            // whenever a flavor is changed
-            // the SystemLanguages Unknown and SerboCroation have a general ID
-            // that does not work with that method!
-            if (systemLanguage is SystemLanguage.Unknown or SystemLanguage.SerboCroatian) {
-                Assert.Null(languages.GetLanguage(expectedId));
-            } else {
-                Assert.NotNull(languages.GetLanguage(expectedId));
-            }
+            Assert.NotNull(languages.GetLanguage(expectedId));
             // no files are read
             Assert.False(language.HasFlavors);
             Assert.False(language.HasFlavor(expectedId));

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Interfaces;
+using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 using TranslateCS2.ZModTests.TestHelpers.Models;
-using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
@@ -113,7 +114,22 @@ public class ModSettingsTests : AProvidesTestDataOk {
         // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
         locManager.AddBuiltIn();
 
-        // TODO:
+        Dictionary<SystemLanguage, MyLanguage> languages = runtimeContainer.Languages.LanguageDictionary;
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> language in languages) {
+            modSettings.FlavorsSetted.Clear();
+            IIntSettings intSettings = runtimeContainer.IntSettings;
+            intSettings.CurrentLocale = language.Value.Id;
+            modSettings.Locale = null;
+            modSettings.HandleLocaleOnLoad();
+            KeyValuePair<SystemLanguage, string> setted = Assert.Single(modSettings.FlavorsSetted);
+            Assert.Equal(language.Key, setted.Key);
+            if (language.Value.IsBuiltIn) {
+                Assert.Equal(DropDownItems.None, setted.Value);
+            } else {
+                Assert.Equal(language.Value.Flavors.First().Id, setted.Value);
+            }
+            Assert.Single(locManager.Sources[language.Value.Id]);
+        }
     }
     [Fact]
     public void HandleLocaleOnUnLoadTest() {

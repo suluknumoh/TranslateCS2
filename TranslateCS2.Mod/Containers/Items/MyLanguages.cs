@@ -192,6 +192,10 @@ internal class MyLanguages {
     ///     <see cref="MyLanguage"/>
     /// </returns>
     public MyLanguage? GetLanguage(string localeId) {
+        bool parsed = Enum.TryParse(localeId, true, out SystemLanguage systemLanguage);
+        if (parsed) {
+            return this.GetLanguage(systemLanguage);
+        }
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
             IEnumerable<CultureInfo> cis =
                 language
