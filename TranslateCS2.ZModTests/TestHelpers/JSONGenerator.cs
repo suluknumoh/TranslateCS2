@@ -5,10 +5,14 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ZModTests.TestHelpers;
 internal class JSONGenerator {
+    private readonly bool addRandom;
+    private readonly int randomCounter = 0;
     public string Destination;
     public int EntryCountPerFile { get; private set; }
-    public JSONGenerator(string destination) {
+    public JSONGenerator(string destination,
+                         int randomCounter = 0) {
         this.Destination = destination;
+        this.addRandom = randomCounter > 0;
     }
     /// <summary>
     ///     generates localization JSONs in the given <see cref="Destination"/>
@@ -45,6 +49,12 @@ internal class JSONGenerator {
                              ok,
                              "Options.SECTION[General]",
                              $"General ({supportedLocale}.json)");
+            if (this.addRandom) {
+                this.AppendEntry(builder,
+                                 ok,
+                                 "This.Is.Just.A.Random.Key",
+                                 this.randomCounter.ToString("D0"));
+            }
             if (false) {
                 // just a template...
                 this.AppendEntry(builder,

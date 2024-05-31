@@ -52,39 +52,10 @@ internal class Locales {
                 .ToList();
         for (int i = cultures.Count - 1; i >= 0; i--) {
             CultureInfo culture = cultures[i];
-            foreach (SystemLanguage language in languages) {
-                string? comparator = null;
-                switch (language) {
-                    case SystemLanguage.Chinese:
-                    // i think i cant handle it, because chinese simplified and chinese traditional are present
-                    case SystemLanguage.Unknown:
-                        // no need to check for unknown
-                        continue;
-                    case SystemLanguage.SerboCroatian:
-                        if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
-                            || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
-                        ) {
-                            this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
-                            cultures.Remove(culture);
-                        }
-                        continue;
-                    case SystemLanguage.ChineseSimplified:
-                        comparator = LangConstants.ChineseSimplified;
-                        break;
-                    case SystemLanguage.ChineseTraditional:
-                        comparator = LangConstants.ChineseTraditional;
-                        break;
-                    default:
-                        comparator = language.ToString();
-                        break;
-                }
-                if (culture.EnglishName.StartsWith(comparator, StringComparison.OrdinalIgnoreCase)) {
-                    this.AddToDictionary(systemLanguageCulturesMapping,
-                                         culture,
-                                         language);
-                    cultures.Remove(culture);
-                }
-            }
+            this.HandleCultureForMapping(systemLanguageCulturesMapping,
+                                         languages,
+                                         cultures,
+                                         culture);
         }
         foreach (CultureInfo culture in cultures) {
             // i want to use the existing logic...
@@ -96,6 +67,61 @@ internal class Locales {
 
         return systemLanguageCulturesMapping;
     }
+
+    private void HandleCultureForMapping(Dictionary<SystemLanguage, IList<CultureInfo>> systemLanguageCulturesMapping,
+                                         IEnumerable<SystemLanguage> languages,
+                                         List<CultureInfo> cultures,
+                                         CultureInfo culture) {
+        foreach (SystemLanguage language in languages) {
+            string? comparator = this.GetMappingComparator(systemLanguageCulturesMapping,
+                                                      cultures,
+                                                      culture,
+                                                      language);
+            if (comparator is null) {
+                continue;
+            }
+            if (culture.EnglishName.StartsWith(comparator,
+                                               StringComparison.OrdinalIgnoreCase)) {
+                this.AddToDictionary(systemLanguageCulturesMapping,
+                                     culture,
+                                     language);
+                cultures.Remove(culture);
+            }
+        }
+    }
+
+    private string? GetMappingComparator(Dictionary<SystemLanguage, IList<CultureInfo>> systemLanguageCulturesMapping,
+                                         List<CultureInfo> cultures,
+                                         CultureInfo culture,
+                                         SystemLanguage language) {
+        string? comparator = null;
+        switch (language) {
+            case SystemLanguage.Chinese:
+            // i think i cant handle it, because chinese simplified and chinese traditional are present
+            case SystemLanguage.Unknown:
+                // no need to check for unknown
+                return null;
+            case SystemLanguage.SerboCroatian:
+                if (culture.EnglishName.StartsWith(LangConstants.Serbian, StringComparison.OrdinalIgnoreCase)
+                    || culture.EnglishName.StartsWith(LangConstants.Croatian, StringComparison.OrdinalIgnoreCase)
+                ) {
+                    this.AddToDictionary(systemLanguageCulturesMapping, culture, language);
+                    cultures.Remove(culture);
+                }
+                return null;
+            case SystemLanguage.ChineseSimplified:
+                comparator = LangConstants.ChineseSimplified;
+                break;
+            case SystemLanguage.ChineseTraditional:
+                comparator = LangConstants.ChineseTraditional;
+                break;
+            default:
+                comparator = language.ToString();
+                break;
+        }
+        return comparator;
+    }
+
     private void AddToDictionary(IDictionary<SystemLanguage, IList<CultureInfo>> dictionary,
                                  CultureInfo culture,
                                  SystemLanguage language) {

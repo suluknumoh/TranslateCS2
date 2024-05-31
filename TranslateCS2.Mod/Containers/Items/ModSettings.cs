@@ -176,12 +176,13 @@ internal partial class ModSettings : ModSetting {
         }
     }
     private void ApplyAndSaveAlso(Setting setting) {
+        if (setting is not InterfaceSettings interfaceSettings) {
+            return;
+        }
         try {
-            if (setting is InterfaceSettings interfaceSettings) {
-                this.Locale = interfaceSettings.locale;
-                this.OnLocaleChanged();
-                this.ApplyAndSave();
-            }
+            this.Locale = interfaceSettings.locale;
+            this.OnLocaleChanged();
+            this.ApplyAndSave();
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,

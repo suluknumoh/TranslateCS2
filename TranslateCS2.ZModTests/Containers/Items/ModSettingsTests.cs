@@ -19,7 +19,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
     public ModSettingsTests(TestDataProvider testDataProvider) : base(testDataProvider) { }
     [Fact]
     public void GenerateLocalizationJsonTest() {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         ModSettings modSettings = runtimeContainer.Settings;
@@ -39,7 +39,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
     }
     [Fact]
     public void LogMarkdownAndCultureInfoNamesTest() {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         ModSettings modSettings = runtimeContainer.Settings;
@@ -53,7 +53,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
     }
     [Fact]
     public void ReloadLanguagesOkTest() {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         runtimeContainer.Init();
@@ -79,7 +79,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         };
         try {
             dataProviderLocal.GenerateData(true);
-            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
             ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                       userDataPath: dataProviderLocal.DirectoryName);
             runtimeContainer.Init();
@@ -104,7 +104,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
     }
     [Fact]
     public void HandleLocaleOnLoadTest() {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         // only init languages, runtimeContainers init does to much for this test method
@@ -146,7 +146,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
     [InlineData("zh-HANS", "zh-HANS")]
     [InlineData("zh-HANT", "zh-HANT")]
     public void HandleLocaleOnUnLoadTest(string? previousLocale, string expectedLocale) {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         // only init languages, runtimeContainers init does to much for this test method
@@ -157,7 +157,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         foreach (KeyValuePair<SystemLanguage, MyLanguage> language in runtimeContainer.Languages.LanguageDictionary) {
             modSettings.PreviousLocale = previousLocale;
             modSettings.Locale = language.Value.Id;
-            modSettings.HandleLocaleOnUnLoad();
+            runtimeContainer.Dispose();
             if (language.Value.IsBuiltIn) {
                 Assert.Equal(language.Value.Id, intSettings.CurrentLocale);
                 Assert.Equal(language.Value.Id, intSettings.Locale);

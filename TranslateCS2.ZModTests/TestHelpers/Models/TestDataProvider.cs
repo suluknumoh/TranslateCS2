@@ -5,6 +5,7 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ZModTests.TestHelpers.Models;
 public class TestDataProvider : IDisposable {
+    private int randomCounter = 0;
     private bool generated;
     private string _DirectoryName;
     public string DirectoryName {
@@ -27,7 +28,8 @@ public class TestDataProvider : IDisposable {
             && !force) {
             return;
         }
-        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific);
+        this.randomCounter++;
+        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific, this.randomCounter);
         generator.Generate(true, true);
         this.EntryCountPerFile = generator.EntryCountPerFile;
         this.generated = true;
@@ -37,7 +39,8 @@ public class TestDataProvider : IDisposable {
             && !force) {
             return;
         }
-        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific);
+        this.randomCounter++;
+        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific, this.randomCounter);
         generator.Generate(false, true);
         this.EntryCountPerFile = generator.EntryCountPerFile;
         this.generated = true;
