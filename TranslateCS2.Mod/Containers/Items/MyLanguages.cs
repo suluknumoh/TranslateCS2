@@ -19,6 +19,7 @@ namespace TranslateCS2.Mod.Containers.Items;
 internal class MyLanguages {
     private static readonly MyLanguages? INSTANCE;
     private readonly IModRuntimeContainer runtimeContainer;
+    private readonly LocManager locManager;
     public Dictionary<SystemLanguage, MyLanguage> LanguageDictionary { get; } = [];
     public int LanguageCount => this.LanguageDictionary.Count;
     public int FlavorCountOfAllLanguages {
@@ -41,9 +42,10 @@ internal class MyLanguages {
     }
     public IList<TranslationFile> Erroneous { get; } = [];
     public bool HasErroneous => this.Erroneous.Count > 0;
-    private IDictionary<SystemLanguage, string> FlavorMapping { get; } = new Dictionary<SystemLanguage, string>();
+
     public MyLanguages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
+        this.locManager = this.runtimeContainer.LocManager;
         this.InitLanguages();
     }
 
@@ -100,6 +102,65 @@ internal class MyLanguages {
         }
     }
 
+    private void Load() {
+        foreach (MyLanguage language in this.LanguageDictionary.Values) {
+            if (language.IsBuiltIn
+                || !language.HasFlavors) {
+                // dont load built in by default,
+                // otherwise the first flavor is automatically applied
+                //
+                // dont load languages without flavors,
+                // otherwise they would be listed within the default interface settings language select
+                continue;
+            }
+            try {
+                this.locManager.TryToAddLocale(language);
+                TranslationFile flavor = language.Flavors.First();
+                this.locManager.TryToAddSource(language,
+                                               flavor,
+                                               true);
+            } catch (Exception ex) {
+                this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                      LoggingConstants.FailedTo,
+                                                      [nameof(Load), ex, language]);
+            }
+        }
+    }
+
+    public void ReLoad() {
+        try {
+            LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
+            LocFileService<string> locFileService = new LocFileService<string>(strategy);
+            this.Erroneous.Clear();
+            foreach (MyLanguage language in this.LanguageDictionary.Values) {
+                string localeId = this.runtimeContainer.Settings.GetSettedFlavor(language.SystemLanguage);
+                foreach (TranslationFile translationFile in language.Flavors) {
+                    try {
+                        bool reInitialized = locFileService.ReadContent(translationFile.Source);
+                        if (!translationFile.IsOK
+                            || !reInitialized) {
+                            this.Erroneous.Add(translationFile);
+                        }
+                        if (localeId.Equals(translationFile.Id, StringComparison.OrdinalIgnoreCase)) {
+                            this.locManager.TryToRemoveSource(language,
+                                                              translationFile);
+                            this.locManager.TryToAddSource(language,
+                                                           translationFile);
+                        }
+                    } catch (Exception ex) {
+                        this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                              LoggingConstants.FailedTo,
+                                                                          [nameof(ReLoad), ex, localeId, language, translationFile]);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            this.runtimeContainer.Logger.LogError(this.GetType(),
+                                                  LoggingConstants.FailedTo,
+                                                  [nameof(ReLoad), ex]);
+        }
+    }
+
     /// <summary>
     ///     gets a <see cref="MyLanguage"/> via a correct <paramref name="localeId"/>
     ///     <br/>
@@ -129,63 +190,6 @@ internal class MyLanguages {
         }
         return null;
     }
-
-    private void Load() {
-        foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            if (language.IsBuiltIn
-                || !language.HasFlavors) {
-                // dont load built in by default,
-                // otherwise the first flavor is automatically applied
-                //
-                // dont load languages without flavors,
-                // otherwise they would be listed within the default interface settings language select
-                continue;
-            }
-            try {
-                this.TryToAddLocale(language);
-                TranslationFile flavor = language.Flavors.First();
-                this.TryToAddSource(language, flavor, true);
-                this.AddToFlavorMapping(language.SystemLanguage, flavor.Id);
-            } catch (Exception ex) {
-                this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                      LoggingConstants.FailedTo,
-                                                      [nameof(Load), ex, language]);
-            }
-        }
-    }
-
-    public void ReLoad() {
-        try {
-            LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
-            LocFileService<string> locFileService = new LocFileService<string>(strategy);
-            this.Erroneous.Clear();
-            foreach (MyLanguage language in this.LanguageDictionary.Values) {
-                this.FlavorMapping.TryGetValue(language.SystemLanguage, out string? localeId);
-                localeId ??= DropDownItems.None;
-                foreach (TranslationFile translationFile in language.Flavors) {
-                    try {
-                        this.TryToRemoveSource(language, translationFile);
-                        bool reInitialized = locFileService.ReadContent(translationFile.Source);
-                        if (!translationFile.IsOK || !reInitialized) {
-                            this.Erroneous.Add(translationFile);
-                        }
-                        if (localeId.Equals(translationFile.Id, StringComparison.OrdinalIgnoreCase)) {
-                            this.TryToAddSource(language, translationFile);
-                        }
-                    } catch (Exception ex) {
-                        this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                              LoggingConstants.FailedTo,
-                                                              [nameof(ReLoad), ex, localeId, language, translationFile]);
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(ReLoad), ex]);
-        }
-    }
-
     [MyExcludeFromCoverage]
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
@@ -194,75 +198,6 @@ internal class MyLanguages {
             builder.AppendLine($"{entry.Key}: {entry.Value}");
         }
         return builder.ToString();
-    }
-
-    public void FlavorChanged(MyLanguage? language,
-                              SystemLanguage systemLanguage,
-                              string localeId) {
-        try {
-            this.AddToFlavorMapping(systemLanguage, localeId);
-            if (language is null) {
-                return;
-            }
-            foreach (TranslationFile flavor in language.Flavors) {
-                this.TryToRemoveSource(language, flavor);
-            }
-            if (language.HasFlavor(localeId)) {
-                TranslationFile flavor = language.GetFlavor(localeId);
-                this.TryToAddSource(language, flavor);
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(FlavorChanged), ex, language]);
-        }
-    }
-    private void TryToAddLocale(MyLanguage language) {
-        try {
-            this.runtimeContainer.LocManager.AddLocale(language.Id,
-                                                       language.SystemLanguage,
-                                                       language.Name);
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(TryToAddLocale), ex, language]);
-            this.runtimeContainer.LocManager.RemoveLocale(language.Id);
-            throw;
-        }
-    }
-    private void TryToAddSource(MyLanguage language,
-                                TranslationFile translationFile,
-                                bool reThrow = false) {
-        try {
-            // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            this.runtimeContainer.LocManager.AddSource(language.Id,
-                                                       translationFile);
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(TryToAddSource), ex, translationFile]);
-            this.TryToRemoveSource(language, translationFile);
-            if (reThrow) {
-                throw;
-            }
-        }
-    }
-    private void TryToRemoveSource(MyLanguage language,
-                                   TranslationFile translationFile) {
-        try {
-            // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
-            this.runtimeContainer.LocManager.RemoveSource(language.Id,
-                                                          translationFile);
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(TryToRemoveSource), ex, translationFile]);
-        }
-    }
-    private void AddToFlavorMapping(SystemLanguage systemLanguage,
-                                    string localeId) {
-        this.FlavorMapping.Remove(systemLanguage);
-        this.FlavorMapping.Add(systemLanguage, localeId);
     }
     public void LogMarkdownAndCultureInfoNames() {
         try {

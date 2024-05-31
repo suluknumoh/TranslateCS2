@@ -109,7 +109,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         // only init languages, runtimeContainers init does to much for this test method
         runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        TestLocManager locManager = runtimeContainer.TestLocManager;
+        TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
         // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
         locManager.AddBuiltIn();
 
@@ -123,7 +123,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         // only init languages, runtimeContainers init does to much for this test method
         runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        TestLocManager locManager = runtimeContainer.TestLocManager;
+        TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
         // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
         locManager.AddBuiltIn();
 

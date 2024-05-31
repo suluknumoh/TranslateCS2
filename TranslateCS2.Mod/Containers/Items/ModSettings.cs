@@ -54,7 +54,7 @@ internal partial class ModSettings : ModSetting {
         this.languages = this.runtimeContainer.Languages;
         this.Locale = this.runtimeContainer.IntSettings.Locale;
         this.PreviousLocale = this.Locale;
-        this.OnFlavorChanged += this.languages.FlavorChanged;
+        this.OnFlavorChanged += this.runtimeContainer.LocManager.FlavorChanged;
     }
 
     [Exclude]

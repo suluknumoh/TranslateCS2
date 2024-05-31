@@ -18,7 +18,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public Locales Locales { get; }
     public MyLanguages Languages { get; }
     public DropDownItems DropDownItems { get; }
-    public ILocManager LocManager { get; }
+    public LocManager LocManager { get; }
     public IIntSettings IntSettings { get; }
     public IIndexCountsProvider IndexCountsProvider { get; }
     public IMod Mod { get; }
@@ -27,7 +27,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
 
     public ModRuntimeContainer(IMyLogProvider logProvider,
                                IMod mod,
-                               ILocManager locManager,
+                               ILocManagerProvider locManagerProvider,
                                IIntSettings intSettings,
                                IIndexCountsProvider indexCountsProvider,
                                Paths paths,
@@ -35,7 +35,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         // dont change init-order!!!
         this.Logger = new ModLogger(logProvider);
         this.Mod = mod;
-        this.LocManager = locManager;
+        this.LocManager = new LocManager(locManagerProvider, this);
         this.IntSettings = intSettings;
         this.IndexCountsProvider = indexCountsProvider;
         this.DropDownItems = new DropDownItems();
@@ -62,8 +62,8 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         loadSettings?.Invoke(ModConstants.Name,
                              this.Settings,
                              null);
-        this.LocManager.AddSource(this.LocManager.FallbackLocaleId,
-                                  this.SettingsLocale);
+        this.LocManager.Provider.AddSource(this.LocManager.FallbackLocaleId,
+                                           this.SettingsLocale);
         this.Settings.HandleLocaleOnLoad();
         this.performanceMeasurement.Stop();
     }

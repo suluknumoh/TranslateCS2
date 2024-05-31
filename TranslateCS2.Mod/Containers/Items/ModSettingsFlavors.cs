@@ -65,8 +65,7 @@ internal partial class ModSettings {
         }
     }
     public string Getter(SystemLanguage systemLanguage) {
-        this.FlavorsSetted.TryGetValue(systemLanguage, out string? val);
-        val ??= DropDownItems.None;
+        string val = this.GetSettedFlavor(systemLanguage);
         return this.GetValueToSet(systemLanguage, val, false);
     }
 
@@ -93,5 +92,9 @@ internal partial class ModSettings {
             OnFlavorChanged?.Invoke(language, systemLanguage, localeId);
         }
         return localeId;
+    }
+    public string GetSettedFlavor(SystemLanguage systemLanguage) {
+        this.FlavorsSetted.TryGetValue(systemLanguage, out string? localeId);
+        return localeId ??= DropDownItems.None;
     }
 }

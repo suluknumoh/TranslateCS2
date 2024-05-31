@@ -4,9 +4,9 @@ using Colossal;
 
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.ZModTests.TestHelpers;
+using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 using TranslateCS2.ZModTests.TestHelpers.Models;
-using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using UnityEngine;
@@ -188,7 +188,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         Assert.Equal(expectedFlavorCount * this.dataProvider.EntryCountPerFile,
                      language.EntryCountOfAllFlavors);
 
-        TestLocManager locManager = runtimeContainer.TestLocManager;
+        TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
         if (language.IsBuiltIn) {
             // built in are loaded by the game itself
             // and are skipped within MyLanguages.Load(), cause they are loaded by the game itself
@@ -310,7 +310,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
                          language.EntryCountOfAllFlavors);
 
-            TestLocManager locManager = runtimeContainer.TestLocManager;
+            TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
             if (language.IsBuiltIn) {
                 // built in are loaded by the game itself
                 // and are skipped within MyLanguages.Load(), cause they are loaded by the game itself

@@ -76,7 +76,7 @@ public class Mod : IMod {
         Paths paths = new Paths(true,
                                 EnvPath.kStreamingDataPath,
                                 EnvPath.kUserDataPath);
-        ILocManager locManager = new LocManager(gameManager.localizationManager);
+        ILocManagerProvider locManager = new LocManagerProvider(gameManager.localizationManager);
         IIntSettings intSettings = new IntSettings(gameManager.settings.userInterface);
         IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(AssetDatabase.global);
         return new ModRuntimeContainer(logProvider,

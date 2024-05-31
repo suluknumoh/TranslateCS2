@@ -77,7 +77,11 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
             using TextReader textReader = new StreamReader(stream);
             using JsonReader jsonReader = new JsonTextReader(textReader);
             IDictionary<string, string>? temporary = serializer.Deserialize<Dictionary<string, string>>(jsonReader);
-            return HandleRead(temporary, source);
+            if (temporary is null) {
+                return false;
+            }
+            HandleRead(temporary, source);
+            return true;
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
@@ -86,13 +90,9 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
         return false;
     }
 
-    private static bool HandleRead(IDictionary<string, string>? from, MyLocalizationSource<string> to) {
-        if (from is null) {
-            return false;
-        }
+    private static void HandleRead(IDictionary<string, string> from, MyLocalizationSource<string> to) {
         IDictionary<string, string> local = DictionaryHelper.GetNonEmpty(from);
         to.Localizations.Clear();
         DictionaryHelper.AddAll(local, to.Localizations);
-        return true;
     }
 }

@@ -10,7 +10,7 @@ using TranslateCS2.Mod.Interfaces;
 
 namespace TranslateCS2.Mod.Containers;
 internal interface IModRuntimeContainer {
-    ILocManager LocManager { get; }
+    LocManager LocManager { get; }
     IIntSettings IntSettings { get; }
     IIndexCountsProvider IndexCountsProvider { get; }
     IMyLogger Logger { get; }

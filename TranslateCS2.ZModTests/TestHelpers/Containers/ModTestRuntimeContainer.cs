@@ -10,24 +10,24 @@ using TranslateCS2.ZZZTestLib;
 
 namespace TranslateCS2.ZModTests.TestHelpers.Containers;
 internal class ModTestRuntimeContainer : ModRuntimeContainer {
-    public TestLocManager TestLocManager => (TestLocManager) this.LocManager;
+    public TestLocManagerProvider TestLocManager => (TestLocManagerProvider) this.LocManager.Provider;
     public TestIntSettings TestIntSettings => (TestIntSettings) this.IntSettings;
     private ModTestRuntimeContainer(IMyLogProvider logProvider,
                                     IMod mod,
-                                    ILocManager locManager,
+                                    ILocManagerProvider locManagerProvider,
                                     IIntSettings intSettings,
                                     IIndexCountsProvider indexCountsProvider,
                                     Paths paths) : base(logProvider,
                                                         mod,
-                                                        locManager,
+                                                        locManagerProvider,
                                                         intSettings,
                                                         indexCountsProvider,
                                                         paths) { }
     public static ModTestRuntimeContainer Create(IMyLogProvider logProvider,
-                         IIndexCountsProvider? indexCountsProvider = null,
-                         string? userDataPath = null) {
+                                                 IIndexCountsProvider? indexCountsProvider = null,
+                                                 string? userDataPath = null) {
         IMod mod = new TestMod();
-        ILocManager locManager = new TestLocManager();
+        ILocManagerProvider locManager = new TestLocManagerProvider();
         IIntSettings intSettings = new TestIntSettings();
         IIndexCountsProvider indexCountsProviderLocal = indexCountsProvider ?? TestIndexCountsProvider.WithEmptyContent();
         Paths paths = new Paths(true,

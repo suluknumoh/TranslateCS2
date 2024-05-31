@@ -20,13 +20,13 @@ namespace TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 /// <summary>
 ///     imitates <see cref="Colossal.Localization.LocalizationManager"/>s behaviour for testing purposes
 /// </summary>
-internal class TestLocManager : ILocManager {
+internal class TestLocManagerProvider : ILocManagerProvider {
     public IDictionary<string, SystemLanguage> Locales { get; } = new Dictionary<string, SystemLanguage>();
     public IDictionary<string, string> LocaleNames { get; } = new Dictionary<string, string>();
     public IDictionary<string, IList<IDictionarySource>> Sources { get; } = new Dictionary<string, IList<IDictionarySource>>();
     public string ActiveLocaleId { get; private set; }
     public string FallbackLocaleId => "en-US";
-    public TestLocManager() {
+    public TestLocManagerProvider() {
         this.ActiveLocaleId = this.FallbackLocaleId;
     }
     public void AddLocale(string localeId, SystemLanguage systemLanguage, string localeName) {
