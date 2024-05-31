@@ -32,7 +32,6 @@ namespace TranslateCS2.Mod;
 [MyExcludeFromCoverage]
 public class Mod : IMod {
     private static readonly ILog Logger = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
-    private readonly bool measurePerformance = false;
     private IModRuntimeContainer? RuntimeContainer { get; set; }
     public Mod() {
         // ctor. is never called/used by unity/co

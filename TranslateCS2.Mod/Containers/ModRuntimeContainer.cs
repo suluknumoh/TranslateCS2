@@ -30,10 +30,11 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
                                ILocManagerProvider locManagerProvider,
                                IIntSettings intSettings,
                                IIndexCountsProvider indexCountsProvider,
-                               Paths paths,
-                               bool measurePerformance = false) {
+                               Paths paths) {
         // dont change init-order!!!
         this.Logger = new ModLogger(logProvider);
+        this.performanceMeasurement = new PerformanceMeasurement(this);
+        this.performanceMeasurement.Start();
         this.Mod = mod;
         this.LocManager = new LocManager(locManagerProvider, this);
         this.IntSettings = intSettings;
@@ -44,15 +45,12 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         this.Locales = new Locales(this);
         this.ErrorMessages = new ErrorMessages(this);
         this.Languages = new MyLanguages(this);
-        this.performanceMeasurement = new PerformanceMeasurement(this,
-                                                                 measurePerformance);
         this.Settings = new ModSettings(this);
         this.SettingsLocale = new ModSettingsLocale(this);
     }
 
     public void Init(Action<string, object, object?>? loadSettings = null,
                      bool register = false) {
-        this.performanceMeasurement.Start();
         this.Languages.Init();
         this.SettingsLocale.Init();
         if (register) {

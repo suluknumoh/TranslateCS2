@@ -6,13 +6,10 @@ namespace TranslateCS2.Mod.Containers.Items;
 [MyExcludeFromCoverage]
 internal class PerformanceMeasurement {
     private readonly IModRuntimeContainer runtimeContainer;
-    private readonly bool measure;
-    private readonly MyLanguages languages;
+    private readonly bool measure = false;
     private readonly Stopwatch stopwatch = new Stopwatch();
-    public PerformanceMeasurement(IModRuntimeContainer runtimeContainer, bool measure) {
+    public PerformanceMeasurement(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
-        this.measure = measure;
-        this.languages = runtimeContainer.Languages;
     }
     public void Start() {
         if (this.measure) {
@@ -26,16 +23,16 @@ internal class PerformanceMeasurement {
                 "it took",
                 this.stopwatch.Elapsed,
                 "to read and load",
-                this.languages.LanguageCount,
+                this.runtimeContainer.Languages.LanguageCount,
                 "languages with a total of",
-                this.languages.FlavorCountOfAllLanguages,
+                this.runtimeContainer.Languages.FlavorCountOfAllLanguages,
                 "flavors/files with a total of",
-                this.languages.EntryCountOfAllFlavorsOfAllLanguages.ToString("N0"),
+                this.runtimeContainer.Languages.EntryCountOfAllFlavorsOfAllLanguages.ToString("N0"),
                 "entries"
             ];
-            this.runtimeContainer.Logger?.LogInfo(this.GetType(),
-                                                  "performance measurement",
-                                                  messageParameters);
+            this.runtimeContainer.Logger.LogInfo(this.GetType(),
+                                                 "performance measurement",
+                                                 messageParameters);
         }
     }
 }
