@@ -56,8 +56,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Prism.Unity" Version="8.1.97" />
-        <PackageReference Include="System.Drawing.Common" Version="8.0.5" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.5" />
+        <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
         <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
     </ItemGroup>
     <ItemGroup>
