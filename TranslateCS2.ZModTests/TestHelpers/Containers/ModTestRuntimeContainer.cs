@@ -10,7 +10,7 @@ using TranslateCS2.ZZZTestLib;
 
 namespace TranslateCS2.ZModTests.TestHelpers.Containers;
 internal class ModTestRuntimeContainer : ModRuntimeContainer {
-    public TestLocManagerProvider TestLocManager => (TestLocManagerProvider) this.LocManager.Provider;
+    public TestLocManagerProvider TestLocManagerProvider => (TestLocManagerProvider) this.LocManager.Provider;
     public TestIntSettings TestIntSettings => (TestIntSettings) this.IntSettings;
     private ModTestRuntimeContainer(IMyLogProvider logProvider,
                                     IMod mod,

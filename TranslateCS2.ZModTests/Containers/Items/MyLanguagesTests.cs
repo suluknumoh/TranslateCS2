@@ -181,7 +181,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
                          language.EntryCountOfAllFlavors);
 
-            TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
+            TestLocManagerProvider locManager = runtimeContainer.TestLocManagerProvider;
             locManager.AddBuiltIn();
 
             for (int i = 0; i < 2; i++) {
@@ -295,7 +295,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
                          language.EntryCountOfAllFlavors);
 
-            TestLocManagerProvider locManager = runtimeContainer.TestLocManager;
+            TestLocManagerProvider locManager = runtimeContainer.TestLocManagerProvider;
             locManager.AddBuiltIn();
 
             for (int i = 0; i < 2; i++) {
