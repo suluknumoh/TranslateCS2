@@ -31,12 +31,14 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
     }
     public bool IsHidden() {
         return
-            !this.Language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale, StringComparison.OrdinalIgnoreCase);
+            !this.Language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale,
+                                     StringComparison.OrdinalIgnoreCase);
     }
 
     public bool IsDisabled() {
         return
-            !this.Language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale, StringComparison.OrdinalIgnoreCase)
+            !this.Language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale,
+                                     StringComparison.OrdinalIgnoreCase)
             || !this.Language.HasFlavors;
     }
     protected override IWidget GetWidget() {
