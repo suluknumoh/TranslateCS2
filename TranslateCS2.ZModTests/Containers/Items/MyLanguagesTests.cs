@@ -181,8 +181,9 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
                          language.EntryCountOfAllFlavors);
 
-            TestLocManagerProvider locManager = runtimeContainer.TestLocManagerProvider;
-            locManager.AddBuiltIn();
+            TestLocManagerProvider locManagerProvider = runtimeContainer.TestLocManagerProvider;
+            locManagerProvider.AddBuiltIn();
+            LocManager locManager = runtimeContainer.LocManager;
 
             for (int i = 0; i < 2; i++) {
                 if (i == 1) {
@@ -190,12 +191,12 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                     languages.ReLoad();
                 }
                 Assert.True(locManager.SupportsLocale(language.Id));
-                Assert.True(locManager.Locales.ContainsKey(language.Id));
-                bool gotLocale = locManager.Locales.TryGetValue(language.Id, out SystemLanguage locale);
+                Assert.True(locManagerProvider.Locales.ContainsKey(language.Id));
+                bool gotLocale = locManagerProvider.Locales.TryGetValue(language.Id, out SystemLanguage locale);
                 Assert.True(gotLocale);
                 Assert.Equal(language.SystemLanguage, locale);
-                Assert.True(locManager.LocaleNames.ContainsKey(language.Id));
-                bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
+                Assert.True(locManagerProvider.LocaleNames.ContainsKey(language.Id));
+                bool gotLocaleName = locManagerProvider.LocaleNames.TryGetValue(language.Id, out string localeName);
                 Assert.True(gotLocaleName);
                 if (!language.IsBuiltIn) {
                     // due to name-differences...
@@ -295,8 +296,10 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
                          language.EntryCountOfAllFlavors);
 
-            TestLocManagerProvider locManager = runtimeContainer.TestLocManagerProvider;
-            locManager.AddBuiltIn();
+            TestLocManagerProvider locManagerProvider = runtimeContainer.TestLocManagerProvider;
+            locManagerProvider.AddBuiltIn();
+
+            LocManager locManager = runtimeContainer.LocManager;
 
             for (int i = 0; i < 2; i++) {
                 if (i == 1) {
@@ -304,12 +307,12 @@ public class MyLanguagesTests : AProvidesTestDataOk {
                     languages.ReLoad();
                 }
                 Assert.True(locManager.SupportsLocale(language.Id));
-                Assert.True(locManager.Locales.ContainsKey(language.Id));
-                bool gotLocale = locManager.Locales.TryGetValue(language.Id, out SystemLanguage locale);
+                Assert.True(locManagerProvider.Locales.ContainsKey(language.Id));
+                bool gotLocale = locManagerProvider.Locales.TryGetValue(language.Id, out SystemLanguage locale);
                 Assert.True(gotLocale);
                 Assert.Equal(language.SystemLanguage, locale);
-                Assert.True(locManager.LocaleNames.ContainsKey(language.Id));
-                bool gotLocaleName = locManager.LocaleNames.TryGetValue(language.Id, out string localeName);
+                Assert.True(locManagerProvider.LocaleNames.ContainsKey(language.Id));
+                bool gotLocaleName = locManagerProvider.LocaleNames.TryGetValue(language.Id, out string localeName);
                 Assert.True(gotLocaleName);
                 if (!language.IsBuiltIn) {
                     // due to name-differences...

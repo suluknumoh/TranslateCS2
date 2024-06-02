@@ -63,15 +63,16 @@ internal partial class ModSettings {
             pageData[ModSettings.Section].AddItem(item);
         }
     }
-    public void Setter(SystemLanguage systemLanguage, object localeIdObject) {
+    public void SetFlavor(SystemLanguage systemLanguage, object localeIdObject) {
         if (localeIdObject is string localeId) {
             localeId = this.GetValueToSet(systemLanguage, localeId, true);
             this.FlavorsSetted[systemLanguage] = localeId;
         }
     }
-    public string Getter(SystemLanguage systemLanguage) {
-        string val = this.GetSettedFlavor(systemLanguage);
-        return this.GetValueToSet(systemLanguage, val, false);
+    public string GetSettedFlavor(SystemLanguage systemLanguage) {
+        this.FlavorsSetted.TryGetValue(systemLanguage, out string? localeId);
+        localeId ??= DropDownItems.None;
+        return this.GetValueToSet(systemLanguage, localeId, false);
     }
 
     private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter, bool invoke) {
@@ -97,10 +98,6 @@ internal partial class ModSettings {
             OnFlavorChanged?.Invoke(language, systemLanguage, localeId);
         }
         return localeId;
-    }
-    public string GetSettedFlavor(SystemLanguage systemLanguage) {
-        this.FlavorsSetted.TryGetValue(systemLanguage, out string? localeId);
-        return localeId ??= DropDownItems.None;
     }
 
     public void SubscribeOnFlavorChanged(OnFlavorChangedHandler handler) {

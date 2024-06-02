@@ -74,11 +74,11 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
             SystemLanguage systemLanguage = entry.Key;
             MyLanguage language = entry.Value;
             foreach (TranslationFile translation in language.Flavors) {
-                modSettings.Setter(systemLanguage, translation.Id);
+                modSettings.SetFlavor(systemLanguage, translation.Id);
                 Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
                 modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);
                 Assert.Equal(translation.Id, result);
-                string getterResult = modSettings.Getter(systemLanguage);
+                string getterResult = modSettings.GetSettedFlavor(systemLanguage);
                 Assert.Equal(translation.Id, getterResult);
             }
         }
@@ -108,7 +108,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         Assert.NotEmpty(modSettings.FlavorsSetted);
         Assert.Equal(testData, modSettings.FlavorsSetted);
         foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languageDictionary) {
-            string result = modSettings.Getter(entry.Key);
+            string result = modSettings.GetSettedFlavor(entry.Key);
             if (entry.Value.IsBuiltIn) {
                 // see: AAA
                 Assert.Equal(DropDownItems.None, result);
@@ -127,11 +127,11 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         runtimeContainer.Init();
         ModSettings modSettings = runtimeContainer.Settings;
         SystemLanguage systemLanguage = SystemLanguage.Chinese;
-        modSettings.Setter(systemLanguage, systemLanguage.ToString());
+        modSettings.SetFlavor(systemLanguage, systemLanguage.ToString());
         Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
         modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);
         Assert.Equal(DropDownItems.None, result);
-        string getterResult = modSettings.Getter(systemLanguage);
+        string getterResult = modSettings.GetSettedFlavor(systemLanguage);
         Assert.Equal(DropDownItems.None, getterResult);
     }
 }

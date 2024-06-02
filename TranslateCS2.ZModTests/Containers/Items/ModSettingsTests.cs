@@ -110,9 +110,9 @@ public class ModSettingsTests : AProvidesTestDataOk {
         // only init languages, runtimeContainers init does to much for this test method
         runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        TestLocManagerProvider locManager = runtimeContainer.TestLocManagerProvider;
+        TestLocManagerProvider locManagerProvider = runtimeContainer.TestLocManagerProvider;
         // INFO: TestLocManager has to be manipulated, cause built-in-languages are loaded by the game itself and not by this mod...
-        locManager.AddBuiltIn();
+        locManagerProvider.AddBuiltIn();
 
         Dictionary<SystemLanguage, MyLanguage> languages = runtimeContainer.Languages.LanguageDictionary;
         foreach (KeyValuePair<SystemLanguage, MyLanguage> language in languages) {
@@ -128,7 +128,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
             } else {
                 Assert.Equal(language.Value.Flavors.First().Id, setted.Value);
             }
-            Assert.Single(locManager.Sources[language.Value.Id]);
+            Assert.Single(locManagerProvider.Sources[language.Value.Id]);
         }
     }
     [Theory]

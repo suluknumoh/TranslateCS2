@@ -193,8 +193,8 @@ internal partial class ModSettings : ModSetting {
         if (language is null) {
             return;
         }
-        string localeId = this.Getter(language.SystemLanguage);
-        this.Setter(language.SystemLanguage, localeId);
+        string localeId = this.GetSettedFlavor(language.SystemLanguage);
+        this.SetFlavor(language.SystemLanguage, localeId);
     }
 
 }
