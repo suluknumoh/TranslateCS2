@@ -70,12 +70,11 @@ internal class MyLanguages {
         LocFileService<string> locFileService = new LocFileService<string>(strategy);
         IEnumerable<FileInfo> fileInfos = locFileService.GetLocalizationFiles();
         foreach (FileInfo fileInfo in fileInfos) {
-            // TODO: filter via LocalesSupported???
-            if (fileInfo.Name == ModConstants.ModExportKeyValueJsonName) {
-                // skip this file, otherwise it produces an error, cause it cant be read
-                continue;
+            // no need to lower, IsLocaleIdSupported lowers it
+            string localeId = fileInfo.Name.Replace(ModConstants.JsonExtension, String.Empty);
+            if (LocalesSupported.IsLocaleIdSupported(localeId)) {
+                this.TryToReadFile(locFileService, fileInfo);
             }
-            this.TryToReadFile(locFileService, fileInfo);
         }
     }
 
