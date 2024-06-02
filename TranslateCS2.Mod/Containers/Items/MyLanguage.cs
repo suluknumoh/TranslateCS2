@@ -37,8 +37,8 @@ internal class MyLanguage : IIdNameNameEnglishGetAble {
     public bool IsBuiltIn { get; private set; }
     public bool HasFlavors => this.Flavors.Any();
     public MyLanguage(SystemLanguage systemLanguage,
-                        IModRuntimeContainer runtimeContainer,
-                        IList<CultureInfo> cultureInfos) {
+                      IModRuntimeContainer runtimeContainer,
+                      IList<CultureInfo> cultureInfos) {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
         this.CultureInfos.AddRange(cultureInfos);
