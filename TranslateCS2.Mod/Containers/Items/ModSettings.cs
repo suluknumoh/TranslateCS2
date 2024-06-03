@@ -157,7 +157,7 @@ internal partial class ModSettings : ModSetting {
                 this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
                 this.OnLocaleChanged();
             }
-            this.runtimeContainer.IntSettings.SubscribeOnSettingsApplied(this.ApplyAndSaveAlso);
+            this.runtimeContainer.IntSettings.SubscribeOnSettingsApplied(this.Apply);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,
@@ -167,7 +167,7 @@ internal partial class ModSettings : ModSetting {
     public void HandleLocaleOnUnLoad() {
         try {
             // dont replicate os lang into this mods settings
-            this.runtimeContainer.IntSettings.UnSubscribeOnSettingsApplied(this.ApplyAndSaveAlso);
+            this.runtimeContainer.IntSettings.UnSubscribeOnSettingsApplied(this.Apply);
             // reset to os-language, if the mod is not used next time the game starts
             if (this.Locale != null
                 && this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
@@ -195,19 +195,17 @@ internal partial class ModSettings : ModSetting {
     /// </summary>
     /// <param name="setting"></param>
     [MyExcludeFromCoverage]
-    private void ApplyAndSaveAlso(Setting setting) {
+    private void Apply(Setting setting) {
         if (setting is not InterfaceSettings interfaceSettings) {
             return;
         }
         try {
             this.Locale = interfaceSettings.locale;
             this.OnLocaleChanged();
-            // TODO: is it necessary???
-            //this.ApplyAndSave();
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,
-                                                     [nameof(ApplyAndSaveAlso), ex]);
+                                                     [nameof(Apply), ex]);
         }
     }
     private void OnLocaleChanged() {
