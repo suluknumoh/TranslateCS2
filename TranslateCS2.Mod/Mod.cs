@@ -81,7 +81,8 @@ public class Mod : IMod {
                                 EnvPath.kUserDataPath);
         ILocManagerProvider locManager = new LocManagerProvider(gameManager.localizationManager);
         IIntSettings intSettings = new IntSettings(gameManager.settings.userInterface);
-        IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(AssetDatabase.global);
+        LocaleAssetProvider localeAssetProvider = new LocaleAssetProvider(AssetDatabase.global);
+        IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(localeAssetProvider);
         return new ModRuntimeContainer(logProvider,
                                        this,
                                        locManager,
