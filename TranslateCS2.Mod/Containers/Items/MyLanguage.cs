@@ -17,7 +17,13 @@ namespace TranslateCS2.Mod.Containers.Items;
 internal class MyLanguage {
     private readonly IModRuntimeContainer runtimeContainer;
     public string Id { get; private set; }
+    /// <summary>
+    ///     the name that occurs within the drop-down
+    /// </summary>
     public string Name { get; private set; }
+    /// <summary>
+    ///     primarily used for logging and generating the supported languages table
+    /// </summary>
     public string NameEnglish { get; private set; }
     public IList<TranslationFile> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
@@ -30,6 +36,9 @@ internal class MyLanguage {
             return count;
         }
     }
+    /// <summary>
+    ///     <see cref="CultureInfo"/>s associated with this language
+    /// </summary>
     public List<CultureInfo> CultureInfos { get; } = [];
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
@@ -64,8 +73,12 @@ internal class MyLanguage {
     }
 
     private void InitId(IEnumerable<CultureInfo> cultureInfos) {
+        // for non built in languages, it seems to be better to use systemlanguage to string
         this.Id = this.SystemLanguage.ToString();
         if (this.IsBuiltIn) {
+            // built in languages must use the locale id:
+            // cause co uses it
+            /// <see cref="Colossal.Localization.LocalizationManager.SupportsLocale(String)"/>
             CultureInfo cultureInfo = cultureInfos.First();
             this.Id = this.runtimeContainer.Locales.CorrectLocaleId(cultureInfo.Name);
         }
@@ -80,10 +93,17 @@ internal class MyLanguage {
                 break;
             case SystemLanguage.SerboCroatian:
                 this.Name = String.Join(StringConstants.ForwardSlash,
-                                        cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
+                                        cultureInfos
+                                                .OrderByDescending(ci => ci.Name)
+                                                .Select(ci => ci.NativeName)
+                                        );
                 this.NameEnglish = String.Join(StringConstants.ForwardSlash,
-                                               cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
+                                               cultureInfos
+                                                        .OrderByDescending(ci => ci.Name)
+                                                        .Select(ci => ci.EnglishName)
+                                               );
                 break;
+            // TODO: check again if it also follows the chinese ruleset
             //case SystemLanguage.Portuguese:
             case SystemLanguage.ChineseSimplified:
             case SystemLanguage.ChineseTraditional:
@@ -94,10 +114,12 @@ internal class MyLanguage {
             default:
                 if (this.IsBuiltIn) {
                     // take care: cultureInfo's parent is used!
+                    // built-ins are specific but use the neutral name(s)
                     this.Name = cultureInfo.Parent.NativeName;
                     this.NameEnglish = cultureInfo.Parent.EnglishName;
                 } else {
                     // take care: cultureInfo itself is used!
+                    // non built-ins already use the neutral culture
                     this.Name = cultureInfo.NativeName;
                     this.NameEnglish = cultureInfo.EnglishName;
                 }
