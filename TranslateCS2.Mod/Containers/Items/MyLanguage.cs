@@ -66,7 +66,8 @@ internal class MyLanguage {
     private void InitId(IEnumerable<CultureInfo> cultureInfos) {
         this.Id = this.SystemLanguage.ToString();
         if (this.IsBuiltIn) {
-            this.Id = cultureInfos.First().Name;
+            CultureInfo cultureInfo = cultureInfos.First();
+            this.Id = this.runtimeContainer.Locales.CorrectLocaleId(cultureInfo.Name);
         }
     }
 

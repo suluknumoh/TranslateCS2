@@ -87,17 +87,26 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
         MyLanguage? language = languages.GetLanguage(systemLanguage);
         Assert.NotNull(language);
-        Assert.Equal(expectedId, language.Id);
-        Assert.Equal(expectedName, language.Name);
-        Assert.Equal(expectedNameEnglish, language.NameEnglish);
         Assert.Equal(expectedIsBuiltIn, language.IsBuiltIn);
-        Assert.NotEmpty(language.CultureInfos);
-        {
+        if (expectedIsBuiltIn) {
+            Assert.NotNull(expectedId);
+            Assert.Equal(expectedId, language.Id);
             Assert.NotNull(languages.GetLanguage(expectedId));
             // no files are read
             Assert.False(language.HasFlavors);
             Assert.False(language.HasFlavor(expectedId));
+        } else {
+            Assert.Null(expectedId);
+            Assert.Equal(systemLanguage.ToString(), language.Id);
+            Assert.NotNull(languages.GetLanguage(systemLanguage.ToString()));
+            // no files are read
+            Assert.False(language.HasFlavors);
+            Assert.False(language.HasFlavor(systemLanguage.ToString()));
         }
+
+        Assert.Equal(expectedName, language.Name);
+        Assert.Equal(expectedNameEnglish, language.NameEnglish);
+        Assert.NotEmpty(language.CultureInfos);
     }
 
     [Theory]
