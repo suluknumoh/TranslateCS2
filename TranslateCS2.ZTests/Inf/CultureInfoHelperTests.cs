@@ -30,4 +30,15 @@ public class CultureInfoHelperTests {
         IEnumerable<CultureInfo> specifics = CultureInfoHelper.GetSpecificCultures(cultureInfos);
         Assert.NotEmpty(specifics);
     }
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("null", "null")]
+    [InlineData("De", "de")]
+    [InlineData("dE", "de")]
+    [InlineData("zH-hAnS", "zh-Hans")]
+    [InlineData("zH-hAnT", "zh-Hant")]
+    public void CorrectLocaleIdTest(string? input, string? expected) {
+        string? result = CultureInfoHelper.CorrectLocaleId(input);
+        Assert.Equal(expected, result);
+    }
 }

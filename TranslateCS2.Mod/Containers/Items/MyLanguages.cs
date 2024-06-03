@@ -196,11 +196,7 @@ internal class MyLanguages {
             return this.GetLanguage(systemLanguage);
         }
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            IEnumerable<CultureInfo> cis =
-                language
-                    .CultureInfos
-                        .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
-            if (cis.Any()) {
+            if (language.SupportsLocaleId(localeId)) {
                 return language;
             }
         }
@@ -222,33 +218,34 @@ internal class MyLanguages {
         return builder.ToString();
     }
     public void LogMarkdownAndCultureInfoNames() {
+        // TODO: CultureInfoNames arent logged anymore, cause they are prefiltered; so it has to be changed; unfiltered cultureinfonames have to be obtained...
         try {
             IOrderedEnumerable<KeyValuePair<SystemLanguage, MyLanguage>> ordered =
                 this.LanguageDictionary.OrderBy(item => item.Key.ToString());
-            StringBuilder cultureInfoBuilder = new StringBuilder();
             StringBuilder markdownBuilder = new StringBuilder();
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in ordered) {
-                markdownBuilder.AppendLine($"## {entry.Value.NameEnglish} - {entry.Value.Name}");
-                IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
-                markdownBuilder.AppendLine("| Language-(Region)-Code | English Name | Native Name |");
-                markdownBuilder.AppendLine($"| {new string('-', 10)} | {new string('-', 10)} | {new string('-', 10)} |");
-                foreach (CultureInfo? cultureInfo in orderedCultures) {
-                    markdownBuilder.AppendLine($"| {cultureInfo.Name} | {cultureInfo.EnglishName} | {cultureInfo.NativeName} |");
-                    cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
-                }
-                markdownBuilder.AppendLine();
-                markdownBuilder.AppendLine();
+                LogMarkdownAndCultureInfoNamesAppendLanguage(markdownBuilder, entry);
             }
             this.runtimeContainer.Logger.LogInfo(this.GetType(),
                                                  "languages markdown:",
                                                  [markdownBuilder]);
-            this.runtimeContainer.Logger.LogInfo(this.GetType(),
-                                                 "culture-infos:",
-                                                 [cultureInfoBuilder]);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
                                                   [nameof(LogMarkdownAndCultureInfoNames), ex]);
         }
+    }
+
+    private static void LogMarkdownAndCultureInfoNamesAppendLanguage(StringBuilder markdownBuilder,
+                                                                     KeyValuePair<SystemLanguage, MyLanguage> entry) {
+        markdownBuilder.AppendLine($"## {entry.Value.NameEnglish} - {entry.Value.Name}");
+        IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
+        markdownBuilder.AppendLine("| Language-(Region)-Code | English Name | Native Name |");
+        markdownBuilder.AppendLine($"| {new string('-', 10)} | {new string('-', 10)} | {new string('-', 10)} |");
+        foreach (CultureInfo? cultureInfo in orderedCultures) {
+            markdownBuilder.AppendLine($"| {cultureInfo.Name} | {cultureInfo.EnglishName} | {cultureInfo.NativeName} |");
+        }
+        markdownBuilder.AppendLine();
+        markdownBuilder.AppendLine();
     }
 }

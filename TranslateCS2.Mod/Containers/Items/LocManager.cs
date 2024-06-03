@@ -8,15 +8,13 @@ using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
 internal class LocManager {
-    private readonly IModRuntimeContainer runtimeContainer;
     private readonly IMyLogger logger;
     public ILocManagerProvider Provider { get; }
     public string FallbackLocaleId => this.Provider.FallbackLocaleId;
-    public LocManager(ILocManagerProvider locManagerProvider,
-                      IModRuntimeContainer runtimeContainer) {
+    public LocManager(IMyLogger logger,
+                      ILocManagerProvider locManagerProvider) {
+        this.logger = logger;
         this.Provider = locManagerProvider;
-        this.runtimeContainer = runtimeContainer;
-        this.logger = this.runtimeContainer.Logger;
     }
     public void FlavorChanged(MyLanguage? language,
                               SystemLanguage systemLanguage,
@@ -50,9 +48,9 @@ internal class LocManager {
         try {
             this.TryToAddLocale(language);
         } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(TryToAddLanguageInitially), ex, language]);
+            this.logger.LogError(this.GetType(),
+                                 LoggingConstants.FailedTo,
+                                 [nameof(TryToAddLanguageInitially), ex, language]);
         }
     }
     /// <summary>

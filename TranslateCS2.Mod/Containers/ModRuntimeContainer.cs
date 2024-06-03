@@ -17,7 +17,6 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public ErrorMessages ErrorMessages { get; }
     public Locales Locales { get; }
     public MyLanguages Languages { get; }
-    public DropDownItems DropDownItems { get; }
     public LocManager LocManager { get; }
     public IIntSettings IntSettings { get; }
     public IIndexCountsProvider IndexCountsProvider { get; }
@@ -36,10 +35,9 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         this.performanceMeasurement = new PerformanceMeasurement(this);
         this.performanceMeasurement.Start();
         this.Mod = mod;
-        this.LocManager = new LocManager(locManagerProvider, this);
+        this.LocManager = new LocManager(this.Logger, locManagerProvider);
         this.IntSettings = intSettings;
         this.IndexCountsProvider = indexCountsProvider;
-        this.DropDownItems = new DropDownItems();
         this.Paths = paths;
         // the following need the Paths to be initialized!
         this.Locales = new Locales(this);

@@ -17,17 +17,12 @@ public class Paths {
         if (streamingDataPath is null) {
             throw new ArgumentNullException(nameof(streamingDataPath));
         }
-        this.StreamingDataPath = streamingDataPath;
-        if (!this.StreamingDataPath.EndsWith(StringConstants.ForwardSlash)) {
-            this.StreamingDataPath += StringConstants.ForwardSlash;
-        }
+        this.StreamingDataPath = AppendForwardSlashIfNecessary(streamingDataPath);
         this.StreamingDatasDataPath = this.StreamingDataPath;
         this.StreamingDatasDataPath += StringConstants.DataTilde;
         this.StreamingDatasDataPath += StringConstants.ForwardSlash;
         this.UserDataPath = userDataPath ?? GetFallbackUserDataPathUnixFormat();
-        if (!this.UserDataPath.EndsWith(StringConstants.ForwardSlash)) {
-            this.UserDataPath += StringConstants.ForwardSlash;
-        }
+        this.UserDataPath = AppendForwardSlashIfNecessary(this.UserDataPath);
         this.ModsDataPathGeneral = $"{this.UserDataPath}{ModConstants.DataPathRawGeneral}";
         this.ModsDataPathSpecific = $"{this.UserDataPath}{ModConstants.DataPathRawSpecific}";
         if (createIfNotExists) {
@@ -73,5 +68,12 @@ public class Paths {
         builder.Append(StringConstants.ForwardSlash);
         builder.Append(StringConstants.Cities_Skylines_II);
         return NormalizeUnix(builder.ToString()) ?? builder.ToString();
+    }
+
+    public static string AppendForwardSlashIfNecessary(string s) {
+        if (s.EndsWith(StringConstants.ForwardSlash)) {
+            return s;
+        }
+        return s + StringConstants.ForwardSlash;
     }
 }

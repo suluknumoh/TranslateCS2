@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+
+using Game.UI.Widgets;
+
+using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.ZModTests.TestHelpers;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
@@ -348,10 +353,41 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         MyLanguages languages = runtimeContainer.Languages;
         languages.LogMarkdownAndCultureInfoNames();
         Assert.True(testLogProvider.HasLoggedInfo);
-        Assert.Equal(2, testLogProvider.LogInfoCount);
+        Assert.Equal(1, testLogProvider.LogInfoCount);
         Assert.False(testLogProvider.HasLoggedWarning);
         Assert.False(testLogProvider.HasLoggedError);
         Assert.False(testLogProvider.HasLoggedTrace);
         Assert.False(testLogProvider.HasLoggedCritical);
+    }
+    [Fact]
+    public void GetFlavorDropDownTest() {
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<MyLanguagesTests>();
+        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                  userDataPath: this.dataProvider.DirectoryName);
+        runtimeContainer.Init();
+        MyLanguages languages = runtimeContainer.Languages;
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
+            MyLanguage language = entry.Value;
+            IEnumerable<DropdownItem<string>> dropDownItems = language.GetFlavorDropDownItems();
+            foreach (TranslationFile flavor in language.Flavors) {
+                string expectedDisplayName = StringHelper.CutStringAfterMaxLengthAndAddThreeDots(flavor.Name,
+                                                                                                 ModConstants.MaxDisplayNameLength);
+                AssertContainsDropDownItem(dropDownItems,
+                                           flavor.Id,
+                                           expectedDisplayName);
+            }
+        }
+    }
+
+    private static void AssertContainsDropDownItem(IEnumerable<DropdownItem<string>> dropDownItems,
+                                                   string id,
+                                                   string expectedDisplayName) {
+        foreach (DropdownItem<string> dropDownItem in dropDownItems) {
+            if (dropDownItem.value == id) {
+                Assert.Equal(expectedDisplayName, dropDownItem.displayName);
+                return;
+            }
+        }
+        Assert.Fail();
     }
 }

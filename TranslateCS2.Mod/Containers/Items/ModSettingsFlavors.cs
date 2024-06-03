@@ -8,6 +8,7 @@ using Game.Settings;
 using Game.UI.Menu;
 
 using TranslateCS2.Mod.Containers.Items.Unitys;
+using TranslateCS2.Mod.Helpers;
 
 using UnityEngine;
 
@@ -52,8 +53,7 @@ internal partial class ModSettings {
             SystemLanguage systemLanguage = languageEntry.Key;
             MyLanguage language = languageEntry.Value;
             string propertyName = GetFlavorLangPropertyName(systemLanguage);
-            MyFlavorDropDownSettingProperty property = new MyFlavorDropDownSettingProperty(this.runtimeContainer,
-                                                                                           language,
+            MyFlavorDropDownSettingProperty property = new MyFlavorDropDownSettingProperty(language,
                                                                                            this,
                                                                                            propertyName);
             MyFlavorDropDownSettingItemData item = new MyFlavorDropDownSettingItemData(this.runtimeContainer,
@@ -71,7 +71,7 @@ internal partial class ModSettings {
     }
     public string GetSettedFlavor(SystemLanguage systemLanguage) {
         this.FlavorsSetted.TryGetValue(systemLanguage, out string? flavorId);
-        flavorId ??= DropDownItems.None;
+        flavorId ??= DropDownItemsHelper.None;
         return this.GetValueToSet(systemLanguage, flavorId, false);
     }
 
@@ -80,15 +80,15 @@ internal partial class ModSettings {
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         if (language is null) {
             // if localeId is none: language has no flavor with such a locale id
-            localeId = DropDownItems.None;
+            localeId = DropDownItemsHelper.None;
         } else {
             if (!language.HasFlavors
                 || !language.HasFlavor(localeId)) {
                 // no flavors or not the given ones, generally set to none
-                localeId = DropDownItems.None;
+                localeId = DropDownItemsHelper.None;
             }
             if (!language.IsBuiltIn
-                && DropDownItems.None.Equals(localeId, StringComparison.OrdinalIgnoreCase)
+                && DropDownItemsHelper.None.Equals(localeId, StringComparison.OrdinalIgnoreCase)
                 && language.HasFlavors) {
                 // non built-in languages should be pre initialized with their first flavor
                 localeId = language.Flavors.First().Id;

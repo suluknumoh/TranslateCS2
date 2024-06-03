@@ -4,6 +4,8 @@ using System.Text;
 
 using Colossal;
 
+using Game.UI.Widgets;
+
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Models.Localizations;
@@ -91,5 +93,15 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
         builder.Append($"{nameof(this.locFile)}: {this.locFile}");
         return builder.ToString();
+    }
+
+    public DropdownItem<string> GetDropDownItem() {
+        string displayName = StringHelper.CutStringAfterMaxLengthAndAddThreeDots(this.Name,
+                                                                                 ModConstants.MaxDisplayNameLength);
+        DropdownItem<string> item = new DropdownItem<string>() {
+            value = this.Id,
+            displayName = displayName
+        };
+        return item;
     }
 }

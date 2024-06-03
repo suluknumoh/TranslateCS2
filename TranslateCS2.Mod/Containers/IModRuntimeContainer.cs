@@ -18,7 +18,6 @@ internal interface IModRuntimeContainer {
     Locales Locales { get; }
     ErrorMessages ErrorMessages { get; }
     MyLanguages Languages { get; }
-    DropDownItems DropDownItems { get; }
     IMod Mod { get; }
     ModSettings Settings { get; }
     ModSettingsLocale SettingsLocale { get; }

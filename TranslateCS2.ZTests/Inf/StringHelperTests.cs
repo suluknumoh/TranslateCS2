@@ -23,4 +23,15 @@ public class StringHelperTests {
         string? result = StringHelper.GetNullForEmpty(s);
         Assert.Equal(expected, result);
     }
+    [Theory]
+    [InlineData("", 0, "")]
+    [InlineData(" ", 0, "...")]
+    [InlineData("mustertext ist schwer zu erfinden", 0, "...")]
+    [InlineData("mustertext ist schwer zu erfinden", 10, "mustertext...")]
+    [InlineData("mustertext ist schwer zu erfinden", 11, "mustertext ...")]
+    [InlineData("mustertext ist schwer zu erfinden", -1, "mustertext ist schwer zu erfinden")]
+    public void CutStringAfterMaxLengthAndAddThreeDotsTest(string input, int maxLen, string expected) {
+        string output = StringHelper.CutStringAfterMaxLengthAndAddThreeDots(input, maxLen);
+        Assert.Equal(expected, output);
+    }
 }

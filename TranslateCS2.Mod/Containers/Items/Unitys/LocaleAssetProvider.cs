@@ -15,12 +15,16 @@ internal class LocaleAssetProvider {
     }
     public LocaleAsset? Get(string localeId) {
         IEnumerable<LocaleAsset> localeAssets =
-            this.global
-                .GetAssets(default(SearchFilter<LocaleAsset>))
+            this.GetLocaleAssets()
                 .Where(item => item.localeId.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (localeAssets.Any()) {
             return localeAssets.First();
         }
         return null;
+    }
+    private IEnumerable<LocaleAsset> GetLocaleAssets() {
+        return
+            this.global
+                .GetAssets(default(SearchFilter<LocaleAsset>));
     }
 }

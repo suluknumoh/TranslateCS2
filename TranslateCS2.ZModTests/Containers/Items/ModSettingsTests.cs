@@ -6,6 +6,7 @@ using Colossal;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Helpers;
 using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
@@ -47,7 +48,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         ModSettings modSettings = runtimeContainer.Settings;
         modSettings.LogMarkdownAndCultureInfoNames = true;
         Assert.True(testLogProvider.HasLoggedInfo);
-        Assert.Equal(2, testLogProvider.LogInfoCount);
+        Assert.Equal(1, testLogProvider.LogInfoCount);
         Assert.False(testLogProvider.HasLoggedWarning);
         Assert.False(testLogProvider.HasLoggedError);
         Assert.False(testLogProvider.HasLoggedTrace);
@@ -273,7 +274,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
             KeyValuePair<SystemLanguage, string> setted = Assert.Single(modSettings.FlavorsSetted);
             Assert.Equal(language.Key, setted.Key);
             if (language.Value.IsBuiltIn) {
-                Assert.Equal(DropDownItems.None, setted.Value);
+                Assert.Equal(DropDownItemsHelper.None, setted.Value);
             } else {
                 Assert.Equal(language.Value.Flavors.First().Id, setted.Value);
             }

@@ -4,11 +4,10 @@ using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
 
-namespace TranslateCS2.Mod.Containers.Items;
-internal class DropDownItems {
+namespace TranslateCS2.Mod.Helpers;
+internal static class DropDownItemsHelper {
     public static string None { get; } = StringConstants.NoneLower;
-    internal DropDownItems() { }
-    public List<DropdownItem<string>> GetDefault(bool addNone) {
+    public static List<DropdownItem<string>> GetDefault(bool addNone) {
         List<DropdownItem<string>> flavors = [];
         if (addNone) {
             flavors.Add(new DropdownItem<string>() {

@@ -61,9 +61,7 @@ internal class MyLanguage {
         //
         //
         if (!this.IsBuiltIn) {
-            cultureInfos =
-                this.CultureInfos
-                    .Where(ci => !ci.Name.Contains(StringConstants.Dash));
+            cultureInfos = CultureInfoHelper.GetNeutralCultures(this.CultureInfos);
         }
         if (!cultureInfos.Any()) {
             return;
@@ -92,16 +90,14 @@ internal class MyLanguage {
                 this.NameEnglish = LangConstants.OtherLanguages;
                 break;
             case SystemLanguage.SerboCroatian:
-                this.Name = String.Join(StringConstants.ForwardSlash,
-                                        cultureInfos
-                                                .OrderByDescending(ci => ci.Name)
-                                                .Select(ci => ci.NativeName)
-                                        );
-                this.NameEnglish = String.Join(StringConstants.ForwardSlash,
-                                               cultureInfos
-                                                        .OrderByDescending(ci => ci.Name)
-                                                        .Select(ci => ci.EnglishName)
-                                               );
+                this.Name = Join(cultureInfos,
+                                 StringConstants.ForwardSlash,
+                                 true,
+                                 ci => ci.NativeName);
+                this.NameEnglish = Join(cultureInfos,
+                                        StringConstants.ForwardSlash,
+                                        true,
+                                        ci => ci.EnglishName);
                 break;
             case SystemLanguage.Portuguese:
             case SystemLanguage.ChineseSimplified:
@@ -152,32 +148,10 @@ internal class MyLanguage {
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
         foreach (TranslationFile translationFile in this.Flavors) {
-            if (this.IsSkipTranslationFile(translationFile)) {
-                continue;
-            }
-            string displayName = this.GetFlavorDropDownDisplayName(translationFile);
-            DropdownItem<string> item = new DropdownItem<string>() {
-                value = translationFile.Id,
-                displayName = displayName
-            };
+            DropdownItem<string> item = translationFile.GetDropDownItem();
             dropdownItems.Add(item);
         }
         return dropdownItems;
-    }
-
-    private string GetFlavorDropDownDisplayName(TranslationFile translationFile) {
-        string displayName = translationFile.Name;
-        if (displayName.Length > ModConstants.MaxDisplayNameLength) {
-            displayName = displayName.Substring(0, ModConstants.MaxDisplayNameLength);
-            displayName += StringConstants.ThreeDots;
-        }
-        return displayName;
-    }
-
-    private bool IsSkipTranslationFile(TranslationFile translationFile) {
-        return
-            translationFile.Id is null
-            || translationFile.Name is null;
     }
 
     public bool HasFlavor(string localeId) {
@@ -192,5 +166,28 @@ internal class MyLanguage {
             this.Flavors
                 .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase))
                 .First();
+    }
+
+    public bool SupportsLocaleId(string localeId) {
+        IEnumerable<CultureInfo> cis =
+                this
+                    .CultureInfos
+                        .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        return cis.Any();
+    }
+    private static string Join(IEnumerable<CultureInfo> cultureInfos,
+                               string separator,
+                               bool skipDashed,
+                               Func<CultureInfo, string> selector) {
+        IEnumerable<CultureInfo> pre = cultureInfos;
+        if (skipDashed) {
+            pre =
+                cultureInfos
+                    .Where(ci => !ci.Name.Contains(StringConstants.Dash));
+        }
+        pre = pre.OrderByDescending(ci => ci.Name);
+        return
+            String.Join(separator,
+                        pre.Select(selector));
     }
 }

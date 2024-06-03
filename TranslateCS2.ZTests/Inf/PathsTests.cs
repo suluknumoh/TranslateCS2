@@ -76,4 +76,11 @@ public class PathsTests {
         string result = Paths.GetFallbackUserDataPathUnixFormat();
         Assert.EndsWith("Low/Colossal Order/Cities Skylines II", result);
     }
+    [Theory]
+    [InlineData("", "/")]
+    [InlineData("/", "/")]
+    public void AppendForwardSlashIfNecessaryTest(string input, string expected) {
+        string result = Paths.AppendForwardSlashIfNecessary(input);
+        Assert.Equal(expected, result);
+    }
 }

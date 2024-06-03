@@ -6,18 +6,17 @@ using Game.Settings;
 using Game.UI.Menu;
 using Game.UI.Widgets;
 
+using TranslateCS2.Mod.Helpers;
+
 namespace TranslateCS2.Mod.Containers.Items.Unitys;
 internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualProperty {
-    private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
     private readonly ModSettings modSettings;
-    public MyFlavorDropDownSettingProperty(IModRuntimeContainer runtimeContainer,
-                                           MyLanguage language,
+    public MyFlavorDropDownSettingProperty(MyLanguage language,
                                            ModSettings modSettings,
                                            string name) : base(modSettings.GetType(),
                                                                typeof(string),
                                                                name) {
-        this.runtimeContainer = runtimeContainer;
         this.language = language;
         this.modSettings = modSettings;
         this.canRead = true;
@@ -35,14 +34,10 @@ internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualPropert
         this.attributes.Add(new SettingsUIDropdownAttribute(this.GetType(), nameof(GetFlavors)));
     }
     public DropdownItem<string>[] GetFlavors() {
-        MyLanguage language = this.language;
-        List<DropdownItem<string>> flavors = this.runtimeContainer.DropDownItems.GetDefault(true);
-        if (language != null) {
-            // only builtin and those without flavors may have 'none'
-            bool addNone = language.IsBuiltIn || !language.HasFlavors;
-            flavors = this.runtimeContainer.DropDownItems.GetDefault(addNone);
-            flavors.AddRange(language.GetFlavorDropDownItems());
-        }
+        // only builtin and those without flavors may have 'none'
+        bool addNone = this.language.IsBuiltIn || !this.language.HasFlavors;
+        List<DropdownItem<string>> flavors = DropDownItemsHelper.GetDefault(addNone);
+        flavors.AddRange(this.language.GetFlavorDropDownItems());
         return flavors.ToArray();
     }
 }

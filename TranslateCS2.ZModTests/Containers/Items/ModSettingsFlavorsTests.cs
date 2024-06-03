@@ -7,6 +7,7 @@ using Game.UI.Widgets;
 
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Containers.Items.Unitys;
+using TranslateCS2.Mod.Helpers;
 using TranslateCS2.ZModTests.TestHelpers;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Models;
@@ -111,7 +112,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
             string result = modSettings.GetSettedFlavor(entry.Key);
             if (entry.Value.IsBuiltIn) {
                 // see: AAA
-                Assert.Equal(DropDownItems.None, result);
+                Assert.Equal(DropDownItemsHelper.None, result);
             } else {
                 Assert.Equal(entry.Value.Flavors.First().Id, result);
             }
@@ -130,8 +131,8 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         modSettings.SetFlavor(systemLanguage, systemLanguage.ToString());
         Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
         modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);
-        Assert.Equal(DropDownItems.None, result);
+        Assert.Equal(DropDownItemsHelper.None, result);
         string getterResult = modSettings.GetSettedFlavor(systemLanguage);
-        Assert.Equal(DropDownItems.None, getterResult);
+        Assert.Equal(DropDownItemsHelper.None, getterResult);
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -30,8 +32,9 @@ internal class JSONGenerator {
     public void Generate(bool ok = true,
                          bool overwrite = true) {
         Directory.CreateDirectory(this.Destination);
-        foreach (string supportedLocale in LocalesSupported.Lowered) {
-            string filePath = Path.Combine(this.Destination, $"{supportedLocale}{ModConstants.JsonExtension}");
+        List<CultureInfo> supported = CultureInfoHelper.GetSupportedCultures();
+        foreach (CultureInfo supportedLocale in supported) {
+            string filePath = Path.Combine(this.Destination, $"{supportedLocale.Name.ToLower()}{ModConstants.JsonExtension}");
             if (File.Exists(filePath)
                 && !overwrite) {
                 continue;

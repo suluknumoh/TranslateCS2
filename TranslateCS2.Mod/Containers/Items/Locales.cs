@@ -31,13 +31,7 @@ internal class Locales {
         if (this.LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
             return ret;
         }
-        IEnumerable<CultureInfo> cis =
-            CultureInfo.GetCultures(CultureTypes.AllCultures)
-            .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
-        if (cis.Any()) {
-            return cis.First().Name;
-        }
-        return localeId;
+        return CultureInfoHelper.CorrectLocaleId(localeId);
     }
     public bool IsBuiltIn(string localeId) {
         return this.LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
@@ -45,11 +39,7 @@ internal class Locales {
     public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping() {
         Dictionary<SystemLanguage, IList<CultureInfo>> systemLanguageCulturesMapping = [];
         IEnumerable<SystemLanguage> languages = Enum.GetValues(typeof(SystemLanguage)).OfType<SystemLanguage>();
-        List<CultureInfo> cultures =
-            CultureInfo
-                .GetCultures(CultureTypes.AllCultures)
-                .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
-                .ToList();
+        List<CultureInfo> cultures = CultureInfoHelper.GetSupportedCultures();
         for (int i = cultures.Count - 1; i >= 0; i--) {
             CultureInfo culture = cultures[i];
             this.HandleCultureForMapping(systemLanguageCulturesMapping,

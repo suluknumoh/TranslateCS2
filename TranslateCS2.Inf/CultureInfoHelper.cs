@@ -5,8 +5,12 @@ using System.Linq;
 
 namespace TranslateCS2.Inf;
 public static class CultureInfoHelper {
-    public static IEnumerable<CultureInfo> GetSupportedCultures() {
-        return CultureInfo.GetCultures(CultureTypes.AllCultures).Where(item => LocalesSupported.IsLocaleIdSupported(item.Name));
+    public static List<CultureInfo> GetSupportedCultures() {
+        return
+            CultureInfo
+                .GetCultures(CultureTypes.AllCultures)
+                .Where(item => LocalesSupported.IsLocaleIdSupported(item.Name))
+                .ToList();
     }
     public static IEnumerable<CultureInfo>? GatherCulturesFromEnglishName(string? englishName) {
         if (englishName is null) {
@@ -60,5 +64,14 @@ public static class CultureInfoHelper {
     }
     public static IEnumerable<CultureInfo> GetCulturesByTypes(IEnumerable<CultureInfo> cultures, CultureTypes cultureTypes) {
         return cultures.Where(item => (item.CultureTypes & cultureTypes) == cultureTypes);
+    }
+    public static string CorrectLocaleId(string localeId) {
+        IEnumerable<CultureInfo> cis =
+            CultureInfo.GetCultures(CultureTypes.AllCultures)
+            .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+        if (cis.Any()) {
+            return cis.First().Name;
+        }
+        return localeId;
     }
 }
