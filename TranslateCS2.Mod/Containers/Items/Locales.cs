@@ -74,9 +74,9 @@ internal class Locales {
                                          CultureInfo culture) {
         foreach (SystemLanguage language in languages) {
             string? comparator = this.GetMappingComparator(systemLanguageCulturesMapping,
-                                                      cultures,
-                                                      culture,
-                                                      language);
+                                                           cultures,
+                                                           culture,
+                                                           language);
             if (comparator is null) {
                 continue;
             }
