@@ -34,6 +34,10 @@ internal class LocManagerProvider : ILocManagerProvider {
                                            source);
     }
 
+    public SystemLanguage LocaleIdToSystemLanguage(string localeId) {
+        return this.localizationManager.LocaleIdToSystemLanguage(localeId);
+    }
+
     public void RemoveLocale(string localeId) {
         this.localizationManager.RemoveLocale(localeId);
     }

@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
 
+using UnityEngine;
+
 namespace TranslateCS2.Mod.Containers.Items;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
@@ -42,9 +44,18 @@ internal partial class ModSettings : ModSetting {
     public ModSettingsLocale? SettingsLocale { get; set; }
 
 
+    /// <summary>
+    ///     has to be <see cref="MyLanguage.Id"/>
+    /// </summary>
     [Include]
     [SettingsUIHidden]
     public string Locale { get; set; }
+
+    /// <summary>
+    ///     <see cref="InterfaceSettings.currentLocale"/> on startup
+    ///     <br/>
+    ///     before this mod is loaded
+    /// </summary>
     [Include]
     [SettingsUIHidden]
     public string PreviousLocale { get; set; }
@@ -171,6 +182,19 @@ internal partial class ModSettings : ModSetting {
                                                      [nameof(HandleLocaleOnUnLoad), ex]);
         }
     }
+    /// <summary>
+    ///     can not be tested
+    ///     <br/>
+    ///     <seealso cref="Game.Settings.OnSettingsAppliedHandler"/>
+    ///     <br/>
+    ///     <paramref name="setting"/> requires a <see cref="Setting"/>-<see langword="object"/>
+    ///     <br/>
+    ///     <see cref="IModRuntimeContainer"/> works with an <see langword="interface"/>/wrapper: <see cref="IModRuntimeContainer.IntSettings"/>
+    ///     <br/>
+    ///     so its excluded from coverage
+    /// </summary>
+    /// <param name="setting"></param>
+    [MyExcludeFromCoverage]
     private void ApplyAndSaveAlso(Setting setting) {
         if (setting is not InterfaceSettings interfaceSettings) {
             return;
@@ -178,7 +202,8 @@ internal partial class ModSettings : ModSetting {
         try {
             this.Locale = interfaceSettings.locale;
             this.OnLocaleChanged();
-            this.ApplyAndSave();
+            // TODO: is it necessary???
+            //this.ApplyAndSave();
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,
@@ -189,12 +214,21 @@ internal partial class ModSettings : ModSetting {
         if (this.Locale is null) {
             return;
         }
-        MyLanguage? language = this.languages.GetLanguage(this.Locale);
-        if (language is null) {
-            return;
+        // TODO: ZZZ-0: in a future version
+        if (false) {
+            // TODO: ZZZ-1: activate this codeblock
+            SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+            string localeId = this.GetSettedFlavor(systemLanguage);
+            this.SetFlavor(systemLanguage, localeId);
+        } else {
+            // TODO: ZZZ-2: remove this codeblock
+            MyLanguage? language = this.languages.GetLanguage(this.Locale);
+            if (language is null) {
+                return;
+            }
+            string localeId = this.GetSettedFlavor(language.SystemLanguage);
+            this.SetFlavor(language.SystemLanguage, localeId);
         }
-        string localeId = this.GetSettedFlavor(language.SystemLanguage);
-        this.SetFlavor(language.SystemLanguage, localeId);
     }
 
 }

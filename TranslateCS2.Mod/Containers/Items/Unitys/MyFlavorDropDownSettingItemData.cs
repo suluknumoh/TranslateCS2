@@ -72,10 +72,10 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
         this.widget.Update();
         // INFO: it is not possible, to add languages at runtime; would require access to Game.Settings.InterfaceSettings PageData that is unreachable(?) for this mod
         //
-        // TODO: ZZZ-0: is it now possible to have only one flavor-drop-down???
-        // TODO: ZZZ-1: changing items based on selected locale...???
-        // TODO: ZZZ-2: this mod can hold the instance of the single drop down
-        // TODO: ZZZ-3: Game.UI.Widgets.DropdownField<T>.itemsVersion
-        // TODO: ZZZ-4: is a function, that is called while updating, does it trigger something to refresh???
+        // TODO: WWW-0: is it now possible to have only one flavor-drop-down???
+        // TODO: WWW-1: changing items based on selected locale...???
+        // TODO: WWW-2: this mod can hold the instance of the single drop down
+        // TODO: WWW-3: Game.UI.Widgets.DropdownField<T>.itemsVersion
+        // TODO: WWW-4: is a function, that is called while updating, does it trigger something to refresh???
     }
 }

@@ -135,4 +135,8 @@ internal class LocManager {
                                  [nameof(TryToRemoveSource), ex, translationFile]);
         }
     }
+
+    public SystemLanguage LocaleIdToSystemLanguage(string locale) {
+        return this.Provider.LocaleIdToSystemLanguage(locale);
+    }
 }
