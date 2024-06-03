@@ -10,10 +10,6 @@ internal interface IIntSettings {
     /// </summary>
     string CurrentLocale { get; set; }
     /// <summary>
-    ///     <see cref="InterfaceSettings.locale"/>
-    /// </summary>
-    string Locale { get; set; }
-    /// <summary>
     ///     <see cref="Setting.ApplyAndSave"/>
     /// </summary>
     void ApplyAndSave();

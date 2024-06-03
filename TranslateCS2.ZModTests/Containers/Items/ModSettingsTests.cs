@@ -309,10 +309,8 @@ public class ModSettingsTests : AProvidesTestDataOk {
             runtimeContainer.Dispose();
             if (language.Value.IsBuiltIn) {
                 Assert.Equal(language.Value.Id, intSettings.CurrentLocale);
-                Assert.Equal(language.Value.Id, intSettings.Locale);
             } else {
                 Assert.Equal(expectedLocale, intSettings.CurrentLocale);
-                Assert.Equal(expectedLocale, intSettings.Locale);
             }
         }
     }

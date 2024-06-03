@@ -52,7 +52,7 @@ internal partial class ModSettings : ModSetting {
     public ModSettings(IModRuntimeContainer runtimeContainer) : base(runtimeContainer.Mod) {
         this.runtimeContainer = runtimeContainer;
         this.languages = this.runtimeContainer.Languages;
-        this.Locale = this.runtimeContainer.IntSettings.Locale;
+        this.Locale = this.runtimeContainer.IntSettings.CurrentLocale;
         this.PreviousLocale = this.Locale;
         this.SubscribeOnFlavorChanged(this.runtimeContainer.LocManager.FlavorChanged);
     }
@@ -136,7 +136,7 @@ internal partial class ModSettings : ModSetting {
     }
     public void HandleLocaleOnLoad() {
         try {
-            this.PreviousLocale = this.runtimeContainer.IntSettings.Locale;
+            this.PreviousLocale = this.runtimeContainer.IntSettings.CurrentLocale;
             if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Locale)) {
                 // if this locale is null after it is loaded
                 this.Locale = this.PreviousLocale;

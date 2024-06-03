@@ -19,10 +19,6 @@ internal class IntSettings : IIntSettings {
         get => this.interfaceSettings.currentLocale;
         set => this.interfaceSettings.currentLocale = value;
     }
-    public string Locale {
-        get => this.interfaceSettings.locale;
-        set => this.interfaceSettings.locale = value;
-    }
 
     public void ApplyAndSave() {
         this.interfaceSettings.ApplyAndSave();
