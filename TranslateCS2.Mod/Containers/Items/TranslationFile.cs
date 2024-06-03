@@ -6,12 +6,11 @@ using Colossal;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
-using TranslateCS2.Inf.Interfaces;
 using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
 // INFO: its about hashcode and equals...
-internal class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, IEquatable<TranslationFile?> {
+internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
 
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
@@ -67,11 +66,12 @@ internal class TranslationFile : IIdNameNameEnglishGetAble, IDictionarySource, I
     }
     [MyExcludeFromCoverage]
     public bool Equals(TranslationFile? other) {
-        return other is not null &&
-               EqualityComparer<MyLocalization<string>>.Default.Equals(this.locFile, other.locFile) &&
-               this.Id == other.Id &&
-               this.Name == other.Name &&
-               this.NameEnglish == other.NameEnglish;
+        return
+            other is not null
+            && EqualityComparer<MyLocalization<string>>.Default.Equals(this.locFile, other.locFile)
+            && this.Id == other.Id
+            && this.Name == other.Name
+            && this.NameEnglish == other.NameEnglish;
     }
     [MyExcludeFromCoverage]
     public override int GetHashCode() {

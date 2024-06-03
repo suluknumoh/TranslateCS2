@@ -22,7 +22,7 @@ internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualPropert
         this.modSettings = modSettings;
         this.canRead = true;
         this.canWrite = true;
-        this.setter = (modSettings, localeId) => ((ModSettings) modSettings).SetFlavor(language.SystemLanguage, localeId);
+        this.setter = (modSettings, flavorId) => ((ModSettings) modSettings).SetFlavor(language.SystemLanguage, flavorId);
         this.getter = (modSettings) => ((ModSettings) modSettings).GetSettedFlavor(language.SystemLanguage);
         this.attributes.Add(new ExcludeAttribute());
         // instance methods are only allowed, if itemsGetterType is an instance of ModSettings

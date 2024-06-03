@@ -10,17 +10,15 @@ using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
-using TranslateCS2.Inf.Interfaces;
 
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-internal class MyLanguage : IIdNameNameEnglishGetAble {
+internal class MyLanguage {
     private readonly IModRuntimeContainer runtimeContainer;
-    private readonly IIdNameNameEnglishGetAble idNameNameEnglishGetAble;
-    public string Id => this.idNameNameEnglishGetAble.Id;
-    public string Name => this.idNameNameEnglishGetAble.Name;
-    public string NameEnglish => this.idNameNameEnglishGetAble.NameEnglish;
+    public string Id { get; private set; }
+    public string Name { get; private set; }
+    public string NameEnglish { get; private set; }
     public IList<TranslationFile> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
     public int EntryCountOfAllFlavors {
@@ -42,24 +40,67 @@ internal class MyLanguage : IIdNameNameEnglishGetAble {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
         this.CultureInfos.AddRange(cultureInfos);
-        IEnumerable<CultureInfo> builtin =
+        this.Init();
+    }
+    private void Init() {
+        IEnumerable<CultureInfo> cultureInfos =
             this.CultureInfos
                 .Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
-        if (builtin.Any()) {
-            this.IsBuiltIn = true;
-            this.idNameNameEnglishGetAble = IdNameNameEnglish.Create(this.runtimeContainer.Locales,
-                                                                     this.SystemLanguage,
-                                                                     builtin,
-                                                                     this.IsBuiltIn);
-        } else {
-            IEnumerable<CultureInfo> remaining = this.CultureInfos.Where(ci => !ci.Name.Contains(StringConstants.Dash));
-            if (remaining.Any()) {
-                this.IsBuiltIn = false;
-                this.idNameNameEnglishGetAble = IdNameNameEnglish.Create(this.runtimeContainer.Locales,
-                                                                         this.SystemLanguage,
-                                                                         remaining,
-                                                                         this.IsBuiltIn);
-            }
+        //
+        //
+        this.IsBuiltIn = cultureInfos.Any();
+        //
+        //
+        if (!this.IsBuiltIn) {
+            cultureInfos =
+                this.CultureInfos
+                    .Where(ci => !ci.Name.Contains(StringConstants.Dash));
+        }
+        if (!cultureInfos.Any()) {
+            return;
+        }
+        this.InitId(cultureInfos);
+        this.InitNames(cultureInfos);
+    }
+
+    private void InitId(IEnumerable<CultureInfo> cultureInfos) {
+        this.Id = this.SystemLanguage.ToString();
+        if (this.IsBuiltIn) {
+            this.Id = cultureInfos.First().Name;
+        }
+    }
+
+    private void InitNames(IEnumerable<CultureInfo> cultureInfos) {
+        CultureInfo cultureInfo = cultureInfos.First();
+        switch (this.SystemLanguage) {
+            case SystemLanguage.Unknown:
+                this.Name = LangConstants.OtherLanguages;
+                this.NameEnglish = LangConstants.OtherLanguages;
+                break;
+            case SystemLanguage.SerboCroatian:
+                this.Name = String.Join(StringConstants.ForwardSlash,
+                                        cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.NativeName));
+                this.NameEnglish = String.Join(StringConstants.ForwardSlash,
+                                               cultureInfos.OrderByDescending(ci => ci.Name).Select(ci => ci.EnglishName));
+                break;
+            //case SystemLanguage.Portuguese:
+            case SystemLanguage.ChineseSimplified:
+            case SystemLanguage.ChineseTraditional:
+                // take care: cultureInfo itself is used!
+                this.Name = cultureInfo.NativeName;
+                this.NameEnglish = cultureInfo.EnglishName;
+                break;
+            default:
+                if (this.IsBuiltIn) {
+                    // take care: cultureInfo's parent is used!
+                    this.Name = cultureInfo.Parent.NativeName;
+                    this.NameEnglish = cultureInfo.Parent.EnglishName;
+                } else {
+                    // take care: cultureInfo itself is used!
+                    this.Name = cultureInfo.NativeName;
+                    this.NameEnglish = cultureInfo.EnglishName;
+                }
+                break;
         }
     }
 

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 using TranslateCS2.Inf.Attributes;
-using TranslateCS2.Inf.Interfaces;
 
 namespace TranslateCS2.Inf.Models.Localizations;
-public class MyLocalization<E> : IEquatable<MyLocalization<E>?>, IIdNameNameEnglishGetAble {
+public class MyLocalization<E> : IEquatable<MyLocalization<E>?> {
     private readonly string uniquer = ModConstants.Name;
     public string Id { get; }
     public virtual string Name { get; }
