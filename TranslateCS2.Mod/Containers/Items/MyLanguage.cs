@@ -103,8 +103,7 @@ internal class MyLanguage {
                                                         .Select(ci => ci.EnglishName)
                                                );
                 break;
-            // TODO: check again if it also follows the chinese ruleset
-            //case SystemLanguage.Portuguese:
+            case SystemLanguage.Portuguese:
             case SystemLanguage.ChineseSimplified:
             case SystemLanguage.ChineseTraditional:
                 // take care: cultureInfo itself is used!

@@ -32,7 +32,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
     [InlineData(SystemLanguage.Japanese, "ja-JP", "日本語", "Japanese", true)]
     [InlineData(SystemLanguage.Korean, "ko-KR", "한국어", "Korean", true)]
     [InlineData(SystemLanguage.Polish, "pl-PL", "polski", "Polish", true)]
-    [InlineData(SystemLanguage.Portuguese, "pt-BR", "português", "Portuguese", true)]
+    [InlineData(SystemLanguage.Portuguese, "pt-BR", "português (Brasil)", "Portuguese (Brazil)", true)]
     [InlineData(SystemLanguage.Russian, "ru-RU", "русский", "Russian", true)]
     [InlineData(SystemLanguage.ChineseSimplified, "zh-HANS", "中文(简体)", "Chinese (Simplified)", true)]
     [InlineData(SystemLanguage.ChineseTraditional, "zh-HANT", "中文(繁體)", "Chinese (Traditional)", true)]

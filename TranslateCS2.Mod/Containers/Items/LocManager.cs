@@ -12,7 +12,8 @@ internal class LocManager {
     private readonly IMyLogger logger;
     public ILocManagerProvider Provider { get; }
     public string FallbackLocaleId => this.Provider.FallbackLocaleId;
-    public LocManager(ILocManagerProvider locManagerProvider, IModRuntimeContainer runtimeContainer) {
+    public LocManager(ILocManagerProvider locManagerProvider,
+                      IModRuntimeContainer runtimeContainer) {
         this.Provider = locManagerProvider;
         this.runtimeContainer = runtimeContainer;
         this.logger = this.runtimeContainer.Logger;
