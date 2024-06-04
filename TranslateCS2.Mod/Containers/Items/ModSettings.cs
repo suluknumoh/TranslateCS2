@@ -212,21 +212,9 @@ internal partial class ModSettings : ModSetting {
         if (this.Locale is null) {
             return;
         }
-        // TODO: ZZZ-0: in a future version
-        if (false) {
-            // TODO: ZZZ-1: activate this codeblock
-            SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
-            string localeId = this.GetSettedFlavor(systemLanguage);
-            this.SetFlavor(systemLanguage, localeId);
-        } else {
-            // TODO: ZZZ-2: remove this codeblock
-            MyLanguage? language = this.languages.GetLanguage(this.Locale);
-            if (language is null) {
-                return;
-            }
-            string localeId = this.GetSettedFlavor(language.SystemLanguage);
-            this.SetFlavor(language.SystemLanguage, localeId);
-        }
+        SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+        string localeId = this.GetSettedFlavor(systemLanguage);
+        this.SetFlavor(systemLanguage, localeId);
     }
 
 }
