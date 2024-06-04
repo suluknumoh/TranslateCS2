@@ -46,12 +46,12 @@ internal class JSONGenerator {
             this.AppendEntry(builder,
                              ok,
                              "Menu.OPTIONS",
-                             $"Options ({supportedLocale}.json)");
+                             $"Options ({supportedLocale}.json - {this.randomCounter.ToString("D0")})");
             // to see, if changes are applied on flavor changed
             this.AppendEntry(builder,
                              ok,
                              "Options.SECTION[General]",
-                             $"General ({supportedLocale}.json)");
+                             $"General ({supportedLocale}.json - {this.randomCounter.ToString("D0")})");
             if (this.addRandom) {
                 this.AppendEntry(builder,
                                  ok,
