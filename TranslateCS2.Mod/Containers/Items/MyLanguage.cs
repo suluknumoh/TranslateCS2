@@ -66,6 +66,7 @@ internal class MyLanguage {
         if (!cultureInfos.Any()) {
             return;
         }
+        cultureInfos = cultureInfos.OrderBy(ci => ci.Name);
         this.InitId(cultureInfos);
         this.InitNames(cultureInfos);
     }
@@ -106,7 +107,15 @@ internal class MyLanguage {
                 this.Name = cultureInfo.NativeName;
                 this.NameEnglish = cultureInfo.EnglishName;
                 break;
+            // cannot fall through :(
+            //case SystemLanguage.Norwegian:
+            //    cultureInfos = cultureInfos = cultureInfos.OrderByDescending(ci => ci.Name);
+            //    cultureInfo = cultureInfos.First();
             default:
+                if (this.SystemLanguage is SystemLanguage.Norwegian) {
+                    cultureInfos = cultureInfos = cultureInfos.OrderByDescending(ci => ci.Name);
+                    cultureInfo = cultureInfos.First();
+                }
                 if (this.IsBuiltIn) {
                     // take care: cultureInfo's parent is used!
                     // built-ins are specific but use the neutral name(s)
