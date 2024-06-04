@@ -27,7 +27,7 @@ internal partial class ModSettings {
         return $"{Flavor}{systemLanguage}";
     }
 
-    public delegate void OnFlavorChangedHandler(MyLanguage? language, SystemLanguage systemLanguage, string localeId);
+    public delegate void OnFlavorChangedHandler(MyLanguage? language, SystemLanguage systemLanguage, string flavorId);
     /// <summary>
     ///     do not subscribe directly
     ///     <br/>
@@ -65,17 +65,19 @@ internal partial class ModSettings {
     }
     public void SetFlavor(SystemLanguage systemLanguage, object flavorIdObject) {
         if (flavorIdObject is string flavorId) {
-            flavorId = this.GetValueToSet(systemLanguage, flavorId, true);
+            flavorId = this.GetValueToSet(systemLanguage, flavorId);
             this.FlavorsSetted[systemLanguage] = flavorId;
+            MyLanguage? language = this.languages.GetLanguage(systemLanguage);
+            OnFlavorChanged?.Invoke(language, systemLanguage, flavorId);
         }
     }
     public string GetSettedFlavor(SystemLanguage systemLanguage) {
         this.FlavorsSetted.TryGetValue(systemLanguage, out string? flavorId);
         flavorId ??= DropDownItemsHelper.None;
-        return this.GetValueToSet(systemLanguage, flavorId, false);
+        return this.GetValueToSet(systemLanguage, flavorId);
     }
 
-    private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter, bool invoke) {
+    private string GetValueToSet(SystemLanguage systemLanguage, string localeIdParameter) {
         string localeId = localeIdParameter;
         MyLanguage? language = this.languages.GetLanguage(systemLanguage);
         if (language is null) {
@@ -93,9 +95,6 @@ internal partial class ModSettings {
                 // non built-in languages should be pre initialized with their first flavor
                 localeId = language.Flavors.First().Id;
             }
-        }
-        if (invoke) {
-            OnFlavorChanged?.Invoke(language, systemLanguage, localeId);
         }
         return localeId;
     }
