@@ -4,7 +4,7 @@ namespace TranslateCS2.Mod.Interfaces;
 /// <summary>
 ///     <see cref="InterfaceSettings"/>
 /// </summary>
-internal interface IIntSettings {
+internal interface IIntSettingsProvider {
     /// <summary>
     ///     <see cref="InterfaceSettings.currentLocale"/>
     /// </summary>
@@ -16,9 +16,9 @@ internal interface IIntSettings {
     /// <summary>
     ///     <see cref="Setting.onSettingsApplied"/>
     /// </summary>
-    void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAndSaveAlso);
+    void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso);
     /// <summary>
     ///     <see cref="Setting.onSettingsApplied"/>
     /// </summary>
-    void UnSubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAndSaveAlso);
+    void UnSubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso);
 }

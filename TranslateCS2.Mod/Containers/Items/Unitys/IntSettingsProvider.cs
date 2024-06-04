@@ -8,10 +8,10 @@ namespace TranslateCS2.Mod.Containers.Items.Unitys;
 ///     wrapper for <see cref="InterfaceSettings"/>
 /// </summary>
 [MyExcludeFromCoverage]
-internal class IntSettings : IIntSettings {
+internal class IntSettingsProvider : IIntSettingsProvider {
     private readonly InterfaceSettings interfaceSettings;
 
-    public IntSettings(InterfaceSettings interfaceSettings) {
+    public IntSettingsProvider(InterfaceSettings interfaceSettings) {
         this.interfaceSettings = interfaceSettings;
     }
 

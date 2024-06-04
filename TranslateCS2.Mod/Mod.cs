@@ -79,14 +79,14 @@ public class Mod : IMod {
         Paths paths = new Paths(true,
                                 EnvPath.kStreamingDataPath,
                                 EnvPath.kUserDataPath);
-        ILocManagerProvider locManager = new LocManagerProvider(gameManager.localizationManager);
-        IIntSettings intSettings = new IntSettings(gameManager.settings.userInterface);
+        ILocManagerProvider locManagerProvider = new LocManagerProvider(gameManager.localizationManager);
+        IIntSettingsProvider intSettingsProvider = new IntSettingsProvider(gameManager.settings.userInterface);
         LocaleAssetProvider localeAssetProvider = new LocaleAssetProvider(AssetDatabase.global);
         IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(localeAssetProvider);
         return new ModRuntimeContainer(logProvider,
                                        this,
-                                       locManager,
-                                       intSettings,
+                                       locManagerProvider,
+                                       intSettingsProvider,
                                        indexCountsProvider,
                                        paths);
     }

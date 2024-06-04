@@ -18,7 +18,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public Locales Locales { get; }
     public MyLanguages Languages { get; }
     public LocManager LocManager { get; }
-    public IIntSettings IntSettings { get; }
+    public IntSettings IntSettings { get; }
     public IIndexCountsProvider IndexCountsProvider { get; }
     public IMod Mod { get; }
     public ModSettings Settings { get; }
@@ -27,7 +27,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public ModRuntimeContainer(IMyLogProvider logProvider,
                                IMod mod,
                                ILocManagerProvider locManagerProvider,
-                               IIntSettings intSettings,
+                               IIntSettingsProvider intSettingsProvider,
                                IIndexCountsProvider indexCountsProvider,
                                Paths paths) {
         // dont change init-order!!!
@@ -36,7 +36,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         this.performanceMeasurement.Start();
         this.Mod = mod;
         this.LocManager = new LocManager(this.Logger, locManagerProvider);
-        this.IntSettings = intSettings;
+        this.IntSettings = new IntSettings(intSettingsProvider);
         this.IndexCountsProvider = indexCountsProvider;
         this.Paths = paths;
         // the following need the Paths to be initialized!

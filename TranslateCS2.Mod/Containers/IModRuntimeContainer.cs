@@ -6,12 +6,11 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.Mod.Interfaces;
 
 namespace TranslateCS2.Mod.Containers;
 internal interface IModRuntimeContainer {
     LocManager LocManager { get; }
-    IIntSettings IntSettings { get; }
+    IntSettings IntSettings { get; }
     IIndexCountsProvider IndexCountsProvider { get; }
     IMyLogger Logger { get; }
     Paths Paths { get; }

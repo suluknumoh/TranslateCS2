@@ -11,11 +11,11 @@ using TranslateCS2.ZZZTestLib;
 namespace TranslateCS2.ZModTests.TestHelpers.Containers;
 internal class ModTestRuntimeContainer : ModRuntimeContainer {
     public TestLocManagerProvider TestLocManagerProvider => (TestLocManagerProvider) this.LocManager.Provider;
-    public TestIntSettings TestIntSettings => (TestIntSettings) this.IntSettings;
+    public TestIntSettingsProvider TestIntSettings => (TestIntSettingsProvider) this.IntSettings.Provider;
     private ModTestRuntimeContainer(IMyLogProvider logProvider,
                                     IMod mod,
                                     ILocManagerProvider locManagerProvider,
-                                    IIntSettings intSettings,
+                                    IIntSettingsProvider intSettings,
                                     IIndexCountsProvider indexCountsProvider,
                                     Paths paths) : base(logProvider,
                                                         mod,
@@ -28,7 +28,7 @@ internal class ModTestRuntimeContainer : ModRuntimeContainer {
                                                  string? userDataPath = null) {
         IMod mod = new TestMod();
         ILocManagerProvider locManager = new TestLocManagerProvider();
-        IIntSettings intSettings = new TestIntSettings();
+        IIntSettingsProvider intSettings = new TestIntSettingsProvider();
         IIndexCountsProvider indexCountsProviderLocal = indexCountsProvider ?? TestIndexCountsProvider.WithEmptyContent();
         Paths paths = new Paths(true,
                                 CS2PathsHelper.GetStreamingDataPathFromProps(),

@@ -43,4 +43,5 @@ internal interface ILocManagerProvider {
     ///     <see cref="Colossal.Localization.LocalizationManager.LocaleIdToSystemLanguage(String)"/>
     /// </summary>
     public SystemLanguage LocaleIdToSystemLanguage(string localeId);
+    SystemLanguage LocaleIdToSystemLanguage(string localeId);
 }

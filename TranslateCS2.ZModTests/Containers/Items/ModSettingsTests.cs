@@ -7,7 +7,6 @@ using Colossal;
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Helpers;
-using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Containers.Items.Unitys;
 using TranslateCS2.ZModTests.TestHelpers.Models;
@@ -267,7 +266,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         Dictionary<SystemLanguage, MyLanguage> languages = runtimeContainer.Languages.LanguageDictionary;
         foreach (KeyValuePair<SystemLanguage, MyLanguage> language in languages) {
             modSettings.FlavorsSetted.Clear();
-            IIntSettings intSettings = runtimeContainer.IntSettings;
+            IntSettings intSettings = runtimeContainer.IntSettings;
             intSettings.CurrentLocale = language.Value.Id;
             modSettings.Locale = null;
             modSettings.HandleLocaleOnLoad();
@@ -302,7 +301,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         // only init languages, runtimeContainers init does to much for this test method
         runtimeContainer.Languages.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        IIntSettings intSettings = runtimeContainer.IntSettings;
+        IntSettings intSettings = runtimeContainer.IntSettings;
 
         foreach (KeyValuePair<SystemLanguage, MyLanguage> language in runtimeContainer.Languages.LanguageDictionary) {
             modSettings.PreviousLocale = previousLocale;
