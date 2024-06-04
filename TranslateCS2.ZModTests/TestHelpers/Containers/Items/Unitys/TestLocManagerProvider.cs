@@ -85,4 +85,8 @@ internal class TestLocManagerProvider : ILocManagerProvider {
     public SystemLanguage LocaleIdToSystemLanguage(string localeId) {
         return this.Locales[localeId];
     }
+
+    public void ReloadActiveLocale() {
+        //
+    }
 }
