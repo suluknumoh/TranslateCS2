@@ -47,6 +47,18 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         this.SettingsLocale = new ModSettingsLocale(this);
     }
 
+    /// <summary>
+    ///     inits this container
+    /// </summary>
+    /// <param name="loadSettings">
+    ///     <see cref="Colossal.IO.AssetDatabase.AssetDatabase.global.LoadSettings"/>
+    ///     <br/>
+    /// </param>
+    /// <param name="register">
+    ///     do not register in tests!!!
+    ///     <br/>
+    ///     it does not work
+    /// </param>
     public void Init(Action<string, object, object?>? loadSettings = null,
                      bool register = false) {
         this.Languages.Init();

@@ -190,4 +190,16 @@ internal class MyLanguage {
             String.Join(separator,
                         pre.Select(selector));
     }
+
+    public bool IsLanguageInitiallyLoadAble() {
+        return
+            !this.IsBuiltIn
+            && this.HasFlavors;
+    }
+
+    public bool IsCurrent() {
+        string currentLocale = this.runtimeContainer.IntSettings.CurrentLocale;
+        return this.Id.Equals(currentLocale,
+                              StringComparison.OrdinalIgnoreCase);
+    }
 }

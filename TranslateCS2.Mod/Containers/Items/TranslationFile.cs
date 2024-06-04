@@ -104,4 +104,11 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
         };
         return item;
     }
+
+    public bool IsCurrent() {
+        string settedFlavor = this.runtimeContainer.Settings.GetSettedFlavor(this.language.SystemLanguage);
+        return this.Id.Equals(settedFlavor,
+                              StringComparison.OrdinalIgnoreCase);
+
+    }
 }

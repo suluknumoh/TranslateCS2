@@ -16,6 +16,9 @@ using TranslateCS2.Mod.Services.Localizations;
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
+/// <summary>
+///     mapping between <see cref="SystemLanguage"/> and <see cref="MyLanguage"/>
+/// </summary>
 internal class MyLanguages {
     private static readonly MyLanguages? INSTANCE;
     private readonly IModRuntimeContainer runtimeContainer;
@@ -49,6 +52,10 @@ internal class MyLanguages {
         this.InitLanguages();
     }
 
+    /// <summary>
+    ///     pre-init all <see cref="MyLanguage"/>s with their <see cref="CultureInfo"/>s
+    ///     <br/>
+    /// </summary>
     private void InitLanguages() {
         IDictionary<SystemLanguage, IList<CultureInfo>> mapping =
             this.runtimeContainer.Locales.GetSystemLanguageCulturesMapping();
@@ -60,11 +67,49 @@ internal class MyLanguages {
         }
     }
 
+    /// <summary>
+    ///     tries to read files
+    ///     <br/>
+    ///     and tries to add locales for the read files
+    ///     <br/>
+    ///     also collects <see cref="Erroneous"/> (see also: <seealso cref="HasErroneous"/>)
+    ///     <br/>
+    ///     <br/>
+    ///     does NOT add sources to added Locales via <see cref="Colossal.Localization.LocalizationManager.AddSource(String, Colossal.IDictionarySource)"/>
+    ///     <br/>
+    ///     <br/>
+    ///     if a source has to be added due to the
+    ///     <br/>
+    ///     <see cref="Game.Settings.InterfaceSettings.currentLocale"/> is changed
+    ///     <br/>
+    ///     or a selected Flavor (<see cref="TranslationFile"/>) is changed
+    ///     <br/>
+    ///     take a look at:
+    ///     <br/>
+    ///     <see cref="Game.Settings.Setting.onSettingsApplied"/>
+    ///     <br/>
+    ///     <see cref="Unitys.IntSettingsProvider.SubscribeOnSettingsApplied(Game.Settings.OnSettingsAppliedHandler)"/>
+    ///     <br/>
+    ///     <see cref="IntSettings.SubscribeOnSettingsApplied(Game.Settings.OnSettingsAppliedHandler)"/>
+    ///     <br/>
+    ///     <see cref="ModSettings.Apply(Game.Settings.Setting)"/>
+    ///     <br/>
+    ///     <see cref="ModSettings.OnLocaleChanged"/>
+    ///     <br/>
+    ///     <see cref="LocManager.FlavorChanged(MyLanguage?, SystemLanguage, String)"/>
+    /// </summary>
     public void Init() {
         this.ReadFiles();
-        this.LoadInitial();
+        this.AddLocales();
     }
 
+    /// <summary>
+    ///     reads all json-files from within this mods data directory
+    ///     <br/>
+    ///     that are supported
+    ///     <br/>
+    ///     <see cref="LocalesSupported.IsLocaleIdSupported(String)"/>
+    /// </summary>
     private void ReadFiles() {
         LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
         LocFileService<string> locFileService = new LocFileService<string>(strategy);
@@ -78,6 +123,15 @@ internal class MyLanguages {
         }
     }
 
+    /// <summary>
+    ///     tries to read the given <paramref name="fileInfo"/> via the given <paramref name="locFileService"/>
+    /// </summary>
+    /// <param name="locFileService">
+    ///     a simple <see cref="LocFileService{E}"/> where <see langword="E"/> is a <see langword="string"/>
+    /// </param>
+    /// <param name="fileInfo">
+    ///     the files to read <see cref="FileInfo"/>
+    /// </param>
     private void TryToReadFile(LocFileService<string> locFileService, FileInfo fileInfo) {
         try {
             MyLocalization<string> locFile = locFileService.GetLocalizationFile(fileInfo);
@@ -101,26 +155,38 @@ internal class MyLanguages {
         }
     }
 
-    private void LoadInitial() {
+    /// <summary>
+    ///     tries to add a Locale
+    ///     <br/>
+    ///     for each <see cref="MyLanguage"/> that is <see cref="MyLanguage.IsLanguageInitiallyLoadAble"/>
+    ///     <br/>
+    ///     <seealso cref="LocManager.TryToAddLocale(MyLanguage)"/>
+    ///     <br/>
+    ///     <seealso cref="Unitys.LocManagerProvider.AddLocale(String, SystemLanguage, String)"/>
+    ///     <br/>
+    ///     <seealso cref="Colossal.Localization.LocalizationManager.AddLocale(String, SystemLanguage, String)"/>
+    /// </summary>
+    private void AddLocales() {
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            if (!this.IsLanguageInitiallyLoadAble(language)) {
-                // dont load built in by default,
+            if (!language.IsLanguageInitiallyLoadAble()) {
+                // dont add built in by default,
                 // otherwise the first flavor is automatically applied
                 //
-                // dont load languages without flavors,
+                // dont add languages without flavors,
                 // otherwise they would be listed within the default interface settings language select
                 continue;
             }
-            this.locManager.TryToAddLanguageInitially(language);
+            // only add locale!!!
+            // the flavor is added/setted somewhere else...
+            this.locManager.TryToAddLocale(language);
         }
     }
 
-    private bool IsLanguageInitiallyLoadAble(MyLanguage language) {
-        return
-            !language.IsBuiltIn
-            && language.HasFlavors;
-    }
-
+    /// <summary>
+    ///     tries to reload all <see cref="TranslationFile"/>s, that existed at startup
+    ///     <br/>
+    ///     and collects <see cref="Erroneous"/> (see also: <seealso cref="HasErroneous"/>)
+    /// </summary>
     public void ReLoad() {
         try {
             LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
@@ -137,18 +203,15 @@ internal class MyLanguages {
     }
 
     private void ReLoadLanguage(LocFileService<string> locFileService, MyLanguage language) {
-        string localeId = this.runtimeContainer.Settings.GetSettedFlavor(language.SystemLanguage);
         foreach (TranslationFile translationFile in language.Flavors) {
             this.ReLoadTranslationFile(locFileService,
                                        language,
-                                       localeId,
                                        translationFile);
         }
     }
 
     private void ReLoadTranslationFile(LocFileService<string> locFileService,
                                        MyLanguage language,
-                                       string localeId,
                                        TranslationFile translationFile) {
         try {
             bool reRead = this.ReReadTranslationFile(locFileService,
@@ -156,16 +219,20 @@ internal class MyLanguages {
             if (!reRead) {
                 return;
             }
-            if (localeId.Equals(translationFile.Id,
-                                StringComparison.OrdinalIgnoreCase)) {
-                this.locManager.ReplaceSource(language,
-                                              translationFile);
+            if (this.IsActive(language, translationFile)) {
+                this.locManager.ReloadActiveLocale();
             }
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
-                                                              [nameof(ReLoad), ex, localeId, language, translationFile]);
+                                                              [nameof(ReLoad), ex, language, translationFile]);
         }
+    }
+
+    private bool IsActive(MyLanguage language, TranslationFile translationFile) {
+        return
+            language.IsCurrent()
+            && translationFile.IsCurrent();
     }
 
     private bool ReReadTranslationFile(LocFileService<string> locFileService,

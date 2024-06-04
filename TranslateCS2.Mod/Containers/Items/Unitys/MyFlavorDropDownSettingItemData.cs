@@ -30,15 +30,12 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
         this.setterAction = null;
     }
     public bool IsHidden() {
-        return
-            !this.Language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale,
-                                     StringComparison.OrdinalIgnoreCase);
+        return !this.Language.IsCurrent();
     }
 
     public bool IsDisabled() {
         return
-            !this.Language.Id.Equals(this.runtimeContainer.IntSettings.CurrentLocale,
-                                     StringComparison.OrdinalIgnoreCase)
+            this.IsHidden()
             || !this.Language.HasFlavors;
     }
     protected override IWidget GetWidget() {
