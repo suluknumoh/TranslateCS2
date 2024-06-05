@@ -24,11 +24,11 @@ internal class IntSettingsProvider : IIntSettingsProvider {
         this.interfaceSettings.ApplyAndSave();
     }
 
-    public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAndSaveAlso) {
-        this.interfaceSettings.onSettingsApplied += applyAndSaveAlso;
+    public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
+        this.interfaceSettings.onSettingsApplied += applyAlso;
     }
 
-    public void UnSubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAndSaveAlso) {
-        this.interfaceSettings.onSettingsApplied -= applyAndSaveAlso;
+    public void UnSubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
+        this.interfaceSettings.onSettingsApplied -= applyAlso;
     }
 }

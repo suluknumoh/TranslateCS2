@@ -18,10 +18,10 @@ internal class TestIntSettingsProvider : IIntSettingsProvider {
     public void ApplyAndSave() {
         // no need to realize
     }
-    public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAndSaveAlso) {
+    public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
         // no need to realize
     }
-    public void UnSubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAndSaveAlso) {
+    public void UnSubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
         // no need to realize
     }
 }

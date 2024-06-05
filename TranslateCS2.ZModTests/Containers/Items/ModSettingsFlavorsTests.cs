@@ -62,7 +62,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         }
     }
     [Fact]
-    public void FlavorsSettedSetterGetterTest() {
+    public void FlavorsSetted_SetterGetter_Test() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
@@ -86,7 +86,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         Assert.Equal(ModTestConstants.ExpectedLanguageCount, modSettings.FlavorsSetted.Count);
     }
     [Fact]
-    public void FlavorsSettedTest() {
+    public void FlavorsSetted_Test() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
@@ -119,7 +119,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         }
     }
     [Fact]
-    public void FlavorsSettedSetterGetterWithChineseTest() {
+    public void FlavorsSetted_SetterGetter_With_Chinese_Test() {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
