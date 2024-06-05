@@ -14,7 +14,7 @@ public class FiltersCollection : ConfigurationElementCollection {
     public FilterConfigElement this[int index] {
         get => (FilterConfigElement) this.BaseGet(index);
         set {
-            if (this.BaseGet(index) != null) {
+            if (this.BaseGet(index) is not null) {
                 this.BaseRemoveAt(index);
             }
             this.BaseAdd(index, value);

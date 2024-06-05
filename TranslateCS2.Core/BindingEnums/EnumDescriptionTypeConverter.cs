@@ -14,13 +14,14 @@ public class EnumDescriptionTypeConverter : EnumConverter {
     }
     public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType) {
         if (destinationType == typeof(string)) {
-            if (value != null) {
+            if (value is not null) {
                 string? vts = value.ToString();
-                if (vts != null) {
+                if (vts is not null) {
                     FieldInfo? fi = value.GetType().GetField(vts);
-                    if (fi != null) {
+                    if (fi is not null) {
                         DescriptionAttribute[] attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                        return attributes.Length > 0 && !StringHelper.IsNullOrWhiteSpaceOrEmpty(attributes[0].Description) ? attributes[0].Description : value.ToString();
+                        return attributes.Length > 0
+                               && !StringHelper.IsNullOrWhiteSpaceOrEmpty(attributes[0].Description) ? attributes[0].Description : value.ToString();
                     }
                 }
             }

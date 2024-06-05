@@ -257,8 +257,8 @@ internal class TranslationsDB : ITranslationsDatabaseService {
         IEnumerable<KeyValuePair<string, IAppLocFileEntry>> newEntries =
             session.Localizations.Where(
                 entry => !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value)
-                                                      && valueTranslationMapping.ContainsKey(entry.Value.Value)
-                                                      && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Translation)
+                         && valueTranslationMapping.ContainsKey(entry.Value.Value)
+                         && StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Translation)
         );
         if (newEntries.Any()) {
             foreach (KeyValuePair<string, IAppLocFileEntry> entry in newEntries) {
@@ -266,7 +266,8 @@ internal class TranslationsDB : ITranslationsDatabaseService {
                     continue;
                 }
                 bool got = valueTranslationMapping.TryGetValue(entry.Value.Value, out string? translation);
-                if (got && !StringHelper.IsNullOrWhiteSpaceOrEmpty(translation)) {
+                if (got
+                    && !StringHelper.IsNullOrWhiteSpaceOrEmpty(translation)) {
                     entry.Value.Translation = translation;
                 }
             }

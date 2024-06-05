@@ -148,7 +148,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void SaveCommandAction() {
-        if (this.bindingGroup != null && this.bindingGroup.CommitEdit()) {
+        if (this.bindingGroup is not null
+            && this.bindingGroup.CommitEdit()) {
             this.canCloseDialog = true;
             IDialogResult result = new DialogResult(ButtonResult.OK);
             this.Entry.ApplyChangesTo(this.original);
@@ -209,7 +210,7 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void InitBindingGroup() {
-        if (this.bindingGroup != null) {
+        if (this.bindingGroup is not null) {
             this.bindingGroup.CancelEdit();
             this.bindingGroup.BeginEdit();
         }
@@ -258,8 +259,8 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
 
     private void OnEntryChanged() {
         int lines = 3;
-        if (this.Entry != null) {
-            if (this.Entry.Value != null) {
+        if (this.Entry is not null) {
+            if (this.Entry.Value is not null) {
                 int valueLines = this.Entry.Value.Split("\n").Length;
                 if (valueLines > lines) {
                     lines = valueLines;

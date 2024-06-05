@@ -28,7 +28,8 @@ internal class Locales {
         this.LowerCaseToBuiltIn = dictionary;
     }
     public string CorrectLocaleId(string localeId) {
-        if (this.LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret) && ret != null) {
+        if (this.LowerCaseToBuiltIn.TryGetValue(localeId.ToLower(), out string? ret)
+            && ret is not null) {
             return ret;
         }
         return CultureInfoHelper.CorrectLocaleId(localeId);
@@ -119,7 +120,7 @@ internal class Locales {
             return;
         }
         if (dictionary.TryGetValue(language, out IList<CultureInfo>? cultureInfos)
-            && cultureInfos != null) {
+            && cultureInfos is not null) {
             cultureInfos.Add(culture);
         } else {
             cultureInfos = [];

@@ -159,7 +159,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected void AddToolsGroup() {
         IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<T>();
-        if (viewConfiguration != null) {
+        if (viewConfiguration is not null) {
             RibbonGroup ribbonGroup = RibbonHelper.CreateRibbonGroup(I18NRibbon.Tools, false);
             IEnumerable<object> toolsGroupItems = this.CreateToolsGroupItems();
             foreach (object toolGroupItem in toolsGroupItems) {
@@ -182,7 +182,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected void AddCountGroup() {
         IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<T>();
-        if (viewConfiguration != null) {
+        if (viewConfiguration is not null) {
             RibbonGroup ribbonGroup = RibbonHelper.CreateRibbonGroup(I18NRibbon.RowsShown, false);
             {
                 Binding textBinding = new Binding(nameof(this.ElementCount)) { Source = this, Mode = BindingMode.OneWay, StringFormat = "{0:N0}" };
@@ -196,23 +196,39 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected void AddAffectedSessionGroup() {
         IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<T>();
-        if (viewConfiguration != null) {
+        if (viewConfiguration is not null) {
             CurrentSessionInfo selectedSessionInfoGroup = this.containerProvider.Resolve<CurrentSessionInfo>();
             viewConfiguration.Tab.Items.Add(selectedSessionInfoGroup);
         }
     }
 
     protected bool MatchesKeyColumn(IAppLocFileEntry parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.Key != null && parameter.Key.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.Key is not null
+            && parameter.Key.Key.Contains(this.TextSearchContext.SearchString,
+                                          StringComparison.OrdinalIgnoreCase);
     }
     protected bool MatchesEnglishColumn(IAppLocFileEntry parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.Value != null && parameter.Value.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.Value is not null
+            && parameter.Value.Contains(this.TextSearchContext.SearchString,
+                                        StringComparison.OrdinalIgnoreCase);
     }
     protected bool MatchesMergeColumn(IAppLocFileEntry parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.ValueMerge != null && parameter.ValueMerge.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.ValueMerge is not null
+            && parameter.ValueMerge.Contains(this.TextSearchContext.SearchString,
+                                             StringComparison.OrdinalIgnoreCase);
     }
     protected bool MatchesTranslationColumn(IAppLocFileEntry parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.Translation != null && parameter.Translation.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.Translation is not null
+            && parameter.Translation.Contains(this.TextSearchContext.SearchString,
+                                              StringComparison.OrdinalIgnoreCase);
     }
 
     public override void OnNavigatedTo(NavigationContext navigationContext) {
@@ -231,8 +247,14 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected static void SetNewValue(ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> list, string? translation, IAppLocFileEntry edited) {
         foreach (KeyValuePair<string, IAppLocFileEntry> entry in list) {
-            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key.Key)
-                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value) && entry.Value.Value == edited.Value)) {
+            if ((
+                    !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key)
+                    && entry.Key == edited.Key.Key)
+                ||
+                (
+                    !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value.Value)
+                    && entry.Value.Value == edited.Value
+                )) {
                 entry.Value.Translation = translation;
             }
         }

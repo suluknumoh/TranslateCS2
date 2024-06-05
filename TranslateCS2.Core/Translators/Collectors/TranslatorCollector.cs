@@ -21,7 +21,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
     /// <inheritdoc/>
     public ITranslator? SelectedTranslator {
         get => this._SelectedTranslator;
-        set => this.SetProperty(ref this._SelectedTranslator, value, () => this.IsTranslatorSelected = this.SelectedTranslator != null);
+        set => this.SetProperty(ref this._SelectedTranslator, value, () => this.IsTranslatorSelected = this.SelectedTranslator is not null);
     }
 
 

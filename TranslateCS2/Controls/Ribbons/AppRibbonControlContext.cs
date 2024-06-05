@@ -34,7 +34,7 @@ internal class AppRibbonControlContext : BindableBase {
     }
 
     private void DeActivateRibbon(bool activate) {
-        if (this.RibbonBar != null) {
+        if (this.RibbonBar is not null) {
             App.Current.Dispatcher.Invoke(() => this.RibbonBar.IsEnabled = activate);
         }
     }

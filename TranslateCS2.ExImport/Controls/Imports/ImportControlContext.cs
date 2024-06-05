@@ -117,7 +117,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                                                                    this.dialogtitle,
                                                                    this.dialogWarningCaption,
                                                                    this.dialogWarningText);
-        if (selected != null) {
+        if (selected is not null) {
             this.SelectedPath = selected;
         }
     }

@@ -66,13 +66,25 @@ internal class ComparisonDataGridContext : BindableBase, INavigationAware {
 
 
     private bool MatchesKeyColumn(CompareExistingReadTranslation parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.Key != null && parameter.Key.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.Key is not null
+            && parameter.Key.Contains(this.TextSearchContext.SearchString,
+                                      StringComparison.OrdinalIgnoreCase);
     }
     private bool MatchesExistingColumn(CompareExistingReadTranslation parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.TranslationExisting != null && parameter.TranslationExisting.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.TranslationExisting is not null
+            && parameter.TranslationExisting.Contains(this.TextSearchContext.SearchString,
+                                                      StringComparison.OrdinalIgnoreCase);
     }
     private bool MatchesImportedColumn(CompareExistingReadTranslation parameter) {
-        return this.TextSearchContext.SearchString != null && parameter.TranslationRead != null && parameter.TranslationRead.Contains(this.TextSearchContext.SearchString, StringComparison.OrdinalIgnoreCase);
+        return
+            this.TextSearchContext.SearchString is not null
+            && parameter.TranslationRead is not null
+            && parameter.TranslationRead.Contains(this.TextSearchContext.SearchString,
+                                                  StringComparison.OrdinalIgnoreCase);
     }
 
 
@@ -80,7 +92,8 @@ internal class ComparisonDataGridContext : BindableBase, INavigationAware {
         Application.Current.Dispatcher.Invoke(() => {
             this.Preview.Clear();
             foreach (CompareExistingReadTranslation item in this.Backing) {
-                if (this.HideEqual && item.IsEqual()) {
+                if (this.HideEqual
+                    && item.IsEqual()) {
                     continue;
                 }
                 if (this.TextSearchContext.IsTextSearchMatch(item)) {

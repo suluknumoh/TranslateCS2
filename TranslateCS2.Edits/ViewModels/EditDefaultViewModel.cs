@@ -60,7 +60,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
         if (this.CurrentSession is null) {
             return;
         }
-        if (edited.KeyOrigin != null
+        if (edited.KeyOrigin is not null
             && edited.KeyOrigin != edited.Key.Key) {
             // key has changed
             // set translation to null to delete from database
@@ -95,14 +95,14 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
                 bool add = false;
                 if (this.OnlyTranslated
                     && !this.HideTranslated
-                    && entry.Value.IsTranslated
-                    ) {
+                    && entry.Value.IsTranslated) {
                     add = true;
                 } else if (!this.OnlyTranslated
-                    && !this.HideTranslated
-                    ) {
+                           && !this.HideTranslated) {
                     add = true;
-                } else if (this.HideTranslated && !this.OnlyTranslated && !entry.Value.IsTranslated) {
+                } else if (this.HideTranslated
+                           && !this.OnlyTranslated
+                           && !entry.Value.IsTranslated) {
                     add = true;
                 }
                 if (!add) {

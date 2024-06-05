@@ -29,7 +29,10 @@ public interface ITranslationSession {
     string? DisplayName { get; set; }
     ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> Localizations { get; }
     bool HasTranslationForKey(string key) {
-        return this.Localizations.Where(item => item.Value.Key.Key == key && item.Value.IsTranslated).Any();
+        return
+            this.Localizations
+                .Where(item => item.Value.Key.Key == key && item.Value.IsTranslated)
+                .Any();
     }
     void UpdateWith(ITranslationSession session);
 }

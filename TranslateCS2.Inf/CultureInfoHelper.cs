@@ -31,7 +31,7 @@ public static class CultureInfoHelper {
             } else if (HasSpecificCultures(guessedCultures)) {
                 ci = GetSpecificCultures(guessedCultures).First().Parent;
             }
-            if (ci != null) {
+            if (ci is not null) {
                 string name = ci.Name;
                 if (name.StartsWith(LangConstants.ChineseSimplified)) {
                     name = LangConstants.ChineseSimplified;

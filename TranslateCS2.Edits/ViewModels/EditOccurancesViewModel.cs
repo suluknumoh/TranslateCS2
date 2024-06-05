@@ -85,14 +85,14 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
-                && entry.IsTranslated
-                ) {
+                && entry.IsTranslated) {
                 add = true;
             } else if (!this.OnlyTranslated
-                && !this.HideTranslated
-                ) {
+                && !this.HideTranslated) {
                 add = true;
-            } else if (this.HideTranslated && !this.OnlyTranslated && !entry.IsTranslated) {
+            } else if (this.HideTranslated
+                       && !this.OnlyTranslated
+                       && !entry.IsTranslated) {
                 add = true;
             }
             if (!add) {
@@ -115,8 +115,7 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
                 (
                     !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)
                     && entry.Value == edited.Value
-                )
-            ) {
+                )) {
                 entry.Translation = translation;
             }
         }

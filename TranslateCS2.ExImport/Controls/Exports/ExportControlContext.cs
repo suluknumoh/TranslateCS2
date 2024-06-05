@@ -144,7 +144,7 @@ internal class ExportControlContext : ABaseViewModel {
                                                                    StringHelper.GetNullForEmpty(this.SelectedFileNameProposal),
                                                                    this.dialogWarningCaption,
                                                                    this.dialogWarningText);
-        if (selected != null) {
+        if (selected is not null) {
             this.SelectedPath = selected;
         }
     }
@@ -156,7 +156,7 @@ internal class ExportControlContext : ABaseViewModel {
         }
         switch (this.SelectedExportFormat.Format) {
             case Models.ExportFormats.JSON:
-                this.IsExportButtonEnabled = this.SelectedPath != null;
+                this.IsExportButtonEnabled = this.SelectedPath is not null;
                 this.IsAddKeyEnabled = true;
                 this.IsAddMergeValuesEnabled = true;
                 break;
@@ -208,12 +208,13 @@ internal class ExportControlContext : ABaseViewModel {
         string? selectedFileNameProposal = this.SelectedFileNameProposal;
         this.FileNameProposals.Clear();
         IEnumerable<CultureInfo>? guessedCultures = CultureInfoHelper.GatherCulturesFromEnglishName(this.SessionManager.CurrentTranslationSession?.LocNameEnglish);
-        if (guessedCultures != null) {
+        if (guessedCultures is not null) {
             foreach (CultureInfo guessedCulture in guessedCultures) {
                 this.FileNameProposals.Add($"{guessedCulture.Name}{ModConstants.JsonExtension}");
             }
         }
-        if (selectedFileNameProposal != null && this.FileNameProposals.Contains(selectedFileNameProposal)) {
+        if (selectedFileNameProposal is not null
+            && this.FileNameProposals.Contains(selectedFileNameProposal)) {
             this.SelectedFileNameProposal = selectedFileNameProposal;
         } else {
             this.SelectedFileNameProposal = null;
@@ -228,7 +229,7 @@ internal class ExportControlContext : ABaseViewModel {
         ArgumentNullException.ThrowIfNull(session);
         Dictionary<string, string> dictionary = [];
         if (this.IsAddKey
-            && session.Name != null
+            && session.Name is not null
             && !StringHelper.IsNullOrWhiteSpaceOrEmpty(session.Name)) {
             dictionary.Add(ModConstants.LocaleNameLocalizedKey, session.Name);
         }

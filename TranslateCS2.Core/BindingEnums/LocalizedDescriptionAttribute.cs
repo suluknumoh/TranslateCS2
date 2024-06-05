@@ -19,7 +19,7 @@ public class LocalizedDescriptionAttribute : DescriptionAttribute {
     public override string Description {
         get {
             string? description = this.resourceManager.GetString(this.resourceKey);
-            if (description != null
+            if (description is not null
                 && !StringHelper.IsNullOrWhiteSpaceOrEmpty(description)) {
                 return description;
             }

@@ -79,7 +79,7 @@ internal class ModLogger : IMyLogger {
         StringBuilder messageBuilder = new StringBuilder();
         messageBuilder.AppendLine(preFormat);
         messageBuilder.AppendLine(message);
-        if (messageParameters != null) {
+        if (messageParameters is not null) {
             foreach (object? parameter in messageParameters) {
                 if (parameter is null) {
                     continue;

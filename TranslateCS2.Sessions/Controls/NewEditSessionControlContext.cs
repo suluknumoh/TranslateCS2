@@ -89,7 +89,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     private void CancelAction() {
         this.callbackAfter?.Invoke();
-        if (this.newSessionBindingGroup != null) {
+        if (this.newSessionBindingGroup is not null) {
             this.newSessionBindingGroup.CancelEdit();
         }
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
@@ -111,7 +111,8 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         }
     }
     private void SaveAction() {
-        if (this.newSessionBindingGroup != null && this.newSessionBindingGroup.CommitEdit()) {
+        if (this.newSessionBindingGroup is not null
+            && this.newSessionBindingGroup.CommitEdit()) {
             if (this.IsEdit) {
                 this.SessionManager.UpdateCurrentWith(this.Session);
             } else {
@@ -143,7 +144,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     private void InitNewSession() {
-        if (this.newSessionBindingGroup != null) {
+        if (this.newSessionBindingGroup is not null) {
             this.newSessionBindingGroup.CancelEdit();
             if (this.IsEdit) {
                 this.Session = this.SessionManager.CloneCurrent();

@@ -225,7 +225,7 @@ internal class MyLanguages {
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
-                                                              [nameof(ReLoad), ex, language, translationFile]);
+                                                  [nameof(ReLoad), ex, language, translationFile]);
         }
     }
 
@@ -270,7 +270,8 @@ internal class MyLanguages {
         return null;
     }
     public MyLanguage? GetLanguage(SystemLanguage systemLanguage) {
-        if (this.LanguageDictionary.TryGetValue(systemLanguage, out MyLanguage? language) && language != null) {
+        if (this.LanguageDictionary.TryGetValue(systemLanguage, out MyLanguage? language)
+            && language is not null) {
             return language;
         }
         return null;

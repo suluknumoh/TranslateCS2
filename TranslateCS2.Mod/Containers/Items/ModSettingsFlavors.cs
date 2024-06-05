@@ -42,7 +42,7 @@ internal partial class ModSettings {
     public Dictionary<SystemLanguage, string> FlavorsSetted {
         get => this._FlavorsSetted;
         set {
-            if (value != null) {
+            if (value is not null) {
                 this._FlavorsSetted = value;
             }
         }

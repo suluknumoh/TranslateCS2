@@ -16,17 +16,17 @@ public class CS2PathsHelper {
 
     public static string? GetStreamingDataPathFromProps() {
         string? managedPath = Environment.GetEnvironmentVariable(EnvVariableNameManagedPath, EnvironmentVariableTarget.User);
-        if (managedPath != null
+        if (managedPath is not null
             && ExistsFileInPath(managedPath, GameDll)) {
             string managedPathJustified = JustifyPath(managedPath);
             return Paths.NormalizeUnix(managedPathJustified);
         }
         string? toolPath = Environment.GetEnvironmentVariable(EnvVariableNameToolPath, EnvironmentVariableTarget.User);
-        if (toolPath != null
+        if (toolPath is not null
             && ExistsFileInPath(toolPath, ModProps)) {
             string modProps = Path.Combine(toolPath, ModProps);
             string? steamDefaultManagedPath = GetPropertyValueFromXml(modProps, ".//SteamDefaultManagedPath");
-            if (steamDefaultManagedPath != null
+            if (steamDefaultManagedPath is not null
                 && ExistsFileInPath(steamDefaultManagedPath, GameDll)) {
                 string steamDefaultManagedPathJustified = JustifyPath(steamDefaultManagedPath);
                 return Paths.NormalizeUnix(steamDefaultManagedPathJustified);

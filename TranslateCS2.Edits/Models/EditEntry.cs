@@ -27,7 +27,8 @@ internal class EditEntry {
                         throw new Exception(I18NEdits.InputWarningKeyDuplicate);
                     } else if (IndexCountHelper.IndexMatcher.IsMatch(work)) {
                         IndexCountHelperValidationResult? result = this.sessionManager.IsIndexKeyValid(work, this.KeyOrigin);
-                        if (result != null && !result.IsValid) {
+                        if (result is not null
+                            && !result.IsValid) {
                             throw new Exception(String.Format(I18NEdits.InputWarningKeyIndex, result.NextFreeIndex));
                         }
                     }

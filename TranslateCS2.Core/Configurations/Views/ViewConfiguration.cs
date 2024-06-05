@@ -41,9 +41,10 @@ internal class ViewConfiguration<V, VM> : IViewConfiguration {
         this.Tab = new RibbonTab {
             Header = label
         };
-        if (isUseableWithoutSessions && isUseableWithDatabaseErrors) {
+        if (isUseableWithoutSessions
+            && isUseableWithDatabaseErrors) {
             this.Tab.IsEnabled = true;
-        } else if (translationSessionManager != null) {
+        } else if (translationSessionManager is not null) {
             MultiBinding multiBinding = new MultiBinding {
                 NotifyOnSourceUpdated = true,
                 Converter = new MyMultiValueConverter()

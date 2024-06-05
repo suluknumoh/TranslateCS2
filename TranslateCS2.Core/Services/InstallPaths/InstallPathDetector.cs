@@ -52,7 +52,8 @@ internal class InstallPathDetector : IInstallPathDetector {
             if (line.Contains($"\"{this.appid}\"")) {
                 start = true;
             }
-            if (start && line.Contains("\"Path\"", StringComparison.OrdinalIgnoreCase)) {
+            if (start
+                && line.Contains("\"Path\"", StringComparison.OrdinalIgnoreCase)) {
                 return EaseLine(line.Replace("\"Path\"", String.Empty, StringComparison.OrdinalIgnoreCase));
             }
         }
