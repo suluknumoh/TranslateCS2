@@ -53,13 +53,9 @@ internal partial class ModSettings {
             SystemLanguage systemLanguage = languageEntry.Key;
             MyLanguage language = languageEntry.Value;
             string propertyName = GetFlavorLangPropertyName(systemLanguage);
-            MyFlavorDropDownSettingProperty property = new MyFlavorDropDownSettingProperty(language,
-                                                                                           this,
-                                                                                           propertyName);
-            MyFlavorDropDownSettingItemData item = new MyFlavorDropDownSettingItemData(this.runtimeContainer,
-                                                                                       property,
-                                                                                       this,
-                                                                                       language);
+            MyFlavorDropDownSettingItemData item = MyFlavorDropDownSettingItemData.Create(language,
+                                                                                          this,
+                                                                                          propertyName);
             pageData[ModSettings.Section].AddItem(item);
         }
     }

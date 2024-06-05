@@ -118,7 +118,8 @@ internal class Locales {
         if (StringHelper.IsNullOrWhiteSpaceOrEmpty(culture.Name)) {
             return;
         }
-        if (dictionary.TryGetValue(language, out IList<CultureInfo>? cultureInfos) && cultureInfos != null) {
+        if (dictionary.TryGetValue(language, out IList<CultureInfo>? cultureInfos)
+            && cultureInfos != null) {
             cultureInfos.Add(culture);
         } else {
             cultureInfos = [];

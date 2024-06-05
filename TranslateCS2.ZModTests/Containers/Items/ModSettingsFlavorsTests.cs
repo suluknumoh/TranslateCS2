@@ -53,6 +53,8 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
             myItem.UpdateWidget();
             // after the dropdown is updated,
             // it has DropDownItem's we can check againts languages flavorcount
+            Assert.False(myItem.IsHidden());
+            Assert.False(myItem.IsDisabled());
             int expectedDropDownItemCount = language.FlavorCount;
             if (language.IsBuiltIn) {
                 // builtins also should have an extra entry 'none'

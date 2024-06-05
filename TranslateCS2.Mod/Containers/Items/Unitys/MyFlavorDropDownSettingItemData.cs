@@ -1,21 +1,17 @@
 using System;
 
-using Game.Settings;
 using Game.UI.Menu;
 using Game.UI.Widgets;
 
 
 namespace TranslateCS2.Mod.Containers.Items.Unitys;
 internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemData {
-    private readonly IModRuntimeContainer runtimeContainer;
     public MyLanguage Language { get; }
-    public MyFlavorDropDownSettingItemData(IModRuntimeContainer runtimeContainer,
-                                           MyFlavorDropDownSettingProperty property,
-                                           Setting setting,
-                                           MyLanguage language) : base(AutomaticSettings.WidgetType.StringDropdown,
-                                                                       setting,
-                                                                       property) {
-        this.runtimeContainer = runtimeContainer;
+    private MyFlavorDropDownSettingItemData(MyFlavorDropDownSettingProperty property,
+                                            ModSettings modSettings,
+                                            MyLanguage language) : base(AutomaticSettings.WidgetType.StringDropdown,
+                                                                        modSettings,
+                                                                        property) {
         this.Language = language;
         this.hideAction = this.IsHidden;
         this.disableAction = this.IsDisabled;
@@ -74,5 +70,16 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
         // TODO: WWW-2: this mod can hold the instance of the single drop down
         // TODO: WWW-3: Game.UI.Widgets.DropdownField<T>.itemsVersion
         // TODO: WWW-4: is a function, that is called while updating, does it trigger something to refresh???
+    }
+    public static MyFlavorDropDownSettingItemData Create(MyLanguage language,
+                                                         ModSettings modSettings,
+                                                         string propertyName) {
+        MyFlavorDropDownSettingProperty property = new MyFlavorDropDownSettingProperty(language,
+                                                                                       modSettings,
+                                                                                       propertyName);
+        MyFlavorDropDownSettingItemData item = new MyFlavorDropDownSettingItemData(property,
+                                                                                   modSettings,
+                                                                                   language);
+        return item;
     }
 }
