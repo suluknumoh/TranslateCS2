@@ -7,8 +7,8 @@ using Colossal;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
 using TranslateCS2.ZZZTestLib.Services.Localizations;
 
@@ -19,7 +19,7 @@ public class TranslationFileTests : AProvidesTestDataOk {
     public TranslationFileTests(TestDataProvider testDataProvider) : base(testDataProvider) { }
     [Fact]
     public void ReadEntriesTest() {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsFlavorsTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<TranslationFileTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
 
@@ -58,5 +58,38 @@ public class TranslationFileTests : AProvidesTestDataOk {
 
         Assert.NotEmpty(indexCountsToFill);
         Assert.Equal(locFile.Source.IndexCounts, indexCountsToFill);
+    }
+    [Fact]
+    public void AddLocaleNameLocalizedKeyTest() {
+        TestDataProvider dataProviderLocal = new TestDataProvider {
+            DirectoryName = nameof(AddLocaleNameLocalizedKeyTest)
+        };
+        try {
+            dataProviderLocal.GenerateData(true, true);
+            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<TranslationFileTests>();
+            ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
+                                                                                      userDataPath: dataProviderLocal.DirectoryName);
+            runtimeContainer.Init();
+            MyLanguages myLanguages = runtimeContainer.Languages;
+            IEnumerable<MyLanguage> languages = myLanguages.LanguageDictionary.Values;
+            foreach (MyLanguage language in languages) {
+                IList<TranslationFile> translationFiles = language.Flavors;
+                foreach (TranslationFile translationFile in translationFiles) {
+                    // generate data adds the "LocaleNameLocalizedKey"
+                    // with the translation files name (without path and without extension)
+                    // to the testdata
+                    // what should cause the localized name to be equal to the id
+                    if (language.IsBuiltIn) {
+                        // ignore case for built-in
+                        // example: zh-HANT vs zh-Hant
+                        Assert.Equal(translationFile.Id, translationFile.Name, true);
+                    } else {
+                        Assert.Equal(translationFile.Id, translationFile.Name);
+                    }
+                }
+            }
+        } finally {
+            dataProviderLocal.Dispose();
+        }
     }
 }

@@ -9,12 +9,24 @@ namespace TranslateCS2.ZModTests.TestHelpers;
 internal class JSONGenerator {
     private readonly int randomCounter = 0;
     private bool addRandom => this.randomCounter > 0;
+    private readonly bool addKey;
     public string Destination;
     public int EntryCountPerFile { get; private set; }
+    /// <param name="destination">
+    ///     path to a directory where the jsons are going to be created
+    /// </param>
+    /// <param name="randomCounter">
+    ///     a <see langword="value"/> greater than zero adds an additional key "This.Is.Just.A.Random.Key" with <paramref name="randomCounter"/>s <see langword="value"/>
+    /// </param>
+    /// <param name="addKey">
+    ///     <see langword="true"/>, to add <see cref="ModConstants.LocaleNameLocalizedKey"/> with the respective filename (without path and without extension)
+    /// </param>
     public JSONGenerator(string destination,
-                         int randomCounter = 0) {
+                         int randomCounter = 0,
+                         bool addKey = false) {
         this.Destination = destination;
         this.randomCounter = randomCounter;
+        this.addKey = addKey;
     }
     /// <summary>
     ///     generates localization JSONs in the given <see cref="Destination"/>
@@ -57,6 +69,12 @@ internal class JSONGenerator {
                                  ok,
                                  "This.Is.Just.A.Random.Key",
                                  this.randomCounter.ToString("D0"));
+            }
+            if (this.addKey) {
+                this.AppendEntry(builder,
+                                 ok,
+                                 ModConstants.LocaleNameLocalizedKey,
+                                 supportedLocale.Name);
             }
             if (false) {
                 // just a template...

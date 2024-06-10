@@ -23,24 +23,26 @@ public class TestDataProvider : IDisposable {
     public TestDataProvider() {
         this.DirectoryName = nameof(TestDataProvider);
     }
-    public void GenerateData(bool force = false) {
+    public void GenerateData(bool overwriteExisting = false,
+                             bool addKey = false) {
         if (this.generated
-            && !force) {
+            && !overwriteExisting) {
             return;
         }
         this.randomCounter++;
-        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific, this.randomCounter);
+        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific, this.randomCounter, addKey);
         generator.Generate(true, true);
         this.EntryCountPerFile = generator.EntryCountPerFile;
         this.generated = true;
     }
-    public void GenerateCorruptData(bool force = false) {
+    public void GenerateCorruptData(bool overwriteExisting = false,
+                                    bool addKey = false) {
         if (this.generated
-            && !force) {
+            && !overwriteExisting) {
             return;
         }
         this.randomCounter++;
-        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific, this.randomCounter);
+        JSONGenerator generator = new JSONGenerator(this.DataDirectorySpecific, this.randomCounter, addKey);
         generator.Generate(false, true);
         this.EntryCountPerFile = generator.EntryCountPerFile;
         this.generated = true;
