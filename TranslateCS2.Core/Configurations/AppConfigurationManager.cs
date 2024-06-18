@@ -56,11 +56,11 @@ public static class AppConfigurationManager {
     // TODO: AAA-1: is there a way to autodetect locations via registry? on the other hand, a manual selection is going to be implemented
     public static string BasicGamePassLocation { get; } = "C:\\XboxGames\\Cities- Skylines II - PC Edition\\Content";
     public static string CitiesExe { get; } = "Cities2.exe";
+    public static TimeSpan MaxWaitOnRestart { get; } = TimeSpan.FromMinutes(1);
 
 
 
     public static string DatabaseConnectionString { get; } = $"Data Source=./{DatabaseName};Pooling=False";
 
     public static string DatabaseConnectionStringDebug { get; } = $"Data Source=../../../../../../{DatabaseName};Pooling=False";
-
 }
