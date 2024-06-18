@@ -24,13 +24,13 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.ExImport.Controls.Imports;
 
 internal class ImportControlContext : BindableBase, INavigationAware {
-    private readonly IViewConfigurations _viewConfigurations;
-    private readonly ExImportService _exportImportService;
-    private readonly IDialogService _dialogService;
-    private readonly ITranslationsDatabaseService _db;
-    private readonly string _dialogtitle = I18NImport.DialogTitle;
-    private readonly string _dialogWarningCaption = I18NImport.DialogWarningCaption;
-    private readonly string _dialogWarningText = I18NImport.DialogWarningText;
+    private readonly IViewConfigurations viewConfigurations;
+    private readonly ExImportService exportImportService;
+    private readonly IDialogService dialogService;
+    private readonly ITranslationsDatabaseService db;
+    private readonly string dialogtitle = I18NImport.DialogTitle;
+    private readonly string dialogWarningCaption = I18NImport.DialogWarningCaption;
+    private readonly string dialogWarningText = I18NImport.DialogWarningText;
 
 
     public ComparisonDataGridContext CDGContext { get; }
@@ -96,11 +96,11 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                                 ExImportService exportService,
                                 IDialogService dialogService,
                                 ITranslationsDatabaseService db) {
-        this._viewConfigurations = viewConfigurations;
+        this.viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
-        this._exportImportService = exportService;
-        this._dialogService = dialogService;
-        this._db = db;
+        this.exportImportService = exportService;
+        this.dialogService = dialogService;
+        this.db = db;
         this.CDGContext = new ComparisonDataGridContext();
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ReadCommand = new DelegateCommand(this.ReadCommandAction);
@@ -114,10 +114,10 @@ internal class ImportControlContext : BindableBase, INavigationAware {
 
     private void SelectPathCommandAction() {
         string? selected = ImExportDialogHelper.ShowOpenFileDialog(this.SelectedPath,
-                                                                   this._dialogtitle,
-                                                                   this._dialogWarningCaption,
-                                                                   this._dialogWarningText);
-        if (selected != null) {
+                                                                   this.dialogtitle,
+                                                                   this.dialogWarningCaption,
+                                                                   this.dialogWarningText);
+        if (selected is not null) {
             this.SelectedPath = selected;
         }
     }
@@ -129,14 +129,14 @@ internal class ImportControlContext : BindableBase, INavigationAware {
 
 
     private async void ReadCommandAction() {
-        this._viewConfigurations.DeActivateRibbon?.Invoke(false);
+        this.viewConfigurations.DeActivateRibbon?.Invoke(false);
         this.Disable(true);
         this.CDGContext.Clear();
         this.RaisePropertyChanged(nameof(this.CDGContext));
         this.InfoMessageColor = Brushes.Black;
         this.InfoMessage = I18NImport.MessageRead;
         try {
-            List<CompareExistingReadTranslation> preview = await this._exportImportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
+            List<CompareExistingReadTranslation> preview = await this.exportImportService.ReadToReview(this.SessionManager.CurrentTranslationSession,
                                                                                                         this.SelectedPath);
             if (false) {
                 preview.RemoveAll(i => i.IsEqual());
@@ -154,7 +154,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
             this.InfoMessage = I18NImport.MessageReadFail;
             this.Disable(false);
         }
-        this._viewConfigurations.DeActivateRibbon?.Invoke(true);
+        this.viewConfigurations.DeActivateRibbon?.Invoke(true);
     }
 
     private async void ImportCommandAction() {
@@ -169,9 +169,9 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.InfoMessageColor = Brushes.Black;
                 this.InfoMessage = I18NGlobal.MessageDatabaseBackUp;
                 this.Disable(true);
-                this._viewConfigurations.DeActivateRibbon?.Invoke(false);
-                this._db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
-                this._exportImportService.HandleRead(this.CDGContext.GetItems(),
+                this.viewConfigurations.DeActivateRibbon?.Invoke(false);
+                this.db.BackUpIfExists(DatabaseBackUpIndicators.BEFORE_IMPORT);
+                this.exportImportService.HandleRead(this.CDGContext.GetItems(),
                                                      this.SessionManager.CurrentTranslationSession,
                                                      this.CDGContext.ImportMode);
                 this.InfoMessageColor = Brushes.Black;
@@ -182,7 +182,7 @@ internal class ImportControlContext : BindableBase, INavigationAware {
                 this.InfoMessage = I18NImport.MessageImportSuccess;
                 this.CDGContext.Clear();
                 this.Enable(true);
-                this._viewConfigurations.DeActivateRibbon?.Invoke(true);
+                this.viewConfigurations.DeActivateRibbon?.Invoke(true);
             });
         }
     }
@@ -194,10 +194,10 @@ internal class ImportControlContext : BindableBase, INavigationAware {
         };
         if (false) {
             // non-modal/non-blocking dialog
-            this._dialogService.Show(nameof(ImportComparisonView), dialogParameters, this.OnDialogClosed);
+            this.dialogService.Show(nameof(ImportComparisonView), dialogParameters, this.OnDialogClosed);
         } else {
             // modal/blocking dialog
-            this._dialogService.ShowDialog(nameof(ImportComparisonView), dialogParameters, this.OnDialogClosed);
+            this.dialogService.ShowDialog(nameof(ImportComparisonView), dialogParameters, this.OnDialogClosed);
         }
     }
 

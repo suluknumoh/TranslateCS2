@@ -18,8 +18,8 @@ using TranslateCS2.Sessions.Properties.I18N;
 
 namespace TranslateCS2.Sessions.Controls;
 internal class NewEditSessionControlContext : BindableBase, INavigationAware {
-    private readonly IRegionManager _regionManager;
-    private bool _isLoaded = false;
+    private readonly IRegionManager regionManager;
+    private bool isLoaded = false;
 
 
     private bool _isEdit = false;
@@ -31,7 +31,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public delegate void CallBackAfter();
 
-    private CallBackAfter? _callbackEnd;
+    private CallBackAfter? callbackAfter;
 
 
     private string? _ActionString;
@@ -43,12 +43,10 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public ObservableCollection<string> Merges { get; } = [];
 
-    public ObservableCollection<string> Overwrites { get; } = [];
-
     public ObservableCollection<CultureInfo> CultureInfos { get; } = [];
 
 
-    private BindingGroup? _newSessionBindingGroup;
+    private BindingGroup? newSessionBindingGroup;
 
 
     private ITranslationSession? _NewSession;
@@ -68,7 +66,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
 
     public NewEditSessionControlContext(IRegionManager regionManager,
                                         ITranslationSessionManager translationSessionManager) {
-        this._regionManager = regionManager;
+        this.regionManager = regionManager;
         this.CreateNewTranslationSessionGridLoaded = new DelegateCommand<RoutedEventArgs>(this.CreateNewTranslationSessionGridLoadedAction);
         this.LocaleENChanged = new DelegateCommand<SelectionChangedEventArgs>(this.LocaleENChangedAction);
         this.LocaleNativeChanged = new DelegateCommand<SelectionChangedEventArgs>(this.LocaleNativeChangedAction);
@@ -76,7 +74,7 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
         this.Save = new DelegateCommand(this.SaveAction);
         this.Cancel = new DelegateCommand(this.CancelAction);
         this.SessionManager = translationSessionManager;
-        this.InitMergesOverwrites();
+        this.InitMerges();
         this.InitCultureInfos();
     }
 
@@ -86,38 +84,35 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     }
 
     private void FileComboBoxSelectionChangedCommandAction() {
-        this._newSessionBindingGroup?.UpdateSources();
+        this.newSessionBindingGroup?.UpdateSources();
     }
 
     private void CancelAction() {
-        this._callbackEnd?.Invoke();
-        if (this._newSessionBindingGroup != null) {
-            this._newSessionBindingGroup.CancelEdit();
+        this.callbackAfter?.Invoke();
+        if (this.newSessionBindingGroup is not null) {
+            this.newSessionBindingGroup.CancelEdit();
         }
         string? regionName = AppConfigurationManager.AppNewEditSessionRegion;
-        this._regionManager.Regions[regionName].RemoveAll();
+        this.regionManager.Regions[regionName].RemoveAll();
     }
 
-    private void InitMergesOverwrites() {
+    private void InitMerges() {
         IEnumerable<FileInfo> localizationFiles = this.SessionManager.LocalizationFiles;
-        this.Overwrites.Add(AppConfigurationManager.NoneOverwrite);
         foreach (FileInfo file in localizationFiles) {
             this.Merges.Add(file.Name);
-            if (file.Name != AppConfigurationManager.LeadingLocFileName) {
-                this.Overwrites.Add(file.Name);
-            }
         }
     }
 
     private void CreateNewTranslationSessionGridLoadedAction(RoutedEventArgs e) {
         if (e.Source is Grid grid) {
-            this._newSessionBindingGroup = grid.BindingGroup;
+            this.newSessionBindingGroup = grid.BindingGroup;
             this.InitNewSession();
-            this._isLoaded = true;
+            this.isLoaded = true;
         }
     }
     private void SaveAction() {
-        if (this._newSessionBindingGroup != null && this._newSessionBindingGroup.CommitEdit()) {
+        if (this.newSessionBindingGroup is not null
+            && this.newSessionBindingGroup.CommitEdit()) {
             if (this.IsEdit) {
                 this.SessionManager.UpdateCurrentWith(this.Session);
             } else {
@@ -141,49 +136,48 @@ internal class NewEditSessionControlContext : BindableBase, INavigationAware {
     public void OnNavigatedTo(NavigationContext navigationContext) {
         SessionActions? action = navigationContext.Parameters.GetValue<SessionActions?>(nameof(SessionActions));
         this.IsEdit = SessionActions.Edit == action;
-        this._callbackEnd = navigationContext.Parameters.GetValue<CallBackAfter>(nameof(CallBackAfter));
-        if (!this._isLoaded) {
+        this.callbackAfter = navigationContext.Parameters.GetValue<CallBackAfter>(nameof(CallBackAfter));
+        if (!this.isLoaded) {
             return;
         }
         this.InitNewSession();
     }
 
     private void InitNewSession() {
-        if (this._newSessionBindingGroup != null) {
-            this._newSessionBindingGroup.CancelEdit();
+        if (this.newSessionBindingGroup is not null) {
+            this.newSessionBindingGroup.CancelEdit();
             if (this.IsEdit) {
-                this.Session = this.SessionManager.CloneCurrent(false);
+                this.Session = this.SessionManager.CloneCurrent();
                 this.ActionString = I18NSessions.DoEdit.Replace("\r\n", " ");
             } else {
                 this.Session = this.SessionManager.GetNewTranslationSession();
-                this.Session.OverwriteLocalizationFileName = AppConfigurationManager.NoneOverwrite;
                 this.ActionString = I18NSessions.DoCreate.Replace("\r\n", " ");
             }
-            this._newSessionBindingGroup.BeginEdit();
+            this.newSessionBindingGroup.BeginEdit();
         }
     }
 
     private void LocaleENChangedAction(SelectionChangedEventArgs args) {
-        if (this.Session == null) {
+        if (this.Session is null) {
             return;
         }
-        if (args.AddedItems == null || args.AddedItems.Count == 0) {
+        if (args.AddedItems is null || args.AddedItems.Count == 0) {
             return;
         }
         if (args.AddedItems[0] is CultureInfo cultureInfo) {
-            this.Session.OverwriteLocalizationNameLocalized = cultureInfo.NativeName;
+            this.Session.LocName = cultureInfo.NativeName;
         }
     }
     private void LocaleNativeChangedAction(SelectionChangedEventArgs args) {
-        if (this.Session == null) {
+        if (this.Session is null) {
             return;
         }
-        if (args.AddedItems == null || args.AddedItems.Count == 0) {
+        if (args.AddedItems is null || args.AddedItems.Count == 0) {
             return;
         }
-        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Session.OverwriteLocalizationNameEN)
+        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Session.LocNameEnglish)
             && args.AddedItems[0] is CultureInfo cultureInfo) {
-            this.Session.OverwriteLocalizationNameEN = cultureInfo.EnglishName;
+            this.Session.LocNameEnglish = cultureInfo.EnglishName;
         }
     }
 }

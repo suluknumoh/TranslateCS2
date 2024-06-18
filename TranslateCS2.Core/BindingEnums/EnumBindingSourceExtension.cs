@@ -5,18 +5,18 @@ namespace TranslateCS2.Core.BindingEnums;
 /// <seealso href="https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/"/>
 /// <seealso href="https://github.com/brianlagunas/BindingEnumsInWpf"/>
 public class EnumBindingSourceExtension : MarkupExtension {
-    private Type? _enumType;
+    private Type? enumType;
     public Type? EnumType {
-        get => this._enumType;
+        get => this.enumType;
         set {
-            if (value != this._enumType) {
+            if (value != this.enumType) {
                 if (null != value) {
                     Type enumType = Nullable.GetUnderlyingType(value) ?? value;
                     if (!enumType.IsEnum) {
                         throw new ArgumentException("Type must be for an Enum.");
                     }
                 }
-                this._enumType = value;
+                this.enumType = value;
             }
         }
     }
@@ -28,14 +28,14 @@ public class EnumBindingSourceExtension : MarkupExtension {
     }
 
     public override object? ProvideValue(IServiceProvider? serviceProvider) {
-        if (null == this._enumType) {
+        if (null == this.enumType) {
             throw new InvalidOperationException("The EnumType must be specified.");
         }
 
-        Type actualEnumType = Nullable.GetUnderlyingType(this._enumType) ?? this._enumType;
+        Type actualEnumType = Nullable.GetUnderlyingType(this.enumType) ?? this.enumType;
         Array enumValues = Enum.GetValues(actualEnumType);
 
-        if (actualEnumType == this._enumType) {
+        if (actualEnumType == this.enumType) {
             return enumValues;
         }
 

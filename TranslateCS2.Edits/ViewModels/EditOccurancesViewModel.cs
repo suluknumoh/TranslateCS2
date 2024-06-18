@@ -7,13 +7,14 @@ using Prism.Ioc;
 using Prism.Services.Dialogs;
 
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Inf;
 
 namespace TranslateCS2.Edits.ViewModels;
 
 internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel> {
-    private readonly List<ILocalizationEntry> _entries = [];
+    private readonly List<IAppLocFileEntry> entries = [];
     public EditOccurancesViewModel(IContainerProvider containerProvider,
                                    IViewConfigurations viewConfigurations,
                                    ITranslationSessionManager translationSessionManager,
@@ -24,12 +25,12 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         this.AddToolsGroup();
         this.AddCountGroup();
         this.AddAffectedSessionGroup();
-        this.TextSearchContext.Columns.AddRange(this._columnsSearchAble.Skip(1));
+        this.TextSearchContext.Columns.AddRange(this.columnsSearchAble.Skip(1));
         this.TextSearchContext.OnSearch += this.RefreshViewList;
     }
 
     protected override void CellEditEndingCommandAction(DataGridCellEditEndingEventArgs args) {
-        if (args.Row.Item is not ILocalizationEntry edited) {
+        if (args.Row.Item is not IAppLocFileEntry edited) {
             return;
         }
         if (args.EditingElement is not TextBox textBox) {
@@ -38,17 +39,16 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         this.Save(textBox.Text.Trim(), edited);
     }
 
-    protected override void Save(string? translation, ILocalizationEntry edited) {
+    protected override void Save(string? translation, IAppLocFileEntry edited) {
         if (this.CurrentSession is null) {
             return;
         }
-        SetNewValue(this.CurrentSession.Localizations, translation, edited);
+        base.SetNewValue(this.CurrentSession.Localizations, translation, edited);
         this.SetNewValue(translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
             // see xaml-code
         }
-        this.RefreshViewList();
     }
 
     protected override IEnumerable<object> CreateToolsGroupItems() {
@@ -57,34 +57,41 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
 
     protected override void RefreshViewList() {
         this.Mapping.Clear();
-        this._entries.Clear();
-        if (this.CurrentSession == null || this.CurrentSession.Localizations == null) {
+        this.entries.Clear();
+        if (this.CurrentSession is null
+            || this.CurrentSession.Localizations is null) {
             return;
         }
-        IEnumerable<IGrouping<string, ILocalizationEntry>> groups = this.CurrentSession.Localizations.GroupBy(entry => entry.Value);
-        foreach (IGrouping<string, ILocalizationEntry> group in groups) {
-            ILocalizationEntry entry = new LocalizationEntry(null, group.First().Value, null, false);
-            this._entries.Add(entry);
-            foreach (ILocalizationEntry groupItem in group) {
-                entry.AddKey(groupItem.Key);
+        IEnumerable<IGrouping<string, IAppLocFileEntry>> groups =
+            this.CurrentSession.Localizations
+                .Select(item => item.Value)
+                .GroupBy(entry => entry.Value);
+        foreach (IGrouping<string, IAppLocFileEntry> group in groups) {
+            IAppLocFileEntry entry = AppLocFileEntryFactory.Create(null,
+                                                                   group.Key,
+                                                                   null,
+                                                                   null,
+                                                                   false);
+            this.entries.Add(entry);
+            foreach (IAppLocFileEntry groupItem in group) {
+                entry.AddKey(groupItem.Key.Key);
                 entry.ValueMerge = groupItem.ValueMerge;
-                entry.ValueMergeLanguageCode = groupItem.ValueMergeLanguageCode;
                 entry.Translation = groupItem.Translation;
             }
         }
 
-        foreach (ILocalizationEntry entry in this._entries) {
+        foreach (IAppLocFileEntry entry in this.entries) {
             bool add = false;
             if (this.OnlyTranslated
                 && !this.HideTranslated
-                && entry.IsTranslated
-                ) {
+                && entry.IsTranslated) {
                 add = true;
             } else if (!this.OnlyTranslated
-                && !this.HideTranslated
-                ) {
+                && !this.HideTranslated) {
                 add = true;
-            } else if (this.HideTranslated && !this.OnlyTranslated && !entry.IsTranslated) {
+            } else if (this.HideTranslated
+                       && !this.OnlyTranslated
+                       && !entry.IsTranslated) {
                 add = true;
             }
             if (!add) {
@@ -97,10 +104,17 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         }
         base.RefreshViewList();
     }
-    private void SetNewValue(string? translation, ILocalizationEntry edited) {
-        foreach (ILocalizationEntry entry in this._entries) {
-            if ((!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key) && entry.Key == edited.Key)
-                || (!StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value) && entry.Value == edited.Value)) {
+    private void SetNewValue(string? translation, IAppLocFileEntry edited) {
+        foreach (IAppLocFileEntry entry in this.entries) {
+            if ((
+                    !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key.Key)
+                    && entry.Key.Key == edited.Key.Key
+                )
+                ||
+                (
+                    !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Value)
+                    && entry.Value == edited.Value
+                )) {
                 entry.Translation = translation;
             }
         }

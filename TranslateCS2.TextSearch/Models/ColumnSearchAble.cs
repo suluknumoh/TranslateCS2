@@ -29,6 +29,8 @@ public class ColumnSearchAble<T> : BindableBase {
         if (this.Matcher is null) {
             return false;
         }
-        return this.IsChecked && this.Matcher.Invoke(param);
+        return
+            this.IsChecked
+            && this.Matcher.Invoke(param);
     }
 }

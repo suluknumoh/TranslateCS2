@@ -13,7 +13,7 @@ using TranslateCS2.Core.ViewModels;
 namespace TranslateCS2.ViewModels.Works;
 
 internal class StartViewModel : ABaseViewModel {
-    private readonly ILatestVersionCheckService _latestVersionCheckService;
+    private readonly ILatestVersionCheckService latestVersionCheckService;
     public ITranslationSessionManager SessionManager { get; }
     public string? Doc { get; private set; }
     public MarkdownPipeline? Pipeline { get; private set; }
@@ -22,14 +22,14 @@ internal class StartViewModel : ABaseViewModel {
     public StartViewModel(ITranslationSessionManager translationSessionManager,
                           ILatestVersionCheckService latestVersionCheckService) {
         this.SessionManager = translationSessionManager;
-        this._latestVersionCheckService = latestVersionCheckService;
+        this.latestVersionCheckService = latestVersionCheckService;
     }
 
     protected override async void OnLoadedCommandAction() {
-        bool newVersionAvailable = await this._latestVersionCheckService.IsNewVersionAvailable();
+        bool newVersionAvailable = await this.latestVersionCheckService.IsNewVersionAvailable();
         if (newVersionAvailable) {
-            Version current = this._latestVersionCheckService.Current;
-            Version latest = this._latestVersionCheckService.Latest;
+            Version current = this.latestVersionCheckService.Current;
+            Version latest = this.latestVersionCheckService.Latest;
             this.NVAString = $"New Version available: Current Version {current} - Latest Version {latest}";
             this.RaisePropertyChanged(nameof(this.NVAString));
         }

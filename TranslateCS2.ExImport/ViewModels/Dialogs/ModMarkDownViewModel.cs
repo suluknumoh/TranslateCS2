@@ -31,11 +31,13 @@ internal class ModMarkDownViewModel : BindableBase, IDialogAware {
 
     public void OnDialogOpened(IDialogParameters parameters) {
         this.Title = I18NExport.CaptionAdditionalInformation;
-        if (parameters.TryGetValue(TitleParameterName, out string? title) && title != null) {
+        if (parameters.TryGetValue(TitleParameterName, out string? title)
+            && title is not null) {
             this.Title += $" - {title}";
             this.RaisePropertyChanged(nameof(this.Title));
         }
-        if (parameters.TryGetValue(DocParameterName, out string? doc) && doc != null) {
+        if (parameters.TryGetValue(DocParameterName, out string? doc)
+            && doc is not null) {
             this.Doc = doc;
             this.Pipeline = new MarkdownPipelineBuilder().UseSupportedExtensions().Build();
             this.RaisePropertyChanged(nameof(this.Doc));

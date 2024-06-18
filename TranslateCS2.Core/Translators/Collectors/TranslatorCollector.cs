@@ -10,7 +10,7 @@ using TranslateCS2.Core.Properties.I18N;
 namespace TranslateCS2.Core.Translators.Collectors;
 /// <inheritdoc cref="ITranslatorCollector"/>
 internal class TranslatorCollector : BindableBase, ITranslatorCollector {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient httpClient;
     /// <inheritdoc/>
     public ObservableCollection<ITranslator> Translators { get; } = [];
     /// <inheritdoc/>
@@ -21,7 +21,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
     /// <inheritdoc/>
     public ITranslator? SelectedTranslator {
         get => this._SelectedTranslator;
-        set => this.SetProperty(ref this._SelectedTranslator, value, () => this.IsTranslatorSelected = this.SelectedTranslator != null);
+        set => this.SetProperty(ref this._SelectedTranslator, value, () => this.IsTranslatorSelected = this.SelectedTranslator is not null);
     }
 
 
@@ -34,7 +34,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
 
 
     public TranslatorCollector(HttpClient httpClient) {
-        this._httpClient = httpClient;
+        this.httpClient = httpClient;
         this.Translators.CollectionChanged += this.TranslatorsChangedAction;
     }
 
@@ -49,7 +49,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
         if (this.SelectedTranslator.SelectedTargetLanguageCode is null) {
             return new TranslatorResult() { Error = I18NGlobal.MessageNoTargetLanguageSelected };
         }
-        return await this.SelectedTranslator.TranslateAsync(this._httpClient, sourceLanguageCode, s);
+        return await this.SelectedTranslator.TranslateAsync(this.httpClient, sourceLanguageCode, s);
     }
 
     private void TranslatorsChangedAction(object? sender, NotifyCollectionChangedEventArgs e) {
@@ -58,7 +58,7 @@ internal class TranslatorCollector : BindableBase, ITranslatorCollector {
 
     /// <inheritdoc/>
     public async void AddTranslator(ITranslator translator) {
-        await translator.InitAsync(this._httpClient);
+        await translator.InitAsync(this.httpClient);
         this.Translators.Add(translator);
     }
 }

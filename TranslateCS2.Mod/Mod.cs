@@ -2,73 +2,93 @@ using System;
 
 using Colossal.IO.AssetDatabase;
 using Colossal.Logging;
+using Colossal.PSI.Environment;
 
 using Game;
 using Game.Modding;
 using Game.SceneFlow;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
+using TranslateCS2.Inf.Loggers;
+using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Containers.Items.Unitys;
+using TranslateCS2.Mod.Interfaces;
 using TranslateCS2.Mod.Loggers;
-using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod;
+/// <summary>
+///     dont move this <see langword="class" /> somewhere else
+///     <br/>
+///     dont rename this <see langword="class" />
+///     <br/>
+///     <br/>
+///     its <see langword="namespace" /> and name are used to build an id for the <see cref="ModSettingsLocale"/>
+///     <br/>
+///     <seealso cref="Game.Modding.ModSetting.ModSetting(IMod)"/>
+/// </summary>
+[MyExcludeFromCoverage]
 public class Mod : IMod {
-    private static ILog Logger { get; } = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
-    private ModRuntimeContainerHandler runtimeContainerHandler;
-    private ModSettings? _modSettings;
-    public Mod() { }
+    private static readonly ILog Logger = LogManager.GetLogger(ModConstants.Name).SetShowsErrorsInUI(false);
+    private IModRuntimeContainer? RuntimeContainer { get; set; }
+    public Mod() {
+        // ctor. is never called/used by unity/co
+    }
     public void OnLoad(UpdateSystem updateSystem) {
         try {
-            Logger.LogInfo(this.GetType(), nameof(OnLoad));
-            if (GameManager.instance.modManager.TryGetExecutableAsset(this, out ExecutableAsset asset)) {
-                ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(GameManager.instance, Logger);
-                ModRuntimeContainerHandler.Init(runtimeContainer);
-                this.runtimeContainerHandler = ModRuntimeContainerHandler.Instance;
-                MyLanguages languages = runtimeContainer.Languages;
-                //
-                //
-                // cant be controlled via settings,
-                // cause they have to be loaded after files are read and loaded
-                PerformanceMeasurement performanceMeasurement = new PerformanceMeasurement(this.runtimeContainerHandler, false);
-                performanceMeasurement.Start();
-                //
-                languages.ReadFiles();
-                languages.Load();
-                //
-                performanceMeasurement.Stop();
-                //
-                //
-                if (languages.HasErroneous) {
-                    runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(languages.Erroneous, false);
-                }
-                this._modSettings = new ModSettings(this.runtimeContainerHandler, this);
-                ModSettingsLocale modSettingsLocale = new ModSettingsLocale(this._modSettings,
-                                                                            this.runtimeContainerHandler);
-                this._modSettings.RegisterInOptionsUI();
-                // settings have to be loaded after files are read and loaded
-                AssetDatabase.global.LoadSettings(ModConstants.Name, this._modSettings);
-                runtimeContainer.LocManager?.AddSource(runtimeContainer.LocManager.fallbackLocaleId,
-                                                       modSettingsLocale);
-                this._modSettings.HandleLocaleOnLoad();
+            GameManager gameManager = GameManager.instance;
+            ModManager modManager = gameManager.modManager;
+            if (modManager.TryGetExecutableAsset(this,
+                                                 out ExecutableAsset asset)) {
+                this.Init(gameManager);
             }
         } catch (Exception ex) {
-            Logger.LogCritical(this.GetType(),
-                               LoggingConstants.StrangerThings,
-                               [ex]);
+            // user LogManagers Logger
+            // runtimeContainerHandler might not be initialized
+            Logger.Critical(ex, nameof(OnLoad));
+        }
+    }
+
+    private void Init(GameManager gameManager) {
+        this.RuntimeContainer = this.CreateRuntimeContainer(gameManager);
+        this.RuntimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
+
+        this.RuntimeContainer.Init(AssetDatabase.global.LoadSettings, true);
+
+        if (this.RuntimeContainer.Languages.HasErroneous) {
+            this.RuntimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.RuntimeContainer.Languages.Erroneous,
+                                                                                false);
         }
     }
 
     public void OnDispose() {
         try {
-            Logger.LogInfo(this.GetType(), nameof(OnDispose));
-            this._modSettings?.UnregisterInOptionsUI();
-            this._modSettings?.HandleLocaleOnUnLoad();
+            this.RuntimeContainer.Dispose(true);
         } catch (Exception ex) {
-            Logger.LogCritical(this.GetType(),
-                               LoggingConstants.StrangerThingsDispose,
-                               [ex]);
+            // user LogManagers Logger
+            // runtimeContainerHandler might not be initialized
+            Logger.Critical(ex, nameof(OnDispose));
         }
     }
+
+
+    private IModRuntimeContainer CreateRuntimeContainer(GameManager gameManager) {
+        IMyLogProvider logProvider = new ModLogProvider(Logger);
+        Paths paths = new Paths(true,
+                                EnvPath.kStreamingDataPath,
+                                EnvPath.kUserDataPath);
+        ILocManagerProvider locManagerProvider = new LocManagerProvider(gameManager.localizationManager);
+        IIntSettingsProvider intSettingsProvider = new IntSettingsProvider(gameManager.settings.userInterface);
+        LocaleAssetProvider localeAssetProvider = new LocaleAssetProvider(AssetDatabase.global);
+        IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(localeAssetProvider);
+        return new ModRuntimeContainer(logProvider,
+                                       this,
+                                       locManagerProvider,
+                                       intSettingsProvider,
+                                       indexCountsProvider,
+                                       paths);
+    }
+
 }

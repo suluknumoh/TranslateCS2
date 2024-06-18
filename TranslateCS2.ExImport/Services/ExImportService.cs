@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using TranslateCS2.Core.Services.LocalizationFiles;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.ExImport.Models;
 using TranslateCS2.ExImport.Properties.I18N;
@@ -11,21 +11,14 @@ using TranslateCS2.Inf;
 
 namespace TranslateCS2.ExImport.Services;
 internal class ExImportService {
-    private readonly ILocalizationFilesService _localizationFilesService;
-    private readonly JSONService _jsonService;
+    private readonly JSONService jsonService;
 
-    public ExImportService(ILocalizationFilesService localizationFilesService,
-                           JSONService jsonService) {
-        this._localizationFilesService = localizationFilesService;
-        this._jsonService = jsonService;
+    public ExImportService(JSONService jsonService) {
+        this.jsonService = jsonService;
     }
 
     public List<ExportFormat> GetExportFormats() {
         List<ExportFormat> exportFormats = [];
-        {
-            ExportFormat exportFormat = ExportFormat.DirectOverwrite();
-            exportFormats.Add(exportFormat);
-        }
         {
             ExportFormat exportFormat = new ExportFormat(nameof(ExportFormats.JSON),
                                                          ExportFormats.JSON,
@@ -37,31 +30,26 @@ internal class ExImportService {
     }
 
     public async Task Export(ExportFormat exportFormat,
-                             ILocalizationFile localizationFile,
-                             bool addKey,
-                             bool addMergeValues,
-                             string? file) {
+                             IDictionary<string, string> localizationDictionary,
+                             string file) {
         switch (exportFormat.Format) {
-            case ExportFormats.Direct:
-                await this._localizationFilesService.WriteLocalizationFileDirect(localizationFile);
-                break;
             case ExportFormats.JSON:
-                await this._jsonService.WriteLocalizationFileJson(localizationFile, file, addKey, addMergeValues);
+                await this.jsonService.WriteLocalizationFileJson(localizationDictionary, file);
                 break;
         }
     }
 
     public async Task<List<CompareExistingReadTranslation>> ReadToReview(ITranslationSession translationSession,
                                                                          string selectedPath) {
-        List<ILocalizationEntry>? imports = await this._jsonService.ReadLocalizationFileJson(selectedPath);
+        List<IAppLocFileEntry>? imports = await this.jsonService.ReadLocalizationFileJson(selectedPath);
         ArgumentNullException.ThrowIfNull(imports);
         List<CompareExistingReadTranslation> preview = [];
         {
             // read keys used by colossal order
-            foreach (ILocalizationEntry existing in translationSession.Localizations) {
-                IEnumerable<ILocalizationEntry> importsForKey = imports.Where(item => item.Key == existing.Key);
+            foreach (KeyValuePair<string, IAppLocFileEntry> existing in translationSession.Localizations) {
+                IEnumerable<IAppLocFileEntry> importsForKey = imports.Where(item => item.Key.Key == existing.Key);
                 string key = existing.Key;
-                string? translationExisting = existing.Translation;
+                string? translationExisting = existing.Value.Translation;
                 string? translationRead = null;
                 if (importsForKey.Any()) {
                     translationRead = StringHelper.GetNullForEmpty(importsForKey.First().Translation);
@@ -78,10 +66,12 @@ internal class ExImportService {
         }
         {
             // read entries other than those used by colossal order (key-value-pairs for mods)
-            IEnumerable<ILocalizationEntry> remaining = imports.Where(import => !translationSession.Localizations.Select(existing => existing.Key).Contains(import.Key));
+            IEnumerable<IAppLocFileEntry> remaining =
+                imports
+                    .Where(import => !translationSession.Localizations.Select(existing => existing.Key).Contains(import.Key.Key));
             if (remaining.Any()) {
-                foreach (ILocalizationEntry remain in remaining) {
-                    string? key = StringHelper.GetNullForEmpty(remain.Key);
+                foreach (IAppLocFileEntry remain in remaining) {
+                    string? key = StringHelper.GetNullForEmpty(remain.Key.Key);
                     string? translationExisting = null;
                     string? translationRead = StringHelper.GetNullForEmpty(remain.Translation);
                     if (StringHelper.IsNullOrWhiteSpaceOrEmpty(key)
@@ -101,16 +91,16 @@ internal class ExImportService {
     public void HandleRead(IList<CompareExistingReadTranslation> preview,
                            ITranslationSession translationSession,
                            ImportModes importMode) {
-        IList<ILocalizationEntry> localizationDictionary = translationSession.Localizations;
+        IList<KeyValuePair<string, IAppLocFileEntry>> localizationDictionary = translationSession.Localizations;
         {
             // handle key-value-pairs used by colossal order
-            foreach (ILocalizationEntry currentEntry in localizationDictionary) {
+            foreach (KeyValuePair<string, IAppLocFileEntry> currentEntry in localizationDictionary) {
                 foreach (CompareExistingReadTranslation compareItem in preview) {
                     if (compareItem.Key == currentEntry.Key) {
                         switch (importMode) {
                             case ImportModes.NEW:
                                 // set all read
-                                currentEntry.Translation = compareItem.TranslationRead;
+                                currentEntry.Value.Translation = compareItem.TranslationRead;
                                 break;
                             case ImportModes.LeftJoin:
                                 // set missing read; all existing + read that are missing
@@ -119,7 +109,7 @@ internal class ExImportService {
                                 // take care of method name 'is ... EXISTING available'
                                 if (!compareItem.IsTranslationExistingAvailable) {
                                     // only set if no translation existed
-                                    currentEntry.Translation = compareItem.TranslationRead;
+                                    currentEntry.Value.Translation = compareItem.TranslationRead;
                                 } else {
                                     // just for clarififaction
                                     // keep current!
@@ -132,7 +122,7 @@ internal class ExImportService {
                                 // take care of method name 'is ... READ available'
                                 if (compareItem.IsTranslationReadAvailable) {
                                     // only set, if a translation is read
-                                    currentEntry.Translation = compareItem.TranslationRead;
+                                    currentEntry.Value.Translation = compareItem.TranslationRead;
                                 } else {
                                     // just for clarififaction
                                     // keep current!
@@ -148,7 +138,8 @@ internal class ExImportService {
             // handle other key-value-pairs that are not used by colossal order (key-value-pairs for mods)
             IEnumerable<CompareExistingReadTranslation> remaining =
                 preview
-                    .Where(import => !localizationDictionary.Select(existing => existing.Key).Contains(import.Key));
+                    .Where(import => !localizationDictionary
+                    .Select(existing => existing.Key).Contains(import.Key));
             foreach (CompareExistingReadTranslation remain in remaining) {
                 switch (importMode) {
                     case ImportModes.NEW:
@@ -156,8 +147,12 @@ internal class ExImportService {
                     case ImportModes.LeftJoin:
                         // remaining do not exist within the given localizationDictionary
                         // they should be added always (i think)
-                        ILocalizationEntry newItem = new LocalizationEntry(remain.Key, remain.TranslationRead);
-                        localizationDictionary.Add(newItem);
+                        IAppLocFileEntry newItem = AppLocFileEntryFactory.Create(remain.Key,
+                                                                                 null,
+                                                                                 null,
+                                                                                 remain.TranslationRead,
+                                                                                 true);
+                        localizationDictionary.Add(new KeyValuePair<string, IAppLocFileEntry>(newItem.Key.Key, newItem));
                         break;
                 }
             }

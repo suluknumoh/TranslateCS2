@@ -9,6 +9,8 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Keyz;
 using TranslateCS2.Inf.Models;
 
+using Xunit;
+
 namespace TranslateCS2.ZTests.Inf;
 public class IndexCountHelperTests {
     [Theory]
@@ -50,19 +52,20 @@ public class IndexCountHelperTests {
                                       int expectedCounts) {
         IDictionary<string, string>? localizationDictionary = await this.GetDictionary(fileName);
         Assert.NotNull(localizationDictionary);
-        IList<IMyKey> localizations = [];
+        IList<KeyValuePair<string, IMyKeyProvider>> localizations = [];
         foreach (KeyValuePair<string, string> entry in localizationDictionary) {
-            localizations.Add(new MyKey(entry.Key));
+            localizations.Add(new KeyValuePair<string, IMyKeyProvider>(entry.Key, new KeyProvider(entry.Key)));
         }
         IndexCountHelper.AutoCorrect(localizations);
-        IEnumerable<IMyKey> orderedIndexedValues =
+        IEnumerable<IMyKeyProvider> orderedIndexedValues =
             localizations
-                .Where(item => item.IsIndexed)
-                .OrderBy(item => item.Index);
+                .Select(item => item.Value)
+                .Where(item => item.Key.IsIndexed)
+                .OrderBy(item => item.Key.Index);
         Assert.Equal(expectedCounts, orderedIndexedValues.Count());
         int index = 0;
-        foreach (IMyKey entry in orderedIndexedValues) {
-            Assert.Equal(index, entry.Index);
+        foreach (IMyKeyProvider entry in orderedIndexedValues) {
+            Assert.Equal(index, entry.Key.Index);
             index++;
         }
         int expectedIndex = expectedCounts--;
@@ -130,9 +133,9 @@ public class IndexCountHelperTests {
         string fileName = "validate_for_key.json";
         IDictionary<string, string>? localizationDictionary = await this.GetDictionary(fileName);
         Assert.NotNull(localizationDictionary);
-        IList<IMyKey> localizations = [];
+        IList<KeyValuePair<string, IMyKeyProvider>> localizations = [];
         foreach (KeyValuePair<string, string> entry in localizationDictionary) {
-            localizations.Add(new MyKey(entry.Key));
+            localizations.Add(new KeyValuePair<string, IMyKeyProvider>(entry.Key, new KeyProvider(entry.Key)));
         }
         string newKey = IndexCountHelper.BuildNewKey(key, index);
         IndexCountHelperValidationResult result = IndexCountHelper.ValidateForKey(localizations, newKey);
@@ -149,5 +152,12 @@ public class IndexCountHelperTests {
         string path = Path.Combine("Assets", "Inf", "IndexCountHelperTestFiles", fileName);
         using FileStream stream = File.OpenRead(path);
         return await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(stream);
+    }
+
+    private class KeyProvider : IMyKeyProvider {
+        public IMyKey Key { get; }
+        public KeyProvider(string key) {
+            this.Key = new MyKey(key);
+        }
     }
 }

@@ -22,47 +22,47 @@ using TranslateCS2.ExImport.Views.Dialogs;
 
 namespace TranslateCS2.ExImport.ViewModels;
 internal class ExImPortViewModel : ABaseViewModel {
-    private readonly IContainerProvider _containerProvider;
-    private readonly IRegionManager _regionManager;
-    private readonly IViewConfigurations _viewConfigurations;
-    private readonly IDialogService _dialogService;
-    private readonly RibbonGroup _subNavigation;
-    private readonly RibbonGroup _modInfo;
-    private RibbonToggleButton _subNavExport;
-    private RibbonToggleButton _subNavImport;
-    private Type _current = typeof(ExportControl);
+    private readonly IContainerProvider containerProvider;
+    private readonly IRegionManager regionManager;
+    private readonly IViewConfigurations viewConfigurations;
+    private readonly IDialogService dialogService;
+    private readonly RibbonGroup subNavigation;
+    private readonly RibbonGroup modInfo;
+    private RibbonToggleButton subNavExport;
+    private RibbonToggleButton subNavImport;
+    private Type current = typeof(ExportControl);
 
     public ExImPortViewModel(IContainerProvider containerProvider,
                              IRegionManager regionManager,
                              IViewConfigurations viewConfigurations,
                              IDialogService dialogService) {
-        this._containerProvider = containerProvider;
-        this._regionManager = regionManager;
-        this._viewConfigurations = viewConfigurations;
-        this._dialogService = dialogService;
-        this._subNavigation = RibbonHelper.CreateRibbonGroup(I18NRibbon.ExImport, false);
-        this._modInfo = RibbonHelper.CreateRibbonGroup(I18NExport.HeaderMod, false);
+        this.containerProvider = containerProvider;
+        this.regionManager = regionManager;
+        this.viewConfigurations = viewConfigurations;
+        this.dialogService = dialogService;
+        this.subNavigation = RibbonHelper.CreateRibbonGroup(I18NRibbon.ExImport, false);
+        this.modInfo = RibbonHelper.CreateRibbonGroup(I18NExport.HeaderMod, false);
         this.InitSubNavigation();
         this.InitAdditionalInformation();
         this.InitSelectedSessionInfo();
     }
 
     private void InitSubNavigation() {
-        this._subNavExport = RibbonHelper.CreateRibbonToggleButton(I18NRibbon.Export,
+        this.subNavExport = RibbonHelper.CreateRibbonToggleButton(I18NRibbon.Export,
                                                                    ImageResources.database_arrow_up,
                                                                    true,
                                                                    this.SubNavExportClickAction);
-        this._subNavigation.Items.Add(this._subNavExport);
+        this.subNavigation.Items.Add(this.subNavExport);
         //
         //
-        this._subNavImport = RibbonHelper.CreateRibbonToggleButton(I18NRibbon.Import,
+        this.subNavImport = RibbonHelper.CreateRibbonToggleButton(I18NRibbon.Import,
                                                                    ImageResources.database_arrow_down,
                                                                    false,
                                                                    this.SubNavImportClickAction);
-        this._subNavigation.Items.Add(this._subNavImport);
+        this.subNavigation.Items.Add(this.subNavImport);
         //
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
-        viewConfiguration.Tab.Items.Add(this._subNavigation);
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
+        viewConfiguration.Tab.Items.Add(this.subNavigation);
     }
     private void InitAdditionalInformation() {
         {
@@ -70,25 +70,25 @@ internal class ExImPortViewModel : ABaseViewModel {
                                                                   ImageResources.open,
                                                                   this.OpenModReadMeAction,
                                                                   70);
-            this._modInfo.Items.Add(button);
+            this.modInfo.Items.Add(button);
         }
         {
             RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModLanguagesSupported,
                                                                   ImageResources.open,
                                                                   this.OpenModLanguagesSupportedAction,
                                                                   70);
-            this._modInfo.Items.Add(button);
+            this.modInfo.Items.Add(button);
         }
         {
             RibbonButton button = RibbonHelper.CreateRibbonButton(I18NExport.ButtonLabelModChangeLog,
                                                                   ImageResources.open,
                                                                   this.OpenModChangeLogAction,
                                                                   70);
-            this._modInfo.Items.Add(button);
+            this.modInfo.Items.Add(button);
         }
         //
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
-        viewConfiguration.Tab.Items.Add(this._modInfo);
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
+        viewConfiguration.Tab.Items.Add(this.modInfo);
     }
 
     private void OpenModReadMeAction(object sender, RoutedEventArgs e) {
@@ -110,44 +110,44 @@ internal class ExImPortViewModel : ABaseViewModel {
             { ModMarkDownViewModel.DocParameterName, doc },
             { ModMarkDownViewModel.TitleParameterName, title}
         };
-        this._dialogService.ShowDialog(nameof(ModMarkDownView), parameters, null);
+        this.dialogService.ShowDialog(nameof(ModMarkDownView), parameters, null);
     }
     private void InitSelectedSessionInfo() {
-        IViewConfiguration? viewConfiguration = this._viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
-        CurrentSessionInfo selectedSessionInfoGroup = this._containerProvider.Resolve<CurrentSessionInfo>();
+        IViewConfiguration? viewConfiguration = this.viewConfigurations.GetViewConfiguration<ExImPortViewModel>();
+        CurrentSessionInfo selectedSessionInfoGroup = this.containerProvider.Resolve<CurrentSessionInfo>();
         viewConfiguration.Tab.Items.Add(selectedSessionInfoGroup);
     }
 
     private void SubNavImportClickAction(object sender, RoutedEventArgs e) {
-        this._current = typeof(ImportControl);
-        this._subNavExport.IsChecked = !this._subNavExport.IsChecked;
+        this.current = typeof(ImportControl);
+        this.subNavExport.IsChecked = !this.subNavExport.IsChecked;
         this.SubNavigate();
     }
 
     private void SubNavExportClickAction(object sender, RoutedEventArgs e) {
-        this._current = typeof(ExportControl);
-        this._subNavImport.IsChecked = !this._subNavImport.IsChecked;
+        this.current = typeof(ExportControl);
+        this.subNavImport.IsChecked = !this.subNavImport.IsChecked;
         this.SubNavigate();
     }
 
     public override void OnNavigatedFrom(NavigationContext navigationContext) {
         //
-        this._subNavigation.IsEnabled = false;
-        this._modInfo.IsEnabled = false;
+        this.subNavigation.IsEnabled = false;
+        this.modInfo.IsEnabled = false;
     }
 
     public override void OnNavigatedTo(NavigationContext navigationContext) {
-        this._subNavigation.IsEnabled = true;
-        this._modInfo.IsEnabled = true;
+        this.subNavigation.IsEnabled = true;
+        this.modInfo.IsEnabled = true;
         this.SubNavigate();
     }
 
     private void SubNavigate() {
-        this._modInfo.Visibility = Visibility.Collapsed;
-        if (this._current == typeof(ExportControl)) {
-            this._modInfo.Visibility = Visibility.Visible;
+        this.modInfo.Visibility = Visibility.Collapsed;
+        if (this.current == typeof(ExportControl)) {
+            this.modInfo.Visibility = Visibility.Visible;
         }
-        this._regionManager.RequestNavigate(AppConfigurationManager.AppExportImportRegion, this._current.Name);
+        this.regionManager.RequestNavigate(AppConfigurationManager.AppExportImportRegion, this.current.Name);
     }
 
     protected override void OnLoadedCommandAction() { }

@@ -10,8 +10,8 @@ using System.Windows.Media;
 using Prism.Commands;
 using Prism.Regions;
 
-using TranslateCS2.Core.Configurations;
 using TranslateCS2.Core.Configurations.Views;
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.ViewModels;
 using TranslateCS2.ExImport.Helpers;
@@ -23,12 +23,12 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.ExImport.Controls.Exports;
 internal class ExportControlContext : ABaseViewModel {
     // here we dont need a streamingDataPath, so its String.Empty
-    private readonly Paths _pathHelper = new Paths(false, String.Empty);
-    private readonly IViewConfigurations _viewConfigurations;
-    private readonly ExImportService _exportService;
-    private readonly string _dialogtitle = I18NExport.DialogTitle;
-    private readonly string _dialogWarningCaption = I18NExport.DialogWarningCaption;
-    private readonly string _dialogWarningText = I18NExport.DialogWarningText;
+    private readonly Paths pathHelper = new Paths(false, String.Empty);
+    private readonly IViewConfigurations viewConfigurations;
+    private readonly ExImportService exportService;
+    private readonly string dialogtitle = I18NExport.DialogTitle;
+    private readonly string dialogWarningCaption = I18NExport.DialogWarningCaption;
+    private readonly string dialogWarningText = I18NExport.DialogWarningText;
 
 
     public ITranslationSessionManager SessionManager { get; }
@@ -107,13 +107,6 @@ internal class ExportControlContext : ABaseViewModel {
     }
 
 
-    private ILocalizationFile? _ExportLocalizationFile;
-    public ILocalizationFile? ExportLocalizationFile {
-        get => this._ExportLocalizationFile;
-        set => this.SetProperty(ref this._ExportLocalizationFile, value);
-    }
-
-
     public ObservableCollection<ExportFormat> ExportFormats { get; } = [];
 
 
@@ -131,9 +124,9 @@ internal class ExportControlContext : ABaseViewModel {
     public ExportControlContext(IViewConfigurations viewConfigurations,
                                 ITranslationSessionManager translationSessionManager,
                                 ExImportService exportService) {
-        this._viewConfigurations = viewConfigurations;
+        this.viewConfigurations = viewConfigurations;
         this.SessionManager = translationSessionManager;
-        this._exportService = exportService;
+        this.exportService = exportService;
         this.SelectPathCommand = new DelegateCommand(this.SelectPathCommandAction);
         this.ExportCommand = new DelegateCommand(this.ExportCommandAction);
         this._IsEnabled = true;
@@ -145,30 +138,25 @@ internal class ExportControlContext : ABaseViewModel {
 
     private void SelectPathCommandAction() {
         string? path = this.SelectedPath;
-        path ??= this._pathHelper.TryToGetModsPath();
+        path ??= this.pathHelper.TryToGetModsPath();
         string? selected = ImExportDialogHelper.ShowSaveFileDialog(path,
-                                                                   this._dialogtitle,
+                                                                   this.dialogtitle,
                                                                    StringHelper.GetNullForEmpty(this.SelectedFileNameProposal),
-                                                                   this._dialogWarningCaption,
-                                                                   this._dialogWarningText);
-        if (selected != null) {
+                                                                   this.dialogWarningCaption,
+                                                                   this.dialogWarningText);
+        if (selected is not null) {
             this.SelectedPath = selected;
         }
     }
 
 
     private void OnChange() {
-        if (this.SelectedExportFormat == null) {
+        if (this.SelectedExportFormat is null) {
             return;
         }
         switch (this.SelectedExportFormat.Format) {
-            case Models.ExportFormats.Direct:
-                this.IsExportButtonEnabled = true;
-                this.IsAddKeyEnabled = false;
-                this.IsAddMergeValuesEnabled = false;
-                break;
             case Models.ExportFormats.JSON:
-                this.IsExportButtonEnabled = this.SelectedPath != null;
+                this.IsExportButtonEnabled = this.SelectedPath is not null;
                 this.IsAddKeyEnabled = true;
                 this.IsAddMergeValuesEnabled = true;
                 break;
@@ -184,23 +172,21 @@ internal class ExportControlContext : ABaseViewModel {
                                                   MessageBoxResult.No,
                                                   MessageBoxOptions.None);
         if (result == MessageBoxResult.Yes) {
-            this.InfoMessageColor = Brushes.Black;
-            this.InfoMessage = I18NExport.MessagePrepareDo;
-            this._viewConfigurations.DeActivateRibbon?.Invoke(false);
-            this.IsEnabled = false;
-            this.IsExportButtonEnabled = false;
-            this.ExportLocalizationFile = this.SessionManager.GetForExport(this.SelectedExportFormat.Format == Models.ExportFormats.JSON);
-            this.InfoMessageColor = Brushes.DarkGreen;
-            this.InfoMessage = I18NExport.MessagePrepareSuccess;
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            this.InfoMessageColor = Brushes.DarkGreen;
-            this.InfoMessage = I18NExport.MessageDo;
             try {
-                await this._exportService.Export(this.SelectedExportFormat,
-                                                 this.ExportLocalizationFile,
-                                                 this.IsAddKey,
-                                                 this.IsAddMergeValues,
-                                                 this.SelectedPath);
+                this.InfoMessageColor = Brushes.Black;
+                this.InfoMessage = I18NExport.MessagePrepareDo;
+                this.viewConfigurations.DeActivateRibbon?.Invoke(false);
+                this.IsEnabled = false;
+                this.IsExportButtonEnabled = false;
+                IDictionary<string, string> localizationDictionary = this.PrepareForExport();
+                this.InfoMessageColor = Brushes.DarkGreen;
+                this.InfoMessage = I18NExport.MessagePrepareSuccess;
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                this.InfoMessageColor = Brushes.DarkGreen;
+                this.InfoMessage = I18NExport.MessageDo;
+                await this.exportService.Export(this.SelectedExportFormat,
+                                                localizationDictionary,
+                                                this.SelectedPath);
                 this.InfoMessageColor = Brushes.DarkGreen;
                 this.InfoMessage = I18NExport.MessageSuccess;
             } catch {
@@ -209,28 +195,26 @@ internal class ExportControlContext : ABaseViewModel {
             }
             this.IsEnabled = true;
             this.IsExportButtonEnabled = true;
-            this._viewConfigurations.DeActivateRibbon?.Invoke(true);
+            this.viewConfigurations.DeActivateRibbon?.Invoke(true);
         }
     }
 
     public override void OnNavigatedTo(NavigationContext navigationContext) {
         this.ExportFormats.Clear();
-        List<ExportFormat> formats = this._exportService.GetExportFormats();
-        if (this.SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName == AppConfigurationManager.NoneOverwrite) {
-            formats.Remove(ExportFormat.DirectOverwrite());
-        }
+        List<ExportFormat> formats = this.exportService.GetExportFormats();
         this.ExportFormats.AddRange(formats);
         this.SelectedExportFormat = this.ExportFormats.First();
 
         string? selectedFileNameProposal = this.SelectedFileNameProposal;
         this.FileNameProposals.Clear();
-        IEnumerable<CultureInfo>? guessedCultures = CultureInfoHelper.GatherCulturesFromEnglishName(this.SessionManager.CurrentTranslationSession?.OverwriteLocalizationNameEN);
-        if (guessedCultures != null) {
+        IEnumerable<CultureInfo>? guessedCultures = CultureInfoHelper.GatherCulturesFromEnglishName(this.SessionManager.CurrentTranslationSession?.LocNameEnglish);
+        if (guessedCultures is not null) {
             foreach (CultureInfo guessedCulture in guessedCultures) {
                 this.FileNameProposals.Add($"{guessedCulture.Name}{ModConstants.JsonExtension}");
             }
         }
-        if (selectedFileNameProposal != null && this.FileNameProposals.Contains(selectedFileNameProposal)) {
+        if (selectedFileNameProposal is not null
+            && this.FileNameProposals.Contains(selectedFileNameProposal)) {
             this.SelectedFileNameProposal = selectedFileNameProposal;
         } else {
             this.SelectedFileNameProposal = null;
@@ -238,5 +222,35 @@ internal class ExportControlContext : ABaseViewModel {
                 this.SelectedFileNameProposal = this.FileNameProposals.First();
             }
         }
+    }
+
+    public IDictionary<string, string> PrepareForExport() {
+        ITranslationSession? session = this.SessionManager.CurrentTranslationSession;
+        ArgumentNullException.ThrowIfNull(session);
+        Dictionary<string, string> dictionary = [];
+        if (this.IsAddKey
+            && session.LocName is not null
+            && !StringHelper.IsNullOrWhiteSpaceOrEmpty(session.LocName)) {
+            dictionary.Add(ModConstants.LocaleNameLocalizedKey, session.LocName);
+        }
+        ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> localizations = session.Localizations;
+        foreach (KeyValuePair<string, IAppLocFileEntry> localization in localizations) {
+            if (localization.Key is null) {
+                continue;
+            }
+            string? val = null;
+            if (!StringHelper.IsNullOrWhiteSpaceOrEmpty(localization.Value.Translation)) {
+                val = localization.Value.Translation;
+            }
+            if (val is null
+                && this.IsAddMergeValues) {
+                val = localization.Value.ValueMerge;
+            }
+            if (val is null) {
+                continue;
+            }
+            dictionary.Add(localization.Key, val);
+        }
+        return dictionary;
     }
 }

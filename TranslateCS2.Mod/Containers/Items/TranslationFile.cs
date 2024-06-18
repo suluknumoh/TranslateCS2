@@ -1,117 +1,114 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 using Colossal;
 
-using Newtonsoft.Json;
+using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
-using TranslateCS2.Mod.Loggers;
+using TranslateCS2.Inf.Attributes;
+using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
+// INFO: its about hashcode and equals...
 internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
-    private readonly IModRuntimeContainer runtimeContainer;
-    private string Uniquer { get; } = ModConstants.Name;
-    private MyLanguage Language { get; }
-    private IDictionary<string, string>? dictionary;
-    public string LocaleId { get; private set; }
-    public string LocaleName { get; private set; }
-    public bool IsOK => this.EntryCount > 0;
-    public int EntryCount => this.dictionary?.Count ?? 0;
-    public string Path { get; }
-    public TranslationFile(IModRuntimeContainer runtimeContainer,
-                           string localeId,
-                           string localeName,
-                           string path,
-                           MyLanguage language) {
-        this.runtimeContainer = runtimeContainer;
-        this.LocaleId = localeId;
-        this.Path = path;
-        this.Language = language;
-        this.ReadJson();
-        if (this.dictionary != null
-            && this.dictionary.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
-            && outLocaleName != null
-            && !StringHelper.IsNullOrWhiteSpaceOrEmpty(outLocaleName)) {
-            this.LocaleName = outLocaleName;
-        }
-        this.LocaleName ??= localeName;
-    }
-    public bool ReInit() {
-        return this.ReadJson();
-    }
-    private bool ReadJson() {
-        try {
-            string json = File.ReadAllText(this.Path, Encoding.UTF8);
-            Dictionary<string, string>? temporary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            if (temporary != null) {
-                this.dictionary = DictionaryHelper.GetNonEmpty(temporary);
-                return true;
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger?.LogError(this.GetType(),
-                                                   LoggingConstants.FailedTo,
-                                                   [nameof(ReadJson), ex, this]);
-        }
-        return false;
-    }
 
+    private readonly IModRuntimeContainer runtimeContainer;
+    private readonly MyLanguage language;
+    private readonly MyLocalization<string> locFile;
+    public string Id => this.locFile.Id;
+    public string Name { get; }
+    public string NameEnglish => this.locFile.NameEnglish;
+    public bool IsOK => this.EntryCount > 0;
+    public int EntryCount => this.locFile.EntryCount;
+    public MyLocalizationSource<string> Source => this.locFile.Source;
+    public TranslationFile(IModRuntimeContainer runtimeContainer,
+                           MyLanguage language,
+                           MyLocalization<string> locFile) {
+        this.runtimeContainer = runtimeContainer;
+        this.language = language;
+        this.locFile = locFile;
+        this.Name = this.GetName(locFile.Name);
+    }
+    private string GetName(string name) {
+        if (this.locFile.Source.Localizations is not null) {
+            if (this.locFile.Source.Localizations.TryGetValue(ModConstants.LocaleNameLocalizedKey, out string? outLocaleName)
+                && outLocaleName is not null
+                && !StringHelper.IsNullOrWhiteSpaceOrEmpty(outLocaleName)) {
+                return outLocaleName;
+            }
+        }
+        return name;
+    }
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors,
                                                                  Dictionary<string, int> indexCountsToFill) {
         indexCountsToFill.Clear();
         // has to be added!!! if dictionary is null, fallback/builtin-language is used!!!
         // prefill with this languages index counts
-        this.Language.AddIndexCounts(indexCountsToFill);
-        if (this.dictionary is null) {
+        string localeId = this.language.Id;
+        if (!this.language.IsBuiltIn) {
+            localeId = this.runtimeContainer.LocManager.FallbackLocaleId;
+        }
+        this.runtimeContainer.IndexCountsProvider.AddIndexCounts(indexCountsToFill, localeId);
+        if (this.locFile.Source.Localizations is null) {
             return [];
         }
-        IndexCountHelper.FillIndexCountsAndAutocorrect(this.dictionary,
+        IndexCountHelper.FillIndexCountsAndAutocorrect(this.locFile.Source.Localizations,
                                                        indexCountsToFill);
-        return this.dictionary;
+        return this.locFile.Source.Localizations;
     }
-
+    [MyExcludeFromCoverage]
     public void Unload() {
         //
     }
-
-    public override string ToString() {
-        StringBuilder builder = new StringBuilder();
-        builder.AppendLine(nameof(TranslationFile));
-        builder.AppendLine($"{nameof(this.LocaleId)}: {this.LocaleId}");
-        builder.AppendLine($"{nameof(this.LocaleName)}: {this.LocaleName}");
-        builder.AppendLine($"{nameof(this.Path)}: {this.Path}");
-        builder.AppendLine($"{nameof(this.IsOK)}: {this.IsOK}");
-        return builder.ToString();
-    }
-
+    [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
         return this.Equals(obj as TranslationFile);
     }
-
+    [MyExcludeFromCoverage]
     public bool Equals(TranslationFile? other) {
-        return other is not null &&
-               this.Uniquer == other.Uniquer &&
-               this.LocaleId == other.LocaleId &&
-               this.LocaleName == other.LocaleName &&
-               this.Path == other.Path;
+        return
+            other is not null
+            && EqualityComparer<MyLocalization<string>>.Default.Equals(this.locFile, other.locFile)
+            && this.Id == other.Id
+            && this.Name == other.Name
+            && this.NameEnglish == other.NameEnglish;
     }
-
+    [MyExcludeFromCoverage]
     public override int GetHashCode() {
-        int hashCode = 1111822720;
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Uniquer);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.LocaleId);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.LocaleName);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Path);
+        int hashCode = -1949584393;
+        hashCode = (hashCode * -1521134295) + EqualityComparer<MyLocalization<string>>.Default.GetHashCode(this.locFile);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Id);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Name);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.NameEnglish);
         return hashCode;
     }
-
-    public static bool operator ==(TranslationFile? left, TranslationFile? right) {
-        return EqualityComparer<TranslationFile>.Default.Equals(left, right);
+    [MyExcludeFromCoverage]
+    public override string ToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(this.GetType().ToString());
+        builder.AppendLine($"{nameof(this.Id)}: {this.Id}");
+        builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
+        builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
+        builder.Append($"{nameof(this.locFile)}: {this.locFile}");
+        return builder.ToString();
     }
 
-    public static bool operator !=(TranslationFile? left, TranslationFile? right) {
-        return !(left == right);
+    public DropdownItem<string> GetDropDownItem() {
+        string displayName = StringHelper.CutStringAfterMaxLengthAndAddThreeDots(this.Name,
+                                                                                 ModConstants.MaxDisplayNameLength);
+        DropdownItem<string> item = new DropdownItem<string>() {
+            value = this.Id,
+            displayName = displayName
+        };
+        return item;
+    }
+
+    public bool IsCurrent() {
+        string settedFlavor = this.runtimeContainer.Settings.GetSettedFlavor(this.language.SystemLanguage);
+        return this.Id.Equals(settedFlavor,
+                              StringComparison.OrdinalIgnoreCase);
+
     }
 }

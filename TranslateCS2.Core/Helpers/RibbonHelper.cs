@@ -25,10 +25,10 @@ public class RibbonHelper {
         ribbonGallery.Items.Add(ribbonGalleryCategory);
         ribbonGalleryCategory.ItemsSource = itemsSource;
         ribbonGallery.SelectionChanged += onSelectionChanged;
-        if (selectedItem != null) {
+        if (selectedItem is not null) {
             ribbonGallery.SelectedItem = selectedItem;
         }
-        if (displayMemberPath != null) {
+        if (displayMemberPath is not null) {
             ribbonGalleryCategory.DisplayMemberPath = displayMemberPath;
         }
         return comboBox;
@@ -54,7 +54,7 @@ public class RibbonHelper {
                 ribbonGallery.Items.Add(ribbonSeparator);
             }
             RibbonGalleryCategory ribbonGalleryCategory = new RibbonGalleryCategory();
-            if (config.DisplayMemberPath != null) {
+            if (config.DisplayMemberPath is not null) {
                 ribbonGalleryCategory.DisplayMemberPath = config.DisplayMemberPath;
             }
             ribbonGallery.Items.Add(ribbonGalleryCategory);
@@ -62,10 +62,10 @@ public class RibbonHelper {
                 ribbonGalleryCategory.Items.Add(item);
             }
         }
-        if (config.OnSelectionChanged != null) {
+        if (config.OnSelectionChanged is not null) {
             ribbonGallery.SelectionChanged += config.OnSelectionChanged;
         }
-        if (config.SelectedItem != null) {
+        if (config.SelectedItem is not null) {
             ribbonGallery.SelectedItem = config.SelectedItem;
         }
         return comboBox;

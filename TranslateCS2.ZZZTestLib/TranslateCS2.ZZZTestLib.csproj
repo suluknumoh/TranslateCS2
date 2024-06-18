@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- has to be the very first import -->
+    <Import Project="..\TranslateCS2.Inf\Properties\General.props" />
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Serilog" Version="4.0.0" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.0" />
+        <PackageReference Include="Serilog.Enrichers.Process" Version="3.0.0" />
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+        <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
+    </ItemGroup>
+</Project>

@@ -101,23 +101,6 @@
             <StackPanel
                 Orientation="Horizontal">
                 <RibbonTextBox
-                    Text="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionOverwrite}, Mode=OneWay, StringFormat={}{0}:}"
-                    ToolTip="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionOverwrite}, Mode=OneWay, StringFormat={}{0}:}"
-                    IsEnabled="False"
-                    Background="Transparent"
-                    TextAlignment="Right"
-                    TextBoxWidth="95"
-                    />
-                <RibbonTextBox
-                    Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName}"
-                    ToolTip="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationFileName}"
-                    IsEnabled="False"
-                    Background="Transparent"
-                    />
-            </StackPanel>
-            <StackPanel
-                Orientation="Horizontal">
-                <RibbonTextBox
                     Text="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionMerge}, Mode=OneWay, StringFormat={}{0}:}"
                     ToolTip="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionMerge}, Mode=OneWay, StringFormat={}{0}:}"
                     IsEnabled="False"
@@ -143,7 +126,7 @@
             Stroke="Silver"/>
         <StackPanel>
             <RibbonTextBox
-                Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationNameEN}"
+                Text="{Binding SessionManager.CurrentTranslationSession.LocNameEnglish}"
                 ToolTip="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionLocaleNameEN}, Mode=OneWay}"
                 IsEnabled="False"
                 Background="Transparent"
@@ -151,7 +134,7 @@
                 TextBoxWidth="200"
                 />
             <RibbonTextBox
-                Text="{Binding SessionManager.CurrentTranslationSession.OverwriteLocalizationNameLocalized}"
+                Text="{Binding SessionManager.CurrentTranslationSession.LocName}"
                 ToolTip="{Binding Source={x:Static i18n:I18NSessions.CurrentSessionLocaleNameLocalized}, Mode=OneWay}"
                 IsEnabled="False"
                 Background="Transparent"

@@ -73,3 +73,12 @@
 ## Magnus Montin .NET
 - https://blog.magnusmontin.net/
 - https://blog.magnusmontin.net/2013/08/26/data-validation-in-wpf/
+---
+## SeriLog
+- https://serilog.net
+- https://github.com/serilog
+---
+## Fortune Ngwenya - Fine Code Coverage
+- https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage
+- https://github.com/FortuneN/FineCodeCoverage
+- https://github.com/FortuneN

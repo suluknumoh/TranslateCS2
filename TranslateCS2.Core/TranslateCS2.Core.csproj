@@ -56,19 +56,14 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Prism.Unity" Version="8.1.97" />
-        <PackageReference Include="System.Drawing.Common" Version="8.0.5" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.5" />
+        <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
         <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Update="Properties\I18N\I18NEdits.Designer.cs">
-            <DependentUpon>I18NEdits.resx</DependentUpon>
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-        </Compile>
         <Compile Update="Properties\I18N\I18NGlobal.Designer.cs">
             <DependentUpon>I18NGlobal.resx</DependentUpon>
             <DesignTime>True</DesignTime>
@@ -94,11 +89,6 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Update="Properties\I18N\I18NEdits.resx">
-            <SubType>Designer</SubType>
-            <LastGenOutput>I18NEdits.Designer.cs</LastGenOutput>
-            <Generator>PublicResXFileCodeGenerator</Generator>
-        </EmbeddedResource>
         <EmbeddedResource Update="Properties\I18N\I18NGlobal.resx">
             <LastGenOutput>I18NGlobal.Designer.cs</LastGenOutput>
             <Generator>PublicResXFileCodeGenerator</Generator>

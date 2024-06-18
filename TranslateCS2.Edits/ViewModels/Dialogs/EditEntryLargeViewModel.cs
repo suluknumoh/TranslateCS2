@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
+using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Core.Translators;
 using TranslateCS2.Core.Translators.Collectors;
@@ -16,19 +17,18 @@ using TranslateCS2.Edits.Properties.I18N;
 
 namespace TranslateCS2.Edits.ViewModels.Dialogs;
 internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
-    private readonly int _translationTextBoxHeightLineMultiplier = 3;
-    private readonly int _translationTextBoxHeightLine = 20;
-    private readonly int _translationTextBoxHeightMax = 360;
-    private bool _canCloseDialog = false;
-    private bool _isLoaded = false;
-    private BindingGroup? _bindingGroup;
+    private readonly int translationTextBoxHeightLineMultiplier = 3;
+    private readonly int translationTextBoxHeightLine = 20;
+    private readonly int translationTextBoxHeightMax = 360;
+    private bool canCloseDialog = false;
+    private bool isLoaded = false;
+    private BindingGroup? bindingGroup;
 
     private ITranslationSessionManager SessionManager { get; }
 
-
-    private string? _backUpTranslation;
-    private ILocalizationEntry? _Entry;
-    public ILocalizationEntry? Entry {
+    private IAppLocFileEntry? original;
+    private EditEntry? _Entry;
+    public EditEntry? Entry {
         get => this._Entry;
         set => this.SetProperty(ref this._Entry, value, this.OnEntryChanged);
     }
@@ -123,17 +123,17 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         TranslatorResult? result = null;
         switch (valueToUse) {
             case ValueToUse.ValueEnglish:
-                result = await this.Translators.TranslateAsync(this.Entry.ValueLanguageCode, this.Entry?.Value);
+                result = await this.Translators.TranslateAsync(this.SessionManager.BaseLocalizationFile.Id, this.Entry?.Value);
                 break;
             case ValueToUse.ValueMerge:
-                result = await this.Translators.TranslateAsync(this.Entry.ValueMergeLanguageCode, this.Entry?.ValueMerge);
+                result = await this.Translators.TranslateAsync(this.SessionManager.CurrentTranslationSession.MergeLocalizationId, this.Entry?.ValueMerge);
                 break;
             case ValueToUse.ValueTranslation:
                 // dont translate a translation :D
                 break;
         }
         this.IsEnabled = !this.IsEnabled;
-        if (result == null) {
+        if (result is null) {
             this.ActionText = I18NEdits.MessageSomethingWentWrong;
             this.ActionTextColor = Brushes.DarkRed;
             return;
@@ -148,20 +148,19 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private void SaveCommandAction() {
-        if (this._bindingGroup != null && this._bindingGroup.CommitEdit()) {
-            this._canCloseDialog = true;
-            this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
-            this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
+        if (this.bindingGroup is not null
+            && this.bindingGroup.CommitEdit()) {
+            this.canCloseDialog = true;
             IDialogResult result = new DialogResult(ButtonResult.OK);
-            result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
+            this.Entry.ApplyChangesTo(this.original);
+            result.Parameters.Add(nameof(IAppLocFileEntry), this.original);
             RequestClose?.Invoke(result);
-            this.Entry = null;
-            this._backUpTranslation = null;
+            this.SetEntriesToNull();
         }
     }
 
     private void DeleteCommandAction() {
-        if (this.Entry == null) {
+        if (this.Entry is null) {
             return;
         }
         if (!this.Entry.IsDeleteAble) {
@@ -171,19 +170,17 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                                 I18NEdits.DialogDeleteText)) {
             return;
         }
-        this._canCloseDialog = true;
+        this.canCloseDialog = true;
         this.Entry.Translation = null;
-        this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
-        this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
         IDialogResult result = new DialogResult(ButtonResult.Yes);
-        result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
+        this.Entry.ApplyChangesTo(this.original);
+        result.Parameters.Add(nameof(IAppLocFileEntry), this.original);
         RequestClose?.Invoke(result);
-        this.Entry = null;
-        this._backUpTranslation = null;
+        this.SetEntriesToNull();
     }
 
     private void CancelCommandAction() {
-        if (this.Entry == null) {
+        if (this.Entry is null) {
             return;
         }
         if (this.IsCancelInterruptable()) {
@@ -192,29 +189,30 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
                 return;
             }
         }
-        this._canCloseDialog = true;
-        this.Entry.Translation = this._backUpTranslation;
-        this.Entry.ExistsKeyInCurrentTranslationSession -= this.SessionManager.ExistsKeyInCurrentTranslationSession;
-        this.Entry.IsIndexKeyValid -= this.SessionManager.IsIndexKeyValid;
+        this.canCloseDialog = true;
         IDialogResult result = new DialogResult(ButtonResult.Cancel);
-        result.Parameters.Add(nameof(ILocalizationEntry), this.Entry);
+        result.Parameters.Add(nameof(IAppLocFileEntry), null);
         RequestClose?.Invoke(result);
+        this.SetEntriesToNull();
+    }
+
+    private void SetEntriesToNull() {
+        this.original = null;
         this.Entry = null;
-        this._backUpTranslation = null;
     }
 
     private void OnLoadedAction(RoutedEventArgs e) {
         if (e.Source is Grid grid) {
-            this._bindingGroup = grid.BindingGroup;
+            this.bindingGroup = grid.BindingGroup;
             this.InitBindingGroup();
-            this._isLoaded = true;
+            this.isLoaded = true;
         }
     }
 
     private void InitBindingGroup() {
-        if (this._bindingGroup != null) {
-            this._bindingGroup.CancelEdit();
-            this._bindingGroup.BeginEdit();
+        if (this.bindingGroup is not null) {
+            this.bindingGroup.CancelEdit();
+            this.bindingGroup.BeginEdit();
         }
     }
 
@@ -230,11 +228,11 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     private bool IsCancelInterruptable() {
-        return !Equals(this.Entry?.Translation, this._backUpTranslation);
+        return !Equals(this.Entry?.Translation, this.original.Translation);
     }
 
     public bool CanCloseDialog() {
-        return this._canCloseDialog;
+        return this.canCloseDialog;
     }
 
     public void OnDialogClosed() {
@@ -243,38 +241,31 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
     }
 
     public void OnDialogOpened(IDialogParameters parameters) {
-        this._canCloseDialog = false;
-        bool gotEntry = parameters.TryGetValue<ILocalizationEntry>(nameof(ILocalizationEntry), out ILocalizationEntry entry);
+        this.canCloseDialog = false;
+        bool gotEntry = parameters.TryGetValue<IAppLocFileEntry>(nameof(IAppLocFileEntry), out IAppLocFileEntry entry);
         if (!gotEntry) {
             this.Entry = null;
             return;
         }
-        this.Entry = entry;
-        this.Entry.ExistsKeyInCurrentTranslationSession += this.SessionManager.ExistsKeyInCurrentTranslationSession;
-        this.Entry.IsIndexKeyValid += this.SessionManager.IsIndexKeyValid;
-        //
+        this.original = entry;
+        this.Entry = new EditEntry(this.SessionManager, entry);
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
         this.IsCount = gotIsCount && isCount;
-        if (!this._isLoaded) {
-            return;
-        }
-        this.InitBindingGroup();
     }
 
     private void OnEntryChanged() {
         int lines = 3;
-        if (this.Entry != null) {
-            this._backUpTranslation = this.Entry.Translation;
-            if (this.Entry.Value != null) {
+        if (this.Entry is not null) {
+            if (this.Entry.Value is not null) {
                 int valueLines = this.Entry.Value.Split("\n").Length;
                 if (valueLines > lines) {
                     lines = valueLines;
                 }
             }
         }
-        int height = this._translationTextBoxHeightLine * this._translationTextBoxHeightLineMultiplier * lines;
-        if (height > this._translationTextBoxHeightMax) {
-            height = this._translationTextBoxHeightMax;
+        int height = this.translationTextBoxHeightLine * this.translationTextBoxHeightLineMultiplier * lines;
+        if (height > this.translationTextBoxHeightMax) {
+            height = this.translationTextBoxHeightMax;
         }
         this.TranslationTextBoxHeight = height;
     }

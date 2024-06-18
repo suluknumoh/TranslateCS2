@@ -258,6 +258,51 @@ namespace TranslateCS2.Edits.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key already exists!.
+        /// </summary>
+        public static string InputWarningKeyDuplicate {
+            get {
+                return ResourceManager.GetString("InputWarningKeyDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key must not be empty!.
+        /// </summary>
+        public static string InputWarningKeyEmpty {
+            get {
+                return ResourceManager.GetString("InputWarningKeyEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index is inconsistent. To add an indexed value the next free index &apos;{0}&apos; should be used..
+        /// </summary>
+        public static string InputWarningKeyIndex {
+            get {
+                return ResourceManager.GetString("InputWarningKeyIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key must not contain spaces!.
+        /// </summary>
+        public static string InputWarningSpaces {
+            get {
+                return ResourceManager.GetString("InputWarningSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translation must not be empty!.
+        /// </summary>
+        public static string InputWarningTranslationEmpty {
+            get {
+                return ResourceManager.GetString("InputWarningTranslationEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to something went wrong.
         /// </summary>
         public static string MessageSomethingWentWrong {

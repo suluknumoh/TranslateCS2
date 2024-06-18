@@ -10,8 +10,10 @@
 
 namespace TranslateCS2.Mod.Properties.I18N {
     using System;
-    
-    
+
+    using TranslateCS2.Inf.Attributes;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,6 +24,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [MyExcludeFromCoverage]
     internal class I18NMod {
         
         private static global::System.Resources.ResourceManager resourceMan;

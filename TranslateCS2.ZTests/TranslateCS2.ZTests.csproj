@@ -9,30 +9,26 @@
     <Import Project="..\TranslateCS2.Inf\Properties\General.props" />
 
     <ItemGroup>
-        <PackageReference Include="coverlet.collector" Version="6.0.2">
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+        <PackageReference Include="xunit" Version="2.8.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-        <PackageReference Include="xunit" Version="2.8.0" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Using Include="Xunit" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\TranslateCS2.Inf\TranslateCS2.Inf.csproj" />
+        <ProjectReference Include="..\TranslateCS2.ZZZTestLib\TranslateCS2.ZZZTestLib.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="Assets\**\*.*">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Include="Assets\**\*.*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
-
+    <ItemGroup>
+        <Folder Include="Logs\**\" />
+        <None Include="Logs\**\*.*" />
+    </ItemGroup>
 </Project>

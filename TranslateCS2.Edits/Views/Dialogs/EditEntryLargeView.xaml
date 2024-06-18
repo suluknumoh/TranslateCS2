@@ -199,10 +199,11 @@
                             FontSize="14"
                             AcceptsReturn="False"
                             HorizontalAlignment="Stretch"
-                            Text="{Binding Entry.Key,
+                            Text="{Binding Entry.KeySetter,
                                            Mode=TwoWay,
                                            UpdateSourceTrigger=PropertyChanged,
-                                           ValidatesOnDataErrors=True}">
+                                           ValidatesOnDataErrors=True,
+                                           ValidatesOnExceptions=True}">
                             <TextBox.Style>
                                 <Style
                                     TargetType="TextBox"
@@ -550,7 +551,8 @@
                             Text="{Binding Entry.Translation,
                                            Mode=TwoWay,
                                            UpdateSourceTrigger=PropertyChanged,
-                                           ValidatesOnDataErrors=True}"
+                                           ValidatesOnDataErrors=True,
+                                           ValidatesOnExceptions=True}"
                             AcceptsReturn="True"
                             Height="{Binding TranslationTextBoxHeight}"
                             TextWrapping="NoWrap"

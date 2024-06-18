@@ -269,7 +269,7 @@
 | pl-PL | Polish (Poland) | polski (Polska) |
 
 
-## Portuguese (Brazil) - português (Brasil)
+## Portuguese - português
 | Language-(Region)-Code | English Name | Native Name |
 | ---------- | ---------- | ---------- |
 | pt | Portuguese | português |

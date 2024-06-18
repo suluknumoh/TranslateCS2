@@ -1,0 +1,676 @@
+<Project>
+    <!--Imports must be after PropertyGroup block-->
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
+
+    <ItemGroup>
+        <Reference Include="Accessibility">
+            <HintPath>$(ManagedPath)\Accessibility.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Backtrace.Unity">
+            <HintPath>$(ManagedPath)\Backtrace.Unity.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Cinemachine">
+            <HintPath>$(ManagedPath)\Cinemachine.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="cohtml.Net">
+            <HintPath>$(ManagedPath)\cohtml.Net.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Cohtml.RenderingBackend">
+            <HintPath>$(ManagedPath)\Cohtml.RenderingBackend.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Cohtml.Runtime">
+            <HintPath>$(ManagedPath)\Cohtml.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.AssetPipeline">
+            <HintPath>$(ManagedPath)\Colossal.AssetPipeline.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.AssetPipeline.Native">
+            <HintPath>$(ManagedPath)\Colossal.AssetPipeline.Native.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.ATL">
+            <HintPath>$(ManagedPath)\Colossal.ATL.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.CharacterSystem">
+            <HintPath>$(ManagedPath)\Colossal.CharacterSystem.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Collections">
+            <HintPath>$(ManagedPath)\Colossal.Collections.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Core">
+            <HintPath>$(ManagedPath)\Colossal.Core.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.IO.AssetDatabase">
+            <HintPath>$(ManagedPath)\Colossal.IO.AssetDatabase.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.IO">
+            <HintPath>$(ManagedPath)\Colossal.IO.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Localization">
+            <HintPath>$(ManagedPath)\Colossal.Localization.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Logging">
+            <HintPath>$(ManagedPath)\Colossal.Logging.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Mathematics">
+            <HintPath>$(ManagedPath)\Colossal.Mathematics.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.Mono.Cecil">
+            <HintPath>$(ManagedPath)\Colossal.Mono.Cecil.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.OdinSerializer">
+            <HintPath>$(ManagedPath)\Colossal.OdinSerializer.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.PSI.Common">
+            <HintPath>$(ManagedPath)\Colossal.PSI.Common.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.PSI.Discord">
+            <HintPath>$(ManagedPath)\Colossal.PSI.Discord.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.PSI.PdxSdk">
+            <HintPath>$(ManagedPath)\Colossal.PSI.PdxSdk.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.PSI.Steamworks">
+            <HintPath>$(ManagedPath)\Colossal.PSI.Steamworks.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.UI.Binding">
+            <HintPath>$(ManagedPath)\Colossal.UI.Binding.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Colossal.UI">
+            <HintPath>$(ManagedPath)\Colossal.UI.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="com.rlabrecque.steamworks.net">
+            <HintPath>$(ManagedPath)\com.rlabrecque.steamworks.net.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="DiscordSDK">
+            <HintPath>$(ManagedPath)\DiscordSDK.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="DryDock.Runtime">
+            <HintPath>$(ManagedPath)\DryDock.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Elringus.UnityGoogleDrive.Runtime">
+            <HintPath>$(ManagedPath)\Elringus.UnityGoogleDrive.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Game.ArtPipeline">
+            <HintPath>$(ManagedPath)\Game.ArtPipeline.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Game">
+            <HintPath>$(ManagedPath)\Game.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Game.TestScenarios">
+            <HintPath>$(ManagedPath)\Game.TestScenarios.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="GdkUtilities">
+            <HintPath>$(ManagedPath)\GdkUtilities.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="ICSharpCode.SharpZipLib">
+            <HintPath>$(ManagedPath)\ICSharpCode.SharpZipLib.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="InstaLOD.Runtime">
+            <HintPath>$(ManagedPath)\InstaLOD.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Mono.Posix">
+            <HintPath>$(ManagedPath)\Mono.Posix.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Mono.Security">
+            <HintPath>$(ManagedPath)\Mono.Security.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Mono.WebBrowser">
+            <HintPath>$(ManagedPath)\Mono.WebBrowser.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="mscorlib">
+            <HintPath>$(ManagedPath)\mscorlib.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="netstandard">
+            <HintPath>$(ManagedPath)\netstandard.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(ManagedPath)\Newtonsoft.Json.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="PDX.ModsUI">
+            <HintPath>$(ManagedPath)\PDX.ModsUI.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="PDX.SDK">
+            <HintPath>$(ManagedPath)\PDX.SDK.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.ComponentModel.Composition">
+            <HintPath>$(ManagedPath)\System.ComponentModel.Composition.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Configuration">
+            <HintPath>$(ManagedPath)\System.Configuration.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Configuration.Install">
+            <HintPath>$(ManagedPath)\System.Configuration.Install.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Core">
+            <HintPath>$(ManagedPath)\System.Core.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Data.DataSetExtensions">
+            <HintPath>$(ManagedPath)\System.Data.DataSetExtensions.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Data">
+            <HintPath>$(ManagedPath)\System.Data.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System">
+            <HintPath>$(ManagedPath)\System.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Drawing">
+            <HintPath>$(ManagedPath)\System.Drawing.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.EnterpriseServices">
+            <HintPath>$(ManagedPath)\System.EnterpriseServices.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.IO.Compression">
+            <HintPath>$(ManagedPath)\System.IO.Compression.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.IO.Compression.FileSystem">
+            <HintPath>$(ManagedPath)\System.IO.Compression.FileSystem.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Net.Http">
+            <HintPath>$(ManagedPath)\System.Net.Http.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Numerics">
+            <HintPath>$(ManagedPath)\System.Numerics.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Runtime">
+            <HintPath>$(ManagedPath)\System.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Runtime.Serialization">
+            <HintPath>$(ManagedPath)\System.Runtime.Serialization.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+            <HintPath>$(ManagedPath)\System.Runtime.Serialization.Formatters.Soap.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Security">
+            <HintPath>$(ManagedPath)\System.Security.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.ServiceModel.Internals">
+            <HintPath>$(ManagedPath)\System.ServiceModel.Internals.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.ServiceProcess">
+            <HintPath>$(ManagedPath)\System.ServiceProcess.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Transactions">
+            <HintPath>$(ManagedPath)\System.Transactions.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Windows.Forms">
+            <HintPath>$(ManagedPath)\System.Windows.Forms.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Xml">
+            <HintPath>$(ManagedPath)\System.Xml.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="System.Xml.Linq">
+            <HintPath>$(ManagedPath)\System.Xml.Linq.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Burst">
+            <HintPath>$(ManagedPath)\Unity.Burst.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Burst.Unsafe">
+            <HintPath>$(ManagedPath)\Unity.Burst.Unsafe.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Collections">
+            <HintPath>$(ManagedPath)\Unity.Collections.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Collections.LowLevel.ILSupport">
+            <HintPath>$(ManagedPath)\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Deformations">
+            <HintPath>$(ManagedPath)\Unity.Deformations.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Entities">
+            <HintPath>$(ManagedPath)\Unity.Entities.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Entities.Hybrid">
+            <HintPath>$(ManagedPath)\Unity.Entities.Hybrid.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Entities.Hybrid.HybridComponents">
+            <HintPath>$(ManagedPath)\Unity.Entities.Hybrid.HybridComponents.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Entities.UI">
+            <HintPath>$(ManagedPath)\Unity.Entities.UI.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.InputSystem">
+            <HintPath>$(ManagedPath)\Unity.InputSystem.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.InputSystem.ForUI">
+            <HintPath>$(ManagedPath)\Unity.InputSystem.ForUI.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.InternalAPIEngineBridge.002">
+            <HintPath>$(ManagedPath)\Unity.InternalAPIEngineBridge.002.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+            <HintPath>$(ManagedPath)\Unity.Mathematics.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics.Extensions">
+            <HintPath>$(ManagedPath)\Unity.Mathematics.Extensions.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics.Extensions.Hybrid">
+            <HintPath>$(ManagedPath)\Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.MemoryProfiler">
+            <HintPath>$(ManagedPath)\Unity.MemoryProfiler.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Profiling.Core">
+            <HintPath>$(ManagedPath)\Unity.Profiling.Core.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.Core.Runtime">
+            <HintPath>$(ManagedPath)\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+            <HintPath>$(ManagedPath)\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
+            <HintPath>$(ManagedPath)\Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
+            <HintPath>$(ManagedPath)\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+            <HintPath>$(ManagedPath)\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Scenes">
+            <HintPath>$(ManagedPath)\Unity.Scenes.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.ScriptableBuildPipeline">
+            <HintPath>$(ManagedPath)\Unity.ScriptableBuildPipeline.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Serialization">
+            <HintPath>$(ManagedPath)\Unity.Serialization.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+            <HintPath>$(ManagedPath)\Unity.TextMeshPro.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Timeline">
+            <HintPath>$(ManagedPath)\Unity.Timeline.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Transforms">
+            <HintPath>$(ManagedPath)\Unity.Transforms.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.Transforms.Hybrid">
+            <HintPath>$(ManagedPath)\Unity.Transforms.Hybrid.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="Unity.VisualEffectGraph.Runtime">
+            <HintPath>$(ManagedPath)\Unity.VisualEffectGraph.Runtime.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AccessibilityModule">
+            <HintPath>$(ManagedPath)\UnityEngine.AccessibilityModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AIModule">
+            <HintPath>$(ManagedPath)\UnityEngine.AIModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AMD">
+            <HintPath>$(ManagedPath)\UnityEngine.AMD.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AndroidJNIModule">
+            <HintPath>$(ManagedPath)\UnityEngine.AndroidJNIModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AnimationModule">
+            <HintPath>$(ManagedPath)\UnityEngine.AnimationModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ARModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ARModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AssetBundleModule">
+            <HintPath>$(ManagedPath)\UnityEngine.AssetBundleModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>$(ManagedPath)\UnityEngine.AudioModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ClothModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ClothModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ClusterInputModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ClusterInputModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ClusterRendererModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ClusterRendererModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ContentLoadModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ContentLoadModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(ManagedPath)\UnityEngine.CoreModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CrashReportingModule">
+            <HintPath>$(ManagedPath)\UnityEngine.CrashReportingModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.DirectorModule">
+            <HintPath>$(ManagedPath)\UnityEngine.DirectorModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>$(ManagedPath)\UnityEngine.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.DSPGraphModule">
+            <HintPath>$(ManagedPath)\UnityEngine.DSPGraphModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.GameCenterModule">
+            <HintPath>$(ManagedPath)\UnityEngine.GameCenterModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.GIModule">
+            <HintPath>$(ManagedPath)\UnityEngine.GIModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.GridModule">
+            <HintPath>$(ManagedPath)\UnityEngine.GridModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.HotReloadModule">
+            <HintPath>$(ManagedPath)\UnityEngine.HotReloadModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ImageConversionModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+            <HintPath>$(ManagedPath)\UnityEngine.IMGUIModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(ManagedPath)\UnityEngine.InputLegacyModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputModule">
+            <HintPath>$(ManagedPath)\UnityEngine.InputModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule">
+            <HintPath>$(ManagedPath)\UnityEngine.JSONSerializeModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.LocalizationModule">
+            <HintPath>$(ManagedPath)\UnityEngine.LocalizationModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.NVIDIAModule">
+            <HintPath>$(ManagedPath)\UnityEngine.NVIDIAModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ParticleSystemModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.PerformanceReportingModule">
+            <HintPath>$(ManagedPath)\UnityEngine.PerformanceReportingModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.Physics2DModule">
+            <HintPath>$(ManagedPath)\UnityEngine.Physics2DModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+            <HintPath>$(ManagedPath)\UnityEngine.PhysicsModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ProfilerModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ProfilerModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.PropertiesModule">
+            <HintPath>$(ManagedPath)\UnityEngine.PropertiesModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+            <HintPath>$(ManagedPath)\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ScreenCaptureModule">
+            <HintPath>$(ManagedPath)\UnityEngine.ScreenCaptureModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.SharedInternalsModule">
+            <HintPath>$(ManagedPath)\UnityEngine.SharedInternalsModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.SpriteMaskModule">
+            <HintPath>$(ManagedPath)\UnityEngine.SpriteMaskModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.SpriteShapeModule">
+            <HintPath>$(ManagedPath)\UnityEngine.SpriteShapeModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.StreamingModule">
+            <HintPath>$(ManagedPath)\UnityEngine.StreamingModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.SubstanceModule">
+            <HintPath>$(ManagedPath)\UnityEngine.SubstanceModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.SubsystemsModule">
+            <HintPath>$(ManagedPath)\UnityEngine.SubsystemsModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TerrainModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TerrainModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TerrainPhysicsModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreFontEngineModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreTextEngineModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TextRenderingModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TilemapModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TilemapModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TLSModule">
+            <HintPath>$(ManagedPath)\UnityEngine.TLSModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(ManagedPath)\UnityEngine.UI.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UIElementsModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UIElementsModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UIModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UmbraModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UmbraModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityAnalyticsModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityConnectModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityConnectModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityCurlModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityCurlModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityTestProtocolModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityWebRequestModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+            <HintPath>$(ManagedPath)\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.VehiclesModule">
+            <HintPath>$(ManagedPath)\UnityEngine.VehiclesModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.VFXModule">
+            <HintPath>$(ManagedPath)\UnityEngine.VFXModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.VideoModule">
+            <HintPath>$(ManagedPath)\UnityEngine.VideoModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.VirtualTexturingModule">
+            <HintPath>$(ManagedPath)\UnityEngine.VirtualTexturingModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.VRModule">
+            <HintPath>$(ManagedPath)\UnityEngine.VRModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.WindModule">
+            <HintPath>$(ManagedPath)\UnityEngine.WindModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="UnityEngine.XRModule">
+            <HintPath>$(ManagedPath)\UnityEngine.XRModule.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+        <Reference Include="XblPCSandbox">
+            <HintPath>$(ManagedPath)\XblPCSandbox.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+    </ItemGroup>
+
+</Project>
