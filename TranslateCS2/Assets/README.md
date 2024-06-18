@@ -10,13 +10,8 @@ Please see also: [MIT-License](https://github.com/suluknumoh/TranslateCS2?tab=MI
 # Requirements
 ## general
 [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii)
-via
-[STEAM](https://store.steampowered.com)
 on
 [Microsoft Windows](https://www.microsoft.com/windows/)
-
-
-This tool can not be used without having [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installed via [STEAM](https://store.steampowered.com) on [Microsoft Windows](https://www.microsoft.com/windows/)
 
 ## Self-Containing release
 No further requirements
@@ -26,10 +21,7 @@ No further requirements
 
 # Limitations
 ## Microsoft Versions (Store, GamePass)
-The game files seem to be encrypted, protected and/or hidden, so this application cannot access them.
 
-- https://www.reddit.com/r/pcgaming/comments/c39dgs/does_anyone_know_where_microsofts_pc_game_pass/
-- https://www.reddit.com/r/XboxGamePassPC/comments/n3nkxm/game_file_location/
 
 ## STEAM
 This tool relies on [STEAM](https://store.steampowered.com)'s "libraryfolders.vdf" and "appmanifest_[steam_app_id].acf" files.

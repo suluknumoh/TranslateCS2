@@ -10,13 +10,8 @@ Please see also: [MIT-License](https://github.com/suluknumoh/TranslateCS2?tab=MI
 # Requirements
 ## general
 [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii)
-via
-[STEAM](https://store.steampowered.com)
 on
 [Microsoft Windows](https://www.microsoft.com/windows/)
-
-
-This tool can not be used without having [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installed via [STEAM](https://store.steampowered.com) on [Microsoft Windows](https://www.microsoft.com/windows/)
 
 ## Self-Containing release
 No further requirements
@@ -26,10 +21,7 @@ No further requirements
 
 # Limitations
 ## Microsoft Versions (Store, GamePass)
-The game files seem to be encrypted, protected and/or hidden, so this application cannot access them.
 
-- https://www.reddit.com/r/pcgaming/comments/c39dgs/does_anyone_know_where_microsofts_pc_game_pass/
-- https://www.reddit.com/r/XboxGamePassPC/comments/n3nkxm/game_file_location/
 
 ## STEAM
 This tool relies on [STEAM](https://store.steampowered.com)'s "libraryfolders.vdf" and "appmanifest_[steam_app_id].acf" files.
@@ -169,6 +161,17 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - To re-export the translation(s) after [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) is updated
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
+
+## Version 2.0.4.0 (Work In Progress)
+- [i286-1](https://github.com/i286-1) thankfully shared some information about [XBoxGames](https://github.com/suluknumoh/TranslateCS2/issues/10)
+    - the App is not limited to the [STEAM](https://store.steampowered.com)-Version anymore
+    - at startup three [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation locations are checked
+        - [STEAM](https://store.steampowered.com)
+        - C:\XBoxGames\Cities- Skylines II - PC Edition\Content
+        - a location saved in a file called '__CitiesLocation' within this App's folder
+    - if all checks fail, a dialog is going to be displayed to select [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location manually
+    - the selected location is going to be saved in a file called '__CitiesLocation' within this App's folder
+    - and this App gets restarted
 
 ## Version 2.0.3.0
 - use LocName instead of Session-Name
@@ -338,6 +341,9 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ## ElroyNL
 - https://github.com/ElroyNL
 - https://forum.paradoxplaza.com/forum/members/elroynl.1385312/
+---
+## i286-1
+- https://github.com/i286-1
 ---
 ## Microsoft
 - https://microsoft.com/
