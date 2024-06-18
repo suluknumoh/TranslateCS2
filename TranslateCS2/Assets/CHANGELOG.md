@@ -5,6 +5,7 @@
 - use LocName instead of Session-Name
 - dont duplicate entries
 - validate edit inputs on open
+- overwriting .loc-files directly is no longer supported
 
 ## Version 2.0.1.0
 - export merge-values
