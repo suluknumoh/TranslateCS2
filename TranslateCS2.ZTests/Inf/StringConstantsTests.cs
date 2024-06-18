@@ -33,6 +33,10 @@ public class StringConstantsTests {
         Assert.Equal("\\", StringConstants.BackSlash);
     }
     [Fact]
+    public void BackSlashDoubleTest() {
+        Assert.Equal("\\\\", StringConstants.BackSlashDouble);
+    }
+    [Fact]
     public void DotTest() {
         Assert.Equal(".", StringConstants.Dot);
     }
@@ -63,5 +67,13 @@ public class StringConstantsTests {
     [Fact]
     public void LineFeedTest() {
         Assert.Equal("\n", StringConstants.LineFeed);
+    }
+    [Fact]
+    public void TabTest() {
+        Assert.Equal("\t", StringConstants.Tab);
+    }
+    [Fact]
+    public void QuotationMarkTest() {
+        Assert.Equal("\"", StringConstants.QuotationMark);
     }
 }

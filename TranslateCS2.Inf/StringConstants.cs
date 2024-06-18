@@ -7,6 +7,7 @@ public static class StringConstants {
     public static string Cities_Skylines_II { get; } = nameof(Cities_Skylines_II).Replace(Underscore, Space);
     public static string ForwardSlash { get; } = "/";
     public static string BackSlash { get; } = "\\";
+    public static string BackSlashDouble { get; } = "\\\\";
     public static string Dot { get; } = ".";
     public static string ThreeDots { get; } = "...";
     public static string Dash { get; } = "-";
@@ -15,4 +16,6 @@ public static class StringConstants {
     public static string NoneLower { get; } = nameof(None).ToLower();
     public static string CarriageReturn { get; } = "\r";
     public static string LineFeed { get; } = "\n";
+    public static string Tab { get; } = "\t";
+    public static string QuotationMark { get; } = "\"";
 }
