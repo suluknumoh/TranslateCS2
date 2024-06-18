@@ -178,6 +178,7 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 - use LocName instead of Session-Name
 - dont duplicate entries
 - validate edit inputs on open
+- overwriting .loc-files directly is no longer supported
 
 ## Version 2.0.1.0
 - export merge-values
@@ -394,3 +395,12 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ## Magnus Montin .NET
 - https://blog.magnusmontin.net/
 - https://blog.magnusmontin.net/2013/08/26/data-validation-in-wpf/
+---
+## SeriLog
+- https://serilog.net
+- https://github.com/serilog
+---
+## Fortune Ngwenya - Fine Code Coverage
+- https://marketplace.visualstudio.com/items?itemName=FortuneNgwenya.FineCodeCoverage
+- https://github.com/FortuneN/FineCodeCoverage
+- https://github.com/FortuneN
