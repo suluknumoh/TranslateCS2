@@ -114,10 +114,6 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 
 ## Ex-Import
 ### Export
-#### direct-overwrite
-- it overwrites the localization file you selected while creating the current Translation-Session
-- after a click on the export-button, you're asked if you are sure. if you confirm, the current Translation-Session gets prepared and exported
-
 #### JSON
 ##### general
 - to share your translations with others
