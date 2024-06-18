@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
@@ -9,46 +10,15 @@ using TranslateCS2.Inf.Keyz;
 using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Edits.Models;
-internal class EditEntry {
+internal class EditEntry : IDataErrorInfo {
     private readonly ITranslationSessionManager sessionManager;
     public IMyKey Key { get; }
 
     public string? KeySetter {
         get => this.Key.Key;
-        set {
-            string? work = value?.Trim();
-            if (this.IsDeleteAble) {
-                if (StringHelper.IsNullOrWhiteSpaceOrEmpty(work)) {
-                    throw new Exception(I18NEdits.InputWarningKeyEmpty);
-                    //} else if (value.Contains(' ')) {
-                    //    throw new Exception(I18NEdits.InputWarningSpaces);
-                } else if (value != this.KeyOrigin) {
-                    if (this.sessionManager.ExistsKeyInCurrentTranslationSession(work)) {
-                        throw new Exception(I18NEdits.InputWarningKeyDuplicate);
-                    } else if (IndexCountHelper.IndexMatcher.IsMatch(work)) {
-                        IndexCountHelperValidationResult? result = this.sessionManager.IsIndexKeyValid(work, this.KeyOrigin);
-                        if (result is not null
-                            && !result.IsValid) {
-                            throw new Exception(String.Format(I18NEdits.InputWarningKeyIndex, result.NextFreeIndex));
-                        }
-                    }
-                }
-            }
-            this.Key.Key = work;
-        }
+        set => this.Key.Key = value?.Trim();
     }
-    private string? _Translation;
-    public string? Translation {
-        get => this._Translation;
-        set {
-            if (this.IsDeleteAble) {
-                if (StringHelper.IsNullOrWhiteSpaceOrEmpty(value)) {
-                    throw new Exception(I18NEdits.InputWarningTranslationEmpty);
-                }
-            }
-            this._Translation = value;
-        }
-    }
+    public string? Translation { get; set; }
 
     public HashSet<string> Keys { get; } = [];
     public int Count => this.Keys.Count;
@@ -56,6 +26,10 @@ internal class EditEntry {
     public string? Value { get; }
     public string? ValueMerge { get; }
     public bool IsDeleteAble { get; }
+
+    public string Error => String.Empty;
+
+
     public EditEntry(ITranslationSessionManager sessionManager,
                      IAppLocFileEntry entry) {
         this.sessionManager = sessionManager;
@@ -64,12 +38,46 @@ internal class EditEntry {
         this.KeyOrigin = entry.KeyOrigin;
         this.Value = entry.Value;
         this.ValueMerge = entry.ValueMerge;
-        this._Translation = entry.Translation;
+        this.Translation = entry.Translation;
         this.IsDeleteAble = entry.IsDeleteAble;
     }
 
     internal void ApplyChangesTo(IAppLocFileEntry original) {
         original.Key.Key = this.KeySetter;
         original.Translation = this.Translation;
+    }
+
+    public string this[string columnName] {
+        get {
+            switch (columnName) {
+                case nameof(this.KeySetter):
+                    if (this.IsDeleteAble) {
+                        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.KeySetter)) {
+                            return I18NEdits.InputWarningKeyEmpty;
+                            //} else if (value.Contains(' ')) {
+                            //    throw new Exception(I18NEdits.InputWarningSpaces);
+                        } else if (this.KeySetter != this.KeyOrigin) {
+                            if (this.sessionManager.ExistsKeyInCurrentTranslationSession(this.KeySetter)) {
+                                return I18NEdits.InputWarningKeyDuplicate;
+                            } else if (IndexCountHelper.IndexMatcher.IsMatch(this.KeySetter)) {
+                                IndexCountHelperValidationResult? result = this.sessionManager.IsIndexKeyValid(this.KeySetter, this.KeyOrigin);
+                                if (result is not null
+                                    && !result.IsValid) {
+                                    return String.Format(I18NEdits.InputWarningKeyIndex, result.NextFreeIndex);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case nameof(this.Translation):
+                    if (this.IsDeleteAble) {
+                        if (StringHelper.IsNullOrWhiteSpaceOrEmpty(this.Translation)) {
+                            return I18NEdits.InputWarningTranslationEmpty;
+                        }
+                    }
+                    break;
+            }
+            return String.Empty;
+        }
     }
 }

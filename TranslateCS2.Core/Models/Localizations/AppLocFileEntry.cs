@@ -18,6 +18,7 @@ internal class AppLocFileEntry : IAppLocFileEntry {
     public AppLocFileEntry(string key, string? value) {
         this.Key = new MyKey(key);
         this.Value = value;
+        this.KeyOrigin = key;
     }
     public AppLocFileEntry(string key,
                            string? value,
@@ -25,6 +26,7 @@ internal class AppLocFileEntry : IAppLocFileEntry {
                            string? translation,
                            bool isDeleteAble) : this(key, value) {
         this.AddKey(key);
+        this.KeyOrigin = key;
         this.ValueMerge = valueMerge;
         this.Translation = translation;
         this.IsDeleteAble = isDeleteAble;

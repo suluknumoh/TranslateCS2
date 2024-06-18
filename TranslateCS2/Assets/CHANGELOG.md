@@ -1,6 +1,11 @@
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
+## Version 2.0.3.0
+- use LocName instead of Session-Name
+- dont duplicate entries
+- validate edit inputs on open
+
 ## Version 2.0.1.0
 - export merge-values
 - languages

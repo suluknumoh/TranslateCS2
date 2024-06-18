@@ -47,7 +47,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         ModSettings modSettings = runtimeContainer.Settings;
         modSettings.LogMarkdownAndCultureInfoNames = true;
         Assert.True(testLogProvider.HasLoggedInfo);
-        Assert.Equal(1, testLogProvider.LogInfoCount);
+        Assert.Equal(2, testLogProvider.LogInfoCount);
         Assert.False(testLogProvider.HasLoggedWarning);
         Assert.False(testLogProvider.HasLoggedError);
         Assert.False(testLogProvider.HasLoggedTrace);

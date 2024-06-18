@@ -73,15 +73,14 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
             }
         }
         KeyValuePair<string, IAppLocFileEntry> editedKeyValuePair = new KeyValuePair<string, IAppLocFileEntry>(edited.Key.Key, edited);
-        if (!this.CurrentSession.Localizations.Contains(editedKeyValuePair)) {
+        if (!this.CurrentSession.Localizations.Select(item => item.Key).Contains(edited.Key.Key)) {
             this.CurrentSession.Localizations.Add(editedKeyValuePair);
         }
-        SetNewValue(this.CurrentSession.Localizations, translation, edited);
+        base.SetNewValue(this.CurrentSession.Localizations, translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
             // see xaml-code
         }
-        this.RefreshViewList();
     }
 
     protected override void RefreshViewList() {
@@ -151,7 +150,7 @@ internal class EditDefaultViewModel : AEditViewModel<EditDefaultViewModel> {
     }
 
     private void AddEntry(object sender, RoutedEventArgs e) {
-        var newEntry = AppLocFileEntryFactory.CreateEmpty();
+        IAppLocFileEntry newEntry = AppLocFileEntryFactory.CreateEmpty();
         IDialogParameters parameters = new DialogParameters {
             { nameof(IAppLocFileEntry), newEntry },
             { nameof(EditEntryLargeViewModel.IsCount), false }

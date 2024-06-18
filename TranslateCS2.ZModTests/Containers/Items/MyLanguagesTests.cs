@@ -353,7 +353,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         MyLanguages languages = runtimeContainer.Languages;
         languages.LogMarkdownAndCultureInfoNames();
         Assert.True(testLogProvider.HasLoggedInfo);
-        Assert.Equal(1, testLogProvider.LogInfoCount);
+        Assert.Equal(2, testLogProvider.LogInfoCount);
         Assert.False(testLogProvider.HasLoggedWarning);
         Assert.False(testLogProvider.HasLoggedError);
         Assert.False(testLogProvider.HasLoggedTrace);

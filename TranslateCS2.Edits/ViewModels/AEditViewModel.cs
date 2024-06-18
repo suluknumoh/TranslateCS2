@@ -127,9 +127,9 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
                     this.SessionManager.SaveCurrentTranslationSessionsTranslations();
                     this.SessionManager.CurrentTranslationSession.Localizations.Remove(existing);
                 }
-                this.RefreshViewList();
                 break;
         }
+        this.RefreshViewList();
     }
 
     private void InitColumnsSearchAble() {
@@ -245,7 +245,7 @@ internal abstract class AEditViewModel<T> : ABaseViewModel {
 
     protected abstract IEnumerable<object> CreateToolsGroupItems();
 
-    protected static void SetNewValue(ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> list, string? translation, IAppLocFileEntry edited) {
+    protected void SetNewValue(ObservableCollection<KeyValuePair<string, IAppLocFileEntry>> list, string? translation, IAppLocFileEntry edited) {
         foreach (KeyValuePair<string, IAppLocFileEntry> entry in list) {
             if ((
                     !StringHelper.IsNullOrWhiteSpaceOrEmpty(entry.Key)

@@ -43,13 +43,12 @@ internal class EditOccurancesViewModel : AEditViewModel<EditOccurancesViewModel>
         if (this.CurrentSession is null) {
             return;
         }
-        SetNewValue(this.CurrentSession.Localizations, translation, edited);
+        base.SetNewValue(this.CurrentSession.Localizations, translation, edited);
         this.SetNewValue(translation, edited);
         this.SessionManager.SaveCurrentTranslationSessionsTranslations();
         if (this.SessionManager.HasDatabaseError) {
             // see xaml-code
         }
-        this.RefreshViewList();
     }
 
     protected override IEnumerable<object> CreateToolsGroupItems() {

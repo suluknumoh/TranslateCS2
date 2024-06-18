@@ -251,10 +251,6 @@ internal class EditEntryLargeViewModel : BindableBase, IDialogAware {
         this.Entry = new EditEntry(this.SessionManager, entry);
         bool gotIsCount = parameters.TryGetValue<bool>(nameof(EditEntryLargeViewModel.IsCount), out bool isCount);
         this.IsCount = gotIsCount && isCount;
-        if (!this.isLoaded) {
-            return;
-        }
-        this.InitBindingGroup();
     }
 
     private void OnEntryChanged() {
