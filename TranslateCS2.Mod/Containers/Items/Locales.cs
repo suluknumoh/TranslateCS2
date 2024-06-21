@@ -14,6 +14,8 @@ internal class Locales {
     private IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
     public Locales(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
+        // TODO: use LocaleAssetProvider to not access filesystem
+        /// <see cref="TranslateCS2.Mod.Containers.Items.Unitys.LocaleAssetProvider"/>
         Dictionary<string, string> dictionary = [];
         // has to end with a forward-slash
         string path = $"{runtimeContainer.Paths.StreamingDatasDataPath}";
