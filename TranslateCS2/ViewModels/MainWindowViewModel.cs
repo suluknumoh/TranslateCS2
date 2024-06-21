@@ -4,6 +4,9 @@ using System.Windows;
 using Prism.Commands;
 
 using TranslateCS2.Core.Brokers;
+using TranslateCS2.Core.Configurations.CitiesLocations;
+using TranslateCS2.Core.Helpers;
+using TranslateCS2.Core.Services.InstallPaths;
 
 namespace TranslateCS2.ViewModels;
 internal class MainWindowViewModel {
@@ -30,8 +33,29 @@ internal class MainWindowViewModel {
     }
 
     private void WindowLoadedCommandAction(RoutedEventArgs args) {
+        // TODO: also via StartUpParameter?
         //if (Application.Current.Resources[] is string ) {
         // read startup parameters if needed
         //}
+        if (args.Source is Window window) {
+            this.DetectInstallPath(window);
+        }
+    }
+    private void DetectInstallPath(Window owner) {
+        IInstallPathDetector installPathDetector = IInstallPathDetector.Instance;
+        bool detected = installPathDetector.Detect();
+        if (!detected) {
+            // TODO: MessageBox that informs about failure to detect etc.
+            // TODO: title, caption and text
+            ManualPathSelector manualPathSelector = new ManualPathSelector("a", "b", "c");
+            string? path = manualPathSelector.Display(owner);
+            if (path is not null) {
+                CitiesLocationsSection.AddLocation(path);
+                bool restarted = RestartHelper.Restart();
+                if (!restarted) {
+                    // TODO: show error
+                }
+            }
+        }
     }
 }

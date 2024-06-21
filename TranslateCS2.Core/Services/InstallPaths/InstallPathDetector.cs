@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 
-using TranslateCS2.Core.Helpers;
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Interfaces;
 
@@ -20,9 +19,8 @@ internal class InstallPathDetector : APathDetector, ILocFileDirectoryProvider {
 
 
     public InstallPathDetector() {
-        this.pathDetectors.Add(new PathDetectorSteam());
-        this.pathDetectors.Add(new PathDetectorXboxGames());
         this.pathDetectors.Add(new PathDetectorManual());
+        this.pathDetectors.Add(new PathDetectorSteam());
 
     }
     public override bool Detect() {
@@ -34,21 +32,6 @@ internal class InstallPathDetector : APathDetector, ILocFileDirectoryProvider {
             if (this.isDetected) {
                 this.InstallPath = detector.InstallPath;
                 break;
-            }
-        }
-        if (!this.isDetected) {
-            bool ok = false;
-            // TODO: AAA-7: show an info
-            // TODO: AAA-8: show open file dialog
-            // TODO: AAA-9: double-check
-            // TODO: AAA-10: write selected path to
-            /// <see cref="TranslateCS2.Core.Configurations.AppConfigurationManager.CitiesLocation"/>
-            // TODO: AAA-11: and restart
-            if (ok) {
-                bool restarted = RestartHelper.Restart();
-                if (!restarted) {
-                    // TODO: AAA-12: show an info
-                }
             }
         }
         return this.isDetected;

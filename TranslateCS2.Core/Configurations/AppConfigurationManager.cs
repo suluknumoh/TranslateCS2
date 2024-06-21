@@ -50,12 +50,9 @@ public static class AppConfigurationManager {
     public static bool SkipWorkAround { get; } = false;
 
 
-
-    public static string CitiesLocation { get; } = $"./__{nameof(CitiesLocation)}";
-    // TODO: AAA-0: is this folder correct?
-    // TODO: AAA-1: is there a way to autodetect locations via registry? on the other hand, a manual selection is going to be implemented
-    public static string BasicGamePassLocation { get; } = "C:\\XboxGames\\Cities- Skylines II - PC Edition\\Content";
-    public static string CitiesExe { get; } = "Cities2.exe";
+    public static string ExeExtension { get; } = ".exe";
+    public static string CitiesExe { get; } = $"Cities2{ExeExtension}";
+    public static string CitiesExeFilter { get; } = $"{CitiesExe}|{CitiesExe}";
     public static TimeSpan MaxWaitOnRestart { get; } = TimeSpan.FromMinutes(1);
 
 
