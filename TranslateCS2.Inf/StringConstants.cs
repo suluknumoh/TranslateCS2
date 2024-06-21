@@ -18,4 +18,5 @@ public static class StringConstants {
     public static string LineFeed { get; } = "\n";
     public static string Tab { get; } = "\t";
     public static string QuotationMark { get; } = "\"";
+    public static string CommaSpace { get; } = ", ";
 }

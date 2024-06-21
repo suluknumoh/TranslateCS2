@@ -76,4 +76,8 @@ public class StringConstantsTests {
     public void QuotationMarkTest() {
         Assert.Equal("\"", StringConstants.QuotationMark);
     }
+    [Fact]
+    public void CommaSpaceTest() {
+        Assert.Equal(", ", StringConstants.CommaSpace);
+    }
 }

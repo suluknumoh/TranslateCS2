@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Configuration;
 
+using TranslateCS2.Inf;
+
 namespace TranslateCS2.Core.Configurations.CitiesLocations;
 /// <seealso href="https://learn.microsoft.com/en-us/dotnet/api/system.configuration.configurationelementcollection?view=dotnet-plat-ext-8.0"/>>
 public class CitiesLocationsSection : ConfigurationSection {
@@ -53,7 +55,7 @@ public class CitiesLocationsSection : ConfigurationSection {
     ///     to remove Version, Culture and Token from Type-String
     /// </summary>
     private static string ConvertTypeString(string typeString) {
-        string separator = ", ";
+        string separator = StringConstants.CommaSpace;
         string[] source = typeString.Split(separator);
         string[] destination = new string[2];
         Array.Copy(source, destination, 2);
