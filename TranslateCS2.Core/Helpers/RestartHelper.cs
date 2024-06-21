@@ -4,7 +4,7 @@ using System.Windows;
 using TranslateCS2.Core.Configurations;
 
 namespace TranslateCS2.Core.Helpers;
-internal static class RestartHelper {
+public static class RestartHelper {
     public static bool Restart() {
         Process process = Process.GetCurrentProcess();
         ProcessModule? mainModule = process.MainModule;
