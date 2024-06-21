@@ -46,6 +46,8 @@ public class CitiesLocationsSection : ConfigurationSection {
         CitiesLocation citiesLocation = new CitiesLocation {
             Path = location
         };
+        // to have only one manual location within the config
+        section.Locations.Clear();
         section.Locations.Add(citiesLocation);
         config.Save(ConfigurationSaveMode.Minimal);
         ConfigurationManager.RefreshSection(CitiesLocationsSection.SectionName);
