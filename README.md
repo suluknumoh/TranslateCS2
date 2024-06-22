@@ -173,6 +173,8 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
         - afterwards a dialog to manually navigate to [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location and to select 'Cities2.exe' gets displayed
     - the selected location is going to be saved within 'TranslateCS2.dll.config'
     - and this App gets restarted
+- display translation from translator again
+    - got set, but not displayed
 
 ## Version 2.0.3.0
 - use LocName instead of Session-Name
