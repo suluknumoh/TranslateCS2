@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 
 using TranslateCS2.Inf;
@@ -14,18 +13,11 @@ internal class Locales {
     private IReadOnlyDictionary<string, string> LowerCaseToBuiltIn { get; }
     public Locales(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
-        // TODO: use LocaleAssetProvider to not access filesystem
-        /// <see cref="TranslateCS2.Mod.Containers.Items.Unitys.LocaleAssetProvider"/>
         Dictionary<string, string> dictionary = [];
-        // has to end with a forward-slash
-        string path = $"{runtimeContainer.Paths.StreamingDatasDataPath}";
-        IEnumerable<string> locFiles = Directory.EnumerateFiles(path, ModConstants.LocSearchPattern);
-        foreach (string? locFile in locFiles) {
-            string locale =
-                locFile
-                .Replace(path, String.Empty)
-                .Replace(ModConstants.LocExtension, String.Empty);
-            dictionary.Add(locale.ToLower(), locale);
+        IReadOnlyList<string> builtInLocaleIds = runtimeContainer.BuiltInLocaleIdProvider.GetBuiltInLocaleIds();
+        // runtimeContainer.Logger.LogInfo(this.GetType(), String.Join(StringConstants.CommaSpace, builtInLocaleIds));
+        foreach (string builtInLocaleId in builtInLocaleIds) {
+            dictionary.Add(builtInLocaleId.ToLower(), builtInLocaleId);
         }
         this.LowerCaseToBuiltIn = dictionary;
     }

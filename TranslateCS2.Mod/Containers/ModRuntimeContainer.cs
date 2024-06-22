@@ -23,12 +23,14 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public IMod Mod { get; }
     public ModSettings Settings { get; }
     public ModSettingsLocale SettingsLocale { get; }
+    public IBuiltInLocaleIdProvider BuiltInLocaleIdProvider { get; }
 
     public ModRuntimeContainer(IMyLogProvider logProvider,
                                IMod mod,
                                ILocManagerProvider locManagerProvider,
                                IIntSettingsProvider intSettingsProvider,
                                IIndexCountsProvider indexCountsProvider,
+                               IBuiltInLocaleIdProvider builtInLocaleIdProvider,
                                Paths paths) {
         // dont change init-order!!!
         this.Logger = new ModLogger(logProvider);
@@ -38,6 +40,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         this.LocManager = new LocManager(this.Logger, locManagerProvider);
         this.IntSettings = new IntSettings(intSettingsProvider);
         this.IndexCountsProvider = indexCountsProvider;
+        this.BuiltInLocaleIdProvider = builtInLocaleIdProvider;
         this.Paths = paths;
         // the following need the Paths to be initialized!
         this.Locales = new Locales(this);
@@ -77,7 +80,6 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     }
 
     public void Dispose(bool unregister = false) {
-        this.Logger.LogInfo(this.GetType(), nameof(Dispose));
         if (unregister) {
             this.Settings.UnregisterInOptionsUI();
         }

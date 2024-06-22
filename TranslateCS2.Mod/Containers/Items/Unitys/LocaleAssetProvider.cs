@@ -5,10 +5,11 @@ using System.Linq;
 using Colossal.IO.AssetDatabase;
 
 using TranslateCS2.Inf.Attributes;
+using TranslateCS2.Mod.Interfaces;
 
 namespace TranslateCS2.Mod.Containers.Items.Unitys;
 [MyExcludeFromCoverage]
-internal class LocaleAssetProvider {
+internal class LocaleAssetProvider : IBuiltInLocaleIdProvider {
     private readonly IAssetDatabase global;
     public LocaleAssetProvider(IAssetDatabase global) {
         this.global = global;
@@ -22,6 +23,15 @@ internal class LocaleAssetProvider {
         }
         return null;
     }
+
+    public IReadOnlyList<string> GetBuiltInLocaleIds() {
+        IReadOnlyList<string> localeIds =
+            this.GetLocaleAssets()
+                .Select(item => item.localeId)
+                .ToList();
+        return localeIds;
+    }
+
     private IEnumerable<LocaleAsset> GetLocaleAssets() {
         return
             this.global
