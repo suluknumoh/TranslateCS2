@@ -33,7 +33,6 @@ internal class MainWindowViewModel {
     }
 
     private void WindowLoadedCommandAction(RoutedEventArgs args) {
-        // TODO: also via StartUpParameter?
         //if (Application.Current.Resources[] is string ) {
         // read startup parameters if needed
         //}
@@ -45,15 +44,14 @@ internal class MainWindowViewModel {
         IInstallPathDetector installPathDetector = IInstallPathDetector.Instance;
         bool detected = installPathDetector.Detect();
         if (!detected) {
-            // TODO: MessageBox that informs about failure to detect etc.
-            // TODO: title, caption and text
-            ManualPathSelector manualPathSelector = new ManualPathSelector("a", "b", "c");
+            ManualPathSelector manualPathSelector = new ManualPathSelector();
+            manualPathSelector.DisplayInformation(owner);
             string? path = manualPathSelector.Display(owner);
             if (path is not null) {
                 CitiesLocationsSection.AddLocation(path);
                 bool restarted = RestartHelper.Restart();
                 if (!restarted) {
-                    // TODO: show error
+                    RestartHelper.DisplayError(owner);
                 }
             }
         }

@@ -20,8 +20,8 @@ No further requirements
 [.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 # Limitations
-## Microsoft Versions (Store, GamePass)
-
+## General
+moving or deleting [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location while this App is running
 
 ## STEAM
 This tool relies on [STEAM](https://store.steampowered.com)'s "libraryfolders.vdf" and "appmanifest_[steam_app_id].acf" files.

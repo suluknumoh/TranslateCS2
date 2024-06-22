@@ -1,15 +1,16 @@
 # Changelog
 [releases](https://github.com/suluknumoh/TranslateCS2/releases)
 
-## Version 2.0.4.0 (Work In Progress)
+## Version 2.0.4.0
 - [i286-1](https://github.com/i286-1) thankfully shared some information about [XBoxGames](https://github.com/suluknumoh/TranslateCS2/issues/10)
     - the App is not limited to the [STEAM](https://store.steampowered.com)-Version anymore
-    - at startup three [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation locations are checked
-        - [STEAM](https://store.steampowered.com)
-        - C:\XBoxGames\Cities- Skylines II - PC Edition\Content
-        - a location saved in a file called '__CitiesLocation' within this App's folder
-    - if all checks fail, a dialog is going to be displayed to select [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location manually
-    - the selected location is going to be saved in a file called '__CitiesLocation' within this App's folder
+    - at startup this app tries to detect [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location
+        - [STEAM](https://store.steampowered.com) location
+        - if a manual location already exists within 'TranslateCS2.dll.config', it is also taken into account
+    - if [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location could not be detected automatically,
+        - an information gets displayed
+        - afterwards a dialog to manually navigate to [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location and to select 'Cities2.exe' gets displayed
+    - the selected location is going to be saved within 'TranslateCS2.dll.config'
     - and this App gets restarted
 
 ## Version 2.0.3.0

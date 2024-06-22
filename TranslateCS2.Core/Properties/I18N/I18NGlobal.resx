@@ -117,6 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ManualPathSelectorInformationCaption" xml:space="preserve">
+    <value>Autodetection of '{0}'</value>
+  </data>
+  <data name="ManualPathSelectorInformationText" xml:space="preserve">
+    <value>'{0}' could not be detected automatically.
+Please navigate to where '{0}' is located
+and select it
+within the following dialog.</value>
+  </data>
+  <data name="ManualPathSelectorNotOkCaption" xml:space="preserve">
+    <value>Wrong file selected</value>
+  </data>
+  <data name="ManualPathSelectorNotOkText" xml:space="preserve">
+    <value>The selected file does not seem to be the required '{0}'.
+Please navigate to where '{0}' is located and select it.</value>
+  </data>
+  <data name="ManualPathSelectorSelectTitle" xml:space="preserve">
+    <value>Navigate to '{0}' and select it</value>
+  </data>
   <data name="MessageAppUnusable" xml:space="preserve">
     <value>App can not be used.
 Please take a look at "Limitations".
@@ -136,5 +155,14 @@ If something went wrong with the database, try to restart this app.</value>
   </data>
   <data name="MessageNoTranslatorSelected" xml:space="preserve">
     <value>no translator selected</value>
+  </data>
+  <data name="RestartHelperErrorCaption" xml:space="preserve">
+    <value>Failed to restart this App</value>
+  </data>
+  <data name="RestartHelperErrorText" xml:space="preserve">
+    <value>Failed to restart this App.
+Please try to restart it manually.
+If the error still occurs,
+please feel free to open an Issue on GitHub.</value>
   </data>
 </root>
