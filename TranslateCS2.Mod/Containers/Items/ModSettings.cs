@@ -213,6 +213,9 @@ internal partial class ModSettings : ModSetting {
             return;
         }
         SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+        if (this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
+            this.PreviousLocale = this.Locale;
+        }
         string localeId = this.GetSettedFlavor(systemLanguage);
         this.SetFlavor(systemLanguage, localeId);
     }
