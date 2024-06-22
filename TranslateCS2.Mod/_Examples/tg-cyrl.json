@@ -1,1 +1,4 @@
-{ "Options.SECTION[General]": "General (tg-cyrl.json)" }
+﻿{
+    "Menu.OPTIONS": "Options (tg-Cyrl.json)",
+    "Options.SECTION[General]": "General (tg-Cyrl.json)",
+}
