@@ -330,9 +330,18 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ## Paradox Interactive
 - https://www.paradoxinteractive.com
 ---
+## i286-1
+- https://github.com/i286-1
+- for:
+    - sharing information
+        - https://github.com/suluknumoh/TranslateCS2/issues/10
+    - testing and giving feedback
+        - https://github.com/suluknumoh/TranslateCS2/issues/14
+---
 ## grotaclas
 - https://github.com/grotaclas
-- https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py [MIT-License](https://github.com/grotaclas/PyHelpersForPDXWikis?tab=MIT-1-ov-file)
+- https://github.com/grotaclas/PyHelpersForPDXWikis/blob/main/cs2/localization.py
+    - [MIT-License](https://github.com/grotaclas/PyHelpersForPDXWikis?tab=MIT-1-ov-file)
 - https://forum.paradoxplaza.com/forum/threads/cities-skylines-ii-en-us-loc-help-me-open-the-translation-tools-to-play-in-turkish.1603585/#post-29214003
 ---
 ## baka-gourd
@@ -344,9 +353,6 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 ## ElroyNL
 - https://github.com/ElroyNL
 - https://forum.paradoxplaza.com/forum/members/elroynl.1385312/
----
-## i286-1
-- https://github.com/i286-1
 ---
 ## Microsoft
 - https://microsoft.com/
