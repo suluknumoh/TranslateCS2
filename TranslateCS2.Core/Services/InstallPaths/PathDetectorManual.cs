@@ -8,6 +8,9 @@ internal class PathDetectorManual : APathDetector {
             CitiesLocationsSection? section = CitiesLocationsSection.GetReadOnly();
             if (section is not null) {
                 foreach (CitiesLocation location in section.Locations) {
+                    // only one location is supported
+                    /// <see cref="TranslateCS2.Core.Configurations.CitiesLocations.CitiesLocationsSection.AddLocation(System.String)"/>
+                    // but the foreach-way 'checks' if Locations is empty and uses the first entry
                     this.InstallPath = location.Path;
                     return base.Detect();
                 }

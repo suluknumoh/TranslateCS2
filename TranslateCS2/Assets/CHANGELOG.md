@@ -9,7 +9,7 @@
         - if a manual location already exists within 'TranslateCS2.dll.config', it is also taken into account
     - if [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location could not be detected automatically,
         - an information gets displayed
-        - afterwards a dialog to manually navigate to [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location and to select 'Cities2.exe' gets displayed
+        - afterwards a dialog to manually navigate to [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location and to select 'Cities2_Data'-directory gets displayed
     - the selected location is going to be saved within 'TranslateCS2.dll.config'
     - and this App gets restarted
 - display translation from translator again
