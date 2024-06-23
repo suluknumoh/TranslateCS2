@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows;
 
 using Microsoft.Win32;
@@ -10,53 +11,69 @@ using TranslateCS2.Inf;
 namespace TranslateCS2.Core.Services.InstallPaths;
 public class ManualPathSelector {
     private readonly string dialogWarningCaption = I18NGlobal.ManualPathSelectorNotOkCaption;
-    private readonly string dialogWarningText = String.Format(I18NGlobal.ManualPathSelectorNotOkText, AppConfigurationManager.CitiesExe);
-    private readonly OpenFileDialog dialog;
+    private readonly string dialogWarningText = String.Format(I18NGlobal.ManualPathSelectorNotOkText, AppConfigurationManager.Cities2_Data);
+    private readonly OpenFolderDialog dialog;
     public ManualPathSelector() {
-        string title = String.Format(I18NGlobal.ManualPathSelectorSelectTitle, AppConfigurationManager.CitiesExe);
-        this.dialog = new OpenFileDialog {
+        string title = String.Format(I18NGlobal.ManualPathSelectorSelectTitle, AppConfigurationManager.Cities2_Data);
+        this.dialog = new OpenFolderDialog {
             Title = title,
             Multiselect = false,
-            CheckPathExists = true,
-            CheckFileExists = true,
-            RestoreDirectory = true,
-            FileName = AppConfigurationManager.CitiesExe,
-            Filter = AppConfigurationManager.CitiesExeFilter,
             DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-            DefaultExt = AppConfigurationManager.ExeExtension,
             ValidateNames = true,
             DereferenceLinks = true
         };
     }
 
     public string? Display(Window owner) {
-        bool ok;
-        do {
-            ok = this.dialog.ShowDialog(owner) ?? false;
+        while (true) {
+            bool ok = this.dialog.ShowDialog(owner) ?? false;
             if (!ok) {
                 // cancel
-                break;
+                return null;
             }
-            ok = this.dialog.FileName.EndsWith(AppConfigurationManager.CitiesExe, StringComparison.OrdinalIgnoreCase);
-            if (!ok) {
-                MessageBox.Show(this.dialogWarningText,
-                                this.dialogWarningCaption,
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Exclamation,
-                                MessageBoxResult.None,
-                                MessageBoxOptions.None);
+            //
+            string? directoryPath = null;
+            if (this.IsSelectionOK(ref directoryPath)
+                && directoryPath != null) {
+                return Paths.NormalizeUnix(directoryPath);
             }
-        } while (!ok);
-        if (ok) {
-            string directoryPath = this.dialog.FileName.Replace(AppConfigurationManager.CitiesExe, String.Empty);
-            return Paths.NormalizeUnix(directoryPath);
+            this.ShowWarningWrongDirectory();
         }
-        return null;
+    }
+
+    private bool IsSelectionOK(ref string? directoryPath) {
+        if (!AppConfigurationManager.Cities2_Data.Equals(this.dialog.SafeFolderName, StringComparison.OrdinalIgnoreCase)) {
+            // selected directory is NOT Cities2_Data
+            return false;
+        }
+        DirectoryInfo directoryInfo = new DirectoryInfo(this.dialog.FolderName);
+        DirectoryInfo? parent = directoryInfo.Parent;
+        if (parent is null) {
+            // has NO parent
+            return false;
+        }
+        string citiesExePath = Path.Combine(parent.FullName, AppConfigurationManager.CitiesExe);
+        if (!File.Exists(citiesExePath)) {
+            // Cities2.exe NOT exists
+            return false;
+        }
+
+        directoryPath = parent.FullName;
+        return true;
+    }
+
+    private void ShowWarningWrongDirectory() {
+        MessageBox.Show(this.dialogWarningText,
+                        this.dialogWarningCaption,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Exclamation,
+                        MessageBoxResult.None,
+                        MessageBoxOptions.None);
     }
 
     public void DisplayInformation(Window owner) {
-        string caption = String.Format(I18NGlobal.ManualPathSelectorInformationCaption, AppConfigurationManager.CitiesExe);
-        string text = String.Format(I18NGlobal.ManualPathSelectorInformationText, AppConfigurationManager.CitiesExe);
+        string caption = String.Format(I18NGlobal.ManualPathSelectorInformationCaption, AppConfigurationManager.Cities2_Data);
+        string text = String.Format(I18NGlobal.ManualPathSelectorInformationText, AppConfigurationManager.Cities2_Data);
         MessageBox.Show(owner,
                         text,
                         caption,

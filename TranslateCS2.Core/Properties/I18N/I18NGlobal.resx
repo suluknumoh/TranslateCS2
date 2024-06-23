@@ -121,20 +121,35 @@
     <value>Autodetection of '{0}'</value>
   </data>
   <data name="ManualPathSelectorInformationText" xml:space="preserve">
-    <value>'{0}' could not be detected automatically.
-Please navigate to where '{0}' is located
-and select it
+    <value>'{0}' directory could not be detected automatically.
+
+Please navigate to your
+
+'Cities: Skylines II'-Installation
+
+and select the '{0}' directory
+
 within the following dialog.</value>
   </data>
   <data name="ManualPathSelectorNotOkCaption" xml:space="preserve">
-    <value>Wrong file selected</value>
+    <value>Wrong directory selected</value>
   </data>
   <data name="ManualPathSelectorNotOkText" xml:space="preserve">
-    <value>The selected file does not seem to be the required '{0}'.
-Please navigate to where '{0}' is located and select it.</value>
+    <value>The selected directory
+
+does not seem to be
+
+the required '{0}' directory.
+
+
+Please navigate to your
+
+'Cities: Skylines II'-Installation
+
+and select the '{0}' directory.</value>
   </data>
   <data name="ManualPathSelectorSelectTitle" xml:space="preserve">
-    <value>Navigate to '{0}' and select it</value>
+    <value>Navigate your 'Cities: Skylines II'-Installation and select the '{0}' directory</value>
   </data>
   <data name="MessageAppUnusable" xml:space="preserve">
     <value>App can not be used.

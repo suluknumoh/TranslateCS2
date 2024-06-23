@@ -52,7 +52,7 @@ public static class AppConfigurationManager {
 
     public static string ExeExtension { get; } = ".exe";
     public static string CitiesExe { get; } = $"Cities2{ExeExtension}";
-    public static string CitiesExeFilter { get; } = $"{CitiesExe}|{CitiesExe}";
+    public static string Cities2_Data { get; } = nameof(Cities2_Data);
     public static TimeSpan MaxWaitOnRestart { get; } = TimeSpan.FromMinutes(1);
 
 
