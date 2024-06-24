@@ -9,9 +9,11 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
     public MyLanguage Language { get; }
     private MyFlavorDropDownSettingItemData(MyFlavorDropDownSettingProperty property,
                                             ModSettings modSettings,
-                                            MyLanguage language) : base(AutomaticSettings.WidgetType.StringDropdown,
-                                                                        modSettings,
-                                                                        property) {
+                                            MyLanguage language,
+                                            string prefix) : base(AutomaticSettings.WidgetType.StringDropdown,
+                                                                  modSettings,
+                                                                  property,
+                                                                  prefix) {
         this.Language = language;
         this.hideAction = this.IsHidden;
         this.disableAction = this.IsDisabled;
@@ -66,13 +68,15 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
     }
     public static MyFlavorDropDownSettingItemData Create(MyLanguage language,
                                                          ModSettings modSettings,
-                                                         string propertyName) {
+                                                         string propertyName,
+                                                         string prefix) {
         MyFlavorDropDownSettingProperty property = new MyFlavorDropDownSettingProperty(language,
                                                                                        modSettings,
                                                                                        propertyName);
         MyFlavorDropDownSettingItemData item = new MyFlavorDropDownSettingItemData(property,
                                                                                    modSettings,
-                                                                                   language);
+                                                                                   language,
+                                                                                   prefix);
         return item;
     }
 }

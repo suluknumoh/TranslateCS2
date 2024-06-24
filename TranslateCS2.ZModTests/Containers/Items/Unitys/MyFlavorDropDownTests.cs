@@ -27,12 +27,12 @@ public class MyFlavorDropDownTests : AProvidesTestDataOk {
         runtimeContainer.Init();
         ModSettings modSettings = runtimeContainer.Settings;
         MyLanguages languages = runtimeContainer.Languages;
+        string prefix = String.Empty;
         foreach (MyLanguage language in languages.LanguageDictionary.Values) {
             MyFlavorDropDownSettingItemData myItem = MyFlavorDropDownSettingItemData.Create(language,
                                                                                             modSettings,
-                                                                                            "does_not_matter_in_this_case");
-            AutomaticSettings.SettingPageData pageData = new AutomaticSettings.SettingPageData("", false);
-            myItem.pageData = pageData;
+                                                                                            "does_not_matter_in_this_case",
+                                                                                            prefix);
             Assert.Equal(AutomaticSettings.WidgetType.StringDropdown, myItem.widgetType);
             Assert.Equal(ModSettings.FlavorGroup, myItem.simpleGroup);
             Assert.True(myItem.IsHidden());
