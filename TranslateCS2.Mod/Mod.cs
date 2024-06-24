@@ -53,10 +53,7 @@ public class Mod : IMod {
 
     private void Init(GameManager gameManager) {
         this.RuntimeContainer = this.CreateRuntimeContainer(gameManager);
-        this.RuntimeContainer.Logger.LogInfo(this.GetType(), nameof(OnLoad));
-
         this.RuntimeContainer.Init(AssetDatabase.global.LoadSettings, true);
-
         if (this.RuntimeContainer.Languages.HasErroneous) {
             this.RuntimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.RuntimeContainer.Languages.Erroneous,
                                                                                 false);
@@ -82,12 +79,14 @@ public class Mod : IMod {
         ILocManagerProvider locManagerProvider = new LocManagerProvider(gameManager.localizationManager);
         IIntSettingsProvider intSettingsProvider = new IntSettingsProvider(gameManager.settings.userInterface);
         LocaleAssetProvider localeAssetProvider = new LocaleAssetProvider(AssetDatabase.global);
+        IBuiltInLocaleIdProvider builtInLocaleIdProvider = localeAssetProvider;
         IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(localeAssetProvider);
         return new ModRuntimeContainer(logProvider,
                                        this,
                                        locManagerProvider,
                                        intSettingsProvider,
                                        indexCountsProvider,
+                                       builtInLocaleIdProvider,
                                        paths);
     }
 

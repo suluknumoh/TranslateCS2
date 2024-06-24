@@ -61,6 +61,70 @@ namespace TranslateCS2.Core.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Autodetection of &apos;{0}&apos;.
+        /// </summary>
+        public static string ManualPathSelectorInformationCaption {
+            get {
+                return ResourceManager.GetString("ManualPathSelectorInformationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; directory could not be detected automatically.
+        ///
+        ///Please navigate to your
+        ///
+        ///&apos;Cities: Skylines II&apos;-Installation
+        ///
+        ///and select the &apos;{0}&apos; directory
+        ///
+        ///within the following dialog..
+        /// </summary>
+        public static string ManualPathSelectorInformationText {
+            get {
+                return ResourceManager.GetString("ManualPathSelectorInformationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong directory selected.
+        /// </summary>
+        public static string ManualPathSelectorNotOkCaption {
+            get {
+                return ResourceManager.GetString("ManualPathSelectorNotOkCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected directory
+        ///
+        ///does not seem to be
+        ///
+        ///the required &apos;{0}&apos; directory.
+        ///
+        ///
+        ///Please navigate to your
+        ///
+        ///&apos;Cities: Skylines II&apos;-Installation
+        ///
+        ///and select the &apos;{0}&apos; directory..
+        /// </summary>
+        public static string ManualPathSelectorNotOkText {
+            get {
+                return ResourceManager.GetString("ManualPathSelectorNotOkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigate your &apos;Cities: Skylines II&apos;-Installation and select the &apos;{0}&apos; directory.
+        /// </summary>
+        public static string ManualPathSelectorSelectTitle {
+            get {
+                return ResourceManager.GetString("ManualPathSelectorSelectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App can not be used.
         ///Please take a look at &quot;Limitations&quot;.
         ///If something went wrong with the database, try to restart this app..
@@ -113,6 +177,27 @@ namespace TranslateCS2.Core.Properties.I18N {
         public static string MessageNoTranslatorSelected {
             get {
                 return ResourceManager.GetString("MessageNoTranslatorSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to restart this App.
+        /// </summary>
+        public static string RestartHelperErrorCaption {
+            get {
+                return ResourceManager.GetString("RestartHelperErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to restart this App.
+        ///Please try to restart it manually.
+        ///If the error still occurs,
+        ///please feel free to open an Issue on GitHub..
+        /// </summary>
+        public static string RestartHelperErrorText {
+            get {
+                return ResourceManager.GetString("RestartHelperErrorText", resourceCulture);
             }
         }
     }

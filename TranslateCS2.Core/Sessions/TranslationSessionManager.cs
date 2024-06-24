@@ -22,8 +22,8 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
     private readonly IViewConfigurations viewConfigurations;
     private readonly ITranslationsDatabaseService.OnErrorCallBack onError;
     private readonly ITranslationsDatabaseService db;
+    private readonly IInstallPathDetector InstallPathDetector;
     public MyLocalization<IAppLocFileEntry> BaseLocalizationFile { get; }
-    public InstallPathDetector InstallPathDetector { get; }
     public LocFileService<IAppLocFileEntry> LocalizationFilesService { get; }
     public IEnumerable<FileInfo> LocalizationFiles { get; }
     public ObservableCollection<ITranslationSession> TranslationSessions { get; } = [];
@@ -32,7 +32,7 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
         get => this._CurrentTranslationSession;
         set => this.SetProperty(ref this._CurrentTranslationSession, value, this.CurrentTranslationSessionChanged);
     }
-    public string InstallPath { get; }
+    public string InstallPath => this.InstallPathDetector.InstallPath;
     public bool HasTranslationSessions => this.TranslationSessions.Any();
     private bool _IsAppUseAble;
     public bool IsAppUseAble {
@@ -53,22 +53,19 @@ internal class TranslationSessionManager : BindableBase, ITranslationSessionMana
 
     public TranslationSessionManager(IRegionManager regionManager,
                                      IViewConfigurations viewConfigurations,
-                                     InstallPathDetector installPathDetector,
+                                     IInstallPathDetector installPathDetector,
                                      LocFileService<IAppLocFileEntry> localizationFilesService,
                                      ITranslationsDatabaseService db) {
         this.regionManager = regionManager;
         this.viewConfigurations = viewConfigurations;
         this.InstallPathDetector = installPathDetector;
-        this.onError = (error) => this.DatabaseError = error;
-        try {
-            this.InstallPath = this.InstallPathDetector.InstallPath;
-            this.IsAppUseAble = true;
-        } catch {
-            this.IsAppUseAble = false;
-            return;
-        }
         this.LocalizationFilesService = localizationFilesService;
         this.db = db;
+        this.onError = (error) => this.DatabaseError = error;
+        this.IsAppUseAble = this.InstallPathDetector.Detect();
+        if (!this.IsAppUseAble) {
+            return;
+        }
         this.LocalizationFiles = this.LocalizationFilesService.GetLocalizationFiles();
         this.BaseLocalizationFile = this.GetLocalizationFile(AppConfigurationManager.LeadingLocFileName);
         this.db.EnrichTranslationSessions(this, this.onError);

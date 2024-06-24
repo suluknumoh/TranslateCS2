@@ -17,11 +17,13 @@ internal class ModTestRuntimeContainer : ModRuntimeContainer {
                                     ILocManagerProvider locManagerProvider,
                                     IIntSettingsProvider intSettings,
                                     IIndexCountsProvider indexCountsProvider,
+                                    IBuiltInLocaleIdProvider builtInLocaleIdProvider,
                                     Paths paths) : base(logProvider,
                                                         mod,
                                                         locManagerProvider,
                                                         intSettings,
                                                         indexCountsProvider,
+                                                        builtInLocaleIdProvider,
                                                         paths) { }
     public static ModTestRuntimeContainer Create(IMyLogProvider logProvider,
                                                  IIndexCountsProvider? indexCountsProvider = null,
@@ -33,11 +35,13 @@ internal class ModTestRuntimeContainer : ModRuntimeContainer {
         Paths paths = new Paths(true,
                                 CS2PathsHelper.GetStreamingDataPathFromProps(),
                                 userDataPath);
+        IBuiltInLocaleIdProvider builtInLocaleIdProvider = new TestBuiltInLocaleIdProvider(paths);
         return new ModTestRuntimeContainer(logProvider,
                                            mod,
                                            locManager,
                                            intSettings,
                                            indexCountsProviderLocal,
+                                           builtInLocaleIdProvider,
                                            paths);
     }
 }

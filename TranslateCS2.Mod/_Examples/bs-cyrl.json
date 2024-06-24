@@ -1,1 +1,4 @@
-{ "Options.SECTION[General]": "General (bs-cyrl.json)" }
+﻿{
+    "Menu.OPTIONS": "Options (bs-Cyrl.json)",
+    "Options.SECTION[General]": "General (bs-Cyrl.json)",
+}

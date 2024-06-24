@@ -10,13 +10,8 @@ Please see also: [MIT-License](https://github.com/suluknumoh/TranslateCS2?tab=MI
 # Requirements
 ## general
 [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii)
-via
-[STEAM](https://store.steampowered.com)
 on
 [Microsoft Windows](https://www.microsoft.com/windows/)
-
-
-This tool can not be used without having [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installed via [STEAM](https://store.steampowered.com) on [Microsoft Windows](https://www.microsoft.com/windows/)
 
 ## Self-Containing release
 No further requirements
@@ -25,11 +20,8 @@ No further requirements
 [.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 # Limitations
-## Microsoft Versions (Store, GamePass)
-The game files seem to be encrypted, protected and/or hidden, so this application cannot access them.
-
-- https://www.reddit.com/r/pcgaming/comments/c39dgs/does_anyone_know_where_microsofts_pc_game_pass/
-- https://www.reddit.com/r/XboxGamePassPC/comments/n3nkxm/game_file_location/
+## General
+moving or deleting [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii) installation location while this App is running
 
 ## STEAM
 This tool relies on [STEAM](https://store.steampowered.com)'s "libraryfolders.vdf" and "appmanifest_[steam_app_id].acf" files.
@@ -114,10 +106,6 @@ please take a look at [Issues](https://github.com/suluknumoh/TranslateCS2/issues
 
 ## Ex-Import
 ### Export
-#### direct-overwrite
-- it overwrites the localization file you selected while creating the current Translation-Session
-- after a click on the export-button, you're asked if you are sure. if you confirm, the current Translation-Session gets prepared and exported
-
 #### JSON
 ##### general
 - to share your translations with others

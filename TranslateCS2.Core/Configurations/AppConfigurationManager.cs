@@ -50,9 +50,14 @@ public static class AppConfigurationManager {
     public static bool SkipWorkAround { get; } = false;
 
 
+    public static string ExeExtension { get; } = ".exe";
+    public static string CitiesExe { get; } = $"Cities2{ExeExtension}";
+    public static string Cities2_Data { get; } = nameof(Cities2_Data);
+    public static TimeSpan MaxWaitOnRestart { get; } = TimeSpan.FromMinutes(1);
+
+
 
     public static string DatabaseConnectionString { get; } = $"Data Source=./{DatabaseName};Pooling=False";
 
     public static string DatabaseConnectionStringDebug { get; } = $"Data Source=../../../../../../{DatabaseName};Pooling=False";
-
 }

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
+using Prism.Mvvm;
+
 using TranslateCS2.Core.Models.Localizations;
 using TranslateCS2.Core.Sessions;
 using TranslateCS2.Edits.Properties.I18N;
@@ -10,7 +12,7 @@ using TranslateCS2.Inf.Keyz;
 using TranslateCS2.Inf.Models;
 
 namespace TranslateCS2.Edits.Models;
-internal class EditEntry : IDataErrorInfo {
+internal class EditEntry : BindableBase, IDataErrorInfo {
     private readonly ITranslationSessionManager sessionManager;
     public IMyKey Key { get; }
 
@@ -18,7 +20,11 @@ internal class EditEntry : IDataErrorInfo {
         get => this.Key.Key;
         set => this.Key.Key = value?.Trim();
     }
-    public string? Translation { get; set; }
+    private string? _Translation;
+    public string? Translation {
+        get => this._Translation;
+        set => this.SetProperty(ref this._Translation, value);
+    }
 
     public HashSet<string> Keys { get; } = [];
     public int Count => this.Keys.Count;

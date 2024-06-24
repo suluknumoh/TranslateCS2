@@ -1,1 +1,4 @@
-{ "Options.SECTION[General]": "General (fi.json)" }
+﻿{
+    "Menu.OPTIONS": "Options (fi.json)",
+    "Options.SECTION[General]": "General (fi.json)",
+}

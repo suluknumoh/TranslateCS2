@@ -6,6 +6,7 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Interfaces;
 
 namespace TranslateCS2.Mod.Containers;
 internal interface IModRuntimeContainer {
@@ -20,6 +21,7 @@ internal interface IModRuntimeContainer {
     IMod Mod { get; }
     ModSettings Settings { get; }
     ModSettingsLocale SettingsLocale { get; }
+    IBuiltInLocaleIdProvider BuiltInLocaleIdProvider { get; }
     void Init(Action<string, object, object?>? loadSettings = null, bool register = false);
     void Dispose(bool unregister = false);
 }
