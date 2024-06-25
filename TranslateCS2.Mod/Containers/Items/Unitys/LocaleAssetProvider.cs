@@ -28,6 +28,7 @@ internal class LocaleAssetProvider : IBuiltInLocaleIdProvider {
         IReadOnlyList<string> localeIds =
             this.GetLocaleAssets()
                 .Select(item => item.localeId)
+                .Distinct()
                 .ToList();
         return localeIds;
     }

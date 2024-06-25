@@ -15,9 +15,12 @@ internal class Locales {
         this.runtimeContainer = runtimeContainer;
         Dictionary<string, string> dictionary = [];
         IReadOnlyList<string> builtInLocaleIds = runtimeContainer.BuiltInLocaleIdProvider.GetBuiltInLocaleIds();
-        // runtimeContainer.Logger.LogInfo(this.GetType(), String.Join(StringConstants.CommaSpace, builtInLocaleIds));
         foreach (string builtInLocaleId in builtInLocaleIds) {
-            dictionary.Add(builtInLocaleId.ToLower(), builtInLocaleId);
+            string key = builtInLocaleId.ToLower();
+            if (dictionary.ContainsKey(key)) {
+                continue;
+            }
+            dictionary.Add(key, builtInLocaleId);
         }
         this.LowerCaseToBuiltIn = dictionary;
     }

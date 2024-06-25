@@ -73,3 +73,11 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * the following languages are supported with the listed country and/or country-region code
 * due to technical limitations, country and/or country-region codes are limited
 * full list can be found over there: https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.Mod/LANGUAGES.SUPPORTED.md
+
+# Credits
+
+## i286-1
+- https://github.com/i286-1
+- for:
+    - testing and giving feedback
+        - https://github.com/suluknumoh/TranslateCS2/issues/17
