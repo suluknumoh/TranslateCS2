@@ -38,4 +38,5 @@
   </ChangeLog>
   <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
   <ExternalLink Type="github" Url="https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.Mod/README.md" />
+  <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>

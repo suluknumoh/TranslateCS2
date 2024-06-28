@@ -74,6 +74,13 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * due to technical limitations, country and/or country-region codes are limited
 * full list can be found over there: https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.Mod/LANGUAGES.SUPPORTED.md
 
+# Support for this Mod
+
+
+
+https://discord.gg/HTav7ARPs2
+
+
 # Credits
 
 ## i286-1
