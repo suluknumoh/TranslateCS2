@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 using Colossal.IO.AssetDatabase;
 using Colossal.Logging;
@@ -40,6 +42,9 @@ public class Mod : IMod {
         try {
             GameManager gameManager = GameManager.instance;
             ModManager modManager = gameManager.modManager;
+            if (false) {
+                this.TestToRetrieveModDirectories(modManager);
+            }
             if (modManager.TryGetExecutableAsset(this,
                                                  out ExecutableAsset asset)) {
                 this.Init(gameManager);
@@ -48,6 +53,49 @@ public class Mod : IMod {
             // user LogManagers Logger
             // runtimeContainerHandler might not be initialized
             Logger.Critical(ex, nameof(OnLoad));
+        }
+    }
+
+    private void TestToRetrieveModDirectories(ModManager modManager) {
+        IEnumerator<ModManager.ModInfo> enumerator = modManager.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            ModManager.ModInfo current = enumerator.Current;
+            ExecutableAsset asset = current.asset;
+
+            // no need to care about
+            // current.isLoaded / !current.isLoaded
+            // a mod could be loaded after this one
+
+            // no need to care about
+            // current.isBursted
+
+            if (!current.isValid
+                || !asset.isMod) {
+                // invalid or no mod (additional libraries within mod)
+                continue;
+            }
+            if (asset.isDirty
+                || asset.isDummy) {
+                continue;
+            }
+            if (!asset.isLocal
+                && !asset.isEnabled
+                && !asset.isInActivePlayset
+                ) {
+                // neither local
+                // nor enabled in active playset
+                continue;
+            }
+            int index = asset.path.IndexOf(asset.subPath);
+            string modsSubscribedPath = asset.path.Substring(0, index);
+            string modPath = Path.Combine(modsSubscribedPath, asset.subPath);
+            // TODO: specific dictionary
+            string specificDictionaryPath = Path.Combine(modPath);
+            DirectoryInfo directoryInfo = new DirectoryInfo(specificDictionaryPath);
+            if (directoryInfo.Exists) {
+                IEnumerable<FileInfo> files = directoryInfo.EnumerateFiles(ModConstants.JsonSearchPattern);
+                // TODO: 
+            }
         }
     }
 
