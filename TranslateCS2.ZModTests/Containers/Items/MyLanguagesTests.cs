@@ -369,7 +369,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
             MyLanguage language = entry.Value;
             IEnumerable<DropdownItem<string>> dropDownItems = language.GetFlavorDropDownItems();
-            foreach (TranslationFile flavor in language.Flavors) {
+            foreach (Translation flavor in language.Flavors) {
                 string expectedDisplayName = StringHelper.CutStringAfterMaxLengthAndAddThreeDots(flavor.Name,
                                                                                                  ModConstants.MaxDisplayNameLength);
                 AssertContainsDropDownItem(dropDownItems,

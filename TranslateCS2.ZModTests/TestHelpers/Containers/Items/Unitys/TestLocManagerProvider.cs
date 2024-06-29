@@ -49,7 +49,7 @@ internal class TestLocManagerProvider : ILocManagerProvider {
         this.Sources.Remove(localeId);
     }
 
-    public void RemoveSource(string localeId, TranslationFile source) {
+    public void RemoveSource(string localeId, Translation source) {
         if (this.Sources.ContainsKey(localeId)) {
             this.Sources[localeId].Remove(source);
         }

@@ -43,7 +43,7 @@ internal class MyLanguages {
             return count;
         }
     }
-    public IList<TranslationFile> Erroneous { get; } = [];
+    public IList<Translation> Erroneous { get; } = [];
     public bool HasErroneous => this.Erroneous.Count > 0;
 
     public MyLanguages(IModRuntimeContainer runtimeContainer) {
@@ -82,7 +82,7 @@ internal class MyLanguages {
     ///     <br/>
     ///     <see cref="Game.Settings.InterfaceSettings.currentLocale"/> is changed
     ///     <br/>
-    ///     or a selected Flavor (<see cref="TranslationFile"/>) is changed
+    ///     or a selected Flavor (<see cref="Translation"/>) is changed
     ///     <br/>
     ///     take a look at:
     ///     <br/>
@@ -139,9 +139,9 @@ internal class MyLanguages {
             if (language is null) {
                 return;
             }
-            TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
-                                                                  language,
-                                                                  locFile);
+            Translation translationFile = new Translation(this.runtimeContainer,
+                                                          language,
+                                                          locFile);
             if (!translationFile.IsOK) {
                 this.Erroneous.Add(translationFile);
             }
@@ -183,7 +183,7 @@ internal class MyLanguages {
     }
 
     /// <summary>
-    ///     tries to reload all <see cref="TranslationFile"/>s, that existed at startup
+    ///     tries to reload all <see cref="Translation"/>s, that existed at startup
     ///     <br/>
     ///     and collects <see cref="Erroneous"/> (see also: <seealso cref="HasErroneous"/>)
     /// </summary>
@@ -203,7 +203,7 @@ internal class MyLanguages {
     }
 
     private void ReLoadLanguage(LocFileService<string> locFileService, MyLanguage language) {
-        foreach (TranslationFile translationFile in language.Flavors) {
+        foreach (Translation translationFile in language.Flavors) {
             this.ReLoadTranslationFile(locFileService,
                                        language,
                                        translationFile);
@@ -212,7 +212,7 @@ internal class MyLanguages {
 
     private void ReLoadTranslationFile(LocFileService<string> locFileService,
                                        MyLanguage language,
-                                       TranslationFile translationFile) {
+                                       Translation translationFile) {
         try {
             bool reRead = this.ReReadTranslationFile(locFileService,
                                                      translationFile);
@@ -229,14 +229,15 @@ internal class MyLanguages {
         }
     }
 
-    private bool IsActive(MyLanguage language, TranslationFile translationFile) {
+    private bool IsActive(MyLanguage language, Translation translationFile) {
         return
             language.IsCurrent()
             && translationFile.IsCurrent();
     }
 
     private bool ReReadTranslationFile(LocFileService<string> locFileService,
-                                       TranslationFile translationFile) {
+                                       Translation translationFile) {
+        // TODO: move to Translation
         bool reInitialized = locFileService.ReadContent(translationFile.Source);
         if (reInitialized
             && translationFile.IsOK) {

@@ -30,7 +30,7 @@ public class ErrorMessagesTests : AProvidesTestDataOk {
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         runtimeContainer.Init();
         ErrorMessages errorMessages = runtimeContainer.ErrorMessages;
-        IList<TranslationFile> erroneous = [];
+        IList<Translation> erroneous = [];
         errorMessages.DisplayErrorMessageForErroneous(erroneous, missing);
         Assert.Equal(expectedLogCounts, testLogProvider.DisplayErrorCount);
         Assert.Equal(expectedLogCounts, testLogProvider.LogErrorCount);

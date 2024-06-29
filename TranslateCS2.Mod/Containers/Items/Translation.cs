@@ -12,7 +12,7 @@ using TranslateCS2.Inf.Models.Localizations;
 
 namespace TranslateCS2.Mod.Containers.Items;
 // INFO: its about hashcode and equals...
-internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?> {
+internal class Translation : IDictionarySource, IEquatable<Translation?> {
 
     private readonly IModRuntimeContainer runtimeContainer;
     private readonly MyLanguage language;
@@ -23,7 +23,7 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     public bool IsOK => this.EntryCount > 0;
     public int EntryCount => this.locFile.EntryCount;
     public MyLocalizationSource<string> Source => this.locFile.Source;
-    public TranslationFile(IModRuntimeContainer runtimeContainer,
+    public Translation(IModRuntimeContainer runtimeContainer,
                            MyLanguage language,
                            MyLocalization<string> locFile) {
         this.runtimeContainer = runtimeContainer;
@@ -64,10 +64,10 @@ internal class TranslationFile : IDictionarySource, IEquatable<TranslationFile?>
     }
     [MyExcludeFromCoverage]
     public override bool Equals(object? obj) {
-        return this.Equals(obj as TranslationFile);
+        return this.Equals(obj as Translation);
     }
     [MyExcludeFromCoverage]
-    public bool Equals(TranslationFile? other) {
+    public bool Equals(Translation? other) {
         return
             other is not null
             && EqualityComparer<MyLocalization<string>>.Default.Equals(this.locFile, other.locFile)

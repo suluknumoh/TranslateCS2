@@ -76,7 +76,7 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languageDictionary) {
             SystemLanguage systemLanguage = entry.Key;
             MyLanguage language = entry.Value;
-            foreach (TranslationFile translation in language.Flavors) {
+            foreach (Translation translation in language.Flavors) {
                 modSettings.SetFlavor(systemLanguage, translation.Id);
                 Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
                 modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);

@@ -25,7 +25,7 @@ internal class MyLanguage {
     ///     primarily used for logging and generating the supported languages table
     /// </summary>
     public string NameEnglish { get; private set; }
-    public IList<TranslationFile> Flavors { get; } = [];
+    public IList<Translation> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
     public int EntryCountOfAllFlavors {
         get {
@@ -156,7 +156,7 @@ internal class MyLanguage {
 
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
-        foreach (TranslationFile translationFile in this.Flavors) {
+        foreach (Translation translationFile in this.Flavors) {
             DropdownItem<string> item = translationFile.GetDropDownItem();
             dropdownItems.Add(item);
         }
@@ -170,7 +170,7 @@ internal class MyLanguage {
                 .Any();
     }
 
-    public TranslationFile GetFlavor(string localeId) {
+    public Translation GetFlavor(string localeId) {
         return
             this.Flavors
                 .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase))

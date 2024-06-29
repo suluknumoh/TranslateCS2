@@ -23,13 +23,13 @@ internal class LocManager {
             if (language is null) {
                 return;
             }
-            foreach (TranslationFile flavor in language.Flavors) {
+            foreach (Translation flavor in language.Flavors) {
                 // INFO: its about hashcode and equals...
                 this.TryToRemoveSource(language, flavor);
             }
             if (language.HasFlavor(localeId)) {
                 // INFO: its about hashcode and equals...
-                TranslationFile flavor = language.GetFlavor(localeId);
+                Translation flavor = language.GetFlavor(localeId);
                 this.TryToAddSource(language, flavor);
             }
         } catch (Exception ex) {
@@ -62,7 +62,7 @@ internal class LocManager {
         }
     }
     private void TryToAddSource(MyLanguage language,
-                                TranslationFile translationFile,
+                                Translation translationFile,
                                 bool reThrow = false) {
         try {
             // INFO: its about hashcode and equals...
@@ -80,7 +80,7 @@ internal class LocManager {
         }
     }
     private void TryToRemoveSource(MyLanguage language,
-                                   TranslationFile translationFile) {
+                                   Translation translationFile) {
         try {
             // INFO: its about hashcode and equals...
             // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it

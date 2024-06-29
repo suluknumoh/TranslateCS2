@@ -10,7 +10,7 @@ internal class ErrorMessages {
         this.runtimeContainer = runtimeContainer;
     }
     private string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
-    public void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
+    public void DisplayErrorMessageForErroneous(IList<Translation> erroneous, bool missing) {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(this.Intro);
         builder.Append($"the following provided translationfiles are corrupt");
@@ -28,12 +28,12 @@ internal class ErrorMessages {
         this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
     }
 
-    private static void ListErroneous(IList<TranslationFile> erroneous, StringBuilder builder) {
+    private static void ListErroneous(IList<Translation> erroneous, StringBuilder builder) {
         int counter = ModConstants.MaxErroneous;
         if (erroneous.Count > counter) {
             builder.AppendLine($"{erroneous.Count:N0} files are affected; only the first {counter:N0} are listed");
         }
-        foreach (TranslationFile error in erroneous) {
+        foreach (Translation error in erroneous) {
             builder.AppendLine($"- {error.Id}{ModConstants.JsonExtension} - {error.Name}");
             --counter;
             if (counter <= 0) {

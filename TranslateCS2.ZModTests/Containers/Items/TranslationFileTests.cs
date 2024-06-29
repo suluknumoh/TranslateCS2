@@ -43,7 +43,7 @@ public class TranslationFileTests : AProvidesTestDataOk {
         Assert.NotEmpty(locFile.Source.Localizations);
         Assert.NotEmpty(locFile.Source.IndexCounts);
 
-        TranslationFile translationFile = new TranslationFile(runtimeContainer, language, locFile);
+        Translation translationFile = new Translation(runtimeContainer, language, locFile);
         Assert.True(translationFile.IsOK);
         Assert.NotEmpty(translationFile.Source.Localizations);
         Assert.NotEmpty(translationFile.Source.IndexCounts);
@@ -73,8 +73,8 @@ public class TranslationFileTests : AProvidesTestDataOk {
             MyLanguages myLanguages = runtimeContainer.Languages;
             IEnumerable<MyLanguage> languages = myLanguages.LanguageDictionary.Values;
             foreach (MyLanguage language in languages) {
-                IList<TranslationFile> translationFiles = language.Flavors;
-                foreach (TranslationFile translationFile in translationFiles) {
+                IList<Translation> translationFiles = language.Flavors;
+                foreach (Translation translationFile in translationFiles) {
                     // generate data adds the "LocaleNameLocalizedKey"
                     // with the translation files name (without path and without extension)
                     // to the testdata
