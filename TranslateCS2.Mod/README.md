@@ -75,11 +75,14 @@ As long as no other mod is loaded after this one and overwrites the values and a
 * full list can be found over there: https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.Mod/LANGUAGES.SUPPORTED.md
 
 # Support for this Mod
+you are welcome to leave concerns, issues, feedback and/or suggestions on the following platforms
 
+## Cities: Skylines Modding Discord
+* feel free to join [Cities: Skylines Modding](https://discord.gg/HTav7ARPs2)-Discord
+* this mod has a channel within it (https://discord.com/channels/1024242828114673724/1256524100462055445)
 
-
-https://discord.gg/HTav7ARPs2
-
+## GitHub
+* [TranslateCS2 - Issues](https://github.com/suluknumoh/TranslateCS2/issues)
 
 # Credits
 

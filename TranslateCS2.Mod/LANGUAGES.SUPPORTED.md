@@ -1,4 +1,6 @@
 # Supported Languages
+* please keep in mind, that this mod does not change the default text-flow-direction which is from left to right
+
 
 ## Afrikaans - Afrikaans
 | Language-(Region)-Code | English Name | Native Name |
