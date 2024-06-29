@@ -91,3 +91,10 @@ you are welcome to leave concerns, issues, feedback and/or suggestions on the fo
 - for:
     - testing and giving feedback
         - https://github.com/suluknumoh/TranslateCS2/issues/17
+
+## yenyang
+- https://github.com/yenyang
+- for:
+    - 'working' with him together
+    - his inspiration
+    - tbc
