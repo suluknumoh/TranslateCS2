@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using TranslateCS2.Inf;
@@ -9,10 +10,13 @@ internal class ErrorMessages {
     public ErrorMessages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
     }
-    private string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
-    public void DisplayErrorMessageForErroneous(IList<Translation> erroneous, bool missing) {
+    public static string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
+    public void DisplayErrorMessageForErroneous(IEnumerable<FlavorSource> erroneous, bool missing) {
+        // TODO: differentiate by FlavorSourceTypes
+        // TODO: also display FlavorSource.ModName
+        // TODO: also display FlavorSource.ModId?
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(this.Intro);
+        builder.AppendLine(Intro);
         builder.Append($"the following provided translationfiles are corrupt");
         if (missing) {
             builder.Append($" or got deleted");
@@ -28,13 +32,13 @@ internal class ErrorMessages {
         this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
     }
 
-    private static void ListErroneous(IList<Translation> erroneous, StringBuilder builder) {
+    private static void ListErroneous(IEnumerable<FlavorSource> erroneous, StringBuilder builder) {
         int counter = ModConstants.MaxErroneous;
-        if (erroneous.Count > counter) {
-            builder.AppendLine($"{erroneous.Count:N0} files are affected; only the first {counter:N0} are listed");
+        if (erroneous.Count() > counter) {
+            builder.AppendLine($"{erroneous.Count():N0} files are affected; only the first {counter:N0} are listed");
         }
-        foreach (Translation error in erroneous) {
-            builder.AppendLine($"- {error.Id}{ModConstants.JsonExtension} - {error.Name}");
+        foreach (FlavorSource error in erroneous) {
+            builder.AppendLine($"- {error.Localization.Id}{ModConstants.JsonExtension} - {error.Localization.NameEnglish}");
             --counter;
             if (counter <= 0) {
                 break;
@@ -44,7 +48,7 @@ internal class ErrorMessages {
 
     public void DisplayErrorMessageFailedToGenerateJson() {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(this.Intro);
+        builder.AppendLine(Intro);
         builder.AppendLine($"could not write");
         builder.AppendLine($"'{ModConstants.ModExportKeyValueJsonName}'");
         builder.AppendLine($"into");

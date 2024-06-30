@@ -47,7 +47,7 @@ internal class LocManagerProvider : ILocManagerProvider {
     }
 
     public void RemoveSource(string localeId,
-                             Translation source) {
+                             Flavor source) {
         this.localizationManager.RemoveSource(localeId,
                                               source);
     }

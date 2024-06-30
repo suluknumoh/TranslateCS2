@@ -72,4 +72,8 @@ public class ModConstantsTests {
     public void DataPathRawSpecificTest() {
         Assert.Equal("ModsData/TranslateCS2.Mod/", ModConstants.DataPathRawSpecific);
     }
+    [Fact]
+    public void OtherModsLocFilePathTest() {
+        Assert.Equal("UnofficialLocales", ModConstants.OtherModsLocFilePath);
+    }
 }

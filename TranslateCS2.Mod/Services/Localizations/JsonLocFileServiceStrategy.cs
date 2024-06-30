@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 
 using Newtonsoft.Json;
@@ -10,8 +9,6 @@ using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
-
-using UnityEngine;
 
 namespace TranslateCS2.Mod.Services.Localizations;
 internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
@@ -28,32 +25,17 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
             throw new ArgumentNullException(nameof(language));
         }
         // if language is not null,
-        // cultureInfo cannot be null
-        CultureInfo cultureInfo = language.GetCultureInfo(localeId);
-        string localeName = GetLocaleNameNative(language.SystemLanguage,
-                                                cultureInfo);
+        // flavor cannot be null
+        Flavor flavor = language.GetFlavor(localeId);
 
         MyLocalizationSource<string> source = this.CreateNewSource(fileInfo);
-        MyLocalization<string> locFile = this.CreateNewFile(localeId,
-                                                            cultureInfo.EnglishName,
-                                                            localeName,
+        MyLocalization<string> locFile = this.CreateNewFile(flavor.Id,
+                                                            flavor.NameEnglish,
+                                                            flavor.Name,
                                                             source);
         using Stream stream = File.OpenRead(fileInfo.FullName);
         this.ReadContent(source, stream);
         return locFile;
-    }
-
-    private static string GetLocaleNameNative(SystemLanguage systemLanguage,
-                                              CultureInfo cultureInfo) {
-        string localeName = cultureInfo.NativeName;
-        if (systemLanguage == SystemLanguage.SerboCroatian) {
-            if (cultureInfo.EnglishName.Contains(LangConstants.Latin)) {
-                localeName += $" ({LangConstants.Latin})";
-            } else if (cultureInfo.EnglishName.Contains(LangConstants.Cyrillic)) {
-                localeName += $" ({LangConstants.Cyrillic})";
-            }
-        }
-        return localeName;
     }
 
     private string GetLocaleIdFromFileInfo(FileInfo fileInfo) {

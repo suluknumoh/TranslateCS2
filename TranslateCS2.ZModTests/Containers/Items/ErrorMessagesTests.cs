@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using Xunit;
@@ -30,7 +30,7 @@ public class ErrorMessagesTests : AProvidesTestDataOk {
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         runtimeContainer.Init();
         ErrorMessages errorMessages = runtimeContainer.ErrorMessages;
-        IList<Translation> erroneous = [];
+        IList<FlavorSource> erroneous = [];
         errorMessages.DisplayErrorMessageForErroneous(erroneous, missing);
         Assert.Equal(expectedLogCounts, testLogProvider.DisplayErrorCount);
         Assert.Equal(expectedLogCounts, testLogProvider.LogErrorCount);

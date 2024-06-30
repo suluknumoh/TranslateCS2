@@ -1,6 +1,7 @@
 namespace TranslateCS2.Inf;
 public static class StringConstants {
     public static string Underscore { get; } = "_";
+    public static char UnderscoreChar { get; } = '_';
     public static string Space { get; } = " ";
     public static string Low { get; } = nameof(Low);
     public static string Colossal_Order { get; } = nameof(Colossal_Order).Replace(Underscore, Space);
@@ -19,4 +20,5 @@ public static class StringConstants {
     public static string Tab { get; } = "\t";
     public static string QuotationMark { get; } = "\"";
     public static string CommaSpace { get; } = ", ";
+    public static string LocalMod { get; } = nameof(LocalMod);
 }

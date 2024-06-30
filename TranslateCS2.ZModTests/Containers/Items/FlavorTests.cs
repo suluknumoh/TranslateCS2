@@ -4,9 +4,11 @@ using System.Linq;
 
 using Colossal;
 
+using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Enums;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
@@ -15,11 +17,11 @@ using TranslateCS2.ZZZTestLib.Services.Localizations;
 using Xunit;
 
 namespace TranslateCS2.ZModTests.Containers.Items;
-public class TranslationFileTests : AProvidesTestDataOk {
-    public TranslationFileTests(TestDataProvider testDataProvider) : base(testDataProvider) { }
+public class FlavorTests : AProvidesTestDataOk {
+    public FlavorTests(TestDataProvider testDataProvider) : base(testDataProvider) { }
     [Fact]
     public void ReadEntriesTest() {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<TranslationFileTests>();
+        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<FlavorTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
 
@@ -43,14 +45,20 @@ public class TranslationFileTests : AProvidesTestDataOk {
         Assert.NotEmpty(locFile.Source.Localizations);
         Assert.NotEmpty(locFile.Source.IndexCounts);
 
-        Translation translationFile = new Translation(runtimeContainer, language, locFile);
-        Assert.True(translationFile.IsOK);
-        Assert.NotEmpty(translationFile.Source.Localizations);
-        Assert.NotEmpty(translationFile.Source.IndexCounts);
+        FlavorSource flavorSource = new FlavorSource(FlavorSourceTypes.THIS,
+                                                     locFile,
+                                                     ModConstants.NameSimple,
+                                                     ModConstants.ModId);
+        Assert.True(flavorSource.IsOk);
+        Assert.NotEmpty(flavorSource.Source.Localizations);
+        Assert.NotEmpty(flavorSource.Source.IndexCounts);
+
+        Flavor flavor = new Flavor(runtimeContainer, language, locFile.Id, locFile.Name, locFile.NameEnglish);
+        flavor.FlavorSources.Add(flavorSource);
 
         List<IDictionaryEntryError> errors = [];
         Dictionary<string, int> indexCountsToFill = [];
-        IEnumerable<KeyValuePair<string, string>> localizations = translationFile.ReadEntries(errors, indexCountsToFill);
+        IEnumerable<KeyValuePair<string, string>> localizations = flavor.ReadEntries(errors, indexCountsToFill);
         Assert.Empty(errors);
 
         Assert.NotEmpty(localizations);
@@ -66,25 +74,25 @@ public class TranslationFileTests : AProvidesTestDataOk {
         };
         try {
             dataProviderLocal.GenerateData(true, true);
-            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<TranslationFileTests>();
+            ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<FlavorTests>();
             ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                       userDataPath: dataProviderLocal.DirectoryName);
             runtimeContainer.Init();
             MyLanguages myLanguages = runtimeContainer.Languages;
             IEnumerable<MyLanguage> languages = myLanguages.LanguageDictionary.Values;
             foreach (MyLanguage language in languages) {
-                IList<Translation> translationFiles = language.Flavors;
-                foreach (Translation translationFile in translationFiles) {
+                IList<Flavor> flavors = language.Flavors;
+                foreach (Flavor flavor in flavors) {
                     // generate data adds the "LocaleNameLocalizedKey"
-                    // with the translation files name (without path and without extension)
+                    // with the flavor files name (without path and without extension)
                     // to the testdata
                     // what should cause the localized name to be equal to the id
                     if (language.IsBuiltIn) {
                         // ignore case for built-in
                         // example: zh-HANT vs zh-Hant
-                        Assert.Equal(translationFile.Id, translationFile.Name, true);
+                        Assert.Equal(flavor.Id, flavor.Name, true);
                     } else {
-                        Assert.Equal(translationFile.Id, translationFile.Name);
+                        Assert.Equal(flavor.Id, flavor.Name);
                     }
                 }
             }

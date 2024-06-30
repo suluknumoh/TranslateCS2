@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Text;
 
 using Colossal.IO.AssetDatabase;
 using Colossal.Logging;
@@ -42,68 +41,27 @@ public class Mod : IMod {
         try {
             GameManager gameManager = GameManager.instance;
             ModManager modManager = gameManager.modManager;
-            if (false) {
-                this.TestToRetrieveModDirectories(modManager);
-            }
             if (modManager.TryGetExecutableAsset(this,
                                                  out ExecutableAsset asset)) {
-                this.Init(gameManager);
+                this.Init(gameManager, modManager, asset);
             }
         } catch (Exception ex) {
             // user LogManagers Logger
             // runtimeContainerHandler might not be initialized
             Logger.Critical(ex, nameof(OnLoad));
+            DisplayError();
         }
     }
 
-    private void TestToRetrieveModDirectories(ModManager modManager) {
-        IEnumerator<ModManager.ModInfo> enumerator = modManager.GetEnumerator();
-        while (enumerator.MoveNext()) {
-            ModManager.ModInfo current = enumerator.Current;
-            ExecutableAsset asset = current.asset;
-
-            // no need to care about
-            // current.isLoaded / !current.isLoaded
-            // a mod could be loaded after this one
-
-            // no need to care about
-            // current.isBursted
-
-            if (!current.isValid
-                || !asset.isMod) {
-                // invalid or no mod (additional libraries within mod)
-                continue;
-            }
-            if (asset.isDirty
-                || asset.isDummy) {
-                continue;
-            }
-            if (!asset.isLocal
-                && !asset.isEnabled
-                && !asset.isInActivePlayset
-                ) {
-                // neither local
-                // nor enabled in active playset
-                continue;
-            }
-            int index = asset.path.IndexOf(asset.subPath);
-            string modsSubscribedPath = asset.path.Substring(0, index);
-            string modPath = Path.Combine(modsSubscribedPath, asset.subPath);
-            // TODO: specific dictionary
-            string specificDictionaryPath = Path.Combine(modPath);
-            DirectoryInfo directoryInfo = new DirectoryInfo(specificDictionaryPath);
-            if (directoryInfo.Exists) {
-                IEnumerable<FileInfo> files = directoryInfo.EnumerateFiles(ModConstants.JsonSearchPattern);
-                // TODO: 
-            }
-        }
-    }
-
-    private void Init(GameManager gameManager) {
-        this.RuntimeContainer = this.CreateRuntimeContainer(gameManager);
+    private void Init(GameManager gameManager,
+                      ModManager modManager,
+                      ExecutableAsset asset) {
+        this.RuntimeContainer = this.CreateRuntimeContainer(gameManager,
+                                                            modManager,
+                                                            asset);
         this.RuntimeContainer.Init(AssetDatabase.global.LoadSettings, true);
         if (this.RuntimeContainer.Languages.HasErroneous) {
-            this.RuntimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.RuntimeContainer.Languages.Erroneous,
+            this.RuntimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.RuntimeContainer.Languages.GetErroneous(),
                                                                                 false);
         }
     }
@@ -119,7 +77,9 @@ public class Mod : IMod {
     }
 
 
-    private IModRuntimeContainer CreateRuntimeContainer(GameManager gameManager) {
+    private IModRuntimeContainer CreateRuntimeContainer(GameManager gameManager,
+                                                        ModManager modManager,
+                                                        ExecutableAsset asset) {
         IMyLogProvider logProvider = new ModLogProvider(Logger);
         Paths paths = new Paths(true,
                                 EnvPath.kStreamingDataPath,
@@ -129,13 +89,38 @@ public class Mod : IMod {
         LocaleAssetProvider localeAssetProvider = new LocaleAssetProvider(AssetDatabase.global);
         IBuiltInLocaleIdProvider builtInLocaleIdProvider = localeAssetProvider;
         IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(localeAssetProvider);
-        return new ModRuntimeContainer(logProvider,
-                                       this,
-                                       locManagerProvider,
-                                       intSettingsProvider,
-                                       indexCountsProvider,
-                                       builtInLocaleIdProvider,
-                                       paths);
+        ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(logProvider,
+                                                                       this,
+                                                                       locManagerProvider,
+                                                                       intSettingsProvider,
+                                                                       indexCountsProvider,
+                                                                       builtInLocaleIdProvider,
+                                                                       paths) {
+            ModManager = modManager,
+            ModAsset = asset,
+        };
+        return runtimeContainer;
+
     }
 
+    /// <summary>
+    ///     has to be done here
+    ///     <br/>
+    ///     <br/>
+    ///     its used within <see cref="OnLoad(UpdateSystem)"/>
+    ///     <br/>
+    ///     <br/>
+    ///     <see cref="IModRuntimeContainer"/> might not be initialized
+    ///     <br/>
+    ///     <br/>
+    ///     but <see cref="Logger"/> is needed...
+    /// </summary>
+    private static void DisplayError() {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(ErrorMessages.Intro);
+        builder.AppendLine($"The entire Mod failed to load.");
+        Mod.Logger.showsErrorsInUI = true;
+        Mod.Logger.Critical(builder);
+        Mod.Logger.showsErrorsInUI = false;
+    }
 }
