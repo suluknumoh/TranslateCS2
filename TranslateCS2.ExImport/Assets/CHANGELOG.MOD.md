@@ -3,6 +3,8 @@
     - inspired by
         - [yenyang](https://github.com/yenyang)
         - Morgan · Toverux
+    - this feature/behavior is enabled by default and can be turned off within this mods settings
+        - uncheck "Load from other mods"
     - this mod checks for valid mods that are local or enabled within the active playset
     - this mod checks the presence of a certain directory within the found mods
     - if a mod provides unoffical locales/translations, those translations are also taken into account
@@ -10,8 +12,6 @@
         - if you use this mod pro-actively and provide a translation or translations as described within the readme
             - your provided translation(s) rule(s) and is/are not overwritten.
             - if a translation provided by another mod contains more/other/additional translations, those additional translations are also used in-game
-    - this feature/behavior is enabled by default and can be turned off within this mods settings
-        - uncheck "Load from other mods"
     - if errors occur while loading the translationfiles
         - dedicated error-messages are shown
             - for this mod, TranslateCS2.Mod, the message starts with
@@ -22,6 +22,8 @@
                 - the local mod "NameOfTheMod" provided the following corrupt translationfiles"
 - now, an error message is displayed, if the entire mod fails to load
     - a respective screenshot is also added to the gallery/preview
+- error-previews got updated
+    - a short description is added
 # Version 2.0.4.1
 - Hotfix for [#17](https://github.com/suluknumoh/TranslateCS2/issues/17)
 # Version 2.0.4.0
