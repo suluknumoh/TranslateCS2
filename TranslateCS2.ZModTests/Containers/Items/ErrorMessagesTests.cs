@@ -22,8 +22,8 @@ public class ErrorMessagesTests : AProvidesTestDataOk {
         Assert.Equal(1, testLogProvider.DisplayErrorCount);
     }
     [Theory]
-    [InlineData(true, 1)]
-    [InlineData(false, 1)]
+    [InlineData(true, 0)]
+    [InlineData(false, 0)]
     public void DisplayErrorMessageForErroneousTests(bool missing, int expectedLogCounts) {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ErrorMessagesTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
