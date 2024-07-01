@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Enums;
+using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Containers.Items;
 internal class ErrorMessages {
@@ -9,11 +13,41 @@ internal class ErrorMessages {
     public ErrorMessages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
     }
-    private string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
-    public void DisplayErrorMessageForErroneous(IList<TranslationFile> erroneous, bool missing) {
+    public static string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
+    public void DisplayErrorMessageForErroneous(IEnumerable<FlavorSource> erroneous, bool missing) {
+
+        IEnumerable<IGrouping<FlavorSourceInfo, FlavorSource>> grouped =
+            erroneous.GroupBy(item => item.FlavorSourceInfo);
+
+
+        IEnumerable<IGrouping<FlavorSourceInfo, FlavorSource>> thisErrors =
+            grouped.Where(item => item.Key.FlavorSourceType == FlavorSourceTypes.THIS);
+        if (thisErrors.Any()) {
+            // there is only one THIS
+            this.DisplayModErrors(thisErrors.First(), missing);
+        }
+
+
+        IEnumerable<IGrouping<FlavorSourceInfo, FlavorSource>> otherErrors =
+            grouped.Where(item => item.Key.FlavorSourceType == FlavorSourceTypes.OTHER);
+        if (otherErrors.Any()) {
+            foreach (IGrouping<FlavorSourceInfo, FlavorSource> otherModsErrors in otherErrors) {
+                this.DisplayModErrors(otherModsErrors,
+                                      missing,
+                                      otherModsErrors.Key);
+            }
+        }
+    }
+
+    private void DisplayModErrors(IEnumerable<FlavorSource> erroneous, bool missing, FlavorSourceInfo? flavorSourceInfo = null) {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(this.Intro);
-        builder.Append($"the following provided translationfiles are corrupt");
+        builder.AppendLine(Intro);
+        if (flavorSourceInfo is not null) {
+            string local = flavorSourceInfo.IsLocal ? "local " : String.Empty;
+            builder.Append($"the {local}mod \"{flavorSourceInfo.Name}\" provided the following corrupt translationfiles");
+        } else {
+            builder.Append($"the following provided translationfiles within this mods data directory are corrupt");
+        }
         if (missing) {
             builder.Append($" or got deleted");
         }
@@ -28,13 +62,13 @@ internal class ErrorMessages {
         this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
     }
 
-    private static void ListErroneous(IList<TranslationFile> erroneous, StringBuilder builder) {
+    private static void ListErroneous(IEnumerable<FlavorSource> erroneous, StringBuilder builder) {
         int counter = ModConstants.MaxErroneous;
-        if (erroneous.Count > counter) {
-            builder.AppendLine($"{erroneous.Count:N0} files are affected; only the first {counter:N0} are listed");
+        if (erroneous.Count() > counter) {
+            builder.AppendLine($"{erroneous.Count():N0} files are affected; only the first {counter:N0} are listed");
         }
-        foreach (TranslationFile error in erroneous) {
-            builder.AppendLine($"- {error.Id}{ModConstants.JsonExtension} - {error.Name}");
+        foreach (FlavorSource error in erroneous) {
+            builder.AppendLine($"- {error.Localization.Id}{ModConstants.JsonExtension} - {error.Localization.NameEnglish}");
             --counter;
             if (counter <= 0) {
                 break;
@@ -44,7 +78,7 @@ internal class ErrorMessages {
 
     public void DisplayErrorMessageFailedToGenerateJson() {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(this.Intro);
+        builder.AppendLine(Intro);
         builder.AppendLine($"could not write");
         builder.AppendLine($"'{ModConstants.ModExportKeyValueJsonName}'");
         builder.AppendLine($"into");

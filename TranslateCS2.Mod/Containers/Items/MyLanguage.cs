@@ -4,17 +4,17 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-using Colossal.IO.AssetDatabase.Internal;
-
 using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
+using TranslateCS2.Inf.Services.Localizations;
+using TranslateCS2.Mod.Interfaces;
 
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
-internal class MyLanguage {
+internal class MyLanguage : IReLoadAble {
     private readonly IModRuntimeContainer runtimeContainer;
     public string Id { get; private set; }
     /// <summary>
@@ -25,50 +25,50 @@ internal class MyLanguage {
     ///     primarily used for logging and generating the supported languages table
     /// </summary>
     public string NameEnglish { get; private set; }
-    public IList<TranslationFile> Flavors { get; } = [];
+    public IList<Flavor> Flavors { get; } = [];
     public int FlavorCount => this.Flavors.Count;
-    public int EntryCountOfAllFlavors {
-        get {
-            int count = 0;
-            if (this.HasFlavors) {
-                this.Flavors.ForEach(flavor => count += flavor.EntryCount);
-            }
-            return count;
-        }
-    }
-    /// <summary>
-    ///     <see cref="CultureInfo"/>s associated with this language
-    /// </summary>
-    public List<CultureInfo> CultureInfos { get; } = [];
     public SystemLanguage SystemLanguage { get; }
     public bool IsBuiltIn { get; private set; }
-    public bool HasFlavors => this.Flavors.Any();
+    public bool HasFlavorsWithSources => this.Flavors.Any() && this.Flavors.Where(f => f.HasSources).Any();
     public MyLanguage(SystemLanguage systemLanguage,
                       IModRuntimeContainer runtimeContainer,
                       IList<CultureInfo> cultureInfos) {
         this.SystemLanguage = systemLanguage;
         this.runtimeContainer = runtimeContainer;
-        this.CultureInfos.AddRange(cultureInfos);
-        this.Init();
+        this.Init(cultureInfos);
+        this.InitFlavors(cultureInfos);
     }
-    private void Init() {
-        IEnumerable<CultureInfo> cultureInfos =
-            this.CultureInfos
+
+    private void InitFlavors(IList<CultureInfo> cultureInfos) {
+        IOrderedEnumerable<CultureInfo> orderedCultureInfos = cultureInfos.OrderBy(ci => ci.Name);
+        foreach (CultureInfo cultureInfo in orderedCultureInfos) {
+            Flavor flavor = new Flavor(this.runtimeContainer,
+                                       this,
+                                       cultureInfo.Name,
+                                       cultureInfo.NativeName,
+                                       cultureInfo.EnglishName);
+            this.Flavors.Add(flavor);
+        }
+    }
+
+    private void Init(IList<CultureInfo> cultureInfos) {
+        IEnumerable<CultureInfo> cultureInfosLocal =
+            cultureInfos
                 .Where(ci => this.runtimeContainer.Locales.IsBuiltIn(ci.Name));
         //
         //
-        this.IsBuiltIn = cultureInfos.Any();
+        this.IsBuiltIn = cultureInfosLocal.Any();
         //
         //
         if (!this.IsBuiltIn) {
-            cultureInfos = CultureInfoHelper.GetNeutralCultures(this.CultureInfos);
+            cultureInfosLocal = CultureInfoHelper.GetNeutralCultures(cultureInfos);
         }
-        if (!cultureInfos.Any()) {
+        if (!cultureInfosLocal.Any()) {
             return;
         }
-        cultureInfos = cultureInfos.OrderBy(ci => ci.Name);
-        this.InitId(cultureInfos);
-        this.InitNames(cultureInfos);
+        cultureInfosLocal = cultureInfosLocal.OrderBy(ci => ci.Name);
+        this.InitId(cultureInfosLocal);
+        this.InitNames(cultureInfosLocal);
     }
 
     private void InitId(IEnumerable<CultureInfo> cultureInfos) {
@@ -139,15 +139,15 @@ internal class MyLanguage {
         builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
         builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
         builder.AppendLine($"{nameof(this.IsBuiltIn)}: {this.IsBuiltIn}");
-        builder.AppendLine($"{nameof(this.HasFlavors)}: {this.HasFlavors}");
-        builder.AppendLine($"{nameof(this.CultureInfos)}: ({String.Join(", ", this.CultureInfos)})");
+        builder.AppendLine($"{nameof(this.HasFlavorsWithSources)}: {this.HasFlavorsWithSources}");
+        builder.AppendLine($"{nameof(this.Flavors)}: ({String.Join(", ", this.Flavors)})");
         return builder.ToString();
     }
 
-    public CultureInfo? GetCultureInfo(string localeId) {
-        IEnumerable<CultureInfo> matches =
-            this.CultureInfos
-                .Where(item => item.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
+    public Flavor? GetFlavor(string localeId) {
+        IEnumerable<Flavor> matches =
+            this.Flavors
+                .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase));
         if (matches.Any()) {
             return matches.First();
         }
@@ -156,8 +156,11 @@ internal class MyLanguage {
 
     public IEnumerable<DropdownItem<string>> GetFlavorDropDownItems() {
         List<DropdownItem<string>> dropdownItems = [];
-        foreach (TranslationFile translationFile in this.Flavors) {
-            DropdownItem<string> item = translationFile.GetDropDownItem();
+        foreach (Flavor flavor in this.Flavors) {
+            if (!flavor.HasSources) {
+                continue;
+            }
+            DropdownItem<string> item = flavor.GetDropDownItem();
             dropdownItems.Add(item);
         }
         return dropdownItems;
@@ -169,20 +172,12 @@ internal class MyLanguage {
                 .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase))
                 .Any();
     }
-
-    public TranslationFile GetFlavor(string localeId) {
+    public bool HasFlavorWithSources(string localeId) {
         return
             this.Flavors
                 .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase))
-                .First();
-    }
-
-    public bool SupportsLocaleId(string localeId) {
-        IEnumerable<CultureInfo> cis =
-                this
-                    .CultureInfos
-                        .Where(ci => ci.Name.Equals(localeId, StringComparison.OrdinalIgnoreCase));
-        return cis.Any();
+                .Where(item => item.HasSources)
+                .Any();
     }
     private static string Join(IEnumerable<CultureInfo> cultureInfos,
                                string separator,
@@ -203,12 +198,25 @@ internal class MyLanguage {
     public bool IsLanguageInitiallyLoadAble() {
         return
             !this.IsBuiltIn
-            && this.HasFlavors;
+            && this.HasFlavorsWithSources;
     }
 
     public bool IsCurrent() {
         string currentLocale = this.runtimeContainer.IntSettings.CurrentLocale;
         return this.Id.Equals(currentLocale,
                               StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void ReLoad(LocFileService<string> locFileService) {
+        foreach (Flavor flavor in this.Flavors) {
+            flavor.ReLoad(locFileService);
+        }
+    }
+    public IEnumerable<FlavorSource> GetErroneous() {
+        List<FlavorSource> erroneous = [];
+        foreach (Flavor flavor in this.Flavors) {
+            erroneous.AddRange(flavor.GetErroneous());
+        }
+        return erroneous;
     }
 }

@@ -13,14 +13,17 @@
   <!--Thumbnail-->
   <Thumbnail Value="Properties/Thumbnail.png" />
   <!--Screenshot, can be set multiple times-->
+  <Screenshot Value="_Previews/00_thumbnail.png" />
   <Screenshot Value="_Previews/directory.png" />
   <Screenshot Value="_Previews/en-GB-0.png" />
   <Screenshot Value="_Previews/en-GB-1.png" />
   <Screenshot Value="_Previews/nl-NL-0.png" />
   <Screenshot Value="_Previews/nl-NL-1.png" />
-  <Screenshot Value="_Previews/zzz_error_0_on_load.png" />
-  <Screenshot Value="_Previews/zzz_error_1_on_reload.png" />
-  <Screenshot Value="_Previews/zzz_error_2_on_generate.png" />
+  <Screenshot Value="_Previews/zzz_error_0_entire_fail.png" />
+  <Screenshot Value="_Previews/zzz_error_1_on_load.png" />
+  <Screenshot Value="_Previews/zzz_error_2_on_reload.png" />
+  <Screenshot Value="_Previews/zzz_error_3_on_generate.png" />
+  <Screenshot Value="_Previews/zzz_error_4_other_fail.png" />
   <!--Tag, can be set multiple times-->
   <Tag Value="Code Mod" />
   <!--Link to the forum post where the mod can be discussed-->
@@ -38,4 +41,5 @@
   </ChangeLog>
   <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
   <ExternalLink Type="github" Url="https://github.com/suluknumoh/TranslateCS2/blob/main/TranslateCS2.Mod/README.md" />
+  <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>

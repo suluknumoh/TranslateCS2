@@ -23,13 +23,13 @@ internal class LocManager {
             if (language is null) {
                 return;
             }
-            foreach (TranslationFile flavor in language.Flavors) {
+            foreach (Flavor flavor in language.Flavors) {
                 // INFO: its about hashcode and equals...
                 this.TryToRemoveSource(language, flavor);
             }
             if (language.HasFlavor(localeId)) {
                 // INFO: its about hashcode and equals...
-                TranslationFile flavor = language.GetFlavor(localeId);
+                Flavor flavor = language.GetFlavor(localeId);
                 this.TryToAddSource(language, flavor);
             }
         } catch (Exception ex) {
@@ -62,34 +62,34 @@ internal class LocManager {
         }
     }
     private void TryToAddSource(MyLanguage language,
-                                TranslationFile translationFile,
+                                Flavor flavor,
                                 bool reThrow = false) {
         try {
             // INFO: its about hashcode and equals...
-            // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
+            // has to be languages id, cause the language itself is registered with its own id and the flavor only refers to it
             this.Provider.AddSource(language.Id,
-                                    translationFile);
+                                    flavor);
         } catch (Exception ex) {
             this.logger.LogError(this.GetType(),
                                  LoggingConstants.FailedTo,
-                                 [nameof(TryToAddSource), ex, translationFile]);
-            this.TryToRemoveSource(language, translationFile);
+                                 [nameof(TryToAddSource), ex, flavor]);
+            this.TryToRemoveSource(language, flavor);
             if (reThrow) {
                 throw;
             }
         }
     }
     private void TryToRemoveSource(MyLanguage language,
-                                   TranslationFile translationFile) {
+                                   Flavor flavor) {
         try {
             // INFO: its about hashcode and equals...
-            // has to be languages id, cause the language itself is registered with its own id and the translationfile only refers to it
+            // has to be languages id, cause the language itself is registered with its own id and the flavor only refers to it
             this.Provider.RemoveSource(language.Id,
-                                       translationFile);
+                                       flavor);
         } catch (Exception ex) {
             this.logger.LogError(this.GetType(),
                                  LoggingConstants.FailedTo,
-                                 [nameof(TryToRemoveSource), ex, translationFile]);
+                                 [nameof(TryToRemoveSource), ex, flavor]);
         }
     }
 

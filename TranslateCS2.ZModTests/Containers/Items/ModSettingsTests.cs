@@ -81,8 +81,8 @@ public class ModSettingsTests : AProvidesTestDataOk {
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
                 SystemLanguage systemLanguage = entry.Key;
                 MyLanguage language = entry.Value;
-                IList<TranslationFile> flavors = language.Flavors;
-                foreach (TranslationFile flavor in flavors) {
+                IList<Flavor> flavors = language.Flavors;
+                foreach (Flavor flavor in flavors) {
                     settings.SetFlavor(systemLanguage, flavor.Id);
                     bool gotSettedFlavor = locManagerProvider.Sources.TryGetValue(language.Id, out IList<IDictionarySource> settedFlavorSources);
                     Assert.True(gotSettedFlavor);
@@ -126,8 +126,8 @@ public class ModSettingsTests : AProvidesTestDataOk {
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
                 SystemLanguage systemLanguage = entry.Key;
                 MyLanguage language = entry.Value;
-                IList<TranslationFile> flavors = language.Flavors;
-                foreach (TranslationFile flavor in flavors) {
+                IList<Flavor> flavors = language.Flavors;
+                foreach (Flavor flavor in flavors) {
                     settings.SetFlavor(systemLanguage, flavor.Id);
                     bool gotSettedFlavor = locManagerProvider.Sources.TryGetValue(language.Id, out IList<IDictionarySource> settedFlavorSources);
                     Assert.True(gotSettedFlavor);
@@ -179,8 +179,8 @@ public class ModSettingsTests : AProvidesTestDataOk {
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
                 SystemLanguage systemLanguage = entry.Key;
                 MyLanguage language = entry.Value;
-                IList<TranslationFile> flavors = language.Flavors;
-                foreach (TranslationFile flavor in flavors) {
+                IList<Flavor> flavors = language.Flavors;
+                foreach (Flavor flavor in flavors) {
                     settings.SetFlavor(systemLanguage, flavor.Id);
                     bool gotSettedFlavor = locManagerProvider.Sources.TryGetValue(language.Id, out IList<IDictionarySource> settedFlavorSources);
                     Assert.True(gotSettedFlavor);
@@ -224,8 +224,8 @@ public class ModSettingsTests : AProvidesTestDataOk {
             foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
                 SystemLanguage systemLanguage = entry.Key;
                 MyLanguage language = entry.Value;
-                IList<TranslationFile> flavors = language.Flavors;
-                foreach (TranslationFile flavor in flavors) {
+                IList<Flavor> flavors = language.Flavors;
+                foreach (Flavor flavor in flavors) {
                     settings.SetFlavor(systemLanguage, flavor.Id);
                     bool gotSettedFlavor = locManagerProvider.Sources.TryGetValue(language.Id, out IList<IDictionarySource> settedFlavorSources);
                     Assert.True(gotSettedFlavor);

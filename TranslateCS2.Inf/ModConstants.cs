@@ -29,4 +29,5 @@ public static class ModConstants {
     public static string ModExportKeyValueJsonName { get; } = $"_{Name}{JsonExtension}";
     public static string DataPathRawGeneral { get; } = $"{ModConstants.ModsData}{StringConstants.ForwardSlash}";
     public static string DataPathRawSpecific { get; } = $"{DataPathRawGeneral}{ModConstants.Name}{StringConstants.ForwardSlash}";
+    public static string OtherModsLocFilePath { get; } = "UnofficialLocales";
 }

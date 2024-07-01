@@ -76,13 +76,13 @@ public class ModSettingsFlavorsTests : AProvidesTestDataOk {
         foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languageDictionary) {
             SystemLanguage systemLanguage = entry.Key;
             MyLanguage language = entry.Value;
-            foreach (TranslationFile translation in language.Flavors) {
-                modSettings.SetFlavor(systemLanguage, translation.Id);
+            foreach (Flavor flavor in language.Flavors) {
+                modSettings.SetFlavor(systemLanguage, flavor.Id);
                 Assert.Contains(systemLanguage, modSettings.FlavorsSetted.Keys);
                 modSettings.FlavorsSetted.TryGetValue(systemLanguage, out string result);
-                Assert.Equal(translation.Id, result);
+                Assert.Equal(flavor.Id, result);
                 string getterResult = modSettings.GetSettedFlavor(systemLanguage);
-                Assert.Equal(translation.Id, getterResult);
+                Assert.Equal(flavor.Id, getterResult);
             }
         }
         Assert.Equal(ModTestConstants.ExpectedLanguageCount, modSettings.FlavorsSetted.Count);
