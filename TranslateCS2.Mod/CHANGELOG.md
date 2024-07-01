@@ -21,9 +21,6 @@
                 - or for local mods
                 - the local mod "NameOfTheMod" provided the following corrupt translationfiles"
 - now, an error message is displayed, if the entire mod fails to load
-    - a respective screenshot is also added to the gallery/preview
-- error-previews got updated
-    - a short description is added
 # Version 2.0.4.1
 - Hotfix for [#17](https://github.com/suluknumoh/TranslateCS2/issues/17)
 # Version 2.0.4.0
