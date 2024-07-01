@@ -12,6 +12,14 @@
             - if a translation provided by another mod contains more/other/additional translations, those additional translations are also used in-game
     - this feature/behavior is enabled by default and can be turned off within this mods settings
         - uncheck "Load from other mods"
+    - if errors occur while loading the translationfiles
+        - dedicated error-messages are shown
+            - for this mod, TranslateCS2.Mod, the message starts with
+                - the following provided translationfiles within this mods data directory are corrupt
+            - for each mod, a separate message is displayed
+                - the mod "TechnicalNameOfTheMod" provided the following corrupt translationfiles"
+                - or for local mods
+                - the local mod "NameOfTheMod" provided the following corrupt translationfiles"
 - now, an error message is displayed, if the entire mod fails to load
     - a respective screenshot is also added to the gallery/preview
 # Version 2.0.4.1

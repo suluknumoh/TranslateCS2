@@ -95,6 +95,12 @@ you are welcome to leave concerns, issues, feedback and/or suggestions on the fo
 ## yenyang
 - https://github.com/yenyang
 - for:
-    - 'working' with him together
-    - his inspiration
+    - 'working' together
+    - inspiration
+    - tbc
+
+## Morgan · Toverux
+- for:
+    - 'working' together
+    - inspiration
     - tbc
