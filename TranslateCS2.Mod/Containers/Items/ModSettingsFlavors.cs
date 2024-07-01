@@ -81,14 +81,14 @@ internal partial class ModSettings {
             // if localeId is none: language has no flavor with such a locale id
             localeId = DropDownItemsHelper.None;
         } else {
-            if (!language.HasFlavors
+            if (!language.HasFlavorsWithSources
                 || !language.HasFlavor(localeId)) {
                 // no flavors or not the given ones, generally set to none
                 localeId = DropDownItemsHelper.None;
             }
             if (!language.IsBuiltIn
                 && DropDownItemsHelper.None.Equals(localeId, StringComparison.OrdinalIgnoreCase)
-                && language.HasFlavors) {
+                && language.HasFlavorsWithSources) {
                 // non built-in languages should be pre initialized with their first flavor
                 localeId = language.Flavors.First().Id;
             }

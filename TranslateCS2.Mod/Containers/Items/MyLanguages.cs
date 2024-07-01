@@ -11,6 +11,9 @@ using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
+using TranslateCS2.Mod.Enums;
+using TranslateCS2.Mod.Helpers;
+using TranslateCS2.Mod.Models;
 using TranslateCS2.Mod.Services.Localizations;
 
 using UnityEngine;
@@ -34,17 +37,7 @@ internal class MyLanguages {
             return count;
         }
     }
-    public long EntryCountOfAllFlavorsOfAllLanguages {
-        get {
-            long count = 0;
-            if (this.LanguageCount > 0) {
-                this.LanguageDictionary.Values.ForEach(item => count += item.EntryCountOfAllFlavors);
-            }
-            return count;
-        }
-    }
-    public IList<TranslationFile> Erroneous { get; } = [];
-    public bool HasErroneous => this.Erroneous.Count > 0;
+    public bool HasErroneous => this.GetErroneous().Any();
 
     public MyLanguages(IModRuntimeContainer runtimeContainer) {
         this.runtimeContainer = runtimeContainer;
@@ -82,7 +75,7 @@ internal class MyLanguages {
     ///     <br/>
     ///     <see cref="Game.Settings.InterfaceSettings.currentLocale"/> is changed
     ///     <br/>
-    ///     or a selected Flavor (<see cref="TranslationFile"/>) is changed
+    ///     or a selected Flavor (<see cref="Flavor"/>) is changed
     ///     <br/>
     ///     take a look at:
     ///     <br/>
@@ -113,12 +106,34 @@ internal class MyLanguages {
     private void ReadFiles() {
         LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
         LocFileService<string> locFileService = new LocFileService<string>(strategy);
-        IEnumerable<FileInfo> fileInfos = locFileService.GetLocalizationFiles();
-        foreach (FileInfo fileInfo in fileInfos) {
-            // no need to lower, IsLocaleIdSupported lowers it
-            string localeId = fileInfo.Name.Replace(ModConstants.JsonExtension, String.Empty);
-            if (LocalesSupported.IsLocaleIdSupported(localeId)) {
-                this.TryToReadFile(locFileService, fileInfo);
+        IEnumerable<FileInfo> thisModsFiles = locFileService.GetLocalizationFiles();
+        List<ModInfoLocFiles> files = [];
+        Version version = this.runtimeContainer.ModAsset?.version ?? new Version();
+        bool isLocal = this.runtimeContainer.ModAsset?.isLocal ?? true;
+        ModInfoLocFiles thisOnes = new ModInfoLocFiles(ModConstants.ModId,
+                                                       ModConstants.NameSimple,
+                                                       version,
+                                                       isLocal,
+                                                       FlavorSourceTypes.THIS,
+                                                       thisModsFiles);
+        files.Add(thisOnes);
+        if (this.runtimeContainer.Settings.LoadFromOtherMods) {
+            IList<ModInfoLocFiles> otherOnes = OtherModsLocFilesHelper.GetOtherModsLocFiles(this.runtimeContainer);
+            files.AddRange(otherOnes);
+        }
+        this.ReadFiles(locFileService, files);
+    }
+
+    private void ReadFiles(LocFileService<string> locFileService, IList<ModInfoLocFiles> sources) {
+        foreach (ModInfoLocFiles source in sources) {
+            foreach (FileInfo fileInfo in source.FileInfos) {
+                // no need to lower, IsLocaleIdSupported lowers it
+                string localeId = fileInfo.Name.Replace(ModConstants.JsonExtension, String.Empty);
+                if (LocalesSupported.IsLocaleIdSupported(localeId)) {
+                    this.TryToReadFile(locFileService,
+                                       fileInfo,
+                                       source.FlavorSourceInfo);
+                }
             }
         }
     }
@@ -132,22 +147,23 @@ internal class MyLanguages {
     /// <param name="fileInfo">
     ///     the files to read <see cref="FileInfo"/>
     /// </param>
-    private void TryToReadFile(LocFileService<string> locFileService, FileInfo fileInfo) {
+    private void TryToReadFile(LocFileService<string> locFileService,
+                               FileInfo fileInfo,
+                               FlavorSourceInfo flavorSourceInfo) {
         try {
             MyLocalization<string> locFile = locFileService.GetLocalizationFile(fileInfo);
             MyLanguage? language = this.GetLanguage(locFile.Id);
             if (language is null) {
                 return;
             }
-            TranslationFile translationFile = new TranslationFile(this.runtimeContainer,
-                                                                  language,
-                                                                  locFile);
-            if (!translationFile.IsOK) {
-                this.Erroneous.Add(translationFile);
-            }
+            // if language is not null,
+            // Flavor cannot be null
+            Flavor flavor = language.GetFlavor(locFile.Id);
+            FlavorSource flavorSource = new FlavorSource(flavorSourceInfo,
+                                                         locFile);
             // yes, add even though the file is not ok
             // this way it can be reloaded without the need to restart the game
-            language.Flavors.Add(translationFile);
+            flavor.FlavorSources.Add(flavorSource);
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
@@ -183,7 +199,7 @@ internal class MyLanguages {
     }
 
     /// <summary>
-    ///     tries to reload all <see cref="TranslationFile"/>s, that existed at startup
+    ///     tries to reload all <see cref="Flavor"/>s, that existed at startup
     ///     <br/>
     ///     and collects <see cref="Erroneous"/> (see also: <seealso cref="HasErroneous"/>)
     /// </summary>
@@ -191,59 +207,14 @@ internal class MyLanguages {
         try {
             LocFileServiceStrategy<string> strategy = new JsonLocFileServiceStrategy(this.runtimeContainer);
             LocFileService<string> locFileService = new LocFileService<string>(strategy);
-            this.Erroneous.Clear();
             foreach (MyLanguage language in this.LanguageDictionary.Values) {
-                this.ReLoadLanguage(locFileService, language);
+                language.ReLoad(locFileService);
             }
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
                                                   [nameof(ReLoad), ex]);
         }
-    }
-
-    private void ReLoadLanguage(LocFileService<string> locFileService, MyLanguage language) {
-        foreach (TranslationFile translationFile in language.Flavors) {
-            this.ReLoadTranslationFile(locFileService,
-                                       language,
-                                       translationFile);
-        }
-    }
-
-    private void ReLoadTranslationFile(LocFileService<string> locFileService,
-                                       MyLanguage language,
-                                       TranslationFile translationFile) {
-        try {
-            bool reRead = this.ReReadTranslationFile(locFileService,
-                                                     translationFile);
-            if (!reRead) {
-                return;
-            }
-            if (this.IsActive(language, translationFile)) {
-                this.locManager.ReloadActiveLocale();
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                  LoggingConstants.FailedTo,
-                                                  [nameof(ReLoad), ex, language, translationFile]);
-        }
-    }
-
-    private bool IsActive(MyLanguage language, TranslationFile translationFile) {
-        return
-            language.IsCurrent()
-            && translationFile.IsCurrent();
-    }
-
-    private bool ReReadTranslationFile(LocFileService<string> locFileService,
-                                       TranslationFile translationFile) {
-        bool reInitialized = locFileService.ReadContent(translationFile.Source);
-        if (reInitialized
-            && translationFile.IsOK) {
-            return true;
-        }
-        this.Erroneous.Add(translationFile);
-        return false;
     }
 
     /// <summary>
@@ -263,7 +234,7 @@ internal class MyLanguages {
             return this.GetLanguage(systemLanguage);
         }
         foreach (MyLanguage language in this.LanguageDictionary.Values) {
-            if (language.SupportsLocaleId(localeId)) {
+            if (language.HasFlavor(localeId)) {
                 return language;
             }
         }
@@ -314,14 +285,21 @@ internal class MyLanguages {
                                                                      StringBuilder cultureInfoBuilder,
                                                                      KeyValuePair<SystemLanguage, MyLanguage> entry) {
         markdownBuilder.AppendLine($"## {entry.Value.NameEnglish} - {entry.Value.Name}");
-        IOrderedEnumerable<CultureInfo> orderedCultures = entry.Value.CultureInfos.OrderBy(item => item.Name);
+        IOrderedEnumerable<Flavor> orderedFlavors = entry.Value.Flavors.OrderBy(item => item.Name);
         markdownBuilder.AppendLine("| Language-(Region)-Code | English Name | Native Name |");
         markdownBuilder.AppendLine($"| {new string('-', 10)} | {new string('-', 10)} | {new string('-', 10)} |");
-        foreach (CultureInfo? cultureInfo in orderedCultures) {
-            markdownBuilder.AppendLine($"| {cultureInfo.Name} | {cultureInfo.EnglishName} | {cultureInfo.NativeName} |");
-            cultureInfoBuilder.AppendLine($"\"{cultureInfo.Name}\",");
+        foreach (Flavor? flavor in orderedFlavors) {
+            markdownBuilder.AppendLine($"| {flavor.Name} | {flavor.NameEnglish} | {flavor.Name} |");
+            cultureInfoBuilder.AppendLine($"\"{flavor.Id}\",");
         }
         markdownBuilder.AppendLine();
         markdownBuilder.AppendLine();
+    }
+    public IEnumerable<FlavorSource> GetErroneous() {
+        List<FlavorSource> erroneous = [];
+        foreach (MyLanguage language in this.LanguageDictionary.Values) {
+            erroneous.AddRange(language.GetErroneous());
+        }
+        return erroneous;
     }
 }

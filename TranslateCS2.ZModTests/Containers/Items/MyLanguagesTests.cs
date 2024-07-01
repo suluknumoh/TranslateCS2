@@ -98,20 +98,22 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.Equal(expectedId, language.Id);
             Assert.NotNull(languages.GetLanguage(expectedId));
             // no files are read
-            Assert.False(language.HasFlavors);
-            Assert.False(language.HasFlavor(expectedId));
+            Assert.False(language.HasFlavorsWithSources);
+            Assert.True(language.HasFlavor(expectedId));
+            Assert.False(language.HasFlavorWithSources(expectedId));
         } else {
             Assert.Null(expectedId);
             Assert.Equal(systemLanguage.ToString(), language.Id);
             Assert.NotNull(languages.GetLanguage(systemLanguage.ToString()));
             // no files are read
-            Assert.False(language.HasFlavors);
+            Assert.False(language.HasFlavorsWithSources);
             Assert.False(language.HasFlavor(systemLanguage.ToString()));
+            Assert.False(language.HasFlavorWithSources(systemLanguage.ToString()));
         }
 
         Assert.Equal(expectedName, language.Name);
         Assert.Equal(expectedNameEnglish, language.NameEnglish);
-        Assert.NotEmpty(language.CultureInfos);
+        Assert.NotEmpty(language.Flavors);
     }
 
     [Theory]
@@ -186,14 +188,13 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.False(languages.HasErroneous);
             Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
             Assert.Equal(ModTestConstants.ExpectedFlavorCount, languages.FlavorCountOfAllLanguages);
-            Assert.Equal(ModTestConstants.ExpectedFlavorCount * dataProviderLocal.EntryCountPerFile,
-                         languages.EntryCountOfAllFlavorsOfAllLanguages);
             MyLanguage? language = languages.GetLanguage(systemLanguage);
             Assert.NotNull(language);
-            Assert.True(language.HasFlavors);
+            Assert.True(language.HasFlavorsWithSources);
             Assert.Equal(expectedFlavorCount, language.FlavorCount);
-            Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
-                         language.EntryCountOfAllFlavors);
+            // TODO: check each FlavorSource
+            //Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
+            //             language.EntryCountOfAllFlavors);
 
             TestLocManagerProvider locManagerProvider = runtimeContainer.TestLocManagerProvider;
             locManagerProvider.AddBuiltIn();
@@ -300,15 +301,14 @@ public class MyLanguagesTests : AProvidesTestDataOk {
             Assert.False(languages.HasErroneous);
             Assert.Equal(ModTestConstants.ExpectedLanguageCount, languages.LanguageCount);
             Assert.Equal(ModTestConstants.ExpectedFlavorCount, languages.FlavorCountOfAllLanguages);
-            Assert.Equal(ModTestConstants.ExpectedFlavorCount * dataProviderLocal.EntryCountPerFile,
-                         languages.EntryCountOfAllFlavorsOfAllLanguages);
             MyLanguage? language = languages.GetLanguage(systemLanguage);
             Assert.NotNull(language);
-            Assert.True(language.HasFlavors);
+            Assert.True(language.HasFlavorsWithSources);
             Assert.Equal(expectedFlavorCount, language.FlavorCount);
             // first its ok, so we expect two times expectedFlavorCount
-            Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
-                         language.EntryCountOfAllFlavors);
+            // TODO: check each FlavorSource
+            //Assert.Equal(expectedFlavorCount * dataProviderLocal.EntryCountPerFile,
+            //             language.EntryCountOfAllFlavors);
 
             TestLocManagerProvider locManagerProvider = runtimeContainer.TestLocManagerProvider;
             locManagerProvider.AddBuiltIn();
@@ -369,7 +369,7 @@ public class MyLanguagesTests : AProvidesTestDataOk {
         foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in languages.LanguageDictionary) {
             MyLanguage language = entry.Value;
             IEnumerable<DropdownItem<string>> dropDownItems = language.GetFlavorDropDownItems();
-            foreach (TranslationFile flavor in language.Flavors) {
+            foreach (Flavor flavor in language.Flavors) {
                 string expectedDisplayName = StringHelper.CutStringAfterMaxLengthAndAddThreeDots(flavor.Name,
                                                                                                  ModConstants.MaxDisplayNameLength);
                 AssertContainsDropDownItem(dropDownItems,

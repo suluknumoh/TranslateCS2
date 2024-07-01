@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using Xunit;
@@ -22,15 +22,15 @@ public class ErrorMessagesTests : AProvidesTestDataOk {
         Assert.Equal(1, testLogProvider.DisplayErrorCount);
     }
     [Theory]
-    [InlineData(true, 1)]
-    [InlineData(false, 1)]
+    [InlineData(true, 0)]
+    [InlineData(false, 0)]
     public void DisplayErrorMessageForErroneousTests(bool missing, int expectedLogCounts) {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ErrorMessagesTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         runtimeContainer.Init();
         ErrorMessages errorMessages = runtimeContainer.ErrorMessages;
-        IList<TranslationFile> erroneous = [];
+        IList<FlavorSource> erroneous = [];
         errorMessages.DisplayErrorMessageForErroneous(erroneous, missing);
         Assert.Equal(expectedLogCounts, testLogProvider.DisplayErrorCount);
         Assert.Equal(expectedLogCounts, testLogProvider.LogErrorCount);

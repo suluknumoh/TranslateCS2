@@ -30,7 +30,7 @@ internal interface ILocManagerProvider {
     /// <summary>
     ///     <see cref="Colossal.Localization.LocalizationManager.RemoveSource(String, IDictionarySource)"/>
     /// </summary>
-    void RemoveSource(string localeId, TranslationFile source);
+    void RemoveSource(string localeId, Flavor source);
     /// <summary>
     ///     <see cref="Colossal.Localization.LocalizationManager.SetActiveLocale(String)"/>
     /// </summary>

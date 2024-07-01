@@ -153,4 +153,17 @@
   <data name="GroupReloadTitle" xml:space="preserve">
     <value>reload</value>
   </data>
+  <data name="GroupSettingsTitle" xml:space="preserve">
+    <value>settings</value>
+  </data>
+  <data name="GroupSettingsToggleLoadFromOtherModsDescription" xml:space="preserve">
+    <value>This mod is able to sideload unofficial locales that are provided by other mods.
+If this box is checked, this mod loads those locales from other mods.
+If this box is not checked, it does not load locales from other mods.
+It is safe, to check this box.
+The Translation(s) provided within this mods data-directory rule and won't be overwritten.</value>
+  </data>
+  <data name="GroupSettingsToggleLoadFromOtherModsLabel" xml:space="preserve">
+    <value>Load from other mods</value>
+  </data>
 </root>

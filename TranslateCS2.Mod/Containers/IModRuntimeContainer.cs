@@ -1,5 +1,7 @@
 using System;
 
+using Colossal.IO.AssetDatabase;
+
 using Game.Modding;
 
 using TranslateCS2.Inf;
@@ -21,6 +23,8 @@ internal interface IModRuntimeContainer {
     IMod Mod { get; }
     ModSettings Settings { get; }
     ModSettingsLocale SettingsLocale { get; }
+    ModManager? ModManager { get; }
+    ExecutableAsset? ModAsset { get; }
     IBuiltInLocaleIdProvider BuiltInLocaleIdProvider { get; }
     void Init(Action<string, object, object?>? loadSettings = null, bool register = false);
     void Dispose(bool unregister = false);

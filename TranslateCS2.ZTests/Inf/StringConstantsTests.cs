@@ -9,6 +9,10 @@ public class StringConstantsTests {
         Assert.Equal("_", StringConstants.Underscore);
     }
     [Fact]
+    public void UnderscoreCharTest() {
+        Assert.Equal('_', StringConstants.UnderscoreChar);
+    }
+    [Fact]
     public void SpaceTest() {
         Assert.Equal(" ", StringConstants.Space);
     }
@@ -79,5 +83,9 @@ public class StringConstantsTests {
     [Fact]
     public void CommaSpaceTest() {
         Assert.Equal(", ", StringConstants.CommaSpace);
+    }
+    [Fact]
+    public void LocalModTest() {
+        Assert.Equal("LocalMod", StringConstants.LocalMod);
     }
 }

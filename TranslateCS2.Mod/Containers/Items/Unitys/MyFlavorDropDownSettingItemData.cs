@@ -34,7 +34,7 @@ internal class MyFlavorDropDownSettingItemData : AutomaticSettings.SettingItemDa
     public bool IsDisabled() {
         return
             this.IsHidden()
-            || !this.Language.HasFlavors;
+            || !this.Language.HasFlavorsWithSources;
     }
     protected override IWidget GetWidget() {
         // instance methods are only allowed, if itemsGetterType is an instance of ModSettings

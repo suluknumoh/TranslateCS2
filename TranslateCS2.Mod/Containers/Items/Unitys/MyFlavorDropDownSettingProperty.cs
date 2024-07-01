@@ -54,7 +54,7 @@ internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualPropert
 
     public DropdownItem<string>[] GetFlavors() {
         // only builtin and those without flavors may have 'none'
-        bool addNone = this.language.IsBuiltIn || !this.language.HasFlavors;
+        bool addNone = this.language.IsBuiltIn || !this.language.HasFlavorsWithSources;
         List<DropdownItem<string>> flavors = DropDownItemsHelper.GetDefault(addNone);
         flavors.AddRange(this.language.GetFlavorDropDownItems());
         return flavors.ToArray();

@@ -34,6 +34,18 @@ internal class ModSettingsLocale : IDictionarySource {
                              ModSettings.Section,
                              false);
         {
+            // settings-group
+            this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.SettingsGroup),
+                                 I18NMod.GroupSettingsTitle,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.LoadFromOtherMods)),
+                                 I18NMod.GroupSettingsToggleLoadFromOtherModsLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.LoadFromOtherMods)),
+                                 I18NMod.GroupSettingsToggleLoadFromOtherModsDescription,
+                                 true);
+        }
+        {
             // reload-group
             this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.ReloadGroup),
                                  I18NMod.GroupReloadTitle,

@@ -20,8 +20,8 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Containers.Items;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
-[SettingsUIGroupOrder(FlavorGroup, ReloadGroup, GenerateGroup)]
-[SettingsUIShowGroupName(FlavorGroup, ReloadGroup, GenerateGroup)]
+[SettingsUIGroupOrder(FlavorGroup, SettingsGroup, ReloadGroup, GenerateGroup)]
+[SettingsUIShowGroupName(FlavorGroup, SettingsGroup, ReloadGroup, GenerateGroup)]
 internal partial class ModSettings : ModSetting {
 
 
@@ -29,6 +29,7 @@ internal partial class ModSettings : ModSetting {
 
     public const string Section = "Main";
     public const string FlavorGroup = nameof(FlavorGroup);
+    public const string SettingsGroup = nameof(SettingsGroup);
     public const string ReloadGroup = nameof(ReloadGroup);
     public const string GenerateGroup = nameof(GenerateGroup);
 
@@ -66,7 +67,15 @@ internal partial class ModSettings : ModSetting {
         this.Locale = this.runtimeContainer.IntSettings.CurrentLocale;
         this.PreviousLocale = this.Locale;
         this.SubscribeOnFlavorChanged(this.runtimeContainer.LocManager.FlavorChanged);
+        this.SetDefaults();
     }
+
+
+    [Include]
+    [SettingsUISection(Section, SettingsGroup)]
+    public bool LoadFromOtherMods { get; set; }
+
+
 
     [Exclude]
     [SettingsUIButton]
@@ -80,8 +89,9 @@ internal partial class ModSettings : ModSetting {
     private void ReloadLangs() {
         try {
             this.languages.ReLoad();
+            this.runtimeContainer.LocManager.ReloadActiveLocale();
             if (this.languages.HasErroneous) {
-                this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.Erroneous, true);
+                this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.GetErroneous(), true);
             }
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
@@ -143,7 +153,7 @@ internal partial class ModSettings : ModSetting {
     }
     [MyExcludeFromCoverage]
     public override void SetDefaults() {
-        //
+        this.LoadFromOtherMods = true;
     }
     public void HandleLocaleOnLoad() {
         try {
