@@ -108,10 +108,14 @@ internal class MyLanguages {
         LocFileService<string> locFileService = new LocFileService<string>(strategy);
         IEnumerable<FileInfo> thisModsFiles = locFileService.GetLocalizationFiles();
         List<ModInfoLocFiles> files = [];
+        Version version = this.runtimeContainer.ModAsset?.version ?? new Version();
+        bool isLocal = this.runtimeContainer.ModAsset?.isLocal ?? true;
         ModInfoLocFiles thisOnes = new ModInfoLocFiles(ModConstants.ModId,
                                                        ModConstants.NameSimple,
-                                                       thisModsFiles,
-                                                       FlavorSourceTypes.THIS);
+                                                       version,
+                                                       isLocal,
+                                                       FlavorSourceTypes.THIS,
+                                                       thisModsFiles);
         files.Add(thisOnes);
         if (this.runtimeContainer.Settings.LoadFromOtherMods) {
             IList<ModInfoLocFiles> otherOnes = OtherModsLocFilesHelper.GetOtherModsLocFiles(this.runtimeContainer);
@@ -120,13 +124,15 @@ internal class MyLanguages {
         this.ReadFiles(locFileService, files);
     }
 
-    private void ReadFiles(LocFileService<string> locFileService, IList<ModInfoLocFiles> files) {
-        foreach (ModInfoLocFiles file in files) {
-            foreach (FileInfo fileInfo in file.FileInfos) {
+    private void ReadFiles(LocFileService<string> locFileService, IList<ModInfoLocFiles> sources) {
+        foreach (ModInfoLocFiles source in sources) {
+            foreach (FileInfo fileInfo in source.FileInfos) {
                 // no need to lower, IsLocaleIdSupported lowers it
                 string localeId = fileInfo.Name.Replace(ModConstants.JsonExtension, String.Empty);
                 if (LocalesSupported.IsLocaleIdSupported(localeId)) {
-                    this.TryToReadFile(locFileService, fileInfo, file.FlavorSourceType, file.Name, file.Id);
+                    this.TryToReadFile(locFileService,
+                                       fileInfo,
+                                       source.FlavorSourceInfo);
                 }
             }
         }
@@ -143,9 +149,7 @@ internal class MyLanguages {
     /// </param>
     private void TryToReadFile(LocFileService<string> locFileService,
                                FileInfo fileInfo,
-                               FlavorSourceTypes sourceType,
-                               string modName,
-                               string modId) {
+                               FlavorSourceInfo flavorSourceInfo) {
         try {
             MyLocalization<string> locFile = locFileService.GetLocalizationFile(fileInfo);
             MyLanguage? language = this.GetLanguage(locFile.Id);
@@ -155,10 +159,8 @@ internal class MyLanguages {
             // if language is not null,
             // Flavor cannot be null
             Flavor flavor = language.GetFlavor(locFile.Id);
-            FlavorSource flavorSource = new FlavorSource(sourceType,
-                                                         locFile,
-                                                         modName,
-                                                         modId);
+            FlavorSource flavorSource = new FlavorSource(flavorSourceInfo,
+                                                         locFile);
             // yes, add even though the file is not ok
             // this way it can be reloaded without the need to restart the game
             flavor.FlavorSources.Add(flavorSource);

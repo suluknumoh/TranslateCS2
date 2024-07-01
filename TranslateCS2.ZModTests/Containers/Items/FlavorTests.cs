@@ -9,6 +9,7 @@ using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers.Items;
 using TranslateCS2.Mod.Enums;
+using TranslateCS2.Mod.Models;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
 using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
@@ -45,10 +46,13 @@ public class FlavorTests : AProvidesTestDataOk {
         Assert.NotEmpty(locFile.Source.Localizations);
         Assert.NotEmpty(locFile.Source.IndexCounts);
 
-        FlavorSource flavorSource = new FlavorSource(FlavorSourceTypes.THIS,
-                                                     locFile,
-                                                     ModConstants.NameSimple,
-                                                     ModConstants.ModId);
+        FlavorSourceInfo flavorSourceInfo = new FlavorSourceInfo(ModConstants.ModId,
+                                                                 ModConstants.NameSimple,
+                                                                 new System.Version(),
+                                                                 true,
+                                                                 FlavorSourceTypes.THIS);
+        FlavorSource flavorSource = new FlavorSource(flavorSourceInfo,
+                                                     locFile);
         Assert.True(flavorSource.IsOk);
         Assert.NotEmpty(flavorSource.Source.Localizations);
         Assert.NotEmpty(flavorSource.Source.IndexCounts);

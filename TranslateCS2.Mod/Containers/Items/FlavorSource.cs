@@ -4,26 +4,20 @@ using System.Text;
 
 using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Inf.Models.Localizations;
-using TranslateCS2.Mod.Enums;
+using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Containers.Items;
 internal class FlavorSource : IEquatable<FlavorSource?> {
-    public FlavorSourceTypes SourceType { get; }
+    public FlavorSourceInfo FlavorSourceInfo { get; }
     public MyLocalization<string> Localization { get; }
     public MyLocalizationSource<string> Source => this.Localization.Source;
     public int EntryCount => this.Localization.EntryCount;
     public bool IsOk => this.Localization.IsOK && !this.HasErrors;
     public bool HasErrors { get; set; }
-    public string ModName { get; }
-    public string ModId { get; }
-    public FlavorSource(FlavorSourceTypes sourceType,
-                        MyLocalization<string> localization,
-                        string modName,
-                        string modId) {
-        this.SourceType = sourceType;
+    public FlavorSource(FlavorSourceInfo flavorSourceInfo,
+                        MyLocalization<string> localization) {
+        this.FlavorSourceInfo = flavorSourceInfo;
         this.Localization = localization;
-        this.ModName = modName;
-        this.ModId = modId;
     }
 
 
@@ -32,12 +26,10 @@ internal class FlavorSource : IEquatable<FlavorSource?> {
     public override string ToString() {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(this.GetType().ToString());
-        builder.AppendLine($"{nameof(this.ModId)}: {this.ModId}");
-        builder.AppendLine($"{nameof(this.ModName)}: {this.ModName}");
-        builder.AppendLine($"{nameof(this.SourceType)}: {this.SourceType}");
-        builder.AppendLine($"{nameof(this.Localization)}: {this.Localization}");
+        builder.AppendLine($"{nameof(this.FlavorSourceInfo)}: {this.FlavorSourceInfo}");
         builder.AppendLine($"{nameof(this.IsOk)}: {this.IsOk}");
         builder.AppendLine($"{nameof(this.HasErrors)}: {this.HasErrors}");
+        builder.AppendLine($"{nameof(this.Localization)}: {this.Localization}");
         return builder.ToString();
     }
 
@@ -49,25 +41,15 @@ internal class FlavorSource : IEquatable<FlavorSource?> {
     [MyExcludeFromCoverage]
     public bool Equals(FlavorSource? other) {
         return other is not null &&
-               this.SourceType == other.SourceType &&
-               EqualityComparer<MyLocalization<string>>.Default.Equals(this.Localization, other.Localization) &&
-               this.EntryCount == other.EntryCount &&
-               this.IsOk == other.IsOk &&
-               this.HasErrors == other.HasErrors &&
-               this.ModName == other.ModName &&
-               this.ModId == other.ModId;
+               EqualityComparer<FlavorSourceInfo>.Default.Equals(this.FlavorSourceInfo, other.FlavorSourceInfo) &&
+               EqualityComparer<MyLocalization<string>>.Default.Equals(this.Localization, other.Localization);
     }
 
     [MyExcludeFromCoverage]
     public override int GetHashCode() {
-        int hashCode = -221263353;
-        hashCode = (hashCode * -1521134295) + this.SourceType.GetHashCode();
+        int hashCode = -2049087224;
+        hashCode = (hashCode * -1521134295) + EqualityComparer<FlavorSourceInfo>.Default.GetHashCode(this.FlavorSourceInfo);
         hashCode = (hashCode * -1521134295) + EqualityComparer<MyLocalization<string>>.Default.GetHashCode(this.Localization);
-        hashCode = (hashCode * -1521134295) + this.EntryCount.GetHashCode();
-        hashCode = (hashCode * -1521134295) + this.IsOk.GetHashCode();
-        hashCode = (hashCode * -1521134295) + this.HasErrors.GetHashCode();
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.ModName);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.ModId);
         return hashCode;
     }
 }

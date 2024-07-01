@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Mod.Enums;
+using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Containers.Items;
 internal class ErrorMessages {
@@ -12,12 +15,39 @@ internal class ErrorMessages {
     }
     public static string Intro { get; } = $"from {ModConstants.NameSimple} ({ModConstants.Name}):";
     public void DisplayErrorMessageForErroneous(IEnumerable<FlavorSource> erroneous, bool missing) {
-        // TODO: differentiate by FlavorSourceTypes
-        // TODO: also display FlavorSource.ModName
-        // TODO: also display FlavorSource.ModId?
+
+        IEnumerable<IGrouping<FlavorSourceInfo, FlavorSource>> grouped =
+            erroneous.GroupBy(item => item.FlavorSourceInfo);
+
+
+        IEnumerable<IGrouping<FlavorSourceInfo, FlavorSource>> thisErrors =
+            grouped.Where(item => item.Key.FlavorSourceType == FlavorSourceTypes.THIS);
+        if (thisErrors.Any()) {
+            // there is only one THIS
+            this.DisplayModErrors(thisErrors.First(), missing);
+        }
+
+
+        IEnumerable<IGrouping<FlavorSourceInfo, FlavorSource>> otherErrors =
+            grouped.Where(item => item.Key.FlavorSourceType == FlavorSourceTypes.OTHER);
+        if (otherErrors.Any()) {
+            foreach (IGrouping<FlavorSourceInfo, FlavorSource> otherModsErrors in otherErrors) {
+                this.DisplayModErrors(otherModsErrors,
+                                      missing,
+                                      otherModsErrors.Key);
+            }
+        }
+    }
+
+    private void DisplayModErrors(IEnumerable<FlavorSource> erroneous, bool missing, FlavorSourceInfo? flavorSourceInfo = null) {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine(Intro);
-        builder.Append($"the following provided translationfiles are corrupt");
+        if (flavorSourceInfo is not null) {
+            string local = flavorSourceInfo.IsLocal ? "local " : String.Empty;
+            builder.Append($"the {local}mod \"{flavorSourceInfo.Name}\" provided the following corrupt translationfiles");
+        } else {
+            builder.Append($"the following provided translationfiles within this mods data directory are corrupt");
+        }
         if (missing) {
             builder.Append($" or got deleted");
         }

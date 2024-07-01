@@ -71,7 +71,7 @@ internal class Flavor : IReLoadAble, IDictionarySource {
     private IDictionary<string, string> GetMergedSources() {
         Dictionary<string, string> merged = [];
         // to have FlavorSourceTypes.THIS the last one
-        IOrderedEnumerable<FlavorSource> orderedSources = this.FlavorSources.OrderByDescending(s => s.SourceType);
+        IOrderedEnumerable<FlavorSource> orderedSources = this.FlavorSources.OrderByDescending(s => s.FlavorSourceInfo.FlavorSourceType);
         foreach (FlavorSource? orderedSource in orderedSources) {
             foreach (KeyValuePair<string, string> localization in orderedSource.Source.Localizations) {
                 merged[localization.Key] = localization.Value;
@@ -107,16 +107,21 @@ internal class Flavor : IReLoadAble, IDictionarySource {
 
     public void ReLoad(LocFileService<string> locFileService) {
         foreach (FlavorSource source in this.FlavorSources) {
+            Exception? exception = null;
             try {
                 // reset to false
                 source.HasErrors = false;
                 // read content returns true, if the content is read
                 source.HasErrors = !locFileService.ReadContent(source.Source);
             } catch (Exception ex) {
+                exception = ex;
+                source.HasErrors = true;
+            }
+            if (source.HasErrors
+                || exception is not null) {
                 this.runtimeContainer.Logger.LogError(this.GetType(),
                                                       LoggingConstants.FailedTo,
-                                                      [nameof(ReLoad), ex, this.language, this]);
-                source.HasErrors = true;
+                                                      [nameof(ReLoad), exception, source]);
             }
         }
     }

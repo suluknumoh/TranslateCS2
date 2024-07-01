@@ -64,7 +64,7 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogError(this.GetType(),
                                                   LoggingConstants.FailedTo,
-                                                  [nameof(ReadContent), ex, this]);
+                                                  [nameof(ReadContent), ex, source]);
         }
         return false;
     }
