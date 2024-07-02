@@ -73,8 +73,12 @@ internal static class OtherModsLocFilesHelper {
         // current.isBursted
 
         if (!current.isValid
-            || !asset.isMod) {
-            // invalid or no mod (additional libraries within mod)
+            || !asset.isMod
+            || !asset.canBeLoaded) {
+            // invalid
+            // or no mod (additional libraries within mod)
+            // TODO: check canBeLoaded
+            // or can not be loaded
             return true;
         }
         if (asset.isDirty
