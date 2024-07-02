@@ -40,6 +40,9 @@ internal static class OtherModsLocFilesHelper {
             DirectoryInfo directoryInfo = new DirectoryInfo(specificDirectoryPath);
             if (directoryInfo.Exists) {
                 IEnumerable<FileInfo> files = directoryInfo.EnumerateFiles(ModConstants.JsonSearchPattern);
+                if (!files.Any()) {
+                    continue;
+                }
                 int modId = currentMod.id;
                 string modName = currentMod.displayName;
                 ModInfoLocFiles otherModsLocFileModInfo = new ModInfoLocFiles(modId,
