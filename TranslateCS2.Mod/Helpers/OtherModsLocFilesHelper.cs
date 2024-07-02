@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Colossal.IO.AssetDatabase;
 
@@ -22,6 +23,22 @@ internal static class OtherModsLocFilesHelper {
             || modAsset is null) {
             return [];
         }
+        // 
+        // 
+        // 
+        // proof of concept to obtain mods in their load-order or to gather their load order somehow
+        // requires a reference to the following:
+        // Colossal.PSI.PdxSdk
+        // PDX.SDK
+        // 
+        // GetModsInActivePlayset() somewhere orders mods by their load order, but the load order itself can not be retrieved...
+        // 
+        //PdxSdkPlatform platform = PlatformManager.instance.GetPSI<PdxSdkPlatform>("PdxSdk");
+        //List<PDX.SDK.Contracts.Service.Mods.Models.Mod>? modsEnabledInActivePlaysetOrderedByLoadOrder =
+        //    platform.GetModsInActivePlayset().GetAwaiter().GetResult();
+        //
+        //
+        //
         IEnumerator<ModManager.ModInfo> enumerator = modManager.GetEnumerator();
         while (enumerator.MoveNext()) {
             ModManager.ModInfo currentModInfo = enumerator.Current;
