@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -14,7 +13,7 @@ using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Helpers;
 [MyExcludeFromCoverage]
-internal class OtherModsLocFilesHelper {
+internal static class OtherModsLocFilesHelper {
     public static IList<ModInfoLocFiles> GetOtherModsLocFiles(IModRuntimeContainer runtimeContainer) {
         List<ModInfoLocFiles> fileInfos = [];
         ModManager? modManager = runtimeContainer.ModManager;
@@ -25,18 +24,26 @@ internal class OtherModsLocFilesHelper {
         }
         IEnumerator<ModManager.ModInfo> enumerator = modManager.GetEnumerator();
         while (enumerator.MoveNext()) {
-            ModManager.ModInfo current = enumerator.Current;
-            ExecutableAsset asset = current.asset;
-            if (IsToSkip(current, asset)) {
+            ModManager.ModInfo currentModInfo = enumerator.Current;
+            ExecutableAsset asset = currentModInfo.asset;
+            if (IsToSkip(currentModInfo, asset)) {
                 continue;
             }
-            string specificDirectoryPath = GetSpecificDirectoryPath(asset);
+            Colossal.PSI.Common.Mod currentMod = asset.mod;
+            string modPath = currentMod.path;
+            if (asset.isLocal) {
+                // for online-mods, modPath (currentMod.path) is correct
+                // if a mod is local, the modPath includes the dll-name
+                modPath = GetModPath(asset);
+            }
+            string specificDirectoryPath = Path.Combine(modPath, ModConstants.OtherModsLocFilePath);
             DirectoryInfo directoryInfo = new DirectoryInfo(specificDirectoryPath);
             if (directoryInfo.Exists) {
                 IEnumerable<FileInfo> files = directoryInfo.EnumerateFiles(ModConstants.JsonSearchPattern);
-                string modId = ExtractIdFromSubPath(asset.subPath);
+                int modId = currentMod.id;
+                string modName = currentMod.displayName;
                 ModInfoLocFiles otherModsLocFileModInfo = new ModInfoLocFiles(modId,
-                                                                              asset.name,
+                                                                              modName,
                                                                               asset.version,
                                                                               asset.isLocal,
                                                                               FlavorSourceTypes.OTHER,
@@ -47,12 +54,11 @@ internal class OtherModsLocFilesHelper {
         return fileInfos;
     }
 
-    private static string GetSpecificDirectoryPath(ExecutableAsset asset) {
+    private static string GetModPath(ExecutableAsset asset) {
         int index = asset.path.IndexOf(asset.subPath);
         string modsSubscribedPath = asset.path.Substring(0, index);
         string modPath = Path.Combine(modsSubscribedPath, asset.subPath);
-        string specificDirectoryPath = Path.Combine(modPath, ModConstants.OtherModsLocFilePath);
-        return specificDirectoryPath;
+        return modPath;
     }
 
     private static bool IsToSkip(ModManager.ModInfo current, ExecutableAsset asset) {
@@ -81,34 +87,5 @@ internal class OtherModsLocFilesHelper {
             return true;
         }
         return false;
-    }
-
-    /// <summary>
-    ///     
-    /// </summary>
-    /// <param name="subPath">
-    ///     <see cref="ExecutableAsset"/>
-    ///     <br/>
-    ///     <see cref="AssetData.subPath"/>
-    /// </param>
-    /// <returns>
-    ///     the extracted id
-    ///     <br/>
-    ///     or
-    ///     <br/>
-    ///     <see cref="StringConstants.LocalMod"/>
-    ///     <br/>
-    ///     if id could not be extracted
-    /// </returns>
-    private static string ExtractIdFromSubPath(string subPath) {
-        int startIndex = subPath.LastIndexOf(StringConstants.ForwardSlash) + 1;
-        string idStringPre = subPath.Substring(startIndex);
-        string idString = idStringPre.Split(StringConstants.UnderscoreChar)[0];
-        bool parsed = Int32.TryParse(idString, out int id);
-        if (parsed
-            && id > 0) {
-            return idString;
-        }
-        return StringConstants.LocalMod;
     }
 }

@@ -1,3 +1,5 @@
+# Version 2.0.6.0
+- minor code changes
 # Version 2.0.5.0
 - ability to sideload translations that are provided via others mods
     - inspired by

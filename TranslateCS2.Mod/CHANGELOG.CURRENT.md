@@ -1,23 +1,2 @@
-# Version 2.0.5.0
-- ability to sideload translations that are provided via others mods
-    - inspired by
-        - [yenyang](https://github.com/yenyang)
-        - Morgan · Toverux
-    - this feature/behavior is enabled by default and can be turned off within this mods settings
-        - uncheck "Load from other mods"
-    - this mod checks for valid mods that are local or enabled within the active playset
-    - this mod checks the presence of a certain directory within the found mods
-    - if a mod provides unoffical locales/translations, those translations are also taken into account
-    - what does that mean?
-        - if you use this mod pro-actively and provide a translation or translations as described within the readme
-            - your provided translation(s) rule(s) and is/are not overwritten.
-            - if a translation provided by another mod contains more/other/additional translations, those additional translations are also used in-game
-    - if errors occur while loading the translationfiles
-        - dedicated error-messages are shown
-            - for this mod, TranslateCS2.Mod, the message starts with
-                - the following provided translationfiles within this mods data directory are corrupt
-            - for each mod, a separate message is displayed
-                - the mod "TechnicalNameOfTheMod" provided the following corrupt translationfiles"
-                - or for local mods
-                - the local mod "NameOfTheMod" provided the following corrupt translationfiles"
-- now, an error message is displayed, if the entire mod fails to load
+# Version 2.0.6.0
+- minor code changes

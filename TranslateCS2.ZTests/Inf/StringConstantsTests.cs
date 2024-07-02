@@ -88,4 +88,8 @@ public class StringConstantsTests {
     public void LocalModTest() {
         Assert.Equal("LocalMod", StringConstants.LocalMod);
     }
+    [Fact]
+    public void UnofficialLocalesTest() {
+        Assert.Equal("UnofficialLocales", StringConstants.UnofficialLocales);
+    }
 }

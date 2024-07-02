@@ -8,7 +8,7 @@ namespace TranslateCS2.Mod.Models;
 internal class ModInfoLocFiles {
     public FlavorSourceInfo FlavorSourceInfo { get; }
     public IEnumerable<FileInfo> FileInfos { get; }
-    public ModInfoLocFiles(string id,
+    public ModInfoLocFiles(int id,
                            string name,
                            Version version,
                            bool isLocal,
