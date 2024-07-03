@@ -94,7 +94,6 @@ internal static class OtherModsLocFilesHelper {
             || !asset.canBeLoaded) {
             // invalid
             // or no mod (additional libraries within mod)
-            // TODO: check canBeLoaded
             // or can not be loaded
             return true;
         }
