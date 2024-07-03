@@ -27,7 +27,7 @@ internal partial class ModSettings {
         return $"{Flavor}{systemLanguage}";
     }
 
-    public delegate void OnFlavorChangedHandler(MyLanguage? language, SystemLanguage systemLanguage, string flavorId);
+    public delegate void OnFlavorChangedHandler(MyLanguage? language, string flavorId);
     /// <summary>
     ///     do not subscribe directly
     ///     <br/>
@@ -48,10 +48,14 @@ internal partial class ModSettings {
         }
     }
     public void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
+        // TODO: bug #29 - what has changed???
         Dictionary<SystemLanguage, MyLanguage> languageDictionary = this.runtimeContainer.Languages.LanguageDictionary;
         foreach (KeyValuePair<SystemLanguage, MyLanguage> languageEntry in languageDictionary) {
             SystemLanguage systemLanguage = languageEntry.Key;
             MyLanguage language = languageEntry.Value;
+            if (!language.HasFlavorsWithSources) {
+                continue;
+            }
             string propertyName = GetFlavorLangPropertyName(systemLanguage);
             MyFlavorDropDownSettingItemData item = MyFlavorDropDownSettingItemData.Create(language,
                                                                                           this,
@@ -65,7 +69,7 @@ internal partial class ModSettings {
             flavorId = this.GetValueToSet(systemLanguage, flavorId);
             this.FlavorsSetted[systemLanguage] = flavorId;
             MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-            OnFlavorChanged?.Invoke(language, systemLanguage, flavorId);
+            OnFlavorChanged?.Invoke(language, flavorId);
         }
     }
     public string GetSettedFlavor(SystemLanguage systemLanguage) {

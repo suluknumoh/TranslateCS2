@@ -63,6 +63,7 @@ internal class ErrorMessages {
     }
 
     private static void ListErroneous(IEnumerable<FlavorSource> erroneous, StringBuilder builder) {
+        // TODO: with version 1.1.6f1 they added a scrollhandler to errors/messages; is it now possible to display them all?
         int counter = ModConstants.MaxErroneous;
         if (erroneous.Count() > counter) {
             builder.AppendLine($"{erroneous.Count():N0} files are affected; only the first {counter:N0} are listed");

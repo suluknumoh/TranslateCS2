@@ -11,15 +11,25 @@ using TranslateCS2.Mod.Helpers;
 namespace TranslateCS2.Mod.Containers.Items.Unitys;
 internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualProperty {
     private readonly MyLanguage language;
+    private readonly DropdownItem<string>[] flavors;
     public MyFlavorDropDownSettingProperty(MyLanguage language,
                                            ModSettings modSettings,
                                            string name) : base(modSettings.GetType(),
                                                                typeof(string),
                                                                name) {
         this.language = language;
+        this.flavors = this.GetInitializedFlavors();
         this.SetReadWrite();
         this.SetGetterSetter();
         this.AddAttributes();
+    }
+
+    private DropdownItem<string>[] GetInitializedFlavors() {
+        // only builtin and those without flavors may have 'none'
+        bool addNone = this.language.IsBuiltIn || !this.language.HasFlavorsWithSources;
+        List<DropdownItem<string>> flavors = DropDownItemsHelper.GetDefault(addNone);
+        flavors.AddRange(this.language.GetFlavorDropDownItems());
+        return flavors.ToArray();
     }
 
     private void SetReadWrite() {
@@ -53,10 +63,6 @@ internal class MyFlavorDropDownSettingProperty : AutomaticSettings.ManualPropert
     }
 
     public DropdownItem<string>[] GetFlavors() {
-        // only builtin and those without flavors may have 'none'
-        bool addNone = this.language.IsBuiltIn || !this.language.HasFlavorsWithSources;
-        List<DropdownItem<string>> flavors = DropDownItemsHelper.GetDefault(addNone);
-        flavors.AddRange(this.language.GetFlavorDropDownItems());
-        return flavors.ToArray();
+        return this.flavors;
     }
 }

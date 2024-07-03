@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Loggers;
@@ -9,6 +10,7 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Containers.Items;
 internal class LocManager {
     private readonly IMyLogger logger;
+    private readonly Dictionary<string, string> settedFlavors = [];
     public ILocManagerProvider Provider { get; }
     public string FallbackLocaleId => this.Provider.FallbackLocaleId;
     public LocManager(IMyLogger logger,
@@ -17,20 +19,28 @@ internal class LocManager {
         this.Provider = locManagerProvider;
     }
     public void FlavorChanged(MyLanguage? language,
-                              SystemLanguage systemLanguage,
-                              string localeId) {
+                              string flavorId) {
         try {
             if (language is null) {
                 return;
             }
-            foreach (Flavor flavor in language.Flavors) {
-                // INFO: its about hashcode and equals...
-                this.TryToRemoveSource(language, flavor);
+            if (this.settedFlavors.TryGetValue(language.Id,
+                                               out string? previousFlavorId)
+                && previousFlavorId != null
+                && flavorId.Equals(previousFlavorId)) {
+                return;
             }
-            if (language.HasFlavor(localeId)) {
+
+            Flavor? previousFlavor = language.GetFlavor(previousFlavorId);
+            if (previousFlavor is not null) {
                 // INFO: its about hashcode and equals...
-                Flavor flavor = language.GetFlavor(localeId);
+                this.TryToRemoveSource(language, previousFlavor);
+            }
+            if (language.HasFlavor(flavorId)) {
+                // INFO: its about hashcode and equals...
+                Flavor flavor = language.GetFlavor(flavorId);
                 this.TryToAddSource(language, flavor);
+                this.settedFlavors[language.Id] = flavorId;
             }
         } catch (Exception ex) {
             this.logger.LogError(this.GetType(),
