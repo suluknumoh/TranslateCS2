@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Colossal.IO.AssetDatabase;
 
@@ -14,7 +14,7 @@ using TranslateCS2.Mod.Models;
 
 namespace TranslateCS2.Mod.Helpers;
 [MyExcludeFromCoverage]
-internal class OtherModsLocFilesHelper {
+internal static class OtherModsLocFilesHelper {
     public static IList<ModInfoLocFiles> GetOtherModsLocFiles(IModRuntimeContainer runtimeContainer) {
         List<ModInfoLocFiles> fileInfos = [];
         ModManager? modManager = runtimeContainer.ModManager;
@@ -23,20 +23,47 @@ internal class OtherModsLocFilesHelper {
             || modAsset is null) {
             return [];
         }
+        // 
+        // 
+        // 
+        // proof of concept to obtain mods in their load-order or to gather their load order somehow
+        // requires a reference to the following:
+        // Colossal.PSI.PdxSdk
+        // PDX.SDK
+        // 
+        // GetModsInActivePlayset() somewhere orders mods by their load order, but the load order itself can not be retrieved...
+        // 
+        //PdxSdkPlatform platform = PlatformManager.instance.GetPSI<PdxSdkPlatform>("PdxSdk");
+        //List<PDX.SDK.Contracts.Service.Mods.Models.Mod>? modsEnabledInActivePlaysetOrderedByLoadOrder =
+        //    platform.GetModsInActivePlayset().GetAwaiter().GetResult();
+        //
+        //
+        //
         IEnumerator<ModManager.ModInfo> enumerator = modManager.GetEnumerator();
         while (enumerator.MoveNext()) {
-            ModManager.ModInfo current = enumerator.Current;
-            ExecutableAsset asset = current.asset;
-            if (IsToSkip(current, asset)) {
+            ModManager.ModInfo currentModInfo = enumerator.Current;
+            ExecutableAsset asset = currentModInfo.asset;
+            if (IsToSkip(currentModInfo, asset)) {
                 continue;
             }
-            string specificDirectoryPath = GetSpecificDirectoryPath(asset);
+            Colossal.PSI.Common.Mod currentMod = asset.mod;
+            string modPath = currentMod.path;
+            if (asset.isLocal) {
+                // for online-mods, modPath (currentMod.path) is correct
+                // if a mod is local, the modPath includes the dll-name
+                modPath = GetModPath(asset);
+            }
+            string specificDirectoryPath = Path.Combine(modPath, ModConstants.OtherModsLocFilePath);
             DirectoryInfo directoryInfo = new DirectoryInfo(specificDirectoryPath);
             if (directoryInfo.Exists) {
                 IEnumerable<FileInfo> files = directoryInfo.EnumerateFiles(ModConstants.JsonSearchPattern);
-                string modId = ExtractIdFromSubPath(asset.subPath);
+                if (!files.Any()) {
+                    continue;
+                }
+                int modId = currentMod.id;
+                string modName = currentMod.displayName;
                 ModInfoLocFiles otherModsLocFileModInfo = new ModInfoLocFiles(modId,
-                                                                              asset.name,
+                                                                              modName,
                                                                               asset.version,
                                                                               asset.isLocal,
                                                                               FlavorSourceTypes.OTHER,
@@ -47,12 +74,11 @@ internal class OtherModsLocFilesHelper {
         return fileInfos;
     }
 
-    private static string GetSpecificDirectoryPath(ExecutableAsset asset) {
+    private static string GetModPath(ExecutableAsset asset) {
         int index = asset.path.IndexOf(asset.subPath);
         string modsSubscribedPath = asset.path.Substring(0, index);
         string modPath = Path.Combine(modsSubscribedPath, asset.subPath);
-        string specificDirectoryPath = Path.Combine(modPath, ModConstants.OtherModsLocFilePath);
-        return specificDirectoryPath;
+        return modPath;
     }
 
     private static bool IsToSkip(ModManager.ModInfo current, ExecutableAsset asset) {
@@ -64,8 +90,11 @@ internal class OtherModsLocFilesHelper {
         // current.isBursted
 
         if (!current.isValid
-            || !asset.isMod) {
-            // invalid or no mod (additional libraries within mod)
+            || !asset.isMod
+            || !asset.canBeLoaded) {
+            // invalid
+            // or no mod (additional libraries within mod)
+            // or can not be loaded
             return true;
         }
         if (asset.isDirty
@@ -81,34 +110,5 @@ internal class OtherModsLocFilesHelper {
             return true;
         }
         return false;
-    }
-
-    /// <summary>
-    ///     
-    /// </summary>
-    /// <param name="subPath">
-    ///     <see cref="ExecutableAsset"/>
-    ///     <br/>
-    ///     <see cref="AssetData.subPath"/>
-    /// </param>
-    /// <returns>
-    ///     the extracted id
-    ///     <br/>
-    ///     or
-    ///     <br/>
-    ///     <see cref="StringConstants.LocalMod"/>
-    ///     <br/>
-    ///     if id could not be extracted
-    /// </returns>
-    private static string ExtractIdFromSubPath(string subPath) {
-        int startIndex = subPath.LastIndexOf(StringConstants.ForwardSlash) + 1;
-        string idStringPre = subPath.Substring(startIndex);
-        string idString = idStringPre.Split(StringConstants.UnderscoreChar)[0];
-        bool parsed = Int32.TryParse(idString, out int id);
-        if (parsed
-            && id > 0) {
-            return idString;
-        }
-        return StringConstants.LocalMod;
     }
 }

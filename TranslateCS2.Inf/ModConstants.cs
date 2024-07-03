@@ -16,7 +16,7 @@ public static class ModConstants {
     //
     //
     //
-    public static string ModId { get; } = "79187";
+    public static int ModId { get; } = 79187;
     public static string LocaleNameLocalizedKey => $"{nameof(TranslateCS2)}.{nameof(LocaleNameLocalizedKey)}";
     public static string JsonExtension => ".json";
     public static string JsonSearchPattern => $"*{JsonExtension}";
@@ -29,5 +29,5 @@ public static class ModConstants {
     public static string ModExportKeyValueJsonName { get; } = $"_{Name}{JsonExtension}";
     public static string DataPathRawGeneral { get; } = $"{ModConstants.ModsData}{StringConstants.ForwardSlash}";
     public static string DataPathRawSpecific { get; } = $"{DataPathRawGeneral}{ModConstants.Name}{StringConstants.ForwardSlash}";
-    public static string OtherModsLocFilePath { get; } = "UnofficialLocales";
+    public static string OtherModsLocFilePath { get; } = StringConstants.UnofficialLocales;
 }

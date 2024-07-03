@@ -91,7 +91,7 @@ internal class Flavor : IReLoadAble, IDictionarySource {
         builder.AppendLine($"{nameof(this.Id)}: {this.Id}");
         builder.AppendLine($"{nameof(this.NameEnglish)}: {this.NameEnglish}");
         builder.AppendLine($"{nameof(this.Name)}: {this.Name}");
-        builder.Append($"{nameof(this.FlavorSources)}: {this.FlavorSources}");
+        builder.Append($"{nameof(this.FlavorSources)}: {String.Join(Environment.NewLine, this.FlavorSources)}");
         return builder.ToString();
     }
 

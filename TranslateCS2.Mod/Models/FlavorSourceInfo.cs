@@ -7,12 +7,12 @@ using TranslateCS2.Mod.Enums;
 
 namespace TranslateCS2.Mod.Models;
 internal class FlavorSourceInfo : IEquatable<FlavorSourceInfo?> {
-    public string Id { get; }
+    public int Id { get; }
     public string Name { get; }
     public Version Version { get; }
     public bool IsLocal { get; }
     public FlavorSourceTypes FlavorSourceType { get; }
-    public FlavorSourceInfo(string id,
+    public FlavorSourceInfo(int id,
                             string name,
                             Version version,
                             bool isLocal,
@@ -42,7 +42,7 @@ internal class FlavorSourceInfo : IEquatable<FlavorSourceInfo?> {
     [MyExcludeFromCoverage]
     public override int GetHashCode() {
         int hashCode = -1597829199;
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Id);
+        hashCode = (hashCode * -1521134295) + this.Id.GetHashCode();
         hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.Name);
         hashCode = (hashCode * -1521134295) + EqualityComparer<Version>.Default.GetHashCode(this.Version);
         hashCode = (hashCode * -1521134295) + this.IsLocal.GetHashCode();

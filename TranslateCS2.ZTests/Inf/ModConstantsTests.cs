@@ -22,7 +22,7 @@ public class ModConstantsTests {
     }
     [Fact]
     public void ModIdTest() {
-        Assert.Equal("79187", ModConstants.ModId);
+        Assert.Equal(79187, ModConstants.ModId);
     }
     [Fact]
     public void LocaleNameLocalizedKeyTest() {
