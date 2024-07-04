@@ -144,7 +144,7 @@ internal class MyLanguage : IReLoadAble {
         return builder.ToString();
     }
 
-    public Flavor? GetFlavor(string localeId) {
+    public Flavor? GetFlavor(string? localeId) {
         IEnumerable<Flavor> matches =
             this.Flavors
                 .Where(item => item.Id.Equals(localeId, StringComparison.OrdinalIgnoreCase));

@@ -94,6 +94,22 @@ internal class MyLanguages {
     public void Init() {
         this.ReadFiles();
         this.AddLocales();
+        this.RemoveUnNecessary();
+    }
+
+    private void RemoveUnNecessary() {
+        IList<SystemLanguage> removeAbles = [];
+        foreach (KeyValuePair<SystemLanguage, MyLanguage> entry in this.LanguageDictionary) {
+            SystemLanguage systemLanguage = entry.Key;
+            MyLanguage myLanguage = entry.Value;
+            if (!myLanguage.HasFlavorsWithSources
+                && !myLanguage.IsBuiltIn) {
+                removeAbles.Add(systemLanguage);
+            }
+        }
+        foreach (SystemLanguage systemLanguage in removeAbles) {
+            this.LanguageDictionary.Remove(systemLanguage);
+        }
     }
 
     /// <summary>
