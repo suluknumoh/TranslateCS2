@@ -53,7 +53,8 @@ internal partial class ModSettings {
         foreach (KeyValuePair<SystemLanguage, MyLanguage> languageEntry in languageDictionary) {
             SystemLanguage systemLanguage = languageEntry.Key;
             MyLanguage language = languageEntry.Value;
-            if (!language.HasFlavorsWithSources) {
+            if (!language.HasFlavorsWithSources
+                && !language.IsBuiltIn) {
                 continue;
             }
             string propertyName = GetFlavorLangPropertyName(systemLanguage);
