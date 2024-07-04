@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CurrentLanguageDescription" xml:space="preserve">
+    <value>Currently selected language within the default interface settings.</value>
+  </data>
+  <data name="CurrentLanguageLabel" xml:space="preserve">
+    <value>Current language</value>
+  </data>
   <data name="FlavorDescription" xml:space="preserve">
-    <value>Select a flavor for</value>
+    <value>Select a flavor for the current selected language.</value>
   </data>
   <data name="FlavorLabel" xml:space="preserve">
-    <value>Flavor for</value>
+    <value>Flavor</value>
   </data>
   <data name="GroupFlavorTitle" xml:space="preserve">
     <value>flavors</value>

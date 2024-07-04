@@ -61,7 +61,25 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select a flavor for.
+        ///   Looks up a localized string similar to Currently selected language within the default interface settings..
+        /// </summary>
+        internal static string CurrentLanguageDescription {
+            get {
+                return ResourceManager.GetString("CurrentLanguageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current language.
+        /// </summary>
+        internal static string CurrentLanguageLabel {
+            get {
+                return ResourceManager.GetString("CurrentLanguageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a flavor for the current selected language..
         /// </summary>
         internal static string FlavorDescription {
             get {
@@ -70,7 +88,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flavor for.
+        ///   Looks up a localized string similar to Flavor.
         /// </summary>
         internal static string FlavorLabel {
             get {

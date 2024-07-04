@@ -5,26 +5,22 @@ using System.Linq;
 using Colossal.Json;
 
 using Game.Settings;
-using Game.UI.Menu;
+using Game.UI.Widgets;
 
-using TranslateCS2.Mod.Containers.Items.Unitys;
 using TranslateCS2.Mod.Helpers;
 
 using UnityEngine;
 
 namespace TranslateCS2.Mod.Containers.Items;
 internal partial class ModSettings {
-    public static string Flavor { get; } = nameof(Flavor);
-    /// <returns>
-    ///     the name of the language-specific property
-    ///     <br/>
-    ///     that is generetad by <see cref="AddFlavorsToPageData(AutomaticSettings.SettingPageData)"/>
-    ///     <br/>
-    ///     <br/>
-    ///     "FlavorUnknown", for example
-    /// </returns>
-    public static string GetFlavorLangPropertyName(SystemLanguage systemLanguage) {
-        return $"{Flavor}{systemLanguage}";
+
+    /// <inheritdoc cref="GetValueVersion"/>
+    private int ValueVersion { get; set; } = 0;
+    /// <summary>
+    ///     is used to trigger an update of values
+    /// </summary>
+    public int GetValueVersion() {
+        return this.ValueVersion;
     }
 
     public delegate void OnFlavorChangedHandler(MyLanguage? language, string flavorId);
@@ -47,29 +43,59 @@ internal partial class ModSettings {
             }
         }
     }
-    public void AddFlavorsToPageData(AutomaticSettings.SettingPageData pageData) {
-        // TODO: bug #29 - what has changed???
-        Dictionary<SystemLanguage, MyLanguage> languageDictionary = this.runtimeContainer.Languages.LanguageDictionary;
-        foreach (KeyValuePair<SystemLanguage, MyLanguage> languageEntry in languageDictionary) {
-            SystemLanguage systemLanguage = languageEntry.Key;
-            MyLanguage language = languageEntry.Value;
-            if (!language.HasFlavorsWithSources
-                && !language.IsBuiltIn) {
-                continue;
-            }
-            string propertyName = GetFlavorLangPropertyName(systemLanguage);
-            MyFlavorDropDownSettingItemData item = MyFlavorDropDownSettingItemData.Create(language,
-                                                                                          this,
-                                                                                          propertyName,
-                                                                                          pageData.prefix);
-            pageData[ModSettings.Section].AddItem(item);
+
+
+    private string _CurrentLanguage = String.Empty;
+    [Exclude]
+    [SettingsUISection(Section, FlavorGroup)]
+    [SettingsUIValueVersion(typeof(ModSettings), nameof(GetValueVersion))]
+    public string CurrentLanguage => this._CurrentLanguage;
+
+    [Exclude]
+    [SettingsUIDropdown(typeof(ModSettings), nameof(GetFlavorDropDownItems))]
+    [SettingsUISection(Section, FlavorGroup)]
+    [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsFlavorDropDownDisabled))]
+    [SettingsUIValueVersion(typeof(ModSettings), nameof(GetValueVersion))]
+    public string FlavorDropDown {
+        get {
+            SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+            return this.GetSettedFlavor(systemLanguage);
+        }
+        set {
+            SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+            this.SetFlavor(systemLanguage, value);
         }
     }
+    public DropdownItem<string>[] GetFlavorDropDownItems() {
+        SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
+        // only builtin and those without flavors may have 'none'
+        bool addNone = language is null || language.IsBuiltIn || !language.HasFlavorsWithSources;
+        List<DropdownItem<string>> flavors = DropDownItemsHelper.GetDefault(addNone);
+        if (language is not null) {
+            flavors.AddRange(language.GetFlavorDropDownItems());
+        }
+        return flavors.ToArray();
+    }
+    public bool IsFlavorDropDownDisabled() {
+        SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
+        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
+        // only builtin and those without flavors may have 'none'
+        return language is null || !language.HasFlavorsWithSources;
+    }
+
+
+
+
+
+
     public void SetFlavor(SystemLanguage systemLanguage, object flavorIdObject) {
         if (flavorIdObject is string flavorId) {
             flavorId = this.GetValueToSet(systemLanguage, flavorId);
             this.FlavorsSetted[systemLanguage] = flavorId;
             MyLanguage? language = this.languages.GetLanguage(systemLanguage);
+            this._CurrentLanguage = language?.Name ?? String.Empty;
+            this.ValueVersion++;
             OnFlavorChanged?.Invoke(language, flavorId);
         }
     }

@@ -8,7 +8,6 @@ using Colossal.Localization;
 
 using Game.Modding;
 using Game.Settings;
-using Game.UI.Menu;
 
 using Newtonsoft.Json;
 
@@ -145,12 +144,7 @@ internal partial class ModSettings : ModSetting {
 
 
 
-    [MyExcludeFromCoverage]
-    public override AutomaticSettings.SettingPageData GetPageData(string id, bool addPrefix) {
-        AutomaticSettings.SettingPageData pageData = base.GetPageData(id, addPrefix);
-        this.AddFlavorsToPageData(pageData);
-        return pageData;
-    }
+
     [MyExcludeFromCoverage]
     public override void SetDefaults() {
         this.LoadFromOtherMods = true;
@@ -222,12 +216,11 @@ internal partial class ModSettings : ModSetting {
         if (this.Locale is null) {
             return;
         }
-        SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
         if (this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
             this.PreviousLocale = this.Locale;
         }
+        SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
         string localeId = this.GetSettedFlavor(systemLanguage);
-        this.SetFlavor(systemLanguage, localeId);
+        this.FlavorDropDown = localeId;
     }
-
 }
