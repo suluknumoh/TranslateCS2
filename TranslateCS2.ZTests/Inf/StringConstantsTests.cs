@@ -92,4 +92,8 @@ public class StringConstantsTests {
     public void UnofficialLocalesTest() {
         Assert.Equal("UnofficialLocales", StringConstants.UnofficialLocales);
     }
+    [Fact]
+    public void AllTest() {
+        Assert.Equal("All", StringConstants.All);
+    }
 }
