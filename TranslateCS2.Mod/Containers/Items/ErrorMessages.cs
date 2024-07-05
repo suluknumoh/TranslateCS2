@@ -87,4 +87,15 @@ internal class ErrorMessages {
         this.runtimeContainer.Logger.DisplayError(builder);
         this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
     }
+    public void DisplayErrorMessageFailedExportBuiltIn(string path) {
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine(Intro);
+        builder.AppendLine($"could not write");
+        builder.AppendLine($"built in locale(s)");
+        builder.AppendLine($"to");
+        builder.AppendLine(path);
+        builder.AppendLine("you should be able to continue");
+        this.runtimeContainer.Logger.DisplayError(builder);
+        this.runtimeContainer.Logger.LogError(typeof(ErrorMessages), builder.ToString());
+    }
 }

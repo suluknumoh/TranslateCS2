@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Text;
 
 using Colossal.IO.AssetDatabase;
 using Colossal.Json;
@@ -8,8 +6,6 @@ using Colossal.Localization;
 
 using Game.Modding;
 using Game.Settings;
-
-using Newtonsoft.Json;
 
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Attributes;
@@ -19,18 +15,14 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Containers.Items;
 /// <seealso href="https://cs2.paradoxwikis.com/Naming_Folder_And_Files"/>
 [FileLocation($"{ModConstants.ModsSettings}/{ModConstants.Name}/{ModConstants.Name}")]
-[SettingsUIGroupOrder(FlavorGroup, SettingsGroup, ReloadGroup, GenerateGroup)]
-[SettingsUIShowGroupName(FlavorGroup, SettingsGroup, ReloadGroup, GenerateGroup)]
+[SettingsUIGroupOrder(FlavorGroup, SettingsGroup, ReloadGroup, GenerateGroup, ExportGroup)]
+[SettingsUIShowGroupName(FlavorGroup, SettingsGroup, ReloadGroup, GenerateGroup, ExportGroup)]
 internal partial class ModSettings : ModSetting {
 
 
 
 
     public const string Section = "Main";
-    public const string FlavorGroup = nameof(FlavorGroup);
-    public const string SettingsGroup = nameof(SettingsGroup);
-    public const string ReloadGroup = nameof(ReloadGroup);
-    public const string GenerateGroup = nameof(GenerateGroup);
 
 
 
@@ -70,83 +62,13 @@ internal partial class ModSettings : ModSetting {
     }
 
 
-    [Include]
-    [SettingsUISection(Section, SettingsGroup)]
-    public bool LoadFromOtherMods { get; set; }
-
-
-
-    [Exclude]
-    [SettingsUIButton]
-    [SettingsUIDeveloper]
-    [SettingsUIConfirmation]
-    [SettingsUISection(Section, ReloadGroup)]
-    public bool ReloadLanguages {
-        set => this.ReloadLangs();
-    }
-
-    private void ReloadLangs() {
-        try {
-            this.languages.ReLoad();
-            this.runtimeContainer.LocManager.ReloadActiveLocale();
-            if (this.languages.HasErroneous) {
-                this.runtimeContainer.ErrorMessages.DisplayErrorMessageForErroneous(this.languages.GetErroneous(), true);
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogCritical(this.GetType(),
-                                                     LoggingConstants.FailedTo,
-                                                     [nameof(ReloadLangs), ex]);
-        }
-    }
-
-    [Exclude]
-    [SettingsUIButton]
-    [SettingsUIDeveloper]
-    [SettingsUISection(Section, GenerateGroup)]
-    public bool LogMarkdownAndCultureInfoNames {
-        set => this.languages.LogMarkdownAndCultureInfoNames();
-    }
-
-    [Exclude]
-    [SettingsUIButton]
-    [SettingsUIDeveloper]
-    [SettingsUISection(Section, GenerateGroup)]
-    [SettingsUIDisableByCondition(typeof(ModSettings), nameof(IsGenerateLocalizationJsonHiddenDisabled))]
-    [SettingsUIHideByCondition(typeof(ModSettings), nameof(IsGenerateLocalizationJsonHiddenDisabled))]
-    public bool GenerateLocalizationJson {
-        set => this.GenerateLocJson();
-    }
-    public bool IsGenerateLocalizationJsonHiddenDisabled() {
-        return this.SettingsLocale is null;
-    }
-    private void GenerateLocJson() {
-        if (this.SettingsLocale is null) {
-            return;
-        }
-        try {
-            try {
-                string json = JsonConvert.SerializeObject(this.SettingsLocale.ExportableEntries, Formatting.Indented);
-                string path = Path.Combine(this.runtimeContainer.Paths.ModsDataPathSpecific, ModConstants.ModExportKeyValueJsonName);
-                File.WriteAllText(path, json, Encoding.UTF8);
-            } catch (Exception ex) {
-                this.runtimeContainer.ErrorMessages.DisplayErrorMessageFailedToGenerateJson();
-                this.runtimeContainer.Logger.LogError(this.GetType(),
-                                                      LoggingConstants.FailedTo,
-                                                      [nameof(this.GenerateLocalizationJson), ex]);
-            }
-        } catch (Exception ex) {
-            this.runtimeContainer.Logger.LogCritical(this.GetType(),
-                                                     LoggingConstants.FailedTo,
-                                                     [nameof(this.GenerateLocalizationJson), ex]);
-        }
-    }
-
-
 
 
 
     [MyExcludeFromCoverage]
     public override void SetDefaults() {
+        this.ExportDropDown = StringConstants.All;
+        this.ExportDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         this.LoadFromOtherMods = true;
     }
     public void HandleLocaleOnLoad() {
@@ -220,7 +142,7 @@ internal partial class ModSettings : ModSetting {
             this.PreviousLocale = this.Locale;
         }
         SystemLanguage systemLanguage = this.runtimeContainer.LocManager.LocaleIdToSystemLanguage(this.Locale);
-        string localeId = this.GetSettedFlavor(systemLanguage);
-        this.FlavorDropDown = localeId;
+        string flavorId = this.GetSettedFlavor(systemLanguage);
+        this.FlavorDropDown = flavorId;
     }
 }
