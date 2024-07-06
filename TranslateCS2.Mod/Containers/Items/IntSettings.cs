@@ -13,10 +13,6 @@ internal class IntSettings {
         set => this.Provider.CurrentLocale = value;
     }
 
-    public void ApplyAndSave() {
-        this.Provider.ApplyAndSave();
-    }
-
     public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
         this.Provider.SubscribeOnSettingsApplied(applyAlso);
     }

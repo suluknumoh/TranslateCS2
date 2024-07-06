@@ -89,6 +89,7 @@ public class Mod : IMod {
         LocaleAssetProvider localeAssetProvider = new LocaleAssetProvider(AssetDatabase.global);
         IBuiltInLocaleIdProvider builtInLocaleIdProvider = localeAssetProvider;
         IIndexCountsProvider indexCountsProvider = new IndexCountsProvider(localeAssetProvider);
+        ISettingsSaver settingsSaver = new SettingsSaver(AssetDatabase.global);
         ModRuntimeContainer runtimeContainer = new ModRuntimeContainer(logProvider,
                                                                        this,
                                                                        locManagerProvider,
@@ -98,6 +99,7 @@ public class Mod : IMod {
                                                                        paths) {
             ModManager = modManager,
             ModAsset = asset,
+            SettingsSaver = settingsSaver
         };
         return runtimeContainer;
 

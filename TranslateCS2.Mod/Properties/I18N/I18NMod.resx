@@ -129,11 +129,50 @@
   <data name="FlavorLabel" xml:space="preserve">
     <value>Flavor</value>
   </data>
+  <data name="GroupExportExportButtonDescription" xml:space="preserve">
+    <value>Exports the selected languages vanilla entries
+as UTF8 encoded .json-file (Key-Value-Pairs)
+to the selected destination.
+Values are taken from the .loc-file within the LocaleAsset-Database.
+Warnings:
+If the games respective .loc-file is manually overwritten, the export contains those values.
+Existing files within the Destination are going to be overwritten.</value>
+  </data>
+  <data name="GroupExportExportButtonLabel" xml:space="preserve">
+    <value>export</value>
+  </data>
+  <data name="GroupExportExportButtonWarning" xml:space="preserve">
+    <value>Existing files are going to be overwritten.
+Do you really want to export the selected language?</value>
+  </data>
+  <data name="GroupExportExportDirectoryDescription" xml:space="preserve">
+    <value>The directory the selected language gets exported to.</value>
+  </data>
+  <data name="GroupExportExportDirectoryLabel" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="GroupExportExportDropDownDescription" xml:space="preserve">
+    <value>Select the language to export.</value>
+  </data>
+  <data name="GroupExportExportDropDownLabel" xml:space="preserve">
+    <value>Language to export</value>
+  </data>
+  <data name="GroupExportTitle" xml:space="preserve">
+    <value>export</value>
+  </data>
   <data name="GroupFlavorTitle" xml:space="preserve">
     <value>flavors</value>
   </data>
   <data name="GroupGenerateButtonGenerateDescription" xml:space="preserve">
-    <value>Generates a .json-file named '{0}' with all Key-Value-Pairs for this Mod that can be found in this mods data-directory '{1}' after a click on this button. The .json-file named '{0}' is NOT read by this Mod. It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod.</value>
+    <value>Generates a .json-file named
+'{0}'
+with all Key-Value-Pairs for this Mod that can be found in this mods data-directory
+'{1}'
+after a click on this button.
+The .json-file named
+'{0}'
+is NOT read by this Mod.
+It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod.</value>
   </data>
   <data name="GroupGenerateButtonGenerateLabel" xml:space="preserve">
     <value>generate localization json</value>
@@ -148,7 +187,10 @@
     <value>log and generate</value>
   </data>
   <data name="GroupReloadButtonReloadDescription" xml:space="preserve">
-    <value>Reloads the language file(s) that existed at startup. Does not unload language files. Does not load new language files. Files have to be located within this directory '{0}'</value>
+    <value>Reloads the language file(s) that existed at startup.
+Does not unload language files.
+Does not load new language files.
+Files have to be located within this directory '{0}'</value>
   </data>
   <data name="GroupReloadButtonReloadLabel" xml:space="preserve">
     <value>reload language files</value>

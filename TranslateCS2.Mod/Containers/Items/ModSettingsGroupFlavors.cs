@@ -14,6 +14,12 @@ using UnityEngine;
 namespace TranslateCS2.Mod.Containers.Items;
 internal partial class ModSettings {
 
+
+
+    public const string FlavorGroup = nameof(FlavorGroup);
+
+
+
     /// <inheritdoc cref="GetValueVersion"/>
     private int ValueVersion { get; set; } = 0;
     /// <summary>

@@ -98,6 +98,36 @@ internal class ModSettingsLocale : IDictionarySource {
                                  I18NMod.FlavorDescription,
                                  true);
         }
+        {
+            // export-group
+            this.AddToDictionary(this.modSettings.GetOptionGroupLocaleID(ModSettings.ExportGroup),
+                                 I18NMod.GroupExportTitle,
+                                 true);
+
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.ExportDropDown)),
+                                 I18NMod.GroupExportExportDropDownLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ExportDropDown)),
+                                 I18NMod.GroupExportExportDropDownDescription,
+                                 true);
+
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.ExportDirectory)),
+                                 I18NMod.GroupExportExportDirectoryLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ExportDirectory)),
+                                 I18NMod.GroupExportExportDirectoryDescription,
+                                 true);
+
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.ExportButton)),
+                                 I18NMod.GroupExportExportButtonLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ExportButton)),
+                                 I18NMod.GroupExportExportButtonDescription,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionWarningLocaleID(nameof(ModSettings.ExportButton)),
+                                 I18NMod.GroupExportExportButtonWarning,
+                                 true);
+        }
     }
 
 

@@ -201,12 +201,6 @@ internal class MyLanguage : IReLoadAble {
             && this.HasFlavorsWithSources;
     }
 
-    public bool IsCurrent() {
-        string currentLocale = this.runtimeContainer.IntSettings.CurrentLocale;
-        return this.Id.Equals(currentLocale,
-                              StringComparison.OrdinalIgnoreCase);
-    }
-
     public void ReLoad(LocFileService<string> locFileService) {
         foreach (Flavor flavor in this.Flavors) {
             flavor.ReLoad(locFileService);

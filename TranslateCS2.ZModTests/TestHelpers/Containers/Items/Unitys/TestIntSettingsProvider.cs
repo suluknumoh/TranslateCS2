@@ -15,9 +15,6 @@ internal class TestIntSettingsProvider : IIntSettingsProvider {
     public TestIntSettingsProvider() {
         this.Locale = "en-US";
     }
-    public void ApplyAndSave() {
-        // no need to realize
-    }
     public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
         // no need to realize
     }

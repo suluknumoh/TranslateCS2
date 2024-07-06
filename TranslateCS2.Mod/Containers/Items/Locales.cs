@@ -31,7 +31,10 @@ internal class Locales {
         }
         return CultureInfoHelper.CorrectLocaleId(localeId);
     }
-    public bool IsBuiltIn(string localeId) {
+    public bool IsBuiltIn(string? localeId) {
+        if (localeId is null) {
+            return false;
+        }
         return this.LowerCaseToBuiltIn.ContainsKey(localeId.ToLower());
     }
     public IDictionary<SystemLanguage, IList<CultureInfo>> GetSystemLanguageCulturesMapping() {

@@ -97,6 +97,85 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exports the selected languages vanilla entries
+        ///as UTF8 encoded .json-file (Key-Value-Pairs)
+        ///to the selected destination.
+        ///Values are taken from the .loc-file within the LocaleAsset-Database.
+        ///Warnings:
+        ///If the games respective .loc-file is manually overwritten, the export contains those values.
+        ///Existing files within the Destination are going to be overwritten..
+        /// </summary>
+        internal static string GroupExportExportButtonDescription {
+            get {
+                return ResourceManager.GetString("GroupExportExportButtonDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to export.
+        /// </summary>
+        internal static string GroupExportExportButtonLabel {
+            get {
+                return ResourceManager.GetString("GroupExportExportButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Existing files are going to be overwritten.
+        ///Do you really want to export the selected language?.
+        /// </summary>
+        internal static string GroupExportExportButtonWarning {
+            get {
+                return ResourceManager.GetString("GroupExportExportButtonWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The directory the selected language gets exported to..
+        /// </summary>
+        internal static string GroupExportExportDirectoryDescription {
+            get {
+                return ResourceManager.GetString("GroupExportExportDirectoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination.
+        /// </summary>
+        internal static string GroupExportExportDirectoryLabel {
+            get {
+                return ResourceManager.GetString("GroupExportExportDirectoryLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the language to export..
+        /// </summary>
+        internal static string GroupExportExportDropDownDescription {
+            get {
+                return ResourceManager.GetString("GroupExportExportDropDownDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language to export.
+        /// </summary>
+        internal static string GroupExportExportDropDownLabel {
+            get {
+                return ResourceManager.GetString("GroupExportExportDropDownLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to export.
+        /// </summary>
+        internal static string GroupExportTitle {
+            get {
+                return ResourceManager.GetString("GroupExportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to flavors.
         /// </summary>
         internal static string GroupFlavorTitle {
@@ -106,7 +185,15 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generates a .json-file named &apos;{0}&apos; with all Key-Value-Pairs for this Mod that can be found in this mods data-directory &apos;{1}&apos; after a click on this button. The .json-file named &apos;{0}&apos; is NOT read by this Mod. It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod..
+        ///   Looks up a localized string similar to Generates a .json-file named
+        ///&apos;{0}&apos;
+        ///with all Key-Value-Pairs for this Mod that can be found in this mods data-directory
+        ///&apos;{1}&apos;
+        ///after a click on this button.
+        ///The .json-file named
+        ///&apos;{0}&apos;
+        ///is NOT read by this Mod.
+        ///It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod..
         /// </summary>
         internal static string GroupGenerateButtonGenerateDescription {
             get {
@@ -151,7 +238,10 @@ namespace TranslateCS2.Mod.Properties.I18N {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reloads the language file(s) that existed at startup. Does not unload language files. Does not load new language files. Files have to be located within this directory &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Reloads the language file(s) that existed at startup.
+        ///Does not unload language files.
+        ///Does not load new language files.
+        ///Files have to be located within this directory &apos;{0}&apos;.
         /// </summary>
         internal static string GroupReloadButtonReloadDescription {
             get {

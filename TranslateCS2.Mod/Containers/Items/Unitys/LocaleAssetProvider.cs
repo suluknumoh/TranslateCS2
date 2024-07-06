@@ -33,7 +33,7 @@ internal class LocaleAssetProvider : IBuiltInLocaleIdProvider {
         return localeIds;
     }
 
-    private IEnumerable<LocaleAsset> GetLocaleAssets() {
+    public IEnumerable<LocaleAsset> GetLocaleAssets() {
         return
             this.global
                 .GetAssets(default(SearchFilter<LocaleAsset>));

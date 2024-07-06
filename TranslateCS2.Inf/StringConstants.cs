@@ -22,4 +22,5 @@ public static class StringConstants {
     public static string CommaSpace { get; } = ", ";
     public static string LocalMod { get; } = nameof(LocalMod);
     public static string UnofficialLocales { get; } = nameof(UnofficialLocales);
+    public static string All { get; set; } = nameof(All);
 }

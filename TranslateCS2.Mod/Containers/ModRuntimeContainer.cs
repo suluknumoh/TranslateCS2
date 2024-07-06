@@ -26,6 +26,7 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public ModSettingsLocale SettingsLocale { get; }
     public ModManager? ModManager { get; set; }
     public ExecutableAsset? ModAsset { get; set; }
+    public ISettingsSaver? SettingsSaver { get; set; }
     public IBuiltInLocaleIdProvider BuiltInLocaleIdProvider { get; }
 
     public ModRuntimeContainer(IMyLogProvider logProvider,

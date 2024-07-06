@@ -6,6 +6,6 @@
 
     <PropertyGroup>
         <ProjectAssetsDir>$(ProjectDir)Assets</ProjectAssetsDir>
-        <AssemblyVersion>2.0.7.1</AssemblyVersion>
+        <AssemblyVersion>2.0.8.0</AssemblyVersion>
     </PropertyGroup>
 </Project>
