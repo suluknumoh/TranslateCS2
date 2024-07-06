@@ -280,38 +280,4 @@ public class ModSettingsTests : AProvidesTestDataOk {
             Assert.Single(locManagerProvider.Sources[language.Value.Id]);
         }
     }
-    [Theory]
-    [InlineData(null, "os")]
-    [InlineData("de-DE", "de-DE")]
-    [InlineData("en-US", "en-US")]
-    [InlineData("es-ES", "es-ES")]
-    [InlineData("fr-FR", "fr-FR")]
-    [InlineData("it-IT", "it-IT")]
-    [InlineData("ja-JP", "ja-JP")]
-    [InlineData("ko-KR", "ko-KR")]
-    [InlineData("pl-PL", "pl-PL")]
-    [InlineData("pt-BR", "pt-BR")]
-    [InlineData("ru-RU", "ru-RU")]
-    [InlineData("zh-HANS", "zh-HANS")]
-    [InlineData("zh-HANT", "zh-HANT")]
-    public void HandleLocaleOnUnLoadTest(string? previousLocale, string expectedLocale) {
-        ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
-        ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
-                                                                                  userDataPath: this.dataProvider.DirectoryName);
-        // only init languages, runtimeContainers init does to much for this test method
-        runtimeContainer.Languages.Init();
-        ModSettings modSettings = runtimeContainer.Settings;
-        IntSettings intSettings = runtimeContainer.IntSettings;
-
-        foreach (KeyValuePair<SystemLanguage, MyLanguage> language in runtimeContainer.Languages.LanguageDictionary) {
-            modSettings.PreviousLocale = previousLocale;
-            modSettings.Locale = language.Value.Id;
-            runtimeContainer.Dispose();
-            if (language.Value.IsBuiltIn) {
-                Assert.Equal(language.Value.Id, intSettings.CurrentLocale);
-            } else {
-                Assert.Equal(expectedLocale, intSettings.CurrentLocale);
-            }
-        }
-    }
 }

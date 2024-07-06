@@ -20,10 +20,6 @@ internal class IntSettingsProvider : IIntSettingsProvider {
         set => this.interfaceSettings.currentLocale = value;
     }
 
-    public void ApplyAndSave() {
-        this.interfaceSettings.ApplyAndSave();
-    }
-
     public void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso) {
         this.interfaceSettings.onSettingsApplied += applyAlso;
     }

@@ -1,6 +1,7 @@
 # Version 2.0.8.0
 - descriptions for this mods settings got formatted
 - developers are able to export the vanilla languages to a directory of their choice
+- avoid an TaskManager-Error that occured under certain circumstances on exiting the game
 # Version 2.0.7.1
 - full compatibility with Version 1.1.7f1 of [Cities: Skylines II](https://www.paradoxinteractive.com/games/cities-skylines-ii)
 # Version 2.0.7.0

@@ -95,13 +95,12 @@ internal partial class ModSettings : ModSetting {
             // dont replicate os lang into this mods settings
             this.runtimeContainer.IntSettings.UnSubscribeOnSettingsApplied(this.Apply);
             // reset to os-language, if the mod is not used next time the game starts
-            if (this.Locale is not null
-                && this.runtimeContainer.Locales.IsBuiltIn(this.Locale)) {
-                this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
-            } else {
+            string? intSettingsCurrentLocale = this.runtimeContainer.IntSettings.CurrentLocale;
+            if (!this.runtimeContainer.Locales.IsBuiltIn(this.Locale)
+                || !this.runtimeContainer.Locales.IsBuiltIn(intSettingsCurrentLocale)) {
                 this.runtimeContainer.IntSettings.CurrentLocale = this.PreviousLocale ?? LocalizationManager.kOsLanguage;
+                this.runtimeContainer.SettingsSaver?.SaveSettingsNow();
             }
-            this.runtimeContainer.IntSettings.ApplyAndSave();
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,

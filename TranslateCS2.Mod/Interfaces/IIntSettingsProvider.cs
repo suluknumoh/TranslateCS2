@@ -10,10 +10,6 @@ internal interface IIntSettingsProvider {
     /// </summary>
     string CurrentLocale { get; set; }
     /// <summary>
-    ///     <see cref="Setting.ApplyAndSave"/>
-    /// </summary>
-    void ApplyAndSave();
-    /// <summary>
     ///     <see cref="Setting.onSettingsApplied"/>
     /// </summary>
     void SubscribeOnSettingsApplied(OnSettingsAppliedHandler applyAlso);

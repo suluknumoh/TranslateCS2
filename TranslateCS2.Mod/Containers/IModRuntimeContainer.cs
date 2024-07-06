@@ -25,6 +25,7 @@ internal interface IModRuntimeContainer {
     ModSettingsLocale SettingsLocale { get; }
     ModManager? ModManager { get; }
     ExecutableAsset? ModAsset { get; }
+    ISettingsSaver? SettingsSaver { get; }
     IBuiltInLocaleIdProvider BuiltInLocaleIdProvider { get; }
     void Init(Action<string, object, object?>? loadSettings = null, bool register = false);
     void Dispose(bool unregister = false);
