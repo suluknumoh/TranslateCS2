@@ -144,4 +144,14 @@ internal partial class ModSettings : ModSetting {
         string flavorId = this.GetSettedFlavor(systemLanguage);
         this.FlavorDropDown = flavorId;
     }
+
+
+    //public bool OpenDirectory {
+    //    set {
+    //        // example
+    //        string path = "C:\\....";
+    //        Uri uri = new Uri(path);
+    //        Application.OpenURL(uri.AbsoluteUri);
+    //    }
+    //}
 }
