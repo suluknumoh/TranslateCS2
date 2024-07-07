@@ -6,8 +6,6 @@ using Colossal;
 using TranslateCS2.Inf;
 using TranslateCS2.Mod.Properties.I18N;
 
-using UnityEngine;
-
 namespace TranslateCS2.Mod.Containers.Items;
 internal class ModSettingsLocale : IDictionarySource {
     private readonly IModRuntimeContainer runtimeContainer;
@@ -153,24 +151,6 @@ internal class ModSettingsLocale : IDictionarySource {
 
     public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
         return this._AllEntries;
-    }
-
-    private string GetLabel(SystemLanguage systemLanguage) {
-        string param = this.GetLanguageName(systemLanguage);
-        string messagePre = I18NMod.FlavorLabel;
-        return $"{messagePre} {param}";
-    }
-    private string GetDescription(SystemLanguage systemLanguage) {
-        string param = this.GetLanguageName(systemLanguage);
-        string messagePre = I18NMod.FlavorDescription;
-        return $"{messagePre} {param}";
-    }
-    private string GetLanguageName(SystemLanguage systemLanguage) {
-        MyLanguage? language = this.languages.GetLanguage(systemLanguage);
-        if (language is null) {
-            return systemLanguage.ToString();
-        }
-        return language.NameEnglish;
     }
 
     public void Unload() { }
