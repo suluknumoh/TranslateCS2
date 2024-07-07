@@ -1,3 +1,7 @@
+# Version 2.0.9.0
+- developer-changes
+    - destination to where this mods Key-Value-Pairs are generated can be chosen
+    - added a confirmation-dialog to the generate-button
 # Version 2.0.8.0
 - descriptions for this mods settings got formatted
 - developers are able to export the vanilla languages to a directory of their choice

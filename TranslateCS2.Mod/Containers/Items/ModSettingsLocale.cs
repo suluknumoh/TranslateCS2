@@ -71,11 +71,21 @@ internal class ModSettingsLocale : IDictionarySource {
                                  I18NMod.GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription,
                                  true);
             //
+            this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateDirectory)),
+                                 I18NMod.GroupGenerateGenerateDirectoryLabel,
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateDirectory)),
+                                 String.Format(I18NMod.GroupGenerateGenerateDirectoryDescription, ModConstants.ModExportKeyValueJsonName),
+                                 true);
+            //
             this.AddToDictionary(this.modSettings.GetOptionLabelLocaleID(nameof(ModSettings.GenerateLocalizationJson)),
                                  I18NMod.GroupGenerateButtonGenerateLabel,
                                  true);
             this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.GenerateLocalizationJson)),
-                                 String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName, this.runtimeContainer.Paths.ModsDataPathSpecific),
+                                 String.Format(I18NMod.GroupGenerateButtonGenerateDescription, ModConstants.ModExportKeyValueJsonName),
+                                 true);
+            this.AddToDictionary(this.modSettings.GetOptionWarningLocaleID(nameof(ModSettings.GenerateLocalizationJson)),
+                                 I18NMod.GroupGenerateButtonGenerateConfirmation,
                                  true);
         }
         {

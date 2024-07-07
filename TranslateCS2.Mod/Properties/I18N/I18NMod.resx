@@ -163,16 +163,21 @@ Do you really want to export the selected language?</value>
   <data name="GroupFlavorTitle" xml:space="preserve">
     <value>flavors</value>
   </data>
+  <data name="GroupGenerateButtonGenerateConfirmation" xml:space="preserve">
+    <value>Existing file is going to be overwritten.
+Do you really want to generate a .json-file with this mods Key-Value-Pairs?</value>
+  </data>
   <data name="GroupGenerateButtonGenerateDescription" xml:space="preserve">
     <value>Generates a .json-file named
 '{0}'
-with all Key-Value-Pairs for this Mod that can be found in this mods data-directory
-'{1}'
-after a click on this button.
+with all Key-Value-Pairs for this Mod
+to the chosen destination.
 The .json-file named
 '{0}'
 is NOT read by this Mod.
-It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod.</value>
+It enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod.
+Warning:
+Existing file within the Destination is going to be overwritten.</value>
   </data>
   <data name="GroupGenerateButtonGenerateLabel" xml:space="preserve">
     <value>generate localization json</value>
@@ -182,6 +187,12 @@ It enables you to integrate the included key-value pairs into a corresponding la
   </data>
   <data name="GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel" xml:space="preserve">
     <value>log Markdown and CultureInfo-Names</value>
+  </data>
+  <data name="GroupGenerateGenerateDirectoryDescription" xml:space="preserve">
+    <value>The directory this mods Key-Value-Pairs get exported to.</value>
+  </data>
+  <data name="GroupGenerateGenerateDirectoryLabel" xml:space="preserve">
+    <value>Destination</value>
   </data>
   <data name="GroupGenerateTitle" xml:space="preserve">
     <value>log and generate</value>

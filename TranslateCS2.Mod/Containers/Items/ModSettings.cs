@@ -68,7 +68,9 @@ internal partial class ModSettings : ModSetting {
     [MyExcludeFromCoverage]
     public override void SetDefaults() {
         this.ExportDropDown = StringConstants.All;
-        this.ExportDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        string defaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        this.ExportDirectory = defaultDirectory;
+        this.GenerateDirectory = defaultDirectory;
         this.LoadFromOtherMods = true;
     }
     public void HandleLocaleOnLoad() {
