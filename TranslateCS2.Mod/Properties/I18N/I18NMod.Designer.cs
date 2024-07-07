@@ -270,7 +270,7 @@ namespace TranslateCS2.Mod.Properties.I18N {
         ///   Looks up a localized string similar to Reloads the language file(s) that existed at startup.
         ///Does not unload language files.
         ///Does not load new language files.
-        ///Files have to be located within this directory &apos;{0}&apos;.
+        ///Files have to be located within this mods &apos;ModsData&apos;-directory..
         /// </summary>
         internal static string GroupReloadButtonReloadDescription {
             get {

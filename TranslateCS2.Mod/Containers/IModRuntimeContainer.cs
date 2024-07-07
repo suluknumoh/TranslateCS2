@@ -22,7 +22,6 @@ internal interface IModRuntimeContainer {
     MyLanguages Languages { get; }
     IMod Mod { get; }
     ModSettings Settings { get; }
-    ModSettingsLocale SettingsLocale { get; }
     ModManager? ModManager { get; }
     ExecutableAsset? ModAsset { get; }
     ISettingsSaver? SettingsSaver { get; }

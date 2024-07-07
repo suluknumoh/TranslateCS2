@@ -23,7 +23,6 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
     public IIndexCountsProvider IndexCountsProvider { get; }
     public IMod Mod { get; }
     public ModSettings Settings { get; }
-    public ModSettingsLocale SettingsLocale { get; }
     public ModManager? ModManager { get; set; }
     public ExecutableAsset? ModAsset { get; set; }
     public ISettingsSaver? SettingsSaver { get; set; }
@@ -49,7 +48,6 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
         this.ErrorMessages = new ErrorMessages(this);
         this.Languages = new MyLanguages(this);
         this.Settings = new ModSettings(this);
-        this.SettingsLocale = new ModSettingsLocale(this);
     }
 
     /// <summary>
@@ -73,12 +71,12 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
                              this.Settings,
                              null);
         this.Languages.Init();
-        this.SettingsLocale.Init();
+        this.Settings.SettingsLocale.Init();
         if (register) {
             this.Settings.RegisterInOptionsUI();
         }
         this.LocManager.Provider.AddSource(this.LocManager.FallbackLocaleId,
-                                           this.SettingsLocale);
+                                           this.Settings.SettingsLocale);
         this.Settings.HandleLocaleOnLoad();
     }
 

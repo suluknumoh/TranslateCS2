@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Colossal;
 
 using TranslateCS2.Mod.Containers.Items;
-using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZModTests.TestHelpers.Containers;
+using TranslateCS2.ZModTests.TestHelpers.Models;
 using TranslateCS2.ZZZTestLib.Loggers;
 
 using Xunit;
@@ -19,7 +19,7 @@ public class ModSettingsLocaleTests : AProvidesTestDataOk {
                                                                                   userDataPath: this.dataProvider.DirectoryName);
         runtimeContainer.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        ModSettingsLocale settingsLocale = runtimeContainer.SettingsLocale;
+        ModSettingsLocale settingsLocale = modSettings.SettingsLocale;
         Assert.NotEmpty(settingsLocale.AllEntries);
         Assert.NotEmpty(settingsLocale.ExportableEntries);
         Assert.NotEqual(settingsLocale.AllEntries, settingsLocale.ExportableEntries);

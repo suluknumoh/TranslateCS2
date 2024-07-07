@@ -33,7 +33,7 @@ internal partial class ModSettings : ModSetting {
     private readonly MyLanguages languages;
 
     [Exclude]
-    public ModSettingsLocale? SettingsLocale { get; set; }
+    public ModSettingsLocale SettingsLocale { get; set; }
 
 
     /// <summary>
@@ -59,6 +59,7 @@ internal partial class ModSettings : ModSetting {
         this.PreviousLocale = this.Locale;
         this.SubscribeOnFlavorChanged(this.runtimeContainer.LocManager.FlavorChanged);
         this.SetDefaults();
+        this.SettingsLocale = new ModSettingsLocale(this);
     }
 
 

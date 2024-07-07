@@ -8,18 +8,13 @@ using TranslateCS2.Mod.Properties.I18N;
 
 namespace TranslateCS2.Mod.Containers.Items;
 internal class ModSettingsLocale : IDictionarySource {
-    private readonly IModRuntimeContainer runtimeContainer;
-    private readonly MyLanguages languages;
     private readonly ModSettings modSettings;
     private readonly Dictionary<string, string> _AllEntries = [];
     public IReadOnlyDictionary<string, string> AllEntries => this._AllEntries;
     private readonly Dictionary<string, string> _ExportableEntries = [];
     public IReadOnlyDictionary<string, string> ExportableEntries => this._ExportableEntries;
-    public ModSettingsLocale(IModRuntimeContainer runtimeContainer) {
-        this.modSettings = runtimeContainer.Settings;
-        this.runtimeContainer = runtimeContainer;
-        this.modSettings.SettingsLocale = this;
-        this.languages = this.runtimeContainer.Languages;
+    public ModSettingsLocale(ModSettings modSettings) {
+        this.modSettings = modSettings;
     }
 
     public void Init() {
@@ -51,7 +46,7 @@ internal class ModSettingsLocale : IDictionarySource {
                                  I18NMod.GroupReloadButtonReloadLabel,
                                  true);
             this.AddToDictionary(this.modSettings.GetOptionDescLocaleID(nameof(ModSettings.ReloadLanguages)),
-                                 String.Format(I18NMod.GroupReloadButtonReloadDescription, this.runtimeContainer.Paths.ModsDataPathSpecific),
+                                 I18NMod.GroupReloadButtonReloadDescription,
                                  true);
             this.AddToDictionary(this.modSettings.GetOptionWarningLocaleID(nameof(ModSettings.ReloadLanguages)),
                                  I18NMod.GroupReloadButtonReloadWarning,

@@ -201,7 +201,7 @@ Existing file within the Destination is going to be overwritten.</value>
     <value>Reloads the language file(s) that existed at startup.
 Does not unload language files.
 Does not load new language files.
-Files have to be located within this directory '{0}'</value>
+Files have to be located within this mods 'ModsData'-directory.</value>
   </data>
   <data name="GroupReloadButtonReloadLabel" xml:space="preserve">
     <value>reload language files</value>
