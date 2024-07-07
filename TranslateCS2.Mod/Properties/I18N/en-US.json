@@ -1,0 +1,42 @@
+{
+  "GroupFlavorTitle": "flavors",
+  "GroupFlavorCurrentLanguageLabel": "Current language",
+  "GroupFlavorCurrentLanguageDescription": "Currently selected language within the default interface settings.",
+  "GroupFlavorFlavorLabel": "Flavor",
+  "GroupFlavorFlavorDescription": "Select a flavor for the current selected language.",
+
+
+
+  "GroupSettingsTitle": "settings",
+  "GroupSettingsToggleLoadFromOtherModsLabel": "Load from other mods",
+  "GroupSettingsToggleLoadFromOtherModsDescription": "This mod is able to sideload unofficial locales that are provided by other mods.\nIf this box is checked, this mod loads those locales from other mods.\nIf this box is not checked, it does not load locales from other mods.\nIt is safe, to check this box.\nThe Translation(s) provided within this mods data-directory rule and won't be overwritten.",
+
+
+
+  "GroupReloadTitle": "reload",
+  "GroupReloadButtonReloadLabel": "reload language files",
+  "GroupReloadButtonReloadDescription": "Reloads the language file(s) that existed at startup.\nDoes not unload language files.\nDoes not load new language files.\nFiles have to be located within this mods 'ModsData'-directory.",
+  "GroupReloadButtonReloadConfirmation": "Do you really want to reload the language file(s)?",
+
+
+
+  "GroupGenerateTitle": "log and generate",
+  "GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel": "log Markdown and CultureInfo-Names",
+  "GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription": "generates two log entries.\none with the markdown for 'LANGUAGES.SUPPORTED.md'\nand\none for an internal list",
+  "GroupGenerateGenerateDirectoryLabel": "Destination",
+  "GroupGenerateGenerateDirectoryDescription": "The directory this mods Key-Value-Pairs get exported to.",
+  "GroupGenerateButtonGenerateLabel": "generate localization json",
+  "GroupGenerateButtonGenerateDescription": "Generates a .json-file named\n'_TranslateCS2.Mod.json'\nwith all Key-Value-Pairs for this Mod\nto the chosen destination.\nThe .json-file named\n'_TranslateCS2.Mod.json'\nis NOT read by this Mod.\nIt enables you to integrate the included key-value pairs into a corresponding language file and to translate the entries for this Mod.\nWarning:\nExisting file within the Destination is going to be overwritten.",
+  "GroupGenerateButtonGenerateConfirmation": "Existing file is going to be overwritten.\nDo you really want to generate a .json-file with this mods Key-Value-Pairs?",
+
+
+
+  "GroupExportTitle": "export",
+  "GroupExportExportDropDownLabel": "Language to export",
+  "GroupExportExportDropDownDescription": "Select the language to export.",
+  "GroupExportExportDirectoryLabel": "Destination",
+  "GroupExportExportDirectoryDescription": "The directory the selected language gets exported to.",
+  "GroupExportExportButtonLabel": "export",
+  "GroupExportExportButtonDescription": "Exports the selected languages vanilla entries\nas UTF8 encoded .json-file (Key-Value-Pairs)\nto the selected destination.\nValues are taken from the .loc-file within the LocaleAsset-Database.\nWarnings:\nIf the games respective .loc-file is manually overwritten, the export contains those values.\nExisting files within the Destination are going to be overwritten.",
+  "GroupExportExportButtonConfirmation": "Existing files are going to be overwritten.\nDo you really want to export the selected language?"
+}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Colossal.IO.AssetDatabase;
 
@@ -71,12 +72,12 @@ internal class ModRuntimeContainer : IModRuntimeContainer {
                              this.Settings,
                              null);
         this.Languages.Init();
-        this.Settings.SettingsLocale.Init();
+        IEnumerable<MyLanguage> builtInLanguages = this.Languages.GetBuiltInLanguages();
+        this.Settings.SettingsLocale.Init(builtInLanguages);
         if (register) {
             this.Settings.RegisterInOptionsUI();
         }
-        this.LocManager.Provider.AddSource(this.LocManager.FallbackLocaleId,
-                                           this.Settings.SettingsLocale);
+        this.Settings.SettingsLocale.AddSources(this.LocManager.Provider);
         this.Settings.HandleLocaleOnLoad();
     }
 

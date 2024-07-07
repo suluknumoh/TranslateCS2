@@ -1,0 +1,42 @@
+{
+  "GroupFlavorTitle": "",
+  "GroupFlavorCurrentLanguageLabel": "",
+  "GroupFlavorCurrentLanguageDescription": "",
+  "GroupFlavorFlavorLabel": "",
+  "GroupFlavorFlavorDescription": "",
+
+
+
+  "GroupSettingsTitle": "",
+  "GroupSettingsToggleLoadFromOtherModsLabel": "",
+  "GroupSettingsToggleLoadFromOtherModsDescription": "",
+
+
+
+  "GroupReloadTitle": "",
+  "GroupReloadButtonReloadLabel": "",
+  "GroupReloadButtonReloadDescription": "",
+  "GroupReloadButtonReloadConfirmation": "",
+
+
+
+  "GroupGenerateTitle": "",
+  "GroupGenerateButtonLogMarkdownAndCultureInfoNamesLabel": "",
+  "GroupGenerateButtonLogMarkdownAndCultureInfoNamesDescription": "",
+  "GroupGenerateGenerateDirectoryLabel": "",
+  "GroupGenerateGenerateDirectoryDescription": "",
+  "GroupGenerateButtonGenerateLabel": "",
+  "GroupGenerateButtonGenerateDescription": "",
+  "GroupGenerateButtonGenerateConfirmation": "",
+
+
+
+  "GroupExportTitle": "",
+  "GroupExportExportDropDownLabel": "",
+  "GroupExportExportDropDownDescription": "",
+  "GroupExportExportDirectoryLabel": "",
+  "GroupExportExportDirectoryDescription": "",
+  "GroupExportExportButtonLabel": "",
+  "GroupExportExportButtonDescription": "",
+  "GroupExportExportButtonConfirmation": ""
+}

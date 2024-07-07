@@ -318,4 +318,7 @@ internal class MyLanguages {
         }
         return erroneous;
     }
+    public IEnumerable<MyLanguage> GetBuiltInLanguages() {
+        return this.LanguageDictionary.Values.Where(item => item.IsBuiltIn);
+    }
 }

@@ -31,9 +31,10 @@ internal partial class ModSettings : ModSetting {
     private readonly IModRuntimeContainer runtimeContainer;
     [Exclude]
     private readonly MyLanguages languages;
-
     [Exclude]
-    public ModSettingsLocale SettingsLocale { get; set; }
+    public string? DefaultDirectory { get; private set; }
+    [Exclude]
+    public ModSettingsLocales SettingsLocale { get; set; }
 
 
     /// <summary>
@@ -59,7 +60,8 @@ internal partial class ModSettings : ModSetting {
         this.PreviousLocale = this.Locale;
         this.SubscribeOnFlavorChanged(this.runtimeContainer.LocManager.FlavorChanged);
         this.SetDefaults();
-        this.SettingsLocale = new ModSettingsLocale(this);
+        string fallbackLocaleId = this.runtimeContainer.LocManager.FallbackLocaleId;
+        this.SettingsLocale = new ModSettingsLocales(this, fallbackLocaleId);
     }
 
 
@@ -69,9 +71,9 @@ internal partial class ModSettings : ModSetting {
     [MyExcludeFromCoverage]
     public override void SetDefaults() {
         this.ExportDropDown = StringConstants.All;
-        string defaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        this.ExportDirectory = defaultDirectory;
-        this.GenerateDirectory = defaultDirectory;
+        this.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        this.ExportDirectory = this.DefaultDirectory;
+        this.GenerateDirectory = this.DefaultDirectory;
         this.LoadFromOtherMods = true;
     }
     public void HandleLocaleOnLoad() {

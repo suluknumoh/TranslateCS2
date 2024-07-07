@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using Newtonsoft.Json;
-
 using TranslateCS2.Inf;
 using TranslateCS2.Inf.Models.Localizations;
 using TranslateCS2.Inf.Services.Localizations;
 using TranslateCS2.Mod.Containers;
 using TranslateCS2.Mod.Containers.Items;
+using TranslateCS2.Mod.Helpers;
 
 namespace TranslateCS2.Mod.Services.Localizations;
 internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
@@ -55,10 +54,7 @@ internal class JsonLocFileServiceStrategy : LocFileServiceStrategy<string> {
             //
             //
             using Stream stream = streamParameter ?? source.File.OpenRead();
-            JsonSerializer serializer = JsonSerializer.CreateDefault();
-            using TextReader textReader = new StreamReader(stream);
-            using JsonReader jsonReader = new JsonTextReader(textReader);
-            IDictionary<string, string>? temporary = serializer.Deserialize<Dictionary<string, string>>(jsonReader);
+            IDictionary<string, string>? temporary = JsonHelper.DeSerializeFromStream<Dictionary<string, string>>(stream);
             HandleRead(temporary, source);
             return true;
         } catch (Exception ex) {

@@ -26,7 +26,7 @@ namespace TranslateCS2.Mod;
 ///     dont rename this <see langword="class" />
 ///     <br/>
 ///     <br/>
-///     its <see langword="namespace" /> and name are used to build an id for the <see cref="ModSettingsLocale"/>
+///     its <see langword="namespace" /> and name are used to build an id for the <see cref="ModSettingsLocales"/>
 ///     <br/>
 ///     <seealso cref="Game.Modding.ModSetting.ModSetting(IMod)"/>
 /// </summary>

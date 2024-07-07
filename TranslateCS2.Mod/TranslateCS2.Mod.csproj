@@ -123,21 +123,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Properties\I18N\I18NMod.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>I18NMod.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Update="Properties\I18N\I18NMod.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>I18NMod.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="*.md">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -150,6 +135,17 @@
         <None Update="Properties\CHANGELOG.HISTORY.md">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
+        <None Include="Properties\I18N\*.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Properties\I18N\*.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Properties\I18N\*.json" />
     </ItemGroup>
 
 </Project>

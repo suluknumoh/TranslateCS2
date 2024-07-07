@@ -24,10 +24,10 @@ public class ModSettingsTests : AProvidesTestDataOk {
         ITestLogProvider testLogProvider = TestLogProviderFactory.GetTestLogProvider<ModSettingsTests>();
         ModTestRuntimeContainer runtimeContainer = ModTestRuntimeContainer.Create(testLogProvider,
                                                                                   userDataPath: this.dataProvider.DirectoryName);
+        runtimeContainer.Init();
         ModSettings modSettings = runtimeContainer.Settings;
-        Assert.False(modSettings.IsGenerateLocalizationJsonHiddenDisabled());
         modSettings.GenerateLocalizationJson = true;
-        DirectoryInfo directoryInfo = new DirectoryInfo(runtimeContainer.Paths.ModsDataPathSpecific);
+        DirectoryInfo directoryInfo = new DirectoryInfo(modSettings.DefaultDirectory);
         Assert.True(directoryInfo.Exists);
         IEnumerable<FileInfo> files = directoryInfo.EnumerateFiles(ModConstants.ModExportKeyValueJsonName);
         Assert.NotEmpty(files);
@@ -38,6 +38,7 @@ public class ModSettingsTests : AProvidesTestDataOk {
         Assert.False(testLogProvider.HasLoggedWarning);
         Assert.False(testLogProvider.HasLoggedError);
         Assert.False(testLogProvider.HasLoggedCritical);
+        file.Delete();
     }
     [Fact]
     public void LogMarkdownAndCultureInfoNamesTest() {
