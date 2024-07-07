@@ -26,8 +26,11 @@ internal class ModSettingsLocaleSource : IDictionarySource {
                       bool isFallBackLocale) {
         string path = $"{typeof(I18NMod).Namespace}{StringConstants.Dot}{locale}{ModConstants.JsonExtension}";
         IDictionary<string, string>? dictionary = JsonHelper.DeSerializeFromAssembly<Dictionary<string, string>>(path);
-        if (dictionary is null
-            || dictionary.Count == 0) {
+        if (dictionary is null) {
+            return;
+        }
+        dictionary = DictionaryHelper.GetNonEmpty(dictionary);
+        if (dictionary.Count == 0) {
             return;
         }
         if (isFallBackLocale) {
