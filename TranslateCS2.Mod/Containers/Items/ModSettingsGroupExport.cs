@@ -9,6 +9,7 @@ using Game.Settings;
 using Game.UI.Widgets;
 
 using TranslateCS2.Inf;
+using TranslateCS2.Inf.Attributes;
 using TranslateCS2.Mod.Containers.Items.Unitys;
 
 using TranslateCS2.Mod.Helpers;
@@ -28,6 +29,7 @@ internal partial class ModSettings {
     [SettingsUIDropdown(typeof(ModSettings), nameof(GetExportDropDownItems))]
     public string ExportDropDown { get; set; }
 
+    [MyExcludeFromCoverage]
     private DropdownItem<string>[] GetExportDropDownItems() {
         List<DropdownItem<string>> items = [];
         items.Add(new DropdownItem<string>() {
@@ -58,6 +60,7 @@ internal partial class ModSettings {
     [SettingsUISection(Section, ExportGroup)]
     [SettingsUIButton]
     [SettingsUIConfirmation]
+    [MyExcludeFromCoverage]
     public bool ExportButton {
         set {
             try {
@@ -79,6 +82,7 @@ internal partial class ModSettings {
             }
         }
     }
+    [MyExcludeFromCoverage]
     private void ExportEntries(LocaleAsset asset) {
         Dictionary<string, string> entries = asset.data.entries;
         string path = Path.Combine(this.ExportDirectory,

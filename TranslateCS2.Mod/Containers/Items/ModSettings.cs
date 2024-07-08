@@ -129,14 +129,18 @@ internal partial class ModSettings : ModSetting {
         if (setting is not InterfaceSettings interfaceSettings) {
             return;
         }
+        this.ApplyNewLocale(interfaceSettings.currentLocale);
+    }
+    public void ApplyNewLocale(string newLocale) {
         try {
-            this.Locale = interfaceSettings.locale;
+            this.Locale = newLocale;
             this.OnLocaleChanged();
         } catch (Exception ex) {
             this.runtimeContainer.Logger.LogCritical(this.GetType(),
                                                      LoggingConstants.FailedTo,
                                                      [nameof(Apply), ex]);
         }
+
     }
     private void OnLocaleChanged() {
         if (this.Locale is null) {

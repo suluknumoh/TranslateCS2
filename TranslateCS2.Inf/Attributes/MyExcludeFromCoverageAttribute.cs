@@ -19,5 +19,5 @@ namespace TranslateCS2.Inf.Attributes;
 ///     <br/>
 ///     or <see cref="Object.GetHashCode"/>-<see langword="method"/>s
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
 public class MyExcludeFromCoverageAttribute : Attribute { }
