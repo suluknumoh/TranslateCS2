@@ -2,6 +2,10 @@
 
 This mod is intended to sideload custom localizations/translations from JSONs.
 
+It does not compete with [baka-gourd](https://github.com/baka-gourd)'s [I18NEverywhere](https://github.com/baka-gourd/I18NEveryWhere)-Mod.
+
+Users have to pro-actively select a different flavor, especially for built-in languages.
+
 # 2. Disclaimer
 This mod is provided as is to use at your own risk.
 
@@ -114,6 +118,7 @@ Please take a look at section '3.1.3. more how it works explanation' within this
         * for built-in languages, users have to pro-actively select a different flavor
         * users are able to deactivate this mod
         * users are able to skip this mods installation
+        * i, the author of this mod, recommend to use [baka-gourd](https://github.com/baka-gourd)'s [I18NEverywhere](https://github.com/baka-gourd/I18NEveryWhere)-Mod for those purposes
 
 
 ### 3.3.2. to use this mod for your mods translations
@@ -129,6 +134,7 @@ Please take a look at section '3.1.3. more how it works explanation' within this
         * for built-in languages, users have to pro-actively select a different flavor
         * users are able to deactivate this mod
         * users are able to skip this mods installation
+        * i, the author of this mod, recommend to use [baka-gourd](https://github.com/baka-gourd)'s [I18NEverywhere](https://github.com/baka-gourd/I18NEveryWhere)-Mod for those purposes
 
 
 # 4. Supported language and language-region-codes with their English names
