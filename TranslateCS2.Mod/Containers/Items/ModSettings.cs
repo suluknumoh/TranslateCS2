@@ -87,6 +87,8 @@ internal partial class ModSettings : ModSetting {
                 this.runtimeContainer.IntSettings.CurrentLocale = this.Locale;
                 this.runtimeContainer.LocManager.SetActiveLocale(this.Locale);
                 this.OnLocaleChanged();
+                // TODO: is it necessary???
+                this.runtimeContainer.SettingsSaver?.SaveSettingsNow();
             }
             this.runtimeContainer.IntSettings.SubscribeOnSettingsApplied(this.Apply);
         } catch (Exception ex) {
