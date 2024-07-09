@@ -63,12 +63,6 @@ internal partial class ModSettings : ModSetting {
         string fallbackLocaleId = this.runtimeContainer.LocManager.FallbackLocaleId;
         this.SettingsLocale = new ModSettingsLocales(this, fallbackLocaleId);
     }
-
-
-
-
-
-    [MyExcludeFromCoverage]
     public override void SetDefaults() {
         this.ExportDropDown = StringConstants.All;
         this.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
